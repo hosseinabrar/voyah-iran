@@ -42,3 +42,6 @@ Desktop.ini
 
 # Keep dependency binaries, source assets, wrapper JARs, build scripts and research.
 # Deliberately no blanket *.zip / *.jar / *.aar / *.dll / *.exe exclusion.
+
+# Local reverse-engineering intermediates
+/work/
