@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$Apk,
     [string]$PlatformTools,
@@ -30,6 +30,8 @@ $files = [ordered]@{
     'libwinpthread-1.dll' = (Join-Path $PlatformTools 'libwinpthread-1.dll')
     'NOTICE.txt' = (Join-Path $PlatformTools 'NOTICE.txt')
     'app.apk' = $Apk
+    'apps/myket.apk' = (Join-Path $PSScriptRoot '..\tools\apps\myket.apk')
+    'apps/gboard.apk' = (Join-Path $PSScriptRoot '..\tools\apps\gboard.apk')
     'install-bridge.sh' = (Join-Path $deployment 'install-bridge.sh')
     'roa/frida-inject' = (Join-Path $deployment 'roa\frida-inject')
     'roa/hook.js' = (Join-Path $deployment 'roa\hook_camera_front_roa_switch.js')

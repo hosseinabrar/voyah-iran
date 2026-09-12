@@ -26,6 +26,37 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         var actual = FirstWord(await Root(30, "sha256sum", remote));
         if (actual != expected) throw new InvalidDataException($"هش فایل خودرو مطابق انتظار نیست: {remote}; expected={expected}; actual={actual}");
     }
+    private async Task PrepareWritableSystem()
+    {
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            log.Write($"Preparing writable system; attempt={attempt + 1}: adb root, reconnect, UID, remount.");
+            await Command(20, "root");
+            await Command(45, "wait-for-device");
+            if (await Command(15, "shell", "id", "-u") != "0")
+                throw new IOException("سرویس ADB با دسترسی روت آماده نشد؛ نصب متوقف شد.");
+            // Read output even on nonzero exit: first-time overlay/verity setup can request a reboot.
+            var result = await adb.RunAsync(serial, ["remount"], 45);
+            var output = result.Output;
+            var rebootRequired = output.Contains("reboot", StringComparison.OrdinalIgnoreCase);
+            log.Write($"Remount attempt={attempt + 1}; exit={result.ExitCode}; output={output}");
+            if (result.ExitCode == 0 && !rebootRequired &&
+                output.Contains("remount succeeded", StringComparison.OrdinalIgnoreCase) &&
+                !output.Contains("failed", StringComparison.OrdinalIgnoreCase))
+            {
+                log.Write("ADB root and remount verified on selected device.");
+                return;
+            }
+            if (rebootRequired && attempt == 0)
+            {
+                log.Write("برای آماده‌سازی سیستم، دستگاه راه‌اندازی مجدد می‌شود؛ کابل را جدا نکنید. نصب خودکار ادامه پیدا می‌کند.");
+                await new DeviceRebooter(adb, log).RebootAsync(serial, "Initial remount preparation");
+                log.Write("Preparation reboot verified; reapplying root and remount before installing any payload.");
+                continue;
+            }
+            throw new IOException("قابل‌نوشتن شدن سیستم تأیید نشد. گزارش ریمانت را بررسی کنید؛ ریبوت آماده‌سازی بیش از یک بار انجام نمی‌شود.");
+        }
+    }
     public async Task RunAsync(string deviceSerial)
     {
         serial = deviceSerial;
@@ -42,17 +73,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             if (discovery.ExitCode != 0 || ready?.Serial != serial) throw new IOException("اتصال خودرو تغییر کرده است. فقط همین خودرو را متصل نگه دارید.");
             Done();
             Begin(InstallPhase.Root);
-            log.Write("Preparing writable system: adb root, reconnect, verify UID, adb remount.");
-            await Command(20, "root");
-            await Command(45, "wait-for-device");
-            if (await Command(15, "shell", "id", "-u") != "0")
-                throw new IOException("سرویس ADB با دسترسی روت آماده نشد؛ نصب متوقف شد.");
-            var remount = await Command(45, "remount");
-            if (!remount.Contains("remount succeeded", StringComparison.OrdinalIgnoreCase) ||
-                remount.Contains("reboot", StringComparison.OrdinalIgnoreCase) ||
-                remount.Contains("failed", StringComparison.OrdinalIgnoreCase))
-                throw new IOException("قابل‌نوشتن شدن سیستم تأیید نشد. خروجی adb remount را در گزارش بررسی کنید؛ ممکن است راه‌اندازی مجدد و اجرای دوبارهٔ نصاب لازم باشد.");
-            log.Write("ADB root and remount succeeded on selected device.");
+            await PrepareWritableSystem();
             if (await Root(15, "id", "-u") != "0") throw new IOException("دسترسی روت خودرو فراهم نیست. نصب انجام نشد.");
             await Command(15, "shell", "getprop", "ro.build.fingerprint");
             var currentHash = FirstWord(await Root(30, "sha256sum", "/system/framework/services.jar"));

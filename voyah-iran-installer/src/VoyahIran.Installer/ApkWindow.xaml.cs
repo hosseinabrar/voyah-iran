@@ -10,11 +10,22 @@ public partial class ApkWindow : Window
     private readonly SessionLog log;
     private string? path;
     private bool busy;
+    private readonly string? bundledApp;
     private readonly IAdbClient adb;
     private readonly string serial;
-    public ApkWindow(IAdbClient adb, SessionLog log, string serial)
+    public ApkWindow(IAdbClient adb, SessionLog log, string serial, string? bundledPath = null, string? bundledApp = null)
     {
         InitializeComponent(); this.log = log; this.adb = adb; this.serial = serial; installer = new(adb, log, serial);
+        this.bundledApp = bundledApp;
+        if (bundledPath != null) {
+            path = bundledPath;
+            Title = bundledApp == "myket" ? "نصب مایکت" : "نصب Gboard";
+            Heading.Text = Title; FileLabel.Text = "";
+            PickButton.Visibility = InstallButton.Visibility = Visibility.Collapsed;
+            RoutedEventHandler? start = null;
+            start = (_, _) => { Loaded -= start; Install(this, new RoutedEventArgs()); };
+            Loaded += start;
+        }
         log.LineAdded += Append;
         Closed += (_, _) => log.LineAdded -= Append;
     }
@@ -33,14 +44,24 @@ public partial class ApkWindow : Window
         {
             await Task.Run(() => File.Copy(path, snapshot));
             var info = await Task.Run(() => ApkInfo.Read(snapshot));
+            var expected = bundledApp == "myket" ? "ir.mservices.market" : bundledApp == "gboard" ? "com.google.android.inputmethod.latin" : null;
+            if (expected != null && info.Package != expected) throw new InvalidDataException("هویت فایل نصب مطابق انتظار نیست.");
             await installer.InstallAsync(snapshot, info);
             log.Write("APK installation succeeded: " + info.Package);
-            new PermissionWindow(installer, info) { Owner = this }.ShowDialog();
+            if (bundledApp == "myket") {
+                var choice = ApkInstaller.Choices.Single(c => c.Names.Contains("REQUEST_INSTALL_PACKAGES"));
+                if (!ApkInstaller.Available(info, choice)) throw new InvalidDataException("مایکت مجوز نصب برنامه را در فایل نصب درخواست نکرده است.");
+                await installer.SetAsync(info, new[] { choice }, true);
+                log.Write("Myket installed and install-packages permission verified.");
+                FileLabel.Text = "مایکت نصب شد و دسترسی نصب برنامه فعال شد.";
+            } else if (bundledApp == "gboard") {
+                FileLabel.Text = "Gboard نصب شد. از تنظیمات وویا ایران فعالش کنید.";
+            } else new PermissionWindow(installer, info) { Owner = this }.ShowDialog();
             if (RebootPrompt.Confirm(this, afterInstall: true))
             {
                 Title = "در انتظار راه‌اندازی مجدد نمایشگر…";
                 await RebootPrompt.RunAsync(this, adb, log, serial);
-                Title = "نصب APK";
+                Title = bundledApp == "myket" ? "نصب مایکت" : bundledApp == "gboard" ? "نصب Gboard" : "نصب APK";
             }
         }
         catch (Exception ex) { log.Write(ex.ToString()); MessageBox.Show(this, ex.Message, "نصب APK ناموفق بود", MessageBoxButton.OK, MessageBoxImage.Error); }

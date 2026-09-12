@@ -23,7 +23,7 @@ using (var log = new SessionLog(Path.Combine(root, "logs")))
     log.Hide("secret-value"); log.Write("secret-value remains secret-value");
     Check(!log.ReadText().Contains("secret-value"), "Secret omitted from persisted log");
 }
-string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
+string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/myket.apk", "apps/gboard.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
 MemoryStream Fixture(bool corrupt = false)
 {
     var memory = new MemoryStream();
@@ -47,7 +47,7 @@ Check(File.Exists(bundle.File("adb.exe")), "Bundle extracted and checked");
 try { using var invalid = Fixture(true); PayloadBundle.Extract(invalid, Path.Combine(root, "invalid")); throw new Exception("Corruption accepted"); }
 catch (InvalidDataException) { Check(true, "Corrupt embedded APK rejected"); }
 
-foreach (var failure in new[] { "root", "remount", "remount-reboot", "remount-empty", "firmware", "patch", "apk", "bridge", "framework", "framework-transfer", "missing-marker", "timeout" })
+foreach (var failure in new[] { "root", "remount", "remount-empty", "firmware", "patch", "apk", "bridge", "framework", "framework-transfer", "missing-marker", "timeout" })
 {
     using var log = new SessionLog(Path.Combine(root, "engine-logs"));
     var fake = new FakeAdb(failure, bundle);
@@ -72,6 +72,20 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
         operations.IndexOf("wait-for-device") < operations.IndexOf("remount") &&
         operations.IndexOf("remount") < operations.IndexOf("install"), "Root and reconnect and remount precede APK installation");
 }
+foreach (var mode in new[] { "remount-recover", "remount-recover-nonzero", "remount-reboot" })
+{
+    using var log = new SessionLog(Path.Combine(root, mode));
+    var fake = new FakeAdb(mode, bundle);
+    var engine = new InstallEngine(fake, bundle, log, Path.Combine(root, "backups"), new FakePatcher("none"));
+    var failed = false;
+    try { await engine.RunAsync("CAR"); } catch (IOException) { failed = true; }
+    Check(failed == (mode == "remount-reboot"), "Remount recovery outcome: " + mode);
+    Check(fake.Calls.Count(c => c[0] == "remount") == 2, "Remount retried once: " + mode);
+    Check(fake.Calls.Count(c => c[0] == "root") == 2, "Root reacquired after reboot: " + mode);
+    Check(fake.Calls.Count(c => c[0] == "reboot") == (failed ? 1 : 2), "Bounded preparation reboot: " + mode);
+    if (failed) Check(!fake.Calls.Any(c => c[0] == "install"), "Repeated reboot request stops before APK install");
+    else Check(fake.Calls.FindIndex(c => c[0] == "install") > fake.Calls.FindLastIndex(c => c[0] == "remount"), "Install waits for successful remount: " + mode);
+}
 foreach (var mode in new[] { "success", "identity-error", "reboot-error" })
 {
     using var log = new SessionLog(Path.Combine(root, "reboot-" + mode));
@@ -82,6 +96,22 @@ foreach (var mode in new[] { "success", "identity-error", "reboot-error" })
     Check(fake.Reboots == (mode == "identity-error" ? 0 : 1), "Reboot is never retried: " + mode);
     Check(fake.Serials.All(s => s == "CAR"), "Reboot stays on selected device: " + mode);
     if (mode == "success") Check(fake.BootChecks == 1, "Reboot confirms completed boot after boot ID changes");
+}
+using (var log = new SessionLog(Path.Combine(root, "myket-permission")))
+{
+    var fake = new PermissionAdb();
+    var installer = new ApkInstaller(fake, log, "CAR");
+    var info = new ApkInfo("ir.mservices.market", new HashSet<string> { "android.permission.REQUEST_INSTALL_PACKAGES" });
+    var choice = ApkInstaller.Choices.Single(c => c.Names.Contains("REQUEST_INSTALL_PACKAGES"));
+    await installer.SetAsync(info, new[] { choice }, true);
+    Check(await installer.ReadAsync(info, choice), "Myket install permission granted and read back");
+    Check(fake.Writes == 1, "Myket gets only install-packages permission");
+}
+var appInputs = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../tools/apps"));
+if (Directory.Exists(appInputs)) {
+    var myket = ApkInfo.Read(Path.Combine(appInputs, "myket.apk"));
+    Check(myket.Package == "ir.mservices.market" && myket.Permissions.Contains("android.permission.REQUEST_INSTALL_PACKAGES"), "Real bundled Myket identity and permission");
+    Check(ApkInfo.Read(Path.Combine(appInputs, "gboard.apk")).Package == "com.google.android.inputmethod.latin", "Real bundled Gboard identity");
 }
 Console.WriteLine($"All {passed} checks passed. Fixtures: {root}");
 
@@ -103,6 +133,7 @@ sealed class RebootAdb(string mode) : IAdbClient
 sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
 {
     private bool patched;
+    private int remounts;
     public List<IReadOnlyList<string>> Calls { get; } = [];
     public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
     {
@@ -110,7 +141,9 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
         string text = ""; var exit = 0;
         if (args[0] == "devices") text = "CAR device";
         else if (args[0] == "remount") {
-            text = failure == "remount-reboot" ? "remount succeeded; reboot required" : failure == "remount-empty" ? "" : "remount succeeded";
+            remounts++;
+            text = (failure == "remount-reboot" || ((failure == "remount-recover" || failure == "remount-recover-nonzero") && remounts == 1)) ? "remount succeeded; reboot required" : failure == "remount-empty" ? "" : "remount succeeded";
+            if (failure == "remount-recover-nonzero" && remounts == 1) exit = 1;
             if (failure == "remount") { exit = 1; text = "remount failed"; }
         }
         else if (args.Contains("id")) text = failure == "root" ? "2000" : "0";
@@ -122,7 +155,7 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
             if (failure == "framework-transfer" && args.Last().Contains("voyahiran-stage-")) text = "damaged";
         }
         else if (args[0] == "pull") File.WriteAllBytes(args.Last(), [1,2,3]);
-        else if (args.Contains("/proc/sys/kernel/random/boot_id")) text = Calls.Any(c => c[0] == "reboot") ? "00000000-0000-0000-0000-000000000002" : "00000000-0000-0000-0000-000000000001";
+        else if (args.Contains("/proc/sys/kernel/random/boot_id")) text = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)(1 + Calls.Count(c => c[0] == "reboot"))).ToString();
         else if (args.Contains("sys.boot_completed")) text = "1";
         else if (args.Contains("init.svc.voyahiran_bridge")) text = "running";
         else if (args.Contains("pm")) text = "package:/data/app/com.abrar.voyahiran/base.apk";
@@ -145,3 +178,13 @@ sealed class FakePatcher(string failure) : IFrameworkPatcher
     }
 }
 
+
+sealed class PermissionAdb : IAdbClient {
+    public int Writes;
+    private string mode = "default";
+    public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds=30, bool quiet=false) {
+        if (serial != "CAR" || !args.Contains("ir.mservices.market") || !args.Contains("REQUEST_INSTALL_PACKAGES")) throw new Exception("Unexpected permission command");
+        if (args.Contains("set")) { Writes++; mode=args.Last(); return Task.FromResult(new CommandResult(0,"")); }
+        return Task.FromResult(new CommandResult(0,"REQUEST_INSTALL_PACKAGES: " + mode));
+    }
+}

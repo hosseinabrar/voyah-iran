@@ -59,6 +59,8 @@ public sealed class MainViewModel : Observable, IDisposable
     public ObservableCollection<StepViewModel> Steps { get; } = new(new[] { "شناسایی خودرو", "روت، آماده‌سازی سیستم و بکاپ", "ساخت و بررسی پچ کیبورد", "نصب برنامه", "نصب واسط دسترسی", "اصلاح services.jar", "راه‌اندازی مجدد خودرو", "بررسی نهایی نصب" }.Select(t => new StepViewModel(t)));
     public ActionCommand InstallCommand { get; }
     public ActionCommand ApkCommand { get; }
+    public ActionCommand MyketCommand { get; }
+    public ActionCommand GboardCommand { get; }
     public ActionCommand RebootCommand { get; }
     public ActionCommand HelpCommand { get; }
     public ActionCommand CopyCommand { get; }
@@ -71,6 +73,8 @@ public sealed class MainViewModel : Observable, IDisposable
         log = new SessionLog(Path.Combine(dataRoot, "Logs"));
         log.LineAdded += line => LogLine?.Invoke(line);
         ApkCommand = new ActionCommand(async () => await OpenApkAsync(), () => !Busy && bundle != null);
+        MyketCommand = new ActionCommand(async () => await OpenApkAsync("myket"), () => !Busy && bundle != null);
+        GboardCommand = new ActionCommand(async () => await OpenApkAsync("gboard"), () => !Busy && bundle != null);
         RebootCommand = new ActionCommand(async () => await RebootAsync(), () => !Busy && bundle != null);
         InstallCommand = new ActionCommand(async () => await InstallAsync(), () => !Busy && bundle != null);
         HelpCommand = new ActionCommand(() => new ConnectionHelpWindow { Owner = Application.Current.MainWindow }.ShowDialog());
@@ -89,7 +93,7 @@ public sealed class MainViewModel : Observable, IDisposable
             adb = new AdbClient(bundle.File("adb.exe"), log);
             VersionText = "نسخهٔ " + bundle.Manifest.AppVersion; Notify(nameof(VersionText));
             log.Write($"Embedded payload verified; app={bundle.Manifest.AppVersion}; APK SHA256={bundle.Manifest.Files["app.apk"]}");
-            InstallCommand.Refresh(); ApkCommand.Refresh(); RebootCommand.Refresh();
+            InstallCommand.Refresh(); ApkCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh();
             await ScanAsync(); timer.Start();
         }
         catch (Exception e)
@@ -144,7 +148,7 @@ public sealed class MainViewModel : Observable, IDisposable
         catch (Exception e) { ProgressTitle = "نصب کامل نشد"; ProgressSubtitle = e.Message + " گزارش را کپی و برای پشتیبانی ارسال کنید."; }
         finally { Busy = false; PagesChanged(); timer.Start(); }
     }
-    private async Task OpenApkAsync()
+    private async Task OpenApkAsync(string? bundledApp = null)
     {
         if (Busy || starting || adb == null) return;
         starting = true;
@@ -154,7 +158,7 @@ public sealed class MainViewModel : Observable, IDisposable
             await ScanAsync();
             if (device == null) { HelpCommand.Execute(null); return; }
             Busy = true; timer.Stop(); PagesChanged();
-            new ApkWindow(adb, log, device.Serial) { Owner = Application.Current.MainWindow }.ShowDialog();
+            new ApkWindow(adb, log, device.Serial, bundledApp == null ? null : bundle!.File("apps/" + bundledApp + ".apk"), bundledApp) { Owner = Application.Current.MainWindow }.ShowDialog();
         }
         catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(e.Message, "نصب APK"); }
         finally { starting = false; Busy = false; PagesChanged(); timer.Start(); }
@@ -182,7 +186,7 @@ public sealed class MainViewModel : Observable, IDisposable
     private void PagesChanged()
     {
         foreach (var name in new[] { nameof(HomeVisibility), nameof(ProgressVisibility), nameof(ProgressTitle), nameof(ProgressSubtitle), nameof(CanLeave) }) Notify(name);
-        InstallCommand.Refresh(); ApkCommand.Refresh(); RebootCommand.Refresh(); HomeCommand.Refresh();
+        InstallCommand.Refresh(); ApkCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh(); HomeCommand.Refresh();
     }
     public void Dispose() { disposed = true; timer.Stop(); /* ADB may still own its executable: retain verified cache for diagnostics. */ }
 }

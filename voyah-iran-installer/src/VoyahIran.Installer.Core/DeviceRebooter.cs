@@ -2,12 +2,12 @@ namespace VoyahIran.Installer.Core;
 
 public sealed class DeviceRebooter(IAdbClient adb, SessionLog log)
 {
-    public async Task RebootAsync(string serial)
+    public async Task RebootAsync(string serial, string reason = "User requested display reboot")
     {
         var before = await adb.RunAsync(serial, ["shell", "cat", "/proc/sys/kernel/random/boot_id"], 15);
         if (before.ExitCode != 0 || !Guid.TryParse(before.Output.Trim(), out var oldId))
             throw new IOException("ارتباط با دستگاه تأیید نشد؛ راه‌اندازی مجدد انجام نشد.");
-        log.Write("User requested display reboot; serial=" + serial);
+        log.Write(reason + "; serial=" + serial);
         var result = await adb.RunAsync(serial, ["reboot"], 20);
         if (result.ExitCode != 0) throw new IOException("فرمان ریبوت تأیید نشد. وضعیت نمایشگر و گزارش را بررسی کنید؛ فرمان خودکار تکرار نمی‌شود.");
         var deadline = DateTime.UtcNow.AddMinutes(5);
