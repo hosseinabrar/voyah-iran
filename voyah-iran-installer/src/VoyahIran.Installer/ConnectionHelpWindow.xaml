@@ -1,0 +1,41 @@
+<Window x:Class="VoyahIran.Installer.ConnectionHelpWindow" Style="{StaticResource DarkWindow}"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Background="#FFFFFF" Foreground="#000000" Title="راهنمای اتصال خودرو" Width="760" Height="760" MinWidth="600" MinHeight="450"
+ FlowDirection="RightToLeft" WindowStartupLocation="CenterOwner"
+ UseLayoutRounding="True" SnapsToDevicePixels="True">
+ <Grid Margin="28">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <StackPanel Margin="0,0,0,18">
+   <TextBlock Text="اتصال خودرو به نصاب" FontSize="26" FontWeight="SemiBold"/>
+   <TextBlock Text="این مراحل را روی نمایشگر خودرو انجام دهید." Foreground="#333333" Margin="0,8,0,0"/>
+  </StackPanel>
+  <ScrollViewer x:Name="GuideScroll" Grid.Row="1" VerticalScrollBarVisibility="Visible"
+   HorizontalScrollBarVisibility="Disabled" CanContentScroll="False"
+   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top">
+   <StackPanel>
+    <Border Style="{StaticResource Card}" Margin="0,0,0,16" Padding="18">
+     <StackPanel>
+      <TextBlock Text="پیش از وارد کردن رمز: تاریخ و ساعت خودرو باید درست باشد." FontSize="17" FontWeight="Bold" Foreground="{StaticResource AccentBrush}"/>
+      <TextBlock Text="اگر تاریخ یا ساعت تنظیم نیست، خودرو را از طریق Wi-Fi به اینترنت متصل کنید تا تاریخ و ساعت به‌صورت خودکار تنظیم شوند؛ سپس رمز را وارد کنید." FontSize="16" Margin="0,8,0,0"/>
+     </StackPanel>
+    </Border>
+    <Border Style="{StaticResource Card}" Margin="0,0,0,20" Padding="20">
+     <StackPanel HorizontalAlignment="Center">
+      <TextBlock Text="رمز منوی مخفی" HorizontalAlignment="Center" FontSize="18"/>
+      <TextBlock x:Name="PasswordText" Text="—" FontSize="64" FontWeight="Bold" Foreground="{StaticResource AccentBrush}"
+       FlowDirection="LeftToRight" HorizontalAlignment="Center" Margin="0,8" AutomationProperties.Name="رمز منوی مخفی"/>
+     </StackPanel>
+    </Border>
+    <TextBlock FontSize="17" Margin="0,0,0,16"><Run Text="۱. وارد تنظیمات خودرو ("/><Run Text="Settings" FlowDirection="LeftToRight"/><Run Text=") شوید و آخرین گزینه، سیستم ("/><Run Text="System" FlowDirection="LeftToRight"/><Run Text=") را باز کنید."/></TextBlock>
+    <TextBlock FontSize="17" Margin="0,0,0,16"><Run Text="۲. چند بار پشت سر هم روی "/><Run Text="Hardware version" FlowDirection="LeftToRight"/><Run Text=" بزنید تا پنجرهٔ ورود رمز باز شود."/></TextBlock>
+    <TextBlock Text="۳. رمز بزرگِ بالای این صفحه را وارد کنید تا منوی مخفی باز شود." FontSize="17" Margin="0,0,0,16"/>
+    <TextBlock FontSize="17" Margin="0,0,0,16"><Run Text="۴. در صفحهٔ بازشده، گزینهٔ "/><Run Text="USB debugging" FlowDirection="LeftToRight"/><Run Text=" را پیدا و فعال کنید."/></TextBlock>
+    <TextBlock FontSize="17" Margin="0,0,0,16"><Run Text="۵. خودرو را با کابل USB دارای قابلیت انتقال داده به لپ‌تاپ وصل کنید. کابل را حتماً به "/><Run Text="پورت USB-A سمت راست زیر داشبورد" FontWeight="Bold"/><Run Text=" متصل کنید؛ از پورت تایپ‌سی (USB-C) استفاده نکنید."/></TextBlock>
+    <TextBlock Text="۶. این راهنما را ببندید. وقتی وضعیت اتصال بالای نصاب سبز شد، نصب را شروع کنید." FontSize="17" Margin="0,0,0,20"/>
+    <TextBlock Text="رمز ساعت ۱۹:۳۰ به وقت ایران تغییر می‌کند. اگر پذیرفته نشد، تاریخ و ساعت خودرو و لپ‌تاپ را بررسی کنید." Foreground="#333333" Margin="0,0,0,12"/>
+   </StackPanel>
+  </ScrollViewer>
+  <Button Grid.Row="2" Content="متوجه شدم" Click="CloseHelp" IsCancel="True" HorizontalAlignment="Left" Margin="0,16,0,0" Style="{StaticResource PrimaryButton}"/>
+ </Grid>
+</Window>

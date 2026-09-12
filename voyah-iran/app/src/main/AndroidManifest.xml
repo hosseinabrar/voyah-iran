@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Loopback connection to the authenticated, installer-provisioned bridge. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <queries>
+        <provider android:authorities="com.pateo.baiduStateProvider" />
+        <intent><action android:name="android.view.InputMethod" /></intent>
+        <package android:name="com.google.android.inputmethod.latin" />
+        <package android:name="com.qinggan.keymanager.service" />
+        <package android:name="com.qinggan.canbus.service" />
+        <package android:name="com.qinggan.app.vehiclesetting" />
+    </queries>
+    <application
+        android:name=".VoyahIranApplication"
+        android:allowBackup="false"
+        android:icon="@drawable/ic_app"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.VoyahIran">
+        <receiver android:name=".core.bridge.BridgeProvisionReceiver" android:exported="true"
+            android:permission="android.permission.INSTALL_PACKAGES" />
+        <service android:name=".feature.steering.service.StarBackService" android:exported="false" />
+        <service android:name=".feature.drivememory.service.DriveMemoryService" android:exported="false" />
+        <receiver android:name=".core.startup.AppBootReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+        <activity android:name=".ui.MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+

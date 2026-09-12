@@ -1,0 +1,44 @@
+# Local IDE and tool caches
+**/.idea/
+**/.vs/
+**/.gradle/
+**/.kotlin/
+**/__pycache__/
+*.pyc
+*.iml
+*.user
+*.suo
+*.pubxml.user
+local.properties
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Android generated outputs (do not ignore installer/build: it contains source scripts)
+/voyah-iran/**/build/
+/voyah-voice-test/**/build/
+/voyah-iran/app/release/
+/voyah-iran/app/debug/
+/voyah-voice-test/app/release/
+/voyah-voice-test/app/debug/
+*.hprof
+*.jks
+*.keystore
+
+# Windows generated outputs
+/voyah-iran-installer/src/**/bin/
+/voyah-iran-installer/src/**/obj/
+/voyah-iran-installer/tests/**/bin/
+/voyah-iran-installer/tests/**/obj/
+/voyah-iran-installer/dist/
+/voyah-iran-installer/payload/bundle.zip
+/voyah-iran-installer/payload/bundle.zip.*.new
+# Recreate with build/Create-JavaRuntime.ps1 and a local JDK
+/voyah-iran-installer/tools/runtime/java/
+
+# Vehicle backups and the superseded generated framework patch
+/voyah-iran/deployment/framework/backups/
+/voyah-iran/deployment/framework/services.jar
+
+# Keep dependency binaries, source assets, wrapper JARs, build scripts and research.
+# Deliberately no blanket *.zip / *.jar / *.aar / *.dll / *.exe exclusion.

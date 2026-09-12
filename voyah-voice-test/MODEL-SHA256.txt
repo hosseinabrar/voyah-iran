@@ -1,0 +1,3 @@
+977cb5faa538f3a835ccfd35f5f6d8284b5c450b89c700b9bd4736b66536ad46  app/src/main/assets/persian-model.zip
+9e2449e1087496d8d4caba907f23e0bd3f78d91fa552479bb9c23ac09cbb1fd6  app/src/main/assets/silero_vad.onnx
+633c24321e06b1fe79feafa03ea16cbc0f8a286641e2da3559bac91bdb13bd96  app/libs/sherpa-onnx-1.13.8.aar

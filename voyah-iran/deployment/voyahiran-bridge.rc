@@ -1,0 +1,10 @@
+service voyahiran_bridge /system/bin/app_process /system/bin com.abrar.voyahiran.core.bridge.BridgeServer
+    class late_start
+    user root
+    group root shell log
+    seclabel u:r:shell:s0
+    setenv CLASSPATH /data/local/tmp/voyahiran-bridge/bridge.apk
+    disabled
+
+on property:sys.boot_completed=1
+    start voyahiran_bridge

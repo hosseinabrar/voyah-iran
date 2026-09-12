@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:fillViewport="true"
+    android:visibility="gone"
+    tools:visibility="visible"
+    tools:background="@color/background"
+    tools:context=".ui.MainActivity">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="@dimen/page_padding">
+        <TextView style="@style/Text.Heading" android:text="@string/comfort_tab" android:accessibilityHeading="true" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="@dimen/space_lg">
+            <CheckBox
+                android:id="@+id/driveMemory"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body" android:textDirection="rtl"
+                android:gravity="center_vertical|start" android:enabled="false"
+                android:text="@string/drive_memory_label" tools:enabled="true" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/drive_memory_description" />
+            <ProgressBar android:id="@+id/driveProgress" style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md" android:indeterminate="true"
+                android:indeterminateTint="@color/accent" android:visibility="gone" />
+            <TextView android:id="@+id/driveStatus" style="@style/Text.Caption"
+                android:layout_marginTop="@dimen/space_md" android:accessibilityLiveRegion="polite" android:visibility="gone" />
+            <Button android:id="@+id/driveRetry" style="@style/NavigationTab"
+                android:layout_width="wrap_content" android:layout_gravity="start"
+                android:layout_marginTop="@dimen/space_sm" android:text="@string/retry" android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="@dimen/space_lg">
+            <CheckBox android:id="@+id/recoveryMemory"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body" android:textDirection="rtl"
+                android:gravity="center_vertical|start" android:enabled="false"
+                android:text="@string/recovery_memory_label" tools:enabled="true" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/recovery_memory_description" />
+            <ProgressBar android:id="@+id/recoveryProgress" style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md" android:indeterminate="true"
+                android:indeterminateTint="@color/accent" android:visibility="gone" />
+            <TextView android:id="@+id/recoveryStatus" style="@style/Text.Caption"
+                android:layout_marginTop="@dimen/space_md" android:accessibilityLiveRegion="polite" android:visibility="gone" />
+            <Button android:id="@+id/recoveryRetry" style="@style/NavigationTab"
+                android:layout_width="wrap_content" android:layout_gravity="start"
+                android:layout_marginTop="@dimen/space_sm" android:text="@string/retry" android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

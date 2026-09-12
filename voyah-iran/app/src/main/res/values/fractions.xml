@@ -1,0 +1,4 @@
+<resources>
+    <fraction name="notice_width">88%</fraction>
+    <fraction name="notice_height">85%</fraction>
+</resources>

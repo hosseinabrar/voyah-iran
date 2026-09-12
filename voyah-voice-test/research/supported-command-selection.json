@@ -1,0 +1,278 @@
+[
+  {
+    "id": "VC003",
+    "phrase": "صدا {بیشتر/کمتر}",
+    "action": "audio.volume.adjust",
+    "excel_row": "4"
+  },
+  {
+    "id": "VC004",
+    "phrase": "روشنایی {بیشتر/کمتر}",
+    "action": "display.brightness.adjust",
+    "excel_row": "5"
+  },
+  {
+    "id": "VC005",
+    "phrase": "آهنگ {بعدی/قبلی}",
+    "action": "media.track.skip",
+    "excel_row": "6"
+  },
+  {
+    "id": "VC006",
+    "phrase": "{توقف/ادامه} پخش",
+    "action": "media.playback.set",
+    "excel_row": "7"
+  },
+  {
+    "id": "VC034",
+    "phrase": "نمایش عقب",
+    "action": "camera.rear_occupants.open",
+    "excel_row": "35"
+  },
+  {
+    "id": "VC035",
+    "phrase": "حالت کمپ",
+    "action": "scene.camping.open",
+    "excel_row": "36"
+  },
+  {
+    "id": "VC036",
+    "phrase": "حالت استراحت",
+    "action": "scene.rest.open",
+    "excel_row": "37"
+  },
+  {
+    "id": "VC037",
+    "phrase": "استراحت ده‌دقیقه‌ای",
+    "action": "scene.rest.duration",
+    "excel_row": "38"
+  },
+  {
+    "id": "VC039",
+    "phrase": "نورپردازی روشن",
+    "action": "ambient.power.set",
+    "excel_row": "40"
+  },
+  {
+    "id": "VC040",
+    "phrase": "نورپردازی بیشتر",
+    "action": "ambient.brightness.adjust",
+    "excel_row": "41"
+  },
+  {
+    "id": "VC041",
+    "phrase": "نور هماهنگ موسیقی",
+    "action": "ambient.music_sync.set",
+    "excel_row": "42"
+  },
+  {
+    "id": "VC042",
+    "phrase": "مه‌شکن عقب روشن",
+    "action": "lighting.rear_fog.set",
+    "excel_row": "43"
+  },
+  {
+    "id": "VC043",
+    "phrase": "چراغ خودکار {روشن/خاموش}",
+    "action": "lighting.automatic.set",
+    "excel_row": "44"
+  },
+  {
+    "id": "VC044",
+    "phrase": "چراغ‌ها {روشن/خاموش}",
+    "action": "lighting.power.set",
+    "excel_row": "45"
+  },
+  {
+    "id": "VC045",
+    "phrase": "نوربالای هوشمند {روشن/خاموش}",
+    "action": "lighting.auto_high_beam.set",
+    "excel_row": "46"
+  },
+  {
+    "id": "VC046",
+    "phrase": "نورپایین {روشن/خاموش}",
+    "action": "lighting.low_beam.set",
+    "excel_row": "47"
+  },
+  {
+    "id": "VC047",
+    "phrase": "اکو",
+    "action": "drive.mode.set",
+    "excel_row": "48"
+  },
+  {
+    "id": "VC048",
+    "phrase": "کامفورت",
+    "action": "drive.mode.set",
+    "excel_row": "49"
+  },
+  {
+    "id": "VC049",
+    "phrase": "حالت شخصی",
+    "action": "drive.mode.set",
+    "excel_row": "50"
+  },
+  {
+    "id": "VC050",
+    "phrase": "اسپورت",
+    "action": "drive.mode.set",
+    "excel_row": "51"
+  },
+  {
+    "id": "VC051",
+    "phrase": "ورود راحت روشن",
+    "action": "comfort.easy_entry.set",
+    "excel_row": "52"
+  },
+  {
+    "id": "VC052",
+    "phrase": "تهویه {روشن/خاموش}",
+    "action": "climate.power.set",
+    "excel_row": "53"
+  },
+  {
+    "id": "VC053",
+    "phrase": "تهویه خودکار",
+    "action": "climate.auto.set",
+    "excel_row": "54"
+  },
+  {
+    "id": "VC054",
+    "phrase": "دما {درجه}",
+    "action": "climate.temperature.set",
+    "excel_row": "55"
+  },
+  {
+    "id": "VC055",
+    "phrase": "دما {بیشتر/کمتر}",
+    "action": "climate.temperature.adjust",
+    "excel_row": "56"
+  },
+  {
+    "id": "VC056",
+    "phrase": "باد {بیشتر/کمتر}",
+    "action": "climate.fan.adjust",
+    "excel_row": "57"
+  },
+  {
+    "id": "VC057",
+    "phrase": "بخارگیر جلو {روشن/خاموش}",
+    "action": "climate.front_defog.set",
+    "excel_row": "58"
+  },
+  {
+    "id": "VC058",
+    "phrase": "بخارگیر عقب {روشن/خاموش}",
+    "action": "climate.rear_defrost.set",
+    "excel_row": "59"
+  },
+  {
+    "id": "VC059",
+    "phrase": "گردش هوای {داخل/خارج}",
+    "action": "climate.recirculation.set",
+    "excel_row": "60"
+  },
+  {
+    "id": "VC060",
+    "phrase": "دمای جلو یکسان",
+    "action": "climate.sync.set",
+    "excel_row": "61"
+  },
+  {
+    "id": "VC061",
+    "phrase": "خوشبوکننده {روشن/خاموش}",
+    "action": "climate.fragrance.set",
+    "excel_row": "62"
+  },
+  {
+    "id": "VC062",
+    "phrase": "گرمکن صندلی {راننده/شاگرد} {روشن/خاموش}",
+    "action": "seat.heating.set",
+    "excel_row": "63"
+  },
+  {
+    "id": "VC063",
+    "phrase": "تهویه صندلی {راننده/شاگرد} {روشن/خاموش}",
+    "action": "seat.ventilation.set",
+    "excel_row": "64"
+  },
+  {
+    "id": "VC064",
+    "phrase": "ماساژ صندلی {راننده/شاگرد} {روشن/خاموش}",
+    "action": "seat.massage.set",
+    "excel_row": "65"
+  },
+  {
+    "id": "VC065",
+    "phrase": "حافظه صندلی {شماره}",
+    "action": "seat.memory.recall",
+    "excel_row": "66"
+  },
+  {
+    "id": "VC066",
+    "phrase": "گرمکن آینه {روشن/خاموش}",
+    "action": "mirror.heating.set",
+    "excel_row": "67"
+  },
+  {
+    "id": "VC067",
+    "phrase": "شیشه {سمت} {باز/بسته}",
+    "action": "window.position.set",
+    "excel_row": "68"
+  },
+  {
+    "id": "VC068",
+    "phrase": "همه شیشه‌ها {باز/بسته}",
+    "action": "window.all.set",
+    "excel_row": "69"
+  },
+  {
+    "id": "VC069",
+    "phrase": "شیشه‌ها تهویه",
+    "action": "window.all.vent",
+    "excel_row": "70"
+  },
+  {
+    "id": "VC070",
+    "phrase": "پرده سقف {باز/بسته}",
+    "action": "roof.blind.set",
+    "excel_row": "71"
+  },
+  {
+    "id": "VC071",
+    "phrase": "صندوق {باز/بسته}",
+    "action": "tailgate.set",
+    "excel_row": "72"
+  },
+  {
+    "id": "VC072",
+    "phrase": "قفل کودک {روشن/خاموش}",
+    "action": "door.child_lock.set",
+    "excel_row": "73"
+  },
+  {
+    "id": "VC073",
+    "phrase": "درب باک باز",
+    "action": "fuel.flap.open",
+    "excel_row": "74"
+  },
+  {
+    "id": "VC074",
+    "phrase": "درب شارژ باز",
+    "action": "charge.flap.open",
+    "excel_row": "75"
+  },
+  {
+    "id": "VC075",
+    "phrase": "بازیابی {ضعیف/متوسط/قوی}",
+    "action": "recovery.level.set",
+    "excel_row": "76"
+  },
+  {
+    "id": "VC076",
+    "phrase": "برگرد",
+    "action": "ui.back",
+    "excel_row": "77"
+  }
+]

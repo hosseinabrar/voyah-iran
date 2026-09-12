@@ -1,0 +1,4 @@
+Created with the built-in image generation tool using the user-supplied Voyah reference.
+Prompt: Preserve the reference white Voyah emblem and navy background; replace VOYAH with IRAN in uppercase extended geometric lettering, open chevron A, centered beneath emblem, square app icon with safe margins, no other text.
+The navy is matched to the reference appearance, not certified from a brand color specification.
+Master: voyah-iran-icon.png. Android uses drawable-nodpi/voyah_iran_icon.png; Windows uses a multi-resolution ICO (16 through 256 pixels).

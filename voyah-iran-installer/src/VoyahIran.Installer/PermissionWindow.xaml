@@ -1,0 +1,16 @@
+<Window x:Class="VoyahIran.Installer.PermissionWindow" Style="{StaticResource DarkWindow}" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="مجوزهای برنامه" Width="760" Height="370" MinWidth="700" MinHeight="350" FlowDirection="RightToLeft" WindowStartupLocation="CenterOwner" Closing="OnClosing" Loaded="OnLoaded">
+<Window.Resources><Style x:Key="PermissionOption" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}"><Setter Property="Margin" Value="8,14"/><Setter Property="VerticalContentAlignment" Value="Center"/></Style></Window.Resources>
+<Grid Margin="24"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+<StackPanel><TextBlock Text="برنامه نصب شد" FontSize="24"/><TextBlock Text="دسترسی‌های موردنیاز را روشن یا خاموش کنید." Margin="0,12"/></StackPanel>
+<UniformGrid Grid.Row="1" x:Name="Choices" Columns="3" Rows="2">
+<CheckBox x:Name="Microphone" Content="میکروفون" Style="{StaticResource PermissionOption}" Click="Change"/>
+<CheckBox x:Name="Camera" Content="دوربین" Style="{StaticResource PermissionOption}" Click="Change"/>
+<CheckBox x:Name="Location" Content="موقعیت مکانی" Style="{StaticResource PermissionOption}" Click="Change"/>
+<CheckBox x:Name="InstallApps" Content="نصب برنامه" Style="{StaticResource PermissionOption}" Click="Change"/>
+<CheckBox x:Name="BackgroundOption" Content="اجرای پس‌زمینه" Style="{StaticResource PermissionOption}" Click="Change"/>
+<CheckBox x:Name="All" Content="همه موارد" Style="{StaticResource PermissionOption}" Click="ChangeAll"/>
+</UniformGrid>
+<TextBlock Grid.Row="2" x:Name="Result" Text="در حال خواندن وضعیت دسترسی‌ها…" TextWrapping="Wrap" Margin="0,12" AutomationProperties.LiveSetting="Polite"/>
+<StackPanel Grid.Row="3" Orientation="Horizontal"><Button x:Name="RefreshButton" Content="تازه‌سازی" Click="Refresh"/><Button x:Name="CloseButton" Content="بستن" Click="Finish" Margin="12,0"/></StackPanel>
+</Grid></Window>
+

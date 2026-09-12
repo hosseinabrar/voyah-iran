@@ -1,0 +1,2 @@
+<CheckBox xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:text="دوربین" tools:checked="true" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:padding="@dimen/space_sm" android:textSize="@dimen/text_body" android:textColor="@color/text_primary" android:buttonTint="@color/accent" android:gravity="center_vertical|start"/>
+

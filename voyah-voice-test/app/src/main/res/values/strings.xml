@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Voyah Voice Test</string>
+    <string name="title">تست گفتار فارسی</string>
+    <string name="subtitle">دکمه را بزنید و یک جمله بگویید.</string>
+    <string name="loading">بارگذاری موتور؛ کمی صبر کنید…</string>
+    <string name="ready">آمادهٔ شنیدن • آفلاین</string>
+    <string name="listening">در حال شنیدن…</string>
+    <string name="result_status">متن نهایی • میکروفون بسته شد</string>
+    <string name="placeholder">متن شما اینجا نمایش داده می‌شود</string>
+    <string name="start">شروع شنود</string>
+    <string name="cancel">لغو</string>
+    <string name="no_speech">گفتاری تشخیص داده نشد؛ دوباره امتحان کنید.</string>
+    <string name="permission">برای شنیدن صدا، مجوز میکروفون را در تنظیمات برنامه فعال کنید.</string>
+    <string name="error">خطا در دریافت یا پردازش صدا؛ دوباره امتحان کنید.</string>
+    <string name="model_error">مدل بارگذاری نشد؛ موتور دیگری را انتخاب کنید.</string>
+    <string name="footer">کاملاً آفلاین • نتیجه پس از ۵ ثانیه پاک می‌شود</string>
+    <string name="engine_label">روش پردازش Vosk</string>
+    <string name="decoding">میکروفون بسته شد؛ در حال تبدیل صدا به متن…</string>
+    <string name="cancelling">در حال پایان‌دادن پردازش…</string>
+    <string name="repeat_audio">تست صدای قبلی با روش انتخاب‌شده</string>
+    <string name="timing">مدت صدا: %1$.1f ثانیه • انتظار بعد از ضبط: %2$.1f ثانیه</string>
+    <string name="quiet">\nصدای ورودی خیلی ضعیف است.</string>
+    <string name="clipped">\nصدای ورودی بیش از حد بلند است.</string>
+    <string name="command_title">فرمان تشخیص‌داده‌شده</string>
+    <string name="command_waiting">منتظر پایان صحبت…</string>
+    <string name="command_unknown">نامفهوم</string>
+    <string name="command_preview">نمایش آزمایشی؛ فرمانی روی خودرو اجرا نمی‌شود.</string>
+    <string-array name="engines">
+        <item>حالت فعلی • مکث ۹۰۰ میلی‌ثانیه</item>
+        <item>مکث کوتاه • ۴۵۰ میلی‌ثانیه</item>
+        <item>پردازش زنده • مکث ۴۵۰ میلی‌ثانیه</item>
+    </string-array>
+    <string name="share_samples">ارسال نمونه‌ها (%1$d)</string>
+    <string name="feedback_title">این جمله را ذخیره کنیم؟</string>
+    <string name="feedback_question">«%1$s»\n\nمتن درست است و انتظار داری خودرو این فرمان را بفهمد؟</string>
+    <string name="feedback_yes">بله، ذخیره کن</string>
+    <string name="feedback_no">نه</string>
+    <string name="feedback_saved">جمله ذخیره شد</string>
+    <string name="feedback_duplicate">این جمله قبلاً ذخیره شده</string>
+    <string name="feedback_error">ذخیره یا ارسال نمونه‌ها انجام نشد؛ دوباره تلاش کنید.</string>
+    <string name="feedback_empty">هنوز جمله‌ای ذخیره نشده است</string>
+    <string name="share_instruction">تلگرام را انتخاب کنید و فایل را برای ‎@hosseinabrar‎ بفرستید.</string>
+    <string name="share_continue">ادامه</string>
+    <string name="share_confirm">فایل ارسال شد؟</string>
+    <string name="share_confirm_message">فقط اگر فایل را فرستاده‌اید تأیید کنید تا نمونه‌های ارسال‌شده از لیست پاک شوند.</string>
+    <string name="share_done">بله، ارسال شد</string>
+    <string name="share_keep">نه، نگه دار</string>
+</resources>

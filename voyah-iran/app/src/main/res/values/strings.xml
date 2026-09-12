@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="fa">
+    <string name="app_name">Voyah Iran</string>
+    <string name="brand_wordmark" translatable="false">VOYAH\nIRAN</string>
+    <string name="brand_caption">همراهِ وویا در ایران</string>
+    <string name="settings_tab">تنظیمات</string>
+    <string name="about_tab">درباره برنامه</string>
+    <string name="settings_heading">تنظیمات</string>
+    <string name="settings_description">تنظیمات متناسب با استفاده در ایران</string>
+    <string name="correction_label">اصلاح ساعت به \u2066GMT+03:30\u2069</string>
+    <string name="correction_description">ساعت ایران بدون تغییر تابستانی. با برداشتن تیک، منطقه زمانی به تهران برمی‌گردد.</string>
+    <string name="current_time">ساعت با منطقه زمانی فعلی</string>
+    <string name="current_zone">منطقه زمانی فعلی</string>
+    <string name="unknown_zone">خواندن وضعیت…</string>
+    <string name="unknown_time" translatable="false">—:—</string>
+    <string name="fixed_status">اصلاح ساعت فعال است</string>
+    <string name="tehran_status">منطقه زمانی تهران</string>
+    <string name="other_status">منطقه زمانی دستگاه</string>
+    <string name="unavailable_status">وضعیت در دسترس نیست</string>
+    <string name="applying">در حال بررسی و اعمال تنظیمات…</string>
+    <string name="applied">منطقه زمانی تغییر کرد.</string>
+    <string name="auto_enabled">تشخیص خودکار منطقه زمانی روشن است و ممکن است این تنظیم را تغییر دهد.</string>
+    <string name="retry">بررسی دوباره</string>
+    <string name="root_required">دسترسی اجرای فرمان سیستم فراهم نیست.</string>
+    <string name="timezone_permission_required">ارتباط با سرویس سیستم برقرار نیست؛ نصاب وویا ایران را اجرا کنید.</string>
+    <string name="timeout_error">مهلت تغییر ساعت تمام شد؛ ممکن است بخشی از تنظیم اعمال شده باشد. وضعیت فعلی را دوباره بررسی کنید.</string>
+    <string name="read_error">خواندن منطقه زمانی دستگاه ممکن نشد. دوباره تلاش کنید.</string>
+    <string name="write_error">تغییر تنظیمات کامل نشد؛ دوباره بررسی کنید.</string>
+    <string name="verification_error">نتیجهٔ تغییر تأیید نشد. وضعیت دستگاه را دوباره بررسی کنید.</string>
+    <string name="about_heading">درباره Voyah Iran</string>
+    <string name="about_description">قابلیت‌های کاربردی برای استفاده از وویا در ایران.</string>
+    <string name="about_detail">این نسخه، اصلاح منطقه زمانی اندروید را فراهم می‌کند. تنظیمات مستقیماً از دستگاه خوانده می‌شوند و برنامه برای این قابلیت به اینترنت نیاز ندارد.</string>
+    <string name="about_independent">یک پروژهٔ مستقل؛ وابسته به سازندهٔ خودرو نیست.</string>
+    <string name="version_format">نسخهٔ %1$s</string>
+    <string name="package_name" translatable="false">com.abrar.voyahiran</string>
+    <string name="star_back_label">بازگشت با دکمهٔ ستاره</string>
+    <string name="star_back_description">با فعال‌کردن این گزینه، دکمهٔ ستاره روی فرمان عملکرد بازگشت (Back) را در سیستم‌عامل اجرا می‌کند.</string>
+    <string name="star_inactive">عملکرد اصلی دکمه فعال است.</string>
+    <string name="star_active">فشار کوتاه: بازگشت؛ فشار بلند: عملکرد قبلی.</string>
+    <string name="star_restore_needed">تنظیم دکمه تغییر کرده است؛ دوباره تلاش کنید.</string>
+    <string name="star_unavailable">ارتباط با دکمهٔ فرمان در دسترس نیست.</string>
+    <string name="star_connection_error">ارتباط با سرویس دکمه‌ها برقرار نشد. دوباره بررسی کنید.</string>
+    <string name="star_storage_error">ذخیرهٔ اطلاعات بازیابی کامل نشد. دوباره تلاش کنید.</string>
+    <string name="star_verification_error">اعمال یا بازیابی تنظیم تأیید نشد. وضعیت را دوباره بررسی کنید.</string>
+    <string name="star_no_backup">تنظیم قبلیِ قابل بازیابی در برنامه ذخیره نشده است.</string>
+    <string name="star_restore">بازگردانی عملکرد قبلی</string>
+    <string name="star_service_starting">در حال آماده‌سازی دکمهٔ ستاره…</string>
+    <string name="star_service_active">فشار کوتاه: بازگشت؛ فشار بلند: عملکرد قبلی</string>
+    <string name="star_service_error">بازگشت با دکمهٔ ستاره فعال نشد؛ تنظیمات را بررسی کنید.</string>
+    <string name="comfort_tab">آسایش</string>
+    <string name="drive_memory_label">ذخیره حالت رانندگی (Drive Mode)</string>
+    <string name="drive_memory_description">آخرین حالت رانندگی را پس از روشن‌شدن خودرو برمی‌گرداند.</string>
+    <string name="drive_saved_format">حالت ذخیره‌شده: %1$s</string>
+    <string name="drive_waiting">در انتظار آماده‌شدن خودرو…</string>
+    <string name="drive_restoring">در حال بازیابی حالت رانندگی…</string>
+    <string name="drive_error">ارتباط خودرو و سرویس وویا ایران را بررسی کنید.</string>
+    <string name="drive_unconfirmed">بازیابی حالت رانندگی تأیید نشد.</string>
+    <string name="drive_notification">حافظهٔ تنظیمات آسایش فعال است</string>
+    <string-array name="drive_modes">
+        <item>Eco</item><item>Comfort</item><item>Sport</item>
+        <item>Off-road</item><item>Individual</item><item>Snow</item>
+    </string-array>
+    <string name="recovery_memory_label">ذخیره سطح بازیابی انرژی</string>
+    <string name="recovery_memory_description">آخرین سطح بازیابی انرژی را پس از روشن‌شدن خودرو برمی‌گرداند.</string>
+    <string name="recovery_saved_format">سطح ذخیره‌شده: %1$s</string>
+    <string name="recovery_restoring">در حال بازیابی سطح انرژی…</string>
+    <string name="recovery_unconfirmed">بازیابی سطح انرژی تأیید نشد.</string>
+    <string-array name="recovery_levels"><item>ضعیف</item><item>متوسط</item><item>قوی</item></string-array>
+    <string name="rear_camera_label">دوربین پایش صندلی‌های عقب</string>
+    <string name="rear_camera_description">دوربین پایش سرنشینان عقب را فعال می‌کند.</string>
+    <string name="rear_camera_error">فعال‌سازی دوربین تأیید نشد؛ دوباره تلاش کنید.</string>
+    <string name="gboard_label">فعال‌سازی کیبورد گوگل (Gboard)</string>
+    <string name="gboard_description">فقط برای نمایشگر وسط.</string>
+    <string name="gboard_missing">ابتدا جی‌بورد را نصب کنید.</string>
+    <string name="keyboard_no_restore">کیبورد مناسب برای بازگشت پیدا نشد.</string>
+    <string name="keyboard_error">تغییر کیبورد تأیید نشد؛ سرویس وویا ایران را بررسی کنید.</string>
+    <string name="apollo_tab">آپولو</string>
+    <string name="apollo_report_note">گزارش وضعیت تنظیمات؛ فقط خواندنی</string>
+    <string name="apollo_subscription">اشتراک فعال آپولو</string>
+    <string name="apollo_lane_change">تغییر لاین با راهنما</string>
+    <string name="apollo_navigation">هدایت ناوبری (NOA)</string>
+    <string name="apollo_traffic_light">تشخیص و یادآوری چراغ راهنمایی</string>
+    <string name="apollo_light_change">اعلان تغییر چراغ راهنمایی</string>
+    <string name="apollo_signs">تشخیص تابلوهای راهنمایی</string>
+    <string name="apollo_emergency_steering">کمک‌فرمان اضطراری</string>
+    <string name="apollo_emergency_lane">حفظ اضطراری لاین</string>
+    <string name="apollo_unknown">%1$s — نامشخص</string>
+    <string name="apollo_refresh">به‌روزرسانی وضعیت</string>
+    <string name="permissions_tab">مجوز نرم‌افزارها</string>
+    <string name="permissions_select">انتخاب نرم‌افزار</string>
+    <string name="permissions_refresh">تازه‌سازی</string>
+    <string name="permissions_error">خواندن یا تغییر دسترسی کامل نشد؛ وضعیت را تازه‌سازی کنید.</string>
+    <string name="permissions_empty">مجوز قابل تغییری وجود ندارد.</string>
+    <string name="permissions_choose_app">انتخاب برنامه</string>
+    <string name="permissions_description">برنامه را انتخاب کنید و مجوزهای موردنیازش را فعال کنید.</string>
+    <string name="perm_microphone">میکروفون</string>
+    <string name="perm_camera">دوربین</string>
+    <string name="perm_location">موقعیت مکانی</string>
+    <string name="perm_install">نصب برنامه</string>
+    <string name="perm_background">اجرای پس‌زمینه</string>
+    <string name="perm_all">همه موارد</string>
+    <string name="rear_camera_open">نمایش دوربین</string>
+    <string name="star_connecting">در حال اتصال به دکمهٔ فرمان…</string>
+    <string name="star_restoring">در حال بازگرداندن عملکرد قبلی…</string>
+    <string name="reboot_label">راه اندازی مجدد دستگاه</string>
+    <string name="reboot_confirm">دستگاه راه‌اندازی مجدد شود؟ خودرو متوقف باشد.</string>
+    <string name="reboot_pending">در انتظار راه‌اندازی مجدد دستگاه…</string>
+    <string name="reboot_unconfirmed">راه‌اندازی مجدد تأیید نشد. اگر دستگاه روشن ماند، نصاب وویا ایران را دوباره اجرا کنید.</string>
+    <string name="project_notice_title">دربارهٔ وویا ایران</string>
+    <string name="project_notice_body">استفاده از وویا ایران کاملاً رایگان است و هرگونه استفادهٔ تجاری از آن مجاز نیست.\nاین برنامه با تلاش جمعی از مالکان خودرو تهیه شده و هیچ‌گونه ارتباطی با شرکت سروش موتور ندارد. مسئولیت استفاده از برنامه بر عهدهٔ مالک خودرو است.\nتوسعه و نگهداری این پروژه زمان و هزینهٔ زیادی دارد. اگر از امکانات برنامه لذت می‌برید و مایلید به ادامهٔ توسعه و انتشار به‌روزرسانی‌های بیشتر کمک کنید، برای حمایت مالی با شناسهٔ زیر در تلگرام در ارتباط باشید. حمایت مالی کاملاً اختیاری است.</string>
+    <string name="project_notice_contact" translatable="false">\u0040hosseinabrar</string>
+    <string name="project_notice_dismiss">برای بستن، صفحه را لمس کنید یا دکمهٔ بازگشت را بزنید.</string>
+    <string name="rear_camera_reboot_title">راه‌اندازی مجدد لازم است</string>
+    <string name="rear_camera_reboot_message">برای فعال‌شدن دوربین پایش صندلی‌های عقب، دستگاه باید دوباره راه‌اندازی شود. اکنون راه‌اندازی مجدد شود؟ خودرو متوقف باشد.</string>
+    <string name="reboot_later">بعداً</string>
+</resources>
+
+
+
+
+
+

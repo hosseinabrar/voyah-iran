@@ -1,0 +1,13 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:minHeight="@dimen/touch_target" android:orientation="horizontal"
+    android:layoutDirection="rtl" android:gravity="center_vertical"
+    android:padding="@dimen/space_sm" android:background="@color/background">
+    <ImageView android:id="@+id/appIcon" android:layout_width="@dimen/permission_app_icon"
+        android:layout_height="@dimen/permission_app_icon" android:layout_marginEnd="@dimen/space_md"
+        android:importantForAccessibility="no" tools:src="@drawable/ic_app"/>
+    <TextView android:id="@+id/appLabel" style="@style/Text.Body"
+        android:layout_width="0dp" android:layout_weight="1"
+        android:maxLines="2" android:ellipsize="end" tools:text="کافه بازار"/>
+</LinearLayout>

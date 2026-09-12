@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="rail_width">224dp</dimen>
+    <dimen name="rail_padding">24dp</dimen>
+    <dimen name="page_padding">40dp</dimen>
+    <dimen name="text_heading">34sp</dimen>
+    <dimen name="text_clock">48sp</dimen>
+    <dimen name="brand_size">160dp</dimen>
+</resources>

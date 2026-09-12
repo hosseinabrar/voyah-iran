@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:layoutDirection="rtl"
+    tools:context=".ui.MainActivity">
+
+    <!-- Logical start is the right edge for the Persian application shell. -->
+    <ScrollView
+        android:id="@+id/navigationRail"
+        android:layout_width="@dimen/rail_width"
+        android:layout_height="0dp"
+        android:background="@color/rail"
+        android:fillViewport="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/rail_padding">
+            <ImageView
+                android:layout_width="@dimen/brand_size"
+                android:layout_height="@dimen/brand_size"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="@dimen/space_md"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_app" />
+            
+            <Button
+                android:id="@+id/settingsTab"
+                style="@style/NavigationTab"
+                android:layout_marginTop="@dimen/space_xl"
+                android:text="@string/settings_tab" />
+            <Button
+                android:id="@+id/comfortTab"
+                style="@style/NavigationTab"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/comfort_tab" />
+            <Button
+                android:id="@+id/apolloTab" android:visibility="gone"
+                style="@style/NavigationTab"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/apollo_tab" />
+            <Button android:id="@+id/permissionsTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/permissions_tab" />
+            <Button android:id="@+id/aboutTab" android:visibility="gone"
+                style="@style/NavigationTab"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/about_tab" />
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layoutDirection="rtl"
+        app:layout_constraintStart_toEndOf="@id/navigationRail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <include android:id="@+id/settingsPage" layout="@layout/page_settings" />
+        <include android:id="@+id/comfortPage" layout="@layout/page_comfort" />
+        <include android:id="@+id/apolloPage" layout="@layout/page_apollo" />
+        <include android:id="@+id/permissionsPage" layout="@layout/page_permissions" />
+        <include android:id="@+id/aboutPage" layout="@layout/page_about" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layoutDirection="rtl"
+    android:clipToPadding="false"
+    tools:context=".ui.MainActivity"
+    tools:background="@color/background">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/page_padding">
+        <TextView style="@style/Text.Heading" android:text="@string/settings_heading" android:accessibilityHeading="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+            <CheckBox
+                android:id="@+id/timeZoneCorrection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm"
+                android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent"
+                android:text="@string/correction_label"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body"
+                android:textDirection="rtl"
+                android:gravity="center_vertical|start"
+                android:enabled="false"
+                tools:checked="true"
+                tools:enabled="true" />
+            <TextView style="@style/Text.Secondary" android:text="@string/correction_description" android:layout_marginTop="@dimen/space_sm" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:orientation="vertical"
+                android:background="@drawable/bg_inset"
+                android:padding="@dimen/space_md">
+                <TextView style="@style/Text.Caption" android:text="@string/current_time" />
+                <TextView
+                    android:id="@+id/localClock"
+                    style="@style/Text.Body"
+                    android:text="@string/unknown_time"
+                    android:textSize="@dimen/text_clock"
+                    android:fontFamily="sans-serif-light"
+                    android:textDirection="ltr"
+                    android:gravity="start"
+                    tools:text="10:24" />
+                <TextView style="@style/Text.Caption" android:text="@string/current_zone" android:layout_marginTop="@dimen/space_sm" />
+                <TextView
+                    android:id="@+id/currentZone"
+                    style="@style/Text.Body"
+                    android:text="@string/unknown_zone"
+                    android:textDirection="ltr"
+                    android:gravity="start"
+                    android:layout_marginTop="@dimen/space_xs"
+                    tools:text="GMT+03:30" />
+                <TextView
+                    android:id="@+id/currentStatus"
+                    style="@style/Text.Caption"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:text="@string/unknown_zone"
+                    android:textColor="@color/accent"
+                    tools:text="اصلاح ساعت فعال است" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/accent"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/feedback"
+                style="@style/Text.Body"
+                android:layout_marginTop="@dimen/space_md"
+                android:accessibilityLiveRegion="polite"
+                android:visibility="gone"
+                tools:text="@string/applied" />
+            <Button
+                android:id="@+id/retryButton"
+                style="@style/NavigationTab"
+                android:layout_width="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/retry"
+                android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+            <CheckBox
+                android:id="@+id/starBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm"
+                android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent"
+                android:text="@string/star_back_label"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body"
+                android:textDirection="rtl"
+                android:gravity="center_vertical|start"
+                android:enabled="false"
+                tools:enabled="true" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/star_back_description" />
+            <ProgressBar
+                android:id="@+id/starProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/accent"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/starStatus"
+                style="@style/Text.Body"
+                android:layout_marginTop="@dimen/space_md"
+                android:accessibilityLiveRegion="polite"
+                android:visibility="gone" />
+            
+            
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rearCameraCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg"
+            android:visibility="gone"
+            tools:visibility="visible">
+            <CheckBox
+                android:id="@+id/rearCamera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm"
+                android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent"
+                android:text="@string/rear_camera_label"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body"
+                android:textDirection="rtl"
+                android:gravity="center_vertical|start"
+                android:enabled="false"
+                tools:enabled="true" />
+            
+            <ProgressBar android:id="@+id/rearCameraProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md" android:indeterminate="true"
+                android:indeterminateTint="@color/accent" android:visibility="gone" />
+            <TextView android:id="@+id/rearCameraStatus" style="@style/Text.Body"
+                android:layout_marginTop="@dimen/space_md" android:text="@string/rear_camera_error"
+                android:accessibilityLiveRegion="polite" android:visibility="gone" />
+<Button android:id="@+id/rearCameraOpen" style="@style/NavigationTab" android:layout_width="wrap_content" android:text="@string/rear_camera_open" android:visibility="gone"/>
+            <Button android:id="@+id/rearCameraRetry" style="@style/NavigationTab"
+                android:layout_width="wrap_content" android:layout_gravity="start"
+                android:layout_marginTop="@dimen/space_sm" android:text="@string/retry"
+                android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="@dimen/space_lg">
+            <CheckBox android:id="@+id/gboard"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm"
+                android:paddingEnd="@dimen/space_sm" android:buttonTint="@color/accent"
+                android:text="@string/gboard_label" android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body" android:textDirection="rtl"
+                android:gravity="center_vertical|start" android:enabled="false" tools:enabled="true" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/gboard_description" />
+            <ProgressBar android:id="@+id/keyboardProgress" style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md" android:indeterminate="true"
+                android:indeterminateTint="@color/accent" android:visibility="gone" />
+            <TextView android:id="@+id/keyboardStatus" style="@style/Text.Body"
+                android:layout_marginTop="@dimen/space_md" android:accessibilityLiveRegion="polite"
+                android:visibility="gone" />
+            <Button android:id="@+id/keyboardRetry" style="@style/NavigationTab"
+                android:layout_width="wrap_content" android:layout_gravity="start"
+                android:layout_marginTop="@dimen/space_sm" android:text="@string/retry" android:visibility="gone" />
+        </LinearLayout>
+        <Button android:id="@+id/rebootDevice"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:minHeight="@dimen/reboot_button_height" android:layout_marginTop="@dimen/space_lg"
+            android:padding="@dimen/space_md" android:backgroundTint="@color/reboot_red"
+            android:textColor="@color/reboot_text" android:textSize="@dimen/text_title"
+            android:textStyle="bold" android:text="@string/reboot_label" />
+        <TextView android:id="@+id/rebootStatus" style="@style/Text.Body"
+            android:layout_marginTop="@dimen/space_sm" android:visibility="gone"
+            android:accessibilityLiveRegion="polite" />
+    </LinearLayout>
+</ScrollView>
+
+

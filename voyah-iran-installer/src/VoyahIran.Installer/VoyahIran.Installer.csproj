@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <TargetPlatformMoniker>Windows,Version=7.0</TargetPlatformMoniker>
+    <AssemblyName>VoyahIran.Installer</AssemblyName><Version>0.2.0</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\voyah-iran.ico</ApplicationIcon>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../VoyahIran.Installer.Core/VoyahIran.Installer.Core.csproj" />
+    <Resource Include="Assets\voyah-iran.ico" />
+    <EmbeddedResource Include="../../payload/bundle.zip" LogicalName="VoyahIran.Payload.zip" />
+  </ItemGroup>
+  <!-- Refresh before resource embedding, not BeforePublish (which is too late). -->
+  <Target Name="PrepareVoyahPayload" BeforeTargets="PrepareForBuild" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\build\Prepare-Payload.ps1&quot;" />
+  </Target>
+  <Target Name="RejectStalePayloadPublish" BeforeTargets="Publish" Condition="'$(NoBuild)' == 'true'">
+    <Error Text="Publish with NoBuild is unsupported: publish with build enabled so the latest Android payload is embedded." />
+  </Target>
+</Project>
+
+

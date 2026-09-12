@@ -1,0 +1,8 @@
+<resources>
+    <!-- Referenced only by tools:entries in the Layout Editor. -->
+    <string-array name="preview_permission_apps">
+        <item>کافه بازار</item>
+        <item>Gboard</item>
+    </string-array>
+</resources>
+

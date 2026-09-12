@@ -1,0 +1,180 @@
+package com.abrar.voyahiran.feature.steering.data
+
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.Binder
+import android.os.Bundle
+import android.os.IBinder
+import android.os.Parcel
+import com.abrar.voyahiran.feature.steering.domain.*
+import kotlinx.coroutines.*
+import java.util.concurrent.Executors
+
+/** Wire protocol recovered from the supplied Qinggan 1.0.0 firmware. */
+class QingganStarMapping(context: Context) : StarMapping {
+    private val context = context.applicationContext
+    private val events = Executors.newSingleThreadExecutor()
+    private var connection: ServiceConnection? = null
+    @Volatile private var remote: IBinder? = null
+    @Volatile private var policy: StarEventPolicy? = null
+    @Volatile private var registered = false
+    override val listening: Boolean get() = remote?.isBinderAlive == true && registered && policy != null
+    private var token = Binder()
+    private val generation = java.util.concurrent.atomic.AtomicLong()
+    private val callback = object : Binder() {
+        override fun onTransact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
+            if (code == INTERFACE_TRANSACTION) { reply?.writeString(CALLBACK); return true }
+            if (code != 1 && code != 2) return super.onTransact(code, data, reply, flags)
+            data.enforceInterface(CALLBACK)
+            var consumed = false
+            if (data.readInt() != 0) {
+                val key = data.readInt()
+                val action = data.readInt()
+                val keyFlags = data.readInt()
+                val extras = data.readBundle(javaClass.classLoader)
+                val display = data.readInt()
+                if (code == 2) { data.readString(); data.readInt() }
+                val epoch = generation.get()
+                val routed = policy?.route(key, action, keyFlags, display, OemPayload(extras))
+                com.abrar.voyahiran.core.logging.AppLog.info("StarEvent", "key=$key action=$action flags=$keyFlags display=$display consumed=${routed?.consume} emitted=${routed?.events?.size}")
+                if (routed?.consume == true) {
+                    // Reply promptly: synchronous injection here could deadlock the OEM engine.
+                    events.execute {
+                        runCatching { routed.events.forEach { if (generation.get() == epoch) inject(it) } }.onFailure {
+                            com.abrar.voyahiran.core.logging.AppLog.error("StarEvent", "event-injection-failed", it)
+                        }
+                            .onFailure { if (generation.get() == epoch) policy = null }
+                    }
+                    consumed = true
+                }
+            }
+            reply?.writeNoException()
+            reply?.writeInt(if (consumed) 1 else 0)
+            return true
+        }
+    }
+
+    override suspend fun read(): Int {
+        connect()
+        return call(9, { writeInt(SteeringKeys.STAR); writeString(context.packageName) }) { readInt() }
+    }
+
+    override suspend fun write(target: Int) {
+        connect()
+        call(8, { writeInt(SteeringKeys.STAR); writeInt(target); writeString(context.packageName) }) { Unit }
+    }
+
+    override suspend fun intercept(previous: Int) {
+        connect()
+        // Replaying a target that itself maps elsewhere could recurse or change the OEM action.
+        for (target in listOf(previous, SteeringKeys.BACK).filter { it != SteeringKeys.STAR }.distinct()) {
+            val mapped = call(9, { writeInt(target); writeString(context.packageName) }) { readInt() }
+            if (mapped != target) throw SteeringException(SteeringFailure.UNAVAILABLE)
+        }
+        // Replace our own old registration in FIFO order; use a fresh death token on re-enable.
+        generation.incrementAndGet()
+        policy = null
+        if (registered) call(4, { writeStrongBinder(callback); writeString(context.packageName) }) { Unit }
+        registered = false
+        token = Binder()
+        policy = StarEventPolicy(previous)
+        registered = true // Also release an ambiguously acknowledged registration before retry.
+        val result = call(3, {
+            writeStrongBinder(token); writeStrongBinder(callback)
+            writeIntArray(intArrayOf(SteeringKeys.STAR))
+            writeString(context.packageName); writeInt(0); writeInt(100)
+        }) { readInt() }
+        if (result != 0) { policy = null; throw SteeringException(SteeringFailure.CONNECTION) }
+        // Registration and mapping requests enter the same FIFO engine queue.
+    }
+
+    override suspend fun release() {
+        generation.incrementAndGet()
+        policy = null
+        if (registered && remote?.isBinderAlive == true) {
+            call(4, { writeStrongBinder(callback); writeString(context.packageName) }) { Unit }
+        }
+        policy = null
+        disconnect()
+    }
+
+    private data class OemPayload(val extras: Bundle?) : KeyPayload
+
+    private fun inject(event: RoutedKey) {
+        com.abrar.voyahiran.core.logging.AppLog.info("StarEvent", "inject code=${event.code} action=${event.action} display=${event.display}")
+        call(7, {
+            writeInt(1)
+            writeInt(event.code); writeInt(event.action); writeInt(event.flags)
+            writeBundle((event.payload as? OemPayload)?.extras); writeInt(event.display)
+            writeString(context.packageName)
+        }) { Unit }
+    }
+
+    private suspend fun connect() {
+        if (remote?.isBinderAlive == true) return
+        disconnect()
+        val ready = CompletableDeferred<IBinder>()
+        val pending = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName, binder: IBinder) { if (connection === this) ready.complete(binder) }
+            override fun onServiceDisconnected(name: ComponentName) {
+                if (connection !== this) return
+                remote = null; policy = null; registered = false
+                ready.completeExceptionally(SteeringException(SteeringFailure.CONNECTION))
+            }
+            override fun onNullBinding(name: ComponentName) { ready.completeExceptionally(SteeringException(SteeringFailure.UNAVAILABLE)) }
+            override fun onBindingDied(name: ComponentName) {
+                if (connection !== this) return
+                remote = null; policy = null; registered = false
+                ready.completeExceptionally(SteeringException(SteeringFailure.CONNECTION))
+            }
+        }
+        try {
+            val info = context.packageManager.getPackageInfo(PACKAGE, 0)
+            if (info.versionName != "1.0.0") throw SteeringException(SteeringFailure.UNAVAILABLE)
+            connection = pending
+            if (!context.bindService(Intent().setComponent(ComponentName(PACKAGE, "$PACKAGE.KeyManagerService")), pending, Context.BIND_AUTO_CREATE)) {
+                throw SteeringException(SteeringFailure.UNAVAILABLE)
+            }
+            val binder = withTimeout(3000) { ready.await() }
+            if (binder.interfaceDescriptor != DESCRIPTOR) throw SteeringException(SteeringFailure.UNAVAILABLE)
+            remote = binder
+        } catch (error: Exception) {
+            disconnect()
+            if (error is CancellationException && error !is TimeoutCancellationException) throw error
+            if (error is SteeringException) throw error
+            if (error is android.content.pm.PackageManager.NameNotFoundException) throw SteeringException(SteeringFailure.UNAVAILABLE, error)
+            throw SteeringException(SteeringFailure.CONNECTION, error)
+        }
+    }
+
+    private fun <T> call(code: Int, write: Parcel.() -> Unit, read: Parcel.() -> T): T {
+        val request = Parcel.obtain()
+        val reply = Parcel.obtain()
+        try {
+            request.writeInterfaceToken(DESCRIPTOR)
+            request.write()
+            if (remote?.transact(code, request, reply, 0) != true) throw SteeringException(SteeringFailure.CONNECTION)
+            reply.readException()
+            return reply.read()
+        } finally { reply.recycle(); request.recycle() }
+    }
+
+    private fun disconnect() {
+        connection?.let { runCatching { context.unbindService(it) } }
+        registered = false
+        policy = null
+        connection = null
+        remote = null
+    }
+
+    private companion object {
+        const val PACKAGE = "com.qinggan.keymanager.service"
+        const val DESCRIPTOR = "com.qinggan.system.IKeyManagerService"
+        const val CALLBACK = "com.qinggan.system.IKeyManagerCallback"
+    }
+}
+
+
+

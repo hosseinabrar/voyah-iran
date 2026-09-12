@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/bg_card" android:fillViewport="true" android:layoutDirection="rtl">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:gravity="center_vertical" android:padding="@dimen/page_padding">
+        <TextView style="@style/Text.Heading" android:text="@string/project_notice_title" android:accessibilityHeading="true" />
+        <TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_sm"
+            android:textSize="@dimen/notice_text_size" android:includeFontPadding="false"
+            android:lineSpacingExtra="0dp" android:lineSpacingMultiplier="1.0"
+            android:text="@string/project_notice_body" />
+        <TextView style="@style/Text.Title" android:layout_marginTop="@dimen/space_md"
+            android:text="@string/project_notice_contact" android:textColor="@color/accent"
+            android:textDirection="ltr" android:gravity="center" />
+        <TextView style="@style/Text.Caption" android:layout_marginTop="@dimen/space_sm"
+            android:textSize="@dimen/text_body"
+            android:gravity="center" android:text="@string/project_notice_dismiss" />
+    </LinearLayout>
+</ScrollView>
