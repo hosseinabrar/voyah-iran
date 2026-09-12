@@ -17,14 +17,19 @@ class RebootViewModel : ViewModel() {
     private val mutableState = MutableStateFlow(RebootState.IDLE)
     val state = mutableState.asStateFlow()
 
-    fun reboot() {
+    fun reboot() = requestRestart(false)
+
+    fun restartAfterVehicleConfiguration() = requestRestart(true)
+
+    private fun requestRestart(vehicleConfiguration: Boolean) {
         if (mutableState.value == RebootState.REQUESTING || mutableState.value == RebootState.REQUESTED) return
         mutableState.value = RebootState.REQUESTING
         viewModelScope.launch {
             try {
-                AppLog.info("Reboot", "User confirmed device reboot; sending once through system bridge")
+                AppLog.info("Reboot", "User confirmed restart; OEM power restart=$vehicleConfiguration; sending once through system bridge")
                 val result = withContext(Dispatchers.IO) {
-                    ProcessCommandRunner().run(listOf("su", "0", "reboot"), 15)
+                    val operation = if (vehicleConfiguration) listOf("vehicle-config", "restart") else listOf("reboot")
+                    ProcessCommandRunner().run(listOf("su", "0") + operation, 15)
                 }
                 AppLog.info("Reboot", "request exit=${result.exitCode} timeout=${result.timedOut} output=${result.output}")
                 mutableState.value = if (result.exitCode == 0 && !result.timedOut) RebootState.REQUESTED else RebootState.UNCONFIRMED

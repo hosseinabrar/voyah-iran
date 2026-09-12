@@ -15,6 +15,9 @@ object BridgePolicy {
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>): List<String>? {
         if (request == listOf("roa-config", "enable")) return request
+        // OEM VehicleInfoSettingActivity -> DeviceUtils.rebootH56_97System().
+        if (request == listOf("vehicle-config", "restart"))
+            return listOf("/system/bin/setprop", "sys.powerctl", "reboot,power")
         if (request == listOf("reboot")) return listOf("/system/bin/reboot")
         if (request.size == 2 && request[0] == "roa-hook" && request[1] in listOf("enable", "disable", "status")) return request
         if (request == listOf("ime", "current", "--user", "0")) return listOf("/system/bin/sh", "-c",

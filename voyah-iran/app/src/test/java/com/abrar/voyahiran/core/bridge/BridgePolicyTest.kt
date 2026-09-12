@@ -6,6 +6,13 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun vehicleConfigurationRestartMatchesOemCommandExactly() {
+        assertEquals(listOf("/system/bin/setprop", "sys.powerctl", "reboot,power"),
+            BridgePolicy.resolve(listOf("vehicle-config", "restart")))
+        assertNull(BridgePolicy.resolve(listOf("vehicle-config", "restart", "extra")))
+        assertNull(BridgePolicy.resolve(listOf("vehicle-config", "recovery")))
+    }
+
     @Test fun rearCameraConfigOnlyAllowsEnable() {
         assertEquals(listOf("roa-config", "enable"), BridgePolicy.resolve(listOf("roa-config", "enable")))
         assertNull(BridgePolicy.resolve(listOf("roa-config", "disable")))

@@ -161,7 +161,7 @@ class MainActivity : ComponentActivity() {
                         val dialog = android.app.AlertDialog.Builder(this@MainActivity)
                             .setTitle(R.string.rear_camera_reboot_title)
                             .setMessage(R.string.rear_camera_reboot_message)
-                            .setPositiveButton(R.string.reboot_label) { _, _ -> reboot.reboot() }
+                            .setPositiveButton(R.string.reboot_label) { _, _ -> reboot.restartAfterVehicleConfiguration() }
                             .setNegativeButton(R.string.reboot_later, null).create()
                         dialog.setOnShowListener {
                             dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).apply {

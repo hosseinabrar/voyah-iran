@@ -14,3 +14,14 @@
 برای تست، APK جدید باید با نصاب نصب شود تا نسخهٔ واسط نیز به‌روزرسانی شود. تست واقعی با RPM ابتدا خاموش، سپس انتخاب فعال‌سازی در برنامه و ریبوت لازم است. گزینهٔ «بعداً» نباید ریبوت کند. اگر نوشتن پیکربندی شکست خورد، لاگ `VI/RearCameraConfig` و `VI/RearCamera` را بررسی کنید.
 
 بررسی محلی: helper جدید به‌طور مستقل کامپایل شد؛ ۹ تست موجود repository دوربین پاس شدند و XMLها بررسی شدند. APK ساخته نشد و تست واقعی روی خودرو انجام نشده است.
+
+
+## OEM restart correction
+The confirmation click in VehicleInfoSettingActivity$2.onClick calls
+DeviceUtils.rebootH56_97System, which sets sys.powerctl to reboot,power
+(DeviceUtils.smali lines 1199–1216 in the supplied settings APK).
+The ROA confirmation now requests the exact allowlisted vehicle-config/restart
+operation, translated to /system/bin/setprop sys.powerctl reboot,power by the bridge.
+Ordinary settings reboot remains unchanged. No automatic retry or fallback reboot.
+This confirms the command difference, not a full-vehicle ECU reset or a verified
+fix on hardware. Reinstall/update the bridge from the updated APK before testing.

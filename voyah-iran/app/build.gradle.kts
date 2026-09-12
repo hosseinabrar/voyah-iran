@@ -8,8 +8,8 @@ android {
         applicationId = "com.abrar.voyahiran"
         minSdk = 30
         targetSdk = 32
-        versionCode = 7
-        versionName = "0.2.1"
+        versionCode = 8
+        versionName = "0.2.2"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }
     buildFeatures { viewBinding = true; buildConfig = true }
