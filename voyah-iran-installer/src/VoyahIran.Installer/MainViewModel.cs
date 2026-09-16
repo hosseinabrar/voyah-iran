@@ -68,7 +68,15 @@ public sealed class MainViewModel : Observable, IDisposable
     public ActionCommand RebootCommand { get; }
     public ActionCommand HelpCommand { get; }
     public ActionCommand CopyCommand { get; }
-    public ActionCommand OpenLogsCommand { get; }
+    public ActionCommand CaptureLogCommand { get; }
+    private LogcatCapture? capture;
+    private string? pendingReport;
+    private DateTime reportStoppedAt;
+    private bool captureChanging;
+    public bool ReportOperationBusy => captureChanging;
+    public bool HasReportToSave => capture != null || pendingReport != null;
+    public string CaptureLogTitle => capture != null ? "پایان گزارش‌گیری" :
+        pendingReport != null ? "ذخیره گزارش" : "شروع گزارش‌گیری";
     public ActionCommand HomeCommand { get; }
     public event Action<string>? LogLine;
     public event Action<int>? StepProgressed;
@@ -76,15 +84,16 @@ public sealed class MainViewModel : Observable, IDisposable
     {
         log = new SessionLog(Path.Combine(dataRoot, "Logs"));
         log.LineAdded += line => LogLine?.Invoke(line);
-        UninstallCommand = new ActionCommand(async () => await OpenUninstallAsync(), () => !Busy && bundle != null);
-        ApkCommand = new ActionCommand(async () => await OpenApkAsync(), () => !Busy && bundle != null);
-        MyketCommand = new ActionCommand(async () => await OpenApkAsync("myket"), () => !Busy && bundle != null);
-        GboardCommand = new ActionCommand(async () => await OpenApkAsync("gboard"), () => !Busy && bundle != null);
-        RebootCommand = new ActionCommand(async () => await RebootAsync(), () => !Busy && bundle != null);
-        InstallCommand = new ActionCommand(async () => await InstallAsync(), () => !Busy && bundle != null);
+        UninstallCommand = new ActionCommand(async () => await OpenUninstallAsync(), () => !Busy && !captureChanging && bundle != null);
+        ApkCommand = new ActionCommand(async () => await OpenApkAsync(), () => !Busy && !captureChanging && bundle != null);
+        MyketCommand = new ActionCommand(async () => await OpenApkAsync("myket"), () => !Busy && !captureChanging && bundle != null);
+        GboardCommand = new ActionCommand(async () => await OpenApkAsync("gboard"), () => !Busy && !captureChanging && bundle != null);
+        RebootCommand = new ActionCommand(async () => await RebootAsync(), () => !Busy && !captureChanging && bundle != null);
+        InstallCommand = new ActionCommand(async () => await InstallAsync(), () => !Busy && !captureChanging && bundle != null);
         HelpCommand = new ActionCommand(() => new ConnectionHelpWindow { Owner = Application.Current.MainWindow }.ShowDialog());
         CopyCommand = new ActionCommand(() => Guard(() => Clipboard.SetText(log.ReadText())));
-        OpenLogsCommand = new ActionCommand(() => Guard(() => Process.Start(new ProcessStartInfo(log.DirectoryPath) { UseShellExecute = true })));
+        CaptureLogCommand = new ActionCommand(async () => await ToggleCaptureAsync(),
+            () => !captureChanging && (HasReportToSave || (!Busy && !starting && bundle != null)));
         HomeCommand = new ActionCommand(() => { progressPage = false; PagesChanged(); }, () => !Busy);
         timer.Tick += async (_, _) => await ScanAsync();
     }
@@ -98,7 +107,7 @@ public sealed class MainViewModel : Observable, IDisposable
             adb = new AdbClient(bundle.File("adb.exe"), log);
             VersionText = "نسخهٔ " + bundle.Manifest.AppVersion; Notify(nameof(VersionText));
             log.Write($"Embedded payload verified; app={bundle.Manifest.AppVersion}; APK SHA256={bundle.Manifest.Files["app.apk"]}");
-            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh();
+            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh(); CaptureLogCommand.Refresh();
             await ScanAsync(); timer.Start();
         }
         catch (Exception e)
@@ -202,11 +211,89 @@ public sealed class MainViewModel : Observable, IDisposable
         catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(e.Message, "راه‌اندازی مجدد"); }
         finally { starting = false; Busy = false; PagesChanged(); await ScanAsync(); timer.Start(); }
     }
+    private void CaptureChanged()
+    {
+        Notify(nameof(CaptureLogTitle));
+        CaptureLogCommand.Refresh();
+        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh();
+        MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh();
+    }
+    private async Task ToggleCaptureAsync()
+    {
+        if (captureChanging) return;
+        if (HasReportToSave) { await FinishCaptureAsync(); return; }
+        if (Busy || starting || bundle == null || adb == null) return;
+        captureChanging = true; CaptureChanged();
+        try {
+            while (scanning) await Task.Delay(50);
+            await ScanAsync();
+            if (device == null) { HelpCommand.Execute(null); return; }
+            var directory = Path.Combine(dataRoot, "Reports");
+            Directory.CreateDirectory(directory);
+            var path = Path.Combine(directory, "capture-" + Guid.NewGuid().ToString("N") + ".txt");
+            capture = await LogcatCapture.StartAsync(bundle.File("adb.exe"), device.Serial, path, adb);
+            log.Write("Logcat capture started: " + path);
+            _ = ObserveCaptureAsync(capture);
+        }
+        catch (Exception e) {
+            log.Write(e.ToString());
+            MessageBox.Show(Application.Current.MainWindow, "شروع گزارش‌گیری ناموفق بود. اتصال خودرو را بررسی کنید.\n" + e.Message, "گزارش‌گیری");
+        }
+        finally { captureChanging = false; CaptureChanged(); }
+    }
+    private async Task ObserveCaptureAsync(LogcatCapture session)
+    {
+        var result = await session.Completion;
+        if (disposed || capture != session || result.RequestedStop) return;
+        capture = null; pendingReport = session.FilePath; reportStoppedAt = DateTime.Now;
+        session.Dispose(); CaptureChanged();
+        log.Write($"Logcat interrupted; exit={result.ExitCode}; error={result.Error}; partial={pendingReport}");
+        MessageBox.Show(Application.Current.MainWindow,
+            "گزارش‌گیری متوقف شد؛ ممکن است ارتباط خودرو قطع شده باشد. گزارش ثبت‌شده تا این لحظه قابل ذخیره است.",
+            "گزارش‌گیری", MessageBoxButton.OK, MessageBoxImage.Information);
+        // StartAsync may still be unwinding after an immediate device disconnect.
+        while (captureChanging && !disposed) await Task.Delay(50);
+        if (!disposed) await FinishCaptureAsync();
+    }
+    public async Task FinishCaptureAsync()
+    {
+        if (captureChanging) return;
+        captureChanging = true; CaptureChanged();
+        try {
+            if (capture is { } session) {
+                reportStoppedAt = DateTime.Now;
+                var result = await session.StopAsync();
+                pendingReport = session.FilePath; capture = null; session.Dispose();
+                log.Write($"Logcat stopped; exit={result.ExitCode}; error={result.Error}; file={pendingReport}");
+                if (result.Error != null) MessageBox.Show(Application.Current.MainWindow,
+                    "ثبت گزارش با خطا مواجه شد؛ بخش ذخیره‌شده قابل دریافت است.\n" + result.Error, "گزارش‌گیری");
+            }
+            if (pendingReport == null) return;
+            var dialog = new Microsoft.Win32.SaveFileDialog {
+                Title = "ذخیره گزارش خودرو", Filter = "Text log (*.txt)|*.txt", DefaultExt = ".txt",
+                AddExtension = true, OverwritePrompt = true,
+                FileName = $"log-{reportStoppedAt:yyyy-MM-dd_HH-mm-ss}.txt"
+            };
+            if (dialog.ShowDialog(Application.Current.MainWindow) != true) return;
+            var source = pendingReport;
+            await Task.Run(() => File.Copy(source, dialog.FileName, overwrite: true));
+            log.Write("Vehicle log saved: " + dialog.FileName);
+            var temporary = pendingReport; pendingReport = null;
+            try { File.Delete(temporary); } catch (Exception e) when (e is IOException or UnauthorizedAccessException) { log.Write(e.Message); }
+            MessageBox.Show(Application.Current.MainWindow, "گزارش ذخیره شد.", "گزارش‌گیری");
+        }
+        catch (Exception e) {
+            log.Write(e.ToString());
+            MessageBox.Show(Application.Current.MainWindow,
+                "ذخیره گزارش ناموفق بود. گزارش موقت حفظ شده؛ دوباره ذخیره را امتحان کنید.\n" + e.Message, "گزارش‌گیری");
+        }
+        finally { captureChanging = false; CaptureChanged(); }
+    }
     private void PagesChanged()
     {
         foreach (var name in new[] { nameof(HomeVisibility), nameof(ProgressVisibility), nameof(ProgressTitle), nameof(ProgressSubtitle), nameof(CanLeave) }) Notify(name);
-        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh(); HomeCommand.Refresh();
+        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh(); CaptureLogCommand.Refresh(); HomeCommand.Refresh();
     }
-    public void Dispose() { disposed = true; timer.Stop(); /* ADB may still own its executable: retain verified cache for diagnostics. */ }
+    public void Dispose() { disposed = true; timer.Stop(); capture?.Dispose(); /* ADB may still own its executable: retain verified cache for diagnostics. */ }
 }
 

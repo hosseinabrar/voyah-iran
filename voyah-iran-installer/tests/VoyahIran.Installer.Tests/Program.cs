@@ -2,10 +2,32 @@ using System.IO.Compression;
 using System.Text.Json;
 using VoyahIran.Installer.Core;
 
+// Child-process fixture: behaves like a streaming adb logcat, without any device.
+if (args.Contains("logcat")) {
+    Console.OutputEncoding = System.Text.Encoding.UTF8;
+    var markerFile = args[Array.IndexOf(args, "-s") + 1];
+    Console.WriteLine("old buffered log");
+    var deadline = DateTime.UtcNow.AddSeconds(10);
+    while (!File.Exists(markerFile) && DateTime.UtcNow < deadline) await Task.Delay(20);
+    if (!File.Exists(markerFile)) return;
+    Console.WriteLine("I VoyahIranCapture: " + File.ReadAllText(markerFile));
+    Console.WriteLine("گزارش تازه خودرو");
+    Console.Error.WriteLine("diagnostic stderr");
+    if (File.Exists(markerFile + ".exit")) return;
+    await Task.Delay(TimeSpan.FromSeconds(30));
+    return;
+}
 var root = Path.Combine(Path.GetTempPath(), "VoyahIranInstallerTests", Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(root);
+await LogcatCaptureTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);
 var passed = 0;
+var boundary = new LogcatBoundary("SESSION_UNIQUE_MARKER");
+Check(!boundary.Accept("old buffered log"), "Capture excludes old backlog");
+Check(!boundary.Accept("unrelated marker"), "Capture waits for its own marker");
+Check(boundary.Accept("I VoyahIranCapture: SESSION_UNIQUE_MARKER"), "Capture starts at marker");
+Check(boundary.Accept("گزارش جدید خودرو"), "Capture accepts subsequent Unicode logs");
+
 void PasswordCase(string instant, string expected) => Check(EngineeringPassword.ForInstant(DateTimeOffset.Parse(instant, System.Globalization.CultureInfo.InvariantCulture)) == expected, "Engineering password: " + instant);
 PasswordCase("2026-09-12T00:00:00+08:00", "2938");
 PasswordCase("2026-09-14T00:00:00+08:00", "29310");

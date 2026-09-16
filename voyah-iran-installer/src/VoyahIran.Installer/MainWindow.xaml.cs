@@ -26,12 +26,18 @@ public partial class MainWindow : Window
     {
         if (!DesignerProperties.GetIsInDesignMode(this)) await model.InitializeAsync();
     }
-    private void WindowClosing(object? sender, CancelEventArgs e)
+    private async void WindowClosing(object? sender, CancelEventArgs e)
     {
         if (model.Busy)
         {
             e.Cancel = true;
             MessageBox.Show(this, "نصب در حال انجام است. تا پایان عملیات، برنامه را باز و کابل را متصل نگه دارید.", "نصب وویا ایران", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        else if (model.ReportOperationBusy) { e.Cancel = true; }
+        else if (model.HasReportToSave) {
+            e.Cancel = true;
+            await model.FinishCaptureAsync();
+            if (!model.HasReportToSave && !model.ReportOperationBusy) Close();
         }
         else model.Dispose();
     }
