@@ -82,6 +82,11 @@ esac
             Regex("(?:com\\.google\\.android\\.inputmethod\\.latin|com\\.qinggan\\.app\\.qgime(?:\\.second)?)/[A-Za-z0-9_.$]+").matches(request[4])) {
             return listOf("/system/bin/ime") + request.drop(1)
         }
+        if (request.size == 5 && request.take(4) == listOf("pm", "uninstall", "--user", "0") &&
+            request[4] != "com.abrar.voyahiran" &&
+            Regex("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+").matches(request[4])) {
+            return listOf("uninstall-user-app", request[4])
+        }
         val packagePattern = Regex("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+")
         if (request.size == 6 && request[0] == "pm" && request[1] in listOf("grant", "revoke") &&
             request[2] == "--user" && request[3] == "0" && packagePattern.matches(request[4]) &&

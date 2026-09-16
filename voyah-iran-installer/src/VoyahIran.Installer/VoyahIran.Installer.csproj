@@ -7,6 +7,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\voyah-iran.ico</ApplicationIcon>
     <DebugType>embedded</DebugType>
+    <!-- External Android inputs are invisible to Visual Studio's fast up-to-date check. -->
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../VoyahIran.Installer.Core/VoyahIran.Installer.Core.csproj" />
@@ -15,6 +17,7 @@
   </ItemGroup>
   <!-- Refresh before resource embedding, not BeforePublish (which is too late). -->
   <Target Name="PrepareVoyahPayload" BeforeTargets="PrepareForBuild" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Exec Condition="'$(Configuration)' == 'Release'" Command="powershell.exe -STA -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\build\Publish-Android.ps1&quot;" />
     <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\build\Prepare-Payload.ps1&quot;" />
   </Target>
   <Target Name="RejectStalePayloadPublish" BeforeTargets="Publish" Condition="'$(NoBuild)' == 'true'">

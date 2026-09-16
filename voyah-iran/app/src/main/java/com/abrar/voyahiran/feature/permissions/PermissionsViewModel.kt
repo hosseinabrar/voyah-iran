@@ -21,6 +21,13 @@ class PermissionsViewModel(app: Application) : AndroidViewModel(app) {
         val selected = mutable.value.selected?.takeIf { p -> apps.any { it.packageName == p } } ?: apps.firstOrNull()?.packageName
         mutable.value.copy(apps = apps, selected = selected, permissions = selected?.let(repository::permissions).orEmpty())
     }
+    fun uninstall(pkg: String) = runOperation {
+        repository.uninstall(pkg)
+        val apps = repository.apps()
+        val selected = apps.firstOrNull()?.packageName
+        mutable.value.copy(apps = apps, selected = selected,
+            permissions = selected?.let(repository::permissions).orEmpty())
+    }
     fun select(pkg: String) {
         if (mutable.value.selected == pkg || mutable.value.busy) return
         mutable.value = mutable.value.copy(selected = pkg, permissions = emptyList())

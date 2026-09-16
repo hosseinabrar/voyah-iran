@@ -20,3 +20,12 @@
 # Keep stack traces retraceable with the private per-release mapping file.
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
+
+# DPT protects Raha by mapped class ownership. Do not inline/merge recognizer
+# implementations into bridge/framework classes that must run before DPT loads.
+# Names can still be obfuscated. This is NOT a package-wide keep of the app.
+-keep,allowobfuscation class com.abrar.raha.RahaCommandRecognizer** { *; }
+-keep,allowobfuscation class com.abrar.raha.RahaPhase*Recognizer** { *; }
+-keep,allowobfuscation class com.abrar.raha.Raha*Vocabulary** { *; }
+
+-keep class com.abrar.voyahiran.core.bridge.AppInventory { public static void main(java.lang.String[]); }

@@ -14,6 +14,14 @@ class PermissionRepository(context: Context) {
     fun apps(): List<InstalledApp> = pm.getInstalledApplications(0).filter {
         it.packageName != ownPackage && (it.flags and (android.content.pm.ApplicationInfo.FLAG_SYSTEM or android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) == 0
     }.map { InstalledApp(it.packageName, it.loadLabel(pm).toString()) }.sortedBy { it.label.lowercase() }
+    fun uninstall(pkg: String) {
+        require(apps().any { it.packageName == pkg }) { "Not a removable user application" }
+        AppLog.info("Permissions", "uninstall requested package=$pkg")
+        val output = execute(listOf("pm", "uninstall", "--user", "0", pkg))
+        check(output.lineSequence().any { it.trim() == "Success" }) { "Uninstall failed: $output" }
+        check(apps().none { it.packageName == pkg }) { "Uninstall verification failed" }
+        AppLog.info("Permissions", "uninstall verified package=$pkg")
+    }
     private fun members(pkg: String): Map<String, List<String>> {
         val declared = pm.getPackageInfo(pkg, PackageManager.GET_PERMISSIONS).requestedPermissions.orEmpty().toSet()
         return linkedMapOf(

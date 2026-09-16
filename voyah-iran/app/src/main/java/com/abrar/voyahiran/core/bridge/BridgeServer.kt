@@ -49,6 +49,13 @@ object BridgeServer {
                 else try {
                     AppLog.info("BridgeServer", "request=$request operation=${command.first()} accepted")
                     when (command.first()) {
+                        "uninstall-user-app" -> {
+                            val inventory = runner.run(listOf("/system/bin/pm", "list", "packages", "-3", "--user", "0"), 15)
+                            if (inventory.exitCode != 0 || inventory.timedOut ||
+                                inventory.output.lineSequence().none { it.trim() == "package:" + command[1] })
+                                CommandResult(126, "Not a removable user application")
+                            else runner.run(listOf("/system/bin/pm", "uninstall", "--user", "0", command[1]), parsed.timeout)
+                        }
                         "subscription-vin" -> VehicleIdentity.read()
                         "subscription-session" -> BridgeSubscriptionSession.update(command[1].toInt())
                         "raha-command" -> RahaVehicleBridge.execute(command[1], command[2])

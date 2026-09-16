@@ -48,3 +48,7 @@ and vehicle action execution. These have not been tested on hardware here.
 ## Validation status
 Release Kotlin compilation passed. Full R8 verification is NOT complete: Java compilation failed reading annotation-experimental-1.4.0-api.jar from the local Gradle transform cache (AccessDeniedException), before R8 executed. No release APK was generated. Run :app:minifyReleaseWithR8 from the owner's Android Studio environment and resolve any R8 diagnostics before distributing. Vehicle testing remains required.
 
+
+## DPT integration update (2026-09-16)
+
+See `deployment/protection/README.md`. Pinned DPT v2.21.0 integration and a narrowly scoped exclusion-aware initializer patch are implemented. R8 succeeded using local JBR 25 javac; the earlier cache failure is no longer the final validation status. Boundary-preserving keep rules retain obfuscation while preventing Raha implementations from migrating into shared classes. Six guard tests passed. A 24-class unsigned structural DPT probe passed preservation checks. No signed protected release or vehicle runtime test has been completed. A fresh signed Release build is required before invoking the protection/signing scripts.

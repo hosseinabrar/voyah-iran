@@ -28,6 +28,8 @@ import com.abrar.voyahiran.feature.drivememory.presentation.DriveMemoryUiState
 import com.abrar.voyahiran.feature.drivememory.service.DriveMemoryService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.distinctUntilChanged
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -99,6 +101,18 @@ class MainActivity : ComponentActivity() {
         binding.apolloTab.setOnClickListener { selectTab(Tab.APOLLO); apollo.refresh() }
         binding.apolloPage.refresh.setOnClickListener { apollo.refresh() }
         binding.permissionsTab.setOnClickListener { selectTab(Tab.PERMISSIONS); permissions.refresh() }
+        binding.permissionsPage.uninstall.setOnClickListener {
+            val state = permissions.state.value
+            val app = state.apps.firstOrNull { it.packageName == state.selected }
+            if (app != null && !state.busy) {
+                android.app.AlertDialog.Builder(this)
+                    .setTitle(R.string.uninstall_app)
+                    .setMessage(getString(R.string.uninstall_confirm, app.label))
+                    .setNegativeButton(R.string.uninstall_cancel, null)
+                    .setPositiveButton(R.string.uninstall_app) { _, _ -> permissions.uninstall(app.packageName) }
+                    .show()
+            }
+        }
         binding.permissionsPage.refresh.setOnClickListener { permissions.refresh() }
         binding.permissionsPage.apps.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: android.widget.AdapterView<*>?) = Unit
@@ -151,6 +165,13 @@ class MainActivity : ComponentActivity() {
         selectTab(Tab.entries.firstOrNull { it.name == savedInstanceState?.getString(TAB_KEY) } ?: Tab.SETTINGS)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // Opening the UI and an in-place subscription unlock share this path.
+                launch {
+                    (application as VoyahIranApplication).subscriptions.state
+                        .map { it == com.abrar.voyahiran.feature.subscription.SubscriptionStatus.ACTIVE }
+                        .distinctUntilChanged()
+                        .collect { ready -> if (ready) onAppStartup() }
+                }
                 launch { reboot.state.collect { state ->
                     binding.settingsPage.rebootDevice.isEnabled = state == RebootState.IDLE || state == RebootState.UNCONFIRMED
                     binding.settingsPage.rebootStatus.visibility = if (state == RebootState.IDLE) View.GONE else View.VISIBLE
@@ -217,7 +238,12 @@ class MainActivity : ComponentActivity() {
             addAction(Intent.ACTION_TIMEZONE_CHANGED)
             addAction(Intent.ACTION_TIME_CHANGED)
         })
+    }
+
+    /** Keep startup refreshes here; subscription activation uses this same method. */
+    private fun onAppStartup() {
         if(!(application as VoyahIranApplication).subscriptions.allowed) return
+        com.abrar.voyahiran.core.logging.AppLog.info("App", "startup refresh after runtime activation")
         model.refresh()
         keyboard.refresh()
         if (selectedTab == Tab.PERMISSIONS) permissions.refresh()
@@ -414,6 +440,7 @@ class MainActivity : ComponentActivity() {
         }
         val position = state.apps.indexOfFirst { it.packageName == state.selected }
         if (position >= 0 && apps.selectedItemPosition != position) apps.setSelection(position)
+        uninstall.isEnabled = !state.busy && state.selected != null
         apps.isEnabled = !state.busy
         refresh.isEnabled = !state.busy
         progress.visibility = if (state.busy) View.VISIBLE else View.GONE

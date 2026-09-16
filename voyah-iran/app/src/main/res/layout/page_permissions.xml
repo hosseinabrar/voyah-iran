@@ -2,7 +2,35 @@
 <TextView style="@style/Text.Heading" android:text="@string/permissions_tab"/>
 <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/permissions_description"/>
 <TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_lg" android:text="@string/permissions_choose_app" android:labelFor="@id/apps"/>
-<Spinner android:id="@+id/apps" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:layout_marginTop="@dimen/space_md" android:contentDescription="@string/permissions_select" tools:entries="@array/preview_permission_apps"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/touch_target"
+    android:layout_marginTop="@dimen/space_md"
+    android:orientation="horizontal"
+    android:layoutDirection="rtl"
+    android:baselineAligned="false"
+    android:gravity="center_vertical">
+    <Button
+        android:id="@+id/uninstall"
+        style="@style/NavigationTab"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/space_md"
+        android:paddingStart="@dimen/space_lg"
+        android:paddingEnd="@dimen/space_lg"
+        android:background="@drawable/bg_uninstall"
+        android:backgroundTint="@null"
+        android:text="@string/uninstall_app"
+        android:textColor="@color/reboot_text"/>
+    <Spinner
+        android:id="@+id/apps"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:minHeight="@dimen/touch_target"
+        android:contentDescription="@string/permissions_select"
+        tools:entries="@array/preview_permission_apps"/>
+</LinearLayout>
 <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:indeterminate="true" android:visibility="gone"/>
 <TextView android:id="@+id/feedback" style="@style/Text.Caption" android:textColor="@color/error" android:accessibilityLiveRegion="polite" android:visibility="gone" android:text="@string/permissions_error"/>
 <Button android:id="@+id/refresh" style="@style/NavigationTab" android:text="@string/permissions_refresh"/>

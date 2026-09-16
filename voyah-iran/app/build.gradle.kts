@@ -15,8 +15,21 @@ android {
     }
     buildFeatures { viewBinding = true; buildConfig = true }
     testOptions { unitTests.isIncludeAndroidResources = true }
+    // Publish credentials live only in the invoking process environment.
+    val publishStore = System.getenv("VI_PUBLISH_KEYSTORE")
+    if (!publishStore.isNullOrBlank()) {
+        signingConfigs.create("installerPublish") {
+            storeFile = file(publishStore)
+            storePassword = System.getenv("VI_DPT_STORE_PASSWORD")
+            keyAlias = System.getenv("VI_PUBLISH_ALIAS")
+            keyPassword = System.getenv("VI_DPT_KEY_PASSWORD")
+        }
+    }
     buildTypes {
         release {
+            if (!publishStore.isNullOrBlank()) {
+                signingConfig = signingConfigs.getByName("installerPublish")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             isDebuggable = false

@@ -11,7 +11,7 @@ class RahaOverlayService : AccessibilityService() {
     override fun onServiceConnected() { super.onServiceConnected(); instance=this; Log.i("RahaFeedback", "accessibility overlay host connected") }
     override fun onAccessibilityEvent(event: AccessibilityEvent?) = Unit
     override fun onInterrupt() = Unit
-    override fun onUnbind(intent: Intent?): Boolean { Log.w("RahaFeedback", "overlay service disconnected"); if(instance===this) instance=null; return super.onUnbind(intent) }
-    override fun onDestroy() { if(instance===this) instance=null; super.onDestroy() }
+    override fun onUnbind(intent: Intent?): Boolean { Log.w("RahaFeedback", "overlay service disconnected"); if(instance===this) { instance=null; RahaFeedback.hostDisconnected() }; return super.onUnbind(intent) }
+    override fun onDestroy() { if(instance===this) { instance=null; RahaFeedback.hostDisconnected() }; super.onDestroy() }
     companion object { @Volatile var instance: RahaOverlayService? = null; private set }
 }

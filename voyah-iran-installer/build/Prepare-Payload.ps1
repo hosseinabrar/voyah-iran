@@ -7,7 +7,35 @@ param(
     [string]$AppVersion
 )
 $ErrorActionPreference = 'Stop'
-if (-not $Apk) { $Apk = Join-Path $PSScriptRoot '..\..\voyah-iran\app\release\app-release.apk' }
+$androidRoot = Join-Path $PSScriptRoot '..\..\voyah-iran'
+$roaDescriptor = 'Lcom/abrar/voyahiran/core/bridge/RoaHookManager;'
+if (-not $Apk) {
+    $runs = Join-Path $androidRoot 'build\raha-protected'
+    $signed = Get-ChildItem -LiteralPath $runs -Filter signed-report.json -Recurse -File |
+        Sort-Object { $_.Directory.Name } -Descending | Select-Object -First 1
+    if (-not $signed) { throw 'No signed protected APK. Run Protect-Raha.ps1 and Sign-Raha.ps1 before publishing.' }
+    $run = $signed.Directory.FullName
+    $signReport = Get-Content -LiteralPath $signed.FullName -Raw | ConvertFrom-Json
+    $protection = Get-Content -LiteralPath (Join-Path $run 'report.json') -Raw | ConvertFrom-Json
+    $Apk = Join-Path $run 'raha-protected.apk'
+    if ($protection.static_checks -ne 'passed' -or $protection.r8_boundaries_checked -ne $true) {
+        throw 'Protected APK checks have not passed.'
+    }
+    if ((Get-FileHash -LiteralPath $Apk -Algorithm SHA256).Hash.ToLowerInvariant() -ne $signReport.sha256) {
+        throw 'Signed protected APK hash differs from signed-report.json.'
+    }
+    $release = Join-Path $androidRoot 'app\release\app-release.apk'
+    if ((Get-FileHash -LiteralPath $release -Algorithm SHA256).Hash.ToLowerInvariant() -ne $protection.input_sha256) {
+        throw 'Android release has changed. Protect and sign the new release before publishing the installer.'
+    }
+    # R8 renames this bridge class; validate its actual descriptor in the APK.
+    $mapping = [IO.File]::ReadAllText((Join-Path $run 'mapping.txt'))
+    $mapped = [regex]::Match($mapping, '(?m)^com\.abrar\.voyahiran\.core\.bridge\.RoaHookManager -> ([^:]+):\r?$')
+    if (-not $mapped.Success) { throw 'ROA bridge mapping missing from protected release.' }
+    $roaDescriptor = 'L' + $mapped.Groups[1].Value.Replace('.', '/') + ';'
+    Write-Host "Using signed protected APK: $Apk"
+    Write-Host "Protected APK SHA256: $($signReport.sha256)"
+}
 if (-not $PlatformTools) { $PlatformTools = Join-Path $PSScriptRoot '..\tools\platform-tools' }
 if (-not (Test-Path -LiteralPath $Apk -PathType Leaf)) {
     throw "Android APK missing: $Apk. Build the signed Android release APK first (voyah-iran/app/release/app-release.apk)."
@@ -76,12 +104,14 @@ try {
     } finally { $manifestStream.Dispose(); $manifestMemory.Dispose() }
     $compatible = $false
     $hasRoa = $false
+    $hasInventory = $false
     foreach ($entry in $apkArchive.Entries | Where-Object { $_.FullName -match '^classes\d*\.dex$' }) {
         $memory = New-Object IO.MemoryStream
         $stream = $entry.Open()
-        try { $stream.CopyTo($memory); if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('Lcom/abrar/voyahiran/core/bridge/RoaHookManager;')) { $hasRoa = $true }; if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('voyah_iran_ime_override')) { $compatible = $true } }
+        try { $stream.CopyTo($memory); if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('Lcom/abrar/voyahiran/core/bridge/AppInventory;')) { $hasInventory = $true }; if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains($roaDescriptor)) { $hasRoa = $true }; if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('voyah_iran_ime_override')) { $compatible = $true } }
         finally { $stream.Dispose(); $memory.Dispose() }
     }
+    if (-not $hasInventory) { throw 'Rebuild, protect and sign the updated Android APK: application inventory helper is missing.' }
     if (-not $compatible -or -not $hasRoa) { throw 'Build the updated Android release APK first: the selected APK does not contain the keyboard and ROA bridge.' }
 } finally { $apkArchive.Dispose() }
 $destination = Join-Path $PSScriptRoot '..\payload\bundle.zip'

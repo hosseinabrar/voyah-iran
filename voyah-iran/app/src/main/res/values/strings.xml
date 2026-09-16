@@ -86,10 +86,10 @@
     <string name="apollo_emergency_lane">حفظ اضطراری لاین</string>
     <string name="apollo_unknown">%1$s — نامشخص</string>
     <string name="apollo_refresh">به‌روزرسانی وضعیت</string>
-    <string name="permissions_tab">مجوز نرم‌افزارها</string>
+    <string name="permissions_tab">حذف و مجوز برنامه‌ها</string>
     <string name="permissions_select">انتخاب نرم‌افزار</string>
     <string name="permissions_refresh">تازه‌سازی</string>
-    <string name="permissions_error">خواندن یا تغییر دسترسی کامل نشد؛ وضعیت را تازه‌سازی کنید.</string>
+    <string name="permissions_error">عملیات کامل نشد؛ وضعیت را تازه‌سازی و دوباره امتحان کنید.</string>
     <string name="permissions_empty">مجوز قابل تغییری وجود ندارد.</string>
     <string name="permissions_choose_app">انتخاب برنامه</string>
     <string name="permissions_description">برنامه را انتخاب کنید و مجوزهای موردنیازش را فعال کنید.</string>
@@ -113,6 +113,9 @@
     <string name="rear_camera_reboot_title">راه‌اندازی مجدد لازم است</string>
     <string name="rear_camera_reboot_message">برای فعال‌شدن دوربین پایش صندلی‌های عقب، دستگاه باید دوباره راه‌اندازی شود. اکنون راه‌اندازی مجدد شود؟ خودرو متوقف باشد.</string>
     <string name="reboot_later">بعداً</string>
+    <string name="uninstall_app">حذف برنامه</string>
+    <string name="uninstall_confirm">برنامهٔ «%1$s» و اطلاعات آن حذف شود؟</string>
+    <string name="uninstall_cancel">انصراف</string>
 </resources>
 
 

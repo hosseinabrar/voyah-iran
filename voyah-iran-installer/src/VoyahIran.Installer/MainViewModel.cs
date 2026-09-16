@@ -27,9 +27,12 @@ public sealed class StepViewModel(string title) : Observable
 {
     public string Title { get; } = title;
     public string Symbol { get; private set; } = "○";
+    public bool IsRunning { get; private set; }
     public Brush Color { get; private set; } = Brushes.SlateGray;
     public void Set(PhaseState? state)
     {
+        IsRunning = state == PhaseState.Running;
+        Notify(nameof(IsRunning));
         Symbol = state switch { PhaseState.Running => "◌", PhaseState.Succeeded => "✓", PhaseState.Failed => "✕", _ => "○" };
         Color = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(state switch { PhaseState.Running => "#F3C969", PhaseState.Succeeded => "#53D3AE", PhaseState.Failed => "#FF8B8B", _ => "#8393A5" }));
         Notify(nameof(Symbol)); Notify(nameof(Color));
@@ -56,9 +59,10 @@ public sealed class MainViewModel : Observable, IDisposable
     public string ProgressSubtitle { get; private set; } = "کابل را تا پایان عملیات جدا نکنید.";
     public Visibility HomeVisibility => progressPage ? Visibility.Collapsed : Visibility.Visible;
     public Visibility ProgressVisibility => progressPage ? Visibility.Visible : Visibility.Collapsed;
-    public ObservableCollection<StepViewModel> Steps { get; } = new(new[] { "شناسایی خودرو", "روت، آماده‌سازی سیستم و بکاپ", "ساخت و بررسی پچ کیبورد", "نصب برنامه", "نصب واسط دسترسی", "اصلاح services.jar", "راه‌اندازی مجدد خودرو", "بررسی نهایی نصب" }.Select(t => new StepViewModel(t)));
+    public ObservableCollection<StepViewModel> Steps { get; } = new(new[] { "شناسایی خودرو", "روت، آماده‌سازی سیستم و بکاپ", "ساخت و بررسی پچ کیبورد (ممکن است چند دقیقه طول بکشد)", "نصب برنامه", "نصب واسط دسترسی", "اصلاح services.jar", "راه‌اندازی مجدد خودرو", "بررسی نهایی نصب" }.Select(t => new StepViewModel(t)));
     public ActionCommand InstallCommand { get; }
     public ActionCommand ApkCommand { get; }
+    public ActionCommand UninstallCommand { get; }
     public ActionCommand MyketCommand { get; }
     public ActionCommand GboardCommand { get; }
     public ActionCommand RebootCommand { get; }
@@ -72,6 +76,7 @@ public sealed class MainViewModel : Observable, IDisposable
     {
         log = new SessionLog(Path.Combine(dataRoot, "Logs"));
         log.LineAdded += line => LogLine?.Invoke(line);
+        UninstallCommand = new ActionCommand(async () => await OpenUninstallAsync(), () => !Busy && bundle != null);
         ApkCommand = new ActionCommand(async () => await OpenApkAsync(), () => !Busy && bundle != null);
         MyketCommand = new ActionCommand(async () => await OpenApkAsync("myket"), () => !Busy && bundle != null);
         GboardCommand = new ActionCommand(async () => await OpenApkAsync("gboard"), () => !Busy && bundle != null);
@@ -93,7 +98,7 @@ public sealed class MainViewModel : Observable, IDisposable
             adb = new AdbClient(bundle.File("adb.exe"), log);
             VersionText = "نسخهٔ " + bundle.Manifest.AppVersion; Notify(nameof(VersionText));
             log.Write($"Embedded payload verified; app={bundle.Manifest.AppVersion}; APK SHA256={bundle.Manifest.Files["app.apk"]}");
-            InstallCommand.Refresh(); ApkCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh();
+            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh();
             await ScanAsync(); timer.Start();
         }
         catch (Exception e)
@@ -163,6 +168,20 @@ public sealed class MainViewModel : Observable, IDisposable
         catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(e.Message, "نصب APK"); }
         finally { starting = false; Busy = false; PagesChanged(); timer.Start(); }
     }
+    private async Task OpenUninstallAsync()
+    {
+        if (Busy || starting || adb == null || bundle == null) return;
+        starting = true;
+        try {
+            while (scanning) await Task.Delay(50);
+            await ScanAsync();
+            if (device == null) { HelpCommand.Execute(null); return; }
+            Busy = true; timer.Stop(); PagesChanged();
+            new UninstallWindow(adb, log, device.Serial, bundle.File("app.apk")) { Owner = Application.Current.MainWindow }.ShowDialog();
+        }
+        catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(e.Message, "حذف APK"); }
+        finally { starting = false; Busy = false; PagesChanged(); timer.Start(); }
+    }
     private async Task RebootAsync()
     {
         if (Busy || starting || adb == null) return;
@@ -186,7 +205,7 @@ public sealed class MainViewModel : Observable, IDisposable
     private void PagesChanged()
     {
         foreach (var name in new[] { nameof(HomeVisibility), nameof(ProgressVisibility), nameof(ProgressTitle), nameof(ProgressSubtitle), nameof(CanLeave) }) Notify(name);
-        InstallCommand.Refresh(); ApkCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh(); HomeCommand.Refresh();
+        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh(); HomeCommand.Refresh();
     }
     public void Dispose() { disposed = true; timer.Stop(); /* ADB may still own its executable: retain verified cache for diagnostics. */ }
 }
