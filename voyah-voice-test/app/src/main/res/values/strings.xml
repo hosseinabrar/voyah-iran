@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Voyah Voice Test</string>
-    <string name="title">تست گفتار فارسی</string>
+    <string name="app_name">Raha</string>
+    <string name="title">رها — آزمایش دستیار صوتی</string>
     <string name="subtitle">دکمه را بزنید و یک جمله بگویید.</string>
     <string name="loading">بارگذاری موتور؛ کمی صبر کنید…</string>
     <string name="ready">آمادهٔ شنیدن • آفلاین</string>
@@ -12,9 +12,9 @@
     <string name="no_speech">گفتاری تشخیص داده نشد؛ دوباره امتحان کنید.</string>
     <string name="permission">برای شنیدن صدا، مجوز میکروفون را در تنظیمات برنامه فعال کنید.</string>
     <string name="error">خطا در دریافت یا پردازش صدا؛ دوباره امتحان کنید.</string>
-    <string name="model_error">مدل بارگذاری نشد؛ موتور دیگری را انتخاب کنید.</string>
-    <string name="footer">کاملاً آفلاین • نتیجه پس از ۵ ثانیه پاک می‌شود</string>
-    <string name="engine_label">روش پردازش Vosk</string>
+    <string name="model_error">مدل بارگذاری نشد؛ برنامه را دوباره باز کنید.</string>
+    <string name="footer">برای لغو شنود، هنگام نمایش انیمیشن صفحه را لمس کنید.</string>
+    <string name="engine_label">موتور و روش تشخیص گفتار</string>
     <string name="decoding">میکروفون بسته شد؛ در حال تبدیل صدا به متن…</string>
     <string name="cancelling">در حال پایان‌دادن پردازش…</string>
     <string name="repeat_audio">تست صدای قبلی با روش انتخاب‌شده</string>
@@ -26,9 +26,12 @@
     <string name="command_unknown">نامفهوم</string>
     <string name="command_preview">نمایش آزمایشی؛ فرمانی روی خودرو اجرا نمی‌شود.</string>
     <string-array name="engines">
-        <item>حالت فعلی • مکث ۹۰۰ میلی‌ثانیه</item>
-        <item>مکث کوتاه • ۴۵۰ میلی‌ثانیه</item>
-        <item>پردازش زنده • مکث ۴۵۰ میلی‌ثانیه</item>
+        <item>Vosk • حالت فعلی • مکث ۹۰۰ میلی‌ثانیه</item>
+        <item>Vosk • مکث کوتاه • ۴۵۰ میلی‌ثانیه</item>
+        <item>Vosk • پردازش زنده • مکث ۴۵۰ میلی‌ثانیه</item>
+        <item>شنوا ریزه • پردازش زنده • INT8</item>
+        <item>شنوا کوچیک • پردازش زنده • INT8</item>
+        <item>Vosk مخصوص خودرو • پردازش زنده</item>
     </string-array>
     <string name="share_samples">ارسال نمونه‌ها (%1$d)</string>
     <string name="feedback_title">این جمله را ذخیره کنیم؟</string>
@@ -45,4 +48,11 @@
     <string name="share_confirm_message">فقط اگر فایل را فرستاده‌اید تأیید کنید تا نمونه‌های ارسال‌شده از لیست پاک شوند.</string>
     <string name="share_done">بله، ارسال شد</string>
     <string name="share_keep">نه، نگه دار</string>
+    <string name="wake_hey">فعال‌سازی با «هی رها»</string>
+    <string name="wake_hello">فعال‌سازی با «سلام رها»</string>
+    <string name="wake_name">فعال‌سازی با «رها»</string>
+    <string name="wake_idle">دریافت فرمان غیرفعال</string>
+    <string name="wake_waiting">منتظر عبارت بیدارباش</string>
+    <string name="wake_receiving">در حال دریافت فرمان</string>
+    <string name="review_unknown">بررسی و ذخیرهٔ جملهٔ نامفهوم</string>
 </resources>

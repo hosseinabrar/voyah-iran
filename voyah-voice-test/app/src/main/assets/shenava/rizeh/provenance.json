@@ -1,0 +1,16 @@
+{
+  "repo": "mah92/sherpa-onnx-nemo-ctc-fa-shenava-rizeh-v1.0-streaming-int8-2026-06-26",
+  "revision": "2cab4eb7eaa4fdd7a02c19426001262595f2985c",
+  "files": [
+    {
+      "file": "model.int8.onnx",
+      "size": 38335664,
+      "sha256": "889a4fdfeb25ea0858493294842d36c637acf391f7f49f6e98881709a468b6bc"
+    },
+    {
+      "file": "tokens.txt",
+      "size": 12236,
+      "sha256": "8e192963f6e666dfa5721e5cbd4710bc1ef592460a45f08cefc94b2db16a6954"
+    }
+  ]
+}

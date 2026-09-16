@@ -38,9 +38,22 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        com.abrar.voyahiran.feature.subscription.SubscriptionService.start(this)
+        if(!(application as VoyahIranApplication).subscriptions.allowed) {
+            startActivity(Intent(this,com.abrar.voyahiran.feature.subscription.SubscriptionActivity::class.java).putExtra("userLaunch",true))
+            return
+        }
         if (projectNotice?.isShowing != true) {
             projectNotice = ProjectNoticeDialog(this).also { it.show() }
         }
+    }
+
+    override fun dispatchTouchEvent(event: android.view.MotionEvent): Boolean {
+        if(!(application as VoyahIranApplication).subscriptions.allowed) {
+            if(event.action==android.view.MotionEvent.ACTION_DOWN) startActivity(Intent(this,com.abrar.voyahiran.feature.subscription.SubscriptionActivity::class.java).putExtra("userLaunch",true))
+            return true
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     override fun onPause() {
@@ -79,6 +92,8 @@ class MainActivity : ComponentActivity() {
                 .setPositiveButton(R.string.reboot_label) { _, _ -> reboot.reboot() }
                 .show()
         }
+        com.abrar.voyahiran.feature.voice.VoicePageController(this, binding.voicePage).bind()
+        binding.voiceTab.setOnClickListener { selectTab(Tab.VOICE) }
         binding.settingsTab.setOnClickListener { selectTab(Tab.SETTINGS) }
         binding.comfortTab.setOnClickListener { selectTab(Tab.COMFORT) }
         binding.apolloTab.setOnClickListener { selectTab(Tab.APOLLO); apollo.refresh() }
@@ -202,6 +217,7 @@ class MainActivity : ComponentActivity() {
             addAction(Intent.ACTION_TIMEZONE_CHANGED)
             addAction(Intent.ACTION_TIME_CHANGED)
         })
+        if(!(application as VoyahIranApplication).subscriptions.allowed) return
         model.refresh()
         keyboard.refresh()
         if (selectedTab == Tab.PERMISSIONS) permissions.refresh()
@@ -227,6 +243,8 @@ class MainActivity : ComponentActivity() {
         if (tab == Tab.APOLLO || tab == Tab.ABOUT) { selectTab(Tab.SETTINGS); return }
         com.abrar.voyahiran.core.logging.AppLog.info("UI", "tab=$tab")
         selectedTab = tab
+        binding.voiceTab.isSelected = tab == Tab.VOICE
+        binding.voicePage.root.visibility = if (tab == Tab.VOICE) View.VISIBLE else View.GONE
         binding.settingsTab.isSelected = tab == Tab.SETTINGS
         binding.comfortTab.isSelected = tab == Tab.COMFORT
         binding.apolloTab.isSelected = tab == Tab.APOLLO
@@ -425,7 +443,7 @@ class MainActivity : ComponentActivity() {
             permissions.set(com.abrar.voyahiran.feature.permissions.AppPermission("all", "", allGranted), wanted)
         }
     }
-    private enum class Tab { SETTINGS, COMFORT, APOLLO, PERMISSIONS, ABOUT }
+    private enum class Tab { SETTINGS, COMFORT, VOICE, APOLLO, PERMISSIONS, ABOUT }
     companion object { private const val TAB_KEY = "selected_tab" }
 }
 

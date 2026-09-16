@@ -14,6 +14,30 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>): List<String>? {
+        if(request==listOf("subscription-vin","read")) return request
+        if(request.size==2 && request[0]=="subscription-session" && request[1].toIntOrNull() in 0..90) return request
+        if(request==listOf("subscription-ui","open")) return listOf("/system/bin/am","start","--user","0","--display","0","-n","com.abrar.voyahiran/.feature.subscription.SubscriptionActivity","--activity-new-task","--activity-clear-top")
+        if (request == listOf("raha-overlay", "enable")) return listOf("/system/bin/sh", "-c", """
+set -e
+/system/bin/appops set --user 0 com.abrar.voyahiran SYSTEM_ALERT_WINDOW allow
+service=com.abrar.voyahiran/com.abrar.raha.feedback.RahaOverlayService
+current=${'$'}(settings --user 0 get secure enabled_accessibility_services)
+[ "${'$'}current" != null ] || current=
+case ":${'$'}current:" in
+  *":${'$'}service:"*) ;;
+  *) settings --user 0 put secure enabled_accessibility_services "${'$'}{current:+${'$'}current:}${'$'}service" ;;
+esac
+settings --user 0 put secure accessibility_enabled 1
+actual=${'$'}(settings --user 0 get secure enabled_accessibility_services)
+case ":${'$'}actual:" in
+  *":${'$'}service:"*) echo RAHA_OVERLAY_CONFIGURED ;;
+  *) echo RAHA_OVERLAY_CONFIGURATION_FAILED; exit 1 ;;
+esac
+""".trimIndent())
+        if (request == listOf("raha-service", "start")) return listOf("/system/bin/am", "start-foreground-service", "--user", "0",
+            "-n", "com.abrar.voyahiran/.feature.voice.RahaService")
+        if (request.size == 3 && request[0] == "raha-command" &&
+            com.abrar.raha.RahaAction.entries.any { it.name == request[1] } && request[2].length <= 256) return request
         if (request == listOf("roa-config", "enable")) return request
         // OEM VehicleInfoSettingActivity -> DeviceUtils.rebootH56_97System().
         if (request == listOf("vehicle-config", "restart"))

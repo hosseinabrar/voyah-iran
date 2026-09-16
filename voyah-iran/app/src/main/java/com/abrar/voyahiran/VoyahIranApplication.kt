@@ -13,13 +13,15 @@ import com.abrar.voyahiran.feature.drivememory.data.PreferencesDriveMemoryStore
 import com.abrar.voyahiran.feature.drivememory.presentation.DriveMemoryController
 
 class VoyahIranApplication : Application() {
+    val subscriptions by lazy { com.abrar.voyahiran.feature.subscription.SubscriptionManager(this) }
     override fun onCreate() {
         super.onCreate()
         com.abrar.voyahiran.core.bridge.BridgeClient.configure(filesDir)
     }
     val timeZoneRepository: TimeZoneRepository by lazy { SystemTimeZoneRepository(AndroidSystemTimeZonePort(this, ProcessCommandRunner())) }
     val starBackup by lazy { PreferencesStarBackup(getSharedPreferences("steering_recovery", MODE_PRIVATE)) }
-    val steeringController by lazy { SteeringController(StarBackRepository(QingganStarMapping(this), starBackup)) }
+    val steeringKeys by lazy { QingganStarMapping(this) }
+    val steeringController by lazy { SteeringController(StarBackRepository(steeringKeys, starBackup)) { subscriptions.allowed } }
     val driveMemoryController by lazy {
         DriveMemoryController(this, PreferencesDriveMemoryStore(getSharedPreferences("drive_memory", MODE_PRIVATE)),
             PreferencesDriveMemoryStore(getSharedPreferences("energy_recovery_memory", MODE_PRIVATE)))

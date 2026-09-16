@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{22EADE49-A3EF-4940-9773-095470EDB143}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoyahIran.Subscriptions", "src\VoyahIran.Subscriptions\VoyahIran.Subscriptions.csproj", "{516DBDA0-5D79-45C0-B48F-EECCDEFAAC71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{BDC5FCDC-255D-4A10-B775-3475437106C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoyahIran.KeyTool", "tools\VoyahIran.KeyTool\VoyahIran.KeyTool.csproj", "{3B7B63A6-4B03-449C-A646-53ED312CF03B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{960A8111-96D1-4609-9245-47FE816E0FB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoyahIran.Subscriptions.Tests", "tests\VoyahIran.Subscriptions.Tests\VoyahIran.Subscriptions.Tests.csproj", "{9E2EBD10-98FD-4AE8-B430-EA91D4A36766}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{516DBDA0-5D79-45C0-B48F-EECCDEFAAC71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{516DBDA0-5D79-45C0-B48F-EECCDEFAAC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{516DBDA0-5D79-45C0-B48F-EECCDEFAAC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{516DBDA0-5D79-45C0-B48F-EECCDEFAAC71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B7B63A6-4B03-449C-A646-53ED312CF03B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B7B63A6-4B03-449C-A646-53ED312CF03B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B7B63A6-4B03-449C-A646-53ED312CF03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B7B63A6-4B03-449C-A646-53ED312CF03B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E2EBD10-98FD-4AE8-B430-EA91D4A36766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E2EBD10-98FD-4AE8-B430-EA91D4A36766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E2EBD10-98FD-4AE8-B430-EA91D4A36766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E2EBD10-98FD-4AE8-B430-EA91D4A36766}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{516DBDA0-5D79-45C0-B48F-EECCDEFAAC71} = {22EADE49-A3EF-4940-9773-095470EDB143}
+		{3B7B63A6-4B03-449C-A646-53ED312CF03B} = {BDC5FCDC-255D-4A10-B775-3475437106C6}
+		{9E2EBD10-98FD-4AE8-B430-EA91D4A36766} = {960A8111-96D1-4609-9245-47FE816E0FB0}
+	EndGlobalSection
+EndGlobal

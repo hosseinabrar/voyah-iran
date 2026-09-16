@@ -1,0 +1,11 @@
+<resources>
+    <string name="raha_tab">دستیار صوتی</string>
+    <string name="raha_enable">فعال سازی دستیار صوتی «رها»</string>
+    <string name="raha_wake_hint">برای فعال سازی دستیار صوتی بدون فشردن دکمه، گزینه‌های زیر را فعال کنید</string>
+    <string name="raha_wake_hey">فعال سازی دستیار صوتی با گفتن «هی رها»</string>
+    <string name="raha_wake_hello">فعال سازی دستیار صوتی با گفتن «سلام رها»</string>
+    <string name="raha_wake_name">فعال سازی دستیار صوتی با گفتن «رها»</string>
+    <string name="raha_mic_denied">برای استفاده از رها، دسترسی میکروفون را فعال کنید.</string>
+    <string name="raha_notification">دستیار صوتی رها فعال است</string>
+    <string name="raha_error">رها با خطا مواجه شد. دوباره امتحان کنید.</string>
+</resources>

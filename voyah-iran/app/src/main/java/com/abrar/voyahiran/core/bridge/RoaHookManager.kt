@@ -87,6 +87,7 @@ class RoaHookManager {
         }.getOrDefault(false) }.orEmpty()
     }
     private fun tick() {
+        if(!BridgeSubscriptionSession.active) { stop();return }
         if (!flag.exists()) { if (child != null) stop(); return }
         verifyFiles()
         val current = pid()

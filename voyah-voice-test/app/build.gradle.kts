@@ -7,8 +7,8 @@ android {
         applicationId = "com.abrar.voyahvoicetest"
         minSdk = 26
         targetSdk = 36
-        versionCode = 5
-        versionName = "0.5.0"
+        versionCode = 7
+        versionName = "0.6.1"
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86") }
     }
     buildFeatures { viewBinding = true }
@@ -19,9 +19,10 @@ android {
     androidResources { noCompress += listOf("zip", "onnx") }
 }
 dependencies {
+    implementation(project(":raha-feedback"))
     implementation(project(":command-core"))
     implementation("androidx.activity:activity-ktx:1.10.1")
-    implementation("com.alphacephei:vosk-android:0.3.75@aar")
-    implementation("net.java.dev.jna:jna:5.18.1@aar")
-    implementation(files("libs/sherpa-onnx-1.13.8.aar"))
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
+    implementation(project(":raha-runtime"))
+    implementation(files("../../voyah-iran/raha-runtime/libs/sherpa-onnx-1.13.8.aar"))
 }

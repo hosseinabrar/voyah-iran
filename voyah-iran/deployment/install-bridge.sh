@@ -16,6 +16,41 @@ actual=$(sha256sum "$apk" | cut -d ' ' -f 1)
 grep -Eq '^[0-9a-f]{64}$' "$stage.token" || exit 17
 grep -q 'service voyahiran_bridge ' "$stage.rc" || exit 18
 
+# Apply only permissions used by Voyah Iran, for the head unit's Android user 0.
+# Both Windows and PowerShell installers execute this same script as root.
+echo 'VOYAH_PERMISSIONS: granting microphone, overlay and background execution'
+pm grant --user 0 "$package" android.permission.RECORD_AUDIO
+microphone=$(dumpsys package "$package" | awk '
+    /^[[:space:]]*User [0-9]+:/ { user0=($0 ~ /^[[:space:]]*User 0:/) }
+    user0 && /android[.]permission[.]RECORD_AUDIO: granted=true/ { print "granted"; exit }
+')
+[ "$microphone" = granted ] || { echo 'ERROR: microphone permission was not granted for user 0'; exit 24; }
+echo 'VOYAH_PERMISSION_OK: RECORD_AUDIO user=0'
+for op in RECORD_AUDIO SYSTEM_ALERT_WINDOW RUN_IN_BACKGROUND RUN_ANY_IN_BACKGROUND; do
+    cmd appops set --user 0 "$package" "$op" allow
+    result=$(cmd appops get --user 0 "$package" "$op")
+    echo "$result"
+    echo "$result" | grep -Eq "$op: *allow([;[:space:]]|$)" ||
+        { echo "ERROR: app-op verification failed: $op"; exit 25; }
+    echo "VOYAH_PERMISSION_OK: $op user=0"
+done
+dumpsys deviceidle whitelist "+$package"
+idle=$(dumpsys deviceidle whitelist "=$package" | tr -d '\r\n ')
+[ "$idle" = true ] || { echo 'ERROR: background battery exemption was not confirmed'; exit 26; }
+echo 'VOYAH_PERMISSION_OK: battery exemption'
+# Preserve all other enabled accessibility services; this host only draws Raha.
+overlay_service="$package/com.abrar.raha.feedback.RahaOverlayService"
+accessibility_services=$(settings --user 0 get secure enabled_accessibility_services)
+case "$accessibility_services" in null) accessibility_services='' ;; esac
+# Rebind only our own host after APK replacement; preserve every other service.
+other_services=$(printf '%s' "$accessibility_services" | tr ':' '\n' | awk -v own="$overlay_service" 'length && $0 != own { if(n++) printf ":"; printf "%s", $0 }')
+settings --user 0 put secure enabled_accessibility_services "$other_services"
+sleep 1
+settings --user 0 put secure enabled_accessibility_services "${other_services:+$other_services:}$overlay_service"
+settings --user 0 put secure accessibility_enabled 1
+echo 'VOYAH_PERMISSION_OK: Raha overlay host enabled'
+echo 'VOYAH_PERMISSIONS_VERIFIED' 
+
 # Check the complete ROA runtime before changing installation files.
 [ "$(getprop ro.product.cpu.abi)" = arm64-v8a ] || { echo 'ROA runtime requires arm64-v8a'; exit 22; }
 for item in inject hook; do

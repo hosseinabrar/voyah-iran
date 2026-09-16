@@ -1,0 +1,264 @@
+تهویه رو روشن کن	SET_CLIMATE_POWER
+سیستم تهویه را فعال کن	SET_CLIMATE_POWER
+رها لطفاً تهویه رو راه بنداز	SET_CLIMATE_POWER
+می‌شه تهویه رو روشن کنی؟	SET_CLIMATE_POWER
+روشن کردن تهویه	SET_CLIMATE_POWER
+تهویه رو خاموش کن	SET_CLIMATE_POWER
+دیگه باد نزنه، تهویه رو خاموش کن	SET_CLIMATE_POWER
+سیستم تهویه رو ببند	SET_CLIMATE_POWER
+تهویه را غیرفعال کن	SET_CLIMATE_POWER
+کولر رو روشن کن	SET_CLIMATE_POWER
+کولر رو خاموش کن	SET_CLIMATE_POWER
+هوا نداریم	UNKNOWN
+کمپرسور کولر رو روشن کن	SET_AC_POWER
+ای سی رو فعال کن	SET_AC_POWER
+دکمه AC رو روشن کن	SET_AC_POWER
+کمپرسور رو راه بنداز	SET_AC_POWER
+کمپرسور کولر رو خاموش کن	SET_AC_POWER
+ای سی رو قطع کن	SET_AC_POWER
+AC خاموش بشه	SET_AC_POWER
+فقط کمپرسور رو خاموش کن، فن کار کنه	SET_AC_POWER
+سرمایش حداکثری رو روشن کن	SET_MAX_COOLING
+مکس ای سی رو فعال کن	SET_MAX_COOLING
+کولر رو روی حالت مکس بذار	SET_MAX_COOLING
+حالت خنک‌سازی حداکثری رو بزن	SET_MAX_COOLING
+سرمایش حداکثری رو خاموش کن	SET_MAX_COOLING
+از مکس ای سی خارج شو	SET_MAX_COOLING
+حالت مکس کولر رو بردار	SET_MAX_COOLING
+کولر رو تا آخر زیاد کن	SET_MAX_COOLING
+خیلی سریع خنکم کن	UNKNOWN
+تهویه رو اتومات کن	SET_CLIMATE_AUTO
+کولر رو بذار روی اتو	SET_CLIMATE_AUTO
+حالت خودکار تهویه رو فعال کن	SET_CLIMATE_AUTO
+تنظیم تهویه رو خودکار کن	SET_CLIMATE_AUTO
+حالت اتومات تهویه رو خاموش کن	SET_CLIMATE_AUTO
+تهویه رو از اتو دربیار	SET_CLIMATE_AUTO
+تنظیم خودکار کولر رو غیرفعال کن	SET_CLIMATE_AUTO
+تهویه رو دستی کن	SET_CLIMATE_AUTO
+دو درجه گرم‌تر کن	ADJUST_CABIN_TEMPERATURE
+دمای کابین رو دو درجه ببر بالا	ADJUST_CABIN_TEMPERATURE
+دما دو درجه بیشتر بشه	ADJUST_CABIN_TEMPERATURE
+دو درجه خنک‌تر کن	ADJUST_CABIN_TEMPERATURE
+دمای تهویه رو دو درجه کم کن	ADJUST_CABIN_TEMPERATURE
+دما رو دو درجه پایین بیار	ADJUST_CABIN_TEMPERATURE
+سمت راننده رو گرم‌تر کن	ADJUST_CABIN_TEMPERATURE
+برای راننده دما رو ببر بالا	ADJUST_CABIN_TEMPERATURE
+سمت شاگرد رو خنک‌تر کن	ADJUST_CABIN_TEMPERATURE
+دمای طرف شاگرد رو بیار پایین	ADJUST_CABIN_TEMPERATURE
+گرممه	SET_CLIMATE_POWER
+سردمه	SET_CLIMATE_POWER
+اینجا خیلی گرمه	SET_MAX_COOLING
+دارم یخ می‌زنم	UNKNOWN
+فن رو یک پله زیاد کن	ADJUST_FAN_SPEED
+شدت باد رو یه درجه ببر بالا	ADJUST_FAN_SPEED
+باد کولر یک درجه بیشتر بشه	ADJUST_FAN_SPEED
+فن رو دو پله کم کن	ADJUST_FAN_SPEED
+سرعت فن رو دو درجه بیار پایین	ADJUST_FAN_SPEED
+باد کولر رو دو تا کمتر کن	ADJUST_FAN_SPEED
+باد کولر رو کم کن	ADJUST_FAN_SPEED
+فن آروم‌تر کار کنه	ADJUST_FAN_SPEED
+شدت باد رو کمتر کن	ADJUST_FAN_SPEED
+باد رو بیشتر کن	ADJUST_FAN_SPEED
+فن رو تندتر کن	ADJUST_FAN_SPEED
+سرعت فن رو ببر بالا	ADJUST_FAN_SPEED
+باد رو بده به صورتم	SET_AIRFLOW_DIRECTION
+جهت باد روی صورت باشه	SET_AIRFLOW_DIRECTION
+تهویه رو بذار روی صورت	SET_AIRFLOW_DIRECTION
+باد رو بده پایین پام	SET_AIRFLOW_DIRECTION
+باد کولر به پاها بخوره	SET_AIRFLOW_DIRECTION
+جهت باد رو بذار روی پا	SET_AIRFLOW_DIRECTION
+باد هم به صورت بخوره هم به پا	SET_AIRFLOW_DIRECTION
+تهویه رو بذار روی صورت و پا	SET_AIRFLOW_DIRECTION
+باد رو بده به شیشه جلو و پاها	SET_AIRFLOW_DIRECTION
+حالت شیشه و پا رو انتخاب کن	SET_AIRFLOW_DIRECTION
+جهت باد رو به شیشه جلو ببر	SET_AIRFLOW_DIRECTION
+باد تهویه رو روی شیشه جلو بذار	SET_AIRFLOW_DIRECTION
+گردش هوای داخل رو فعال کن	SET_AIR_RECIRCULATION
+هوا از داخل بچرخه	SET_AIR_RECIRCULATION
+ورود هوای بیرون رو ببند	SET_AIR_RECIRCULATION
+تهویه رو روی گردش داخلی بذار	SET_AIR_RECIRCULATION
+گردش هوا رو بیرونی کن	SET_AIR_RECIRCULATION
+هوا از بیرون بیاد	SET_AIR_RECIRCULATION
+گردش داخلی رو خاموش کن	SET_AIR_RECIRCULATION
+ورودی هوای تازه رو باز کن	SET_AIR_RECIRCULATION
+گردش هوا رو خودکار کن	SET_AIR_RECIRCULATION
+گردش داخلی و خارجی رو اتومات کن	SET_AIR_RECIRCULATION
+بیرون دود میاد	UNKNOWN
+هوای تازه می‌خوام	SET_AIR_RECIRCULATION
+بخارزدای جلو رو روشن کن	SET_FRONT_DEFROSTER
+بخار شیشه جلو رو بگیر	SET_FRONT_DEFROSTER
+شیشه جلو بخار کرده، بخارزدا رو بزن	SET_FRONT_DEFROSTER
+دیفراست جلو رو فعال کن	SET_FRONT_DEFROSTER
+بخارگیر شیشه جلو روشن بشه	SET_FRONT_DEFROSTER
+بخارزدای جلو رو خاموش کن	SET_FRONT_DEFROSTER
+دیفراست جلو رو قطع کن	SET_FRONT_DEFROSTER
+بخارگیر شیشه جلو رو ببند	SET_FRONT_DEFROSTER
+بخارگیر رو روشن کن	SET_FRONT_DEFROSTER
+شیشه بخار کرده	SET_FRONT_DEFROSTER
+گرم‌کن شیشه عقب رو روشن کن	SET_REAR_DEFROSTER
+بخار شیشه عقب رو بگیر	SET_REAR_DEFROSTER
+دیفراست عقب رو فعال کن	SET_REAR_DEFROSTER
+بخارگیر عقب روشن بشه	SET_REAR_DEFROSTER
+گرم‌کن شیشه عقب رو خاموش کن	SET_REAR_DEFROSTER
+بخارزدای عقب رو قطع کن	SET_REAR_DEFROSTER
+دیفراست عقب رو ببند	SET_REAR_DEFROSTER
+تهویه جلو رو سینک کن	SET_FRONT_CLIMATE_SYNC
+دمای راننده و شاگرد یکی باشه	SET_FRONT_CLIMATE_SYNC
+تنظیم دو طرف جلو رو هماهنگ کن	SET_FRONT_CLIMATE_SYNC
+تهویه راننده و شاگرد رو همگام کن	SET_FRONT_CLIMATE_SYNC
+سینک تهویه جلو رو بردار	SET_FRONT_CLIMATE_SYNC
+دمای راننده و شاگرد جدا باشه	SET_FRONT_CLIMATE_SYNC
+همگام‌سازی دو طرف جلو رو خاموش کن	SET_FRONT_CLIMATE_SYNC
+دما رو بذار روی بیست و دو	SET_CABIN_TEMPERATURE
+دمای کابین ۲۲ درجه باشه	SET_CABIN_TEMPERATURE
+تهویه رو روی بیست‌ودو درجه تنظیم کن	SET_CABIN_TEMPERATURE
+درجه کولر رو بذار ۲۲	SET_CABIN_TEMPERATURE
+دمای سمت راننده رو بذار بیست و سه	SET_CABIN_TEMPERATURE
+برای راننده ۲۳ درجه تنظیم کن	SET_CABIN_TEMPERATURE
+سمت شاگرد رو روی بیست و یک درجه بذار	SET_CABIN_TEMPERATURE
+دمای تهویه شاگرد بشه ۲۱	SET_CABIN_TEMPERATURE
+راننده ۲۲ درجه و شاگرد ۲۴ درجه باشه	SET_CABIN_TEMPERATURE
+فن رو روی سه بذار	SET_FAN_SPEED
+سرعت فن درجه سه باشه	SET_FAN_SPEED
+شدت باد کولر رو سه کن	SET_FAN_SPEED
+فن رو بذار پله سوم	SET_FAN_SPEED
+فن رو روی بیشترین سرعت بذار	SET_FAN_SPEED
+شدت باد رو تا آخر ببر بالا	SET_FAN_SPEED
+فن رو روی کمترین سرعت بذار	SET_FAN_SPEED
+باد رو بذار کمترین درجه	SET_FAN_SPEED
+گرم‌کن صندلی راننده رو بذار سه	SET_SEAT_HEATING
+گرم‌کن صندلی چپ رو بذار سه	SET_SEAT_HEATING
+گرم‌کن صندلی سمت چپ رو بذار سه	SET_SEAT_HEATING
+گرم‌کن صندلی جلو چپ رو بذار سه	SET_SEAT_HEATING
+گرمایش صندلی راننده درجه سه باشه	SET_SEAT_HEATING
+گرمایش صندلی چپ درجه سه باشه	SET_SEAT_HEATING
+گرمایش صندلی سمت چپ درجه سه باشه	SET_SEAT_HEATING
+گرمایش صندلی جلو چپ درجه سه باشه	SET_SEAT_HEATING
+گرم‌کن صندلی شاگرد رو خاموش کن	SET_SEAT_HEATING
+گرم‌کن صندلی راست رو خاموش کن	SET_SEAT_HEATING
+گرم‌کن صندلی سمت راست رو خاموش کن	SET_SEAT_HEATING
+گرم‌کن صندلی جلو راست رو خاموش کن	SET_SEAT_HEATING
+گرمایش صندلی بغل رو قطع کن	SET_SEAT_HEATING
+صندلی راننده رو گرم کن	SET_SEAT_HEATING
+صندلی چپ رو گرم کن	SET_SEAT_HEATING
+صندلی سمت چپ رو گرم کن	SET_SEAT_HEATING
+صندلی جلو چپ رو گرم کن	SET_SEAT_HEATING
+گرم‌کن راننده رو روشن کن	SET_SEAT_HEATING
+گرم‌کن چپ رو روشن کن	SET_SEAT_HEATING
+گرم‌کن سمت چپ رو روشن کن	SET_SEAT_HEATING
+گرم‌کن جلو چپ رو روشن کن	SET_SEAT_HEATING
+گرمایش صندلی راننده فعال بشه	SET_SEAT_HEATING
+گرمایش صندلی چپ فعال بشه	SET_SEAT_HEATING
+گرمایش صندلی سمت چپ فعال بشه	SET_SEAT_HEATING
+گرمایش صندلی جلو چپ فعال بشه	SET_SEAT_HEATING
+صندلیم رو گرم کن	SET_SEAT_HEATING
+گرم‌کن صندلی رو بزن	SET_SEAT_HEATING
+تهویه صندلی شاگرد رو بذار دو	SET_SEAT_VENTILATION
+تهویه صندلی راست رو بذار دو	SET_SEAT_VENTILATION
+تهویه صندلی سمت راست رو بذار دو	SET_SEAT_VENTILATION
+تهویه صندلی جلو راست رو بذار دو	SET_SEAT_VENTILATION
+فن صندلی بغل درجه دو باشه	SET_SEAT_VENTILATION
+سردکن صندلی راننده رو خاموش کن	SET_SEAT_VENTILATION
+سردکن صندلی چپ رو خاموش کن	SET_SEAT_VENTILATION
+سردکن صندلی سمت چپ رو خاموش کن	SET_SEAT_VENTILATION
+سردکن صندلی جلو چپ رو خاموش کن	SET_SEAT_VENTILATION
+فن صندلی راننده رو ببند	SET_SEAT_VENTILATION
+فن صندلی چپ رو ببند	SET_SEAT_VENTILATION
+فن صندلی سمت چپ رو ببند	SET_SEAT_VENTILATION
+فن صندلی جلو چپ رو ببند	SET_SEAT_VENTILATION
+صندلی راننده رو خنک کن	SET_SEAT_VENTILATION
+صندلی چپ رو خنک کن	SET_SEAT_VENTILATION
+صندلی سمت چپ رو خنک کن	SET_SEAT_VENTILATION
+صندلی جلو چپ رو خنک کن	SET_SEAT_VENTILATION
+سردکن صندلی راننده رو روشن کن	SET_SEAT_VENTILATION
+سردکن صندلی چپ رو روشن کن	SET_SEAT_VENTILATION
+سردکن صندلی سمت چپ رو روشن کن	SET_SEAT_VENTILATION
+سردکن صندلی جلو چپ رو روشن کن	SET_SEAT_VENTILATION
+تهویه صندلی راننده رو فعال کن	SET_SEAT_VENTILATION
+تهویه صندلی چپ رو فعال کن	SET_SEAT_VENTILATION
+تهویه صندلی سمت چپ رو فعال کن	SET_SEAT_VENTILATION
+تهویه صندلی جلو چپ رو فعال کن	SET_SEAT_VENTILATION
+صندلیم عرق کرده	UNKNOWN
+سردکن صندلی رو بزن	SET_SEAT_VENTILATION
+ماساژ صندلی راننده رو روشن کن	SET_SEAT_MASSAGE
+ماساژ صندلی چپ رو روشن کن	SET_SEAT_MASSAGE
+ماساژ صندلی سمت چپ رو روشن کن	SET_SEAT_MASSAGE
+ماساژ صندلی جلو چپ رو روشن کن	SET_SEAT_MASSAGE
+ماساژور راننده رو راه بنداز	SET_SEAT_MASSAGE
+ماساژور چپ رو راه بنداز	SET_SEAT_MASSAGE
+ماساژور سمت چپ رو راه بنداز	SET_SEAT_MASSAGE
+ماساژور جلو چپ رو راه بنداز	SET_SEAT_MASSAGE
+صندلی راننده ماساژ بده	SET_SEAT_MASSAGE
+صندلی چپ ماساژ بده	SET_SEAT_MASSAGE
+صندلی سمت چپ ماساژ بده	SET_SEAT_MASSAGE
+صندلی جلو چپ ماساژ بده	SET_SEAT_MASSAGE
+ماساژ شاگرد رو خاموش کن	SET_SEAT_MASSAGE
+ماساژ راست رو خاموش کن	SET_SEAT_MASSAGE
+ماساژ سمت راست رو خاموش کن	SET_SEAT_MASSAGE
+ماساژ جلو راست رو خاموش کن	SET_SEAT_MASSAGE
+ماساژور صندلی بغل رو متوقف کن	SET_SEAT_MASSAGE
+ماساژ صندلی شاگرد رو قطع کن	SET_SEAT_MASSAGE
+ماساژ صندلی راست رو قطع کن	SET_SEAT_MASSAGE
+ماساژ صندلی سمت راست رو قطع کن	SET_SEAT_MASSAGE
+ماساژ صندلی جلو راست رو قطع کن	SET_SEAT_MASSAGE
+ماساژ راننده رو روی شدت دو روشن کن	SET_SEAT_MASSAGE
+ماساژ چپ رو روی شدت دو روشن کن	SET_SEAT_MASSAGE
+ماساژ سمت چپ رو روی شدت دو روشن کن	SET_SEAT_MASSAGE
+ماساژ جلو چپ رو روی شدت دو روشن کن	SET_SEAT_MASSAGE
+ماساژ صندلی راننده درجه دو باشه	SET_SEAT_MASSAGE
+ماساژ صندلی چپ درجه دو باشه	SET_SEAT_MASSAGE
+ماساژ صندلی سمت چپ درجه دو باشه	SET_SEAT_MASSAGE
+ماساژ صندلی جلو چپ درجه دو باشه	SET_SEAT_MASSAGE
+ماساژم بده	SET_SEAT_MASSAGE
+کمرم درد می‌کنه	UNKNOWN
+ماساژ راننده رو موجی کن	SET_SEAT_MASSAGE_PATTERN
+ماساژ چپ رو موجی کن	SET_SEAT_MASSAGE_PATTERN
+ماساژ سمت چپ رو موجی کن	SET_SEAT_MASSAGE_PATTERN
+ماساژ جلو چپ رو موجی کن	SET_SEAT_MASSAGE_PATTERN
+حالت موجی ماساژ صندلی راننده رو انتخاب کن	SET_SEAT_MASSAGE_PATTERN
+حالت موجی ماساژ صندلی چپ رو انتخاب کن	SET_SEAT_MASSAGE_PATTERN
+حالت موجی ماساژ صندلی سمت چپ رو انتخاب کن	SET_SEAT_MASSAGE_PATTERN
+حالت موجی ماساژ صندلی جلو چپ رو انتخاب کن	SET_SEAT_MASSAGE_PATTERN
+ماساژ شاگرد رو غلتکی کن	SET_SEAT_MASSAGE_PATTERN
+ماساژ راست رو غلتکی کن	SET_SEAT_MASSAGE_PATTERN
+ماساژ سمت راست رو غلتکی کن	SET_SEAT_MASSAGE_PATTERN
+ماساژ جلو راست رو غلتکی کن	SET_SEAT_MASSAGE_PATTERN
+حالت غلتکی ماساژ صندلی بغل رو بذار	SET_SEAT_MASSAGE_PATTERN
+مدل ماساژ رو عوض کن	UNKNOWN
+ماساژ یه مدل دیگه باشه	UNKNOWN
+تهویه رو روشن نکن	SET_CLIMATE_POWER
+تهویه خاموش نشه	SET_CLIMATE_POWER
+تهویه روشنه؟	UNKNOWN
+کمپرسور رو خاموش نکن	SET_AC_POWER
+ای سی فعاله؟	UNKNOWN
+مکس ای سی رو فعال نکن	SET_MAX_COOLING
+تهویه رو اتومات نکن	SET_CLIMATE_AUTO
+دما رو بیشتر نکن	ADJUST_CABIN_TEMPERATURE
+خنک‌ترش نکن	UNKNOWN
+باد رو کمتر نکن	ADJUST_FAN_SPEED
+فن رو زیاد نکن	ADJUST_FAN_SPEED
+باد به صورتم نخوره	UNKNOWN
+گردش داخلی رو خاموش نکن	SET_AIR_RECIRCULATION
+بخارگیر جلو رو خاموش نکن	SET_FRONT_DEFROSTER
+گرم‌کن شیشه عقب رو روشن نکن	SET_REAR_DEFROSTER
+تهویه جلو رو سینک نکن	SET_FRONT_CLIMATE_SYNC
+دما رو روی بیست و دو نذار	SET_CABIN_TEMPERATURE
+فن رو روی سه نذار	SET_FAN_SPEED
+گرم‌کن صندلی راننده رو روشن نکن	SET_SEAT_HEATING
+سردکن صندلی شاگرد رو خاموش نکن	SET_SEAT_VENTILATION
+ماساژ راننده رو روشن نکن	SET_SEAT_MASSAGE
+ماساژ شاگرد رو موجی نکن	SET_SEAT_MASSAGE_PATTERN
+بخاری روشن بشه	SET_CLIMATE_POWER
+بخاری رو فعال کن	SET_CLIMATE_POWER
+بخاری رو راه بنداز	SET_CLIMATE_POWER
+بخاری دو طرف رو روشن کن	SET_CLIMATE_POWER
+بخاری سمت راست رو روشن کن	SET_CLIMATE_POWER
+بخاری رو خاموش کن	SET_CLIMATE_POWER
+کولر شاگرد رو روشن کن	SET_CLIMATE_POWER
+کولر روشن بشه	SET_CLIMATE_POWER
+بخاری رو روشن نکن	SET_CLIMATE_POWER
+گرمکن رو فعال کن	SET_SEAT_HEATING
+گرمکن راست رو فعال کن	SET_SEAT_HEATING
+سردکن رو روشن کن	SET_SEAT_VENTILATION
+تهویه صندلی رو روشن کن	SET_SEAT_VENTILATION
+ماساژ رو موجی کن	SET_SEAT_MASSAGE_PATTERN

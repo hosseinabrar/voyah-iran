@@ -11,178 +11,180 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.abrar.voyahvoicetest.databinding.ActivityMainBinding
-import com.abrar.voyahvoicetest.speech.EngineChoice
-import com.abrar.voyahvoicetest.speech.SpeechLab
-import com.abrar.voyahvoicetest.speech.SpeechResult
-import com.abrar.voicecommands.PersianCommandRecognizer
+import com.abrar.raha.speech.EngineChoice
+import com.abrar.raha.speech.SpeechLab
+import com.abrar.raha.speech.SpeechResult
+import com.abrar.raha.feedback.RahaFeedback
+import com.abrar.raha.RahaCommandRecognizer
 import com.abrar.voicecommands.Recognition
 import org.json.JSONObject
 
 class MainActivity : ComponentActivity() {
     private lateinit var ui: ActivityMainBinding
     private lateinit var lab: SpeechLab
+    private lateinit var visual: RahaFeedback
     private val handler = Handler(Looper.getMainLooper())
-    private var busy = false
-    private var loaded = false
-    private var foreground = false
-    private var lastAvailable = false
-    private var selected = -1
-    private var selectionVersion = 0
-    private val commands = PersianCommandRecognizer()
+    private var watching=false
+    private var wakeFailed=false
+    private var manualPending=false
+    private var wakePermission=false
+    private var generation=0L
+    private var busy=false
+    private var loaded=false
+    private var foreground=false
+    private val commands=RahaCommandRecognizer()
     private lateinit var feedback: FeedbackStore
-    private var unknownSentence: String? = null
-    private var feedbackDialog: AlertDialog? = null
-    private val clearResult = Runnable {
-        ui.transcript.text = ""
-        ui.status.setText(R.string.ready)
+    private var unknownSentence:String?=null
+    private var feedbackDialog:AlertDialog?=null
+    private val clearResult=Runnable { ui.status.setText(R.string.ready) }
+    private fun wakePhrases()=buildSet {
+        if(ui.wakeHey.isChecked)add("هی رها")
+        if(ui.wakeHello.isChecked)add("سلام رها")
+        if(ui.wakeName.isChecked)add("رها")
     }
-    private val permission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted && foreground && loaded && !busy) start(false)
-        else if (!granted) ui.status.setText(R.string.permission)
+    private fun lamp(active:Boolean) {
+        ui.wakeLamp.isActivated=active
+        ui.wakeState.setText(if(active)R.string.wake_receiving else if(watching)R.string.wake_waiting else R.string.wake_idle)
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val permission=registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if(granted && foreground && loaded && !busy) { if(wakePermission)ensureWake() else start(); wakePermission=false }
+        else if(!granted) {wakeFailed=true;wakePermission=false;ui.status.setText(R.string.permission)}
+    }
+    override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        ui = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(ui.root)
-        feedback = FeedbackStore(applicationContext)
-        unknownSentence = savedInstanceState?.getString("unknownSentence")
+        ui=ActivityMainBinding.inflate(layoutInflater);setContentView(ui.root)
+        feedback=FeedbackStore(applicationContext)
+        unknownSentence=savedInstanceState?.getString("unknownSentence")
         updateSampleCount()
+        ui.reviewUnknown.visibility=if(unknownSentence==null)View.GONE else View.VISIBLE
+        ui.reviewUnknown.setOnClickListener { askToSave() }
         ui.shareSamples.setOnClickListener {
             AlertDialog.Builder(this).setMessage(R.string.share_instruction)
-                .setPositiveButton(R.string.share_continue) { _, _ -> shareSamples() }
-                .setNegativeButton(android.R.string.cancel, null).show()
+                .setPositiveButton(R.string.share_continue) { _,_->shareSamples() }
+                .setNegativeButton(android.R.string.cancel,null).show()
         }
-        ViewCompat.setOnApplyWindowInsetsListener(ui.root) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
-            insets
+        ViewCompat.setOnApplyWindowInsetsListener(ui.root) { view,insets ->
+            val bars=insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            view.setPadding(bars.left,bars.top,bars.right,bars.bottom);insets
         }
-        lab = SpeechLab(applicationContext)
-        ui.engine.adapter = ArrayAdapter.createFromResource(this, R.array.engines, R.layout.engine_item)
-            .apply { setDropDownViewResource(R.layout.engine_dropdown_item) }
-        ui.engine.setSelection(EngineChoice.LIVE.ordinal)
-        ui.engine.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position == selected || busy) return
-                selected = position
-                val version = ++selectionVersion
-                handler.removeCallbacks(clearResult)
-                loaded = false
-                renderButtons()
-                ui.engine.isEnabled = false
-                ui.status.setText(R.string.loading)
-                ui.transcript.text = ""
-                clearCommand()
-                lab.prepare(EngineChoice.entries[position]) { error ->
-                    if (version == selectionVersion) {
-                        loaded = error == null
-                        renderButtons()
-                        ui.status.setText(if (loaded) R.string.ready else R.string.model_error)
-                        ui.metrics.text = error?.javaClass?.simpleName.orEmpty()
-                    }
-                }
-            }
+        val prefs=getSharedPreferences("wake",MODE_PRIVATE)
+        ui.showTranscript.isChecked=prefs.getBoolean("showTranscript",false)
+        ui.showTranscript.setOnCheckedChangeListener { _,checked -> prefs.edit().putBoolean("showTranscript",checked).apply() }
+        visual=RahaFeedback(this,::cancel,showTranscript={ui.showTranscript.isChecked},host=window.decorView as ViewGroup)
+        lab=SpeechLab(applicationContext)
+        lab.prepare(EngineChoice.CAR_LIVE) { error ->
+            loaded=error==null;renderButtons()
+            ui.status.setText(if(loaded)R.string.ready else R.string.model_error)
+            ui.metrics.text=error?.javaClass?.simpleName.orEmpty();ensureWake()
         }
         ui.listen.setOnClickListener {
             handler.removeCallbacks(clearResult)
-            if (busy) cancel()
-            else if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) start(false)
+            if(watching) { generation++;visual.dismiss();manualPending=true;lab.cancel() }
+            else if(busy)cancel()
+            else if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)start()
             else permission.launch(Manifest.permission.RECORD_AUDIO)
         }
-        ui.repeat.setOnClickListener { start(true) }
+        ui.wakeHey.isChecked=prefs.getBoolean("hey",false)
+        ui.wakeHello.isChecked=prefs.getBoolean("hello",false)
+        ui.wakeName.isChecked=prefs.getBoolean("name",false)
+        for(box in listOf(ui.wakeHey,ui.wakeHello,ui.wakeName)) box.setOnCheckedChangeListener { _,_->
+            prefs.edit().putBoolean("hey",ui.wakeHey.isChecked).putBoolean("hello",ui.wakeHello.isChecked)
+                .putBoolean("name",ui.wakeName.isChecked).apply()
+            wakeFailed=false
+            if(watching) { generation++;visual.dismiss();lab.cancel() }
+            else if(wakePhrases().isNotEmpty() && checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED) {
+                wakePermission=true;permission.launch(Manifest.permission.RECORD_AUDIO)
+            } else ensureWake()
+        }
     }
-
     private fun renderButtons() {
-        ui.listen.isEnabled = loaded
-        ui.listen.setText(if (busy) R.string.cancel else R.string.start)
-        ui.engine.isEnabled = !busy
-        ui.repeat.isEnabled = loaded && !busy && lastAvailable
-        ui.shareSamples.isEnabled = !busy
+        ui.listen.isEnabled=loaded
+        ui.listen.setText(if(busy)R.string.cancel else R.string.start)
+        ui.shareSamples.isEnabled=!busy && !watching
     }
-    private fun start(reuseLast: Boolean) {
-        if (!loaded || busy) return
+    private fun ensureWake() {
+        if(!foreground || !loaded || busy || watching || wakeFailed || feedbackDialog!=null || wakePhrases().isEmpty())return
+        if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED)return
+        watching=true;lamp(false);renderButtons()
+        val epoch=++generation
+        lab.watch(wakePhrases(),object:SpeechLab.WakeListener {
+            private fun current()=foreground && epoch==generation
+            override fun onState(active:Boolean) {
+                if(!current())return
+                lamp(active)
+                if(active)visual.begin() else if(visual.receiving)visual.result(false)
+            }
+            override fun onLevel(percent:Int) {if(current())visual.level(percent)}
+            override fun onSpeech(active:Boolean) {if(current())visual.speech(active)}
+            override fun onText(text:String) {if(current())visual.text(text)}
+            override fun onCommand(text:String) {if(current())showCommand(text)}
+            override fun onStopped(error:Throwable?) {
+                watching=false;lamp(false);renderButtons()
+                if(error!=null && current()) {wakeFailed=true;ui.status.setText(R.string.error);ui.metrics.text=error.javaClass.simpleName;visual.result(false)}
+                if(manualPending && foreground) {manualPending=false;start()} else ensureWake()
+            }
+        })
+    }
+    private fun start() {
+        if(!loaded || busy || watching || !foreground)return
         handler.removeCallbacks(clearResult)
-        busy = true
-        renderButtons()
-        ui.transcript.text = ""
-        clearCommand()
-        ui.metrics.text = ""
-        ui.level.progress = 0
-        ui.status.setText(if (reuseLast) R.string.decoding else R.string.listening)
-        lab.start(reuseLast, object : SpeechLab.Listener {
-            override fun onPartial(text: String) { ui.transcript.text = text }
-            override fun onLevel(percent: Int) { ui.level.progress = percent }
-            override fun onDecoding() {
-                ui.status.setText(R.string.decoding)
-                ui.level.progress = 0
+        busy=true;lamp(true);renderButtons();clearCommand();ui.metrics.text=""
+        ui.status.setText(R.string.listening)
+        val epoch=++generation
+        visual.begin(manual=true)
+        lab.start(false,object:SpeechLab.Listener {
+            private fun current()=foreground && epoch==generation
+            override fun onPartial(text:String) {if(current())visual.text(text)}
+            override fun onLevel(percent:Int) {if(current())visual.level(percent)}
+            override fun onDecoding() {if(current()) {lamp(false);visual.processing();ui.status.setText(R.string.decoding)}}
+            override fun onComplete(result:SpeechResult?) {
+                busy=false;lamp(false)
+                if(current()) {
+                    if(result==null) {ui.status.setText(R.string.no_speech);visual.result(false)}
+                    else {
+                        showCommand(result.text)
+                        ui.status.setText(if(result.text.isBlank())R.string.no_speech else R.string.result_status)
+                        ui.metrics.text=getString(R.string.timing,result.audioMs/1000.0,result.decodeMs/1000.0)
+                        handler.postDelayed(clearResult,5000)
+                    }
+                } else ui.status.setText(R.string.ready)
+                renderButtons();ensureWake()
             }
-            override fun onComplete(result: SpeechResult?) {
-                busy = false
-                ui.level.progress = 0
-                if (result == null) {
-                    ui.status.setText(R.string.ready)
-                    clearCommand()
-                } else {
-                    lastAvailable = result.audioMs > 0
-                    ui.transcript.text = result.text
-                    showCommand(result.text)
-                    ui.status.setText(if (result.text.isBlank()) R.string.no_speech else R.string.result_status)
-                    ui.metrics.text = getString(R.string.timing, result.audioMs / 1000.0, result.decodeMs / 1000.0) +
-                        when {
-                            result.clipped -> getString(R.string.clipped)
-                            result.peak < 0.01f -> getString(R.string.quiet)
-                            else -> ""
-                        }
-                    if (unknownSentence == null) handler.postDelayed(clearResult, 5000)
-                }
-                renderButtons()
-            }
-            override fun onError(error: Throwable) {
-                busy = false
-                ui.level.progress = 0
-                ui.status.setText(R.string.error)
-                clearCommand()
-                ui.metrics.text = error.javaClass.simpleName
-                renderButtons()
+            override fun onError(error:Throwable) {
+                busy=false;lamp(false)
+                if(current()) {ui.status.setText(R.string.error);ui.metrics.text=error.javaClass.simpleName;visual.result(false)}
+                renderButtons();ensureWake()
             }
         })
     }
     private fun cancel() {
-        lab.cancel()
-        ui.listen.isEnabled = false
-        ui.status.setText(R.string.cancelling)
-        // Native decoding cannot be interrupted safely. Keep controls locked until it returns.
+        generation++;manualPending=false;visual.dismiss();lab.cancel()
+        handler.removeCallbacks(clearResult)
+        ui.status.setText(if(busy || watching)R.string.cancelling else R.string.ready)
+        // Stale callbacks cannot display text, play a cue or map a command after cancellation.
     }
-    private fun clearCommand() {
-        ui.commandSummary.setText(R.string.command_waiting)
-        ui.commandDetails.text = ""
-    }
-    private fun showCommand(finalTranscript: String) {
-        when (val result = commands.recognize(finalTranscript)) {
+    private fun clearCommand() {ui.commandSummary.setText(R.string.command_waiting);ui.commandDetails.text=""}
+    private fun showCommand(text:String) {
+        visual.text(text)
+        when(val result=commands.recognize(text)) {
             is Recognition.Matched -> {
-                ui.commandSummary.text = result.command.description
-                ui.commandDetails.text = result.command.action + "\n" + JSONObject(result.command.parameters).toString()
-                android.util.Log.i("VoyahVoice", "Mapping matched id=${result.command.catalogId} action=${result.command.action}; preview only")
+                ui.commandSummary.text=result.command.description
+                ui.commandDetails.text=result.command.action+"\n"+JSONObject(result.command.parameters)
+                visual.result(true)
+                android.util.Log.i("VoyahVoice","Raha action=${result.command.action}; preview only")
             }
             is Recognition.Unknown -> {
-                ui.commandSummary.setText(R.string.command_unknown)
-                ui.commandDetails.text = ""
-                if (finalTranscript.isNotBlank()) {
-                    unknownSentence = finalTranscript
-                    askToSave()
-                }
-                android.util.Log.i("VoyahVoice", "Mapping unknown; preview only")
+                ui.commandSummary.setText(R.string.command_unknown);ui.commandDetails.text=result.reason
+                visual.result(false)
+                if(text.isNotBlank()) {unknownSentence=text;ui.reviewUnknown.visibility=View.VISIBLE}
             }
         }
     }
@@ -196,6 +198,7 @@ class MainActivity : ComponentActivity() {
     }
     private fun askToSave() {
         val sentence = unknownSentence ?: return
+        if(watching) { generation++; lab.cancel() }
         if (!foreground || feedbackDialog != null) return
         val dialog = AlertDialog.Builder(this).setTitle(R.string.feedback_title)
             .setMessage(getString(R.string.feedback_question, sentence))
@@ -203,7 +206,7 @@ class MainActivity : ComponentActivity() {
             .setNegativeButton(R.string.feedback_no) { _, _ -> unknownSentence = null }
             .create()
         dialog.setOnCancelListener { unknownSentence = null }
-        dialog.setOnDismissListener { feedbackDialog = null }
+        dialog.setOnDismissListener { feedbackDialog = null; ui.reviewUnknown.visibility=if(unknownSentence==null)View.GONE else View.VISIBLE; ensureWake() }
         feedbackDialog = dialog
         dialog.show()
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
@@ -241,7 +244,7 @@ class MainActivity : ComponentActivity() {
                 .setMessage(R.string.share_confirm_message)
                 .setPositiveButton(R.string.share_done, null)
                 .setNegativeButton(R.string.share_keep, null).create()
-            dialog.setOnDismissListener { feedbackDialog = null }
+            dialog.setOnDismissListener { feedbackDialog = null; ui.reviewUnknown.visibility=if(unknownSentence==null)View.GONE else View.VISIBLE; ensureWake() }
             feedbackDialog = dialog
             dialog.show()
             fun finish(sent: Boolean) {
@@ -258,8 +261,8 @@ class MainActivity : ComponentActivity() {
     override fun onStart() { super.onStart(); foreground = true }
     override fun onResume() {
         super.onResume()
-        askToSave()
         confirmShare()
+        ensureWake()
     }
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("unknownSentence", unknownSentence)
@@ -267,6 +270,11 @@ class MainActivity : ComponentActivity() {
     }
     override fun onStop() {
         foreground = false
+        visual.dismiss()
+        generation++
+        manualPending = false
+        if(watching) { generation++; lab.cancel() }
+        lamp(false)
         if (busy) cancel()
         handler.removeCallbacks(clearResult)
         super.onStop()
@@ -275,6 +283,7 @@ class MainActivity : ComponentActivity() {
         feedbackDialog?.setOnDismissListener(null)
         feedbackDialog?.dismiss()
         handler.removeCallbacksAndMessages(null)
+        visual.close()
         lab.close()
         super.onDestroy()
     }

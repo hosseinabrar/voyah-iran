@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 data class SteeringUiState(val snapshot: StarBackSnapshot? = null, val busy: Boolean = false, val error: SteeringFailure? = null)
 
 /** Shared by the foreground service and UI, so rotating the Activity never owns the handler. */
-class SteeringController(private val repository: StarBackRepository) {
+class SteeringController(private val repository: StarBackRepository, private val mayEnable: () -> Boolean = { true }) {
     private val mutableState = MutableStateFlow(SteeringUiState())
     val state = mutableState.asStateFlow()
     private val mutex = Mutex()
@@ -25,7 +25,7 @@ class SteeringController(private val repository: StarBackRepository) {
         withContext(Dispatchers.IO) {
             mutableState.value = mutableState.value.copy(busy = true, error = null)
             try {
-                val actual = if (enabled == null) repository.read() else repository.setEnabled(enabled)
+                val actual = if (enabled == null) repository.read() else repository.setEnabled(enabled && mayEnable())
                 mutableState.value = SteeringUiState(actual)
                 com.abrar.voyahiran.core.logging.AppLog.changed("Steering", "snapshot=$actual")
                 true

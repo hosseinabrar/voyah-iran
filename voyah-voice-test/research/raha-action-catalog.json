@@ -1,0 +1,3050 @@
+{
+  "schemaVersion": 1,
+  "assistant": "Raha",
+  "stage": "proposed-inventory",
+  "actions": [
+    {
+      "actionFa": "روشن یا خاموش کردن تهویه",
+      "enum": "SET_CLIMATE_POWER",
+      "category": "تهویه",
+      "parameters": "zone; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/air_condition_open",
+      "sourceText": "A/C on",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن کمپرسور کولر",
+      "enum": "SET_AC_POWER",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/ac_opened",
+      "sourceText": "OK, turning A/C on for you",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن سرمایش حداکثری",
+      "enum": "SET_MAX_COOLING",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/acMax_opened",
+      "sourceText": "A/C MAX on",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "تنظیم حالت خودکار تهویه",
+      "enum": "SET_CLIMATE_AUTO",
+      "category": "تهویه",
+      "parameters": "zone; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/auto_opened",
+      "sourceText": "OK, setting A/C mode to auto",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "افزایش یا کاهش دمای کابین",
+      "enum": "ADJUST_CABIN_TEMPERATURE",
+      "category": "تهویه",
+      "parameters": "zone; delta",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/temperature_upped",
+      "sourceText": "OK, turning A/C up",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "افزایش یا کاهش سرعت فن",
+      "enum": "ADJUST_FAN_SPEED",
+      "category": "تهویه",
+      "parameters": "zone; delta",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/wind_upped",
+      "sourceText": "Fan speed increased",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "انتخاب جهت وزش باد",
+      "enum": "SET_AIRFLOW_DIRECTION",
+      "category": "تهویه",
+      "parameters": "zone; face/feet/windshield/combined",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/wind_mode_head_foot",
+      "sourceText": "Face / foot mode on",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "انتخاب گردش هوای داخل یا بیرون",
+      "enum": "SET_AIR_RECIRCULATION",
+      "category": "تهویه",
+      "parameters": "internal/external/auto",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/inner_car_circle_open",
+      "sourceText": "Recirculation on",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن بخارزدای جلو",
+      "enum": "SET_FRONT_DEFROSTER",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/front_defrost_open",
+      "sourceText": "Front defroster on",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن بخارزدای عقب",
+      "enum": "SET_REAR_DEFROSTER",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/back_defrost_open",
+      "sourceText": "Rear defroster on",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "همگام کردن تهویه جلو",
+      "enum": "SET_FRONT_CLIMATE_SYNC",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/main_vice_same",
+      "sourceText": "Front Sync",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "تنظیم شدت عملکرد خودکار تهویه",
+      "enum": "SET_CLIMATE_AUTO_INTENSITY",
+      "category": "تهویه",
+      "parameters": "soft/normal/strong",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/setting_aircon_mode_text",
+      "sourceText": "A/C mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن تصفیه هوا",
+      "enum": "SET_AIR_PURIFIER",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/air_clean_opened",
+      "sourceText": "Purifier on",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن یون‌ساز",
+      "enum": "SET_AIR_IONIZER",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/ion_opened",
+      "sourceText": "ION on",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن یون‌ساز خودکار",
+      "enum": "SET_AUTO_AIR_IONIZER",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/ion_title",
+      "sourceText": "ION auto open",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم خشک‌کردن و بوزدایی تهویه",
+      "enum": "SET_CLIMATE_DEODORIZATION",
+      "category": "تهویه",
+      "parameters": "standard/deep",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/setting_air_dor_title",
+      "sourceText": "Air Conditioning Dry Mode & Deodorizer",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن تهویه و خنک‌سازی کابین",
+      "enum": "SET_VENTILATION_COOLING",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/setting_ventilate_and_cooling_text",
+      "sourceText": "Venting&Cooling",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن خوشبوکننده",
+      "enum": "SET_FRAGRANCE_POWER",
+      "category": "تهویه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/fragrance_opened",
+      "sourceText": "On",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "انتخاب رایحه",
+      "enum": "SET_FRAGRANCE_CHANNEL",
+      "category": "تهویه",
+      "parameters": "channel",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/fragrance_channel_text",
+      "sourceText": "Type",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "تنظیم شدت رایحه",
+      "enum": "SET_FRAGRANCE_INTENSITY",
+      "category": "تهویه",
+      "parameters": "low/medium/high",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/fragrance_concentration_text",
+      "sourceText": "Concn",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "تغییر نام رایحه",
+      "enum": "RENAME_FRAGRANCE",
+      "category": "تهویه",
+      "parameters": "channel; name",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/fragrance_name_can_not_be_same",
+      "sourceText": "Fragrance name cannot be repeated",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "تنظیم دمای دقیق کابین",
+      "enum": "SET_CABIN_TEMPERATURE",
+      "category": "تهویه",
+      "parameters": "zone; degreesC",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/air_condition_setting_temperature_left",
+      "sourceText": "Set temperature on the left:",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "تنظیم سرعت دقیق فن",
+      "enum": "SET_FAN_SPEED",
+      "category": "تهویه",
+      "parameters": "zone; level",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/air_condition_wind_speed",
+      "sourceText": "Fan speed:",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "تنظیم گرم‌کن صندلی",
+      "enum": "SET_SEAT_HEATING",
+      "category": "صندلی",
+      "parameters": "seat; level; صفر=خاموش",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_hot",
+      "sourceText": "Heating",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "تنظیم تهویه صندلی",
+      "enum": "SET_SEAT_VENTILATION",
+      "category": "صندلی",
+      "parameters": "seat; level; صفر=خاموش",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_wind",
+      "sourceText": "Cooling",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "تنظیم ماساژ صندلی",
+      "enum": "SET_SEAT_MASSAGE",
+      "category": "صندلی",
+      "parameters": "seat; enabled; level",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_massage",
+      "sourceText": "Massage",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "انتخاب الگوی ماساژ",
+      "enum": "SET_SEAT_MASSAGE_PATTERN",
+      "category": "صندلی",
+      "parameters": "seat; pattern",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/massage_bl",
+      "sourceText": "Waving",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود.",
+      "recognitionStatus": "phase1-implemented-text-tests-passed"
+    },
+    {
+      "actionFa": "ذخیره موقعیت صندلی و آینه",
+      "enum": "SAVE_SEAT_POSITION",
+      "category": "صندلی",
+      "parameters": "seat; slot",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/save_location_1",
+      "sourceText": "Driving",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بازیابی موقعیت ذخیره‌شده صندلی",
+      "enum": "RECALL_SEAT_POSITION",
+      "category": "صندلی",
+      "parameters": "seat; slot",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/recovery_location",
+      "sourceText": "Recall Position",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "توقف بازیابی موقعیت صندلی",
+      "enum": "STOP_SEAT_MOVEMENT",
+      "category": "صندلی",
+      "parameters": "seat",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_stop_recovery",
+      "sourceText": "Stop",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بازگرداندن صندلی به موقعیت پیش‌فرض",
+      "enum": "RESET_SEAT_POSITION",
+      "category": "صندلی",
+      "parameters": "seat",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/recovery_set_seat",
+      "sourceText": "Restoring to default position",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم صندلی در وضعیت بی‌وزنی",
+      "enum": "SET_ZERO_GRAVITY_SEAT",
+      "category": "صندلی",
+      "parameters": "seat",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/recovery_zero_button",
+      "sourceText": "Zero-G",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تغییر نام حافظه صندلی",
+      "enum": "RENAME_SEAT_PRESET",
+      "category": "صندلی",
+      "parameters": "seat; slot; name",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/update_name",
+      "sourceText": "Update name",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن استقبال صندلی",
+      "enum": "SET_SEAT_WELCOME",
+      "category": "صندلی",
+      "parameters": "seat; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_courtesy",
+      "sourceText": "Seat welcome feature",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن حالت کودک ردیف دوم",
+      "enum": "SET_REAR_SEAT_BABY_MODE",
+      "category": "صندلی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_setting_rearbabyswitch_content",
+      "sourceText": "Second-Row Baby Mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "تنظیم امکانات آسایش صندلی عقب",
+      "enum": "SET_REAR_SEAT_COMFORT",
+      "category": "صندلی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_setting_rearfuncswitch_content",
+      "sourceText": "Second-Row Comfort Features",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن تنظیم هوشمند صندلی عقب",
+      "enum": "SET_REAR_SEAT_AUTO_ADJUSTMENT",
+      "category": "صندلی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_setting_rearsmartswitch_content",
+      "sourceText": "Second-Row Intelligent Adjustment",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "قفل تنظیم پشتی صندلی ردیف سوم",
+      "enum": "SET_THIRD_ROW_BACKREST_LOCK",
+      "category": "صندلی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/seat_setting_threebacklock_content",
+      "sourceText": "Third-Row Seat Back Lock",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "باز کردن شیشه‌ها",
+      "enum": "OPEN_WINDOW",
+      "category": "درها و شیشه‌ها",
+      "parameters": "window: driver/passenger/rearLeft/rearRight/all",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_window_open",
+      "sourceText": "Open all",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. شاهد فعلی برای همه شیشه‌هاست؛ هدف‌های تکی پیشنهادی‌اند."
+    },
+    {
+      "actionFa": "بستن شیشه‌ها",
+      "enum": "CLOSE_WINDOW",
+      "category": "درها و شیشه‌ها",
+      "parameters": "window",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_window_close",
+      "sourceText": "Close all",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. شاهد فعلی برای همه شیشه‌هاست؛ هدف‌های تکی پیشنهادی‌اند."
+    },
+    {
+      "actionFa": "قرار دادن شیشه‌ها در حالت تهویه",
+      "enum": "VENT_WINDOW",
+      "category": "درها و شیشه‌ها",
+      "parameters": "window",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_window_vent",
+      "sourceText": "Vent",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. شاهد فعلی برای همه شیشه‌هاست؛ هدف‌های تکی پیشنهادی‌اند."
+    },
+    {
+      "actionFa": "بستن خودکار شیشه‌ها هنگام قفل",
+      "enum": "SET_AUTO_WINDOW_CLOSE",
+      "category": "درها و شیشه‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_auto_close_window",
+      "sourceText": "Auto close when locking",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "قفل کودک",
+      "enum": "SET_CHILD_LOCK",
+      "category": "درها و شیشه‌ها",
+      "parameters": "side; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_child",
+      "sourceText": "Child lock",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "قفل خودکار هنگام دور شدن",
+      "enum": "SET_WALK_AWAY_LOCK",
+      "category": "درها و شیشه‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_lock",
+      "sourceText": "Lock when leaving",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز شدن قفل هنگام نزدیک شدن",
+      "enum": "SET_APPROACH_UNLOCK",
+      "category": "درها و شیشه‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_unlock",
+      "sourceText": "Unlock when approaching",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز کردن صندوق",
+      "enum": "OPEN_TAILGATE",
+      "category": "درها و شیشه‌ها",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_open_trunk",
+      "sourceText": "Op trunk",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بستن صندوق",
+      "enum": "CLOSE_TAILGATE",
+      "category": "درها و شیشه‌ها",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_close_trunk",
+      "sourceText": "Cl trunk",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "توقف حرکت صندوق",
+      "enum": "STOP_TAILGATE",
+      "category": "درها و شیشه‌ها",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_common_stop",
+      "sourceText": "Stop",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم ارتفاع باز شدن صندوق",
+      "enum": "SET_TAILGATE_OPENING_HEIGHT",
+      "category": "درها و شیشه‌ها",
+      "parameters": "height",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_trunk_setting",
+      "sourceText": "Tailgate opening height（Pre）",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "قفل یا غیرفعال کردن صندوق",
+      "enum": "SET_TAILGATE_LOCK",
+      "category": "درها و شیشه‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_trunk_disable",
+      "sourceText": "Trunk disabled",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز کردن درپوش شارژ",
+      "enum": "OPEN_CHARGE_PORT",
+      "category": "درها و شیشه‌ها",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/quick_setting_open_charge_cover_confirm",
+      "sourceText": "Open charging port cover?",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز کردن درپوش سوخت",
+      "enum": "OPEN_FUEL_FLAP",
+      "category": "درها و شیشه‌ها",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/quick_setting_open_fuel_cover",
+      "sourceText": "Open FFC",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم جمع شدن خودکار آینه هنگام قفل",
+      "enum": "SET_AUTO_MIRROR_FOLD",
+      "category": "درها و شیشه‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_mirror_fold",
+      "sourceText": "Auto fold when locking",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم پایین رفتن آینه هنگام دنده عقب",
+      "enum": "SET_REVERSE_MIRROR_TILT",
+      "category": "درها و شیشه‌ها",
+      "parameters": "side; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_mirror",
+      "sourceText": "Auto tilt down while reversing",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم شفافیت سقف",
+      "enum": "SET_ROOF_TRANSPARENCY",
+      "category": "درها و شیشه‌ها",
+      "parameters": "percent",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_canopy_transmission",
+      "sourceText": "Transparency",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. منبع چندمدلی؛ وجود سخت‌افزار در فری قطعی نیست."
+    },
+    {
+      "actionFa": "انتخاب حالت شفافیت سقف",
+      "enum": "SET_ROOF_DIMMING_MODE",
+      "category": "درها و شیشه‌ها",
+      "parameters": "auto/manual/off",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_canopy_title",
+      "sourceText": "Sunroof",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز کردن سانروف",
+      "enum": "OPEN_SUNROOF",
+      "category": "درها و شیشه‌ها",
+      "parameters": "roof",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/sunroof_open",
+      "sourceText": "Open",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بستن سانروف",
+      "enum": "CLOSE_SUNROOF",
+      "category": "درها و شیشه‌ها",
+      "parameters": "roof",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleAir:string/sunroof_close",
+      "sourceText": "Close",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم میزان باز بودن سانروف",
+      "enum": "SET_SUNROOF_POSITION",
+      "category": "درها و شیشه‌ها",
+      "parameters": "percent",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/scene_mode_define_skylight_opening",
+      "sourceText": "Opening %s",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز یا بسته کردن پرده سقف",
+      "enum": "SET_SUNSHADE_POSITION",
+      "category": "درها و شیشه‌ها",
+      "parameters": "position",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/door_window_sunshade_title",
+      "sourceText": "Sunshade",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم قفل خودکار در حرکت",
+      "enum": "SET_DRIVE_AWAY_LOCK",
+      "category": "درها و شیشه‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/driving_auto_locked",
+      "sourceText": "Auto locking when driving",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم باز شدن قفل هنگام خاموشی",
+      "enum": "SET_POWER_OFF_UNLOCK",
+      "category": "درها و شیشه‌ها",
+      "parameters": "disabled/driver/all",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/misfire_auto_unlock",
+      "sourceText": "Auto unlocking when engine's off",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "همگام کردن تنظیم آینه‌ها",
+      "enum": "SET_MIRROR_ADJUSTMENT_SYNC",
+      "category": "درها و شیشه‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/houshijintongbutiaojie",
+      "sourceText": "Sync mirror adjustment",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب حالت رانندگی",
+      "enum": "SET_DRIVE_MODE",
+      "category": "رانندگی و تعلیق",
+      "parameters": "eco/comfort/sport/snow/outing/personal",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/drive_mode_comfort",
+      "sourceText": "Comf.",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم پاسخ پیشرانه در حالت شخصی",
+      "enum": "SET_DRIVE_RESPONSE",
+      "category": "رانندگی و تعلیق",
+      "parameters": "eco/comfort/sport",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/drive_mode_personal_control",
+      "sourceText": "Drive Control",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم میزان بازیابی انرژی",
+      "enum": "SET_REGENERATION_LEVEL",
+      "category": "رانندگی و تعلیق",
+      "parameters": "low/medium/high",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/drive_mode_personal_energy",
+      "sourceText": "NRG RECOV",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم ارتفاع تعلیق",
+      "enum": "SET_SUSPENSION_HEIGHT",
+      "category": "رانندگی و تعلیق",
+      "parameters": "level",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/asc_height_title",
+      "sourceText": "Suspension height:",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال کردن تعلیق تطبیقی بزرگراه",
+      "enum": "SET_HIGHWAY_SUSPENSION_ADAPTATION",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/highway_suspension_adaptation",
+      "sourceText": "Highway adaptive suspension",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال کردن ورود آسان",
+      "enum": "SET_EASY_ENTRY",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/convenient_get_on",
+      "sourceText": "Easy Entry",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال کردن خروج آسان",
+      "enum": "SET_EASY_EXIT",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/convenient_get_off",
+      "sourceText": "Easy Exit",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم ورود آسان خودکار",
+      "enum": "SET_AUTO_EASY_ENTRY",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/convenient_get_on_automatic",
+      "sourceText": "Auto easy entry",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پایین آوردن ارتفاع برای دسترسی",
+      "enum": "LOWER_ACCESS_HEIGHT",
+      "category": "رانندگی و تعلیق",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/convenient_descent_height",
+      "sourceText": "Lower",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بازگرداندن ارتفاع خودرو",
+      "enum": "RESTORE_ACCESS_HEIGHT",
+      "category": "رانندگی و تعلیق",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/convenient_recorvery_height",
+      "sourceText": "Restore",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم اتوهلد",
+      "enum": "SET_AUTO_HOLD",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/auto_parking_title",
+      "sourceText": "Autohold",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب روش فعال شدن اتوهلد",
+      "enum": "SET_AUTO_HOLD_ACTIVATION",
+      "category": "رانندگی و تعلیق",
+      "parameters": "auto/deepPedal",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/auto_deep_step_activation",
+      "sourceText": "Pedal deep to activate",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم کنترل حرکت در سرازیری",
+      "enum": "SET_HILL_DESCENT_CONTROL",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/steep_descent",
+      "sourceText": "Hill descent control",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم کمک حرکت روی سطح خیس",
+      "enum": "SET_WET_SURFACE_ASSIST",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/wetlandassistance_system",
+      "sourceText": "Wet mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم کنترل پایداری",
+      "enum": "SET_STABILITY_CONTROL",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/electronic_stability_system",
+      "sourceText": "Electronic stability program",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن حالت یدک‌کشی",
+      "enum": "SET_TOW_MODE",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/trailer_mode",
+      "sourceText": "Tow mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن حالت سرویس تعلیق",
+      "enum": "SET_SUSPENSION_SERVICE_MODE",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/suspension_maintain_mode",
+      "sourceText": "Air suspension service mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "درگیر یا آزاد کردن ترمز پارک",
+      "enum": "SET_PARKING_BRAKE",
+      "category": "رانندگی و تعلیق",
+      "parameters": "engaged",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/ppc_switch_title_epb",
+      "sourceText": "EPB Parking/Release",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال کردن پیشنهاد حالت رانندگی",
+      "enum": "SET_DRIVE_MODE_RECOMMENDATIONS",
+      "category": "رانندگی و تعلیق",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/power_suggest_switch",
+      "sourceText": "Driving Mode Recommendation",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم سنگینی فرمان",
+      "enum": "SET_STEERING_WEIGHT",
+      "category": "رانندگی و تعلیق",
+      "parameters": "light/standard/heavy",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/drive_mode_personal_steering",
+      "sourceText": "STR FRC INT",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم حساسیت برف‌پاک‌کن",
+      "enum": "SET_WIPER_SENSITIVITY",
+      "category": "رانندگی و تعلیق",
+      "parameters": "level",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/ppc_title_front_wipers_sensitivity",
+      "sourceText": "Front Wipers Sensitivity",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب حالت مصرف انرژی",
+      "enum": "SET_ENERGY_STRATEGY",
+      "category": "انرژی و شارژ",
+      "parameters": "electric/forcedElectric/fuel/hybrid/smart/save",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/power_mode_title",
+      "sourceText": "Power Mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم حد حفظ شارژ باتری",
+      "enum": "SET_BATTERY_RESERVE_TARGET",
+      "category": "انرژی و شارژ",
+      "parameters": "percent",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/power_mode_save_title",
+      "sourceText": "Keep target electricity level",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم سقف شارژ",
+      "enum": "SET_CHARGE_LIMIT",
+      "category": "انرژی و شارژ",
+      "parameters": "percent",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/charge_target_power",
+      "sourceText": "Target charge level",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم شارژ زمان‌بندی‌شده",
+      "enum": "SET_CHARGING_SCHEDULE",
+      "category": "انرژی و شارژ",
+      "parameters": "enabled; start; end; repeat",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/appointment_charging",
+      "sourceText": "Scheduled charging",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "توقف شارژ",
+      "enum": "STOP_CHARGING",
+      "category": "انرژی و شارژ",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/stop_charge",
+      "sourceText": "Stop charging",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "آزاد کردن قفل سوکت شارژ",
+      "enum": "UNLOCK_CHARGE_CONNECTOR",
+      "category": "انرژی و شارژ",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/charge_gun_no_extract_unlock",
+      "sourceText": "Unlock Charging Gun",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال کردن کنترل دمای باتری",
+      "enum": "SET_BATTERY_PRECONDITIONING",
+      "category": "انرژی و شارژ",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/charge_battery_pre",
+      "sourceText": "Battery temperature control",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال کردن برق خروجی",
+      "enum": "START_EXTERNAL_POWER",
+      "category": "انرژی و شارژ",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/start_discharge",
+      "sourceText": "Start",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم حد توقف برق خروجی",
+      "enum": "SET_EXTERNAL_POWER_CUTOFF",
+      "category": "انرژی و شارژ",
+      "parameters": "percent",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/discharge_target_power",
+      "sourceText": "BAT Dis. cut-off",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش اطلاعات سفر",
+      "enum": "SHOW_TRIP_INFORMATION",
+      "category": "انرژی و شارژ",
+      "parameters": "sinceStart/sinceCharge/sinceRefuel",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/energy_trip_info_clear",
+      "sourceText": "Reset",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پاک کردن اطلاعات سفر",
+      "enum": "RESET_TRIP_INFORMATION",
+      "category": "انرژی و شارژ",
+      "parameters": "period",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/energy_trip_info_clear",
+      "sourceText": "Reset",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش توزیع مصرف انرژی",
+      "enum": "SHOW_ENERGY_DISTRIBUTION",
+      "category": "انرژی و شارژ",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/energy_trip_energy_distribution",
+      "sourceText": "Energy Distribution",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش وضعیت کار پیشرانه",
+      "enum": "SHOW_POWERTRAIN_STATUS",
+      "category": "انرژی و شارژ",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/energy_trip_working_info",
+      "sourceText": "Working Condition Information",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال کردن سناریوی آماده",
+      "enum": "ACTIVATE_SCENE",
+      "category": "سناریوها",
+      "parameters": "camp/nap/party/babyCare/carWash/quickWarm/powerKeep",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/scene_mode_camp_name",
+      "sourceText": "Camping Mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "خروج از سناریوی فعال",
+      "enum": "DEACTIVATE_SCENE",
+      "category": "سناریوها",
+      "parameters": "scene",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/scene_mode_closemode_toast",
+      "sourceText": "Please exit %s , trying again",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "ذخیره سناریوی شخصی از وضعیت فعلی",
+      "enum": "SAVE_CUSTOM_SCENE",
+      "category": "سناریوها",
+      "parameters": "name; includedTargets",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/scene_mode_define_add_tips",
+      "sourceText": "Save current vehicle status",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "اجرای سناریوی شخصی",
+      "enum": "ACTIVATE_CUSTOM_SCENE",
+      "category": "سناریوها",
+      "parameters": "name",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/scene_mode_define_is_on",
+      "sourceText": "On [%s]",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "حذف سناریوی شخصی",
+      "enum": "DELETE_CUSTOM_SCENE",
+      "category": "سناریوها",
+      "parameters": "name",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/scene_mode_delete_content",
+      "sourceText": "Delete this scenario profile?",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم زمان حفظ برق",
+      "enum": "SET_POWER_KEEP_DURATION",
+      "category": "سناریوها",
+      "parameters": "minutes/unlimited",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/power_hold_duration",
+      "sourceText": "Hold time",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم شارژ با موتور در حالت حفظ برق",
+      "enum": "SET_POWER_KEEP_ENGINE_CHARGING",
+      "category": "سناریوها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/power_hold_engine_auto_charge",
+      "sourceText": "Smart charging by engine",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب حالت چراغ جلو",
+      "enum": "SET_HEADLIGHT_MODE",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "off/auto/lowBeam/position",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_setting_headlamp_auto",
+      "sourceText": "Automatic Light",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم ارتفاع نور چراغ جلو",
+      "enum": "SET_HEADLIGHT_LEVEL",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "level",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/light_headlamp_title",
+      "sourceText": "Headlamp adjustment",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم نوربالای خودکار",
+      "enum": "SET_AUTO_HIGH_BEAM",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/light_adapter",
+      "sourceText": "Adaptive high beam",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم چراغ روشنایی روز",
+      "enum": "SET_DAYTIME_RUNNING_LIGHTS",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/light_drl",
+      "sourceText": "DRLs",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم چراغ مشایعت",
+      "enum": "SET_FOLLOW_ME_HOME_LIGHTS",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled; seconds",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/light_follow_home",
+      "sourceText": "Follow Me Home",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم چراغ خوشامدگویی",
+      "enum": "SET_WELCOME_LIGHTS",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled; pattern",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/light_welcome",
+      "sourceText": "Welcome Lighting",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم چراغ ورودی",
+      "enum": "SET_COURTESY_LIGHTS",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/light_gated_title",
+      "sourceText": "Courtesy Lamp",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم حالت نورپردازی داخلی",
+      "enum": "SET_AMBIENT_LIGHT_MODE",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "normal/music/driveMode",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/light_atm_normal",
+      "sourceText": "Normal",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم شدت نورپردازی داخلی",
+      "enum": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "level",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/scene_mode_define_atm_bright",
+      "sourceText": "BRT %s",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم طیف نور هماهنگ با موسیقی",
+      "enum": "SET_MUSIC_LIGHT_PALETTE",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "cool/neutral/warm",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/light_atm_music",
+      "sourceText": "Sy w Mu",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم مه‌شکن عقب",
+      "enum": "SET_REAR_FOG_LIGHT",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_setting_headlamp_realfoglamp",
+      "sourceText": "Rear Fog Lamp",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "حالت سرویس برف‌پاک‌کن جلو",
+      "enum": "SET_WIPER_SERVICE_MODE",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/ppc_switch_title_front_wipers",
+      "sourceText": "Front wiper maintenance mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم برف‌پاک‌کن خودکار باران",
+      "enum": "SET_RAIN_SENSING_WIPERS",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/yutianzidongguashui",
+      "sourceText": "Auto wiping when raining",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم برف‌پاک‌کن عقب در دنده عقب",
+      "enum": "SET_REVERSE_REAR_WIPER",
+      "category": "نور و برف‌پاک‌کن",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/daochedangshihouchuangzidongguashui",
+      "sourceText": "Auto rear windshield wiping in R",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم هشدار باز کردن در",
+      "enum": "SET_DOOR_OPEN_WARNING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/alarm_dow",
+      "sourceText": "DOW",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم هشدار برخورد جلو",
+      "enum": "SET_FORWARD_COLLISION_WARNING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled; sensitivity",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/alarm_fcw",
+      "sourceText": "FCW",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم هشدار ترافیک عقب",
+      "enum": "SET_REAR_CROSS_TRAFFIC_WARNING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/alarm_rcta",
+      "sourceText": "RCTW",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم هشدار برخورد عقب",
+      "enum": "SET_REAR_COLLISION_WARNING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/alarm_rcw",
+      "sourceText": "RCW",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم ترمز اضطراری خودکار",
+      "enum": "SET_AUTOMATIC_EMERGENCY_BRAKING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/travel_aeb",
+      "sourceText": "AEB",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم پایش نقطه کور",
+      "enum": "SET_BLIND_SPOT_MONITORING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/travel_bsd",
+      "sourceText": "BSD & LCA",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم کمک حفظ خط",
+      "enum": "SET_LANE_SUPPORT_MODE",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "off/warning/keeping/centering",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/travel_lka",
+      "sourceText": "Lane Keeping Assist",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم هشدار سرعت هوشمند",
+      "enum": "SET_INTELLIGENT_SPEED_WARNING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/travel_isa",
+      "sourceText": "INTEL speed limit SYS",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم پایش خستگی و حواس‌پرتی",
+      "enum": "SET_DRIVER_MONITORING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled; sensitivity",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_fatigue_monitoring",
+      "sourceText": "DMS & Sensitivity",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم کمک رفع خستگی",
+      "enum": "SET_FATIGUE_RELIEF_ASSIST",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_fatigue_assistant",
+      "sourceText": "Fatigue Detect. & RLF Asst.",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم تشخیص حرکت دست راننده",
+      "enum": "SET_DRIVER_GESTURES",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_driver_gesture_recognition",
+      "sourceText": "Driver gesture recognition",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم دوربین راننده",
+      "enum": "SET_DRIVER_CAMERA",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_driver_status_monitoring_1",
+      "sourceText": "Driver camera",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم پایش صندلی عقب",
+      "enum": "SET_REAR_SEAT_MONITORING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_rear_monitoring",
+      "sourceText": "Rear seat monitoring",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم تشخیص جا ماندن سرنشین",
+      "enum": "SET_OCCUPANT_LEFT_BEHIND_ALERT",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_child_safe_leave_title",
+      "sourceText": "Crew legacy monitoring",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم آرام‌کردن کودک گریان",
+      "enum": "SET_CRYING_CHILD_CARE",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_child_safe_care_title",
+      "sourceText": "Children crying care",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم یادآوری قفل کودک",
+      "enum": "SET_CHILD_LOCK_REMINDER",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_child_safe_lock_title",
+      "sourceText": "Reminding Children of unlocked locks",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم حالت نگهبان",
+      "enum": "SET_SENTRY_MODE",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_pedestrian_reminder_sentinel_mode",
+      "sourceText": "Sentry Mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "انتخاب شیوه هشدار ضدسرقت",
+      "enum": "SET_ANTI_THEFT_ALERT_MODE",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "lights/lightsAndHorn",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_anti_theft_alarm_title",
+      "sourceText": "Sentry Alarm Mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم یادآوری صوتی قفل شدن",
+      "enum": "SET_LOCK_SOUND_CONFIRMATION",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/safty_lock_whistle_remind",
+      "sourceText": "Lock the car remind",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم کمک حفظ خط اضطراری",
+      "enum": "SET_EMERGENCY_LANE_KEEPING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_autobrake_lanekeep_title",
+      "sourceText": "ELK",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم کمک فرمان اضطراری",
+      "enum": "SET_EMERGENCY_STEERING_ASSIST",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_steeringassistance_title",
+      "sourceText": "ESA",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم هشدار شروع حرکت خودروی جلو",
+      "enum": "SET_LEAD_VEHICLE_DEPARTURE_ALERT",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_frontleave_title",
+      "sourceText": "Warning of the vehicle ahead",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم هشدار ترافیک متقاطع جلو",
+      "enum": "SET_FRONT_CROSS_TRAFFIC_WARNING",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_frontpass_title",
+      "sourceText": "Forward traffic crossing tips",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم شناسایی تابلوها",
+      "enum": "SET_TRAFFIC_SIGN_RECOGNITION",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_signrecognition_title",
+      "sourceText": "Traffic sign recognition",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم یادآوری چراغ راهنمایی",
+      "enum": "SET_TRAFFIC_LIGHT_REMINDER",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_trafficsignal_title",
+      "sourceText": "Traffic light reminder",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم تغییر لاین با راهنما",
+      "enum": "SET_TURN_SIGNAL_LANE_CHANGE_ASSIST",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_noaica_title",
+      "sourceText": "TLC",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم کمک تغییر لاین خودکار",
+      "enum": "SET_AUTOMATIC_LANE_CHANGE_ASSIST",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_noa_title",
+      "sourceText": "Active lane change assistance",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "انتخاب نحوه تأیید تغییر لاین",
+      "enum": "SET_LANE_CHANGE_CONFIRMATION",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "none/stalk",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_drive_sure",
+      "sourceText": "Automatic lane change confirmation",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم سناریوهای تغییر لاین",
+      "enum": "SET_LANE_CHANGE_SCENARIOS",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "scenario; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_drivelane_1",
+      "sourceText": "Automatic lane change scene",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم کمک رانندگی هوشمند",
+      "enum": "SET_DRIVING_PILOT",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_ica_title",
+      "sourceText": "IPA",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم کمک ناوبری رانندگی",
+      "enum": "SET_NAVIGATION_DRIVING_ASSIST",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/ada_sub_open_drivepilot_dialog_content",
+      "sourceText": "The intelligent navigation assistance (NOA) function can independently plan the route on the expressway and some urban expressways according to the navigation destination set by the user, and automatically change lanes according to the route, automatically get on and off the ramp, drive according to the speed limit of the road, intelligently surpass slow cars or avoid large cars. The Intelligent Navigation Assistance (NOA) function is a comfort assistant driving function, which cannot cope with all risk scenarios. In some emergency situations, the driver needs to take over. This system is not automatic driving. It can only assist the driver to complete some driving tasks in limited scenarios, and cannot replace the driver to drive, let alone judge the road conditions. In any case, it is the primary responsibility of the driver to ensure driving safety. The driver should always focus on observing the traffic environment and the operation of the vehicle, hold the steering wheel all the way, and be ready to take over the vehicle at any time. Other precautions: \\n(1) When the function is activated, the driver actively steps on the accelerator pedal to accelerate. If there is an obstacle in front of the driver, the pilot driving aid cannot automatically decelerate. \\n(2) It is not recommended to use this system in special situations such as heavy fog, rainy and snowy days, night, turning, intersection, tunnel, confluence and close cut of vehicles ahead.",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم محدودکننده سرعت هوشمند",
+      "enum": "SET_INTELLIGENT_SPEED_LIMIT_MODE",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "identify/manual/automatic",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_carspeed_title",
+      "sourceText": "Intelligent speed limit",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم اختلاف با حد سرعت",
+      "enum": "SET_SPEED_LIMIT_OFFSET",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "value; fixed/percent",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_carspeed_notspeed",
+      "sourceText": "Speed limit deviation",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "انتخاب نوع هشدار خروج از خط",
+      "enum": "SET_LANE_DEPARTURE_ALERT_TYPE",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "vibration/voice",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_lanekeep_type",
+      "sourceText": "Lane departure warning mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم حساسیت هشدار خروج از خط",
+      "enum": "SET_LANE_DEPARTURE_SENSITIVITY",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "level",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_lanekeep_title3",
+      "sourceText": "Lane departure warning sensitivity setting",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم جزئیات اعلان کمک‌راننده",
+      "enum": "SET_DRIVING_ASSIST_VOICE_DETAIL",
+      "category": "کمک‌راننده و پایش",
+      "parameters": "tone/concise/detailed",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/vehicle_drive_assistance_title_voiceAndHint",
+      "sourceText": "Voice Broadcast And Clew Tone",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود. تغییر تنظیم منو با اجرای مانور تفاوت دارد؛ پیش‌شرط‌ها و اشتراک، در لایه خودرو بررسی شوند."
+    },
+    {
+      "actionFa": "تنظیم روشنایی نمایشگر",
+      "enum": "SET_DISPLAY_BRIGHTNESS",
+      "category": "نمایشگر و سیستم",
+      "parameters": "display; percent",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/copilot_brightness",
+      "sourceText": "Co-Drv.",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب حالت روز یا شب نمایشگر",
+      "enum": "SET_DISPLAY_THEME_MODE",
+      "category": "نمایشگر و سیستم",
+      "parameters": "day/night/auto",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/brightness_mode",
+      "sourceText": "Brightness mode",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب تصویر زمینه",
+      "enum": "SET_WALLPAPER",
+      "category": "نمایشگر و سیستم",
+      "parameters": "display; image",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/custom_wallpaper",
+      "sourceText": "Custom wallpapers",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب پوسته صفحه اصلی",
+      "enum": "SET_HOME_THEME",
+      "category": "نمایشگر و سیستم",
+      "parameters": "theme",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/quiet_elegant_theme_skin_title",
+      "sourceText": "Homepage Skin",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم زمان خاموشی نمایشگر شاگرد",
+      "enum": "SET_PASSENGER_DISPLAY_TIMEOUT",
+      "category": "نمایشگر و سیستم",
+      "parameters": "seconds/never",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/screen_saver_auto",
+      "sourceText": "Automatic Screen Off",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب محافظ صفحه شاگرد",
+      "enum": "SET_PASSENGER_SCREENSAVER",
+      "category": "نمایشگر و سیستم",
+      "parameters": "pattern",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/screen_saver_name",
+      "sourceText": "Screen Saver",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "خاموش کردن موقت صفحه",
+      "enum": "SLEEP_DISPLAY",
+      "category": "نمایشگر و سیستم",
+      "parameters": "display",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/screen_sleep_mode",
+      "sourceText": "Lock screen display",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب کارت اطلاعات پشت فرمان",
+      "enum": "SET_CLUSTER_CARD",
+      "category": "نمایشگر و سیستم",
+      "parameters": "card",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/cluster_card_title",
+      "sourceText": "Cluster Card Customization",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم شیوه نمایش برد",
+      "enum": "SET_RANGE_DISPLAY_STANDARD",
+      "category": "نمایشگر و سیستم",
+      "parameters": "standard",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/display_text_remain_mile",
+      "sourceText": "Remaining range display",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب واحد فشار تایر",
+      "enum": "SET_TIRE_PRESSURE_UNIT",
+      "category": "نمایشگر و سیستم",
+      "parameters": "bar/psi",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/display_text_tire",
+      "sourceText": "Tire Pressure Unit Displayed on Instrument Cluster",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تغییر زبان سیستم",
+      "enum": "SET_SYSTEM_LANGUAGE",
+      "category": "نمایشگر و سیستم",
+      "parameters": "language",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/set_system_language",
+      "sourceText": "Language",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم تاریخ و ساعت خودکار",
+      "enum": "SET_AUTOMATIC_DATE_TIME",
+      "category": "نمایشگر و سیستم",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/setting_data_time",
+      "sourceText": "Auto date and time",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم تاریخ",
+      "enum": "SET_SYSTEM_DATE",
+      "category": "نمایشگر و سیستم",
+      "parameters": "date",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/setting_data_time_date",
+      "sourceText": "Date",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم ساعت",
+      "enum": "SET_SYSTEM_TIME",
+      "category": "نمایشگر و سیستم",
+      "parameters": "time",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/setting_data_time_time",
+      "sourceText": "Time",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش نسخه نرم‌افزار",
+      "enum": "SHOW_SYSTEM_VERSION",
+      "category": "نمایشگر و سیستم",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/software_version",
+      "sourceText": "Software version",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بررسی به‌روزرسانی",
+      "enum": "CHECK_SYSTEM_UPDATE",
+      "category": "نمایشگر و سیستم",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/check_update",
+      "sourceText": "Check / Update",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "راه‌اندازی مجدد نمایشگر",
+      "enum": "RESTART_HEAD_UNIT",
+      "category": "نمایشگر و سیستم",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/reboot_now",
+      "sourceText": "Restart now",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بازگرداندن تنظیمات کارخانه",
+      "enum": "RESET_FACTORY_SETTINGS",
+      "category": "نمایشگر و سیستم",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/factory_reset",
+      "sourceText": "Factory reset",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز کردن تنظیمات",
+      "enum": "OPEN_SETTINGS_PAGE",
+      "category": "نمایشگر و سیستم",
+      "parameters": "page",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/display",
+      "sourceText": "Display",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم بالارفتن خودکار نمایشگر",
+      "enum": "SET_AUTO_DISPLAY_LIFT",
+      "category": "نمایشگر و سیستم",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/convenient_auto_screen_title",
+      "sourceText": "Automatic Rising-lowering",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "قفل نمایشگر عقب",
+      "enum": "SET_REAR_DISPLAY_LOCK",
+      "category": "نمایشگر و سیستم",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "VehicleSetting:string/convenient_rearscreen_lock_title",
+      "sourceText": "Rear Screen Lock",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم بلندی صدا",
+      "enum": "SET_AUDIO_VOLUME",
+      "category": "صدا و رسانه",
+      "parameters": "channel: media/call/navigation/voice/system; level",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/media_volume",
+      "sourceText": "Media volume",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "زیاد یا کم کردن صدا",
+      "enum": "ADJUST_AUDIO_VOLUME",
+      "category": "صدا و رسانه",
+      "parameters": "channel; delta",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/media_description",
+      "sourceText": "@progress(text=[媒体],start=[0], end=[30], step=[1])",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بی‌صدا یا صدادار کردن",
+      "enum": "SET_AUDIO_MUTE",
+      "category": "صدا و رسانه",
+      "parameters": "channel; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/mute",
+      "sourceText": "Mute",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب منبع صوتی",
+      "enum": "SET_AUDIO_SOURCE",
+      "category": "صدا و رسانه",
+      "parameters": "source",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/sound_source",
+      "sourceText": "AU SC SW",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب حالت اکولایزر",
+      "enum": "SET_EQUALIZER_PRESET",
+      "category": "صدا و رسانه",
+      "parameters": "preset",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/equalize_setting",
+      "sourceText": "Equalizer settings",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم باند اکولایزر",
+      "enum": "SET_EQUALIZER_BAND",
+      "category": "صدا و رسانه",
+      "parameters": "band; gain",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/equalize_frequence1",
+      "sourceText": "63Hz",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم محل تمرکز صدا",
+      "enum": "SET_AUDIO_FOCUS_ZONE",
+      "category": "صدا و رسانه",
+      "parameters": "driver/front/rear/all",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/sound_field_focusing",
+      "sourceText": "Focus",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم بالانس صدا",
+      "enum": "SET_AUDIO_BALANCE",
+      "category": "صدا و رسانه",
+      "parameters": "leftRight; frontRear",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/sound_balance_title_msg",
+      "sourceText": "Adjust audio source position",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب ویژگی صوتی",
+      "enum": "SET_SOUND_CHARACTER",
+      "category": "صدا و رسانه",
+      "parameters": "dynamic/soft/speech/original",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/sound_field_features",
+      "sourceText": "Sound Characteristics",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم صدای سه‌بعدی",
+      "enum": "SET_SPATIAL_AUDIO",
+      "category": "صدا و رسانه",
+      "parameters": "mode",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/arkarmys_mode_x37",
+      "sourceText": "ARKAMYS 3D",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم تقویت باس",
+      "enum": "SET_BASS_ENHANCEMENT",
+      "category": "صدا و رسانه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/sound_loudness_compensate_desc",
+      "sourceText": "Turn on to enhance bass",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم بلندی وابسته به سرعت",
+      "enum": "SET_SPEED_COMPENSATED_VOLUME",
+      "category": "صدا و رسانه",
+      "parameters": "level",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/speed_volume",
+      "sourceText": "Speed compensated volume",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم صدای رسانه هنگام دنده عقب",
+      "enum": "SET_REVERSE_AUDIO_BEHAVIOR",
+      "category": "صدا و رسانه",
+      "parameters": "lower/mute",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/reverse_media_volume",
+      "sourceText": "System volume in reversing",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب ترکیب صدای مسیریابی و موسیقی",
+      "enum": "SET_NAVIGATION_AUDIO_MIX",
+      "category": "صدا و رسانه",
+      "parameters": "priority/mix",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/nav_mixer",
+      "sourceText": "Navigation sound mixing",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم صدای لمس",
+      "enum": "SET_TOUCH_SOUNDS",
+      "category": "صدا و رسانه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/sound_system_notice",
+      "sourceText": "Touch sounds",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب زنگ تماس",
+      "enum": "SET_CALL_RINGTONE",
+      "category": "صدا و رسانه",
+      "parameters": "ringtone",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/ring",
+      "sourceText": "Ring tone",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پخش رسانه",
+      "enum": "PLAY_MEDIA",
+      "category": "صدا و رسانه",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/fangxiangpan_anjianxuexi_item3",
+      "sourceText": "Play/Pause",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "توقف موقت رسانه",
+      "enum": "PAUSE_MEDIA",
+      "category": "صدا و رسانه",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/fangxiangpan_anjianxuexi_item3",
+      "sourceText": "Play/Pause",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "رسانه بعدی",
+      "enum": "NEXT_MEDIA",
+      "category": "صدا و رسانه",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/fangxiangpan_anjianxuexi_item2",
+      "sourceText": "Next",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "رسانه قبلی",
+      "enum": "PREVIOUS_MEDIA",
+      "category": "صدا و رسانه",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/fangxiangpan_anjianxuexi_item1",
+      "sourceText": "Previous",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "جست‌وجوی آهنگ، خواننده یا آلبوم",
+      "enum": "SEARCH_MUSIC",
+      "category": "صدا و رسانه",
+      "parameters": "query; kind",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_search_music",
+      "sourceText": "请输入歌曲名/歌手名/专辑名",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پخش همه آهنگ‌های فهرست",
+      "enum": "PLAY_MEDIA_LIST",
+      "category": "صدا و رسانه",
+      "parameters": "list",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_play_all",
+      "sourceText": "全部播放",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب حالت تکرار یا تصادفی",
+      "enum": "SET_PLAYBACK_ORDER",
+      "category": "صدا و رسانه",
+      "parameters": "repeatAll/repeatOne/shuffle",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_switch_random",
+      "sourceText": "已切换到随机播放模式",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "افزودن یا حذف از علاقه‌مندی موسیقی",
+      "enum": "SET_MUSIC_FAVORITE",
+      "category": "صدا و رسانه",
+      "parameters": "item; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_favorite",
+      "sourceText": "喜欢",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش تاریخچه پخش",
+      "enum": "SHOW_PLAYBACK_HISTORY",
+      "category": "صدا و رسانه",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_home_history",
+      "sourceText": "播放历史",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش موسیقی‌های دانلودشده",
+      "enum": "SHOW_DOWNLOADED_MUSIC",
+      "category": "صدا و رسانه",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_my_download",
+      "sourceText": "我的下载",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب کیفیت موسیقی",
+      "enum": "SET_MUSIC_QUALITY",
+      "category": "صدا و رسانه",
+      "parameters": "quality",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_source_4",
+      "sourceText": "无损",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم ذخیره هنگام پخش",
+      "enum": "SET_CACHE_WHILE_PLAYING",
+      "category": "صدا و رسانه",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_listen_to_sava",
+      "sourceText": "边听边存",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "حذف آهنگ دانلودشده",
+      "enum": "DELETE_DOWNLOADED_MUSIC",
+      "category": "صدا و رسانه",
+      "parameters": "item",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/is_del_down_song",
+      "sourceText": "是否删除已选择的下载歌曲？",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پاک کردن تاریخچه جست‌وجوی موسیقی",
+      "enum": "CLEAR_MUSIC_SEARCH_HISTORY",
+      "category": "صدا و رسانه",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "MusicConcate:string/kw_sure_clear_search_history",
+      "sourceText": "确定清空搜索历史吗？",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تماس با مخاطب یا شماره",
+      "enum": "CALL_CONTACT",
+      "category": "تلفن",
+      "parameters": "contact/number",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/card_dial_hint",
+      "sourceText": "Please enter a phone number or search for a contact",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نگه داشتن تماس",
+      "enum": "HOLD_CALL",
+      "category": "تلفن",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/keeping",
+      "sourceText": "Hold",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "جست‌وجوی مخاطب",
+      "enum": "SEARCH_CONTACT",
+      "category": "تلفن",
+      "parameters": "name/number",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/enter_name_number",
+      "sourceText": "Please enter a name / number",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش مخاطبان",
+      "enum": "SHOW_CONTACTS",
+      "category": "تلفن",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/contacts",
+      "sourceText": "Contacts",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش سابقه تماس",
+      "enum": "SHOW_CALL_HISTORY",
+      "category": "تلفن",
+      "parameters": "filter",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/record",
+      "sourceText": "Call history",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "همگام‌سازی مخاطبان",
+      "enum": "SYNC_CONTACTS",
+      "category": "تلفن",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/sync_book",
+      "sourceText": "Sync contacts",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "همگام‌سازی سابقه تماس",
+      "enum": "SYNC_CALL_HISTORY",
+      "category": "تلفن",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/sync_call_record",
+      "sourceText": "Sync recent calls",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تعویض تلفن متصل",
+      "enum": "SELECT_PHONE",
+      "category": "تلفن",
+      "parameters": "device",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/change_bluetooth",
+      "sourceText": "Switch devices",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پاک کردن سابقه تماس محلی",
+      "enum": "CLEAR_LOCAL_CALL_HISTORY",
+      "category": "تلفن",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/clear_call_record",
+      "sourceText": "Clear recent calls",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پاک کردن مخاطبان محلی",
+      "enum": "CLEAR_LOCAL_CONTACTS",
+      "category": "تلفن",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "BluetoothPhone:string/clear_mail_list",
+      "sourceText": "Clear contacts",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پاسخ دادن به تماس",
+      "enum": "ANSWER_CALL",
+      "category": "تلفن",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/fangxiangpan_anjianxuexi_item9",
+      "sourceText": "Answer",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "قطع یا رد تماس",
+      "enum": "END_CALL",
+      "category": "تلفن",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/fangxiangpan_anjianxuexi_item10",
+      "sourceText": "Hang up",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن وای‌فای",
+      "enum": "SET_WIFI",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/wifi",
+      "sourceText": "Wi-Fi",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "اتصال به شبکه وای‌فای",
+      "enum": "CONNECT_WIFI",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "ssid",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/connecting_to_wifi",
+      "sourceText": "正在与Wi-Fi %s连接",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "قطع اتصال وای‌فای",
+      "enum": "DISCONNECT_WIFI",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "ssid",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/disconnect_wifi",
+      "sourceText": "确认断开%1$s的连接？",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فراموش کردن شبکه وای‌فای",
+      "enum": "FORGET_WIFI",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "ssid",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/ignore_wifi",
+      "sourceText": "要忽略Wi-Fi“%1$s“吗？系统将不再连接此无线局域网络",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن بلوتوث",
+      "enum": "SET_BLUETOOTH",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/bluetooth",
+      "sourceText": "蓝牙",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "اتصال به دستگاه بلوتوث",
+      "enum": "CONNECT_BLUETOOTH",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "device",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/setting_connect_bluetooth_success",
+      "sourceText": "Connected to %1$s's BT",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "قطع دستگاه بلوتوث",
+      "enum": "DISCONNECT_BLUETOOTH",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "device",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/bt_disconnect_dialog_title",
+      "sourceText": "断开 %s 的连接？",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "حذف جفت‌سازی بلوتوث",
+      "enum": "FORGET_BLUETOOTH_DEVICE",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "device",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/dialog_delete_bluetooth",
+      "sourceText": "确定删除蓝牙设备%1$s?",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن هدفون بلوتوث شاگرد",
+      "enum": "SET_PASSENGER_BLUETOOTH_AUDIO",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/bluetooth_ear",
+      "sourceText": "蓝牙耳机",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم نام دستگاه",
+      "enum": "SET_DEVICE_NAME",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "name",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/device_name_setting",
+      "sourceText": "设备名设置",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "روشن یا خاموش کردن هات‌اسپات",
+      "enum": "SET_WIFI_HOTSPOT",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/wifi_ap_text",
+      "sourceText": "AP热点",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب باند هات‌اسپات",
+      "enum": "SET_HOTSPOT_BAND",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "2.4GHz/5GHz",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/h56_ap_channel_check_title",
+      "sourceText": "Channel settings:",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم نام هات‌اسپات",
+      "enum": "SET_HOTSPOT_NAME",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "name",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/ap_name_title",
+      "sourceText": "热点名称",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم رمز هات‌اسپات",
+      "enum": "SET_HOTSPOT_PASSWORD",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "password",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/input_pwd_ap_hint",
+      "sourceText": "至少8个字符",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بازنشانی شبکه موبایل",
+      "enum": "RESET_MOBILE_NETWORK",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/h56_reset_tbox_title",
+      "sourceText": "Mobile data network",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب سامانه اتصال گوشی",
+      "enum": "SET_PHONE_MIRRORING_PROVIDER",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "provider",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/car_phone_link_default",
+      "sourceText": "Mirroring settings",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال کردن اتصال گوشی",
+      "enum": "SET_PHONE_MIRRORING",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/interact_launch_phone_interconnection",
+      "sourceText": "Phone mirroring",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم حالت حریم خصوصی",
+      "enum": "SET_PRIVACY_MODE",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/privacy_text_title",
+      "sourceText": "Privacy protection",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "محدود کردن دوربین داخلی",
+      "enum": "SET_CABIN_CAMERA_PRIVACY",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/privacy_text_camera",
+      "sourceText": "Disable interior camera",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "محدود کردن میکروفون داخلی",
+      "enum": "SET_CABIN_MICROPHONE_PRIVACY",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/privacy_text_mic",
+      "sourceText": "Disable interior MIC",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "محدود کردن مکان‌یابی",
+      "enum": "SET_LOCATION_PRIVACY",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/privacy_text_nav",
+      "sourceText": "Disable navigation & location",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "پنهان کردن اطلاعات تماس",
+      "enum": "SET_CALL_PRIVACY",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/privacy_text_bt_phone",
+      "sourceText": "Bluetooth call privacy",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "محدود کردن تاریخچه مکان‌ها",
+      "enum": "SET_LOCATION_HISTORY_PRIVACY",
+      "category": "اتصال و حریم خصوصی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/privacy_text_track",
+      "sourceText": "Whereabouts privacy",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز کردن دوربین",
+      "enum": "OPEN_CAMERA",
+      "category": "دوربین",
+      "parameters": "view",
+      "evidence": "شاهد متنی منابع",
+      "source": "Camera:string/app_name",
+      "sourceText": "Camera",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "گرفتن عکس",
+      "enum": "TAKE_PHOTO",
+      "category": "دوربین",
+      "parameters": "view",
+      "evidence": "شاهد متنی منابع",
+      "source": "Camera:string/camera_take_pic_quick",
+      "sourceText": "Capture",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "شروع فیلم‌برداری",
+      "enum": "START_VIDEO_RECORDING",
+      "category": "دوربین",
+      "parameters": "view",
+      "evidence": "شاهد متنی منابع",
+      "source": "Camera:string/camera_title_video_start",
+      "sourceText": "Tap the screen to start recording",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "توقف فیلم‌برداری",
+      "enum": "STOP_VIDEO_RECORDING",
+      "category": "دوربین",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Camera:string/camera_title_video_end",
+      "sourceText": "Tap the screen to stop recording",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم شمارش معکوس عکس",
+      "enum": "SET_PHOTO_TIMER",
+      "category": "دوربین",
+      "parameters": "seconds",
+      "evidence": "شاهد متنی منابع",
+      "source": "Camera:string/camera_title_pic_time",
+      "sourceText": "Photo Countdown:",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم واترمارک عکس",
+      "enum": "SET_CAMERA_WATERMARK",
+      "category": "دوربین",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Camera:string/camera_watermark",
+      "sourceText": "Watermark",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز کردن مسیریابی",
+      "enum": "OPEN_NAVIGATION",
+      "category": "مسیریابی",
+      "parameters": "بدون پارامتر",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/navigation",
+      "sourceText": "Navigation",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب ترجیح مسیر",
+      "enum": "SET_ROUTE_PREFERENCE",
+      "category": "مسیریابی",
+      "parameters": "avoidTolls/avoidHighways/avoidFerry/avoidElevated/fastest",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/bikaishoufei",
+      "sourceText": "Avoid toll",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم اجتناب از ترافیک",
+      "enum": "SET_AVOID_CONGESTION",
+      "category": "مسیریابی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/yongduguibi",
+      "sourceText": "Congestion avoidance",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش ترافیک زنده",
+      "enum": "SET_LIVE_TRAFFIC_DISPLAY",
+      "category": "مسیریابی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/shishilukuang",
+      "sourceText": "Real-time traffic info",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم بزرگ‌نمایی خودکار نقشه",
+      "enum": "SET_MAP_AUTO_ZOOM",
+      "category": "مسیریابی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/zidongsuofang",
+      "sourceText": "Auto zoom",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب حالت نمایش نقشه",
+      "enum": "SET_MAP_VIEW_MODE",
+      "category": "مسیریابی",
+      "parameters": "mode",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/dituxianshi",
+      "sourceText": "Map display",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب صدای راهنمای مسیر",
+      "enum": "SET_NAVIGATION_VOICE",
+      "category": "مسیریابی",
+      "parameters": "voice",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/broadcast_voice",
+      "sourceText": "TTS voice",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم میزان توضیحات راهنمای مسیر",
+      "enum": "SET_NAVIGATION_GUIDANCE_DETAIL",
+      "category": "مسیریابی",
+      "parameters": "level",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/yindaoyuyan",
+      "sourceText": "TTS frequency",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم راهنمای صوتی در پس‌زمینه",
+      "enum": "SET_BACKGROUND_NAVIGATION_GUIDANCE",
+      "category": "مسیریابی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/houtaibobao",
+      "sourceText": "Background TTS",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم کنترل مسیریابی فقط توسط راننده",
+      "enum": "SET_DRIVER_ONLY_NAVIGATION",
+      "category": "مسیریابی",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/navigation_driver_lock",
+      "sourceText": "Driver navigation lock",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "فعال یا غیرفعال کردن مکالمه پیوسته دستیار",
+      "enum": "SET_CONTINUOUS_CONVERSATION",
+      "category": "دستیار و اعلان‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/continuous_dialogue",
+      "sourceText": "Continuous conversation",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم تشخیص صدا از چند ناحیه",
+      "enum": "SET_VOICE_CAPTURE_ZONES",
+      "category": "دستیار و اعلان‌ها",
+      "parameters": "zones",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/multi_source_recognition_options",
+      "sourceText": "Four-zone speech recognition",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم فرمان بدون بیدارباش",
+      "enum": "SET_WAKE_FREE_COMMANDS",
+      "category": "دستیار و اعلان‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/hot_words",
+      "sourceText": "Wakeup free",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتخاب صدای دستیار",
+      "enum": "SET_ASSISTANT_VOICE",
+      "category": "دستیار و اعلان‌ها",
+      "parameters": "voice",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/female_voice",
+      "sourceText": "Female voice",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم اعلان برنامه‌ها",
+      "enum": "SET_APP_NOTIFICATIONS",
+      "category": "دستیار و اعلان‌ها",
+      "parameters": "app; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/application_remind",
+      "sourceText": "App notifications",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم پیشنهادهای هوشمند",
+      "enum": "SET_SMART_RECOMMENDATIONS",
+      "category": "دستیار و اعلان‌ها",
+      "parameters": "category; enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/intelligent_recommend",
+      "sourceText": "Intelligent recommendation",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم خواندن خودکار پیام‌ها",
+      "enum": "SET_AUTO_MESSAGE_READING",
+      "category": "دستیار و اعلان‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/receive_read_message",
+      "sourceText": "Automatically read new message aloud",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "تنظیم نمایش پیام‌های دریافتی",
+      "enum": "SET_MESSAGE_DISPLAY",
+      "category": "دستیار و اعلان‌ها",
+      "parameters": "enabled",
+      "evidence": "شاهد متنی منابع",
+      "source": "Setting:string/receive_display_message",
+      "sourceText": "Receive and display chat messages",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش تصاویر یا فیلم‌ها",
+      "enum": "OPEN_GALLERY",
+      "category": "گالری و ویدیو",
+      "parameters": "source; mediaType",
+      "evidence": "شاهد متنی منابع",
+      "source": "Gallery:string/loadAllPic",
+      "sourceText": "Loading all images",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "حذف عکس یا فیلم",
+      "enum": "DELETE_GALLERY_ITEM",
+      "category": "گالری و ویدیو",
+      "parameters": "item",
+      "evidence": "شاهد متنی منابع",
+      "source": "Gallery:string/actDelete",
+      "sourceText": "Delete",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "کپی عکس یا فیلم به فلش",
+      "enum": "EXPORT_MEDIA_TO_USB",
+      "category": "گالری و ویدیو",
+      "parameters": "items",
+      "evidence": "شاهد متنی منابع",
+      "source": "Gallery:string/actToUSB",
+      "sourceText": "Import to USB",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "وارد کردن عکس یا فیلم به گالری",
+      "enum": "IMPORT_MEDIA_TO_GALLERY",
+      "category": "گالری و ویدیو",
+      "parameters": "items",
+      "evidence": "شاهد متنی منابع",
+      "source": "Gallery:string/actToLocal",
+      "sourceText": "Import to album",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "بارگذاری رسانه در فضای ابری",
+      "enum": "UPLOAD_MEDIA_TO_CLOUD",
+      "category": "گالری و ویدیو",
+      "parameters": "items",
+      "evidence": "شاهد متنی منابع",
+      "source": "Gallery:string/actToCloud",
+      "sourceText": "Upload",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "دانلود رسانه از فضای ابری",
+      "enum": "DOWNLOAD_CLOUD_MEDIA",
+      "category": "گالری و ویدیو",
+      "parameters": "items",
+      "evidence": "شاهد متنی منابع",
+      "source": "Gallery:string/actDown",
+      "sourceText": "Download",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "باز کردن پخش‌کننده ویدیو",
+      "enum": "OPEN_VIDEO_PLAYER",
+      "category": "گالری و ویدیو",
+      "parameters": "item",
+      "evidence": "شاهد متنی منابع",
+      "source": "Video:string/video_name",
+      "sourceText": "Videos",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "انتقال رسانه به نمایشگر دیگر",
+      "enum": "MOVE_MEDIA_TO_DISPLAY",
+      "category": "گالری و ویدیو",
+      "parameters": "display",
+      "evidence": "شاهد متنی منابع",
+      "source": "Video:string/vuiVideo",
+      "sourceText": "Try saying Send video to driver screen while the video is playing",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "نمایش یا بستن فهرست پخش",
+      "enum": "SET_PLAYLIST_VISIBLE",
+      "category": "گالری و ویدیو",
+      "parameters": "visible",
+      "evidence": "شاهد متنی منابع",
+      "source": "Video:string/vui_opening_play_list",
+      "sourceText": "Opening playlist",
+      "note": "شاهد متنی در APK؛ نمایش روی تیپ و رام و مسیر اجرای فرمان هنوز باید تأیید شود."
+    },
+    {
+      "actionFa": "قفل یا باز کردن قفل درها",
+      "enum": "SET_DOOR_LOCK",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "door; locked",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "کنترل مستقیم؛ هنوز مسیر منوی دقیق ثبت نشده"
+    },
+    {
+      "actionFa": "جمع یا باز کردن آینه‌ها",
+      "enum": "SET_MIRROR_FOLD",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "side; folded",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "کنترل مستقیم؛ گزینه خودکار در منابع تأیید شده"
+    },
+    {
+      "actionFa": "تنظیم موقعیت آینه",
+      "enum": "ADJUST_MIRROR",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "side; direction; amount",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "حرکت مستقیم؛ مسیر کنترل نیازمند بررسی"
+    },
+    {
+      "actionFa": "تنظیم موقعیت صندلی",
+      "enum": "ADJUST_SEAT",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "seat; axis; direction; amount",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "جلو/عقب/ارتفاع/پشتی/گودی کمر؛ نباید از حافظه صندلی استنتاج شود"
+    },
+    {
+      "actionFa": "تنظیم گرم‌کن فرمان",
+      "enum": "SET_STEERING_WHEEL_HEATING",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "enabled; level",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "وجود هشدار کافی برای اثبات منو نیست"
+    },
+    {
+      "actionFa": "تنظیم رنگ نور داخلی",
+      "enum": "SET_AMBIENT_LIGHT_COLOR",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "zone; color",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "کنترل رنگ دقیق نیازمند بررسی بیشتر"
+    },
+    {
+      "actionFa": "شروع شارژ فوری",
+      "enum": "START_CHARGING",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "کنترل شروع مستقل نیازمند بررسی"
+    },
+    {
+      "actionFa": "توقف برق خروجی",
+      "enum": "STOP_EXTERNAL_POWER",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "کنترل توقف مستقل نیازمند بررسی"
+    },
+    {
+      "actionFa": "نمایش فشار تایرها",
+      "enum": "SHOW_TIRE_PRESSURES",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "صفحه وضعیت و خواندن داده نیازمند تطبیق"
+    },
+    {
+      "actionFa": "نمایش میزان سوخت و شارژ و برد",
+      "enum": "SHOW_ENERGY_STATUS",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "خواندن داده و صفحه مقصد نیازمند تطبیق"
+    },
+    {
+      "actionFa": "باز کردن دوربین ۳۶۰ درجه",
+      "enum": "OPEN_SURROUND_CAMERA",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "view",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK پارک و دوربین پیرامونی در این دور بررسی نشده"
+    },
+    {
+      "actionFa": "انتخاب زاویه دوربین پیرامونی",
+      "enum": "SET_SURROUND_CAMERA_VIEW",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "front/rear/left/right/top/3D",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK مربوطه باید بررسی شود"
+    },
+    {
+      "actionFa": "تنظیم نمایش خطوط راهنمای دوربین",
+      "enum": "SET_CAMERA_GUIDELINES",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "enabled",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK مربوطه باید بررسی شود"
+    },
+    {
+      "actionFa": "ذخیره فیلم اضطراری ضبط رانندگی",
+      "enum": "SAVE_DASHCAM_EVENT",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK دی‌وی‌آر جداگانه باید بررسی شود"
+    },
+    {
+      "actionFa": "فرمت کارت حافظه ضبط رانندگی",
+      "enum": "FORMAT_DASHCAM_STORAGE",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "هشدار فرمت در Camera دیده شد؛ کنترل در DVR باید بررسی شود"
+    },
+    {
+      "actionFa": "تنظیم ضبط صدای دی‌وی‌آر",
+      "enum": "SET_DASHCAM_AUDIO_RECORDING",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "enabled",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK دی‌وی‌آر باید بررسی شود"
+    },
+    {
+      "actionFa": "انتخاب مقصد مسیریابی",
+      "enum": "NAVIGATE_TO",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "destination",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK نقشه جداگانه باید بررسی شود"
+    },
+    {
+      "actionFa": "مسیریابی به خانه یا محل کار",
+      "enum": "NAVIGATE_TO_SAVED_PLACE",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "place",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK نقشه جداگانه باید بررسی شود"
+    },
+    {
+      "actionFa": "توقف مسیریابی",
+      "enum": "STOP_NAVIGATION",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK نقشه جداگانه باید بررسی شود"
+    },
+    {
+      "actionFa": "افزودن مقصد میانی",
+      "enum": "ADD_NAVIGATION_WAYPOINT",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "destination",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK نقشه جداگانه باید بررسی شود"
+    },
+    {
+      "actionFa": "جست‌وجوی مکان نزدیک",
+      "enum": "SEARCH_NEARBY_PLACE",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "category",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK نقشه جداگانه باید بررسی شود"
+    },
+    {
+      "actionFa": "انتخاب فرکانس یا ایستگاه رادیو",
+      "enum": "TUNE_RADIO",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "station/frequency",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "APK رادیو جداگانه باید بررسی شود"
+    },
+    {
+      "actionFa": "باز کردن برنامه دلخواه",
+      "enum": "OPEN_APP",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "app",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "فهرست لانچر و انتخاب برنامه باید تطبیق داده شود"
+    },
+    {
+      "actionFa": "بازگشت به صفحه قبلی",
+      "enum": "GO_BACK",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "عمل عمومی اندروید؛ مستقل از API خودرو"
+    },
+    {
+      "actionFa": "رفتن به صفحه اصلی",
+      "enum": "GO_HOME",
+      "category": "نیازمند بررسی تکمیلی",
+      "parameters": "بدون پارامتر",
+      "evidence": "پیشنهادی؛ شاهد منو کامل نیست",
+      "source": "—",
+      "sourceText": "—",
+      "note": "عمل عمومی اندروید؛ مستقل از API خودرو"
+    }
+  ],
+  "phase1": {
+    "actions": [
+      "ADJUST_CABIN_TEMPERATURE",
+      "ADJUST_FAN_SPEED",
+      "SET_AC_POWER",
+      "SET_AIRFLOW_DIRECTION",
+      "SET_AIR_RECIRCULATION",
+      "SET_CABIN_TEMPERATURE",
+      "SET_CLIMATE_AUTO",
+      "SET_CLIMATE_POWER",
+      "SET_FAN_SPEED",
+      "SET_FRONT_CLIMATE_SYNC",
+      "SET_FRONT_DEFROSTER",
+      "SET_MAX_COOLING",
+      "SET_REAR_DEFROSTER",
+      "SET_SEAT_HEATING",
+      "SET_SEAT_MASSAGE",
+      "SET_SEAT_MASSAGE_PATTERN",
+      "SET_SEAT_VENTILATION"
+    ],
+    "rearClimateSupported": false,
+    "seatAliases": {
+      "left": "driver",
+      "right": "passenger"
+    },
+    "appVersion": "0.6.1",
+    "vehicleExecution": false,
+    "defaultDirectionalTarget": "driver",
+    "climatePowerSemantics": {
+      "ventilation": {
+        "enabled": true,
+        "acEnabled": false
+      },
+      "cooling": {
+        "enabled": true,
+        "acEnabled": true,
+        "temperatureMaxC": 23
+      },
+      "heating": {
+        "enabled": true,
+        "acEnabled": true,
+        "temperatureMinC": 26
+      }
+    },
+    "temperatureBoundsApplyTo": "selected-zone-setpoint-read-at-execution"
+  }
+}

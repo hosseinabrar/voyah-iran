@@ -1,0 +1,21 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:contentDescription="@string/raha_overlay_cancel" android:clickable="true">
+    <androidx.constraintlayout.widget.Guideline android:id="@+id/orbCenter"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:orientation="horizontal" app:layout_constraintGuide_percent="0.25" />
+    <com.abrar.raha.feedback.RahaOrbView android:id="@+id/orb"
+        android:layout_width="@dimen/raha_orb_size" android:layout_height="@dimen/raha_orb_size"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/orbCenter" app:layout_constraintBottom_toBottomOf="@id/orbCenter" />
+    <TextView android:id="@+id/rahaTranscript" android:layout_width="0dp" android:layout_height="wrap_content"
+        android:visibility="gone" android:background="@drawable/raha_transcript_background"
+        android:textColor="@color/raha_transcript_text" android:textSize="@dimen/raha_transcript_size"
+        android:padding="@dimen/raha_transcript_padding" android:gravity="center" android:textDirection="firstStrong"
+        android:maxLines="3" android:ellipsize="end" android:importantForAccessibility="yes"
+        android:layout_marginTop="8dp" app:layout_constraintWidth_percent="0.85" app:layout_constraintWidth_max="680dp"
+        app:layout_constraintTop_toBottomOf="@id/orb" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

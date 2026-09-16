@@ -10,11 +10,17 @@ import android.os.IBinder
 import android.os.Parcel
 import com.abrar.voyahiran.feature.steering.domain.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.util.concurrent.Executors
 
 /** Wire protocol recovered from the supplied Qinggan 1.0.0 firmware. */
 class QingganStarMapping(context: Context) : StarMapping {
     private val context = context.applicationContext
+    private val operations = Mutex()
+    @Volatile private var voice: (() -> Unit)? = null
+    private val voicePress = com.abrar.voyahiran.feature.voice.VoiceButtonPolicy()
+    val voiceListening: Boolean get() = voice != null && registered && remote?.isBinderAlive == true
     private val events = Executors.newSingleThreadExecutor()
     private var connection: ServiceConnection? = null
     @Volatile private var remote: IBinder? = null
@@ -37,6 +43,10 @@ class QingganStarMapping(context: Context) : StarMapping {
                 val display = data.readInt()
                 if (code == 2) { data.readString(); data.readInt() }
                 val epoch = generation.get()
+                if (voice != null && key == 130) {
+                    consumed = true
+                    if (voicePress.trigger(action)) voice?.invoke()
+                }
                 val routed = policy?.route(key, action, keyFlags, display, OemPayload(extras))
                 com.abrar.voyahiran.core.logging.AppLog.info("StarEvent", "key=$key action=$action flags=$keyFlags display=$display consumed=${routed?.consume} emitted=${routed?.events?.size}")
                 if (routed?.consume == true) {
@@ -56,48 +66,69 @@ class QingganStarMapping(context: Context) : StarMapping {
         }
     }
 
-    override suspend fun read(): Int {
+    override suspend fun read(): Int = operations.withLock {
         connect()
-        return call(9, { writeInt(SteeringKeys.STAR); writeString(context.packageName) }) { readInt() }
+        return@withLock call(9, { writeInt(SteeringKeys.STAR); writeString(context.packageName) }) { readInt() }
     }
 
-    override suspend fun write(target: Int) {
+    override suspend fun write(target: Int) = operations.withLock {
         connect()
         call(8, { writeInt(SteeringKeys.STAR); writeInt(target); writeString(context.packageName) }) { Unit }
     }
 
-    override suspend fun intercept(previous: Int) {
+    override suspend fun intercept(previous: Int) = operations.withLock {
         connect()
         // Replaying a target that itself maps elsewhere could recurse or change the OEM action.
         for (target in listOf(previous, SteeringKeys.BACK).filter { it != SteeringKeys.STAR }.distinct()) {
             val mapped = call(9, { writeInt(target); writeString(context.packageName) }) { readInt() }
             if (mapped != target) throw SteeringException(SteeringFailure.UNAVAILABLE)
         }
-        // Replace our own old registration in FIFO order; use a fresh death token on re-enable.
         generation.incrementAndGet()
-        policy = null
-        if (registered) call(4, { writeStrongBinder(callback); writeString(context.packageName) }) { Unit }
-        registered = false
-        token = Binder()
         policy = StarEventPolicy(previous)
-        registered = true // Also release an ambiguously acknowledged registration before retry.
-        val result = call(3, {
-            writeStrongBinder(token); writeStrongBinder(callback)
-            writeIntArray(intArrayOf(SteeringKeys.STAR))
-            writeString(context.packageName); writeInt(0); writeInt(100)
-        }) { readInt() }
-        if (result != 0) { policy = null; throw SteeringException(SteeringFailure.CONNECTION) }
-        // Registration and mapping requests enter the same FIFO engine queue.
+        registerKeys()
     }
 
-    override suspend fun release() {
+    override suspend fun release() = operations.withLock {
         generation.incrementAndGet()
         policy = null
-        if (registered && remote?.isBinderAlive == true) {
+        if (voice != null) { connect(); registerKeys() }
+        else { unregisterKeys(); disconnect() }
+    }
+
+    /** OEM indexes interceptors by package, so star and voice MUST share this registration. */
+    suspend fun setVoiceListener(listener: (() -> Unit)?) = operations.withLock {
+        if (listener != null && voiceListening) { voice = listener; return@withLock }
+        voice = listener
+        voicePress.reset()
+        if (listener != null || policy != null) {
+            connect()
+            registerKeys()
+        } else { unregisterKeys(); disconnect() }
+    }
+
+    private fun unregisterKeys() {
+        if (registered && remote?.isBinderAlive == true)
             call(4, { writeStrongBinder(callback); writeString(context.packageName) }) { Unit }
+        registered = false
+    }
+
+    private fun registerKeys() {
+        unregisterKeys()
+        token = Binder()
+        registered = true // Release even when acknowledgment is ambiguous.
+        val keys = buildList {
+            if (policy != null) add(SteeringKeys.STAR)
+            if (voice != null) add(130) // Qinglink Constant.Button.KeyCode.KEYCODE_IVOKA
+        }.toIntArray()
+        val result = call(3, {
+            writeStrongBinder(token); writeStrongBinder(callback); writeIntArray(keys)
+            writeString(context.packageName); writeInt(0); writeInt(100)
+        }) { readInt() }
+        if (result != 0) {
+            registered = false
+            throw SteeringException(SteeringFailure.CONNECTION)
         }
-        policy = null
-        disconnect()
+        com.abrar.voyahiran.core.logging.AppLog.info("Steering", "shared interception keys=${keys.joinToString()}")
     }
 
     private data class OemPayload(val extras: Bundle?) : KeyPayload

@@ -49,6 +49,9 @@ object BridgeServer {
                 else try {
                     AppLog.info("BridgeServer", "request=$request operation=${command.first()} accepted")
                     when (command.first()) {
+                        "subscription-vin" -> VehicleIdentity.read()
+                        "subscription-session" -> BridgeSubscriptionSession.update(command[1].toInt())
+                        "raha-command" -> RahaVehicleBridge.execute(command[1], command[2])
                         "roa-hook" -> roa.command(command[1])
                         "roa-config" -> RearCameraConfiguration.enable()
                         else -> runner.run(command, parsed.timeout)

@@ -1,0 +1,33 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:layoutDirection="rtl"
+    android:fillViewport="true" android:visibility="gone" tools:visibility="visible" tools:background="@color/background">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="@dimen/page_padding">
+        <TextView style="@style/Text.Heading" android:text="@string/raha_tab" android:accessibilityHeading="true" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"
+            android:layout_marginTop="@dimen/space_lg" android:padding="@dimen/space_lg" android:background="@drawable/bg_card">
+<CheckBox android:id="@+id/master" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+        android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+        android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_enable" />
+            <LinearLayout android:id="@+id/wakeOptions" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:alpha="0.4" android:layout_marginTop="@dimen/space_md">
+                <TextView style="@style/Text.Secondary" android:text="@string/raha_wake_hint" />
+<CheckBox android:id="@+id/wakeHey" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+        android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+        android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_wake_hey" /><CheckBox android:id="@+id/wakeHello" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+        android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+        android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_wake_hello" /><CheckBox android:id="@+id/wakeName" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+        android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+        android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_wake_name" />
+            </LinearLayout>
+            <CheckBox android:id="@+id/showTranscript" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target" android:buttonTint="@color/accent"
+                android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:text="@string/raha_show_transcript" />
+            <TextView android:id="@+id/error" style="@style/Text.Caption" android:visibility="gone" android:accessibilityLiveRegion="polite" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

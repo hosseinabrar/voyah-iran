@@ -6,4 +6,7 @@ dependencyResolutionManagement {
     repositories { google(); mavenCentral() }
 }
 rootProject.name = "VoyahIran"
-include(":app")
+include(":app", ":command-core", ":raha-runtime")
+project(":command-core").projectDir = file("raha-core")
+
+include(":raha-feedback")

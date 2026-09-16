@@ -96,8 +96,24 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             await VerifyHash("/system/framework/services.jar", currentHash);
             Done();
             Begin(InstallPhase.Apk);
-            var installed = await Command(180, "install", "-r", "--user", "0", bundle.File("app.apk"));
-            if (!installed.Split('\n').Any(l => l.Trim() == "Success")) throw new IOException("نصب APK تأیید نشد.");
+            // Transfer first, then let PackageManager install the local APK. Streaming
+            // installation on some head units aborts without returning a package error.
+            log.Write("Installing APK without streaming; transfer and package installation are separate. Keep USB connected.");
+            var apkResult = await adb.RunAsync(serial,
+                ["install", "--no-streaming", "-r", "--user", "0", bundle.File("app.apk")], 600);
+            if (apkResult.ExitCode != 0 || !apkResult.Output.Split('\n').Any(l => l.Trim() == "Success"))
+            {
+                log.Write($"APK install failed: exit={apkResult.ExitCode}; output={apkResult.Output}");
+                // Read-only diagnostics; never uninstall the previous app or clear its data.
+                try
+                {
+                    await adb.RunAsync(null, ["devices", "-l"], 15);
+                    await adb.RunAsync(serial, ["shell", "df", "-h", "/data"], 15);
+                    await adb.RunAsync(serial, ["logcat", "-d", "-b", "all", "-t", "300", "-v", "threadtime"], 20);
+                }
+                catch (Exception diagnosticError) { log.Write($"APK failure diagnostics unavailable: {diagnosticError.Message}"); }
+                throw new IOException($"نصب APK ناموفق بود (کد {apkResult.ExitCode}). اتصال USB و گزارش نصب را بررسی کنید.\n{apkResult.Output.Trim()}");
+            }
             Done();
             Begin(InstallPhase.Bridge);
             await Root(15, "mkdir", "-m", "700", stage); stageCreated = true;

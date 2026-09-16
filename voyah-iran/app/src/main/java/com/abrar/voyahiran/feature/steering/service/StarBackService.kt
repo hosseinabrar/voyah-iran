@@ -33,9 +33,9 @@ class StarBackService : Service() {
             commands.receive()
             while (isActive) {
                 val startId = lastStartId
-                val desired = app.starBackup.desired
+                val desired = app.starBackup.desired && app.subscriptions.allowed
                 val ok = app.steeringController.setEnabled(desired)
-                if (!app.starBackup.desired && app.starBackup.read() == null && ok) {
+                if ((!app.starBackup.desired || !app.subscriptions.allowed) && app.starBackup.read() == null && ok) {
                     if (stopSelfResult(startId)) break
                 }
                 showNotification(if (ok && desired) R.string.star_service_active else R.string.star_service_starting)

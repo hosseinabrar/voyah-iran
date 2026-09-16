@@ -31,6 +31,7 @@ class DriveMemoryService : Service() {
             .setContentIntent(open).setOngoing(true).build())
         scope.launch {
             for (action in commands) {
+                if(!(application as VoyahIranApplication).subscriptions.allowed) { controller.detach();stopSelf();break }
                 if (action == BOOT) awaitBridgeAtBoot()
                 when (action) {
                     ENABLE -> controller.enable()

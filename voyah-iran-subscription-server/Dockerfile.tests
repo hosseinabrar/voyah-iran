@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+WORKDIR /src
+COPY Directory.Build.props NuGet.Config ./
+COPY src src
+COPY tests tests
+RUN dotnet publish tests/VoyahIran.Subscriptions.Tests -c Release -o /tests
+ENTRYPOINT ["dotnet","/tests/VoyahIran.Subscriptions.Tests.dll"]

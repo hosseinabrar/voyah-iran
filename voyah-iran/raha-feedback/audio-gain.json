@@ -1,0 +1,26 @@
+[
+  {
+    "file": "raha_failure.wav",
+    "gain": 2,
+    "peakBefore": 5063,
+    "peakAfter": 10126,
+    "sourceSha256": "edd158dae1d384c0c2c0b090e7e6c4fbc10054a5f7fa9f7a4428a0f5cd32cdd2",
+    "outputSha256": "298dcd17fb7690ec70b8b8ccf0cad065bb4e8ba8c7147ba144fdeea80667cff4"
+  },
+  {
+    "file": "raha_ready.wav",
+    "gain": 2,
+    "peakBefore": 5632,
+    "peakAfter": 11264,
+    "sourceSha256": "f8f92f812d736c6f82ffe09c25673a16f0a2c0d559c14107e251fb26c21d9d9e",
+    "outputSha256": "7f48b9ef1c5fc65d0905bee187efd7d296182a785e08909b49743f7f9c07110c"
+  },
+  {
+    "file": "raha_success.wav",
+    "gain": 2,
+    "peakBefore": 5655,
+    "peakAfter": 11310,
+    "sourceSha256": "276b77a30952831f31e023888b48aaf5007c8b15e57ea6bdb315cf528eeeef65",
+    "outputSha256": "86d012a277fcfe8f55d425c12ee4fc3f1007b853656601b4b461e031c6109c02"
+  }
+]

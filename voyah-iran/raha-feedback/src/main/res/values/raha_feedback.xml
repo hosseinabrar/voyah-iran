@@ -1,0 +1,13 @@
+<resources>
+    <string name="raha_show_transcript">نمایش متن تشخیص‌داده‌شده</string>
+    <color name="raha_transcript_text">#FFFFFF</color>
+    <dimen name="raha_transcript_size">22sp</dimen>
+    <dimen name="raha_transcript_padding">14dp</dimen>
+    <dimen name="raha_orb_size">220dp</dimen>
+    <color name="raha_cyan">#65DCFF</color>
+    <color name="raha_violet">#B676FF</color>
+    <color name="raha_success">#57EB9D</color>
+    <color name="raha_failure">#FF647C</color>
+    <color name="raha_orb_dark">#E51D2039</color>
+    <string name="raha_overlay_cancel">برای لغو شنود لمس کنید</string>
+</resources>

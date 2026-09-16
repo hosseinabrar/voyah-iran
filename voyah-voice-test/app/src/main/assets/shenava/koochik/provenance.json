@@ -1,0 +1,16 @@
+{
+  "repo": "mah92/sherpa-onnx-nemo-ctc-fa-shenava-koochik-v1.0-streaming-int8-2026-06-26",
+  "revision": "4be3d2375c98a985154122d69b43360eb8bdca5a",
+  "files": [
+    {
+      "file": "model.int8.onnx",
+      "size": 132048387,
+      "sha256": "439983c95ab83c55c841e0795ba3a61d56718ec5c972a3a208548b93470b04b1"
+    },
+    {
+      "file": "tokens.txt",
+      "size": 12236,
+      "sha256": "8e192963f6e666dfa5721e5cbd4710bc1ef592460a45f08cefc94b2db16a6954"
+    }
+  ]
+}

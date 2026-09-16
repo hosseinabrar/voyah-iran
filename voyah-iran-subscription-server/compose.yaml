@@ -1,0 +1,44 @@
+services:
+  subscriptions:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      Subscription__ConnectionString: "Host=db;Database=voyahiran;Username=voyahiran"
+    depends_on:
+      db:
+        condition: service_healthy
+    secrets:
+      - signing_key
+      - admin_key
+      - db_password
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    logging:
+      options: {max-size: "10m", max-file: "3"}
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: voyahiran
+      POSTGRES_USER: voyahiran
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets: [db_password]
+    volumes: ["subscription-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U voyahiran -d voyahiran"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+secrets:
+  signing_key:
+    file: ./secrets/private.pem
+  admin_key:
+    file: ./secrets/admin-token.txt
+  db_password:
+    file: ./secrets/db-password.txt
+volumes:
+  subscription-data:

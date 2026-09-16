@@ -1,0 +1,14 @@
+<resources>
+<string name="subscription_title">اشتراک وویا ایران</string>
+<string name="subscription_background">بررسی اعتبار اشتراک</string>
+<string name="subscription_checking">در حال ارتباط با سرور برای تمدید اشتراک</string>
+<string name="subscription_offline">ارتباط با سرور برقرار نشد. لطفاً ابتدا از اتصال خودرو به اینترنت از طریق وای‌فای اطمینان حاصل کنید و سپس دوباره امتحان کنید. در صورت بروز هرگونه مشکل با آیدی زیر در تلگرام در ارتباط باشید.</string>
+<string name="subscription_blocked">دسترسی شما به برنامه از طرف توسعه‌دهنده محدود شده است. برای اطلاعات بیشتر با آیدی زیر در تلگرام در ارتباط باشید.</string>
+<string name="subscription_vin_error">شناسهٔ خودرو خوانده نشد. لطفاً دوباره امتحان کنید. در صورت ادامهٔ مشکل با آیدی زیر در تلگرام در ارتباط باشید.</string>
+<string name="subscription_contact">\@hossseinabrar</string>
+<string name="subscription_retry">تلاش مجدد</string>
+<string name="subscription_exit">خروج</string>
+<style name="Theme.VoyahIran.Subscription" parent="Theme.VoyahIran">
+<item name="android:windowIsFloating">true</item><item name="android:windowMinWidthMajor">75%</item><item name="android:windowMinWidthMinor">85%</item><item name="android:windowCloseOnTouchOutside">false</item><item name="android:backgroundDimEnabled">true</item>
+</style>
+</resources>

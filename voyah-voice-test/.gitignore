@@ -2,4 +2,6 @@
 .idea/
 local.properties
 **/build/
+**/build.stale-*/
+.kotlin.stale-*/
 *.jks

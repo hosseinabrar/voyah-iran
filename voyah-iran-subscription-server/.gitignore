@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/TestResults/
+.vs/
+secrets/
+data/
+*.db
+*.db-shm
+*.db-wal
+.env

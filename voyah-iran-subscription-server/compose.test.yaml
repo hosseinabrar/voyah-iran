@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: subscription_tests
+      POSTGRES_USER: test_runner
+      POSTGRES_PASSWORD: disposable-test-password
+    tmpfs: [/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U test_runner -d subscription_tests"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    environment:
+      TEST_DATABASE: "Host=db;Database=subscription_tests;Username=test_runner;Password=disposable-test-password"
+    depends_on:
+      db:
+        condition: service_healthy

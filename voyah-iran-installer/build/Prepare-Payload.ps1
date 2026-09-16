@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
     [string]$Apk,
     [string]$PlatformTools,
@@ -56,6 +56,24 @@ Get-ChildItem -LiteralPath $runtimePath -File -Recurse | ForEach-Object {
 # Reject older APKs that cannot issue the new keyboard bridge commands.
 $apkArchive = [IO.Compression.ZipFile]::OpenRead((Resolve-Path $Apk))
 try {
+    # Inspect the actual APK, not the source versionName: a stale signed release
+    # can otherwise pass packaging and fail when the bridge grants permissions.
+    $manifestEntry = $apkArchive.GetEntry('AndroidManifest.xml')
+    if (-not $manifestEntry) { throw 'Selected APK has no AndroidManifest.xml.' }
+    $manifestMemory = New-Object IO.MemoryStream
+    $manifestStream = $manifestEntry.Open()
+    try {
+        $manifestStream.CopyTo($manifestMemory)
+        $manifestBytes = $manifestMemory.ToArray()
+        # Android binary XML string pools may use UTF-8 or UTF-16.
+        $utf8Manifest = [Text.Encoding]::UTF8.GetString($manifestBytes)
+        $utf16Manifest = [Text.Encoding]::Unicode.GetString($manifestBytes)
+        foreach ($permission in @('android.permission.RECORD_AUDIO', 'android.permission.SYSTEM_ALERT_WINDOW')) {
+            if (-not $utf8Manifest.Contains($permission) -and -not $utf16Manifest.Contains($permission)) {
+                throw "Selected release APK is missing $permission. Rebuild the signed Android release at $Apk, then publish the installer again."
+            }
+        }
+    } finally { $manifestStream.Dispose(); $manifestMemory.Dispose() }
     $compatible = $false
     $hasRoa = $false
     foreach ($entry in $apkArchive.Entries | Where-Object { $_.FullName -match '^classes\d*\.dex$' }) {
