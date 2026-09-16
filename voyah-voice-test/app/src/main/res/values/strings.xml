@@ -55,4 +55,11 @@
     <string name="wake_waiting">منتظر عبارت بیدارباش</string>
     <string name="wake_receiving">در حال دریافت فرمان</string>
     <string name="review_unknown">بررسی و ذخیرهٔ جملهٔ نامفهوم</string>
+    <string name="wake_sensitivity_label">حساسیت «رها»ی تنها</string>
+    <string-array name="wake_sensitivity_options">
+        <item>قبلی ـ برای مقایسه</item>
+        <item>آسان‌گیر</item>
+        <item>متعادل</item>
+        <item>سخت‌گیر</item>
+    </string-array>
 </resources>

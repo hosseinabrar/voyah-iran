@@ -83,15 +83,15 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
             if (policy.state != FeedbackState.HIDDEN) main.postDelayed(this,60)
         }
     }
-    fun begin(manual: Boolean = false): Unit = onMain {
+    fun begin(manual: Boolean = false, tentative: Boolean = false): Unit = onMain {
         if(closed || !acquireAudio()) return@onMain
         visibleOwners.toList().filter { it !== this }.forEach { it.dismiss() }
         // A new activation always replaces our previous window, including a stale one.
         if (!detach()) { Log.w("RahaFeedback", "new overlay postponed until old window is removed") }
         interactionStarted = SystemClock.elapsedRealtime()
-        transcript=""; voiceActive=false; sounds.stop(); policy.begin(interactionStarted, !manual)
+        transcript=""; voiceActive=false; sounds.stop(); policy.cancel(); policy.begin(interactionStarted, !manual && !tentative)
         Log.i("RahaFeedback", "new interaction; remaining overlay owners=${visibleOwners.size}")
-        if(manual) sounds.play(RahaSounds.Cue.READY)
+        if(manual && !tentative) sounds.play(RahaSounds.Cue.READY)
         refresh()
     }
     fun text(value: String): Unit = onMain {

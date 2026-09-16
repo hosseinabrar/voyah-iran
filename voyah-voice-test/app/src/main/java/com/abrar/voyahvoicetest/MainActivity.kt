@@ -92,6 +92,18 @@ class MainActivity : ComponentActivity() {
             else if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)start()
             else permission.launch(Manifest.permission.RECORD_AUDIO)
         }
+        ui.wakeSensitivity.adapter=android.widget.ArrayAdapter.createFromResource(
+            this,R.array.wake_sensitivity_options,R.layout.engine_item).also { it.setDropDownViewResource(R.layout.engine_dropdown_item) }
+        ui.wakeSensitivity.setSelection(prefs.getInt("sensitivity",2).coerceIn(0,3))
+        ui.wakeSensitivity.onItemSelectedListener=object:android.widget.AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent:android.widget.AdapterView<*>?) = Unit
+            override fun onItemSelected(parent:android.widget.AdapterView<*>?,view:View?,position:Int,id:Long) {
+                if(prefs.getInt("sensitivity",2)==position)return
+                prefs.edit().putInt("sensitivity",position).apply()
+                wakeFailed=false
+                if(watching) { generation++;visual.dismiss();lab.cancel() } else ensureWake()
+            }
+        }
         ui.wakeHey.isChecked=prefs.getBoolean("hey",false)
         ui.wakeHello.isChecked=prefs.getBoolean("hello",false)
         ui.wakeName.isChecked=prefs.getBoolean("name",false)
@@ -117,21 +129,26 @@ class MainActivity : ComponentActivity() {
         val epoch=++generation
         lab.watch(wakePhrases(),object:SpeechLab.WakeListener {
             private fun current()=foreground && epoch==generation
+            override fun onCandidate(active:Boolean) {
+                if(!current())return
+                lamp(active)
+                if(active)visual.begin(tentative=true) else if(visual.receiving)visual.dismiss()
+            }
             override fun onState(active:Boolean) {
                 if(!current())return
                 lamp(active)
-                if(active)visual.begin() else if(visual.receiving)visual.result(false)
+                if(active)visual.begin() else if(visual.receiving)visual.dismiss()
             }
             override fun onLevel(percent:Int) {if(current())visual.level(percent)}
             override fun onSpeech(active:Boolean) {if(current())visual.speech(active)}
             override fun onText(text:String) {if(current())visual.text(text)}
-            override fun onCommand(text:String) {if(current())showCommand(text)}
+            override fun onCommand(text:String) {if(current())showCommand(text, silentUnknown=true)}
             override fun onStopped(error:Throwable?) {
                 watching=false;lamp(false);renderButtons()
                 if(error!=null && current()) {wakeFailed=true;ui.status.setText(R.string.error);ui.metrics.text=error.javaClass.simpleName;visual.result(false)}
                 if(manualPending && foreground) {manualPending=false;start()} else ensureWake()
             }
-        })
+        }, sensitivity=com.abrar.raha.WakeSensitivity.values()[ui.wakeSensitivity.selectedItemPosition.coerceIn(0,3)])
     }
     private fun start() {
         if(!loaded || busy || watching || !foreground)return
@@ -172,7 +189,7 @@ class MainActivity : ComponentActivity() {
         // Stale callbacks cannot display text, play a cue or map a command after cancellation.
     }
     private fun clearCommand() {ui.commandSummary.setText(R.string.command_waiting);ui.commandDetails.text=""}
-    private fun showCommand(text:String) {
+    private fun showCommand(text:String, silentUnknown:Boolean=false) {
         visual.text(text)
         when(val result=commands.recognize(text)) {
             is Recognition.Matched -> {
@@ -183,7 +200,7 @@ class MainActivity : ComponentActivity() {
             }
             is Recognition.Unknown -> {
                 ui.commandSummary.setText(R.string.command_unknown);ui.commandDetails.text=result.reason
-                visual.result(false)
+                if(silentUnknown)visual.dismiss() else visual.result(false)
                 if(text.isNotBlank()) {unknownSentence=text;ui.reviewUnknown.visibility=View.VISIBLE}
             }
         }

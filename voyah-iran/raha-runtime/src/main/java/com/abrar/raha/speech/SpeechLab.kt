@@ -124,6 +124,8 @@ class SpeechLab(context: Context) : AutoCloseable {
     }
 
     interface WakeListener {
+        /** Tentative visual only: no transcript, command or ready cue. */
+        fun onCandidate(active:Boolean) { }
         fun onLevel(percent:Int) { }
         fun onSpeech(active:Boolean) { }
         fun onState(active:Boolean)
@@ -133,7 +135,7 @@ class SpeechLab(context: Context) : AutoCloseable {
     }
     /** Continuous mic, bounded decoder state, serialized with manual recording/model cleanup. */
     @SuppressLint("MissingPermission")
-    fun watch(phrases:Set<String>, listener:WakeListener) {
+    fun watch(phrases:Set<String>, listener:WakeListener, sensitivity:com.abrar.raha.WakeSensitivity = com.abrar.raha.WakeSensitivity.LEGACY) {
         cancelled.set(false)
         worker.execute {
             var failure:Throwable?=null
@@ -143,6 +145,9 @@ class SpeechLab(context: Context) : AutoCloseable {
                 val detector=checkNotNull(vad)
                 detector.reset()
                 val gate=com.abrar.raha.RahaWakeGate(phrases)
+                val confirmation=com.abrar.raha.RahaWakeConfirmation(sensitivity)
+                var lastWakeDecision=""
+
                 val minimum=AudioRecord.getMinBufferSize(RATE,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT)
                 check(minimum>0)
                 recorder=AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION,RATE,AudioFormat.CHANNEL_IN_MONO,
@@ -152,8 +157,14 @@ class SpeechLab(context: Context) : AutoCloseable {
                 check(recorder.recordingState==AudioRecord.RECORDSTATE_RECORDING)
                 Log.i(TAG,"Wake microphone started phrases=$phrases")
                 checkNotNull(backend).openRecognizer(carMode=true,wakeMode=true).use { decoder ->
+                    if(sensitivity != com.abrar.raha.WakeSensitivity.LEGACY) {
+                        decoder.setWords(true)
+                        decoder.setPartialWords(true)
+                    }
                     val pcm=ShortArray(512)
                     var state=false
+                    var preview=false
+                    var previewUntil=0L
                     var previous=""
                     var resetAt=SystemClock.elapsedRealtime()+30000
                     var levelAt=0L
@@ -171,12 +182,41 @@ class SpeechLab(context: Context) : AutoCloseable {
                             post {if(!cancelled.get()) { listener.onLevel(level); listener.onSpeech(voiceActive) }}
                             levelAt=now
                         }
-                        if(gate.expire(now)) {decoder.reset();previous="";resetAt=now+30000}
+                        if(gate.expire(now)) {confirmation.reset();decoder.reset();previous="";resetAt=now+30000}
                         val endpoint=decoder.acceptWaveForm(pcm,count)
-                        val text=org.json.JSONObject(if(endpoint)decoder.result else decoder.partialResult)
-                            .optString(if(endpoint)"text" else "partial")
-                        val command=if(endpoint)gate.final(text,now) else null
-                        val partial=if(!endpoint)gate.partial(text,now) else null
+                        val payload=org.json.JSONObject(if(endpoint)decoder.result else decoder.partialResult)
+                        val text=payload.optString(if(endpoint)"text" else "partial")
+                        val words=payload.optJSONArray(if(endpoint)"result" else "partial_result")
+                        val first=words?.optJSONObject(0)
+                        val confidence=if(first?.optString("word")=="رها" && first.has("conf"))
+                            first.optDouble("conf").takeIf { it.isFinite() } else null
+                        val candidate=phrases.any { text==it || text.startsWith("$it ") }
+                        if(candidate && !preview && !gate.active) {
+                            preview=true;previewUntil=now+8000
+                            post {if(!cancelled.get())listener.onCandidate(true)}
+                        }
+                        val accepted=gate.active || confirmation.accept(text,confidence,now,endpoint)
+                        if(!gate.active && (text=="رها" || text.startsWith("رها "))) {
+                            val decision="$sensitivity accepted=$accepted final=$endpoint"
+                            if(decision!=lastWakeDecision) {
+                                Log.i(TAG,"WakeConfirm $decision confidence=$confidence text=$text")
+                                lastWakeDecision=decision
+                            }
+                        }
+                        // Keep feeding the same decoder while pending: joined commands aren't dropped.
+                        val command=if(endpoint && accepted)gate.final(text,now) else null
+                        val partial=if(!endpoint && accepted)gate.partial(text,now) else null
+                        if(endpoint) { confirmation.reset(); lastWakeDecision="" }
+                        // Notify activation before text/result so begin cannot erase a joined command.
+                        if(!state && gate.active) {
+                            state=true
+                            post {if(!cancelled.get())listener.onState(true)}
+                        }
+                        if(preview && !gate.active && (command!=null || endpoint || !candidate || now>=previewUntil)) {
+                            preview=false
+                            if(command==null) post {if(!cancelled.get())listener.onCandidate(false)}
+                        }
+
                         if(partial!=null && partial!=previous) {
                             previous=partial
                             post {if(!cancelled.get())listener.onText(partial)}
@@ -184,10 +224,10 @@ class SpeechLab(context: Context) : AutoCloseable {
                         if(command!=null) {
                             Log.i(TAG,"Wake command accepted: $command")
                             post {if(!cancelled.get())listener.onCommand(command)}
-                            decoder.reset();previous="";resetAt=now+30000
+                            confirmation.reset();decoder.reset();previous="";resetAt=now+30000
                         }
                         if(gate.expire(now) || (!gate.active && now>=resetAt)) {
-                            decoder.reset();previous="";resetAt=now+30000
+                            confirmation.reset();decoder.reset();previous="";resetAt=now+30000
                         }
                         if(state!=gate.active) {
                             state=gate.active

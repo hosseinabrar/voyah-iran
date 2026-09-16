@@ -11,12 +11,14 @@ class RahaWakeGate(phrases:Set<String>,private val timeoutMs:Long=8000) {
  private fun prefix(text:String)=selected.firstOrNull {text==it || text.startsWith("$it ")}
  fun partial(raw:String,now:Long):String? {
   expire(now)
+  if(RahaIgnoredSpeech.matches(raw)) { reset(); return null }
   val text=clean(raw);val wake=prefix(text)
   if(!active && wake!=null){active=true;deadline=now+timeoutMs}
   return if(active) {if(wake!=null) text.removePrefix(wake).trim() else if(waitingNext) text else null} else null
  }
  fun final(raw:String,now:Long):String? {
   expire(now)
+  if(RahaIgnoredSpeech.matches(raw)) { reset(); return null }
   val text=clean(raw);val wake=prefix(text)
   if(!active && wake==null)return null
   if(wake!=null && !active){active=true;deadline=now+timeoutMs}

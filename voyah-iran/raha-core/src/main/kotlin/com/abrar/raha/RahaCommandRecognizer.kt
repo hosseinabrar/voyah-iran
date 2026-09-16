@@ -28,6 +28,7 @@ enum class RahaAction {
  */
 class RahaCommandRecognizer {
     fun recognize(raw: String): Recognition {
+        if (RahaIgnoredSpeech.matches(raw)) return Recognition.Unknown("ignored non-command speech")
         RahaPhaseTwoRecognizer.memoryRestriction(normalize(raw))?.let { return Recognition.Unknown(it) }
         val whole = recognizeSingle(raw)
         if (whole is Recognition.Matched) return whole

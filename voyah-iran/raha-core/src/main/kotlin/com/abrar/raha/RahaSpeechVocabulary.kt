@@ -31,6 +31,7 @@ object RahaSpeechVocabulary {
         "همه هر دو طرف آروم آرومتر آرامتر تندتر کاهش افزایش بیشترین کمترین آخر"
     )
     fun phrases(): List<String> = buildSet {
+        addAll(RahaIgnoredSpeech.phrases)
         add("[unk]")
         for(target in listOf("دمای کابین", "دمای اتاق", "دمای داخل ماشین", "دمای داخل خودرو", "دمای داخل", "دمای ماشین", "دمای خودرو"))
             for(verb in listOf("سینک کن", "همگام کن", "یکسان کن", "هماهنگ کن")) add("$target رو $verb")
@@ -70,6 +71,13 @@ object RahaSpeechVocabulary {
             for (amount in listOf("یکم", "یه مقدار", "یه ذره", "کمی"))
                 for (verb in listOf("بده پایین", "بکش پایین", "بده بالا"))
                     add("$target رو $amount دیگه $verb")
+        for ((target, states) in mapOf(
+            "ماشین" to listOf("اقتصادی", "اکو", "کامفورت", "اسپورت", "برفی", "شخصی"),
+            "چراغ ها" to listOf("اتوماتیک", "خودکار", "نور پایین"),
+            "تهویه" to listOf("اتوماتیک", "خودکار", "دستی"),
+            "ماساژ" to listOf("موجی", "چرخشی")
+        )) for (modeWord in listOf("تو مد", "تو مود", "روی مد", "روی مود", "تو حالت"))
+            for (state in states) add("$target رو بذار $modeWord $state")
         RahaFormalVocabulary.words.keys.forEach { add(it) }
         for(side in listOf("راننده", "شاگرد", "چپ", "راست", "عقب", "جلو", "عقب چپ", "عقب راست"))
             for(verb in listOf("قفل کن", "باز کن", "قفل کنید", "باز کنید")) add("در $side رو $verb")
@@ -130,7 +138,7 @@ object RahaSpeechVocabulary {
         addAll(base)
         val wakes=listOf("هی رها","سلام رها","رها")
         val commands=base.filter { phrase ->
-            phrase!="[unk]" && phrase !in wakes &&
+            phrase!="[unk]" && phrase !in wakes && !RahaIgnoredSpeech.matches(phrase) &&
                 !phrase.startsWith("رها ") && !phrase.startsWith("هی رها ") && !phrase.startsWith("سلام رها ") &&
                 phrase.split(' ').size <= 12
         }

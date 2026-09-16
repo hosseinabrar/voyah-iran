@@ -42,6 +42,8 @@ internal object RahaPhaseFourRecognizer {
         for((mode,names) in modes) rule(RahaAction.SET_DRIVE_MODE) {
             if(!take(names)) return@rule null
             take(drive)
+            // Vosk often merges spoken "تو مد" into "اتومات" before a driving mode.
+            take("اتومات|اتوماتیک")
             take("برو")
             take("ماشین|خودرو")
             val enabled=power()

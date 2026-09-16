@@ -144,7 +144,7 @@ class RahaService : Service() {
                 override fun onComplete(result: SpeechResult?) {
                     recording = false; manual = false
                     if (epoch == captureEpoch) {
-                        if (result != null) command(result.text) else feedback.result(false)
+                        if (result != null) command(result.text) else feedback.dismiss()
                     }
                     reconcile()
                 }
@@ -165,7 +165,7 @@ class RahaService : Service() {
                 override fun onState(active: Boolean) {
                     AppLog.info("Raha", "wake receiving=$active")
                     if(epoch != captureEpoch || executing) return
-                    if(active) feedback.begin() else if(feedback.receiving) feedback.result(false)
+                    if(active) feedback.begin() else if(feedback.receiving) feedback.dismiss()
                 }
                 override fun onText(text: String) { if(epoch == captureEpoch && !executing) feedback.text(text) }
                 override fun onCommand(text: String) { if(epoch == captureEpoch) command(text) }
@@ -185,7 +185,7 @@ class RahaService : Service() {
         AppLog.info("Raha", "final transcript=$text")
         feedback.text(text)
         when (val result = recognizer.recognize(text)) {
-            is Recognition.Unknown -> { AppLog.info("Raha", "unrecognized reason=${result.reason}"); feedback.result(false) }
+            is Recognition.Unknown -> { AppLog.info("Raha", "unrecognized reason=${result.reason}"); feedback.dismiss() }
             is Recognition.Matched -> {
                 executing = true
                 val command = result.command
