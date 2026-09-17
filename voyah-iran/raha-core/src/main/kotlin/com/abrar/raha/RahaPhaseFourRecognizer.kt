@@ -60,6 +60,7 @@ internal object RahaPhaseFourRecognizer {
         }
         for((action,names) in toggles.filterKeys { it != RahaAction.SET_AUTO_HOLD }) rule(action) {
             if(!take(names)) return@rule null
+            take("سیستم|سامانه")
             val enabled=power() ?: true
             mapOf("enabled" to enabled)
         }

@@ -101,3 +101,21 @@ Run tests:
 ```powershell
 python .\deployment\protection\test_protection.py
 ```
+
+## 2026-09-18 shared synthetic regression
+
+Vehicle logs showed NoClassDefFoundError: vi in the root bridge while executing
+climate commands. R8 named this shared synthetic lambda holder after a Raha
+recognizer, but it also contains OemSession.write$lambda$2. The root app_process
+does not initialize the DPT application loader.
+
+Selection now preserves synthetic holders in ordinary DEX (still R8-obfuscated),
+using both external-synthetic names and class-level synthesized metadata.
+Vehicle-app method owners inside protected classes are rejected; recognizer
+implementation leaks into unprotected classes remain rejected.
+The current matching APK/map selects 18 recognizer classes. Ten selection tests
+and an unsigned DPT run passed static preservation checks. Hardware testing
+is still required. Republish through the existing installer pipeline to rebuild,
+protect and sign; do not distribute the old signed protected APK.
+Seat-memory operations did not appear in these tester logs and need a separate
+execution log if still failing.

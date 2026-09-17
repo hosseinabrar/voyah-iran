@@ -10,7 +10,7 @@ internal object RahaPhaseThreeRecognizer {
     val roof = "سانروف|سان روف|سقف شیشه ای"
     val shade = "پرده سقف|پرده سانروف|پرده سان روف|آفتابگیر سقف|آفتاب گیر سقف|پرده|شید|سان شید|سانشید|آفتاب گیر|آفتابگیر|کاور"
     val trunk = "صندوق عقب|صندوق|در صندوق|درب صندوق"
-    val charge = "درپوش شارژ|دریچه شارژ|در شارژ|درب شارژ|پورت شارژ|در باک شارژ|درب باک شارژ|در باک برق|درب باک برق|مخزن شارژ|مخزن برق"
+    val charge = "شارژر|درگاه شارژ|سوکت شارژ|درپوش شارژر|پورت شارژر|در شارژر|درب شارژر|درپوش شارژ|دریچه شارژ|در شارژ|درب شارژ|پورت شارژ|در باک شارژ|درب باک شارژ|در باک برق|درب باک برق|مخزن شارژ|مخزن برق"
     val fuel = "درپوش سوخت|دریچه سوخت|در باک|درب باک|باک بنزین|در بنزین|مخزن بنزین|مخزن سوخت"
     val opening = "باز|باز کن|باز کردن|پایین|بده پایین|بیار پایین|بکش پایین"
     val closing = "بسته|ببند|بستن|بالا|بده بالا|ببر بالا"
@@ -41,6 +41,13 @@ internal object RahaPhaseThreeRecognizer {
             if(!unlocked && !lockWord) return@rule null
             // Central locking only; no inference about opening a physical door.
             RahaAction.SET_DOOR_LOCK to mapOf("door" to "all", "locked" to !unlocked)
+        }
+        rule {
+            // Bare Vent names the all-window preset; plain "ventilation" still means HVAC.
+            if(!take("ونت|vent")) return@rule null
+            if(power()==false) return@rule null
+            take(opening)
+            RahaAction.VENT_WINDOW to mapOf("window" to "all")
         }
         rule {
             if(!take(windows)) return@rule null

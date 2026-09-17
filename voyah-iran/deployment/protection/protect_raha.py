@@ -161,6 +161,30 @@ def apk_inventory(path):
     return classes, strings
 
 
+def synthetic_descriptors(mapping):
+    """R8 lambda holders can be shared across unrelated classes/processes."""
+    result = set()
+    owner = None
+    class_metadata = False
+    for line in mapping.splitlines():
+        match = re.fullmatch(r"(\S+) -> (\S+):", line)
+        if match:
+            owner = "L" + match[2].replace(".", "/") + ";"
+            class_metadata = True
+            if "$$ExternalSynthetic" in match[1]:
+                result.add(owner)
+        elif class_metadata and line.startswith("#"):
+            if '"id":"com.android.tools.r8.synthesized"' in line.replace(" ", ""):
+                result.add(owner)
+        elif line.strip():
+            class_metadata = False
+    return result
+
+
+def protected_original(name):
+    return CORE.fullmatch(name) and "$$ExternalSynthetic" not in name
+
+
 def choose_targets(mapping, strings, inventory):
     match = re.search(r"^# pg_map_id: (\S+)", mapping, re.M)
     require(match, "R8 mapping ID missing")
@@ -168,11 +192,12 @@ def choose_targets(mapping, strings, inventory):
     require(any(m.get("pg-map-id") == match[1] for m in markers),
             "APK and R8 mapping do not match. Use mapping from this exact APK build.")
     targets = {}
+    shared_synthetics = synthetic_descriptors(mapping)
     for line in mapping.splitlines():
         m = re.fullmatch(r"(\S+) -> (\S+):", line)
-        if m and CORE.fullmatch(m[1]) and "REMOVED" not in m[2]:
+        if m and protected_original(m[1]) and "REMOVED" not in m[2]:
             descriptor = "L" + m[2].replace(".", "/") + ";"
-            if descriptor in inventory:
+            if descriptor in inventory and descriptor not in shared_synthetics:
                 targets.setdefault(descriptor, []).append(m[1])
     require(any("com.abrar.raha.RahaCommandRecognizer" in names for names in targets.values()),
             "Main Raha recognizer missing from target list")
@@ -182,7 +207,17 @@ def choose_targets(mapping, strings, inventory):
     for line in mapping.splitlines():
         m = re.fullmatch(r"(\S+) -> (\S+):", line)
         if m and "L" + m[2].replace(".", "/") + ";" in targets:
-            require(CORE.fullmatch(m[1]), "R8 merged protected and shared code: " + m[1])
+            require(protected_original(m[1]), "R8 merged protected and shared code: " + m[1])
+    # Merged lambdas can have a single class header; also check method owners.
+    owner = None
+    for line in mapping.splitlines():
+        m = re.fullmatch(r"(\S+) -> (\S+):", line)
+        if m:
+            owner = "L" + m[2].replace(".", "/") + ";"
+        elif owner in targets:
+            for original in re.findall(r"(com\.abrar\.[\w.$]+)\.[\w$<>]+\(", line):
+                require(not original.startswith("com.abrar.voyahiran."),
+                        "Protected class contains shared app method: " + original)
     # R8 may inline an original method into a class bearing an unrelated name.
     # Type mentions in fields/parameters alone are fine; only method owners count.
     owner = None
@@ -193,7 +228,7 @@ def choose_targets(mapping, strings, inventory):
             owner = "L" + m[2].replace(".", "/") + ";"
         elif owner in inventory and owner not in targets:
             for original in re.findall(r"(com\.abrar\.raha\.[\w$]+)\.[\w$<>]+\(", line):
-                if CORE.fullmatch(original):
+                if protected_original(original):
                     leaks.add(owner)
     require(not leaks, "Raha methods were inlined/merged into unprotected classes: "
             + ", ".join(sorted(leaks)) + ". Rebuild Release with the updated protection keep rules.")
@@ -255,6 +290,7 @@ def main():
               "input_sha256": source_hash, "unsigned_sha256": digest(unsigned.read_bytes()),
               "protected_classes": targets, "preserved_classes": len(inventory) - len(targets),
               "static_checks": "passed", "r8_boundaries_checked": True,
+              "shared_synthetic_classes_preserved": sorted(synthetic_descriptors(mapping) & inventory.keys()),
               "runtime_tested": False, "signed": False,
               "limitations": ["No runtime compatibility or anti-extraction guarantee",
                               "Static mapping checks are not a proof against runtime extraction",
