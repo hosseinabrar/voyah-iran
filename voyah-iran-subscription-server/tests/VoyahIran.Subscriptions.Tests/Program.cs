@@ -20,6 +20,7 @@ try {
  Check(RenewalPolicy.Decide(vin,first.ExpiresAt,now.AddDays(27).AddSeconds(1).ToUnixTimeSeconds(),options).ExpiresAt==first.ExpiresAt+30*86400,"Policy: below 3 days");
  Check(RenewalPolicy.Decide(vin,first.ExpiresAt,now.AddDays(90).ToUnixTimeSeconds(),options).ExpiresAt==now.AddDays(120).ToUnixTimeSeconds(),"Policy: expired");
  if(!string.IsNullOrEmpty(options.ConnectionString)) {
+ MigrationTests.Run(options.ConnectionString,Check);
  var store=new SubscriptionStore(options);
  var dbFirst=store.RegisterOrRenew(vin,now);
  Check(dbFirst.Status=="registered"&&dbFirst.ExpiresAt==now.AddDays(30).ToUnixTimeSeconds(),"Initial 30 days");

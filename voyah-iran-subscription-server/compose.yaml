@@ -21,6 +21,8 @@ services:
       options: {max-size: "10m", max-file: "3"}
   db:
     image: postgres:17
+    ports:
+      - "127.0.0.1:5432:5432"
     restart: unless-stopped
     environment:
       POSTGRES_DB: voyahiran

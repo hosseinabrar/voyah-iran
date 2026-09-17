@@ -12,27 +12,16 @@ public sealed class SubscriptionStore {
   config.Timeout=10;config.CommandTimeout=15;
   connectionString=config.ToString();
   using var connection=Open();
-  using var command=connection.CreateCommand();
-  command.CommandText="""
-   CREATE TABLE IF NOT EXISTS subscriptions (
-     vin TEXT PRIMARY KEY NOT NULL,
-     created_at BIGINT NOT NULL,
-     expires_at BIGINT NOT NULL,
-     renewed_at BIGINT NOT NULL
-   );
-   CREATE TABLE IF NOT EXISTS renewal_events (
-     id BIGSERIAL PRIMARY KEY,
-     vin TEXT NOT NULL,
-     occurred_at BIGINT NOT NULL,
-     previous_expiry BIGINT,
-     new_expiry BIGINT NOT NULL,
-     reason TEXT NOT NULL
-   );
-   CREATE INDEX IF NOT EXISTS renewal_events_vin ON renewal_events(vin);
-   CREATE TABLE IF NOT EXISTS subscription_blocks(vin TEXT PRIMARY KEY NOT NULL, blocked_at BIGINT NOT NULL, reason TEXT NOT NULL);
-   CREATE TABLE IF NOT EXISTS block_events(id BIGSERIAL PRIMARY KEY, vin TEXT NOT NULL, blocked INTEGER NOT NULL, occurred_at BIGINT NOT NULL, reason TEXT NOT NULL);
-   """;
+  using var tx=connection.BeginTransaction();
+  using var command=connection.CreateCommand(); command.Transaction=tx;
+  // Serialize schema migration across concurrent server startups.
+  command.CommandText="SELECT pg_advisory_xact_lock(17423, 1)";
   command.ExecuteNonQuery();
+  using var schema=new StreamReader(typeof(SubscriptionStore).Assembly.GetManifestResourceStream(
+   "VoyahIran.Subscriptions.DatabaseSchema.sql") ?? throw new InvalidOperationException("Missing database schema"));
+  command.CommandText=schema.ReadToEnd();
+  command.ExecuteNonQuery();
+  tx.Commit();
  }
  private static void LockVin(NpgsqlConnection c,NpgsqlTransaction tx,string vin) {
   using var command=c.CreateCommand();command.Transaction=tx;command.CommandText="SELECT pg_advisory_xact_lock(hashtextextended(@vin, 0))";command.Parameters.AddWithValue("@vin",vin);command.ExecuteNonQuery();
@@ -50,7 +39,7 @@ public sealed class SubscriptionStore {
   read.CommandText="SELECT expires_at FROM subscriptions WHERE vin=@vin";
   read.Parameters.AddWithValue("@vin",vin);
   var existing=read.ExecuteScalar();
-  long? previous=existing is long expiry ? expiry : null;
+  long? previous=existing is null or DBNull ? null : new DateTimeOffset((DateTime)existing).ToUnixTimeSeconds();
   var seconds=now.ToUnixTimeSeconds();
   var grant=RenewalPolicy.Decide(vin,previous,seconds,options);
   var expires=grant.ExpiresAt;var status=grant.Status;var renew=status!="unchanged";
@@ -61,8 +50,10 @@ public sealed class SubscriptionStore {
     ON CONFLICT(vin) DO UPDATE SET expires_at=@expiry,renewed_at=@now;
     INSERT INTO renewal_events(vin,occurred_at,previous_expiry,new_expiry,reason) VALUES(@vin,@now,@previous,@expiry,@reason);
     """;
-   write.Parameters.AddWithValue("@vin",vin);write.Parameters.AddWithValue("@now",seconds);
-   write.Parameters.AddWithValue("@expiry",expires);write.Parameters.AddWithValue("@previous",NpgsqlDbType.Bigint,(object?)previous??DBNull.Value);
+   write.Parameters.AddWithValue("@vin",vin);write.Parameters.AddWithValue("@now",NpgsqlDbType.TimestampTz,now.UtcDateTime);
+   write.Parameters.AddWithValue("@expiry",NpgsqlDbType.TimestampTz,DateTimeOffset.FromUnixTimeSeconds(expires).UtcDateTime);
+   write.Parameters.AddWithValue("@previous",NpgsqlDbType.TimestampTz,previous.HasValue
+    ? (object)DateTimeOffset.FromUnixTimeSeconds(previous.Value).UtcDateTime : DBNull.Value);
    write.Parameters.AddWithValue("@reason",status);write.ExecuteNonQuery();
   }
   tx.Commit();return new(vin,expires,status);
@@ -79,7 +70,7 @@ public sealed class SubscriptionStore {
    """;q.Parameters.AddWithValue("@vin",vin);using var reader=q.ExecuteReader();reader.Read();
   if(reader.IsDBNull(0)&&reader.IsDBNull(4))return null;
   var count=reader.GetInt64(3);
-  DateTimeOffset? Date(int i)=>reader.IsDBNull(i)?null:DateTimeOffset.FromUnixTimeSeconds(reader.GetInt64(i));
+  DateTimeOffset? Date(int i)=>reader.IsDBNull(i)?null:reader.GetFieldValue<DateTimeOffset>(i);
   return new(vin,Date(0),count==0?null:Date(2),Date(1),count,!reader.IsDBNull(4),Date(4),reader.IsDBNull(5)?null:reader.GetString(5));
  }
  public IReadOnlyList<SubscriptionDetails> List(int offset,int limit) {
@@ -91,7 +82,7 @@ public sealed class SubscriptionStore {
  public void SetBlocked(string vin,bool blocked,DateTimeOffset now,string reason) {
   using var c=Open();using var tx=c.BeginTransaction();LockVin(c,tx,vin);using var q=c.CreateCommand();q.Transaction=tx;
   q.CommandText=blocked ? "INSERT INTO subscription_blocks(vin,blocked_at,reason) VALUES(@vin,@now,@reason) ON CONFLICT(vin) DO UPDATE SET blocked_at=@now,reason=@reason;" : "DELETE FROM subscription_blocks WHERE vin=@vin;";
-  q.Parameters.AddWithValue("@vin",vin);q.Parameters.AddWithValue("@now",now.ToUnixTimeSeconds());q.Parameters.AddWithValue("@reason",reason);q.ExecuteNonQuery();
+  q.Parameters.AddWithValue("@vin",vin);q.Parameters.AddWithValue("@now",NpgsqlDbType.TimestampTz,now.UtcDateTime);q.Parameters.AddWithValue("@reason",reason);q.ExecuteNonQuery();
   q.CommandText="INSERT INTO block_events(vin,blocked,occurred_at,reason) VALUES(@vin,@blocked,@now,@reason)";q.Parameters.AddWithValue("@blocked",blocked?1:0);q.ExecuteNonQuery();tx.Commit();
  }
 }

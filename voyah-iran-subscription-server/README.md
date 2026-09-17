@@ -120,3 +120,24 @@ docker compose -p voyah-subscription-test -f compose.test.yaml down
 لاگ سرور VIN را به اثر انگشت تبدیل می‌کند و توکن‌ها و رمزها را ثبت نمی‌کند. لاگ اندروید با برچسب Subscription قابل پیگیری است.
 
 مراجع پیاده‌سازی: [PostgreSQL advisory locks](https://www.postgresql.org/docs/17/explicit-locking.html#ADVISORY-LOCKS)، [Docker Compose secrets](https://docs.docker.com/compose/how-tos/use-secrets/).
+
+
+## ارتقای ستون‌های تاریخ
+هشت ستون تاریخ به timestamptz تبدیل می‌شوند. تبدیل Unix seconds با to_timestamp در یک تراکنش هنگام شروع سرور انجام می‌شود و قابل اجرای مجدد است. قالب توکن و API حفظ شده است.
+SQL تبدیل را به‌تنهایی روی سرور قدیمی اجرا نکنید. باینری قدیمی با ستون‌های جدید سازگار نیست؛ بازگشت به نسخهٔ قبلی نیازمند بازیابی بکاپ قبل از ارتقا است.
+پس از انتقال سورس جدید، در پوشهٔ پروژهٔ سرور به ترتیب اجرا کنید (فقط پس از موفقیت مرحلهٔ قبل):
+
+    docker compose stop subscriptions
+    backup="subscriptions-before-dates-$(date +%Y%m%d-%H%M%S).dump"
+    docker compose exec -T db pg_dump -U voyahiran -d voyahiran -Fc > "$backup"
+    test -s "$backup"
+    docker compose up -d --build subscriptions
+    docker compose logs --tail=80 subscriptions
+
+کانتینر db و volume را حذف نکنید. فایل بکاپ را نگه دارید. اتصال/جدول را در pgAdmin رفرش کنید.
+نمایش ساعت تابع timezone نشست است؛ برای مشاهده به وقت ایران در Query Tool:
+
+    SET TIME ZONE 'Asia/Tehran';
+    SELECT * FROM subscriptions;
+
+تست مهاجرت با compose.test.yaml، داده‌های قدیمی، NULL، تاریخچه، بلاک، اجرای مجدد و تمدید پس از تبدیل را بررسی می‌کند.
