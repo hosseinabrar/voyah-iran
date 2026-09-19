@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
@@ -11,12 +11,14 @@ public partial class ApkWindow : Window
     private string? path;
     private bool busy;
     private readonly string? bundledApp;
+    private readonly IReadOnlyList<string> bundledSplits;
     private readonly IAdbClient adb;
     private readonly string serial;
-    public ApkWindow(IAdbClient adb, SessionLog log, string serial, string? bundledPath = null, string? bundledApp = null)
+    public ApkWindow(IAdbClient adb, SessionLog log, string serial, string? bundledPath = null, string? bundledApp = null, IReadOnlyList<string>? bundledSplits = null)
     {
         InitializeComponent(); this.log = log; this.adb = adb; this.serial = serial; installer = new(adb, log, serial);
         this.bundledApp = bundledApp;
+        this.bundledSplits = bundledSplits ?? Array.Empty<string>();
         if (bundledPath != null) {
             path = bundledPath;
             Title = bundledApp == "myket" ? "نصب مایکت" : "نصب Gboard";
@@ -40,13 +42,21 @@ public partial class ApkWindow : Window
         if (busy || path == null) return;
         busy = true; PickButton.IsEnabled = InstallButton.IsEnabled = BackButton.IsEnabled = false;
         string snapshot = Path.Combine(Path.GetTempPath(), "voyahiran-" + Guid.NewGuid().ToString("N") + ".apk");
+        var snapshots = new List<string> { snapshot };
         try
         {
             await Task.Run(() => File.Copy(path, snapshot));
+            foreach (var split in bundledSplits)
+            {
+                var copy = Path.Combine(Path.GetTempPath(), "voyahiran-" + Guid.NewGuid().ToString("N") + ".apk");
+                snapshots.Add(copy);
+                await Task.Run(() => File.Copy(split, copy));
+            }
             var info = await Task.Run(() => ApkInfo.Read(snapshot));
             var expected = bundledApp == "myket" ? "ir.mservices.market" : bundledApp == "gboard" ? "com.google.android.inputmethod.latin" : null;
             if (expected != null && info.Package != expected) throw new InvalidDataException("هویت فایل نصب مطابق انتظار نیست.");
-            await installer.InstallAsync(snapshot, info);
+            if (snapshots.Count > 1) await installer.InstallSplitAsync(snapshots, info);
+            else await installer.InstallAsync(snapshot, info);
             log.Write("APK installation succeeded: " + info.Package);
             if (bundledApp == "myket") {
                 var choice = ApkInstaller.Choices.Single(c => c.Names.Contains("REQUEST_INSTALL_PACKAGES"));
@@ -65,7 +75,7 @@ public partial class ApkWindow : Window
             }
         }
         catch (Exception ex) { log.Write(ex.ToString()); MessageBox.Show(this, ex.Message, "نصب APK ناموفق بود", MessageBoxButton.OK, MessageBoxImage.Error); }
-        finally { try { File.Delete(snapshot); } catch (Exception ex) { log.Write(ex.Message); } busy = false; PickButton.IsEnabled = InstallButton.IsEnabled = BackButton.IsEnabled = true; }
+        finally { foreach (var file in snapshots) { try { File.Delete(file); } catch (Exception ex) { log.Write(ex.Message); } } busy = false; PickButton.IsEnabled = InstallButton.IsEnabled = BackButton.IsEnabled = true; }
     }
     private void Copy(object sender, RoutedEventArgs e) { try { Clipboard.SetText(log.ReadText()); } catch (Exception ex) { MessageBox.Show(this, ex.Message); } }
     private void Back(object sender, RoutedEventArgs e) => Close();

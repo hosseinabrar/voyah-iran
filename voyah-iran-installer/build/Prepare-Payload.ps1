@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$Apk,
     [string]$PlatformTools,
@@ -59,6 +59,7 @@ $files = [ordered]@{
     'NOTICE.txt' = (Join-Path $PlatformTools 'NOTICE.txt')
     'app.apk' = $Apk
     'apps/myket.apk' = (Join-Path $PSScriptRoot '..\tools\apps\myket.apk')
+    'apps/gboard-config.xhdpi.apk' = (Join-Path $PSScriptRoot '..\tools\apps\gboard-config.xhdpi.apk')
     'apps/gboard.apk' = (Join-Path $PSScriptRoot '..\tools\apps\gboard.apk')
     'install-bridge.sh' = (Join-Path $deployment 'install-bridge.sh')
     'roa/frida-inject' = (Join-Path $deployment 'roa\frida-inject')

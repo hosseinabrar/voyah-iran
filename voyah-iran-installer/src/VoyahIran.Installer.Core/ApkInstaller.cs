@@ -1,4 +1,4 @@
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -74,6 +74,24 @@ public sealed class ApkInstaller(IAdbClient adb, SessionLog log, string serial)
         if (result.ExitCode != 0 || !result.Output.Split('\n').Any(l => l.Trim() == "Success")) throw new InvalidOperationException("نصب APK ناموفق بود؛ گزارش را بررسی کنید.");
         var check = await adb.RunAsync(serial, ["shell", "pm", "path", "--user", "0", info.Package]);
         if (check.ExitCode != 0 || !check.Output.Contains("package:")) throw new InvalidOperationException("وجود برنامه پس از نصب تأیید نشد.");
+    }
+    public async Task InstallSplitAsync(IReadOnlyList<string> paths, ApkInfo info)
+    {
+        if (paths.Count < 2) throw new ArgumentException("Base and split APKs are required.", nameof(paths));
+        foreach (var path in paths)
+        {
+            if (ApkInfo.Read(path).Package != info.Package) throw new InvalidDataException("Split APK package mismatch.");
+            log.Write($"APK set: {info.Package}; file={Path.GetFileName(path)}; SHA256={PayloadBundle.Digest(path)}");
+        }
+        var args = new[] { "install-multiple", "--no-streaming", "-r", "--user", "0" }.Concat(paths).ToArray();
+        var result = await adb.RunAsync(serial, args, 300);
+        if (result.ExitCode != 0 || !result.Output.Split('\n').Any(l => l.Trim() == "Success"))
+            throw new InvalidOperationException("نصب مجموعه APK ناموفق بود؛ گزارش را بررسی کنید.");
+        var check = await adb.RunAsync(serial, ["shell", "pm", "path", "--user", "0", info.Package]);
+        var installed = check.Output.Split('\n').Select(l => l.Trim()).Where(l => l.StartsWith("package:")).Distinct().ToArray();
+        if (check.ExitCode != 0 || installed.Length < paths.Count || !installed.Any(l => l.EndsWith("/base.apk")))
+            throw new InvalidOperationException("وجود تمام فایل‌های برنامه پس از نصب تأیید نشد.");
+        log.Write($"APK set installation verified: {info.Package}; installed files={installed.Length}");
     }
     private async Task<string> Command(params string[] args)
     {

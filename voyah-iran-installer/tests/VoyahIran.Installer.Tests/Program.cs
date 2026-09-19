@@ -1,4 +1,4 @@
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using System.Text.Json;
 using VoyahIran.Installer.Core;
 
@@ -46,7 +46,7 @@ using (var log = new SessionLog(Path.Combine(root, "logs")))
     log.Hide("secret-value"); log.Write("secret-value remains secret-value");
     Check(!log.ReadText().Contains("secret-value"), "Secret omitted from persisted log");
 }
-string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/myket.apk", "apps/gboard.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/display/ActivityRecord-getOrientation.original.smali", "patch/display/ActivityRecord-getRequestedOrientation.original.smali", "patch/display/ActivityRecord-resolveOverrideConfiguration.original.smali", "patch/display/WindowState-applyGravityAndUpdateFrame.original.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$2.smali", "patch/display/helpers/VoyahIranDisplayPolicy.smali", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
+string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/myket.apk", "apps/gboard.apk", "apps/gboard-config.xhdpi.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/display/ActivityRecord-getOrientation.original.smali", "patch/display/ActivityRecord-getRequestedOrientation.original.smali", "patch/display/ActivityRecord-resolveOverrideConfiguration.original.smali", "patch/display/WindowState-applyGravityAndUpdateFrame.original.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$2.smali", "patch/display/helpers/VoyahIranDisplayPolicy.smali", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
 MemoryStream Fixture(bool corrupt = false)
 {
     var memory = new MemoryStream();
@@ -157,6 +157,23 @@ if (Directory.Exists(appInputs)) {
     Check(myket.Package == "ir.mservices.market" && myket.Permissions.Contains("android.permission.REQUEST_INSTALL_PACKAGES"), "Real bundled Myket identity and permission");
     Check(ApkInfo.Read(Path.Combine(appInputs, "gboard.apk")).Package == "com.google.android.inputmethod.latin", "Real bundled Gboard identity");
 }
+var gboardFiles = new[] { Path.Combine(appInputs, "gboard.apk"), Path.Combine(appInputs, "gboard-config.xhdpi.apk") };
+var gboardInfo = ApkInfo.Read(gboardFiles[0]);
+using (var splitLog = new SessionLog(Path.Combine(root, "splits"))) {
+    var success = new SplitAdb("success");
+    await new ApkInstaller(success, splitLog, "CAR").InstallSplitAsync(gboardFiles, gboardInfo);
+    Check(success.Calls.Count == 2 && success.Calls[0].SequenceEqual(new[] { "install-multiple", "--no-streaming", "-r", "--user", "0" }.Concat(gboardFiles)), "Gboard base and split install atomically for user zero");
+    foreach (var failure in new[] { "failure", "missing-split" }) {
+        var fake = new SplitAdb(failure); bool rejected = false;
+        try { await new ApkInstaller(fake, splitLog, "CAR").InstallSplitAsync(gboardFiles, gboardInfo); }
+        catch (InvalidOperationException) { rejected = true; }
+        Check(rejected && fake.Calls.Count == (failure == "failure" ? 1 : 2), "Split install rejects " + failure);
+    }
+    var mismatch = new SplitAdb("success"); bool invalid = false;
+    try { await new ApkInstaller(mismatch, splitLog, "CAR").InstallSplitAsync(new[] { gboardFiles[0], Path.Combine(appInputs, "myket.apk") }, gboardInfo); }
+    catch (InvalidDataException) { invalid = true; }
+    Check(invalid && mismatch.Calls.Count == 0, "Mismatched APK set rejected before device operations");
+}
 Console.WriteLine($"All {passed} checks passed. Fixtures: {root}");
 
 sealed class RebootAdb(string mode) : IAdbClient
@@ -246,5 +263,16 @@ sealed class PermissionAdb : IAdbClient {
         if (serial != "CAR" || !args.Contains("ir.mservices.market") || !args.Contains("REQUEST_INSTALL_PACKAGES")) throw new Exception("Unexpected permission command");
         if (args.Contains("set")) { Writes++; mode=args.Last(); return Task.FromResult(new CommandResult(0,"")); }
         return Task.FromResult(new CommandResult(0,"REQUEST_INSTALL_PACKAGES: " + mode));
+    }
+}
+
+sealed class SplitAdb(string mode) : IAdbClient {
+    public List<IReadOnlyList<string>> Calls = new();
+    public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false) {
+        if (serial != "CAR") throw new Exception("Wrong device");
+        Calls.Add(args);
+        if (args[0] == "install-multiple") return Task.FromResult(new CommandResult(mode == "failure" ? 1 : 0, mode == "failure" ? "Failure" : "Success"));
+        if (!args.SequenceEqual(new[] { "shell", "pm", "path", "--user", "0", "com.google.android.inputmethod.latin" })) throw new Exception("Unexpected verification");
+        return Task.FromResult(new CommandResult(0, "package:/data/app/gboard/base.apk\n" + (mode == "missing-split" ? "" : "package:/data/app/gboard/split_config.xhdpi.apk")));
     }
 }

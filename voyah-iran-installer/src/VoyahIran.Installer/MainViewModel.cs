@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -68,6 +68,7 @@ public sealed class MainViewModel : Observable, IDisposable
     public ActionCommand RebootCommand { get; }
     public ActionCommand HelpCommand { get; }
     public ActionCommand CopyCommand { get; }
+    public ActionCommand OpenInstallLogsCommand { get; }
     public ActionCommand CaptureLogCommand { get; }
     private LogcatCapture? capture;
     private string? pendingReport;
@@ -92,6 +93,11 @@ public sealed class MainViewModel : Observable, IDisposable
         InstallCommand = new ActionCommand(async () => await InstallAsync(), () => !Busy && !captureChanging && bundle != null);
         HelpCommand = new ActionCommand(() => new ConnectionHelpWindow { Owner = Application.Current.MainWindow }.ShowDialog());
         CopyCommand = new ActionCommand(() => Guard(() => Clipboard.SetText(log.ReadText())));
+        OpenInstallLogsCommand = new ActionCommand(() => Guard(() =>
+        {
+            Directory.CreateDirectory(log.DirectoryPath);
+            Process.Start(new ProcessStartInfo(log.DirectoryPath) { UseShellExecute = true });
+        }));
         CaptureLogCommand = new ActionCommand(async () => await ToggleCaptureAsync(),
             () => !captureChanging && (HasReportToSave || (!Busy && !starting && bundle != null)));
         HomeCommand = new ActionCommand(() => { progressPage = false; PagesChanged(); }, () => !Busy);
@@ -102,7 +108,7 @@ public sealed class MainViewModel : Observable, IDisposable
     {
         try
         {
-            log.Write($"Voyah Iran Installer 0.2.0 (dynamic keyboard patch); OS={Environment.OSVersion}; 64-bit={Environment.Is64BitProcess}");
+            log.Write($"Voyah Iran Installer {Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)} (dynamic framework patch); OS={Environment.OSVersion}; 64-bit={Environment.Is64BitProcess}");
             bundle = await Task.Run(() => PayloadBundle.Extract(Assembly.GetExecutingAssembly().GetManifestResourceStream("VoyahIran.Payload.zip") ?? throw new InvalidDataException("Payload missing"), Path.Combine(dataRoot, "Cache", Guid.NewGuid().ToString("N"))));
             adb = new AdbClient(bundle.File("adb.exe"), log);
             VersionText = "نسخهٔ " + bundle.Manifest.AppVersion; Notify(nameof(VersionText));
@@ -172,7 +178,7 @@ public sealed class MainViewModel : Observable, IDisposable
             await ScanAsync();
             if (device == null) { HelpCommand.Execute(null); return; }
             Busy = true; timer.Stop(); PagesChanged();
-            new ApkWindow(adb, log, device.Serial, bundledApp == null ? null : bundle!.File("apps/" + bundledApp + ".apk"), bundledApp) { Owner = Application.Current.MainWindow }.ShowDialog();
+            new ApkWindow(adb, log, device.Serial, bundledApp == null ? null : bundle!.File("apps/" + bundledApp + ".apk"), bundledApp, bundledApp == "gboard" ? new[] { bundle!.File("apps/gboard-config.xhdpi.apk") } : null) { Owner = Application.Current.MainWindow }.ShowDialog();
         }
         catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(e.Message, "نصب APK"); }
         finally { starting = false; Busy = false; PagesChanged(); timer.Start(); }
