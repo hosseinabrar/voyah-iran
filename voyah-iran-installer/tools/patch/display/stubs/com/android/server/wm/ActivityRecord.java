@@ -1,0 +1,1 @@
+package com.android.server.wm; import android.content.pm.ActivityInfo; class ActivityRecord extends WindowContainer { ActivityInfo info; ActivityTaskManagerService mAtmService; int getDisplayId(){return -1;} boolean ensureActivityConfiguration(int changes,boolean preserve){return false;} }

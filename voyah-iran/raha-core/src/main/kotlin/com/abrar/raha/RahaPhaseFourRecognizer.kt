@@ -34,6 +34,9 @@ internal object RahaPhaseFourRecognizer {
         listOf("ضعیف|متوسط|قوی|ملایم|کم|زیاد|کمتر|بیشتر|افزایش|کاهش|مدیوم|درگیر|آزاد|رها|بگیر|بکش|بخوابون|حساسیت")
     fun recognize(text:String):Recognition.Matched? {
         val found=mutableListOf<VehicleCommand>()
+        // Plain level names remain absolute; "کم/زیاد کن" requests a relative step.
+        val relativeRegen = RahaCommandRecognizer.Scan(text).take("کم کن|زیاد کن|کم بکن|زیاد بکن|کم بده|زیاد بده") &&
+            !RahaCommandRecognizer.Scan(text).take("روی|بذار|بگذار|تنظیم|قرار")
         fun rule(action:RahaAction, body:RahaCommandRecognizer.Scan.()->Map<String,Any>?) {
             val scan=RahaCommandRecognizer.Scan(text)
             val values=scan.body() ?: return
@@ -97,6 +100,7 @@ internal object RahaPhaseFourRecognizer {
             levelUnits()
             val bound=levelBound()
             if(bound!=null) take("زیاد|کم|بیشتر|کمتر")
+            if (relativeRegen && bound == null) return@rule null
             val named=when {
                 take("متوسط|میانه|مدیوم")->"medium"
                 take("ضعیف|ملایم|کم|پایین")->"low"
@@ -140,8 +144,8 @@ internal object RahaPhaseFourRecognizer {
                 val delta=direction() ?: return@rule null
                 return@rule mapOf("delta" to delta)
             }
-            val up=take("بیشتر|افزایش")
-            val down=take(if(action==RahaAction.ADJUST_WIPER_SENSITIVITY) "کمتر|کاهش|کم|پایین" else "کمتر|کاهش")
+            val up=take(if (relativeRegen) "بیشتر|افزایش|زیاد" else "بیشتر|افزایش")
+            val down=take(if (relativeRegen) "کمتر|کاهش|کم" else "کمتر|کاهش")
             if(up==down) return@rule null
             mapOf("delta" to if(up)1 else -1)
         }

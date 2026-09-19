@@ -1,0 +1,1 @@
+package com.android.server.wm; import android.view.WindowManager; class WindowState { WindowManager.LayoutParams mAttrs; ActivityRecord mActivityRecord; }

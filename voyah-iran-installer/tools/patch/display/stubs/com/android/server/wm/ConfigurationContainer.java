@@ -1,0 +1,1 @@
+package com.android.server.wm; import android.content.res.Configuration; class ConfigurationContainer { public int getActivityType(){return 0;} public Configuration getConfiguration(){return null;} Configuration getResolvedOverrideConfiguration(){return null;} }

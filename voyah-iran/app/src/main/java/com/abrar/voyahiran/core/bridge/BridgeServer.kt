@@ -23,6 +23,7 @@ object BridgeServer {
         check(token.matches(Regex("[a-f0-9]{64}")))
         val runner = ProcessCommandRunner(useBridge = false)
         roa.start()
+        OemNavigationManager.start()
         val execution = java.util.concurrent.locks.ReentrantLock()
         val pool = ThreadPoolExecutor(2, 2, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(4))
         ServerSocket(BridgePolicy.PORT, 8, InetAddress.getByName("127.0.0.1")).use { server ->
@@ -45,6 +46,8 @@ object BridgeServer {
                 val request = parsed.id
                 val command = BridgePolicy.resolve(parsed.arguments)
                 val result = if (command == null) CommandResult(126, "Operation denied")
+                // Display ACK polling must not hold up vehicle/startup commands.
+                else if (command.first() == "app-display") AppDisplayBridge.set(command[1] == "enable")
                 else if (!execution.tryLock()) CommandResult(75, "Bridge busy; no command executed")
                 else try {
                     AppLog.info("BridgeServer", "request=$request operation=${command.first()} accepted")

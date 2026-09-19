@@ -1,0 +1,1 @@
+package android.app; import android.graphics.Rect; public class WindowConfiguration { public Rect getBounds(){return null;} public Rect getAppBounds(){return null;} public void setBounds(Rect r){} public void setAppBounds(Rect r){} }

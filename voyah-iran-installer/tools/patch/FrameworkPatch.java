@@ -109,14 +109,26 @@ class FrameworkPatch {
         String expectedMethod = text(templates.resolve("original-method.smali")).strip();
         String helper = text(templates.resolve("helper-method.smali")).strip();
         String actualMethod = method(code, "updateInputMethodsFromSettingsLocked");
-        boolean already = code.contains(".method private voyahIranSelectedIme(");
+        boolean keyboardAlready = code.contains(".method private voyahIranSelectedIme(");
+        List<String> wmTargets = before.keySet().stream().filter(k -> k.endsWith("/com/android/server/wm/ActivityRecord.smali")).toList();
+        require(wmTargets.size() == 1, "ActivityRecord missing or duplicated");
+        String wmFolder = wmTargets.getFirst().substring(0,wmTargets.getFirst().indexOf('/'));
+        require(wmFolder.equals("smali") || wmFolder.matches("smali_classes[2-9][0-9]*"), "Unknown WM DEX layout");
+        String wmDex = wmFolder.equals("smali") ? "classes.dex" : wmFolder.substring("smali_".length()) + ".dex";
+        Set<String> changedDex = new HashSet<>(List.of(dex, wmDex));
+        require(originalEntries.keySet().containsAll(changedDex), "Missing display DEX");
+        boolean displayAlready = DisplayPolicyPatch.check(before, templates, wmFolder);
+        boolean already = keyboardAlready && displayAlready;
         String patchedMethod = expectedMethod.replace("    :goto_4\n", "    :goto_4\n" + HOOK);
         require(!patchedMethod.equals(expectedMethod), "Invalid patch template");
-        if (already) {
+        if (keyboardAlready) {
             require(normalize(actualMethod).equals(normalize(patchedMethod)), "Existing IME hook differs from supported patch");
             require(normalize(method(code,"voyahIranSelectedIme")).equals(normalize(helper)), "Existing helper differs from supported patch");
+        }
+        if (already) {
             Files.copy(input, job.resolve("patched.jar"));
         } else {
+            if (!keyboardAlready) {
             require(!code.contains("voyahIranSelectedIme") && !code.contains("voyah_iran_ime_override"), "Unknown partial IME patch");
             require(normalize(actualMethod).equals(normalize(expectedMethod)), "Unsupported keyboard method; vehicle was not modified");
             for (String field : List.of("mContext:Landroid/content/Context;", "mMethodMap:Landroid/util/ArrayMap;", "mSettings:Lcom/android/server/inputmethod/InputMethodUtils$InputMethodSettings;"))
@@ -127,26 +139,167 @@ class FrameworkPatch {
             require(!insertion.equals(actualMethod), "Keyboard anchor missing");
             code = code.replace(actualMethod,insertion) + "\n" + helper + "\n";
             Files.writeString(target,code,StandardCharsets.UTF_8);
+            }
+            DisplayPolicyPatch.apply(before, templates, wmFolder, source);
             Path built = job.resolve("assembled.jar"); tool("b", source.toString(), "-o", built.toString());
             require(Files.isRegularFile(built), "Assembly produced no JAR");
-            byte[] replacement = entries(built).get(dex); require(replacement != null, "Assembly produced no target DEX");
+            Map<String,byte[]> replacements = entries(built); require(replacements.keySet().containsAll(changedDex), "Assembly produced no target DEX");
             Path output = job.resolve("patched.jar");
             try (ZipOutputStream zip = new ZipOutputStream(Files.newOutputStream(output))) {
                 for (var e : originalEntries.entrySet()) {
-                    zip.putNextEntry(new ZipEntry(e.getKey())); zip.write(e.getKey().equals(dex) ? replacement : e.getValue()); zip.closeEntry();
+                    zip.putNextEntry(new ZipEntry(e.getKey())); zip.write(changedDex.contains(e.getKey()) ? replacements.get(e.getKey()) : e.getValue()); zip.closeEntry();
                 }
             }
             Map<String,byte[]> afterEntries = entries(output);
             require(originalEntries.keySet().equals(afterEntries.keySet()), "ZIP entries changed");
-            for (String name : originalEntries.keySet()) if (!name.equals(dex)) require(Arrays.equals(originalEntries.get(name),afterEntries.get(name)), "Unrelated ZIP entry changed: " + name);
+            for (String name : originalEntries.keySet()) if (!changedDex.contains(name)) require(Arrays.equals(originalEntries.get(name),afterEntries.get(name)), "Unrelated ZIP entry changed: " + name);
             Path verify = job.resolve("verify"); tool("d", "-r", "-o", verify.toString(), output.toString());
             Map<String,Path> after = classes(verify); require(before.keySet().equals(after.keySet()), "Class set changed");
             for (String name : before.keySet()) require(canonical(text(before.get(name))).equals(canonical(text(after.get(name)))), "Unexpected assembled code change: " + name);
-            System.out.println("VERIFIED: " + before.size() + " classes; only the approved primary IME hook was introduced; other ZIP entries identical.");
+            System.out.println("VERIFIED: " + before.size() + " classes; approved IME and display-policy hooks verified; other ZIP entries identical.");
         }
         require(hash(input).equals(originalHash), "Input changed during patching");
         String patchedHash = hash(job.resolve("patched.jar"));
         Files.writeString(job.resolve("result.txt"), "original="+originalHash+"\npatched="+patchedHash+"\nalready="+already+"\n", StandardCharsets.US_ASCII);
         System.out.println("VOYAH_PATCH_VERIFIED original=" + originalHash + " patched=" + patchedHash + " already=" + already);
+    }
+}
+
+
+/** Bounded, exact-template patch; rejects unknown/partial vendor implementations. */
+class DisplayPolicyPatch {
+    static final String WM = "com/android/server/wm/";
+    static final String HELPER = "Lcom/android/server/wm/VoyahIranDisplayPolicy;";
+    static final String OVERRIDE = """
+.method getRequestedConfigurationOrientation()I
+    .locals 1
+    invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->applies(Lcom/android/server/wm/ActivityRecord;)Z
+    move-result v0
+    if-eqz v0, :cond_0
+    const/4 v0, 0x2
+    return v0
+    :cond_0
+    invoke-super {p0}, Lcom/android/server/wm/WindowToken;->getRequestedConfigurationOrientation()I
+    move-result v0
+    return v0
+.end method
+""";
+    static final Map<String,List<String>> METHODS = Map.of(
+        "ActivityRecord", List.of("getOrientation", "getRequestedOrientation", "resolveOverrideConfiguration"),
+        "WindowState", List.of("applyGravityAndUpdateFrame"));
+    static Path target(Map<String,Path> classes, String folder, String type) {
+        Path p = classes.get(folder + "/" + WM + type + ".smali");
+        FrameworkPatch.require(p != null, "Missing display policy class in WM DEX: " + type);
+        return p;
+    }
+    static String patched(String name, String original) {
+        if (name.equals("getOrientation") || name.equals("getRequestedOrientation"))
+            return original.replace("    return v0", "    invoke-static {p0, v0}, " + HELPER +
+                "->orientation(Lcom/android/server/wm/ActivityRecord;I)I\n    move-result v0\n    return v0");
+        if (name.equals("resolveOverrideConfiguration"))
+            return original.replace("    return-void", "    invoke-static/range {p0 .. p1}, " + HELPER +
+                "->configuration(Lcom/android/server/wm/ActivityRecord;Landroid/content/res/Configuration;)V\n" +
+                "    invoke-static {p0}, " + HELPER + "->applies(Lcom/android/server/wm/ActivityRecord;)Z\n" +
+                "    move-result v0\n    if-eqz v0, :cond_4\n" +
+                // Do not let a stale portrait size-compat rectangle/scale override our new bounds.
+                // Preserve mCompatDisplayInsets so native size-compat can be recomputed on disable.
+                "    const/4 v0, 0x0\n    iput-object v0, p0, Lcom/android/server/wm/ActivityRecord;->mSizeCompatBounds:Landroid/graphics/Rect;\n" +
+                "    const/high16 v0, 0x3f800000    # 1.0f\n    iput v0, p0, Lcom/android/server/wm/ActivityRecord;->mSizeCompatScale:F\n" +
+                "    :cond_4\n    return-void");
+        if (name.equals("applyGravityAndUpdateFrame")) {
+            String call = "    invoke-static/range {p0 .. p3}, " + HELPER +
+                "->beforeFrame(Lcom/android/server/wm/WindowState;Lcom/android/server/wm/WindowFrames;Landroid/graphics/Rect;Landroid/graphics/Rect;)V\n";
+            String result = original.replaceFirst("(?m)^(    \\.locals [0-9]+\\n)", "$1" + call);
+            FrameworkPatch.require(!result.equals(original), "Frame local declaration missing");
+            return result.replace("    return-void", "    invoke-static/range {p0 .. p1}, " + HELPER +
+                "->afterFrame(Lcom/android/server/wm/WindowState;Lcom/android/server/wm/WindowFrames;)V\n    return-void");
+        }
+        throw new IllegalArgumentException(name);
+    }
+    // Verify every OEM WM member referenced by the helper before it can enter system_server.
+    static void checkDependencies(Map<String,Path> classes, Path templates, String folder) throws Exception {
+        Pattern ref = Pattern.compile("L(com/android/server/wm/[^;]+);->([^\\s,]+)");
+        try (var files = Files.list(templates.resolve("display/helpers"))) {
+            for (Path file : files.filter(p -> p.toString().endsWith(".smali")).toList()) {
+                for (String line : FrameworkPatch.text(file).lines().toList()) {
+                    if (!line.strip().matches("(?:invoke-|iget-|sget-).*")) continue;
+                    Matcher m = ref.matcher(line);
+                    if (!m.find() || m.group(1).contains("VoyahIranDisplayPolicy")) continue;
+                    String type = m.group(1), member = m.group(2);
+                    boolean found = false;
+                    for (int depth = 0; depth < 20; depth++) {
+                        Path owner = classes.get(folder + "/" + type + ".smali");
+                        if (owner == null) break;
+                        String code = FrameworkPatch.text(owner);
+                        for (String declaration : code.lines().toList()) {
+                            if ((declaration.startsWith(".method ") || declaration.startsWith(".field ")) &&
+                                    declaration.split(" = ")[0].endsWith(" " + member)) {
+                                FrameworkPatch.require(!declaration.contains(" private ") && !declaration.contains(" static "),
+                                    "Display dependency is not accessible: " + member);
+                                found = true; break;
+                            }
+                        }
+                        if (found) break;
+                        Matcher parent = Pattern.compile("(?m)^\\.super L([^;]+);").matcher(code);
+                        if (!parent.find()) break;
+                        type = parent.group(1);
+                    }
+                    FrameworkPatch.require(found, "Unsupported display dependency: " + m.group(1) + "->" + member);
+                }
+            }
+        }
+    }
+    static boolean check(Map<String,Path> classes, Path templates, String folder) throws Exception {
+        checkDependencies(classes, templates, folder);
+        Path activity = target(classes, folder, "ActivityRecord");
+        boolean installed = FrameworkPatch.text(activity).contains(HELPER);
+        for (String field : List.of("mSizeCompatBounds:Landroid/graphics/Rect;", "mSizeCompatScale:F"))
+            FrameworkPatch.require(FrameworkPatch.text(activity).lines().anyMatch(l -> l.startsWith(".field ") && !l.contains(" final ") && l.endsWith(" " + field)),
+                "Missing size-compat dependency: " + field);
+        for (var entry : METHODS.entrySet()) {
+            String code = FrameworkPatch.text(target(classes, folder, entry.getKey()));
+            for (String name : entry.getValue()) {
+                String original = FrameworkPatch.text(templates.resolve("display/" + entry.getKey() + "-" + name + ".original.smali")).strip();
+                String expected = installed ? patched(name, original) : original;
+                FrameworkPatch.require(FrameworkPatch.normalize(FrameworkPatch.method(code, name)).equals(FrameworkPatch.normalize(expected)),
+                    "Unsupported or partial display policy: " + entry.getKey() + "." + name);
+            }
+        }
+        String code = FrameworkPatch.text(activity);
+        if (installed) FrameworkPatch.require(FrameworkPatch.normalize(FrameworkPatch.method(code, "getRequestedConfigurationOrientation")).equals(FrameworkPatch.normalize(OVERRIDE)),
+            "Unknown display orientation override");
+        else FrameworkPatch.require(!code.contains(".method getRequestedConfigurationOrientation("), "Vendor orientation override requires review");
+        try (var helpers = Files.list(templates.resolve("display/helpers"))) {
+            for (Path h : helpers.filter(x -> x.toString().endsWith(".smali")).toList()) {
+                Path existing = classes.get(folder + "/" + WM + h.getFileName());
+                if (installed) FrameworkPatch.require(existing != null && FrameworkPatch.canonical(FrameworkPatch.text(existing)).equals(FrameworkPatch.canonical(FrameworkPatch.text(h))),
+                    "Display helper differs: " + h.getFileName());
+                else FrameworkPatch.require(existing == null, "Unexpected display helper already exists");
+            }
+        }
+        return installed;
+    }
+    static void apply(Map<String,Path> classes, Path templates, String folder, Path source) throws Exception {
+        if (check(classes, templates, folder)) return;
+        for (var entry : METHODS.entrySet()) {
+            Path target = target(classes, folder, entry.getKey());
+            String code = FrameworkPatch.text(target);
+            for (String name : entry.getValue()) {
+                String original = FrameworkPatch.method(code,name);
+                code = code.replace(original, patched(name, original));
+            }
+            if (entry.getKey().equals("ActivityRecord")) code += "\n" + OVERRIDE;
+            Files.writeString(target,code,StandardCharsets.UTF_8);
+        }
+        try (var helpers = Files.list(templates.resolve("display/helpers"))) {
+            for (Path h : helpers.filter(x -> x.toString().endsWith(".smali")).toList()) {
+                String key = folder + "/" + WM + h.getFileName();
+                Path dest = source.resolve(key);
+                Files.copy(h,dest);
+                classes.put(key,dest);
+            }
+        }
+        FrameworkPatch.require(check(classes,templates,folder), "Display patch verification failed");
+        System.out.println("DISPLAY POLICY: display 0, user apps + Voyah Iran, left=145 top=50; live settings switch.");
     }
 }

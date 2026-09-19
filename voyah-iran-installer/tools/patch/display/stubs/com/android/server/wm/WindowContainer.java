@@ -1,0 +1,1 @@
+package com.android.server.wm; import java.util.function.Consumer; import android.content.res.Configuration; class WindowContainer extends ConfigurationContainer { protected WindowContainer getParent(){return null;} void forAllActivities(Consumer<ActivityRecord> c){} public void onConfigurationChanged(Configuration c){} boolean inMultiWindowMode(){return false;} }

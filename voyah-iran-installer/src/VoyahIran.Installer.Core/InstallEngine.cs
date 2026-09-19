@@ -26,6 +26,33 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         var actual = FirstWord(await Root(30, "sha256sum", remote));
         if (actual != expected) throw new InvalidDataException($"هش فایل خودرو مطابق انتظار نیست: {remote}; expected={expected}; actual={actual}");
     }
+    private async Task ReconnectAfterPatch(string fingerprint, string bootId)
+    {
+        log.Write("پچ آماده است؛ در انتظار اتصال همان خودرو (حداکثر دو دقیقه). کابل USB را متصل و نمایشگر خودرو را روشن نگه دارید.");
+        try
+        {
+            var waiting = adb.RunAsync(serial, ["wait-for-device"], 120);
+            while (!waiting.IsCompleted)
+            {
+                if (await Task.WhenAny(waiting, Task.Delay(10000)) == waiting) break;
+                log.Write("[connection/wait] منتظر اتصال خودرو هستیم؛ پچ آماده حفظ شده و دوباره ساخته نمی‌شود.");
+            }
+            var connected = await waiting;
+            if (connected.ExitCode != 0) throw new IOException("ADB wait failed: " + connected.Output.Trim());
+        }
+        catch (Exception e) when (e is TimeoutException or IOException)
+        {
+            throw new IOException("اتصال USB با خودرو برقرار نشد. کابل، روشن‌بودن نمایشگر و فعال‌بودن USB debugging را بررسی کنید و نصب را دوباره آغاز کنید. هنوز نصب APK و فایل سیستم شروع نشده است.", e);
+        }
+        // A long local patch may outlive the USB connection or a vehicle reboot.
+        // Recheck the same serial and boot before any payload writes; never replay writes.
+        var currentFingerprint = await Command(15, "shell", "getprop", "ro.build.fingerprint");
+        var currentBoot = await Command(15, "shell", "cat", "/proc/sys/kernel/random/boot_id");
+        if (currentFingerprint != fingerprint || currentBoot != bootId)
+            throw new IOException("خودرو هنگام آماده‌سازی پچ راه‌اندازی مجدد شده یا مشخصات سیستم تغییر کرده است. نصب را دوباره آغاز کنید؛ هنوز فایل‌های برنامه و سیستم تغییر نکرده‌اند.");
+        if (await Command(15, "shell", "id", "-u") != "0") await PrepareWritableSystem();
+        log.Write("اتصال همان خودرو پس از آماده‌سازی پچ تأیید شد؛ بررسی فایل سیستم و ادامهٔ نصب.");
+    }
     private async Task PrepareWritableSystem()
     {
         for (var attempt = 0; attempt < 2; attempt++)
@@ -75,7 +102,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             Begin(InstallPhase.Root);
             await PrepareWritableSystem();
             if (await Root(15, "id", "-u") != "0") throw new IOException("دسترسی روت خودرو فراهم نیست. نصب انجام نشد.");
-            await Command(15, "shell", "getprop", "ro.build.fingerprint");
+            var fingerprint = await Command(15, "shell", "getprop", "ro.build.fingerprint");
             var currentHash = FirstWord(await Root(30, "sha256sum", "/system/framework/services.jar"));
             if (!System.Text.RegularExpressions.Regex.IsMatch(currentHash, "^[0-9a-f]{64}$")) throw new InvalidDataException("هش فایل سیستم خوانده نشد.");
             var bootId = await Command(15, "shell", "cat", "/proc/sys/kernel/random/boot_id");
@@ -91,7 +118,8 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             var patch = await (patcher ?? new JavaFrameworkPatcher(bundle, log)).PatchAsync(backup, Path.Combine(directory, "patch"));
             if (patch.OriginalHash != currentHash) throw new InvalidDataException("Patch input hash differs from vehicle backup");
             await File.WriteAllTextAsync(Path.Combine(directory, "patch-result.json"), System.Text.Json.JsonSerializer.Serialize(patch, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
-            if (patch.AlreadyPatched) log.Write("The exact supported keyboard patch is already present; framework replacement will be skipped.");
+            if (patch.AlreadyPatched) log.Write("The exact supported keyboard and display patches are already present; framework replacement will be skipped.");
+            await ReconnectAfterPatch(fingerprint, bootId);
             // Detect concurrent firmware changes before installing any app files.
             await VerifyHash("/system/framework/services.jar", currentHash);
             Done();

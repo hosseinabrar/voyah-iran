@@ -122,6 +122,24 @@ class MainActivity : ComponentActivity() {
             }
         }
         binding.aboutTab.setOnClickListener { selectTab(Tab.ABOUT) }
+        val appDisplay = (application as VoyahIranApplication).appDisplay
+        binding.settingsPage.appDisplayCorrection.setOnClickListener {
+            val desired = binding.settingsPage.appDisplayCorrection.isChecked
+            binding.settingsPage.appDisplayCorrection.isChecked = appDisplay.state.value.enabled
+            appDisplay.setEnabled(desired)
+        }
+        binding.settingsPage.appDisplayRetry.setOnClickListener { appDisplay.refresh() }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                appDisplay.state.collect { state ->
+                    binding.settingsPage.appDisplayCorrection.isChecked = state.enabled
+                    binding.settingsPage.appDisplayCorrection.isEnabled = !state.busy
+                    binding.settingsPage.appDisplayProgress.visibility = if (state.busy) View.VISIBLE else View.GONE
+                    binding.settingsPage.appDisplayError.visibility = if (state.failed) View.VISIBLE else View.GONE
+                    binding.settingsPage.appDisplayRetry.visibility = if (state.failed) View.VISIBLE else View.GONE
+                }
+            }
+        }
         binding.settingsPage.timeZoneCorrection.setOnClickListener {
             model.setCorrection(binding.settingsPage.timeZoneCorrection.isChecked)
             render(model.state.value)

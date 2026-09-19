@@ -59,7 +59,7 @@ public sealed class MainViewModel : Observable, IDisposable
     public string ProgressSubtitle { get; private set; } = "کابل را تا پایان عملیات جدا نکنید.";
     public Visibility HomeVisibility => progressPage ? Visibility.Collapsed : Visibility.Visible;
     public Visibility ProgressVisibility => progressPage ? Visibility.Visible : Visibility.Collapsed;
-    public ObservableCollection<StepViewModel> Steps { get; } = new(new[] { "شناسایی خودرو", "روت، آماده‌سازی سیستم و بکاپ", "ساخت و بررسی پچ کیبورد (ممکن است چند دقیقه طول بکشد)", "نصب برنامه", "نصب واسط دسترسی", "اصلاح services.jar", "راه‌اندازی مجدد خودرو", "بررسی نهایی نصب" }.Select(t => new StepViewModel(t)));
+    public ObservableCollection<StepViewModel> Steps { get; } = new(new[] { "شناسایی خودرو", "روت، آماده‌سازی سیستم و بکاپ", "ساخت و بررسی پچ نمایش و کیبورد (ممکن است چند دقیقه طول بکشد)", "نصب برنامه", "نصب واسط دسترسی", "اصلاح services.jar", "راه‌اندازی مجدد خودرو", "بررسی نهایی نصب" }.Select(t => new StepViewModel(t)));
     public ActionCommand InstallCommand { get; }
     public ActionCommand ApkCommand { get; }
     public ActionCommand UninstallCommand { get; }

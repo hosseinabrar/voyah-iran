@@ -14,6 +14,7 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>): List<String>? {
+        if (request.size == 2 && request[0] == "app-display" && request[1] in listOf("enable", "disable")) return request
         if(request==listOf("subscription-vin","read")) return request
         if(request.size==2 && request[0]=="subscription-session" && request[1].toIntOrNull() in 0..90) return request
         if(request==listOf("subscription-ui","open")) return listOf("/system/bin/am","start","--user","0","--display","0","-n","com.abrar.voyahiran/.feature.subscription.SubscriptionActivity","--activity-new-task","--activity-clear-top")

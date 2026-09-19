@@ -6,6 +6,14 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun displayPolicyOnlyAcceptsTwoBoundedOperations() {
+        for (operation in listOf("enable", "disable"))
+            assertEquals(listOf("app-display", operation), BridgePolicy.resolve(listOf("app-display", operation)))
+        for (request in listOf(listOf("app-display"), listOf("app-display", "enable;reboot"),
+            listOf("app-display", "enable", "com.other.app"), listOf("app-display", "set", "1")))
+            assertNull(BridgePolicy.resolve(request))
+    }
+
     @Test fun vehicleConfigurationRestartMatchesOemCommandExactly() {
         assertEquals(listOf("/system/bin/setprop", "sys.powerctl", "reboot,power"),
             BridgePolicy.resolve(listOf("vehicle-config", "restart")))

@@ -53,7 +53,7 @@ public sealed class JavaFrameworkPatcher(PayloadBundle bundle, SessionLog log) :
             try { process.Kill(true); } catch (Exception e) { log.Write("Local patch shutdown: " + e.Message); }
             throw new TimeoutException("ساخت پچ روی لپ‌تاپ به پایان نرسید. فایل سیستم خودرو تغییر نکرده است.");
         }
-        if (process.ExitCode != 0 || !verified) throw new InvalidDataException("ساخت یا بررسی پچ کیبورد ناموفق بود. خودرو تغییر نکرده است؛ گزارش را برای پشتیبانی بفرستید.");
+        if (process.ExitCode != 0 || !verified) throw new InvalidDataException("ساخت یا بررسی پچ کیبورد و نمایش ناموفق بود. خودرو تغییر نکرده است؛ گزارش را برای پشتیبانی بفرستید.");
         var values = System.IO.File.ReadAllLines(Path.Combine(workDirectory, "result.txt"))
             .Select(l => l.Split('=', 2)).ToDictionary(p => p[0], p => p[1], StringComparer.Ordinal);
         if (values.Count != 3 || !Regex.IsMatch(values["original"], "^[0-9a-f]{64}$") || !Regex.IsMatch(values["patched"], "^[0-9a-f]{64}$") || !bool.TryParse(values["already"], out var already))

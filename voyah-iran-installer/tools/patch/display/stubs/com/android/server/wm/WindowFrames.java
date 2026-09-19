@@ -1,0 +1,1 @@
+package com.android.server.wm; import android.graphics.Rect; class WindowFrames { Rect mParentFrame,mDisplayFrame,mContainingFrame,mContentFrame,mVisibleFrame,mStableFrame,mFrame; }

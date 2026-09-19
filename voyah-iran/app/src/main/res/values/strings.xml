@@ -116,6 +116,9 @@
     <string name="uninstall_app">حذف برنامه</string>
     <string name="uninstall_confirm">برنامهٔ «%1$s» و اطلاعات آن حذف شود؟</string>
     <string name="uninstall_cancel">انصراف</string>
+    <string name="app_display_correction">نمایش برنامه‌ها در ابعاد و جهت درست</string>
+    <string name="app_display_description">برنامه‌های نصب‌شده در ابعاد استاندارد و به‌صورت افقی اجرا می‌شوند.</string>
+    <string name="app_display_failed">تنظیم نمایش تأیید نشد. نصب را با نصاب جدید تکمیل و دستگاه را راه‌اندازی مجدد کنید.</string>
 </resources>
 
 

@@ -75,6 +75,12 @@ $files = [ordered]@{
     'patch/THIRD-PARTY.md' = (Join-Path $patchTools 'THIRD-PARTY.md')
     'patch/apktool.jar' = $Apktool
 }
+Get-ChildItem (Join-Path $patchTools 'display') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/' + $_.Name] = $_.FullName
+}
+Get-ChildItem (Join-Path $patchTools 'display/helpers') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/helpers/' + $_.Name] = $_.FullName
+}
 $runtimePath = (Resolve-Path -LiteralPath $JavaRuntime).Path.TrimEnd('\','/')
 if (-not (Test-Path -LiteralPath (Join-Path $runtimePath 'bin\java.exe'))) { throw 'Bundled Java runtime is missing.' }
 Get-ChildItem -LiteralPath $runtimePath -File -Recurse | ForEach-Object {

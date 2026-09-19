@@ -46,7 +46,7 @@ using (var log = new SessionLog(Path.Combine(root, "logs")))
     log.Hide("secret-value"); log.Write("secret-value remains secret-value");
     Check(!log.ReadText().Contains("secret-value"), "Secret omitted from persisted log");
 }
-string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/myket.apk", "apps/gboard.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
+string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/myket.apk", "apps/gboard.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/display/ActivityRecord-getOrientation.original.smali", "patch/display/ActivityRecord-getRequestedOrientation.original.smali", "patch/display/ActivityRecord-resolveOverrideConfiguration.original.smali", "patch/display/WindowState-applyGravityAndUpdateFrame.original.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$2.smali", "patch/display/helpers/VoyahIranDisplayPolicy.smali", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
 MemoryStream Fixture(bool corrupt = false)
 {
     var memory = new MemoryStream();
@@ -94,6 +94,27 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     Check(operations.IndexOf("root") < operations.IndexOf("wait-for-device") &&
         operations.IndexOf("wait-for-device") < operations.IndexOf("remount") &&
         operations.IndexOf("remount") < operations.IndexOf("install"), "Root and reconnect and remount precede APK installation");
+}
+foreach (var mode in new[] { "reconnect", "reconnect-timeout", "reconnect-firmware", "reconnect-boot" })
+{
+    using var log = new SessionLog(Path.Combine(root, mode));
+    var fake = new FakeAdb(mode, bundle);
+    var patch = new FakePatcher("none");
+    var engine = new InstallEngine(fake, bundle, log, Path.Combine(root, "backups"), patch);
+    var run = engine.RunAsync("CAR");
+    if (mode == "reconnect")
+    {
+        while (!fake.WaitEntered && !run.IsCompleted) await Task.Delay(1);
+        Check(fake.WaitEntered && !fake.Calls.Any(c => c[0] == "install"), "No APK install while USB is disconnected");
+        fake.Reconnect.TrySetResult(new CommandResult(0, ""));
+    }
+    var failed = false;
+    try { await run; } catch (IOException) { failed = true; }
+    Check(failed == (mode != "reconnect"), "Post-patch reconnect outcome: " + mode);
+    Check(patch.Calls == 1, "Patch not rebuilt during reconnect: " + mode);
+    Check(fake.PostPatchWaitSerial == "CAR" && fake.PostPatchWaitTimeout == 120, "Wait bounded and pinned to original device: " + mode);
+    if (failed) Check(!fake.Calls.Any(c => c[0] is "install" or "push" or "reboot"), "Reconnect failure stops before payload writes: " + mode);
+    else Check(fake.Calls.FindIndex(c => c[0] == "install") > fake.Calls.FindLastIndex(c => c[0] == "wait-for-device"), "Install resumes after reconnect");
 }
 foreach (var mode in new[] { "remount-recover", "remount-recover-nonzero", "remount-reboot" })
 {
@@ -155,12 +176,26 @@ sealed class RebootAdb(string mode) : IAdbClient
 
 sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
 {
+    public TaskCompletionSource<CommandResult> Reconnect { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    public bool WaitEntered;
+    public string? PostPatchWaitSerial;
+    public int PostPatchWaitTimeout;
     private bool patched;
     private int remounts;
     public List<IReadOnlyList<string>> Calls { get; } = [];
     public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
     {
         Calls.Add(args);
+        if (args[0] == "wait-for-device" && Calls.Any(c => c[0] == "pull"))
+        {
+            WaitEntered = true; PostPatchWaitSerial = serial; PostPatchWaitTimeout = timeoutSeconds;
+            if (failure == "reconnect") return Reconnect.Task;
+            if (failure == "reconnect-timeout") throw new TimeoutException("Device absent");
+        }
+        if (WaitEntered && failure == "reconnect-boot" && args.Contains("/proc/sys/kernel/random/boot_id"))
+            return Task.FromResult(new CommandResult(0, Guid.Empty.ToString()));
+        if (args.Contains("ro.build.fingerprint"))
+            return Task.FromResult(new CommandResult(0, WaitEntered && failure == "reconnect-firmware" ? "changed" : "test-firmware"));
         string text = ""; var exit = 0;
         if (args[0] == "devices") text = "CAR device";
         else if (args[0] == "remount") {
@@ -191,9 +226,11 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
 
 sealed class FakePatcher(string failure) : IFrameworkPatcher
 {
+    public int Calls;
     public static string PatchedHash => Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(new byte[] {7,8,9})).ToLowerInvariant();
     public Task<FrameworkPatchResult> PatchAsync(string input, string workDirectory)
     {
+        Calls++;
         if (failure == "patch") throw new InvalidDataException("Unsupported keyboard method");
         Directory.CreateDirectory(workDirectory);
         var output = Path.Combine(workDirectory,"patched.jar"); File.WriteAllBytes(output,[7,8,9]);

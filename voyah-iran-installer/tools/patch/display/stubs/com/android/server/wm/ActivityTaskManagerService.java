@@ -1,0 +1,1 @@
+package com.android.server.wm; import android.content.Context; class ActivityTaskManagerService { Context mContext; WindowManagerGlobalLock mGlobalLock; RootWindowContainer mRootWindowContainer; WindowManagerService mWindowManager; }
