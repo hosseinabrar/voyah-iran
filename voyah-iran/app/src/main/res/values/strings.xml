@@ -119,6 +119,11 @@
     <string name="app_display_correction">نمایش برنامه‌ها در ابعاد و جهت درست</string>
     <string name="app_display_description">برنامه‌های نصب‌شده در ابعاد استاندارد و به‌صورت افقی اجرا می‌شوند.</string>
     <string name="app_display_failed">تنظیم نمایش تأیید نشد. نصب را با نصاب جدید تکمیل و دستگاه را راه‌اندازی مجدد کنید.</string>
+    <string name="force_stop_app">توقف اجرا</string>
+    <string name="force_stop_success">اجرای %1$s متوقف شد.</string>
+    <string name="media_controls_label">کنترل پخش موسیقی با دکمه‌های فرمان</string>
+    <string name="media_controls_description">دکمه‌های بعدی، قبلی و پخش/توقف روی پخش‌کنندهٔ فعال عمل می‌کنند.</string>
+    <string name="media_controls_error">فعال‌سازی کنترل موسیقی انجام نشد. دوباره امتحان کنید.</string>
 </resources>
 
 

@@ -6,6 +6,22 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun mediaAccessCanOnlyGrantOurOwnListenerOnUserZero() {
+        assertEquals(listOf("/system/bin/cmd", "notification", "allow_listener",
+            "com.abrar.voyahiran/com.abrar.voyahiran.feature.media.SteeringMediaListener", "0"),
+            BridgePolicy.resolve(listOf("media-access", "enable")))
+        assertNull(BridgePolicy.resolve(listOf("media-access", "enable", "com.other.app/.Listener")))
+        assertNull(BridgePolicy.resolve(listOf("media-access", "anything")))
+    }
+
+    @Test fun forceStopIsScopedToUserZeroAndExcludesSelf() {
+        assertEquals(listOf("force-stop-user-app", "com.example.app"),
+            BridgePolicy.resolve(listOf("am", "force-stop", "--user", "0", "com.example.app")))
+        for (pkg in listOf("com.abrar.voyahiran", "com.example.app;reboot", "--all"))
+            assertNull(BridgePolicy.resolve(listOf("am", "force-stop", "--user", "0", pkg)))
+        assertNull(BridgePolicy.resolve(listOf("am", "force-stop", "--user", "10", "com.example.app")))
+    }
+
     @Test fun displayPolicyOnlyAcceptsTwoBoundedOperations() {
         for (operation in listOf("enable", "disable"))
             assertEquals(listOf("app-display", operation), BridgePolicy.resolve(listOf("app-display", operation)))

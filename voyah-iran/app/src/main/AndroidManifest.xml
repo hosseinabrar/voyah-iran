@@ -31,6 +31,10 @@
             <intent-filter><action android:name="android.accessibilityservice.AccessibilityService" /></intent-filter>
             <meta-data android:name="android.accessibilityservice" android:resource="@xml/raha_overlay_service" />
         </service>
+        <service android:name=".feature.media.SteeringMediaListener" android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" android:label="@string/media_controls_label">
+            <intent-filter><action android:name="android.service.notification.NotificationListenerService" /></intent-filter>
+        </service>
         <service android:name=".feature.voice.RahaService" android:exported="false" android:foregroundServiceType="microphone" />
         <service android:name=".feature.steering.service.StarBackService" android:exported="false" />
         <service android:name=".feature.drivememory.service.DriveMemoryService" android:exported="false" />

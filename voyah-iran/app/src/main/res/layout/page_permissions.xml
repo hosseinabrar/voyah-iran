@@ -10,18 +10,6 @@
     android:layoutDirection="rtl"
     android:baselineAligned="false"
     android:gravity="center_vertical">
-    <Button
-        android:id="@+id/uninstall"
-        style="@style/NavigationTab"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/space_md"
-        android:paddingStart="@dimen/space_lg"
-        android:paddingEnd="@dimen/space_lg"
-        android:background="@drawable/bg_uninstall"
-        android:backgroundTint="@null"
-        android:text="@string/uninstall_app"
-        android:textColor="@color/reboot_text"/>
     <Spinner
         android:id="@+id/apps"
         android:layout_width="0dp"
@@ -30,6 +18,24 @@
         android:minHeight="@dimen/touch_target"
         android:contentDescription="@string/permissions_select"
         tools:entries="@array/preview_permission_apps"/>
+    <Button
+        android:id="@+id/uninstall"
+        style="@style/NavigationTab"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/space_md"
+        android:paddingStart="@dimen/space_lg"
+        android:paddingEnd="@dimen/space_lg"
+        android:background="@drawable/bg_uninstall"
+        android:backgroundTint="@null"
+        android:text="@string/uninstall_app"
+        android:textColor="@color/reboot_text"/>
+    <Button android:id="@+id/forceStop" style="@style/NavigationTab"
+        android:layout_width="wrap_content" android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/space_md"
+        android:paddingStart="@dimen/space_lg" android:paddingEnd="@dimen/space_lg"
+        android:background="@drawable/bg_force_stop" android:backgroundTint="@null"
+        android:text="@string/force_stop_app" android:textColor="@color/reboot_text"/>
 </LinearLayout>
 <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:indeterminate="true" android:visibility="gone"/>
 <TextView android:id="@+id/feedback" style="@style/Text.Caption" android:textColor="@color/error" android:accessibilityLiveRegion="polite" android:visibility="gone" android:text="@string/permissions_error"/>

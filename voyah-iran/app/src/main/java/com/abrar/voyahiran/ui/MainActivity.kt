@@ -101,6 +101,7 @@ class MainActivity : ComponentActivity() {
         binding.apolloTab.setOnClickListener { selectTab(Tab.APOLLO); apollo.refresh() }
         binding.apolloPage.refresh.setOnClickListener { apollo.refresh() }
         binding.permissionsTab.setOnClickListener { selectTab(Tab.PERMISSIONS); permissions.refresh() }
+        binding.permissionsPage.forceStop.setOnClickListener { permissions.forceStop() }
         binding.permissionsPage.uninstall.setOnClickListener {
             val state = permissions.state.value
             val app = state.apps.firstOrNull { it.packageName == state.selected }
@@ -166,6 +167,24 @@ class MainActivity : ComponentActivity() {
             }
         }
         binding.settingsPage.rearCameraRetry.setOnClickListener { rearCamera.refresh() }
+        binding.settingsPage.mediaControls.isChecked = com.abrar.voyahiran.feature.media.MediaControl.enabled(this)
+        binding.settingsPage.mediaControls.setOnClickListener {
+            val wanted = binding.settingsPage.mediaControls.isChecked
+            binding.settingsPage.mediaControls.isEnabled = false
+            binding.settingsPage.mediaControlsError.visibility = View.GONE
+            lifecycleScope.launch {
+                try {
+                    com.abrar.voyahiran.feature.media.MediaControl.save(this@MainActivity, wanted)
+                    com.abrar.voyahiran.feature.media.MediaControl.provision(this@MainActivity)
+                } catch (e: Exception) {
+                    if (e is kotlinx.coroutines.CancellationException) throw e
+                    com.abrar.voyahiran.core.logging.AppLog.error("SteeringMedia", "configure failed", e)
+                    com.abrar.voyahiran.feature.media.MediaControl.save(this@MainActivity, !wanted)
+                    binding.settingsPage.mediaControls.isChecked = !wanted
+                    binding.settingsPage.mediaControlsError.visibility = View.VISIBLE
+                } finally { binding.settingsPage.mediaControls.isEnabled = true }
+            }
+        }
         binding.settingsPage.starBack.setOnClickListener {
             requestSteering(if (binding.settingsPage.starBack.isChecked) StarBackService.ENABLE else StarBackService.DISABLE)
         }
@@ -459,10 +478,14 @@ class MainActivity : ComponentActivity() {
         val position = state.apps.indexOfFirst { it.packageName == state.selected }
         if (position >= 0 && apps.selectedItemPosition != position) apps.setSelection(position)
         uninstall.isEnabled = !state.busy && state.selected != null
+        forceStop.isEnabled = !state.busy && state.selected != null
         apps.isEnabled = !state.busy
         refresh.isEnabled = !state.busy
         progress.visibility = if (state.busy) View.VISIBLE else View.GONE
-        feedback.visibility = if (state.error) View.VISIBLE else View.GONE
+        feedback.visibility = if (state.error || state.stoppedApp != null) View.VISIBLE else View.GONE
+        feedback.setTextColor(getColor(if (state.error) R.color.error else R.color.accent))
+        feedback.text = if (state.error) getString(R.string.permissions_error)
+            else state.stoppedApp?.let { getString(R.string.force_stop_success, it) }.orEmpty()
         val boxes = listOf("microphone" to permissionMicrophone, "camera" to permissionCamera,
             "location" to permissionLocation, "install" to permissionInstall, "background" to permissionBackground)
         boxes.forEach { (key, box) ->

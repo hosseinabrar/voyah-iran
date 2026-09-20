@@ -14,6 +14,9 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>): List<String>? {
+        if (request.size == 2 && request[0] == "media-access" && request[1] in listOf("enable", "disable"))
+            return listOf("/system/bin/cmd", "notification", if (request[1] == "enable") "allow_listener" else "disallow_listener",
+                "com.abrar.voyahiran/com.abrar.voyahiran.feature.media.SteeringMediaListener", "0")
         if (request.size == 2 && request[0] == "app-display" && request[1] in listOf("enable", "disable")) return request
         if(request==listOf("subscription-vin","read")) return request
         if(request.size==2 && request[0]=="subscription-session" && request[1].toIntOrNull() in 0..90) return request
@@ -87,6 +90,11 @@ esac
             request[4] != "com.abrar.voyahiran" &&
             Regex("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+").matches(request[4])) {
             return listOf("uninstall-user-app", request[4])
+        }
+        if (request.size == 5 && request.take(4) == listOf("am", "force-stop", "--user", "0") &&
+            request[4] != "com.abrar.voyahiran" &&
+            Regex("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+").matches(request[4])) {
+            return listOf("force-stop-user-app", request[4])
         }
         val packagePattern = Regex("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+")
         if (request.size == 6 && request[0] == "pm" && request[1] in listOf("grant", "revoke") &&

@@ -8,8 +8,8 @@ android {
         applicationId = "com.abrar.voyahiran"
         minSdk = 30
         targetSdk = 32
-        versionCode = 12
-        versionName = "0.2.6"
+        versionCode = 13
+        versionName = "1.0.0"
         buildConfigField("String", "SUBSCRIPTION_URL", "\"http://voyah-iran.ir/registerOrRenewSubscription\"")
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }

@@ -29,3 +29,5 @@
 -keep,allowobfuscation class com.abrar.raha.Raha*Vocabulary** { *; }
 
 -keep class com.abrar.voyahiran.core.bridge.AppInventory { public static void main(java.lang.String[]); }
+
+-keepnames class com.abrar.voyahiran.feature.media.SteeringMediaListener

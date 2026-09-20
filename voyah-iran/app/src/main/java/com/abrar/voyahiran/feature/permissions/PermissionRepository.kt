@@ -22,6 +22,15 @@ class PermissionRepository(context: Context) {
         check(apps().none { it.packageName == pkg }) { "Uninstall verification failed" }
         AppLog.info("Permissions", "uninstall verified package=$pkg")
     }
+    fun forceStop(pkg: String) {
+        require(apps().any { it.packageName == pkg }) { "Not a user application" }
+        AppLog.info("Permissions", "force-stop requested package=$pkg")
+        execute(listOf("am", "force-stop", "--user", "0", pkg))
+        check(pm.getApplicationInfo(pkg, 0).flags and android.content.pm.ApplicationInfo.FLAG_STOPPED != 0) {
+            "Force-stop verification failed: $pkg"
+        }
+        AppLog.info("Permissions", "force-stop verified package=$pkg")
+    }
     private fun members(pkg: String): Map<String, List<String>> {
         val declared = pm.getPackageInfo(pkg, PackageManager.GET_PERMISSIONS).requestedPermissions.orEmpty().toSet()
         return linkedMapOf(

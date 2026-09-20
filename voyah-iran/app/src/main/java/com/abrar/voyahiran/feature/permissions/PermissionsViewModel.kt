@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 import com.abrar.voyahiran.core.logging.AppLog
 
 data class PermissionsState(val apps: List<InstalledApp> = emptyList(), val selected: String? = null,
-    val permissions: List<AppPermission> = emptyList(), val busy: Boolean = false, val error: Boolean = false)
+    val permissions: List<AppPermission> = emptyList(), val busy: Boolean = false, val error: Boolean = false, val stoppedApp: String? = null)
 class PermissionsViewModel(app: Application) : AndroidViewModel(app) {
     private val repository = PermissionRepository(app)
     private val mutable = MutableStateFlow(PermissionsState())
@@ -28,6 +28,13 @@ class PermissionsViewModel(app: Application) : AndroidViewModel(app) {
         mutable.value.copy(apps = apps, selected = selected,
             permissions = selected?.let(repository::permissions).orEmpty())
     }
+    fun forceStop() {
+        val pkg = mutable.value.selected ?: return
+        runOperation {
+            repository.forceStop(pkg)
+            mutable.value.copy(stoppedApp = mutable.value.apps.firstOrNull { it.packageName == pkg }?.label ?: pkg)
+        }
+    }
     fun select(pkg: String) {
         if (mutable.value.selected == pkg || mutable.value.busy) return
         mutable.value = mutable.value.copy(selected = pkg, permissions = emptyList())
@@ -42,7 +49,7 @@ class PermissionsViewModel(app: Application) : AndroidViewModel(app) {
     }
     private fun runOperation(block: () -> PermissionsState) {
         if (mutable.value.busy) return
-        mutable.value = mutable.value.copy(busy = true, error = false)
+        mutable.value = mutable.value.copy(busy = true, error = false, stoppedApp = null)
         viewModelScope.launch {
             try { mutable.value = withContext(Dispatchers.IO) { block() }.copy(busy = false, error = false) }
             catch (e: Exception) {
