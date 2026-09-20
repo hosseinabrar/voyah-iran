@@ -25,6 +25,21 @@ object RahaVehicleBridge {
             require(value is String || value is Number || value is Boolean) { "Invalid parameter $key" }
             value
         }
+        if (action.name in OemEnergyBinder.actions) {
+            OemEnergyBinder.execute(action.name, params)
+            return CommandResult(0, "CONFIRMED action=$action via direct OEM Binder feedback")
+        }
+        if (action.name in OemDriverAssistanceBinder.actions) {
+            OemDriverAssistanceBinder.execute(action.name, params)
+            return CommandResult(0, "CONFIRMED action=$action via direct OEM Binder feedback")
+        }
+        if (action in OemPhaseSevenActions.actions) {
+            OemPhaseSevenActions.execute(action, params)
+            return CommandResult(0, "DISPATCHED action=$action via OEM controls; any OEM confirmation remains required")
+        }
+        if (action.name in OemSceneActions.actions) {
+            return CommandResult(0, OemSceneActions.execute(action.name, params))
+        }
         if (action in OemEnergySceneActions.actions) {
             OemEnergySceneActions.execute(action, params)
             return CommandResult(0, "DISPATCHED action=$action through installed OEM Settings; ECU completion is reported by vehicle")

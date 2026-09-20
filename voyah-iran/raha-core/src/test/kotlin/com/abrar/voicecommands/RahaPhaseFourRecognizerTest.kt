@@ -208,7 +208,7 @@ Case("برف پاک کن رو کم کن","ADJUST_WIPER_SENSITIVITY",mapOf("delta
 Case("برف پاک کن رو بیشتر کن","ADJUST_WIPER_SENSITIVITY",mapOf("delta" to 1)),
 Case("برف پاک کن رو کمتر کن","ADJUST_WIPER_SENSITIVITY",mapOf("delta" to -1)),
 Case("ترمز پارک","UNKNOWN",mapOf()),
-Case("حالت پرواز","UNKNOWN",mapOf()),
+Case("حالت پرواز","SET_DRIVE_MODE",mapOf("mode" to "sport")),
 Case("برف پاک کن روشن کن","UNKNOWN",mapOf()),
 Case("بازیابی انرژی سطح 9","UNKNOWN",mapOf()),
 Case("ارتفاع ماشین رو زیاد کن","SET_SUSPENSION_HEIGHT",mapOf("level" to "high"))

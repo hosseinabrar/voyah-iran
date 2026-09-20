@@ -33,6 +33,7 @@ object RahaSpeechVocabulary {
     fun phrases(): List<String> = buildSet {
         addAll(RahaIgnoredSpeech.phrases)
         add("[unk]")
+        addAll(RahaPhaseFourRecognizer.sportIdioms)
         for (noun in listOf("شارژر", "پورت شارژ", "درگاه شارژ", "سوکت شارژ", "درپوش شارژر"))
             for (verb in listOf("رو باز کن", "را باز کنید", "باز", "باز کن")) add("$noun $verb")
         for (noun in listOf("کنترل سرپایینی", "کنترل سر پایینی", "کنترل سرازیری"))
@@ -49,6 +50,7 @@ object RahaSpeechVocabulary {
         for (phrase in RahaColloquialVocabulary.amounts) { add(phrase); addAll(phrase.split(' ')) }
         addAll(listOf("هوا گرم", "هوا سرد", "هوا خیلی گرم", "هوا خیلی سرد", "گرم", "سرد", "بکش", "بکشید", "بدین", "بدید", "بذارین", "بزارین"))
         addAll(listOf("هی رها", "سلام رها", "رها", "هی", "سلام"))
+        for(group in RahaPhaseSevenRecognizer.vocabulary) for(phrase in group.split("|")) {add(phrase);addAll(phrase.split(" "))}
         for(group in RahaPhaseSixRecognizer.vocabulary) for(phrase in group.split("|")) {add(phrase);addAll(phrase.split(" "))}
         for(group in RahaPhaseFiveRecognizer.vocabulary) for(phrase in group.split("|")) {add(phrase);addAll(phrase.split(" "))}
         addAll(listOf("دی اکتیو", "اتو هلد رو روشن کن", "اتو هولد رو فعال کن", "نگه دارنده خودکار رو فعال کن"))

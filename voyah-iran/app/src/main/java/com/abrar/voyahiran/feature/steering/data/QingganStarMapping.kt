@@ -51,7 +51,7 @@ class QingganStarMapping(context: Context) : StarMapping {
                 try { if (media?.invoke(key, action, display) == true) consumed = true }
                 catch (e: Exception) { com.abrar.voyahiran.core.logging.AppLog.error("SteeringMedia", "key handler failed", e) }
                 val routed = policy?.route(key, action, keyFlags, display, OemPayload(extras))
-                com.abrar.voyahiran.core.logging.AppLog.info("StarEvent", "key=$key action=$action flags=$keyFlags display=$display consumed=${routed?.consume} emitted=${routed?.events?.size}")
+                com.abrar.voyahiran.core.logging.AppLog.info("StarEvent", "key=$key action=$action flags=$keyFlags display=$display consumed=${consumed || routed?.consume == true} starConsumed=${routed?.consume} emitted=${routed?.events?.size}")
                 if (routed?.consume == true) {
                     // Reply promptly: synchronous injection here could deadlock the OEM engine.
                     events.execute {

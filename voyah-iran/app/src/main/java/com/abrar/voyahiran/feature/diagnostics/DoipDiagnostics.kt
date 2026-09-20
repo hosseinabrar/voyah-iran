@@ -99,6 +99,19 @@ internal class DoipDiagnostics(private val log: (String) -> Unit, private val po
         require(response.contentEquals(byteArrayOf(0x54))) { "Clear not confirmed: ${DtcCodec.hex(response)}" }
     }
     private fun exchange(entity: DoipEntity, request: ByteArray): ByteArray {
+        return try {
+            exchangeOnce(entity, request, extendedActivation = false)
+        } catch (_: ActivationLengthRejected) {
+            // Generic header NACK 04 BEFORE UDS: some entities require the optional
+            // four-byte OEM field. Reconnect because this NACK closes the TCP socket.
+            // Never retry after sending a diagnostic request (especially ClearDTC).
+            log("${entity.label}: 7-byte activation rejected for length; reconnecting once with 11-byte activation (OEM field=0)")
+            exchangeOnce(entity, request, extendedActivation = true)
+        }
+    }
+    private class ActivationLengthRejected : IllegalStateException("DoIP activation rejected: invalid payload length (04)")
+
+    private fun exchangeOnce(entity: DoipEntity, request: ByteArray, extendedActivation: Boolean): ByteArray {
         checkActive()
         Socket().use { socket ->
             socket.bind(InetSocketAddress(InetAddress.getByName(entity.local), 0))
@@ -133,14 +146,19 @@ internal class DoipDiagnostics(private val log: (String) -> Unit, private val po
                 log("RX ${entity.label} type=%04X bytes=$length data=${DtcCodec.hex(payload.take(512).toByteArray())}".format(type))
                 return type to payload
             }
-            send(5, DtcCodec.address(tester) + byteArrayOf(0, 0, 0, 0, 0))
+            val activation = DtcCodec.address(tester) + ByteArray(if (extendedActivation) 9 else 5)
+            log("routing activation ${entity.label} payloadLength=${activation.size} tester=0E00 activationType=00")
+            send(5, activation)
             var activated = false
             while (!activated) {
                 val (type, p) = receive()
                 when (type) {
                     6 -> { require(p.size >= 9 && DtcCodec.u16(p, 0) == tester && DtcCodec.u16(p, 2) == entity.logical && p[4] == 0x10.toByte()) { "Routing activation rejected: ${DtcCodec.hex(p)}" }; activated = true }
                     7 -> send(8, DtcCodec.address(tester))
-                    0 -> error("DoIP NACK ${DtcCodec.hex(p)}")
+                    0 -> {
+                        if (p.contentEquals(byteArrayOf(4)) && !extendedActivation) throw ActivationLengthRejected()
+                        error("DoIP activation header NACK ${DtcCodec.hex(p)}${if (p.contentEquals(byteArrayOf(4))) " (invalid payload length; both activation formats rejected)" else ""}")
+                    }
                     else -> error("Unexpected activation response $type")
                 }
             }

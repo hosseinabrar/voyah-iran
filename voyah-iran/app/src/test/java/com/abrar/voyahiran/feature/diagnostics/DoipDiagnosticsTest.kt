@@ -37,6 +37,61 @@ class DoipDiagnosticsTest {
             assertThrows(IllegalArgumentException::class.java) { client.readEntity(entity) }
         }
     }
+    @Test fun reconnectsWithElevenBytesAfterRecordedActivationLengthNack() {
+        activationFallback(4, false, false)
+    }
+    @Test fun doesNotRetryOtherActivationErrors() {
+        activationFallback(1, false, false)
+    }
+    @Test fun stopsAfterBothActivationLengthsAreRejected() {
+        activationFallback(4, true, false)
+    }
+    @Test fun neverRetriesClearAfterDiagnosticRequestWasSent() {
+        activationFallback(4, false, true)
+    }
+    private fun activationFallback(nack: Int, rejectExtended: Boolean, clear: Boolean) {
+        ServerSocket(0).use { server ->
+            server.soTimeout = 5000
+            val pool = Executors.newSingleThreadExecutor()
+            try {
+                val worker = pool.submit {
+                    fun serve(extended: Boolean) {
+                        server.accept().use { socket ->
+                            socket.soTimeout = 5000
+                            val input = DataInputStream(socket.getInputStream())
+                            fun receive(type: Int): ByteArray {
+                                assertEquals(2, input.readUnsignedByte()); assertEquals(253, input.readUnsignedByte())
+                                assertEquals(type, input.readUnsignedShort())
+                                return ByteArray(input.readInt()).also { input.readFully(it) }
+                            }
+                            fun send(type: Int, p: ByteArray) { socket.getOutputStream().write(DtcCodec.frame(type, p)) }
+                            assertArrayEquals(byteArrayOf(0x0e, 0) + ByteArray(if (extended) 9 else 5), receive(5))
+                            if (!extended || rejectExtended) {
+                                send(0, byteArrayOf(nack.toByte()))
+                                assertEquals(-1, input.read()) // Client closes without issuing UDS.
+                            } else {
+                                send(6, byteArrayOf(0x0e, 0, 7, 0x1a, 0x10, 0, 0, 0, 0))
+                                val request = if (clear) byteArrayOf(0x14, -1, -1, -1) else byteArrayOf(0x19, 2, -1)
+                                assertArrayEquals(byteArrayOf(0x0e, 0, 7, 0x1a) + request, receive(0x8001))
+                                if (clear) send(0, byteArrayOf(4))
+                                else send(0x8001, byteArrayOf(7, 0x1a, 0x0e, 0, 0x59, 2, -1, 1, 2, 3, 9))
+                            }
+                        }
+                    }
+                    serve(false)
+                    if (nack == 4) serve(true)
+                    server.soTimeout = 300
+                    assertThrows(java.net.SocketTimeoutException::class.java) { server.accept().use {} }
+                }
+                val client = DoipDiagnostics({}, server.localPort)
+                val entity = DoipEntity("127.0.0.1", "127.0.0.1", 0x071a, 2)
+                if (clear) assertThrows(IllegalStateException::class.java) { client.clear(entity) }
+                else if (nack != 4 || rejectExtended) assertThrows(IllegalStateException::class.java) { client.readEntity(entity) }
+                else assertEquals(listOf(Dtc("010203", 9)), client.readEntity(entity).faults)
+                worker.get(6, TimeUnit.SECONDS)
+            } finally { pool.shutdownNow() }
+        }
+    }
     private fun withServer(request: ByteArray, response: ByteArray, pending: Boolean = false, wrongAddress: Boolean = false, block: (DoipDiagnostics, DoipEntity) -> Unit) {
         ServerSocket(0).use { server ->
             server.soTimeout = 5000

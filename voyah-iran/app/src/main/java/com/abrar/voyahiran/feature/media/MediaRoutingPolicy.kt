@@ -18,8 +18,11 @@ class MediaPressPolicy<T> {
     data class Result<T>(val consumed: Boolean, val target: T? = null)
     private data class Press<T>(val target: T?, var emitted: Boolean = false)
     private val presses = mutableMapOf<Int, Press<T>>()
-    @Synchronized fun route(key: Int, action: Int, target: T?): Result<T> {
+    @Synchronized fun route(key: Int, action: Int, target: T?, display: Int = 0): Result<T> {
         if (key !in MediaRoutingPolicy.keys) return Result(false)
+        // Hardware steering events in the OEM log carry -1 (no assigned display).
+        // Keep explicit passenger/rear display events on their original route.
+        if (display != -1 && display != 0) return Result(false)
         if (action == 0x1000) presses[key] = Press(target)
         val press = presses.getOrPut(key) { Press(target) }
         if (press.target == null) return Result(false)

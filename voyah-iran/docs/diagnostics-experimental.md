@@ -3,6 +3,29 @@
 This is an unverified on-vehicle DoIP experiment, not a complete vehicle scanner.
 No installer or privileged bridge changes are required; the existing INTERNET permission is used.
 
+## First vehicle result and activation compatibility
+
+`diag_log-2026-09-20_16-58-53.txt`: automotive Ethernet discovery succeeded:
+local 172.16.104.40, peer 172.16.104.90, advertised logical address 071A, version 2.
+TCP connected. The 7-byte default routing-activation request received generic
+header NACK (type 0000), code 04 (invalid payload length). No UDS read was sent.
+Loopback discovery found no entity. This is not evidence of an empty fault memory,
+nor proof that 071A can route to all vehicle ECUs.
+
+Added one compatibility attempt: only after this exact activation-phase NACK,
+close the connection and retry activation on a new socket with the standard
+11-byte form (four optional OEM bytes zero). Both 7 and 11 are documented forms;
+whether this peer accepts 11 remains to be tested. No address/type guessing,
+authentication changes, or retry after sending UDS. A ClearDTC request is still
+sent at most once. Other activation rejections and ambiguous disconnects stop.
+
+Reference: AUTOSAR CP DiagnosticOverIP, SWS_DoIP_00019 / routing activation length:
+https://www.autosar.org/fileadmin/standards/R24-11/CP/AUTOSAR_CP_SWS_DiagnosticOverIP.pdf
+
+Fake TCP peer tests reproduce the recorded NACK, verify the second request bytes,
+then cover successful DTC read, both lengths rejected, other rejection without
+retry, and no reconnect/repeated ClearDTC after a diagnostic-phase NACK.
+
 ## UI
 - Main read discovers loopback and active eth/usb/rndis IPv4 broadcasts. Local test only probes loopback.
 - Discovery uses UDP13400 vehicle identification, then the entity's advertised logical address and protocol version, TCP13400 routing activation with tester0E00/default activation.

@@ -110,6 +110,8 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         sounds.play(if(success) RahaSounds.Cue.SUCCESS else RahaSounds.Cue.FAILURE)
         refresh()
     }
+    /** Release transient focus before media control, so later focus restoration cannot undo Pause. */
+    fun yieldAudioForMedia(): Unit = onMain { audioFocus.release() }
     fun dismiss(): Unit = onMain { policy.cancel(); transcript=""; voiceActive=false; sounds.stop(); main.removeCallbacks(tick); render() }
     private fun acquireAudio(): Boolean {
         if (!focusAttempted) {

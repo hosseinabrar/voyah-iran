@@ -4,6 +4,12 @@ import com.abrar.voicecommands.VehicleCommand
 
 /** Phase four: vehicle-independent desired state, never a direct hardware operation. */
 internal object RahaPhaseFourRecognizer {
+    val sportIdioms = listOf(
+        "آدرنالین", "آدرنالینش رو ببر بالا", "یکم آدرنالین تزریق کن", "هیجان بده", "هیجان رو ببر بالا",
+        "می خوام پرواز کنم", "بریم رو مود پرواز", "بریم بترکونیم", "آدرنالین رو زیاد کن",
+        "کمی آدرنالین بده", "یه کم هیجان بده", "هیجان بیشتری بده", "آدرنالینش رو افزایش بده",
+        "بریم پرواز کنیم", "میخوام پرواز کنم", "بزن بریم بترکونیم", "حالت پرواز رو فعال کن"
+    )
     val modes = linkedMapOf(
         "eco" to "اکو|اقتصادی|کم مصرف|اکونومی",
         "comfort" to "کامفورت|کامفرت|کام فرت|راحت|راحتی",
@@ -30,7 +36,7 @@ internal object RahaPhaseFourRecognizer {
     )
     val height = "ارتفاع تعلیق|ارتفاع ماشین|ارتفاع خودرو|ارتفاع بدنه|ارتفاع|تعلیق"
     val parking = "ترمز پارک|ترمز دستی|ترمزدستی|ای پی بی|epb"
-    val vocabulary = modes.values.toList()+listOf(drive,regen,wiper,parking,height,"نرمال|استاندارد|وسط|میانه|بالاتر|پایینتر|بالاترین|پایین ترین|فشار عمیق پدال|دیپ")+toggles.values+
+    val vocabulary = sportIdioms + listOf("آدرنالین|ادرنالین|آدرنالینش|ادرنالینش|هیجان|هیجانش|تزریق|پرواز|بترکونیم|بترکانیم|بریم|بزن|بیشتری") + modes.values.toList()+listOf(drive,regen,wiper,parking,height,"نرمال|استاندارد|وسط|میانه|بالاتر|پایینتر|بالاترین|پایین ترین|فشار عمیق پدال|دیپ")+toggles.values+
         listOf("ضعیف|متوسط|قوی|ملایم|کم|زیاد|کمتر|بیشتر|افزایش|کاهش|مدیوم|درگیر|آزاد|رها|بگیر|بکش|بخوابون|حساسیت")
     fun recognize(text:String):Recognition.Matched? {
         val found=mutableListOf<VehicleCommand>()
@@ -41,6 +47,20 @@ internal object RahaPhaseFourRecognizer {
             val scan=RahaCommandRecognizer.Scan(text)
             val values=scan.body() ?: return
             if(scan.finished()) found+=VehicleCommand(action.name,action.name,values,describe(action,values))
+        }
+        rule(RahaAction.SET_DRIVE_MODE) {
+            val excitement = take("آدرنالین|ادرنالین|آدرنالینش|ادرنالینش|هیجان|هیجانش")
+            val flight = take("پرواز کنم|پرواز کنیم|حالت پرواز|مود پرواز")
+            val party = take("بریم بترکونیم|بزن بریم بترکونیم|بریم بترکانیم")
+            if (!excitement && !flight && !party) return@rule null
+            take("بیشتری|بیشتر|بالا|زیاد|افزایش")
+            take("تزریق")
+            take("یکم|یه کم|یک کم|1 کم|کمی|مقداری|کم")
+            take("بزن")
+            take("بریم|برو")
+            take("ماشین|خودرو")
+            if (power() == false) return@rule null
+            mapOf("mode" to "sport")
         }
         for((mode,names) in modes) rule(RahaAction.SET_DRIVE_MODE) {
             if(!take(names)) return@rule null

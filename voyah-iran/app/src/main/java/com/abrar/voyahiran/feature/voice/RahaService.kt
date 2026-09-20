@@ -195,6 +195,11 @@ class RahaService : Service() {
                     try {
                         check((application as VoyahIranApplication).subscriptions.allowed) { "Subscription inactive" }
                         AppLog.info("Raha", "execute action=${command.action} parameters=${command.parameters}")
+                        if (command.action in setOf("PLAY_MEDIA", "PAUSE_MEDIA", "NEXT_MEDIA", "PREVIOUS_MEDIA")) {
+                            feedback.yieldAudioForMedia()
+                            delay(200)
+                            check(resultEpoch == cancelledEpoch) { "Media command cancelled before dispatch" }
+                        }
                         val outcome = if (command.action in setOf("SAVE_SEAT_POSITION", "RECALL_SEAT_POSITION")) {
                             OemSeatMemory.execute(this@RahaService, command)
                         } else withContext(Dispatchers.IO) {

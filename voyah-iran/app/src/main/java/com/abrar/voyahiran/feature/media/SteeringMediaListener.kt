@@ -65,9 +65,12 @@ class SteeringMediaListener : NotificationListenerService() {
         AppLog.info("SteeringMedia", "listener connected")
     }
     private fun onKey(key: Int, action: Int, display: Int): Boolean {
-        if (!connected || !usable || display != 0 || !MediaControl.enabled(this) || !app.subscriptions.allowed) return false
         val code = MediaRoutingPolicy.androidKey(key) ?: return false
-        val route = presses.route(key, action, target)
+        if (!connected || !usable || !MediaControl.enabled(this) || !app.subscriptions.allowed) {
+            AppLog.info("SteeringMedia", "ignored key=$key action=$action display=$display connected=$connected usable=$usable enabled=${MediaControl.enabled(this)} subscription=${app.subscriptions.allowed}")
+            return false
+        }
+        val route = presses.route(key, action, target, display)
         AppLog.info("SteeringMedia", "key=$key action=$action display=$display consumed=${route.consumed} target=${route.target?.packageName}")
         route.target?.let { controller ->
             // Never call another Binder synchronously while replying to the OEM key engine.

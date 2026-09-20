@@ -7,8 +7,8 @@ import org.json.JSONObject
 /** Uses the installed Settings implementation; does not substitute a different strategy on rejection. */
 internal object OemEnergySceneActions {
     val actions = setOf(RahaAction.SET_ENERGY_STRATEGY, RahaAction.SET_BATTERY_RESERVE_TARGET,
-        RahaAction.STOP_CHARGING, RahaAction.SET_BATTERY_PRECONDITIONING, RahaAction.ACTIVATE_SCENE,
-        RahaAction.DEACTIVATE_SCENE, RahaAction.SET_POWER_KEEP_DURATION, RahaAction.SET_POWER_KEEP_ENGINE_CHARGING)
+        RahaAction.STOP_CHARGING, RahaAction.SET_BATTERY_PRECONDITIONING,
+        RahaAction.SET_POWER_KEEP_DURATION, RahaAction.SET_POWER_KEEP_ENGINE_CHARGING)
 
     fun execute(action: RahaAction, params: Map<String, Any>) {
         require(action in actions)

@@ -23,17 +23,20 @@ internal object OemActionScriptRunner {
         val script=File.createTempFile("raha-action-", ".js",runtime.parentFile)
         var process: Process?=null
         try {
-            script.writeText(source)
+            // Emitted before Java.perform: distinguish agent load from Java/OEM execution failure.
+            script.writeText("console.log('RAHA_ACTION_STAGE script-loaded arch=' + Process.arch);\n" + source)
             val child=ProcessBuilder(runtime.path,"-p",pid,"-s",script.path,"-i").redirectErrorStream(true).start()
             process=child
             AppLog.info("RahaOemAction", "OEM action attach started pid=$pid script=${script.name}")
             val done=CountDownLatch(1)
             val stopping=java.util.concurrent.atomic.AtomicBoolean(false)
             val failure=java.util.concurrent.atomic.AtomicReference<String?>(null)
+            val lastOutput=java.util.concurrent.atomic.AtomicReference<String?>(null)
             val ok=java.util.concurrent.atomic.AtomicBoolean(false)
             val reader=thread(name="raha-action-output",isDaemon=true) {
                 try { child.inputStream.bufferedReader().useLines { lines -> lines.forEach { line ->
                     AppLog.info("RahaOemAction",line.take(1500))
+                    lastOutput.set(line.take(1500))
                     if(line.contains("RAHA_ACTION_OK")) { ok.set(true); done.countDown() }
                     if(line.contains("RAHA_ACTION_ERROR")) { failure.set(line.take(1500)); done.countDown() }
                 } } } catch(e:Exception) {
@@ -48,8 +51,9 @@ internal object OemActionScriptRunner {
             try {
                 val completed=done.await(8,TimeUnit.SECONDS)
                 val exit=runCatching { child.exitValue().toString() }.getOrDefault("running")
-                AppLog.info("RahaOemAction","OEM action attach completed=$completed confirmed=${ok.get()} process=$exit failure=${failure.get()}")
-                check(completed && ok.get()) { failure.get() ?: "OEM action not confirmed: completed=$completed process=$exit" }
+                val targetAlive=runCatching {File("/proc/$pid/cmdline").readText().substringBefore('\u0000')==packageName}.getOrDefault(false)
+                AppLog.info("RahaOemAction","OEM action attach package=$packageName pid=$pid targetAlive=$targetAlive completed=$completed confirmed=${ok.get()} process=$exit failure=${failure.get()} lastOutput=${lastOutput.get()}")
+                check(completed && ok.get()) { failure.get() ?: "OEM action not confirmed: package=$packageName pid=$pid targetAlive=$targetAlive completed=$completed process=$exit lastOutput=${lastOutput.get()}" }
             } finally {
                 stopping.set(true)
                 child.destroy()
