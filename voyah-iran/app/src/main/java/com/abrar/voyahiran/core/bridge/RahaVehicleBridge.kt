@@ -17,13 +17,17 @@ import java.io.File
 
 /** Runs only inside the authenticated root bridge. Uses the installed OEM SDK's enums and parceling. */
 object RahaVehicleBridge {
-    fun execute(actionName: String, json: String): CommandResult = try {
+    fun execute(actionName: String, json: String): CommandResult { return try {
         val action = RahaAction.valueOf(actionName)
         val data = JSONObject(json)
         val params = data.keys().asSequence().associateWith { key ->
             val value = data.get(key)
             require(value is String || value is Number || value is Boolean) { "Invalid parameter $key" }
             value
+        }
+        if (action in OemEnergySceneActions.actions) {
+            OemEnergySceneActions.execute(action, params)
+            return CommandResult(0, "DISPATCHED action=$action through installed OEM Settings; ECU completion is reported by vehicle")
         }
         val sdk = OemSession()
         val plan = RahaVehiclePlan(sdk).create(action, params)
@@ -54,6 +58,8 @@ object RahaVehicleBridge {
     } catch (e: Exception) {
         AppLog.error("RahaVehicle", "action=$actionName failed; not replayed", e)
         CommandResult(1, "${e.cause ?: e}")
+    }
+
     }
 
     private class OemSession : RahaVehicleSnapshot {

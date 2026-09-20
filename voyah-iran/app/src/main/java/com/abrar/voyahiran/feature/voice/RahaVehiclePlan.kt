@@ -224,6 +224,11 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
             RahaAction.SET_DRIVE_MODE -> out += RahaWrite("drive", "mode", mapOf("eco" to 1, "comfort" to 2, "sport" to 3, "outing" to 4, "snow" to 6, "personal" to 5).getValue(text("mode")))
             RahaAction.SAVE_SEAT_POSITION, RahaAction.RECALL_SEAT_POSITION -> error("Seat memory must be dispatched through OemSeatMemory, not raw CAN")
             RahaAction.SET_RAIN_SENSING_WIPERS -> error("Rain-sensing mode is not exposed by the supplied H97C menu interface")
+            RahaAction.SET_MIRROR_FOLD -> error("Direct mirror folding is not confirmed on H97; automatic-fold configuration will not be changed instead")
+            RahaAction.SET_ENERGY_STRATEGY, RahaAction.SET_BATTERY_RESERVE_TARGET, RahaAction.STOP_CHARGING,
+            RahaAction.SET_BATTERY_PRECONDITIONING, RahaAction.ACTIVATE_SCENE, RahaAction.DEACTIVATE_SCENE,
+            RahaAction.SET_POWER_KEEP_DURATION, RahaAction.SET_POWER_KEEP_ENGINE_CHARGING ->
+                error("This action must use the installed OEM Settings adapter")
         }
         return out
     }

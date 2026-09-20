@@ -19,7 +19,9 @@ enum class RahaAction {
     SET_AMBIENT_LIGHT_BRIGHTNESS, ADJUST_AMBIENT_LIGHT_BRIGHTNESS, SET_REAR_FOG_LIGHT, SET_RAIN_SENSING_WIPERS,
     SET_SUSPENSION_HEIGHT, SET_DRIVE_MODE, SET_REGENERATION_LEVEL, ADJUST_REGENERATION_LEVEL, SET_HIGHWAY_SUSPENSION_ADAPTATION,
     SET_AUTO_HOLD, SET_HILL_DESCENT_CONTROL, SET_STABILITY_CONTROL, SET_PARKING_BRAKE, SET_WIPER_SENSITIVITY, ADJUST_WIPER_SENSITIVITY,
-    SAVE_SEAT_POSITION, RECALL_SEAT_POSITION
+    SAVE_SEAT_POSITION, RECALL_SEAT_POSITION,
+    SET_ENERGY_STRATEGY, SET_BATTERY_RESERVE_TARGET, STOP_CHARGING, SET_BATTERY_PRECONDITIONING,
+    ACTIVATE_SCENE, DEACTIVATE_SCENE, SET_POWER_KEEP_DURATION, SET_POWER_KEEP_ENGINE_CHARGING, SET_MIRROR_FOLD
 }
 
 /** Parses final transcripts only. An incomplete request never becomes an executable intent.
@@ -57,6 +59,7 @@ class RahaCommandRecognizer {
             return unknown("درخواست منفی، شرطی یا پرسشی اجرا نمی‌شود")
         if (Regex("(?:^| )(روشنه|خاموشه|فعاله|چنده|هست|نیست|کردی|میدونی)(?: |$)").containsMatchIn(text))
             return unknown("این جمله پرسش درباره وضعیت است")
+        RahaPhaseSixRecognizer.recognize(text)?.let { return it }
         RahaPhaseFiveRecognizer.recognize(text)?.let { return it }
         RahaPhaseFourRecognizer.recognize(text)?.let { return it }
         RahaPhaseThreeRecognizer.recognize(text)?.let { return it }

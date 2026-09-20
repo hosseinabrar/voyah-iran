@@ -49,6 +49,7 @@ object RahaSpeechVocabulary {
         for (phrase in RahaColloquialVocabulary.amounts) { add(phrase); addAll(phrase.split(' ')) }
         addAll(listOf("هوا گرم", "هوا سرد", "هوا خیلی گرم", "هوا خیلی سرد", "گرم", "سرد", "بکش", "بکشید", "بدین", "بدید", "بذارین", "بزارین"))
         addAll(listOf("هی رها", "سلام رها", "رها", "هی", "سلام"))
+        for(group in RahaPhaseSixRecognizer.vocabulary) for(phrase in group.split("|")) {add(phrase);addAll(phrase.split(" "))}
         for(group in RahaPhaseFiveRecognizer.vocabulary) for(phrase in group.split("|")) {add(phrase);addAll(phrase.split(" "))}
         addAll(listOf("دی اکتیو", "اتو هلد رو روشن کن", "اتو هولد رو فعال کن", "نگه دارنده خودکار رو فعال کن"))
         for(group in RahaPhaseFourRecognizer.vocabulary) for(phrase in group.split("|")) {
