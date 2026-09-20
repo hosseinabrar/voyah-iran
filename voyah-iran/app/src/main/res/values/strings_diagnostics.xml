@@ -1,0 +1,13 @@
+<resources>
+    <string name="diagnostics_tab">دیاگ و عیب‌یابی</string>
+    <string name="diagnostics_read">خواندن خطاها</string>
+    <string name="diagnostics_clear">حذف خطاها</string>
+    <string name="diagnostics_local">تست خواندن محلی DoIP</string>
+    <string name="diagnostics_hint">آزمایشی — خواندن از واحدهای پاسخ‌گوی DoIP، نه اسکن کامل خودرو. برای شروع «خواندن خطاها» را بزنید.</string>
+    <string name="diagnostics_busy">در حال ارتباط با واحدهای خودرو…</string>
+    <string name="diagnostics_clear_confirm">حافظهٔ خطاهای واحدهای زیر پاک شود؟ ابتدا گزارش را ذخیره کنید. حذف خطا، علت آن را رفع نمی‌کند. این آزمایش را با خودرو متوقف انجام دهید.
+
+%1$s</string>
+    <string name="diagnostics_need_read">ابتدا خطاها را بخوانید. فقط واحدهایی که خواندن آن‌ها موفق بوده و خطا گزارش کرده‌اند قابل حذف هستند.</string>
+    <string name="diagnostics_scope">این نتیجه فقط مربوط به واحدهای پاسخ‌گوست و تأیید سلامت یا ایمن‌بودن رانندگی نیست.</string>
+</resources>

@@ -72,6 +72,7 @@ class MainActivity : ComponentActivity() {
     private val model: SettingsViewModel by viewModels {
         SettingsViewModel.Factory((application as VoyahIranApplication).timeZoneRepository)
     }
+    private lateinit var diagnostics: com.abrar.voyahiran.feature.diagnostics.DiagnosticsPageController
     private var selectedTab = Tab.SETTINGS
     private val steering get() = (application as VoyahIranApplication).steeringController
     private var steeringRequestPending = false
@@ -86,6 +87,8 @@ class MainActivity : ComponentActivity() {
         com.abrar.voyahiran.core.logging.AppLog.info("App", "start version=${BuildConfig.VERSION_NAME} sdk=${android.os.Build.VERSION.SDK_INT} uid=${android.os.Process.myUid()} display=${display?.displayId}")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        diagnostics = com.abrar.voyahiran.feature.diagnostics.DiagnosticsPageController(this, binding.diagnosticsPage)
+        binding.diagnosticsTab.setOnClickListener { selectTab(Tab.DIAGNOSTICS) }
         binding.settingsPage.rebootDevice.setOnClickListener {
             android.app.AlertDialog.Builder(this)
                 .setTitle(R.string.reboot_label)
@@ -305,7 +308,10 @@ class MainActivity : ComponentActivity() {
     private fun selectTab(tab: Tab) {
         if (tab == Tab.APOLLO || tab == Tab.ABOUT) { selectTab(Tab.SETTINGS); return }
         com.abrar.voyahiran.core.logging.AppLog.info("UI", "tab=$tab")
+        if (selectedTab == Tab.DIAGNOSTICS || tab == Tab.DIAGNOSTICS) diagnostics.reset()
         selectedTab = tab
+        binding.diagnosticsTab.isSelected = tab == Tab.DIAGNOSTICS
+        binding.diagnosticsPage.root.visibility = if (tab == Tab.DIAGNOSTICS) View.VISIBLE else View.GONE
         binding.voiceTab.isSelected = tab == Tab.VOICE
         binding.voicePage.root.visibility = if (tab == Tab.VOICE) View.VISIBLE else View.GONE
         binding.settingsTab.isSelected = tab == Tab.SETTINGS
@@ -511,7 +517,7 @@ class MainActivity : ComponentActivity() {
             permissions.set(com.abrar.voyahiran.feature.permissions.AppPermission("all", "", allGranted), wanted)
         }
     }
-    private enum class Tab { SETTINGS, COMFORT, VOICE, APOLLO, PERMISSIONS, ABOUT }
+    private enum class Tab { SETTINGS, COMFORT, VOICE, APOLLO, PERMISSIONS, DIAGNOSTICS, ABOUT }
     companion object { private const val TAB_KEY = "selected_tab" }
 }
 

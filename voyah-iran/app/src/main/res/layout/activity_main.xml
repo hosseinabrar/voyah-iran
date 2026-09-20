@@ -49,6 +49,7 @@
                 android:text="@string/apollo_tab" />
             <Button android:id="@+id/voiceTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/raha_tab" />
             <Button android:id="@+id/permissionsTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/permissions_tab" />
+            <Button android:id="@+id/diagnosticsTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/diagnostics_tab" />
             <Button android:id="@+id/aboutTab" android:visibility="gone"
                 style="@style/NavigationTab"
                 android:layout_marginTop="@dimen/space_sm"
@@ -69,6 +70,7 @@
         <include android:id="@+id/voicePage" layout="@layout/page_voice" />
         <include android:id="@+id/apolloPage" layout="@layout/page_apollo" />
         <include android:id="@+id/permissionsPage" layout="@layout/page_permissions" />
+        <include android:id="@+id/diagnosticsPage" layout="@layout/page_diagnostics" />
         <include android:id="@+id/aboutPage" layout="@layout/page_about" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
