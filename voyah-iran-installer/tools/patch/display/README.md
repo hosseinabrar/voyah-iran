@@ -3,9 +3,9 @@
 ## Behaviour
 
 - Settings first checkbox: نمایش برنامه‌ها در ابعاد و جهت درست. Default enabled.
-- Display 0 only; standard fullscreen activities installed by the user, plus
+- Displays 0 (center) and 1 (passenger); standard fullscreen activities installed by the user, plus
   `com.abrar.voyahiran` explicitly, even if installed as a system application.
-- Existing OEM/system apps, home, PiP/multiwindow, passenger display, IME and
+- Existing OEM/system apps, home, PiP/multiwindow, other displays (including cluster), IME and
   system/assistant overlay windows are excluded.
 - Landscape orientation; activity bounds inset 145 px left and 50 px top from
   parent bounds. Parent content/bottom restrictions remain in force.
@@ -53,7 +53,7 @@ If modifying helper Java, regenerate checked-in smali with `Build-Helper.ps1`:
 
 Defaults: platform android-36, build-tools 37.0.0; overridable parameters.
 Compile-only stubs must NEVER be packaged into services.jar. The script selects
-only the four VoyahIranDisplayPolicy classes, runs 17 policy tests, then copies
+only the four VoyahIranDisplayPolicy classes, runs 23 policy checks, then copies
 the generated smali. It keeps temp artifacts for inspection.
 
 Before shipping changes to the helper, run FrameworkPatch against a local OEM
@@ -85,7 +85,7 @@ The existing framework backup/hash/restore process remains in use.
 4. Open Voyah Iran itself and confirm the same reserved margins.
 5. Disable checkbox; reopen the test apps, confirm native orientation/layout.
    Enable again and confirm restoration. Reboot and confirm preference persists.
-6. Verify passenger display and OEM menus/camera remain unchanged.
+6. Repeat the app/checkbox/keyboard tests on the passenger screen, including moving an app between screens. Verify OEM menus/camera and cluster remain unchanged.
 7. If unsuccessful capture full installer log and unfiltered logcat, plus:
 
     adb shell settings get global voyah_iran_display_policy
@@ -101,3 +101,18 @@ Emergency policy off (no JAR replacement):
 Disable the checkbox before reopening the app after emergency override, since
 its persisted preference is reapplied on application startup. For framework
 rollback use the installer's existing Restore-Framework.ps1 and matching backup.
+
+## Passenger extension (2026-09-22)
+The same switch now covers display 1, using its own parent bounds and density with the existing 145px/50px insets. Center behavior is unchanged. No virtual/cluster displays are included.
+The launcher has a distinct `handleUpdateSecondNavigationBar` handler and type 3 (center uses type 2). The bridge preserves that bar for eligible passenger apps, remembers native visibility for disable, and polls foreground changes once per second without repeatedly issuing unchanged updates. OEM animation and move-between-display handling remain in the original handler.
+The installer recognizes the exact previous four center-only helper classes in `legacy-center`, upgrades them without adding duplicate hooks, and rejects unknown/mixed helpers. Publish bundles those templates too.
+Local upgrade verification compared all 7,946 reassembled classes and untouched ZIP entries. Hardware validation of passenger margins/bar persistence remains required. Deploy with the installer and reboot; APK-only installation cannot update the framework helper.
+
+## Safe-area input margins and display moves (2026-09-23)
+`ActivityRecord.layoutLetterbox` now exits through the policy gate after destroying any existing app Letterbox and clearing its reference. Letterbox.destroy removes the surfaces and disposes their input interceptors; merely hiding the visual surface is insufficient. These margins belong to the OEM bars, not the app. The original instructions remain below the guard (branch labels are renumbered for DEX round-trip stability) for disabled policy, OEM apps, home, multiwindow and excluded displays. Both display 0 and 1 use the same policy eligibility.
+
+Source evidence: layoutLetterbox constructs surfaces between full display bounds and the reduced app frame and calls attachInput. Letterbox input has its own display association; an unchanged layout can retain cached surface/input state during a display move. The reported dead top/left margins are consistent with this path, but no failing-device input/window dump was supplied, so this remains a targeted fix requiring hardware confirmation.
+
+Upgrade accepts exact old center-only and dual-display helpers plus the previously unmodified layoutLetterbox template. Unknown implementations remain rejected. No new helper or change to the keyboard patch is involved.
+
+Test on hardware: launch Myket on center, move to passenger, tap Home/status controls on both; move back and repeat. Also launch on passenger first, move to center, test both; repeat with checkbox disabled and enabled. If still failing, capture unfiltered logcat and `adb shell dumpsys input` plus `adb shell dumpsys window windows` while margins are unresponsive, before moving the app back.

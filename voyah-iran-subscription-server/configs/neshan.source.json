@@ -1,0 +1,54 @@
+{
+  "purpose": "voyah-iran-neshan-config",
+  "schemaVersion": 1,
+  "revision": 2,
+  "packageName": "org.rajman.neshan.traffic.tehran.navigator",
+  "profiles": [
+    {
+      "id": "14.12.0.3-70789",
+      "versionName": "14.12.0.3",
+      "versionCode": 70789,
+      "apkSha256": "a5e32beb3aaea641787fdfd4b0cf64a741d6c9237a53155f4c66331531a39061",
+      "hook": {
+        "stepClass": "l10.b",
+        "updateClass": "o10.i",
+        "updateMethod": "b",
+        "resetClass": "m10.b",
+        "resetMethod": "b",
+        "distance": "a",
+        "type": "f",
+        "modifier": "g",
+        "road": "h",
+        "roadExtra": "i",
+        "turnIndex": "j",
+        "routeState": {
+          "ownerClass": "org.rajman.neshan.core.BaseApplication",
+          "instanceField": "N",
+          "stateClass": "ki0.c",
+          "activeMethod": "H",
+          "engineMethod": "A"
+        }
+      },
+      "driving": {
+        "activeIds": [
+          "closeMaterialCardViewDrivingControl",
+          "closeImageViewDrivingControl"
+        ],
+        "routeIds": [
+          "address_panel_upcoming_step_frame",
+          "streetNameNormal",
+          "streetNameCompact"
+        ],
+        "moreScopeIds": [
+          "bottomNavigationViewMain",
+          "itemTextView"
+        ],
+        "moreLabel": "سایر",
+        "entryLabels": [
+          "ورود به حالت رانندگی",
+          "حالت رانندگی آزاد"
+        ]
+      }
+    }
+  ]
+}

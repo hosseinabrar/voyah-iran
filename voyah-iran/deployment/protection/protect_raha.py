@@ -24,7 +24,7 @@ ARCHIVE_SHA = "11d07c39ab5061e361f8df1b0665defdb29cab8b5314781a1bdab383f48517f3"
 JAR_SHA = "8b5a93d3452d90ab06bce4e15e5bc701de63885acb7e3b68375b576a1b246a92"
 SOURCE_SHA = "a387e669ca09b900ed4b43779e8d2b0cea662a06b2fc566366a9b402786caa30"
 REPO = "https://github.com/luoyesiqiu/dpt-shell"
-CORE = re.compile(r"com\.abrar\.raha\.(?:RahaCommandRecognizer|RahaPhase\w+Recognizer|Raha\w*Vocabulary)(?:\$.*)?$")
+CORE = re.compile(r"com\.abrar\.raha\.(?:RahaCommandRecognizer|RahaNavigationRecognizer|RahaPhase\w+Recognizer|Raha\w*Vocabulary)(?:\$.*)?$")
 BRIDGE = "Lcom/abrar/voyahiran/core/bridge/BridgeServer;"
 
 
@@ -281,7 +281,7 @@ def main():
             "Root bridge static main is missing")
     with zipfile.ZipFile(apk) as original, zipfile.ZipFile(unsigned) as protected:
         for name in original.namelist():
-            if name.startswith(("lib/", "assets/")) and not name.endswith("/"):
+            if name.startswith(("lib/", "assets/", "voi-g2p/")) and not name.endswith("/"):
                 require(name in protected.namelist() and original.read(name) == protected.read(name),
                         "Existing model/native asset changed: " + name)
     require(digest(apk.read_bytes()) == source_hash, "Original APK changed")

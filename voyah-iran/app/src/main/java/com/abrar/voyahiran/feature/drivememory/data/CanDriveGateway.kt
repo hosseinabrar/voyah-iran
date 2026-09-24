@@ -50,6 +50,17 @@ class CanDriveGateway(context: Context, private val signal: (CanSignal) -> Unit)
         return readState(0x2C3, 0x39C)
     }
 
+    /** ICanBusService.getDoorStatus (2): presence, bonnet, front-left, ... */
+    suspend fun readDriverDoor(): Int {
+        connect()
+        return call(2, {}) {
+            if (readInt() == 0) -1 else {
+                readInt() // bonnet; do not confuse it with the driver's door
+                readInt().takeIf { it in 0..1 } ?: -1
+            }
+        }
+    }
+
     suspend fun readReportState(ordinal: Int, id: Int): Int {
         connect()
         return readState(ordinal, id)

@@ -12,7 +12,7 @@ import java.io.File
 
 /** Read installed menu capabilities, then use the same Binder bundle as setPowerMode(). */
 internal object OemEnergyBinder {
-    val actions=setOf("SET_ENERGY_STRATEGY","SET_BATTERY_RESERVE_TARGET")
+    val actions=setOf("SET_ENERGY_STRATEGY","SET_BATTERY_RESERVE_TARGET","SET_BATTERY_PRECONDITIONING")
     fun execute(action: String, parameters: Map<String,Any>) {
         try { executeInstalled(action,parameters) }
         catch(error:LinkageError) {throw IllegalStateException("Installed energy SDK could not be loaded",error)}
@@ -75,6 +75,17 @@ internal object OemEnergyBinder {
             }
         }
         AppLog.info("RahaEnergy","direct Binder action=$action; OEM process injection not used")
+        if (action == "SET_BATTERY_PRECONDITIONING") {
+            require(parameters.keys == setOf("enabled") && parameters["enabled"] is Boolean)
+            val key = "DRIVER_PREHEAT_SET"
+            val desired = if (parameters["enabled"] == true) 1 else 0
+            port.validate(key, false)
+            val current = port.read(key)
+            check(current in 0..1) { "Battery temperature control unavailable: $current" }
+            if (current != desired) port.write(key, desired, false)
+            port.confirm(key, desired)
+            return
+        }
         EnergyCommandExecutor(port).execute(action,parameters)
     }
 }

@@ -27,7 +27,7 @@ class InstalledAppAdapter(context: Context, private val apps: List<InstalledApp>
         val app = apps[position]
         view.findViewById<TextView>(R.id.appLabel).text = app.label
         view.findViewById<ImageView>(R.id.appIcon).setImageDrawable(icons.getOrPut(app.packageName) {
-            try { pm.getApplicationIcon(app.packageName) }
+            try { pm.getApplicationIcon(app.packageName.substringBefore('#')) }
             catch (_: PackageManager.NameNotFoundException) { pm.defaultActivityIcon }
         })
         return view

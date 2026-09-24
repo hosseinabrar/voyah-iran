@@ -43,20 +43,14 @@ object OemSeatMemory {
             remote.send(Message.obtain(null, 3).apply {
                 obj = Bundle().apply { putParcelable("event", event as Parcelable) }
             })
-            // The same Messenger preserves operation -> presentation ordering.
-            // Presentation failure must never replay a save/recall operation.
+            // Presentation has its own bounded lifetime; failure must never replay the operation.
             try {
-                val displayEvent = type.getConstructor().newInstance()
-                type.getField("mEventType").set(displayEvent, "SeatMemory")
-                type.getField("mSource").set(displayEvent, context.packageName)
-                type.getMethod("setData", Bundle::class.java).invoke(displayEvent,
-                    Bundle().apply { putString("seatAction", "showSeatMemory") })
-                remote.send(Message.obtain(null, 3).apply {
-                    obj = Bundle().apply { putParcelable("event", displayEvent as Parcelable) }
-                })
-                com.abrar.voyahiran.core.logging.AppLog.info("RahaOemUi", "Seat memory window requested after $operation; physical completion is asynchronous")
+                val presentation = com.abrar.voyahiran.core.shell.ProcessCommandRunner().run(
+                    listOf("su", "0", "raha-seat-ui", "show"), 5)
+                check(presentation.exitCode == 0 && !presentation.timedOut) { presentation.output }
+                com.abrar.voyahiran.core.logging.AppLog.info("RahaOemUi", "Seat popup scheduled after $operation: ${presentation.output}")
             } catch (e: Exception) {
-                com.abrar.voyahiran.core.logging.AppLog.error("RahaOemUi", "Seat operation dispatched; window request failed, operation will not be repeated", e)
+                com.abrar.voyahiran.core.logging.AppLog.error("RahaOemUi", "Seat operation dispatched; popup failed, operation will not be repeated", e)
             }
             CommandResult(0, "OEM SeatMemory dispatched: $operation (Driving profile)")
         } catch (e: Exception) {

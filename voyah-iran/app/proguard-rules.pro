@@ -25,6 +25,7 @@
 # implementations into bridge/framework classes that must run before DPT loads.
 # Names can still be obfuscated. This is NOT a package-wide keep of the app.
 -keep,allowobfuscation class com.abrar.raha.RahaCommandRecognizer** { *; }
+-keep,allowobfuscation class com.abrar.raha.RahaNavigationRecognizer** { *; }
 -keep,allowobfuscation class com.abrar.raha.RahaPhase*Recognizer** { *; }
 -keep,allowobfuscation class com.abrar.raha.Raha*Vocabulary** { *; }
 

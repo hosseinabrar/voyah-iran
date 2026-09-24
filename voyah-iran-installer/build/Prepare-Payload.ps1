@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
     [string]$Apk,
     [string]$PlatformTools,
@@ -82,6 +82,9 @@ Get-ChildItem (Join-Path $patchTools 'display') -File -Filter '*.smali' | ForEac
 Get-ChildItem (Join-Path $patchTools 'display/helpers') -File -Filter '*.smali' | ForEach-Object {
     $files['patch/display/helpers/' + $_.Name] = $_.FullName
 }
+Get-ChildItem (Join-Path $patchTools 'display/legacy-center') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/legacy-center/' + $_.Name] = $_.FullName
+}
 $runtimePath = (Resolve-Path -LiteralPath $JavaRuntime).Path.TrimEnd('\','/')
 if (-not (Test-Path -LiteralPath (Join-Path $runtimePath 'bin\java.exe'))) { throw 'Bundled Java runtime is missing.' }
 Get-ChildItem -LiteralPath $runtimePath -File -Recurse | ForEach-Object {
@@ -111,13 +114,15 @@ try {
     } finally { $manifestStream.Dispose(); $manifestMemory.Dispose() }
     $compatible = $false
     $hasRoa = $false
+    $hasNeshanDirect = $false
     $hasInventory = $false
     foreach ($entry in $apkArchive.Entries | Where-Object { $_.FullName -match '^classes\d*\.dex$' }) {
         $memory = New-Object IO.MemoryStream
         $stream = $entry.Open()
-        try { $stream.CopyTo($memory); if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('Lcom/abrar/voyahiran/core/bridge/AppInventory;')) { $hasInventory = $true }; if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains($roaDescriptor)) { $hasRoa = $true }; if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('voyah_iran_ime_override')) { $compatible = $true } }
+        try { $stream.CopyTo($memory); if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('VI_NESHAN_CONFIG_ENGINE_V1')) { $hasNeshanDirect = $true }; if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('Lcom/abrar/voyahiran/core/bridge/AppInventory;')) { $hasInventory = $true }; if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains($roaDescriptor)) { $hasRoa = $true }; if ([Text.Encoding]::ASCII.GetString($memory.ToArray()).Contains('voyah_iran_ime_override')) { $compatible = $true } }
         finally { $stream.Dispose(); $memory.Dispose() }
     }
+    if (-not $hasNeshanDirect) { throw 'Rebuild the updated Android APK: direct Neshan navigation bridge is missing.' }
     if (-not $hasInventory) { throw 'Rebuild, protect and sign the updated Android APK: application inventory helper is missing.' }
     if (-not $compatible -or -not $hasRoa) { throw 'Build the updated Android release APK first: the selected APK does not contain the keyboard and ROA bridge.' }
 } finally { $apkArchive.Dispose() }

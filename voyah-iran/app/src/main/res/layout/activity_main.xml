@@ -37,6 +37,7 @@
                 style="@style/NavigationTab"
                 android:layout_marginTop="@dimen/space_xl"
                 android:text="@string/settings_tab" />
+            <Button android:id="@+id/displayMediaMapTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/display_media_map_tab"/>
             <Button
                 android:id="@+id/comfortTab"
                 style="@style/NavigationTab"
@@ -49,7 +50,7 @@
                 android:text="@string/apollo_tab" />
             <Button android:id="@+id/voiceTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/raha_tab" />
             <Button android:id="@+id/permissionsTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/permissions_tab" />
-            <Button android:id="@+id/diagnosticsTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/diagnostics_tab" />
+            <Button android:id="@+id/diagnosticsTab" android:visibility="gone" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/diagnostics_tab" />
             <Button android:id="@+id/aboutTab" android:visibility="gone"
                 style="@style/NavigationTab"
                 android:layout_marginTop="@dimen/space_sm"
@@ -65,6 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
+        <include android:id="@+id/displayMediaMapPage" layout="@layout/page_display_media_map"/>
         <include android:id="@+id/settingsPage" layout="@layout/page_settings" />
         <include android:id="@+id/comfortPage" layout="@layout/page_comfort" />
         <include android:id="@+id/voicePage" layout="@layout/page_voice" />

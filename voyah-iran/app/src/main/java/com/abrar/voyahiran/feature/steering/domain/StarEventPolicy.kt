@@ -18,7 +18,9 @@ class StarEventPolicy(private val previous: Int) {
             pending.clear()
             if (shortPress) return KeyRouting(true)
             shortPress = true
-            return KeyRouting(true, listOf(RoutedKey(SteeringKeys.BACK, SHORT, flags, display, payload)))
+            // Steering Back belongs to the driver/center display, never the last
+            // focused passenger task. Do not replay display-specific source extras.
+            return KeyRouting(true, listOf(RoutedKey(SteeringKeys.BACK, SHORT, display = CENTER_DISPLAY)))
         }
         if (previous == SteeringKeys.STAR) return KeyRouting(false)
         val original = RoutedKey(previous, action, flags, display, payload)
@@ -31,5 +33,5 @@ class StarEventPolicy(private val previous: Int) {
         pending.clear()
         return KeyRouting(true, replay)
     }
-    companion object { const val SHORT = 0x2000 }
+    companion object { const val SHORT = 0x2000; const val CENTER_DISPLAY = 0 }
 }

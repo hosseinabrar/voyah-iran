@@ -1,4 +1,15 @@
+import java.util.Properties
+
 plugins { id("com.android.application") }
+
+val mapLocalProperties = Properties().apply {
+    rootProject.file("local.properties").takeIf { it.isFile }?.inputStream()?.use { load(it) }
+}
+fun neshanKey(property: String, environment: String): String {
+    val value = providers.gradleProperty(property).orNull ?: providers.environmentVariable(environment).orNull
+        ?: mapLocalProperties.getProperty(property, "")
+    return "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "").replace("\r", "") + "\""
+}
 
 android {
     namespace = "com.abrar.voyahiran"
@@ -10,6 +21,8 @@ android {
         targetSdk = 32
         versionCode = 14
         versionName = "1.1.0"
+        buildConfigField("String", "NESHAN_MAP_KEY", neshanKey("neshan.mapKey", "NESHAN_MAP_KEY"))
+        buildConfigField("String", "NESHAN_SEARCH_KEY", neshanKey("neshan.searchKey", "NESHAN_SEARCH_KEY"))
         buildConfigField("String", "SUBSCRIPTION_URL", "\"http://voyah-iran.ir/registerOrRenewSubscription\"")
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }

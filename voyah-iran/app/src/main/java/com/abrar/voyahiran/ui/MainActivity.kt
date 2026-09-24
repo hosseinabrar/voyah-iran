@@ -87,8 +87,10 @@ class MainActivity : ComponentActivity() {
         com.abrar.voyahiran.core.logging.AppLog.info("App", "start version=${BuildConfig.VERSION_NAME} sdk=${android.os.Build.VERSION.SDK_INT} uid=${android.os.Process.myUid()} display=${display?.displayId}")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        com.abrar.voyahiran.feature.navigation.DisplayMediaMapController(this, binding.displayMediaMapPage).bind()
+        binding.displayMediaMapTab.setOnClickListener { selectTab(Tab.DISPLAY_MEDIA_MAP) }
         diagnostics = com.abrar.voyahiran.feature.diagnostics.DiagnosticsPageController(this, binding.diagnosticsPage)
-        binding.diagnosticsTab.setOnClickListener { selectTab(Tab.DIAGNOSTICS) }
+        // Diagnostics is temporarily unavailable from the navigation menu.
         binding.settingsPage.rebootDevice.setOnClickListener {
             android.app.AlertDialog.Builder(this)
                 .setTitle(R.string.reboot_label)
@@ -127,20 +129,20 @@ class MainActivity : ComponentActivity() {
         }
         binding.aboutTab.setOnClickListener { selectTab(Tab.ABOUT) }
         val appDisplay = (application as VoyahIranApplication).appDisplay
-        binding.settingsPage.appDisplayCorrection.setOnClickListener {
-            val desired = binding.settingsPage.appDisplayCorrection.isChecked
-            binding.settingsPage.appDisplayCorrection.isChecked = appDisplay.state.value.enabled
+        binding.displayMediaMapPage.appDisplayCorrection.setOnClickListener {
+            val desired = binding.displayMediaMapPage.appDisplayCorrection.isChecked
+            binding.displayMediaMapPage.appDisplayCorrection.isChecked = appDisplay.state.value.enabled
             appDisplay.setEnabled(desired)
         }
-        binding.settingsPage.appDisplayRetry.setOnClickListener { appDisplay.refresh() }
+        binding.displayMediaMapPage.appDisplayRetry.setOnClickListener { appDisplay.refresh() }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 appDisplay.state.collect { state ->
-                    binding.settingsPage.appDisplayCorrection.isChecked = state.enabled
-                    binding.settingsPage.appDisplayCorrection.isEnabled = !state.busy
-                    binding.settingsPage.appDisplayProgress.visibility = if (state.busy) View.VISIBLE else View.GONE
-                    binding.settingsPage.appDisplayError.visibility = if (state.failed) View.VISIBLE else View.GONE
-                    binding.settingsPage.appDisplayRetry.visibility = if (state.failed) View.VISIBLE else View.GONE
+                    binding.displayMediaMapPage.appDisplayCorrection.isChecked = state.enabled
+                    binding.displayMediaMapPage.appDisplayCorrection.isEnabled = !state.busy
+                    binding.displayMediaMapPage.appDisplayProgress.visibility = if (state.busy) View.VISIBLE else View.GONE
+                    binding.displayMediaMapPage.appDisplayError.visibility = if (state.failed) View.VISIBLE else View.GONE
+                    binding.displayMediaMapPage.appDisplayRetry.visibility = if (state.failed) View.VISIBLE else View.GONE
                 }
             }
         }
@@ -170,11 +172,11 @@ class MainActivity : ComponentActivity() {
             }
         }
         binding.settingsPage.rearCameraRetry.setOnClickListener { rearCamera.refresh() }
-        binding.settingsPage.mediaControls.isChecked = com.abrar.voyahiran.feature.media.MediaControl.enabled(this)
-        binding.settingsPage.mediaControls.setOnClickListener {
-            val wanted = binding.settingsPage.mediaControls.isChecked
-            binding.settingsPage.mediaControls.isEnabled = false
-            binding.settingsPage.mediaControlsError.visibility = View.GONE
+        binding.displayMediaMapPage.mediaControls.isChecked = com.abrar.voyahiran.feature.media.MediaControl.enabled(this)
+        binding.displayMediaMapPage.mediaControls.setOnClickListener {
+            val wanted = binding.displayMediaMapPage.mediaControls.isChecked
+            binding.displayMediaMapPage.mediaControls.isEnabled = false
+            binding.displayMediaMapPage.mediaControlsError.visibility = View.GONE
             lifecycleScope.launch {
                 try {
                     com.abrar.voyahiran.feature.media.MediaControl.save(this@MainActivity, wanted)
@@ -183,9 +185,9 @@ class MainActivity : ComponentActivity() {
                     if (e is kotlinx.coroutines.CancellationException) throw e
                     com.abrar.voyahiran.core.logging.AppLog.error("SteeringMedia", "configure failed", e)
                     com.abrar.voyahiran.feature.media.MediaControl.save(this@MainActivity, !wanted)
-                    binding.settingsPage.mediaControls.isChecked = !wanted
-                    binding.settingsPage.mediaControlsError.visibility = View.VISIBLE
-                } finally { binding.settingsPage.mediaControls.isEnabled = true }
+                    binding.displayMediaMapPage.mediaControls.isChecked = !wanted
+                    binding.displayMediaMapPage.mediaControlsError.visibility = View.VISIBLE
+                } finally { binding.displayMediaMapPage.mediaControls.isEnabled = true }
             }
         }
         binding.settingsPage.starBack.setOnClickListener {
@@ -202,7 +204,7 @@ class MainActivity : ComponentActivity() {
         }
         binding.comfortPage.recoveryRetry.setOnClickListener { requestDrive(DriveMemoryService.RECOVERY_RETRY) }
         binding.aboutPage.version.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
-        selectTab(Tab.entries.firstOrNull { it.name == savedInstanceState?.getString(TAB_KEY) } ?: Tab.SETTINGS)
+        selectTab(Tab.entries.firstOrNull { it != Tab.DIAGNOSTICS && it.name == savedInstanceState?.getString(TAB_KEY) } ?: Tab.SETTINGS)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // Opening the UI and an in-place subscription unlock share this path.
@@ -273,6 +275,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
+        com.abrar.voyahiran.feature.navigation.NeshanConfigStore.refresh(this)
         // This receiver only listens to protected system broadcasts, not app commands.
         registerReceiver(timeChanged, IntentFilter().apply {
             addAction(Intent.ACTION_TIMEZONE_CHANGED)
@@ -309,6 +312,8 @@ class MainActivity : ComponentActivity() {
         if (tab == Tab.APOLLO || tab == Tab.ABOUT) { selectTab(Tab.SETTINGS); return }
         com.abrar.voyahiran.core.logging.AppLog.info("UI", "tab=$tab")
         if (selectedTab == Tab.DIAGNOSTICS || tab == Tab.DIAGNOSTICS) diagnostics.reset()
+        binding.displayMediaMapTab.isSelected = tab == Tab.DISPLAY_MEDIA_MAP
+        binding.displayMediaMapPage.root.visibility = if (tab == Tab.DISPLAY_MEDIA_MAP) View.VISIBLE else View.GONE
         selectedTab = tab
         binding.diagnosticsTab.isSelected = tab == Tab.DIAGNOSTICS
         binding.diagnosticsPage.root.visibility = if (tab == Tab.DIAGNOSTICS) View.VISIBLE else View.GONE
@@ -517,7 +522,7 @@ class MainActivity : ComponentActivity() {
             permissions.set(com.abrar.voyahiran.feature.permissions.AppPermission("all", "", allGranted), wanted)
         }
     }
-    private enum class Tab { SETTINGS, COMFORT, VOICE, APOLLO, PERMISSIONS, DIAGNOSTICS, ABOUT }
+    private enum class Tab { SETTINGS, DISPLAY_MEDIA_MAP, COMFORT, VOICE, APOLLO, PERMISSIONS, DIAGNOSTICS, ABOUT }
     companion object { private const val TAB_KEY = "selected_tab" }
 }
 

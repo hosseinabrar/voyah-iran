@@ -1,0 +1,5 @@
+PersianG2P model and inference, MIT. https://github.com/PasaOpasen/PersianG2P
+Commit: 3fcb5fdfa4330090742c3e324c9bf3cfa1bb571d
+Original inference credits: Kyubyong Park and Jongseok Kim.
+Weights exported as big-endian float32; no pickle at runtime. Tihu dictionary not included.
+SHA256: 264382e8b01a29ff5273c0d55b15fd83e458d3dff77a3eedc9afcfc74db97927

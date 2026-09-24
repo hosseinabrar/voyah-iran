@@ -14,9 +14,39 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>): List<String>? {
+        if (request.size == 2 && request[0] == "neshan-direct" && request[1] in listOf("enable", "disable", "status")) return request
+        if (request == listOf("cluster-navigation", "clear")) return request
+        if (request.size == 5 && request[0] == "cluster-navigation" && request[1] == "show" &&
+            request[2].isNotBlank() && request[2].toByteArray(Charsets.UTF_8).size <= 180 &&
+            request[2].none { it.isISOControl() } && request[3].toIntOrNull() in 0..8 &&
+            request[4].toIntOrNull() in -1..1_000_000) return request
+        if (request.size == 2 && request[0] == "cluster-navigation-access" && request[1] in listOf("enable", "disable"))
+            return listOf("/system/bin/cmd", "notification", if (request[1] == "enable") "allow_listener" else "disallow_listener",
+                "com.abrar.voyahiran/com.abrar.voyahiran.feature.navigation.NeshanClusterListener", "0")
+        if (request == listOf("neshan-access", "enable")) return listOf("/system/bin/sh", "-c", """
+set -e
+service=com.abrar.voyahiran/com.abrar.voyahiran.feature.navigation.NeshanDrivingService
+current=${'$'}(settings --user 0 get secure enabled_accessibility_services)
+[ "${'$'}current" != null ] || current=
+case ":${'$'}current:" in
+  *":${'$'}service:"*) ;;
+  *) settings --user 0 put secure enabled_accessibility_services "${'$'}{current:+${'$'}current:}${'$'}service" ;;
+esac
+settings --user 0 put secure accessibility_enabled 1
+actual=${'$'}(settings --user 0 get secure enabled_accessibility_services)
+case ":${'$'}actual:" in
+  *":${'$'}service:"*) echo NESHAN_ACCESS_CONFIGURED ;;
+  *) exit 1 ;;
+esac
+""".trimIndent())
         if (request.size == 2 && request[0] == "media-access" && request[1] in listOf("enable", "disable"))
             return listOf("/system/bin/cmd", "notification", if (request[1] == "enable") "allow_listener" else "disallow_listener",
                 "com.abrar.voyahiran/com.abrar.voyahiran.feature.media.SteeringMediaListener", "0")
+        if (request.size == 2 && request[0] == "passenger-apps" && request[1] in listOf("enable", "disable"))
+            return listOf("/system/bin/settings", "put", "global", "voyah_iran_passenger_apps", if (request[1] == "enable") "1" else "0")
+        if (request.size == 2 && request[0] == "screen-swap-runtime" && request[1] in listOf("prepare", "execute")) return request
+        if (request.size == 2 && request[0] == "screen-swap" && request[1] in listOf("enable", "disable"))
+            return listOf("/system/bin/settings", "put", "global", "voyah_iran_screen_swap", if (request[1] == "enable") "1" else "0")
         if (request.size == 2 && request[0] == "app-display" && request[1] in listOf("enable", "disable")) return request
         if(request==listOf("subscription-vin","read")) return request
         if(request.size==2 && request[0]=="subscription-session" && request[1].toIntOrNull() in 0..90) return request
@@ -40,6 +70,7 @@ esac
 """.trimIndent())
         if (request == listOf("raha-service", "start")) return listOf("/system/bin/am", "start-foreground-service", "--user", "0",
             "-n", "com.abrar.voyahiran/.feature.voice.RahaService")
+        if (request == listOf("raha-seat-ui", "show")) return request
         if (request.size == 3 && request[0] == "raha-command" &&
             com.abrar.raha.RahaAction.entries.any { it.name == request[1] } && request[2].length <= 256) return request
         if (request == listOf("roa-config", "enable")) return request

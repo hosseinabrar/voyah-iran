@@ -22,7 +22,7 @@ internal object RahaPhaseSixRecognizer {
         "powerKeep" to "حفظ برق|نگه داشتن برق|روشن ماندن برق|برق در حالت توقف|پاور هولد"
     )
     private const val battery = "کنترل دمای باتری|مدیریت دمای باتری|آماده سازی باتری|پیش گرمایش باتری|پیش گرم کردن باتری|پیش گرمکن باتری|پری هیت باتری"
-    val vocabulary = strategies.values + scenes.values + listOf(battery,
+    val vocabulary = strategies.values + scenes.values + listOf(battery, "باتری ها|باتریها|گرمایش باتری|باتری ها رو گرم کن|دمای باتری رو کنترل کن",
         "مصرف انرژی|انرژی|شارژ|شارژ کردن|متوقف|توقف|قطع|تمام|حفظ|حد|حداقل|درصد|هدف|ذخیره|باتری|چهل|پنجاه|شصت|هفتاد|هشتاد|نود|صد|بیست و پنج|چهل و پنج|پنجاه و پنج|شصت و پنج|هفتاد و پنج",
         "سناریو|سناریوی|حالت|از|خروج|خارج|لغو|پایان|فعلی|فعال|مدت|زمان|دقیقه|ساعت|نیم ساعت|نامحدود|بدون محدودیت|نود|صد و بیست|صد و پنجاه|صد و هشتاد|موتور|بنزین|با موتور|شارژ با موتور|اجازه",
         "آینه|آینه ها|آیینه|آیینه ها|جمع|تا|باز|ببند|راننده|شاگرد|چپ|راست|همه",
@@ -91,8 +91,14 @@ internal object RahaPhaseSixRecognizer {
         }
         rule(RahaAction.SET_BATTERY_PRECONDITIONING) {
             if (!take(battery)) {
-                if(!take("دمای باتری") || !take("بالا|زیاد|افزایش"))return@rule null
+                if(!take("باتری ها|باتریها|باتری"))return@rule null
+                take("ها")
+                val thermal=take("پیش گرمایش|پیش گرمکن|گرمایش|گرمکن|گرم|دمای|دما")
+                if(!thermal)return@rule null
+                take("کنترل|مدیریت")
+                take("بالا|زیاد|افزایش")
             }
+            take("ها")
             mapOf("enabled" to (power() ?: true))
         }
         for (activate in listOf(true, false)) rule(if (activate) RahaAction.ACTIVATE_SCENE else RahaAction.DEACTIVATE_SCENE) {

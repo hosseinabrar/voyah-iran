@@ -31,6 +31,13 @@ object RahaSpeechVocabulary {
         "همه هر دو طرف آروم آرومتر آرامتر تندتر کاهش افزایش بیشترین کمترین آخر"
     )
     fun phrases(): List<String> = buildSet {
+        for (names in RahaNavigationRecognizer.aliases.values) for (name in names) {
+            add(name)
+            addAll(name.split(' '))
+            add("بریم $name")
+            add("$name رو مسیریابی کن")
+        }
+        for (request in RahaNavigationRecognizer.requests) { add(request); addAll(request.split(' ')) }
         addAll(RahaIgnoredSpeech.phrases)
         add("[unk]")
         addAll(RahaPhaseFourRecognizer.sportIdioms)
@@ -114,6 +121,17 @@ object RahaSpeechVocabulary {
         for (target in listOf("سرعت فن", "دمای اتاق", "شدت ماساژ", "نورپردازی داخلی")) {
             add("$target را افزایش دهید")
             add("$target را کاهش دهید")
+        }
+        // Phrase sequences help the acoustic decoder choose Play in a music context.
+        for (noun in listOf("آهنگ", "موزیک", "موسیقی", "ترانه")) {
+            for (verb in listOf("پلی کن", "پلی بکن", "پلی کنید", "پخش کن", "اجرا کن")) {
+                add("$noun $verb")
+                add("$noun رو $verb")
+                add("یه $noun $verb")
+                add("یک $noun $verb")
+                add("لطفا $noun را $verb")
+            }
+            add("پلی کردن $noun")
         }
         val material = targets + operators + positions + extra + bounds + RahaLevelVocabulary.units + phaseTwo
         for (noun in RahaPhaseTwoRecognizer.fragranceNames) {

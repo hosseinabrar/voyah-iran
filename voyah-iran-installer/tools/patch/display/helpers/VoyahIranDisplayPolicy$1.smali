@@ -45,7 +45,7 @@
 
 # virtual methods
 .method public run()V
-    .locals 4
+    .locals 5
 
     .line 31
     const/4 v0, 0x0
@@ -64,7 +64,9 @@
 
     iget-object v3, p0, Lcom/android/server/wm/VoyahIranDisplayPolicy$1;->val$handler:Landroid/os/Handler;
 
-    invoke-direct {v2, p0, v3, v1}, Lcom/android/server/wm/VoyahIranDisplayPolicy$1$1;-><init>(Lcom/android/server/wm/VoyahIranDisplayPolicy$1;Landroid/os/Handler;Landroid/content/ContentResolver;)V
+    iget-object v4, p0, Lcom/android/server/wm/VoyahIranDisplayPolicy$1;->val$service:Lcom/android/server/wm/ActivityTaskManagerService;
+
+    invoke-direct {v2, p0, v3, v4, v1}, Lcom/android/server/wm/VoyahIranDisplayPolicy$1$1;-><init>(Lcom/android/server/wm/VoyahIranDisplayPolicy$1;Landroid/os/Handler;Lcom/android/server/wm/ActivityTaskManagerService;Landroid/content/ContentResolver;)V
 
     invoke-static {v2}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->access$002(Landroid/database/ContentObserver;)Landroid/database/ContentObserver;
 

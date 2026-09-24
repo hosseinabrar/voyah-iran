@@ -17,6 +17,22 @@ class ProtectionSelectionTests(unittest.TestCase):
         self.assertEqual(6, len(targets))
         self.assertNotIn(BRIDGE, targets)
 
+    def test_navigation_recognizer_is_protected(self):
+        mapping = self.mapping + "\ncom.abrar.raha.RahaNavigationRecognizer -> nav:"
+        targets, _ = choose_targets(mapping, self.strings, self.inventory | {"Lnav;": []})
+        self.assertIn("Lnav;", targets)
+
+    def test_navigation_keep_rule_covers_nested_comparators(self):
+        from pathlib import Path
+        rules = (Path(__file__).resolve().parents[2] / "app/proguard-rules.pro").read_text()
+        self.assertIn("-keep,allowobfuscation class com.abrar.raha.RahaNavigationRecognizer** { *; }", rules)
+
+    def test_rejects_navigation_comparator_merged_into_shared_class(self):
+        self.inventory["Lak;"] = []
+        mapping = self.mapping + "\nexample.Shared -> ak:\n    30:31:int com.abrar.raha.RahaNavigationRecognizer$recognize$$inlined$sortedByDescending$1.compare(java.lang.Object,java.lang.Object):121:121 -> compare"
+        with self.assertRaisesRegex(RuntimeError, "inlined/merged"):
+            choose_targets(mapping, self.strings, self.inventory)
+
     def test_rejects_wrong_mapping(self):
         with self.assertRaisesRegex(RuntimeError, "do not match"):
             choose_targets(self.mapping, ['~~R8{"pg-map-id":"wrong"}'], self.inventory)

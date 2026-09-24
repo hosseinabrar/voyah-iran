@@ -49,9 +49,13 @@ class RahaService : Service() {
     private var closed = false
     private var watchPhrases = emptySet<String>()
     private var manual = false
+    private var navigationRevision = -1L
 
     override fun onCreate() {
         super.onCreate()
+        try { com.abrar.voyahiran.feature.navigation.SavedPlacesStore(this).sync() }
+        catch(e: Exception) { AppLog.error("Raha", "saved destinations unavailable", e) }
+        navigationRevision=com.abrar.raha.RahaNavigationRecognizer.revision
         val manager = getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(NotificationChannel(CHANNEL, getString(R.string.raha_tab), NotificationManager.IMPORTANCE_LOW))
         val open = PendingIntent.getActivity(this, 43, Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
@@ -74,6 +78,11 @@ class RahaService : Service() {
                     }
                     if (!ready && !preparing) prepare()
                     if (ready) {
+                        val revision=com.abrar.raha.RahaNavigationRecognizer.revision
+                        if(revision!=navigationRevision && !manual && !manualPending && !executing && !feedback.receiving) {
+                            navigationRevision=revision
+                            if(recording) cancelInteraction()
+                        }
                         keys.setVoiceListener { main.post { button() } }
                         reconcile()
                     }
@@ -111,7 +120,7 @@ class RahaService : Service() {
     }
     private fun button() {
         if (closed || !prefs.enabled || !(application as VoyahIranApplication).subscriptions.allowed) return
-        if (manual || manualPending || feedback.receiving) {
+        if (manual || manualPending || feedback.receiving || com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending != null) {
             AppLog.info("Raha", "steering voice button cancels active listening")
             cancelInteraction()
             return
@@ -200,7 +209,17 @@ class RahaService : Service() {
                             delay(200)
                             check(resultEpoch == cancelledEpoch) { "Media command cancelled before dispatch" }
                         }
-                        val outcome = if (command.action in setOf("SAVE_SEAT_POSITION", "RECALL_SEAT_POSITION")) {
+                        val outcome = if (command.action in com.abrar.voyahiran.feature.media.RahaMediaControl.actions) {
+                            com.abrar.voyahiran.feature.media.RahaMediaControl.execute(this@RahaService, command.action)
+                        } else if (command.action == "NAVIGATE_TO_SAVED_PLACE") {
+                            feedback.yieldAudioForMedia()
+                            feedback.dismiss() // Let Neshan own focus and receive its accessibility clicks.
+                            delay(200)
+                            com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.navigate(
+                                this@RahaService, command.parameters["destination"] as? String ?: error("Missing destination")) {
+                                resultEpoch != cancelledEpoch || !(application as VoyahIranApplication).subscriptions.allowed || !prefs.enabled
+                            }
+                        } else if (command.action in setOf("SAVE_SEAT_POSITION", "RECALL_SEAT_POSITION")) {
                             OemSeatMemory.execute(this@RahaService, command)
                         } else withContext(Dispatchers.IO) {
                             ProcessCommandRunner().run(listOf("su", "0", "raha-command", command.action, JSONObject(command.parameters).toString()), 20)

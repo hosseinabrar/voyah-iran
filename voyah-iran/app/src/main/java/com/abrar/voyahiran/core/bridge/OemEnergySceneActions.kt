@@ -7,7 +7,7 @@ import org.json.JSONObject
 /** Uses the installed Settings implementation; does not substitute a different strategy on rejection. */
 internal object OemEnergySceneActions {
     val actions = setOf(RahaAction.SET_ENERGY_STRATEGY, RahaAction.SET_BATTERY_RESERVE_TARGET,
-        RahaAction.STOP_CHARGING, RahaAction.SET_BATTERY_PRECONDITIONING,
+        RahaAction.STOP_CHARGING,
         RahaAction.SET_POWER_KEEP_DURATION, RahaAction.SET_POWER_KEEP_ENGINE_CHARGING)
 
     fun execute(action: RahaAction, params: Map<String, Any>) {
@@ -28,7 +28,7 @@ internal object OemEnergySceneActions {
                 }
             }
             RahaAction.SET_BATTERY_RESERVE_TARGET -> EnergyStrategyPolicy.reserve(integer("percent"))
-            RahaAction.SET_BATTERY_PRECONDITIONING, RahaAction.SET_POWER_KEEP_ENGINE_CHARGING -> bool()
+            RahaAction.SET_POWER_KEEP_ENGINE_CHARGING -> bool()
             RahaAction.SET_POWER_KEEP_DURATION -> require(integer("minutes") in setOf(-1, 30, 60, 90, 120, 150, 180))
             RahaAction.ACTIVATE_SCENE -> {
                 require(params["scene"] in scenes)
@@ -63,7 +63,6 @@ internal object OemEnergySceneActions {
                 const Tool=Java.use('com.qinggan.app.basevehiclesetting.canbustools.CanBusTool');
                 const tool=Tool.instance(ctx);
                 const SP=Java.use('android.os.SystemProperties');
-                const Intent=Java.use('android.content.Intent');
                 const Bundle=Java.use('android.os.Bundle');
                 const p=request.p, action=request.action;
                 function ensure(ok,message) { if(!ok) throw new Error(message); }
@@ -78,60 +77,6 @@ internal object OemEnergySceneActions {
                 function screen() {ensure(Java.use('com.qinggan.utils.ScreenLiftUtils').getScreenLiftState()===2,'OEM scene requires raised screen');}
                 function feature(name) {ensure(prop('persist.app.feature.'+name,'true')!=='false','OEM feature unavailable: '+name);}
                 function hold() {return Java.use('com.qinggan.scene.powerhold.PowerHoldModeManager').getInstance();}
-                function active() {
-                    const result=[];
-                    if(prop('com.qinggan.restmode.state','off')==='on')result.push('nap');
-                    if(prop('com.qinggan.campmode.state','off')==='on')result.push('camp');
-                    if(prop('com.qinggan.manualwashmode.state','off')==='on')result.push('carWash');
-                    if(hold().inPowerHoldMode() || prop('com.qinggan.powerholdmode.show','off')==='on')result.push('powerKeep');
-                    return result;
-                }
-                function event(destination,type) {
-                    const e=Java.use('com.qinggan.bus.QGBusEvent').${'$'}new();
-                    e.setDestination(destination); e.setEventType(type);
-                    const b=Bundle.${'$'}new(); b.putString('key_src','src_voice'); e.setData(b);
-                    Java.use('com.qinggan.bus.QGBus').${'$'}new(ctx).publish(e);
-                }
-                function startScene(scene) {
-                    const featureName={nap:'restmode',camp:'camp',carWash:'washcar',powerKeep:'leavecar'}[scene];
-                    if(featureName)feature(featureName);
-                    const current=active();
-                    ensure(current.every(function(s){return s===scene;}),'Another OEM scene is active: '+current);
-                    if(current.indexOf(scene)>=0 && !(scene==='powerKeep' && p.minutes!==undefined))return;
-                    screen();
-                    if(featureName)parked();
-                    const minimum={nap:20,camp:30,powerKeep:15}[scene];
-                    if(minimum!==undefined)ensure(read('BMS_SOC_DISPLAY')>=minimum,'Battery below OEM scene minimum '+minimum);
-                    if(scene==='powerKeep') {
-                        const manager=hold();
-                        ensure(manager.canStartPowerHoldMode(),'Power hold rejected by OEM');
-                        const duration=p.minutes!==undefined?p.minutes:ctx.getSharedPreferences('power_hold_sp',0).getInt('power_hold_key_duration',60);
-                        const rid=ctx.getResources().getIdentifier('power_hold_duration','array','com.qinggan.app.vehiclesetting');
-                        ensure(rid!==0 && Array.prototype.indexOf.call(ctx.getResources().getIntArray(rid),duration)>=0,'Unsupported OEM duration');
-                        manager.enterPowerHoldMode(manager.isEnableEngineExtender(),duration);
-                    } else if(scene==='nap' || scene==='camp') {
-                        const i=Intent.${'$'}new(scene==='nap'?'com.qinggan.app.REST_MODE':'com.qinggan.app.CAMP_MODE');
-                        i.setFlags(268435456);
-                        i.putExtra.overload('java.lang.String','java.lang.String').call(i,scene==='nap'?'key_rest_src':'key_camp_src','src_voice');
-                        if(scene==='camp')i.putExtra.overload('java.lang.String','java.lang.String').call(i,'key_camp_name','fire');
-                        ctx.startActivity(i);
-                    } else if(scene==='carWash') {
-                        const i=Intent.${'$'}new('com.qinggan.app.vehiclesetting.switch.DRIVE_MODE');
-                        i.setPackage('com.qinggan.app.vehiclesetting');
-                        i.putExtra.overload('java.lang.String','java.lang.String').call(i,'com.qinggan.app.vehiclesetting.switch.geton','com.qinggan.app.vehiclesetting.scene.wash_car');
-                        ensure(ctx.startService(i)!==null,'OEM car wash service unavailable');
-                    } else if(scene==='babyCare' || scene==='party') {
-                        // OEM SceneModeActivity routes these as one-shot presets, not CAN scene states.
-                        const i=Intent.${'$'}new('com.qinggan.app.vehiclesetting.SELECT_MODE'); i.setPackage('com.qinggan.app.vehiclesetting');
-                        i.putExtra.overload('java.lang.String','java.lang.String').call(i,'MODE_NAME',scene==='babyCare'?'呵护宝宝':'party');
-                        i.putExtra.overload('java.lang.String','boolean').call(i,'isClick',true);
-                        ensure(ctx.startService(i)!==null,'OEM preset service unavailable');
-                    } else if(scene==='quickWarm') {
-                        const i=Intent.${'$'}new('com.pateo.ivy.scene.fastwarm'); i.setPackage('com.pateo.ivy.sceneengine');
-                        ctx.getPackageManager().getApplicationInfo('com.pateo.ivy.sceneengine',0);
-                        ctx.sendBroadcast(i);
-                    } else throw new Error('Unsupported scene');
-                }
                 stage=action;
                 if(action==='SET_ENERGY_STRATEGY' || action==='SET_BATTERY_RESERVE_TARGET') {
                     const C=Java.use('com.qinggan.app.vehiclesetting.fragments.drivepreference.DrivePreferenceConfigs');
@@ -168,21 +113,6 @@ internal object OemEnergySceneActions {
                     m.put(state('HUM_STOP_CHARGE'),I.valueOf.overload('int').call(I,1));
                     m.put(state('CHARGE_GUN_UNLOCK_SET'),I.valueOf.overload('int').call(I,1));
                     tool.setMultiSerially.overload('java.util.Map','boolean').call(tool,m,false);
-                } else if(action==='SET_BATTERY_PRECONDITIONING') {
-                    write('DRIVER_PREHEAT_SET',p.enabled?1:0);
-                } else if(action==='ACTIVATE_SCENE') {
-                    startScene(p.scene);
-                } else if(action==='DEACTIVATE_SCENE') {
-                    // All spoken scene names mean the same global exit operation.
-                    // Read actual active modes; never act on the name heard by ASR.
-                    const current=active();
-                    for(const scene of current) {
-                      if(scene==='powerKeep')hold().exitPowerHoldMode();
-                      else {
-                        const routes={nap:['com.qinggan.app.restmode','qg_action_exit_rest_mode'],camp:['com.qinggan.app.campmode','qg_action_exit_camp_mode'],carWash:['com.qinggan.app.vehiclesetting','qg_action_exit_car_wash_mode']};
-                        ensure(routes[scene]!==undefined,'Preset has no persistent exit operation'); event(routes[scene][0],routes[scene][1]);
-                      }
-                    }
                 } else if(action==='SET_POWER_KEEP_DURATION' || action==='SET_POWER_KEEP_ENGINE_CHARGING') {
                     feature('leavecar');
                     const manager=hold(), prefs=ctx.getSharedPreferences('power_hold_sp',0);

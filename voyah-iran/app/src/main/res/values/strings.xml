@@ -124,6 +124,26 @@
     <string name="media_controls_label">کنترل پخش موسیقی با دکمه‌های فرمان</string>
     <string name="media_controls_description">دکمه‌های بعدی، قبلی و پخش/توقف روی پخش‌کنندهٔ فعال عمل می‌کنند.</string>
     <string name="media_controls_error">فعال‌سازی کنترل موسیقی انجام نشد. دوباره امتحان کنید.</string>
+    <string name="display_media_map_tab">نمایشگر/موسیقی/نقشه</string>
+    <string name="media_section">موسیقی</string>
+    <string name="navigation_section">مسیریاب</string>
+    <string name="default_music_player">موزیک پلیر پیش‌فرض</string>
+    <string name="default_navigator">مسیریاب پیش‌فرض</string>
+    <string name="choose_default_app">انتخاب برنامه</string>
+    <string name="oem_music_player">موزیک پلیر خودرو</string>
+    <string name="neshan_auto_driving">فعال‌سازی حالت رانندگی آزاد با ورود به نشان</string>
+    <string name="navigation_setup_error">فعال‌سازی انجام نشد. اتصال واسط دسترسی را بررسی و دوباره تلاش کنید.</string>
+    <string name="neshan_cluster">نمایش اطلاعات ناوبری در کلاستر راننده</string>
+    <string name="music_auto_play">پخش موسیقی به‌صورت خودکار با روشن شدن خودرو</string>
+    <string name="music_pause_on_door">توقف موسیقی با باز شدن درب راننده</string>
+    <string name="oem_radio_player">رادیوی خودرو</string>
+    <string name="neshan_voice_navigation">مسیریابی از طریق «رها»</string>
+    <string name="screen_swap_label">فعال سازی دکمه انتقال برنامه بین دو نمایشگر برای برنامه های نصب شده</string>
+    <string name="screen_swap_description">با دکمهٔ بین دو نمایشگر، برنامه‌ها را بین نمایشگر مرکزی و شاگرد جابه‌جا کنید.</string>
+    <string name="screen_swap_error">ذخیرهٔ تنظیم انجام نشد. دوباره امتحان کنید.</string>
+    <string name="display_section">نمایشگر</string>
+    <string name="passenger_apps_label">نمایش فهرست برنامه‌ها در نمایشگر شاگرد</string>
+    <string name="passenger_apps_description">برنامه‌ها را از نوار کناری نمایشگر شاگرد انتخاب و روی همان نمایشگر اجرا کنید.</string>
 </resources>
 
 

@@ -20,6 +20,7 @@ class QingganStarMapping(context: Context) : StarMapping {
     private val operations = Mutex()
     @Volatile private var voice: (() -> Unit)? = null
     @Volatile private var media: ((Int, Int, Int) -> Boolean)? = null
+    @Volatile private var screenSwap: ((Int, Int) -> Boolean)? = null
     private val voicePress = com.abrar.voyahiran.feature.voice.VoiceButtonPolicy()
     val voiceListening: Boolean get() = voice != null && registered && remote?.isBinderAlive == true
     private val events = Executors.newSingleThreadExecutor()
@@ -48,6 +49,8 @@ class QingganStarMapping(context: Context) : StarMapping {
                     consumed = true
                     if (voicePress.trigger(action)) voice?.invoke()
                 }
+                try { if (screenSwap?.invoke(key, action) == true) consumed = true }
+                catch (e: Exception) { com.abrar.voyahiran.core.logging.AppLog.error("ScreenSwap", "key handler failed", e) }
                 try { if (media?.invoke(key, action, display) == true) consumed = true }
                 catch (e: Exception) { com.abrar.voyahiran.core.logging.AppLog.error("SteeringMedia", "key handler failed", e) }
                 val routed = policy?.route(key, action, keyFlags, display, OemPayload(extras))
@@ -94,7 +97,7 @@ class QingganStarMapping(context: Context) : StarMapping {
     override suspend fun release() = operations.withLock {
         generation.incrementAndGet()
         policy = null
-        if (voice != null || media != null) { connect(); registerKeys() }
+        if (voice != null || media != null || screenSwap != null) { connect(); registerKeys() }
         else { unregisterKeys(); disconnect() }
     }
 
@@ -103,7 +106,7 @@ class QingganStarMapping(context: Context) : StarMapping {
         if (listener != null && voiceListening) { voice = listener; return@withLock }
         voice = listener
         voicePress.reset()
-        if (listener != null || policy != null || media != null) {
+        if (listener != null || policy != null || media != null || screenSwap != null) {
             connect()
             registerKeys()
         } else { unregisterKeys(); disconnect() }
@@ -115,7 +118,17 @@ class QingganStarMapping(context: Context) : StarMapping {
         }
         if (listener == null && media == null) return@withLock
         media = listener
-        if (listener != null || voice != null || policy != null) { connect(); registerKeys() }
+        if (listener != null || voice != null || policy != null || screenSwap != null) { connect(); registerKeys() }
+        else { unregisterKeys(); disconnect() }
+    }
+
+    suspend fun setScreenSwapListener(listener: ((Int, Int) -> Boolean)?) = operations.withLock {
+        if (listener != null && screenSwap != null && registered && remote?.isBinderAlive == true) {
+            screenSwap = listener; return@withLock
+        }
+        if (listener == null && screenSwap == null) return@withLock
+        screenSwap = listener
+        if (listener != null || voice != null || media != null || policy != null) { connect(); registerKeys() }
         else { unregisterKeys(); disconnect() }
     }
 
@@ -132,6 +145,7 @@ class QingganStarMapping(context: Context) : StarMapping {
         val keys = buildList {
             if (policy != null) add(SteeringKeys.STAR)
             if (media != null) addAll(com.abrar.voyahiran.feature.media.MediaRoutingPolicy.keys)
+            if (screenSwap != null) add(3115)
             if (voice != null) add(130) // Qinglink Constant.Button.KeyCode.KEYCODE_IVOKA
         }.toIntArray()
         val result = call(3, {

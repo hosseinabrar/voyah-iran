@@ -60,14 +60,14 @@ public final class VoyahIranDisplayPolicy {
                 service.mWindowManager.requestTraversal();
             }
             Settings.Global.putString(resolver, ACK, request == null ? "1:default" : request);
-            Log.i(TAG, "Applied enabled=" + enabled + " display=0 left=145 top=50");
+            Log.i(TAG, "Applied enabled=" + enabled + " displays=0,1 left=145 top=50");
         } catch (RuntimeException e) {
             Log.e(TAG, "Reconfiguration failed; request not acknowledged", e);
         }
     }
 
     private static boolean candidate(ActivityRecord a) {
-        if (a == null || a.getDisplayId() != 0 || a.getActivityType() != 1 ||
+        if (a == null || (a.getDisplayId() != 0 && a.getDisplayId() != 1) || a.getActivityType() != 1 ||
                 a.inMultiWindowMode() || a.info == null || a.info.applicationInfo == null) return false;
         ApplicationInfo app = a.info.applicationInfo;
         return "com.abrar.voyahiran".equals(app.packageName) ||
@@ -102,7 +102,7 @@ public final class VoyahIranDisplayPolicy {
         result.screenWidthDp = content.width() * 160 / density;
         result.screenHeightDp = content.height() * 160 / density;
         result.smallestScreenWidthDp = Math.min(result.screenWidthDp, result.screenHeightDp);
-        Log.d(TAG, "Bounds " + a.info.packageName + " " + bounds + " content=" + content);
+        Log.d(TAG, "Bounds display=" + a.getDisplayId() + " " + a.info.packageName + " " + bounds + " content=" + content);
     }
 
     private static Rect safe(WindowState w) {

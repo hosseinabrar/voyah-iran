@@ -22,7 +22,7 @@ object AppDisplayBridge {
         do {
             val ack = read(ACK)
             if (ack.exitCode == 0 && ack.output.trim() == nonce) {
-                AppLog.info("AppDisplay", "framework acknowledged enabled=$enabled left=145 top=50 display=0")
+                AppLog.info("AppDisplay", "framework acknowledged enabled=$enabled left=145 top=50 displays=0,1")
                 return CommandResult(0, "DISPLAY_POLICY_APPLIED enabled=$enabled")
             }
             Thread.sleep(300)

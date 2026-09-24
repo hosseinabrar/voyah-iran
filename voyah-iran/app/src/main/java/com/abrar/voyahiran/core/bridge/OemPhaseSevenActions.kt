@@ -4,13 +4,13 @@ import com.abrar.raha.RahaAction
 import com.abrar.voyahiran.core.shell.ProcessCommandRunner
 import org.json.JSONObject
 
-/** Uses the actual enabled OEM widgets: configuration, pre-click checks and confirmation dialogs stay in charge. */
+/** Direct OEM services; only explicit camera commands can launch the camera activity. */
 internal object OemPhaseSevenActions {
     private val media = mapOf(RahaAction.PLAY_MEDIA to "play", RahaAction.PAUSE_MEDIA to "pause", RahaAction.NEXT_MEDIA to "next", RahaAction.PREVIOUS_MEDIA to "previous")
     val actions = media.keys + setOf(
         RahaAction.SET_DISPLAY_BRIGHTNESS,RahaAction.SET_DISPLAY_THEME_MODE,RahaAction.SET_REAR_DISPLAY_LOCK,
         RahaAction.SET_AUDIO_VOLUME,RahaAction.ADJUST_AUDIO_VOLUME,RahaAction.SET_AUDIO_MUTE,
-        RahaAction.OPEN_CAMERA,RahaAction.TAKE_PHOTO,RahaAction.START_VIDEO_RECORDING,RahaAction.STOP_VIDEO_RECORDING)
+        RahaAction.OPEN_CAMERA,RahaAction.TAKE_PHOTO,RahaAction.START_VIDEO_RECORDING,RahaAction.STOP_VIDEO_RECORDING,RahaAction.SWITCH_CAMERA)
 
     fun execute(action: RahaAction, p: Map<String,Any>) {
         require(action in actions)
@@ -20,23 +20,17 @@ internal object OemPhaseSevenActions {
         val mediaKey=media[action]
         if(mediaKey!=null) { require(p.isEmpty()); shell(listOf("/system/bin/cmd","media_session","dispatch",mediaKey));return }
         var process="com.qinggan.app.vehiclesetting"
-        var component="$process/.CarSettingActivity"
-        var intent=""
-        var fragment=""
-        val buttons=mutableListOf<String>()
         when(action) {
             RahaAction.SET_REAR_DISPLAY_LOCK -> {
                 require(p.keys==setOf("enabled"));bool()
-                intent="com.qinggan.app.vehiclesetting.dirvepreference"
-                fragment="com.qinggan.app.vehiclesetting.fragments.drivepreference.DrivePreferenceFragment"
-                request.put("toggleField","fragmentRearscreenLockSwitch")
+                OemRearDisplayLock.execute(p.getValue("enabled") as Boolean)
+                return
             }
             RahaAction.SET_DISPLAY_BRIGHTNESS,RahaAction.SET_DISPLAY_THEME_MODE -> {
-                process="com.qinggan.app.setting";component="$process/.activity.MainActivity";intent=""
-                fragment="com.qinggan.app.setting.module.display.DisplayFragment"
+                process="com.qinggan.app.setting"
                 if(action==RahaAction.SET_DISPLAY_THEME_MODE) {
                     require(p.keys==setOf("mode"))
-                    buttons+=mapOf("day" to "displayBrightnessRadioDay","night" to "displayBrightnessRadioNight","auto" to "displayBrightnessRadioAuto").getValue(p["mode"] as String)
+                    require(p["mode"] in setOf("day", "night", "auto"))
                 } else {
                     require(p["display"] in setOf("central","passenger","cluster","all"))
                     require(p.keys==setOf("display","percent") || p.keys==setOf("display","deltaPercent"))
@@ -44,7 +38,7 @@ internal object OemPhaseSevenActions {
                 }
             }
             RahaAction.SET_AUDIO_VOLUME,RahaAction.ADJUST_AUDIO_VOLUME,RahaAction.SET_AUDIO_MUTE -> {
-                process="com.qinggan.app.setting";component="$process/.activity.MainActivity";intent=""
+                process="com.qinggan.app.setting"
                 require(p["channel"] in setOf("media","call","navigation","voice","system"))
                 when(action) {
                     RahaAction.SET_AUDIO_VOLUME -> {require(p.keys==setOf("channel","level"));if(p["level"] !in setOf("min","max"))require(number("level") in 0..30)}
@@ -53,22 +47,24 @@ internal object OemPhaseSevenActions {
                 }
                 request.put("audio",true)
             }
-            RahaAction.OPEN_CAMERA,RahaAction.TAKE_PHOTO,RahaAction.START_VIDEO_RECORDING,RahaAction.STOP_VIDEO_RECORDING -> {
-                if(action==RahaAction.STOP_VIDEO_RECORDING)require(p.isEmpty()) else require(p==mapOf("view" to "default"))
-                process="com.qinggan.camera";component="$process/.activity.RecordVideoActivity";intent=""
+            RahaAction.OPEN_CAMERA,RahaAction.TAKE_PHOTO,RahaAction.START_VIDEO_RECORDING,RahaAction.STOP_VIDEO_RECORDING,RahaAction.SWITCH_CAMERA -> {
+                if(action==RahaAction.STOP_VIDEO_RECORDING || action==RahaAction.SWITCH_CAMERA)require(p.isEmpty()) else require(p==mapOf("view" to "default"))
+                process="com.qinggan.camera"
                 request.put("camera",true)
             }
             else->error("Unsupported phase seven action")
         }
-        request.put("fragment",fragment).put("buttons",org.json.JSONArray(buttons))
-        // Bring the OEM menu into an initialized state; never synthesize a fake Fragment context.
-        // Stopping video must not relaunch/reset the recording activity.
-        if(action!=RahaAction.STOP_VIDEO_RECORDING) {
-            val launch=mutableListOf("/system/bin/am","start","--display","0","-W","-n",component)
-            if(intent.isNotEmpty())launch+=listOf("-a",intent)
-            if(process=="com.qinggan.app.setting")launch+=listOf("--es","secondary",if(request.optBoolean("audio"))"sound" else "display")
-            shell(launch)
+        if (request.optBoolean("audio")) { OemAudioBinder.execute(action, p); return }
+        if (action == RahaAction.SET_DISPLAY_BRIGHTNESS || action == RahaAction.SET_DISPLAY_THEME_MODE) {
+            OemDisplayBinder.execute(action, p)
+            return
         }
+        if(request.optBoolean("camera")) OemCameraCapability.requireDvr()
+        // Only explicit camera entry may bring its own UI forward; never open Settings.
+        if(request.optBoolean("camera") && action!=RahaAction.STOP_VIDEO_RECORDING) {
+            shell(listOf("/system/bin/am","start","--display","0","-W","-n","com.qinggan.camera/.activity.RecordVideoActivity"))
+        }
+        if(action==RahaAction.OPEN_CAMERA)return
         OemActionScriptRunner.run(process,"const request=$request;\n"+SCRIPT)
     }
     private fun shell(args:List<String>) {
@@ -79,69 +75,33 @@ internal object OemPhaseSevenActions {
         'use strict';
         Java.perform(function() {
             const p=request.p, action=request.action;
-            let finished=false, step=0, toggled=false, attempts=0;
+            let finished=false;
+            const readyDeadline=Date.now()+5000;
             function ensure(ok,msg) {if(!ok)throw new Error(msg);}
-            function concrete(x) {
-                ensure(x!==null,'Null OEM object');
-                const name=Java.cast(x,Java.use('java.lang.Object')).getClass().getName().toString();
-                return Java.cast(x,Java.use(name));
-            }
             function ok(detail) {finished=true;console.log('RAHA_ACTION_OK dispatched '+action+' '+detail);}
             function fail(e) {finished=true;console.log('RAHA_ACTION_ERROR '+action+' '+e);}
-            function available(view) {
-                ensure(view!==null && view.isShown() && view.isEnabled(),'OEM control hidden/disabled/unavailable');
-                let parent=view.getParent();
-                while(parent!==null && Java.use('android.view.View').class.isInstance(parent)) {
-                    const pv=Java.cast(parent,Java.use('android.view.View'));ensure(pv.isEnabled(),'OEM parent disabled');parent=pv.getParent();
-                }
-            }
-            function click(view) {available(view);ensure(view.performClick(),'OEM click was not handled');}
-            function switchTo(node,desired) {
-                available(node);
-                const cb=concrete(concrete(node.switchBinding.value).hintSwitchButton.value);
-                available(cb);
-                if(cb.isChecked()===desired)return;
-                click(cb); // QGCheckBox.toggle executes the OEM pre-click callback and original listener.
-                ensure(cb.isChecked()===desired,'OEM rejected switch or requires confirmation');
-            }
-            function locateToggle(root,key) {
-                const Hint=Java.use('com.qinggan.app.basevehiclesetting.widgets.HintSwitch');
-                const state=Java.use('com.qinggan.canbus.DFVehicleState')[key].value;
-                let result=null;
-                function visit(v) {
-                    if(result!==null)return;
-                    if(Hint.class.isInstance(v)) {
-                        const hint=Java.cast(v,Hint), control=hint.getControlVehicle();
-                        if(control!==null && control.equals(state) && hint.isShown()) {result=hint;return;}
-                    }
-                    if(Java.use('android.view.ViewGroup').class.isInstance(v)) {
-                        const group=Java.cast(v,Java.use('android.view.ViewGroup'));
-                        for(let i=0;i<group.getChildCount();i++)visit(group.getChildAt(i));
-                    }
-                }
-                visit(root);ensure(result!==null,'OEM switch not available: '+key);return result;
-            }
-            function audio(ctx) {
-                const manager=Java.use('com.qinggan.setting.netlib.base.SettingManager').getInstance(ctx).getAudioPolicyManager();
-                ensure(manager!==null && manager.isConnected(),'OEM audio policy unavailable');
-                const channel={media:3,call:6,navigation:1,voice:22,system:5}[p.channel];
-                const maximum=manager.getStreamMaxVolume(channel), current=manager.getStreamVolume(channel);
-                ensure(maximum>0 && current>=0 && current<=maximum,'OEM audio range unavailable');
-                if(action==='SET_AUDIO_MUTE')manager.setStreamMute(channel,p.enabled);
-                else {
-                    const value=action==='ADJUST_AUDIO_VOLUME'? Math.max(0,Math.min(maximum,current+p.delta)) : p.level==='max'?maximum:p.level==='min'?0:p.level;
-                    ensure(Number.isInteger(value)&&value>=0&&value<=maximum,'Volume outside OEM range');
-                    manager.setStreamVolume(channel,value,2);
-                }
-                ok('OEM audio request issued channel='+channel);
-            }
             function camera() {
                 const settings=Java.use('com.qinggan.camera.common.CameraSetting').getInstance();
                 const helper=Java.use('com.qinggan.camera.common.CanBusHelper').getInstance();
                 ensure(!settings.isInReverseState.value && !helper.isDisplayOffOrStandby(),'Camera unavailable in current vehicle state');
                 ensure(helper.getarAppCameraState()!==1 && !helper.getfaceidRegistState(true),'Camera currently occupied');
+                ensure(Java.use('com.qinggan.camera.common.SupportUtils').isSupportDvr(),'DVR option no longer enabled');
+                const activity=settings.getTopActivity();
+                if(action!=='STOP_VIDEO_RECORDING' && (activity===null || !settings.active.value || !activity.getWindow().getDecorView().isShown())) {
+                    ensure(Date.now()<readyDeadline,'Camera activity did not become ready');
+                    setTimeout(tick,100);return;
+                }
                 const holder=Java.use('com.qinggan.camera.common.CameraVoiceGestureAction').getHolder();
                 if(action==='OPEN_CAMERA'){ok('camera opened');return;}
+                if(action==='SWITCH_CAMERA') {
+                    ensure(!settings.isRecording.value,'Stop recording before switching camera');
+                    const id=activity.getResources().getIdentifier('camera_change_iv','id','com.qinggan.camera');
+                    ensure(id!==0,'Camera switch resource unavailable');
+                    const button=activity.findViewById(id);
+                    ensure(button!==null && button.isShown() && button.isEnabled(),'Camera switch unavailable');
+                    ensure(button.performClick(),'Camera switch rejected');
+                    ok('OEM camera switch clicked');return;
+                }
                 if(action==='STOP_VIDEO_RECORDING') {
                     if(settings.isRecording.value) {
                         const Power=Java.use('com.qinggan.camera.bean.PowerState');
@@ -153,42 +113,11 @@ internal object OemPhaseSevenActions {
                 }
                 ok('OEM camera request issued');
             }
-            function operate(fragment) {
-                const binding=concrete(fragment.binding.value);
-                if(!toggled && (request.toggle || request.toggleField)) {
-                    const node=request.toggleField?concrete(binding[request.toggleField].value):locateToggle(fragment.getView(),request.toggle);
-                    switchTo(node,request.desired===undefined?p.enabled:request.desired);toggled=true;
-                    if(request.buttons.length){setTimeout(tick,300);return;}
-                }
-                if(action==='SET_DISPLAY_BRIGHTNESS') {
-                    const fields={central:'seekbarDriverScreen',passenger:'seekbarCopilotScreen',cluster:'seekbarMeterScreen'};
-                    const names=p.display==='all'?Object.keys(fields):[p.display];
-                    // Validate all requested targets before changing any of them.
-                    const plans=names.map(function(name) {
-                        const view=concrete(binding[fields[name]].value);available(view);
-                        const seek=view.getSeekBar();available(seek);
-                        const min=seek.getMin(),max=seek.getMax(),current=seek.getProgress();
-                        ensure(max>min,'Invalid brightness range');
-                        const value=p.percent===undefined? Math.round(current+p.deltaPercent*(max-min)/100):Math.round(min+p.percent*(max-min)/100);
-                        return {view:view,seek:seek,value:Math.max(min,Math.min(max,value))};
-                    });
-                    plans.forEach(function(plan){fragment.onProgressChanged(plan.view,plan.seek,plan.value,true);});
-                    ok('brightness through OEM display presenter');return;
-                }
-                for(;step<request.buttons.length;step++)click(concrete(binding[request.buttons[step]].value));
-                ok('OEM UI dispatch; any confirmation dialog remains for the driver');
-            }
             function tick() {if(finished)return;Java.scheduleOnMainThread(function() {
                 try {
                     const ctx=Java.use('android.app.ActivityThread').currentApplication().getApplicationContext();
-                    if(request.audio){audio(ctx);return;}
                     if(request.camera){camera();return;}
-                    let found=false;
-                    Java.choose(request.fragment,{onMatch:function(f) {
-                        if(!found && f.isAdded() && f.isResumed() && f.getView()!==null) {found=true;try{operate(f);}catch(e){fail(e);} }
-                    },onComplete:function() {
-                        if(!found && !finished) {if(++attempts<15)setTimeout(tick,200);else fail('OEM page not initialized');}
-                    }});
+                    throw new Error('Unsupported injected action');
                 } catch(e) {fail(e);}
             });}
             tick();

@@ -46,4 +46,28 @@ class StarEventPolicyTest {
         val replayed = listOf(0x1000, 0x10000, 0x2000, 0x2000).flatMap { policy.route(SteeringKeys.STAR, it).events }
         assertEquals(listOf(RoutedKey(SteeringKeys.BACK, 0x2000)), replayed)
     }
+
+    @Test fun backAlwaysTargetsCenterAcrossRepeatedDisplayTransfers() {
+        val policy = StarEventPolicy(0x41)
+        val payload = object : KeyPayload {}
+        repeat(20) {
+            for (display in listOf(0, 1, -1, 1, 0)) {
+                policy.route(SteeringKeys.STAR, 0x1000, 128, display, payload)
+                val back = policy.route(SteeringKeys.STAR, StarEventPolicy.SHORT, 128, display, payload)
+                assertEquals(listOf(RoutedKey(SteeringKeys.BACK, StarEventPolicy.SHORT, display = 0)), back.events)
+                assertTrue(back.consume)
+                assertTrue(policy.route(SteeringKeys.STAR, StarEventPolicy.SHORT, 128, display, payload).events.isEmpty())
+                policy.route(SteeringKeys.STAR, 0x10000, 128, display, payload)
+            }
+        }
+    }
+
+    @Test fun originalLongPressKeepsItsDisplayFlagsAndPayload() {
+        val policy = StarEventPolicy(0x41)
+        val payload = object : KeyPayload {}
+        policy.route(SteeringKeys.STAR, 0x1000, 128, 1, payload)
+        assertEquals(listOf(RoutedKey(0x41, 0x1000, 128, 1, payload),
+            RoutedKey(0x41, 0x4000, 128, 1, payload)),
+            policy.route(SteeringKeys.STAR, 0x4000, 128, 1, payload).events)
+    }
 }

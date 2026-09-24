@@ -25,6 +25,7 @@ class SteeringMediaListener : NotificationListenerService() {
     @Volatile private var usable = false
     private var last: MediaSession.Token? = null
     private var monitor: Job? = null
+    private val automation by lazy { MusicAutomation(this, scope) }
     override fun onListenerConnected() {
         super.onListenerConnected()
         connected = true
@@ -33,7 +34,8 @@ class SteeringMediaListener : NotificationListenerService() {
         monitor = scope.launch {
             while (isActive && connected) {
                 try {
-                    usable = MediaControl.enabled(this@SteeringMediaListener) && app.subscriptions.allowed &&
+                    automation.tick()
+                    usable = MediaControl.interceptEnabled(this@SteeringMediaListener) && app.subscriptions.allowed &&
                         getSystemService(AudioManager::class.java).mode == AudioManager.MODE_NORMAL
                     if (usable) {
                         val sessions = getSystemService(MediaSessionManager::class.java).getActiveSessions(MediaControl.component(this@SteeringMediaListener))
@@ -66,8 +68,8 @@ class SteeringMediaListener : NotificationListenerService() {
     }
     private fun onKey(key: Int, action: Int, display: Int): Boolean {
         val code = MediaRoutingPolicy.androidKey(key) ?: return false
-        if (!connected || !usable || !MediaControl.enabled(this) || !app.subscriptions.allowed) {
-            AppLog.info("SteeringMedia", "ignored key=$key action=$action display=$display connected=$connected usable=$usable enabled=${MediaControl.enabled(this)} subscription=${app.subscriptions.allowed}")
+        if (!connected || !usable || !MediaControl.interceptEnabled(this) || !app.subscriptions.allowed) {
+            AppLog.info("SteeringMedia", "ignored key=$key action=$action display=$display connected=$connected usable=$usable enabled=${MediaControl.interceptEnabled(this)} subscription=${app.subscriptions.allowed}")
             return false
         }
         val route = presses.route(key, action, target, display)
@@ -75,7 +77,7 @@ class SteeringMediaListener : NotificationListenerService() {
         route.target?.let { controller ->
             // Never call another Binder synchronously while replying to the OEM key engine.
             handler.post {
-                if (!connected || !usable || !MediaControl.enabled(this) || !app.subscriptions.allowed) return@post
+                if (!connected || !usable || !MediaControl.interceptEnabled(this) || !app.subscriptions.allowed) return@post
                 try {
                     val now = SystemClock.uptimeMillis()
                     val down = controller.dispatchMediaButtonEvent(KeyEvent(now, now, KeyEvent.ACTION_DOWN, code, 0))
@@ -87,6 +89,7 @@ class SteeringMediaListener : NotificationListenerService() {
         return route.consumed
     }
     private fun detach(destroy: Boolean) {
+        automation.close()
         connected = false; usable = false; target = null
         monitor?.cancel(); presses.reset(); handler.removeCallbacksAndMessages(null)
         scope.launch {
@@ -98,7 +101,7 @@ class SteeringMediaListener : NotificationListenerService() {
     override fun onListenerDisconnected() {
         detach(false)
         super.onListenerDisconnected()
-        if (MediaControl.enabled(this)) requestRebind(MediaControl.component(this))
+        if (MediaControl.accessNeeded(this)) requestRebind(MediaControl.component(this))
     }
     override fun onDestroy() { detach(true); super.onDestroy() }
 }

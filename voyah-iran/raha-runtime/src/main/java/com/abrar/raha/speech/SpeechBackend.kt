@@ -18,11 +18,21 @@ enum class EngineChoice(val silence: Float, val streaming: Boolean, val shenavaM
 
 class VoskBackend(context: Context) : AutoCloseable {
     private val model = Model(install(context).absolutePath)
-    private val carGrammar by lazy { JSONArray(RahaSpeechVocabulary.phrases()).toString() }
-    private val wakeGrammar by lazy { JSONArray(RahaSpeechVocabulary.wakePhrases()).toString() }
+    private var grammarRevision = -1L
+    private var carGrammar = ""
+    private var wakeGrammar = ""
+    @Synchronized private fun grammar(wake: Boolean): String {
+        val revision=com.abrar.raha.RahaNavigationRecognizer.revision
+        if(grammarRevision!=revision) {
+            carGrammar=JSONArray(RahaSpeechVocabulary.phrases()).toString()
+            wakeGrammar=JSONArray(RahaSpeechVocabulary.wakePhrases()).toString()
+            grammarRevision=revision
+        }
+        return if(wake)wakeGrammar else carGrammar
+    }
     fun openRecognizer(carMode: Boolean = false, wakeMode: Boolean = false): Recognizer {
         Log.i("VoyahVoice", "Vosk grammar=" + if (carMode) "vehicle-domain" else "general")
-        return if (carMode) Recognizer(model, 16000f, if(wakeMode) wakeGrammar else carGrammar) else Recognizer(model, 16000f)
+        return if (carMode) Recognizer(model, 16000f, grammar(wakeMode)) else Recognizer(model, 16000f)
     }
 
     fun transcribe(samples: FloatArray, cancelled: () -> Boolean): String {

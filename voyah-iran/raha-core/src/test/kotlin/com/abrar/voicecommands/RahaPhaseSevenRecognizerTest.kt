@@ -28,7 +28,7 @@ class RahaPhaseSevenRecognizerTest {
     @Test fun supportedModesAndSensitivities() {
         match("حساسیت هشدار برخورد جلو رو روی متوسط بذار","SET_FORWARD_COLLISION_WARNING","sensitivity","medium")
         match("حساسیت پایش خستگی راننده حداکثر","SET_DRIVER_MONITORING","sensitivity","max")
-        match("حفظ خط رو فعال کن","SET_LANE_SUPPORT_MODE","mode","keeping")
+        match("حفظ خط رو فعال کن","SET_LANE_SUPPORT_MODE","enabled",true)
         match("حفظ خط رو خاموش کن","SET_LANE_SUPPORT_MODE","mode","off")
         match("حفظ خط رو بذار روی هشدار","SET_LANE_SUPPORT_MODE","mode","warning")
         match("هشدار خروج از خط رو لرزشی کن","SET_LANE_DEPARTURE_ALERT_TYPE","type","vibration")

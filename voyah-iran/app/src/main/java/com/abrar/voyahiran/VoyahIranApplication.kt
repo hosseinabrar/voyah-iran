@@ -18,7 +18,19 @@ class VoyahIranApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         com.abrar.voyahiran.core.bridge.BridgeClient.configure(filesDir)
+        com.abrar.voyahiran.feature.display.ScreenSwapControl(this).start()
         appDisplay.refresh()
+        com.abrar.voyahiran.feature.navigation.NeshanConfigStore.refresh(this)
+        registerReceiver(object : android.content.BroadcastReceiver() {
+            override fun onReceive(context: android.content.Context, intent: android.content.Intent) {
+                if (intent.data?.schemeSpecificPart == com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN)
+                    com.abrar.voyahiran.feature.navigation.NeshanConfigStore.installedPackageChanged(context)
+            }
+        }, android.content.IntentFilter(android.content.Intent.ACTION_PACKAGE_REPLACED).apply {
+            addAction(android.content.Intent.ACTION_PACKAGE_ADDED)
+            addAction(android.content.Intent.ACTION_PACKAGE_REMOVED)
+            addDataScheme("package")
+        })
     }
     val timeZoneRepository: TimeZoneRepository by lazy { SystemTimeZoneRepository(AndroidSystemTimeZonePort(this, ProcessCommandRunner())) }
     val starBackup by lazy { PreferencesStarBackup(getSharedPreferences("steering_recovery", MODE_PRIVATE)) }

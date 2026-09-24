@@ -3,6 +3,15 @@ server {
     listen 80;
     server_name voyah-iran.ir;
 
+    # Shared signed catalog; nginx handles If-None-Match / If-Modified-Since (304).
+    location = /configs/neshan.json {
+        root /var/www/voyah-iran;
+        default_type application/json;
+        etag on;
+        add_header Cache-Control "no-cache" always;
+        try_files $uri =404;
+    }
+
     location = /registerOrRenewSubscription {
         client_max_body_size 2k;
         proxy_pass http://127.0.0.1:8080;

@@ -185,7 +185,7 @@ class DisplayPolicyPatch {
 .end method
 """;
     static final Map<String,List<String>> METHODS = Map.of(
-        "ActivityRecord", List.of("getOrientation", "getRequestedOrientation", "resolveOverrideConfiguration"),
+        "ActivityRecord", List.of("getOrientation", "getRequestedOrientation", "resolveOverrideConfiguration", "layoutLetterbox"),
         "WindowState", List.of("applyGravityAndUpdateFrame"));
     static Path target(Map<String,Path> classes, String folder, String type) {
         Path p = classes.get(folder + "/" + WM + type + ".smali");
@@ -193,6 +193,27 @@ class DisplayPolicyPatch {
         return p;
     }
     static String patched(String name, String original) {
+        if (name.equals("layoutLetterbox")) {
+            // Safe-area margins belong to the vehicle bars, not to an app letterbox.
+            // Destroy also unregisters its input channels, including after a display move.
+            String guard = """
+    invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->applies(Lcom/android/server/wm/ActivityRecord;)Z
+    move-result v0
+    if-eqz v0, :cond_1
+    iget-object v0, p0, Lcom/android/server/wm/ActivityRecord;->mLetterbox:Lcom/android/server/wm/Letterbox;
+    if-eqz v0, :cond_0
+    invoke-virtual {v0}, Lcom/android/server/wm/Letterbox;->destroy()V
+    const/4 v0, 0x0
+    iput-object v0, p0, Lcom/android/server/wm/ActivityRecord;->mLetterbox:Lcom/android/server/wm/Letterbox;
+    :cond_0
+    return-void
+    :cond_1
+""";
+            FrameworkPatch.require(original.contains("    .locals 8"), "Unexpected letterbox registers");
+            for (int i = 9; i >= 0; i--) original = original.replace(":cond_" + i, ":cond_" + Integer.toHexString(i + 2));
+            return original.replace("    .locals 8", "    .locals 8\n" + guard);
+        }
+
         if (name.equals("getOrientation") || name.equals("getRequestedOrientation"))
             return original.replace("    return v0", "    invoke-static {p0, v0}, " + HELPER +
                 "->orientation(Lcom/android/server/wm/ActivityRecord;I)I\n    move-result v0\n    return v0");
@@ -256,11 +277,18 @@ class DisplayPolicyPatch {
         for (String field : List.of("mSizeCompatBounds:Landroid/graphics/Rect;", "mSizeCompatScale:F"))
             FrameworkPatch.require(FrameworkPatch.text(activity).lines().anyMatch(l -> l.startsWith(".field ") && !l.contains(" final ") && l.endsWith(" " + field)),
                 "Missing size-compat dependency: " + field);
+        boolean complete = true;
+        Path letterbox = target(classes, folder, "Letterbox");
+        FrameworkPatch.require(FrameworkPatch.text(letterbox).contains(".method public destroy()V"), "Missing Letterbox.destroy");
+        FrameworkPatch.require(FrameworkPatch.text(activity).contains(".field private mLetterbox:Lcom/android/server/wm/Letterbox;"), "Missing letterbox field");
         for (var entry : METHODS.entrySet()) {
             String code = FrameworkPatch.text(target(classes, folder, entry.getKey()));
             for (String name : entry.getValue()) {
                 String original = FrameworkPatch.text(templates.resolve("display/" + entry.getKey() + "-" + name + ".original.smali")).strip();
-                String expected = installed ? patched(name, original) : original;
+                String actual = FrameworkPatch.method(code, name);
+                boolean oldLetterbox = installed && name.equals("layoutLetterbox") && !actual.contains(HELPER);
+                if (oldLetterbox) complete = false;
+                String expected = installed && !oldLetterbox ? patched(name, original) : original;
                 FrameworkPatch.require(FrameworkPatch.normalize(FrameworkPatch.method(code, name)).equals(FrameworkPatch.normalize(expected)),
                     "Unsupported or partial display policy: " + entry.getKey() + "." + name);
             }
@@ -269,37 +297,51 @@ class DisplayPolicyPatch {
         if (installed) FrameworkPatch.require(FrameworkPatch.normalize(FrameworkPatch.method(code, "getRequestedConfigurationOrientation")).equals(FrameworkPatch.normalize(OVERRIDE)),
             "Unknown display orientation override");
         else FrameworkPatch.require(!code.contains(".method getRequestedConfigurationOrientation("), "Vendor orientation override requires review");
-        try (var helpers = Files.list(templates.resolve("display/helpers"))) {
-            for (Path h : helpers.filter(x -> x.toString().endsWith(".smali")).toList()) {
-                Path existing = classes.get(folder + "/" + WM + h.getFileName());
-                if (installed) FrameworkPatch.require(existing != null && FrameworkPatch.canonical(FrameworkPatch.text(existing)).equals(FrameworkPatch.canonical(FrameworkPatch.text(h))),
-                    "Display helper differs: " + h.getFileName());
-                else FrameworkPatch.require(existing == null, "Unexpected display helper already exists");
+        boolean current = matchesHelpers(classes, templates.resolve("display/helpers"), folder);
+        if (installed) FrameworkPatch.require(current || matchesHelpers(classes, templates.resolve("display/legacy-center"), folder),
+            "Display helper differs from supported current or center-only policy");
+        else {
+            try (var helpers = Files.list(templates.resolve("display/helpers"))) {
+                for (Path h : helpers.filter(x -> x.toString().endsWith(".smali")).toList())
+                    FrameworkPatch.require(!classes.containsKey(folder + "/" + WM + h.getFileName()), "Unexpected display helper already exists");
             }
         }
-        return installed;
+        return installed && current && complete;
+    }
+    static boolean matchesHelpers(Map<String,Path> classes, Path directory, String folder) throws Exception {
+        if (!Files.isDirectory(directory)) return false;
+        try (var files = Files.list(directory)) {
+            var helpers = files.filter(x -> x.toString().endsWith(".smali")).toList();
+            if (helpers.size() != 4) return false;
+            for (Path h : helpers) {
+                Path existing = classes.get(folder + "/" + WM + h.getFileName());
+                if (existing == null || !FrameworkPatch.canonical(FrameworkPatch.text(existing)).equals(FrameworkPatch.canonical(FrameworkPatch.text(h)))) return false;
+            }
+        }
+        return true;
     }
     static void apply(Map<String,Path> classes, Path templates, String folder, Path source) throws Exception {
         if (check(classes, templates, folder)) return;
+        boolean upgrading = FrameworkPatch.text(target(classes, folder, "ActivityRecord")).contains(HELPER);
         for (var entry : METHODS.entrySet()) {
             Path target = target(classes, folder, entry.getKey());
             String code = FrameworkPatch.text(target);
             for (String name : entry.getValue()) {
                 String original = FrameworkPatch.method(code,name);
-                code = code.replace(original, patched(name, original));
+                if (!original.contains(HELPER)) code = code.replace(original, patched(name, original));
             }
-            if (entry.getKey().equals("ActivityRecord")) code += "\n" + OVERRIDE;
+            if (!upgrading && entry.getKey().equals("ActivityRecord")) code += "\n" + OVERRIDE;
             Files.writeString(target,code,StandardCharsets.UTF_8);
         }
         try (var helpers = Files.list(templates.resolve("display/helpers"))) {
             for (Path h : helpers.filter(x -> x.toString().endsWith(".smali")).toList()) {
                 String key = folder + "/" + WM + h.getFileName();
                 Path dest = source.resolve(key);
-                Files.copy(h,dest);
+                Files.copy(h,dest,StandardCopyOption.REPLACE_EXISTING);
                 classes.put(key,dest);
             }
         }
         FrameworkPatch.require(check(classes,templates,folder), "Display patch verification failed");
-        System.out.println("DISPLAY POLICY: display 0, user apps + Voyah Iran, left=145 top=50; live settings switch.");
+        System.out.println("DISPLAY POLICY: displays 0 and 1, user apps + Voyah Iran, left=145 top=50; live settings switch.");
     }
 }

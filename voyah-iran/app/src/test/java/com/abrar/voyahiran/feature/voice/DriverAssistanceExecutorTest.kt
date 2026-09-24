@@ -78,6 +78,9 @@ class DriverAssistanceExecutorTest {
     }
 
     @Test fun sensitivityAndLaneCommandsUseExactOemValues() {
+        assertEquals(listOf(DriverAssistanceExecutor.Change("LANE_ASSIST_SWITCH", 1)), DriverAssistanceExecutor.plan("SET_LANE_SUPPORT_MODE", mapOf("enabled" to true)))
+        assertEquals(listOf(DriverAssistanceExecutor.Change("LDW_LKS_SENSITIVITY", 1)), DriverAssistanceExecutor.plan("SET_LANE_SUPPORT_MODE", mapOf("sensitivity" to "min")))
+        assertEquals(listOf(DriverAssistanceExecutor.Change("LDW_LKS_SENSITIVITY", 2)), DriverAssistanceExecutor.plan("SET_LANE_SUPPORT_MODE", mapOf("sensitivity" to "max")))
         fun plan(action: String, key: String, value: String) = DriverAssistanceExecutor.plan(action, mapOf(key to value)).map { it.field to it.value }
         assertEquals(listOf("FCW_SENSITIVITY" to 3), plan("SET_FORWARD_COLLISION_WARNING", "sensitivity", "max"))
         assertEquals(listOf("DMS_WEARY_SET" to 2, "DMS_SEN_SET" to 0), plan("SET_DRIVER_MONITORING", "sensitivity", "min"))

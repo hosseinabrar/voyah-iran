@@ -25,6 +25,12 @@ object RahaVehicleBridge {
             require(value is String || value is Number || value is Boolean) { "Invalid parameter $key" }
             value
         }
+        if (action == RahaAction.SWAP_DISPLAY_APPS) {
+            require(params.isEmpty())
+            val result = OemScreenSwapManager.command("execute")
+            return if (result.exitCode == 0 && result.output.trim() != "DONE")
+                CommandResult(1, "Screen transfer unavailable: ${result.output}") else result
+        }
         if (action.name in OemEnergyBinder.actions) {
             OemEnergyBinder.execute(action.name, params)
             return CommandResult(0, "CONFIRMED action=$action via direct OEM Binder feedback")
@@ -35,7 +41,7 @@ object RahaVehicleBridge {
         }
         if (action in OemPhaseSevenActions.actions) {
             OemPhaseSevenActions.execute(action, params)
-            return CommandResult(0, "DISPATCHED action=$action via OEM controls; any OEM confirmation remains required")
+            return CommandResult(0, "DISPATCHED action=$action via direct OEM services")
         }
         if (action.name in OemSceneActions.actions) {
             return CommandResult(0, OemSceneActions.execute(action.name, params))

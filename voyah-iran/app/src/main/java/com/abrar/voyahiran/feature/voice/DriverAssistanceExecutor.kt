@@ -32,6 +32,7 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort) 
 
     companion object {
         private val toggles = mapOf(
+            "SET_PEDESTRIAN_WARNING_SOUND" to "HUM_VSP_FUNCTION_SW",
             "SET_DOOR_OPEN_WARNING" to "DOW_SYSTEM_SWITCH",
             "SET_FORWARD_COLLISION_WARNING" to "FCW_SWITCH",
             "SET_REAR_CROSS_TRAFFIC_WARNING" to "RCTA_SWITCH",
@@ -51,6 +52,8 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort) 
             if (p.containsKey("sensitivity")) {
                 require(p.keys == setOf("sensitivity"))
                 return when (action) {
+                    "SET_LANE_SUPPORT_MODE" -> listOf(Change("LDW_LKS_SENSITIVITY",
+                        mapOf("min" to 1, "max" to 2).getValue(p["sensitivity"] as String)))
                     "SET_FORWARD_COLLISION_WARNING" -> listOf(Change("FCW_SENSITIVITY",
                         mapOf("min" to 1, "medium" to 2, "max" to 3).getValue(p["sensitivity"] as String), valid = 1..3))
                     "SET_DRIVER_MONITORING" -> listOf(Change("DMS_WEARY_SET", 2), Change("DMS_SEN_SET",
@@ -59,6 +62,10 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort) 
                 }
             }
             if (action == "SET_LANE_SUPPORT_MODE") {
+                if (p.containsKey("enabled")) {
+                    require(p.keys == setOf("enabled") && p["enabled"] is Boolean)
+                    return listOf(Change("LANE_ASSIST_SWITCH", if(p["enabled"] == true) 1 else 2))
+                }
                 require(p.keys == setOf("mode"))
                 return when (p["mode"]) {
                     "off" -> listOf(Change("LANE_ASSIST_SWITCH", 2))
@@ -77,7 +84,7 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort) 
             // Camera control: 2=on, 1=off; camera STATUS: 1=on, 0=off.
             if (action == "SET_DRIVER_MONITORING") return listOf(Change(field, if (enabled) 2 else 1,
                 "DMS_CAMERA_STATUS", if (enabled) 1 else 0, 0..1))
-            val on = if (action in setOf("SET_DRIVER_GESTURES", "SET_LEAD_VEHICLE_DEPARTURE_ALERT")) 2 else 1
+            val on = if (action in setOf("SET_DRIVER_GESTURES", "SET_LEAD_VEHICLE_DEPARTURE_ALERT", "SET_PEDESTRIAN_WARNING_SOUND")) 2 else 1
             return listOf(Change(field, if (enabled) on else 3 - on))
         }
     }

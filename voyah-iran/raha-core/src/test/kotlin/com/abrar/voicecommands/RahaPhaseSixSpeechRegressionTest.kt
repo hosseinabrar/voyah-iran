@@ -77,7 +77,19 @@ class RahaPhaseSixSpeechRegressionTest {
             شارژر رو آزاد کن
             شارژ رو متوقف کن
         ""","STOP_CHARGING",emptyMap())
-        check("کنترل دمای باتری رو فعال کن\nدمای باتری رو بالا ببر","SET_BATTERY_PRECONDITIONING",mapOf("enabled" to true))
+        check("""
+            کنترل دمای باتری رو فعال کن
+            دمای باتری رو بالا ببر
+            دمای باتری رو ببر بالا
+            باتری ها رو گرم کن
+            دمای باتری رو کنترل کن
+            کنترل دمای باتری ها رو فعال کن
+            لطفا باتری‌ها را گرم کنید
+            گرمایش باتری را فعال کنید
+            مدیریت دمای باتری را روشن کن
+            پیش گرمایش باتری را فعال کن
+        ""","SET_BATTERY_PRECONDITIONING",mapOf("enabled" to true))
+        check("کنترل دمای باتری رو غیر فعال کن\nگرمایش باتری ها رو خاموش کن\nکنترل دمای باتری رو دی اکتیو کن", "SET_BATTERY_PRECONDITIONING", mapOf("enabled" to false))
     }
     @Test fun userMirrorSentences() {
         check("آیینه ها رو جمع کن\nآیینه ها رو ببند\nآیینه رو جمع کن","SET_MIRROR_FOLD",mapOf("side" to "all","folded" to true))

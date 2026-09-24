@@ -17,12 +17,14 @@ import java.util.concurrent.TimeUnit
 /** Started by init using app_process, not an exported Android component. */
 object BridgeServer {
     private val roa = RoaHookManager()
+    private val neshan = NeshanHookManager()
     @JvmStatic fun main(args: Array<String>) {
         check(Process.myUid() == 0) { "Bridge must be started by the installer/init as root" }
         val token = File("/data/local/tmp/voyahiran-bridge/bridge.token").readText().trim()
         check(token.matches(Regex("[a-f0-9]{64}")))
         val runner = ProcessCommandRunner(useBridge = false)
         roa.start()
+        neshan.start()
         OemNavigationManager.start()
         val execution = java.util.concurrent.locks.ReentrantLock()
         val pool = ThreadPoolExecutor(2, 2, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(4))
@@ -61,9 +63,13 @@ object BridgeServer {
                                 runner.run(listOf("/system/bin/am", "force-stop", "--user", "0", command[1]), parsed.timeout)
                             else runner.run(listOf("/system/bin/pm", "uninstall", "--user", "0", command[1]), parsed.timeout)
                         }
+                        "neshan-direct" -> neshan.command(command[1])
+                        "cluster-navigation" -> OemClusterNavigation.command(command)
                         "subscription-vin" -> VehicleIdentity.read()
                         "subscription-session" -> BridgeSubscriptionSession.update(command[1].toInt())
                         "raha-command" -> RahaVehicleBridge.execute(command[1], command[2])
+                        "raha-seat-ui" -> OemSeatPopup.show()
+                        "screen-swap-runtime" -> OemScreenSwapManager.command(command[1])
                         "roa-hook" -> roa.command(command[1])
                         "roa-config" -> RearCameraConfiguration.enable()
                         else -> runner.run(command, parsed.timeout)

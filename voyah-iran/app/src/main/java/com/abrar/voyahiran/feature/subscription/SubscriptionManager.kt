@@ -115,6 +115,11 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
             if (e is CancellationException) throw e
             AppLog.error("SteeringMedia", "startup access failed", e)
         }
+        try { com.abrar.voyahiran.feature.navigation.NavigationPreferences.provision(app) }
+        catch (e: Exception) {
+            if (e is CancellationException) throw e
+            AppLog.error("NeshanDriving", "startup access failed", e)
+        }
         AppLog.info("Subscription", "startup features dispatched after runtime session accepted")
         true
     } catch(e: Exception) {

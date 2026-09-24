@@ -195,43 +195,50 @@
     .line 70
     const/4 v0, 0x0
 
-    if-eqz p0, :cond_3
+    if-eqz p0, :cond_4
 
     invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getDisplayId()I
 
     move-result v1
 
-    if-nez v1, :cond_3
+    const/4 v2, 0x1
 
+    if-eqz v1, :cond_0
+
+    invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getDisplayId()I
+
+    move-result v1
+
+    if-ne v1, v2, :cond_4
+
+    :cond_0
     invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getActivityType()I
 
     move-result v1
 
-    const/4 v2, 0x1
-
-    if-ne v1, v2, :cond_3
+    if-ne v1, v2, :cond_4
 
     .line 71
     invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->inMultiWindowMode()Z
 
     move-result v1
 
-    if-nez v1, :cond_3
+    if-nez v1, :cond_4
 
     iget-object v1, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
 
-    if-eqz v1, :cond_3
+    if-eqz v1, :cond_4
 
     iget-object v1, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
 
     iget-object v1, v1, Landroid/content/pm/ActivityInfo;->applicationInfo:Landroid/content/pm/ApplicationInfo;
 
-    if-nez v1, :cond_0
+    if-nez v1, :cond_1
 
     goto :goto_0
 
     .line 72
-    :cond_0
+    :cond_1
     iget-object p0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
 
     iget-object p0, p0, Landroid/content/pm/ActivityInfo;->applicationInfo:Landroid/content/pm/ApplicationInfo;
@@ -245,28 +252,28 @@
 
     move-result v1
 
-    if-nez v1, :cond_1
+    if-nez v1, :cond_2
 
     iget v1, p0, Landroid/content/pm/ApplicationInfo;->flags:I
 
     and-int/lit16 v1, v1, 0x81
 
-    if-nez v1, :cond_2
+    if-nez v1, :cond_3
 
     iget p0, p0, Landroid/content/pm/ApplicationInfo;->uid:I
 
     const/16 v1, 0x2710
 
-    if-lt p0, v1, :cond_2
-
-    :cond_1
-    move v0, v2
+    if-lt p0, v1, :cond_3
 
     :cond_2
+    move v0, v2
+
+    :cond_3
     return v0
 
     .line 71
-    :cond_3
+    :cond_4
     :goto_0
     return v0
 .end method
@@ -467,7 +474,21 @@
 
     invoke-direct {p1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v1, "Bounds "
+    const-string v1, "Bounds display="
+
+    invoke-virtual {p1, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object p1
+
+    invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getDisplayId()I
+
+    move-result v1
+
+    invoke-virtual {p1, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object p1
+
+    const-string v1, " "
 
     invoke-virtual {p1, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -481,9 +502,7 @@
 
     move-result-object p0
 
-    const-string p1, " "
-
-    invoke-virtual {p0, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {p0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object p0
 
@@ -689,7 +708,7 @@
 
     move-result-object p1
 
-    const-string v0, " display=0 left=145 top=50"
+    const-string v0, " displays=0,1 left=145 top=50"
 
     invoke-virtual {p1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 

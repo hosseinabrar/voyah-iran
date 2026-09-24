@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:layoutDirection="rtl" android:fillViewport="true" tools:background="@color/background">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="@dimen/page_padding">
+<TextView style="@style/Text.Heading" android:text="@string/display_media_map_tab"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+            <TextView style="@style/Text.Heading" android:text="@string/display_section"/>
+            <CheckBox
+                android:id="@+id/appDisplayCorrection"
+                android:layout_marginTop="@dimen/space_md"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm"
+                android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent"
+                android:text="@string/app_display_correction"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_body"
+                android:textDirection="rtl"
+                android:gravity="center_vertical|start"
+                android:checked="true" />
+            <TextView
+                style="@style/Text.Secondary"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/app_display_description" />
+            <ProgressBar
+                android:id="@+id/appDisplayProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/appDisplayError"
+                style="@style/Text.Secondary"
+                android:text="@string/app_display_failed"
+                android:accessibilityLiveRegion="polite"
+                android:visibility="gone" />
+            <Button
+                android:id="@+id/appDisplayRetry"
+                style="@style/NavigationTab"
+                android:layout_width="wrap_content"
+                android:text="@string/retry"
+                android:visibility="gone" />
+            <CheckBox android:id="@+id/screenSwap" android:checked="true" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md" android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:text="@string/screen_swap_label"
+                android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:textDirection="rtl" android:gravity="center_vertical|start" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/screen_swap_description" />
+            <TextView android:id="@+id/screenSwapError" style="@style/Text.Secondary"
+                android:textColor="@color/error" android:text="@string/screen_swap_error"
+                android:accessibilityLiveRegion="polite" android:visibility="gone" />
+            <CheckBox android:id="@+id/passengerApps" android:checked="true" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md" android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:text="@string/passenger_apps_label"
+                android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:textDirection="rtl" android:gravity="center_vertical|start" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/passenger_apps_description" />
+            <TextView android:id="@+id/passengerAppsError" style="@style/Text.Secondary"
+                android:textColor="@color/error" android:text="@string/screen_swap_error"
+                android:accessibilityLiveRegion="polite" android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="@dimen/space_lg">
+            <TextView style="@style/Text.Heading" android:text="@string/media_section"/>
+<TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_md" android:text="@string/default_music_player" android:labelFor="@id/musicPlayer"/>
+<Spinner android:id="@+id/musicPlayer" android:layout_width="match_parent" android:layout_height="@dimen/touch_target" android:layout_marginTop="@dimen/space_sm" android:spinnerMode="dropdown"/>
+<CheckBox android:id="@+id/musicAutoPlay" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:buttonTint="@color/accent" android:text="@string/music_auto_play" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:gravity="center_vertical|start" android:visibility="gone" tools:visibility="visible"/>
+<CheckBox android:id="@+id/musicPauseOnDoor" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:buttonTint="@color/accent" android:text="@string/music_pause_on_door" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:gravity="center_vertical|start" android:visibility="gone" tools:visibility="visible"/>
+            <CheckBox android:id="@+id/mediaControls" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:text="@string/media_controls_label"
+                android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:gravity="center_vertical|start"/>
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/media_controls_description"/>
+            <TextView android:id="@+id/mediaControlsError" style="@style/Text.Secondary" android:textColor="@color/error"
+                android:text="@string/media_controls_error" android:visibility="gone" android:accessibilityLiveRegion="polite"/>
+        </LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="@dimen/space_lg" android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card">
+<TextView style="@style/Text.Heading" android:text="@string/navigation_section"/>
+<TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_md" android:text="@string/default_navigator" android:labelFor="@id/navigator"/>
+<Spinner android:id="@+id/navigator" android:layout_width="match_parent" android:layout_height="@dimen/touch_target" android:layout_marginTop="@dimen/space_sm" android:spinnerMode="dropdown"/>
+<CheckBox android:id="@+id/neshanDriving" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:layout_marginTop="@dimen/space_md" android:buttonTint="@color/accent" android:text="@string/neshan_auto_driving" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:visibility="gone" tools:visibility="visible"/>
+<CheckBox android:id="@+id/neshanCluster" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:layout_marginTop="@dimen/space_sm" android:buttonTint="@color/accent" android:text="@string/neshan_cluster" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:visibility="gone" tools:visibility="visible"/>
+<CheckBox android:id="@+id/neshanVoiceNavigation" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:layout_marginTop="@dimen/space_sm" android:buttonTint="@color/accent" android:text="@string/neshan_voice_navigation" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:visibility="gone" tools:visibility="visible"/>
+<TextView android:id="@+id/navigationError" style="@style/Text.Secondary" android:text="@string/navigation_setup_error" android:textColor="@color/error" android:visibility="gone"/>
+</LinearLayout></LinearLayout></ScrollView>
+

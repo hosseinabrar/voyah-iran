@@ -27,7 +27,9 @@ public class DisplayPolicyTest {
   a.info.applicationInfo.flags=1;check(!VoyahIranDisplayPolicy.applies(a),"OEM excluded");
   a.info.applicationInfo.flags=128;check(!VoyahIranDisplayPolicy.applies(a),"updated OEM excluded");
   a.info.applicationInfo.packageName="com.abrar.voyahiran";check(VoyahIranDisplayPolicy.applies(a),"Voyah Iran included even system install");
-  a.display=1;check(!VoyahIranDisplayPolicy.applies(a),"passenger display excluded");a.display=0;
+  a.display=1;check(VoyahIranDisplayPolicy.applies(a),"passenger display included");
+  check(VoyahIranDisplayPolicy.orientation(a,7)==0,"passenger portrait forced landscape");
+  a.display=2;check(!VoyahIranDisplayPolicy.applies(a),"cluster/other display excluded");a.display=0;
   a.type=2;check(!VoyahIranDisplayPolicy.applies(a),"home excluded");a.type=1;
   a.multi=true;check(!VoyahIranDisplayPolicy.applies(a),"PiP/multiwindow excluded");a.multi=false;
   Configuration parent=new Configuration();Config parentWin=new Config();parentWin.bounds=new Rect(0,0,1920,720);parentWin.app=new Rect(0,0,1920,640);
@@ -37,6 +39,14 @@ public class DisplayPolicyTest {
   check(out.bounds.toString().equals("145,50,1920,720"),"safe area bounds");
   check(out.app.toString().equals("145,50,1920,640"),"existing content restriction preserved");
   check(a.config.orientation==2 && a.config.screenWidthDp==1775 && a.config.screenHeightDp==590,"landscape resource configuration");
+  a.display=1; parentWin.bounds=new Rect(0,0,1600,720);parentWin.app=new Rect(0,0,1600,640);
+  VoyahIranDisplayPolicy.configuration(a,parent);
+  check(out.bounds.toString().equals("145,50,1600,720"),"passenger uses own display width");
+  check(out.app.toString().equals("145,50,1600,640"),"passenger content preserved");
+  a.info.applicationInfo.packageName="system.camera";check(!VoyahIranDisplayPolicy.applies(a),"passenger OEM excluded");
+  a.info.applicationInfo.packageName="com.abrar.voyahiran";
+  state(false);check(VoyahIranDisplayPolicy.orientation(a,7)==7,"passenger disable restores orientation");state(true);
+  a.display=0;parentWin.bounds=new Rect(0,0,1920,720);parentWin.app=new Rect(0,0,1920,640);VoyahIranDisplayPolicy.configuration(a,parent);
   WindowState w=new WindowState();w.mActivityRecord=a;w.mAttrs=new android.view.WindowManager.LayoutParams();w.mAttrs.type=1;
   WindowFrames frames=new WindowFrames();frames.mFrame=new Rect(-100,-100,2000,900);
   frames.mParentFrame=new Rect(0,0,1920,720);frames.mContentFrame=new Rect(0,0,1920,400);

@@ -1,0 +1,101 @@
+input	expected	actual	pass
+بزرگراه چمران	chamran	chamran	true
+خیابان مدیریت	modiriat	modiriat	true
+خیابان وزرا	vozara	vozara	true
+کوچه سی و ششم	si o sheshom	si o sheshom	true
+بزرگراه شهید همت شرقی	hemmat	hemmat	true
+بزرگراه آل‌احمد	al ahmad	al ahmad	true
+بزرگراه آیت‌الله سعیدی	saeidi	saeidi	true
+بزرگراه حقانی	haghani	haghani	true
+بزرگراه مدرس	modarres	modarres	true
+بلوار کشاورز	keshavarz	keshavarz	true
+خیابان وحید دستجردی	vahid dastjerdi	vahid dastjerdi	true
+خیابان ظفر	zafar	zafar	true
+خیابان ۱۵ خرداد	15 khordad	15 khordad	true
+خیابان ۱۶ آذر	16 azar	16 azar	true
+خیابان ۱۷ شهریور	17 shahrivar	17 shahrivar	true
+خیابان آزادی	azadi	azadi	true
+خیابان استاد حسن بنا	hasan banna	hasan banna	true
+خیابان اسکندری شمالی	eskandari	eskandari	true
+خیابان اقبال لاهوری	eghbal lahouri	eghbal lahouri	true
+خیابان امام خمینی	emam khomeini	emam khomeini	true
+خیابان امیرکبیر	amirkabir	amirkabir	true
+خیابان انقلاب	enghelab	enghelab	true
+خیابان آیت الله مدنی	madani	madani	true
+خیابان باهنر	bahonar	bahonar	true
+خیابان بهشتی	beheshti	beheshti	true
+خیابان پاتریس لومومبا	patris lumumba	patris lumumba	true
+خیابان پاسداران	pasdaran	pasdaran	true
+خیابان پیروزی	pirouzi	pirouzi	true
+خیابان توحید	tohid	tohid	true
+خیابان جانبازان	janbazan	janbazan	true
+خیابان جمهوری	jomhouri	jomhouri	true
+خیابان خالد اسلامبولی	khaled eslamboli	khaled eslamboli	true
+خیابان خدامی	khodami	khodami	true
+خیابان خرمشهر	khorramshahr	khorramshahr	true
+خیابان رجایی	rajaei	rajaei	true
+خیابان قرنی	gharani	gharani	true
+خیابان ستارخان	sattarkhan	sattarkhan	true
+خیابان سعدی	saadi	saadi	true
+خیابان سمیه	somayyeh	somayyeh	true
+خیابان سهروردی جنوبی	sohrevardi	sohrevardi	true
+خیابان شریعتی	shariati	shariati	true
+خیابان شهید دیباجی	dibaji	dibaji	true
+خیابان طالقانی	taleghani	taleghani	true
+خیابان فاطمی	fatemi	fatemi	true
+خیابان ولی‌عصر	valiasr	valiasr	true
+خیابان مطهری	motahhari	motahhari	true
+خیابان میرداماد	mirdamad	mirdamad	true
+خیابان کارگر شمالی	kargar	kargar	true
+میدان شهدا	meydan shohada	meydan shohada	true
+تونل رسالت	tunnel resalat	tunnel resalat	true
+خیابان علامه طباطبایی جنوبی	allameh tabatabaei	allameh tabatabaei	true
+کوچه بیست و سوم	bist o sevom	bist o sevom	true
+کوچه چهل و دوم	chehel o dovom	chehel o dovom	true
+کوچه هفتاد و هشتم	haftad o hashtom	haftad o hashtom	true
+کوچه سی‌ام	siom	siom	true
+خیابان شهدای هفتم تیر	haftom tir	haftom tir	true
+بزرگراه شهید همت غربی	hemmat	hemmat	true
+خیابان مُدِیریَت	modiriat	modiriat	true
+هَمَّت	hemmat	hemmat	true
+وُزَرا	vozara	vozara	true
+چَمران	chamran	chamran	true
+کوچه بَژ	bazh	bazh	true
+کوچه بِژ	bezh	bezh	true
+کوچه بُژ	bozh	bozh	true
+کوچه بَژّ	bazhzh	bazhzh	true
+خیابان گلها	golha	golha	true
+کوچه نبی اکرم	nabi akram	nabi akram	true
+گل‌ها	golha	golha	true
+گل ها	golha	golha	true
+گلهای بهشت	golhaye behesht	golhaye behesht	true
+نبی‌اکرم مرکزی	nabi akram	nabi akram	true
+نبِي اكرم	nabi akram	nabi akram	true
+أحمدآباد مركزى	ahmadabad	ahmadabad	true
+بلوار پرستاران	parastaran	parastaran	true
+کوچه نیلوفر	niloofar	niloofar	true
+خیابان فرهنگ	farhang	farhang	true
+خیابان معلم	moallem	moallem	true
+کوچه شهید حمید کریمی	hamid karimi	hamid karimi	true
+کوچه باغبان	baghban	baghban	true
+بلوار نرگس	narges	narges	true
+کوچه باران	baran	baran	true
+خیابان شقایق	shaghayegh	shaghayegh	true
+میدان عدالت	meydan edalat	meydan edalat	true
+کوچه مروارید	morvarid	morvarid	true
+کوچه سوسن	soosan	soosan	true
+بلوار کشاورزان	keshavarzan	keshavarzan	true
+گلها، ۱۲	golha 12	golha 12	true
+خیابان نبی اکرم (مرکزی)	nabi akram	nabi akram	true
+تونل شهدا مرکزی	tunnel shohada	tunnel shohada	true
+احمدآباد	ahmadabad	ahmadabad	true
+رحمت آباد	rahmatabad	rahmatabad	true
+کریم‌آباد	karimabad	karimabad	true
+حبیبپور	habibpour	habibpour	true
+عزیززاده	azizzadeh	azizzadeh	true
+امیدشهر	omidshahr	omidshahr	true
+گلنگار	golnegar	golnegar	true
+گل‌افشان	gol afshan	gol afshan	true
+نسیمها	nasimha	nasimha	true
+سروهای	sarvhaye	sarvhaye	true
+ابر ها	abrha	abrha	true
