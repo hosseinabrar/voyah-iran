@@ -117,40 +117,15 @@ Java.perform(function () {
             passengerState = signature;
         }
         // Use the factory passenger drawer and its display-aware launch path.
-        let refreshDrawer = function () {};
+        // Data enrichment is independent from passenger button construction.
         try {
-            const Bar = Java.use('com.qinggan.launcher.navigation.NavigationBarSecond');
             const Data = Java.use('com.qinggan.launcher.allapp.AllAppDataManager');
             const Bean = Java.use('com.qinggan.launcher.allapp.AppBean');
             const List = Java.use('java.util.ArrayList');
-            const init = Bar.initAllAppShow.overload();
-            const click = Bar.onClick.overload('android.view.View');
             const apps = Data.getAllApps.overload('int');
-            const bars = new Map();
-            let drawerEnabled = null;
             function enabled() {
                 return Global.getInt(Base.getInstance().getContentResolver(), 'voyah_iran_passenger_apps', 1) === 1;
             }
-            init.implementation = function () {
-                const key = this.hashCode();
-                if (!bars.has(key)) bars.set(key, Java.retain(this));
-                const nativeValue = this.isShowScreenAllApp.value;
-                try {
-                    if (enabled()) this.isShowScreenAllApp.value = true;
-                    return init.call(this);
-                } finally { this.isShowScreenAllApp.value = nativeValue; }
-            };
-            click.implementation = function (v) {
-                try {
-                    if (enabled() && this.mScreenUpAllAppView.value !== null &&
-                        v.getId() === this.mScreenUpAllAppView.value.getId()) {
-                        Java.cast(Base.getInstance(), Base).expandAllApp(1);
-                        console.log('VI_PASSENGER_APPS_OPEN display=1');
-                        return;
-                    }
-                } catch (e) { console.log('VI_PASSENGER_APPS_CLICK_ERROR ' + e); }
-                return click.call(this, v);
-            };
             apps.implementation = function (screen) {
                 const stock = apps.call(this, screen);
                 if (screen !== 1 || !enabled()) return stock;
@@ -173,17 +148,6 @@ Java.perform(function () {
                     return result;
                 } catch (e) { console.log('VI_PASSENGER_APPS_LIST_ERROR ' + e); return stock; }
             };
-            refreshDrawer = function () {
-                const value = enabled();
-                if (value === drawerEnabled) return;
-                drawerEnabled = value;
-                bars.forEach(function (bar) { bar.initAllAppShow(); });
-                console.log('VI_PASSENGER_APPS enabled=' + value);
-            };
-            Java.choose('com.qinggan.launcher.navigation.NavigationBarSecond', {
-                onMatch: function (bar) { bars.set(bar.hashCode(), Java.retain(bar)); },
-                onComplete: function () { Java.scheduleOnMainThread(function () { refreshDrawer(); }); }
-            });
         } catch (e) { console.log('VI_PASSENGER_APPS_UNAVAILABLE ' + e); }
         function remember(value) {
             if (service !== null) service.__DOLLAR__dispose();
@@ -231,7 +195,6 @@ Java.perform(function () {
             }
         };
         function refresh() {
-            refreshDrawer();
             if (service === null) return;
             const enabled = active(service);
             const centerChanged = enabled !== previousPolicy;

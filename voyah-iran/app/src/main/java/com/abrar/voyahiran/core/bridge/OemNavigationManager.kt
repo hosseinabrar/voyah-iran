@@ -48,7 +48,7 @@ object OemNavigationManager {
             while (true) { val n = stream.read(buffer); if (n < 0) break; digest.update(buffer, 0, n) }
         }
         check(digest.digest().joinToString("") { "%02x".format(it) } == expected) { "Navigation runtime hash mismatch" }
-        script.writeText(OemNavigationScript.source)
+        script.writeText(OemNavigationScript.source + "\n" + PassengerDrawerScript.source)
         check(script.setReadable(false, false) && script.setReadable(true, true))
         ready = false; error = null; target = pid
         val process = ProcessBuilder(runtime.path, "-p", pid, "-s", script.path, "-i").redirectErrorStream(true).start()

@@ -1,32 +1,24 @@
-const fs=require('fs'),vm=require('vm'),assert=require('assert');
-const source=fs.readFileSync(require('path').join(__dirname,'../../app/src/main/java/com/abrar/voyahiran/core/bridge/OemNavigationScript.kt'),'utf8');
-let s=source.split('val source = """')[1].split('""".trimIndent()')[0].replaceAll('__DOLLAR__','$');
-new vm.Script(s);
-s=s.slice(s.indexOf('        let refreshDrawer'),s.indexOf('        function remember'));
-let on=true,opened=0,nativeClicks=0;
-const bar={hashCode:()=>1,isShowScreenAllApp:{value:false},mScreenUpAllAppView:{value:{getId:()=>42}},visible:false};
-const hook=fn=>({call:(_, ...args)=>fn(...args)});
-const init=hook(()=>{bar.visible=bar.isShowScreenAllApp.value});
-const click=hook(()=>nativeClicks++);
-const list=arr=>({arr:[...arr],size(){return this.arr.length},get(i){return this.arr[i]},add(v){this.arr.push(v)}});
-const bean=p=>({getPackageName:()=>p});
-const stock=list([bean('stock')]),main=list([bean('user'),bean('system'),bean('stock')]);
-const apps=hook(i=>i===1?stock:main);
-const pm={getApplicationInfo:p=>({flags:{value:p==='system'?1:0}}),getLaunchIntentForPackage:()=>({})};
-const base={getContentResolver:()=>({}),getPackageManager:()=>pm,expandAllApp:i=>{assert.equal(i,1);opened++}};
-const types={
- 'com.qinggan.launcher.navigation.NavigationBarSecond':{initAllAppShow:{overload:()=>init},onClick:{overload:()=>click}},
- 'com.qinggan.launcher.allapp.AllAppDataManager':{getAllApps:{overload:()=>apps}},
- 'com.qinggan.launcher.allapp.AppBean':{},'java.util.ArrayList':{$new:l=>list(l.arr)}};
-bar.initAllAppShow=()=>init.implementation.call(bar);
-const ctx={Java:{use:n=>{assert(types[n],n);return types[n]},retain:x=>x,cast:x=>x,choose:(n,o)=>{o.onMatch(bar);o.onComplete()},scheduleOnMainThread:f=>f()},Base:{getInstance:()=>base},Global:{getInt:()=>on?1:0},console};
-vm.createContext(ctx);vm.runInContext(s+'\nglobalThis.refresh=refreshDrawer;',ctx);
-assert(bar.visible);assert.equal(bar.isShowScreenAllApp.value,false);
-click.implementation.call(bar,{getId:()=>42});assert.equal(opened,1);
-assert.deepEqual(apps.implementation(1).arr.map(b=>b.getPackageName()),['stock','user']);
-assert.equal(stock.size(),1);assert.strictEqual(apps.implementation(0),main);
-on=false;ctx.refresh();assert(!bar.visible);
-assert.strictEqual(apps.implementation(1),stock);
-click.implementation.call(bar,{getId:()=>42});assert.equal(nativeClicks,1);
-bar.isShowScreenAllApp.value=true;bar.initAllAppShow();assert(bar.visible);
-console.log('PASS: syntax, default activation, display-1 launch, user-app merge, stock preservation, central isolation, disable and native restoration');
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');
+const base=path.join(__dirname,'../../app/src/main/java/com/abrar/voyahiran/core/bridge');
+const read=n=>fs.readFileSync(path.join(base,n),'utf8').split('val source = """')[1].split('""".trimIndent()')[0].replaceAll('__DOLLAR__','$');
+const source=read('PassengerDrawerScript.kt');new vm.Script(source);new vm.Script(read('OemNavigationScript.kt'));
+let enabled=true;
+const rect=()=>({top:{value:0},bottom:{value:0}});
+const params=(w,h)=>({width:{value:w},height:{value:h},topMargin:{value:0},leftMargin:{value:0},gravity:{value:0}});
+const node=(id,top,bottom,click=true)=>({id,top,bottom,visible:0,getVisibility(){return this.visible},setVisibility(v){this.visible=v},equals(v){return this===v},isClickable(){return click},getGlobalVisibleRect(r){r.top.value=top;r.bottom.value=bottom;return true}});
+const stock=node('screen_up_all_app_icon',620,690);stock.visible=8;
+const controls=[node('screen_up_home_icon',10,90),node('music',160,230),node('seat',480,560),stock];
+const root={children:controls,findViewWithTag:()=>root.children.find(v=>v.own)||null,getContext:()=>({getContentResolver:()=>({})}),getWidth:()=>145,getHeight:()=>720,isShown:()=>true,getGlobalVisibleRect:r=>{r.top.value=0;return true},removeView:v=>root.children=root.children.filter(x=>x!==v),addView:(v,p)=>{v.lp=p;root.children.push(v)}};
+const button=()=>({...node('custom',0,0),own:true,getLayoutParams(){return this.lp},setLayoutParams(p){this.lp=p},bringToFront(){}});
+const ctx={Frame:{class:{isInstance:()=>true}},Java:{cast:x=>x},Global:{getInt:()=>enabled?1:0},TAG:'tag',Params:{$new:params},Rect:{$new:rect},name:v=>v.id,isButton:v=>!!v.own,walk:(r,f)=>r.children.slice().forEach(f),makeButton:button};
+vm.createContext(ctx);
+vm.runInContext(source.slice(source.indexOf('        function freeSlot'),source.indexOf('        function makeButton'))+source.slice(source.indexOf('        function update(root)'),source.indexOf('        function tick()')),ctx);
+assert(ctx.update(root).startsWith('shown'));assert.equal(root.children.filter(v=>v.own).length,1);
+for(let i=0;i<20;i++){stock.visible=0;ctx.update(root)}
+assert.equal(stock.visible,8);assert.equal(root.children.filter(v=>v.own).length,1);
+enabled=false;ctx.update(root);assert(!root.children.some(v=>v.own));assert.equal(stock.visible,8);
+root.children=root.children.filter(v=>v!==stock);enabled=true;ctx.update(root);assert.equal(root.children.filter(v=>v.own).length,1);
+root.children.push(node('occupied',0,720));assert.equal(ctx.update(root),'no-free-slot');assert.equal(root.children.find(v=>v.own).visible,8);
+assert.equal(ctx.freeSlot(720,90,[[0,300],[390,720]]),300);
+assert(source.includes('display.getDisplayId()!==1'));assert(source.includes('options.setLaunchDisplayId(1)'));
+console.log('PASS: actual update function; missing/hidden/reappearing OEM button, repeated repair without duplicates, disable removal, free-slot collision guard, display-1 scope');
