@@ -6,6 +6,8 @@ internal object PassengerDrawerScript {
 Java.perform(function () {
     try {
         const TAG = 'voyah-iran-passenger-apps';
+        const JString = Java.use('java.lang.String');
+        const View = Java.use('android.view.View');
         const ViewGroup = Java.use('android.view.ViewGroup');
         const Frame = Java.use('android.widget.FrameLayout');
         const Params = Java.use('android.widget.FrameLayout__DOLLAR__LayoutParams');
@@ -67,8 +69,8 @@ Java.perform(function () {
         }
         function makeButton(ctx) {
             const button=Button.__DOLLAR__new(ctx);
-            button.setTag(TAG);
-            button.setContentDescription('فهرست برنامه‌ها');
+            button.setTag(JString.__DOLLAR__new(TAG));
+            button.setContentDescription(JString.__DOLLAR__new('فهرست برنامه‌ها'));
             const image=Bitmap.createBitmap(64,64,BitmapConfig.ARGB_8888.value);
             const canvas=Canvas.__DOLLAR__new(image), paint=Paint.__DOLLAR__new();
             paint.setColor(-1); paint.setAntiAlias(true);
@@ -83,7 +85,8 @@ Java.perform(function () {
             if (!Frame.class.isInstance(root)) return 'unsupported-container';
             const group=Java.cast(root,Frame), ctx=root.getContext();
             const enabled=Global.getInt(ctx.getContentResolver(),'voyah_iran_passenger_apps',1)===1;
-            let own=root.findViewWithTag(TAG);
+            const rawOwn=root.findViewWithTag(JString.__DOLLAR__new(TAG));
+            let own=rawOwn===null?null:Java.cast(rawOwn,View);
             // Hide the stock item regardless of whichever firmware condition controls it.
             walk(root,function(view) {
                 if (isButton(view)) return false;

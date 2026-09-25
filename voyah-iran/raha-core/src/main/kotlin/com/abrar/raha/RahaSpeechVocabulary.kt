@@ -133,6 +133,7 @@ object RahaSpeechVocabulary {
             }
             add("پلی کردن $noun")
         }
+        for (verb in listOf("رو تغییر بده", "را تغییر بده", "را تغییر دهید", "رو عوض کن", "را عوض کنید", "رو سوئیچ کن")) add("دوربین $verb")
         val material = targets + operators + positions + extra + bounds + RahaLevelVocabulary.units + phaseTwo
         for (noun in RahaPhaseTwoRecognizer.fragranceNames) {
             for (verb in listOf("روشن", "خاموش", "اکتیو", "زیاد کن", "کم کن", "متوسط", "حداکثر", "حداقل", "شماره یک", "شماره دو", "شماره سه")) add("$noun $verb")

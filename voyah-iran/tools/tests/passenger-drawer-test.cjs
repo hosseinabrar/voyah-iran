@@ -10,7 +10,7 @@ const stock=node('screen_up_all_app_icon',620,690);stock.visible=8;
 const controls=[node('screen_up_home_icon',10,90),node('music',160,230),node('seat',480,560),stock];
 const root={children:controls,findViewWithTag:()=>root.children.find(v=>v.own)||null,getContext:()=>({getContentResolver:()=>({})}),getWidth:()=>145,getHeight:()=>720,isShown:()=>true,getGlobalVisibleRect:r=>{r.top.value=0;return true},removeView:v=>root.children=root.children.filter(x=>x!==v),addView:(v,p)=>{v.lp=p;root.children.push(v)}};
 const button=()=>({...node('custom',0,0),own:true,getLayoutParams(){return this.lp},setLayoutParams(p){this.lp=p},bringToFront(){}});
-const ctx={Frame:{class:{isInstance:()=>true}},Java:{cast:x=>x},Global:{getInt:()=>enabled?1:0},TAG:'tag',Params:{$new:params},Rect:{$new:rect},name:v=>v.id,isButton:v=>!!v.own,walk:(r,f)=>r.children.slice().forEach(f),makeButton:button};
+const ctx={JString:{$new:s=>({javaString:s})},View:{},Frame:{class:{isInstance:()=>true}},Java:{cast:x=>x},Global:{getInt:()=>enabled?1:0},TAG:'tag',Params:{$new:params},Rect:{$new:rect},name:v=>v.id,isButton:v=>!!v.own,walk:(r,f)=>r.children.slice().forEach(f),makeButton:button};
 vm.createContext(ctx);
 vm.runInContext(source.slice(source.indexOf('        function freeSlot'),source.indexOf('        function makeButton'))+source.slice(source.indexOf('        function update(root)'),source.indexOf('        function tick()')),ctx);
 assert(ctx.update(root).startsWith('shown'));assert.equal(root.children.filter(v=>v.own).length,1);
@@ -22,3 +22,14 @@ root.children.push(node('occupied',0,720));assert.equal(ctx.update(root),'no-fre
 assert.equal(ctx.freeSlot(720,90,[[0,300],[390,720]]),300);
 assert(source.includes('display.getDisplayId()!==1'));assert(source.includes('options.setLaunchDisplayId(1)'));
 console.log('PASS: actual update function; missing/hidden/reappearing OEM button, repeated repair without duplicates, disable removal, free-slot collision guard, display-1 scope');
+
+// Exercise real construction, not only a fake makeButton used by layout tests.
+let description=null,tag=null,image=null,click=null,tiles=0;
+const javaText=value=>{assert(value && typeof value.javaString==='string','Expected java.lang.String, not JS string');return value.javaString};
+const actualButton={setTag:v=>tag=javaText(v),setContentDescription:v=>description=javaText(v),setImageBitmap:v=>image=v,setBackground:()=>{},setPadding:()=>{},setOnClickListener:v=>click=v};
+const construction={Button:{$new:()=>actualButton},JString:{$new:s=>({javaString:s})},TAG:'voyah-iran-passenger-apps',Bitmap:{createBitmap:()=>({bitmap:true})},BitmapConfig:{ARGB_8888:{value:1}},Canvas:{$new:()=>({drawRect:()=>tiles++})},Paint:{$new:()=>({setColor:()=>{},setAntiAlias:()=>{}})},Background:{$new:()=>({setColor:()=>{},setCornerRadius:()=>{}})},listener:{click:true}};
+vm.createContext(construction);
+vm.runInContext(source.slice(source.indexOf('        function makeButton'),source.indexOf('        function update(root)')),construction);
+assert.strictEqual(construction.makeButton({}),actualButton);
+assert.equal(description,'فهرست برنامه‌ها');assert.equal(tag,'voyah-iran-passenger-apps');assert.equal(tiles,4);assert(image.bitmap);assert(click.click);
+console.log('PASS: actual button construction, Java CharSequence/Object arguments, icon and listener');

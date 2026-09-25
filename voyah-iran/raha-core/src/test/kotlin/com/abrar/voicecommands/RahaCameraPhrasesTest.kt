@@ -11,7 +11,7 @@ class RahaCameraPhrasesTest {
             "TAKE_PHOTO" to listOf("یه عکس بگیر", "گرفتن عکس", "لطفا یک عکس بگیرید", "عکس بگیر", "یه عکس بنداز"),
             "START_VIDEO_RECORDING" to listOf("فیلم برداری رو شروع کن", "شروع فیلم برداری", "یه فیلم بگیر", "ضبط ویدیو رو شروع کن"),
             "STOP_VIDEO_RECORDING" to listOf("فیلم برداری رو متوقف کن", "ضبط رو قطع کن"),
-            "SWITCH_CAMERA" to listOf("دوربین رو عوض کن", "تعویض دوربین", "دوربین را تغییر بده", "دوربین رو سوئیچ کن", "برو دوربین بعدی")
+            "SWITCH_CAMERA" to listOf("دوربین رو تغییر بده", "لطفا دوربین را تغییر دهید", "دوربین را عوض کنید", "دوربین رو عوض کن", "تعویض دوربین", "دوربین را تغییر بده", "دوربین رو سوئیچ کن", "برو دوربین بعدی")
         )
         val failures=mutableListOf<String>()
         for((expected,phrases) in cases) for(phrase in phrases) {

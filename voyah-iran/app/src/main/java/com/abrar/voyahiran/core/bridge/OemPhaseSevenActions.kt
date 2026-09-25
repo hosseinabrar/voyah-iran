@@ -61,7 +61,7 @@ internal object OemPhaseSevenActions {
         }
         if(request.optBoolean("camera")) OemCameraCapability.requireDvr()
         // Only explicit camera entry may bring its own UI forward; never open Settings.
-        if(request.optBoolean("camera") && action!=RahaAction.STOP_VIDEO_RECORDING) {
+        if(request.optBoolean("camera") && action!=RahaAction.STOP_VIDEO_RECORDING && action!=RahaAction.SWITCH_CAMERA) {
             shell(listOf("/system/bin/am","start","--display","0","-W","-n","com.qinggan.camera/.activity.RecordVideoActivity"))
         }
         if(action==RahaAction.OPEN_CAMERA)return
@@ -76,29 +76,34 @@ internal object OemPhaseSevenActions {
         Java.perform(function() {
             const p=request.p, action=request.action;
             let finished=false;
+            let stage='initializing';
             const readyDeadline=Date.now()+5000;
             function ensure(ok,msg) {if(!ok)throw new Error(msg);}
             function ok(detail) {finished=true;console.log('RAHA_ACTION_OK dispatched '+action+' '+detail);}
-            function fail(e) {finished=true;console.log('RAHA_ACTION_ERROR '+action+' '+e);}
+            function fail(e) {finished=true;console.log('RAHA_ACTION_ERROR '+action+' stage='+stage+' '+e+' stack='+(e.stack||''));}
             function camera() {
                 const settings=Java.use('com.qinggan.camera.common.CameraSetting').getInstance();
                 const helper=Java.use('com.qinggan.camera.common.CanBusHelper').getInstance();
                 ensure(!settings.isInReverseState.value && !helper.isDisplayOffOrStandby(),'Camera unavailable in current vehicle state');
                 ensure(helper.getarAppCameraState()!==1 && !helper.getfaceidRegistState(true),'Camera currently occupied');
                 ensure(Java.use('com.qinggan.camera.common.SupportUtils').isSupportDvr(),'DVR option no longer enabled');
-                const activity=settings.getTopActivity();
+                stage='activity';
+                const rawActivity=settings.getTopActivity();
+                const activity=rawActivity===null?null:Java.cast(rawActivity,Java.use('android.app.Activity'));
                 if(action!=='STOP_VIDEO_RECORDING' && (activity===null || !settings.active.value || !activity.getWindow().getDecorView().isShown())) {
                     ensure(Date.now()<readyDeadline,'Camera activity did not become ready');
                     setTimeout(tick,100);return;
                 }
-                const holder=Java.use('com.qinggan.camera.common.CameraVoiceGestureAction').getHolder();
                 if(action==='OPEN_CAMERA'){ok('camera opened');return;}
                 if(action==='SWITCH_CAMERA') {
                     ensure(!settings.isRecording.value,'Stop recording before switching camera');
                     const id=activity.getResources().getIdentifier('camera_change_iv','id','com.qinggan.camera');
                     ensure(id!==0,'Camera switch resource unavailable');
-                    const button=activity.findViewById(id);
+                    stage='switch-view';
+                    const rawButton=activity.findViewById(id);
+                    const button=rawButton===null?null:Java.cast(rawButton,Java.use('android.view.View'));
                     ensure(button!==null && button.isShown() && button.isEnabled(),'Camera switch unavailable');
+                    stage='switch-click';
                     ensure(button.performClick(),'Camera switch rejected');
                     ok('OEM camera switch clicked');return;
                 }
@@ -109,6 +114,7 @@ internal object OemPhaseSevenActions {
                     }
                 } else {
                     ensure(!settings.isRecording.value,'Already recording');
+                    const holder=Java.use('com.qinggan.camera.common.CameraVoiceGestureAction').getHolder();
                     if(action==='TAKE_PHOTO')holder.jumpPhotoCamera(1);else holder.jumpVideoCamera(2);
                 }
                 ok('OEM camera request issued');
