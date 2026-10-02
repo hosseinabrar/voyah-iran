@@ -37,9 +37,66 @@ import java.util.TimeZone
 
 class MainActivity : ComponentActivity() {
     private var projectNotice: ProjectNoticeDialog? = null
+    private var apolloAvailable = false
+    private var avmTurnBusy = false
+
+    private fun updateAvmTurn(operation: String) {
+        if (!apolloAvailable || avmTurnBusy) return
+        avmTurnBusy = true
+        val views = binding.comfortPage
+        views.avmTurn.isEnabled = false
+        views.avmTurnRetry.visibility = View.GONE
+        views.avmTurnStatus.setText(R.string.avm_turn_wait)
+        lifecycleScope.launch {
+            try {
+                val result = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    com.abrar.voyahiran.feature.apollo.data.AvmTurnControl.update(this@MainActivity, operation)
+                }
+                val actual = Regex("AVM_TURN actual=(-?\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull()
+                views.avmTurn.isChecked = com.abrar.voyahiran.feature.apollo.data.AvmTurnControl.checked(this@MainActivity)
+                val success = result.exitCode == 0 && !result.timedOut && actual in 1..2
+                views.avmTurnStatus.setText(if (success) R.string.avm_turn_read_ok else R.string.avm_turn_failed)
+                views.avmTurnRetry.visibility = if (success) View.GONE else View.VISIBLE
+            } catch (e: kotlinx.coroutines.CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                com.abrar.voyahiran.core.logging.AppLog.error("AvmTurn", "UI operation=$operation failed", e)
+                views.avmTurn.isChecked = com.abrar.voyahiran.feature.apollo.data.AvmTurnControl.checked(this@MainActivity)
+                views.avmTurnStatus.setText(R.string.avm_turn_failed)
+                views.avmTurnRetry.visibility = View.VISIBLE
+            } finally {
+                avmTurnBusy = false
+                views.avmTurn.isEnabled = apolloAvailable
+            }
+        }
+    }
+    private var apolloCapabilityJob: kotlinx.coroutines.Job? = null
+
+    private fun refreshApolloCapability() {
+        apolloCapabilityJob?.cancel()
+        apolloCapabilityJob = lifecycleScope.launch {
+            repeat(5) { attempt ->
+                val result = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    com.abrar.voyahiran.core.shell.ProcessCommandRunner().run(listOf("su", "0", "apollo-capability"), 5)
+                }
+                val sdb = if (result.exitCode == 0 && !result.timedOut)
+                    Regex("APOLLO_CAPABILITY sdb=(\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull() else null
+                if (sdb != null) {
+                    apolloAvailable = sdb == 1
+                    binding.apolloTab.visibility = if (apolloAvailable) View.VISIBLE else View.GONE
+                    binding.comfortPage.avmTurnCard.visibility = if (apolloAvailable) View.VISIBLE else View.GONE
+                    if (apolloAvailable) updateAvmTurn("read")
+                    if (!apolloAvailable && selectedTab == Tab.APOLLO) selectTab(Tab.SETTINGS)
+                    return@launch
+                }
+                if (attempt < 4) delay(1500)
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()
+        refreshApolloCapability()
         com.abrar.voyahiran.feature.subscription.SubscriptionService.start(this)
         if(!(application as VoyahIranApplication).subscriptions.allowed) {
             startActivity(Intent(this,com.abrar.voyahiran.feature.subscription.SubscriptionActivity::class.java).putExtra("userLaunch",true))
@@ -59,6 +116,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onPause() {
+        apolloCapabilityJob?.cancel()
         projectNotice?.dismiss()
         projectNotice = null
         super.onPause()
@@ -84,13 +142,34 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        com.abrar.voyahiran.core.logging.AppLog.info("App", "start version=${BuildConfig.VERSION_NAME} sdk=${android.os.Build.VERSION.SDK_INT} uid=${android.os.Process.myUid()} display=${display?.displayId}")
+        com.abrar.voyahiran.core.logging.AppLog.info("App", "start version=${BuildConfig.VERSION_NAME} sdk=${android.os.Build.VERSION.SDK_INT} uid=${android.os.Process.myUid()} display=${window.decorView.display?.displayId}")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         com.abrar.voyahiran.feature.navigation.DisplayMediaMapController(this, binding.displayMediaMapPage).bind()
         binding.displayMediaMapTab.setOnClickListener { selectTab(Tab.DISPLAY_MEDIA_MAP) }
         diagnostics = com.abrar.voyahiran.feature.diagnostics.DiagnosticsPageController(this, binding.diagnosticsPage)
         // Diagnostics is temporarily unavailable from the navigation menu.
+        fun updateLogging(operation: String) {
+            val checkbox = binding.settingsPage.displaySpeed
+            checkbox.isEnabled = false
+            lifecycleScope.launch {
+                val result = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    com.abrar.voyahiran.core.shell.ProcessCommandRunner().run(
+                        listOf("su", "0", "system-logging", operation), 15)
+                }
+                if (result.exitCode == 0 && result.output.contains("LOGGING_CONTROL")) {
+                    checkbox.isChecked = result.output.contains("enabled=true")
+                } else {
+                    if (operation != "status") checkbox.isChecked = !checkbox.isChecked
+                    android.widget.Toast.makeText(this@MainActivity, "تغییر وضعیت ثبت گزارش‌ها تأیید نشد", android.widget.Toast.LENGTH_LONG).show()
+                }
+                checkbox.isEnabled = true
+            }
+        }
+        binding.settingsPage.displaySpeed.setOnClickListener {
+            updateLogging(if (binding.settingsPage.displaySpeed.isChecked) "enable" else "disable")
+        }
+        updateLogging("status")
         binding.settingsPage.rebootDevice.setOnClickListener {
             android.app.AlertDialog.Builder(this)
                 .setTitle(R.string.reboot_label)
@@ -103,8 +182,22 @@ class MainActivity : ComponentActivity() {
         binding.voiceTab.setOnClickListener { selectTab(Tab.VOICE) }
         binding.settingsTab.setOnClickListener { selectTab(Tab.SETTINGS) }
         binding.comfortTab.setOnClickListener { selectTab(Tab.COMFORT) }
-        binding.apolloTab.setOnClickListener { selectTab(Tab.APOLLO); apollo.refresh() }
+        binding.apolloTab.visibility = View.GONE
+        binding.apolloTab.setOnClickListener { if (apolloAvailable) { selectTab(Tab.APOLLO); apollo.refresh() } }
+        with(binding.apolloPage) {
+            listOf(laneChange, emergencyLane, trafficLight, lightChange, signs, emergencySteering)
+                .zip(com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.displayed).forEach { (box, feature) ->
+                    box.setOnClickListener { apollo.setFeature(feature, box.isChecked) }
+                }
+        }
+        binding.apolloPage.subscription.setOnClickListener { apollo.setEnabled(binding.apolloPage.subscription.isChecked) }
         binding.apolloPage.refresh.setOnClickListener { apollo.refresh() }
+        binding.apolloPage.speedWarningExact.setOnClickListener {
+            apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_OFFSET, 1)
+        }
+        binding.apolloPage.speedWarningPercent.setOnClickListener {
+            apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_OFFSET, 2)
+        }
         binding.permissionsTab.setOnClickListener { selectTab(Tab.PERMISSIONS); permissions.refresh() }
         binding.permissionsPage.forceStop.setOnClickListener { permissions.forceStop() }
         binding.permissionsPage.uninstall.setOnClickListener {
@@ -139,9 +232,10 @@ class MainActivity : ComponentActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 appDisplay.state.collect { state ->
                     binding.displayMediaMapPage.appDisplayCorrection.isChecked = state.enabled
-                    binding.displayMediaMapPage.appDisplayCorrection.isEnabled = !state.busy
+                    binding.displayMediaMapPage.appDisplayCorrection.isEnabled = !state.busy && com.abrar.voyahiran.core.compat.VehiclePlatform.displayFrameworkHooks
                     binding.displayMediaMapPage.appDisplayProgress.visibility = if (state.busy) View.VISIBLE else View.GONE
-                    binding.displayMediaMapPage.appDisplayError.visibility = if (state.failed) View.VISIBLE else View.GONE
+                    binding.displayMediaMapPage.appDisplayError.visibility = if (state.failed || !com.abrar.voyahiran.core.compat.VehiclePlatform.displayFrameworkHooks) View.VISIBLE else View.GONE
+                    if (!com.abrar.voyahiran.core.compat.VehiclePlatform.displayFrameworkHooks) binding.displayMediaMapPage.appDisplayError.text = com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkUnavailable
                     binding.displayMediaMapPage.appDisplayRetry.visibility = if (state.failed) View.VISIBLE else View.GONE
                 }
             }
@@ -199,6 +293,8 @@ class MainActivity : ComponentActivity() {
             requestDrive(if (binding.comfortPage.driveMemory.isChecked) DriveMemoryService.ENABLE else DriveMemoryService.DISABLE)
         }
         binding.comfortPage.driveRetry.setOnClickListener { requestDrive(DriveMemoryService.RETRY) }
+        binding.comfortPage.avmTurn.setOnClickListener { updateAvmTurn(if (binding.comfortPage.avmTurn.isChecked) "on" else "off") }
+        binding.comfortPage.avmTurnRetry.setOnClickListener { updateAvmTurn("read") }
         binding.comfortPage.recoveryMemory.setOnClickListener {
             requestDrive(if (binding.comfortPage.recoveryMemory.isChecked) DriveMemoryService.RECOVERY_ENABLE else DriveMemoryService.RECOVERY_DISABLE)
         }
@@ -225,12 +321,6 @@ class MainActivity : ComponentActivity() {
                 launch { model.state.collect(::render) }
                 launch { apollo.state.collect(::renderApollo) }
                 launch { permissions.state.collect(::renderPermissions) }
-                launch {
-                    while (true) {
-                        if (selectedTab == Tab.APOLLO) apollo.refresh()
-                        delay(5000)
-                    }
-                }
                 launch { keyboard.state.collect(::renderKeyboard) }
                 launch { rearCamera.state.collect(::renderRearCamera) }
                 launch { rearCamera.needsRebootPrompt.collect { show ->
@@ -309,7 +399,8 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun selectTab(tab: Tab) {
-        if (tab == Tab.APOLLO || tab == Tab.ABOUT) { selectTab(Tab.SETTINGS); return }
+        if (tab == Tab.APOLLO && !apolloAvailable) { selectTab(Tab.SETTINGS); return }
+        if (tab == Tab.ABOUT) { selectTab(Tab.SETTINGS); return }
         com.abrar.voyahiran.core.logging.AppLog.info("UI", "tab=$tab")
         if (selectedTab == Tab.DIAGNOSTICS || tab == Tab.DIAGNOSTICS) diagnostics.reset()
         binding.displayMediaMapTab.isSelected = tab == Tab.DISPLAY_MEDIA_MAP
@@ -398,7 +489,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun renderRearCamera(state: com.abrar.voyahiran.feature.rearcamera.presentation.RearCameraUiState) = with(binding.settingsPage) {
-        rearCameraCard.visibility = if (state.snapshot?.dvrAvailable == true) View.VISIBLE else View.GONE
+        rearCameraCard.visibility = if (!com.abrar.voyahiran.core.compat.VehiclePlatform.isH97a && state.snapshot?.dvrAvailable == true) View.VISIBLE else View.GONE
         rearCamera.isChecked = state.snapshot?.enabled == true
         rearCamera.isEnabled = state.snapshot?.canChange == true && !state.busy
         rearCameraOpen.visibility = if (state.snapshot?.enabled == true && !state.busy) View.VISIBLE else View.GONE
@@ -470,12 +561,27 @@ class MainActivity : ComponentActivity() {
             box.isChecked = value == true
             box.text = if (value == null) getString(R.string.apollo_unknown, getString(title)) else getString(title)
         }
-        show(subscription, R.string.apollo_subscription, state.report.subscribed)
-        val features = com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.entries
-        val boxes = listOf(laneChange, navigation, trafficLight, lightChange, signs, emergencySteering, emergencyLane)
-        val titles = listOf(R.string.apollo_lane_change, R.string.apollo_navigation, R.string.apollo_traffic_light,
-            R.string.apollo_light_change, R.string.apollo_signs, R.string.apollo_emergency_steering, R.string.apollo_emergency_lane)
-        features.forEachIndexed { index, feature -> show(boxes[index], titles[index], state.report.features[feature]) }
+        subscription.text = getString(R.string.apollo_subscription)
+        subscription.isChecked = com.abrar.voyahiran.feature.apollo.data.ApolloControl.checked(this@MainActivity)
+        subscription.isEnabled = !state.busy
+        state.error?.let { android.widget.Toast.makeText(this@MainActivity, it, android.widget.Toast.LENGTH_LONG).show() }
+        val features = com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.displayed
+        val boxes = listOf(laneChange, emergencyLane, trafficLight, lightChange, signs, emergencySteering)
+        val titles = listOf(R.string.apollo_lane_change, R.string.apollo_emergency_lane, R.string.apollo_traffic_light,
+            R.string.apollo_light_change, R.string.apollo_signs, R.string.apollo_emergency_steering)
+        features.forEachIndexed { index, feature ->
+            show(boxes[index], titles[index], state.report.features[feature])
+            boxes[index].isEnabled = subscription.isChecked && !state.busy && state.report.features[feature] != null
+            boxes[index].alpha = if (subscription.isChecked) 1f else 0.45f
+        }
+        experiments.visibility = View.GONE
+        val speedStyle = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_OFFSET]
+        speedWarningExact.isChecked = speedStyle == 1
+        speedWarningPercent.isChecked = speedStyle == 2
+        listOf(speedWarningExact, speedWarningPercent).forEach {
+            it.isEnabled = subscription.isChecked && !state.busy && speedStyle in 1..2
+            it.alpha = if (subscription.isChecked && speedStyle in 1..2) 1f else 0.45f
+        }
         progress.visibility = if (state.busy) View.VISIBLE else View.GONE
         refresh.isEnabled = !state.busy
     }

@@ -5,7 +5,7 @@ import com.abrar.voicecommands.VehicleCommand
 
 /** Phase-two intents only. No vehicle access; memory always names the Driver profile. */
 internal object RahaPhaseTwoRecognizer {
-    val fragranceNames = listOf("خوشبوکننده", "خوشبو کننده", "خوش بو کننده", "عطر", "رایحه", "اسانس", "عطرپاش", "عطر پاش", "بو", "بوی")
+    val fragranceNames = listOf("خوشبوکننده", "خوشبو کننده", "خوش بوکننده", "خوش بو کننده", "عطر", "رایحه", "اسانس", "عطرپاش", "عطر پاش", "بوگیر", "بو گیر", "بو", "بوی")
     val odorTargets = listOf("هوا", "هوای", "ماشین", "کابین", "اتاق", "داخل", "توی", "تو", "اینجا")
     val odorExamples = listOf(
         "هوا بو گرفته", "بوی بدی میاد", "بو میاد", "ماشین بو گرفته",
@@ -25,7 +25,7 @@ internal object RahaPhaseTwoRecognizer {
         if (!text.contains("مموری") && !text.contains("حافظه") &&
             !memory.take((saveWords + recallWords).joinToString("|"))) return null
         val restrictions = RahaCommandRecognizer.Scan(text)
-        if (restrictions.take("شاگرد|راست|بغل|سرنشین|عقب|پشت|ردیف دوم|هر دو|همه|مهمان|استراحت|ریلکس|خواب|مسافر|پذیرایی"))
+        if (restrictions.take("شاگرد|همراه|راست|بغل|سرنشین|عقب|پشت|ردیف دوم|هر دو|همه|مهمان|استراحت|ریلکس|خواب|مسافر|پذیرایی"))
             return "مموری فقط برای صندلی راننده و حالت Driver پشتیبانی می‌شود"
         if (restrictions.number() != null || Regex("(?:^| )\\d+(?: |$)").containsMatchIn(text))
             return "فقط پروفایل Driver پشتیبانی می‌شود؛ شمارهٔ حافظه انتخاب نکنید"

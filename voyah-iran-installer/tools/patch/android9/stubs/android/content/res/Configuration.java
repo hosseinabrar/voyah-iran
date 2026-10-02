@@ -1,0 +1,1 @@
+package android.content.res; import android.app.WindowConfiguration; public class Configuration { public WindowConfiguration windowConfiguration; public int densityDpi=160,screenWidthDp,screenHeightDp,orientation; }

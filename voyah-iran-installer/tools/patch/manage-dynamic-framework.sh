@@ -4,11 +4,18 @@ ACTION="$1"
 PAYLOAD="$2"
 ORIGINAL="$3"
 PATCHED="$4"
+EXPECTED_VDEX="${5:-}"
 case "$ORIGINAL$PATCHED" in *[!0-9a-f]*) echo 'Invalid digest arguments' >&2; exit 1 ;; esac
 [ "${#ORIGINAL}" = 64 ] && [ "${#PATCHED}" = 64 ] || exit 1
 TARGET=/system/framework/services.jar
 BACKUP_ROOT=/data/local/tmp/voyahiran-framework-backups
 BACKUP="$BACKUP_ROOT/$ORIGINAL"
+if [ -n "$EXPECTED_VDEX" ]; then
+  case "$EXPECTED_VDEX" in *[!0-9a-f]*) echo 'Invalid VDEX digest' >&2; exit 1 ;; esac
+  [ "${#EXPECTED_VDEX}" = 64 ] || exit 1
+  # A stripped JAR alone does not identify its firmware. Separate backups by code hash.
+  BACKUP="$BACKUP_ROOT/$ORIGINAL-$EXPECTED_VDEX"
+fi
 TEMP=/system/framework/services.jar.voyahiran-new
 vi_file_sha256() {
   # Use a unique name: `hash` is a shell command/alias on some OEM shells.
@@ -35,6 +42,9 @@ case "$ACTION" in
       echo 'Already installed. Reboot if not yet rebooted.'; exit 0
     fi
     [ "$CURRENT" = "$ORIGINAL" ] || fail 'Firmware differs from the analyzed file; no changes made.'
+    if [ -n "$EXPECTED_VDEX" ]; then
+      [ "$(vi_file_sha256 /system/framework/oat/arm64/services.vdex)" = "$EXPECTED_VDEX" ] || fail 'VDEX changed since local reconstruction.'
+    fi
     ;;
   restore)
     [ "$CURRENT" = "$PATCHED" ] || [ "$CURRENT" = "$ORIGINAL" ] || fail 'Unknown current firmware; refusing restore.'
@@ -84,6 +94,10 @@ while read -r arch ext digest; do
   case "$ext" in art|odex|vdex) ;; *) fail 'Invalid backup entry.' ;; esac
   [ "$(vi_file_sha256 "$BACKUP/$arch-services.$ext")" = "$digest" ] || fail 'Preopt backup damaged.'
 done < "$BACKUP/preopt.list"
+
+if [ -n "$EXPECTED_VDEX" ]; then
+  [ "$(vi_file_sha256 "$BACKUP/arm64-services.vdex")" = "$EXPECTED_VDEX" ] || fail 'Backup belongs to different Android 9 code.'
+fi
 
 [ ! -e "$TEMP" ] && [ ! -L "$TEMP" ] || fail 'Temporary framework path already exists; inspect it before retrying.'
 # Reserve room for an atomic replacement while retaining the live JAR.

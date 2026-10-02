@@ -17,7 +17,27 @@
             <Button Grid.Column="1" Content="نصب" Style="{StaticResource PrimaryButton}" Command="{Binding InstallCommand}" VerticalAlignment="Center" Margin="24,0,0,0" AutomationProperties.Name="نصب"/>
           </Grid>
         </Border>
-        <StackPanel Grid.Row="2" Margin="0,24,0,0"><TextBlock Text="خودرو متوقف باشد. پایان نصب، نمایشگر به‌صورت خودکار راه‌اندازی مجدد می‌شود." Foreground="{StaticResource MutedBrush}"/><WrapPanel Margin="0,24,0,0"><StackPanel Margin="0,0,12,0"><Button Content="نصب APK" Command="{Binding ApkCommand}"/><Button Content="حذف APK" Command="{Binding UninstallCommand}" Margin="0,8,0,0"/></StackPanel><Button Content="نصب مایکت" Command="{Binding MyketCommand}" Margin="0,0,12,0"/><Button Content="نصب Gboard" Command="{Binding GboardCommand}" Margin="0,0,12,0"/><Button Content="راهنمای اتصال" Command="{Binding HelpCommand}"/><Button Content="{Binding CaptureLogTitle}" Command="{Binding CaptureLogCommand}" Margin="12,0,0,0"/><Button Content="راه‌اندازی مجدد نمایشگر" Command="{Binding RebootCommand}" Margin="12,0,0,0"/></WrapPanel></StackPanel>
+        <ScrollViewer Grid.Row="2" Margin="0,24,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel>
+            <TextBlock Text="خودرو متوقف باشد. پایان نصب، نمایشگر به‌صورت خودکار راه‌اندازی مجدد می‌شود." Foreground="{StaticResource MutedBrush}"/>
+            <WrapPanel Margin="0,24,0,0" VerticalAlignment="Top">
+              <StackPanel Margin="0,0,12,12" VerticalAlignment="Top">
+                <Button Content="نصب APK" Command="{Binding ApkCommand}"/>
+                <Button Content="حذف APK" Command="{Binding UninstallCommand}" Margin="0,8,0,0"/>
+              </StackPanel>
+              <Button Content="نصب مایکت" Command="{Binding MyketCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+              <Button Content="نصب Gboard" Command="{Binding GboardCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+              <Button Content="نصب نشان" Command="{Binding NeshanCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+              <Button Content="راهنمای اتصال" Command="{Binding HelpCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+              <Button Content="{Binding CaptureLogTitle}" Command="{Binding CaptureLogCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+              <Button Content="{Binding CanTraceTitle}" Command="{Binding CanTraceCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding CanTraceStatus}" Margin="0,0,12,12" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="320"/>
+                <Button Content="علامت دکمه اتوپارک" Command="{Binding CanMarkCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+                <Button Content="اجرای وویا ایران" Command="{Binding LaunchAppCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+              <Button Content="راه‌اندازی مجدد نمایشگر" Command="{Binding RebootCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+            </WrapPanel>
+          </StackPanel>
+        </ScrollViewer>
       </Grid>
       <Grid Visibility="{Binding ProgressVisibility}" d:Visibility="Collapsed">
         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>

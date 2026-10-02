@@ -9,7 +9,7 @@ public interface IFrameworkPatcher
 {
     Task<FrameworkPatchResult> PatchAsync(string input, string workDirectory);
 }
-public sealed class JavaFrameworkPatcher(PayloadBundle bundle, SessionLog log) : IFrameworkPatcher
+public sealed class JavaFrameworkPatcher(PayloadBundle bundle, SessionLog log, string? legacyVdex = null) : IFrameworkPatcher
 {
     public async Task<FrameworkPatchResult> PatchAsync(string input, string workDirectory)
     {
@@ -17,8 +17,10 @@ public sealed class JavaFrameworkPatcher(PayloadBundle bundle, SessionLog log) :
             UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true,
             RedirectStandardError = true, StandardOutputEncoding = Encoding.UTF8, StandardErrorEncoding = Encoding.UTF8
         };
-        foreach (var arg in new[] { "-Xmx768m", bundle.File("patch/FrameworkPatch.java"), bundle.File("patch/apktool.jar"),
-            bundle.File("patch"), input, workDirectory }) info.ArgumentList.Add(arg);
+        var arguments = legacyVdex == null
+            ? new[] { "-Xmx768m", bundle.File("patch/FrameworkPatch.java"), bundle.File("patch/apktool.jar"), bundle.File("patch"), input, workDirectory }
+            : new[] { "-Xmx1024m", "-cp", bundle.File("patch/android9/smali-runtime.jar"), bundle.File("patch/android9/Android9Patch.java"), bundle.File("patch/android9"), input, legacyVdex, workDirectory };
+        foreach (var arg in arguments) info.ArgumentList.Add(arg);
         log.Write("LOCAL PATCH: using bundled Java and APKTool; no ADB writes during preparation.");
         using var process = new Process { StartInfo = info };
         var verified = false;

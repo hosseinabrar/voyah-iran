@@ -96,7 +96,8 @@ internal class SavedPlacesDialog(private val activity:ComponentActivity) {
         dialogs+=dialog;dialog.show()
         dialog.window?.setBackgroundDrawable(ColorDrawable(activity.getColor(R.color.surface)))
         if(large) {
-            val bounds=activity.windowManager.currentWindowMetrics.bounds
+            val bounds=if(android.os.Build.VERSION.SDK_INT>=30) activity.windowManager.currentWindowMetrics.bounds
+                else android.graphics.Rect().also { activity.window.decorView.getWindowVisibleDisplayFrame(it) }
             dialog.window?.setLayout((bounds.width()*0.88).toInt(),(bounds.height()*0.90).toInt())
         }
         dialog.setOnDismissListener { dialogs.remove(dialog) }

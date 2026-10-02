@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -38,7 +38,7 @@ public sealed class StepViewModel(string title) : Observable
         Notify(nameof(Symbol)); Notify(nameof(Color));
     }
 }
-public sealed class MainViewModel : Observable, IDisposable
+public sealed partial class MainViewModel : Observable, IDisposable
 {
     private readonly string dataRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VoyahIran", "Installer");
     private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromSeconds(2) };
@@ -65,6 +65,8 @@ public sealed class MainViewModel : Observable, IDisposable
     public ActionCommand UninstallCommand { get; }
     public ActionCommand MyketCommand { get; }
     public ActionCommand GboardCommand { get; }
+    public ActionCommand NeshanCommand { get; }
+    public ActionCommand LaunchAppCommand { get; }
     public ActionCommand RebootCommand { get; }
     public ActionCommand HelpCommand { get; }
     public ActionCommand CopyCommand { get; }
@@ -85,12 +87,14 @@ public sealed class MainViewModel : Observable, IDisposable
     {
         log = new SessionLog(Path.Combine(dataRoot, "Logs"));
         log.LineAdded += line => LogLine?.Invoke(line);
-        UninstallCommand = new ActionCommand(async () => await OpenUninstallAsync(), () => !Busy && !captureChanging && bundle != null);
-        ApkCommand = new ActionCommand(async () => await OpenApkAsync(), () => !Busy && !captureChanging && bundle != null);
-        MyketCommand = new ActionCommand(async () => await OpenApkAsync("myket"), () => !Busy && !captureChanging && bundle != null);
-        GboardCommand = new ActionCommand(async () => await OpenApkAsync("gboard"), () => !Busy && !captureChanging && bundle != null);
-        RebootCommand = new ActionCommand(async () => await RebootAsync(), () => !Busy && !captureChanging && bundle != null);
-        InstallCommand = new ActionCommand(async () => await InstallAsync(), () => !Busy && !captureChanging && bundle != null);
+        UninstallCommand = new ActionCommand(async () => await OpenUninstallAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
+        ApkCommand = new ActionCommand(async () => await OpenApkAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
+        MyketCommand = new ActionCommand(async () => await OpenApkAsync("myket"), () => !Busy && !captureChanging && !CanBusy && bundle != null);
+        NeshanCommand = new ActionCommand(async () => await OpenApkAsync("neshan"), () => !Busy && !captureChanging && !CanBusy && bundle != null);
+        GboardCommand = new ActionCommand(async () => await OpenApkAsync("gboard"), () => !Busy && !captureChanging && !CanBusy && bundle != null);
+        LaunchAppCommand = new ActionCommand(async () => await LaunchAppAsync(), () => !Busy && !starting && !captureChanging && !CanBusy && bundle != null);
+        RebootCommand = new ActionCommand(async () => await RebootAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
+        InstallCommand = new ActionCommand(async () => await InstallAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         HelpCommand = new ActionCommand(() => new ConnectionHelpWindow { Owner = Application.Current.MainWindow }.ShowDialog());
         CopyCommand = new ActionCommand(() => Guard(() => Clipboard.SetText(log.ReadText())));
         OpenInstallLogsCommand = new ActionCommand(() => Guard(() =>
@@ -99,8 +103,9 @@ public sealed class MainViewModel : Observable, IDisposable
             Process.Start(new ProcessStartInfo(log.DirectoryPath) { UseShellExecute = true });
         }));
         CaptureLogCommand = new ActionCommand(async () => await ToggleCaptureAsync(),
-            () => !captureChanging && (HasReportToSave || (!Busy && !starting && bundle != null)));
+            () => !captureChanging && !canChanging && (HasReportToSave || (!Busy && !starting && bundle != null)));
         HomeCommand = new ActionCommand(() => { progressPage = false; PagesChanged(); }, () => !Busy);
+        InitCanTrace();
         timer.Tick += async (_, _) => await ScanAsync();
     }
     private static void Guard(Action action) { try { action(); } catch (Exception e) { MessageBox.Show(e.Message, "وویا ایران"); } }
@@ -113,7 +118,7 @@ public sealed class MainViewModel : Observable, IDisposable
             adb = new AdbClient(bundle.File("adb.exe"), log);
             VersionText = "نسخهٔ " + bundle.Manifest.AppVersion; Notify(nameof(VersionText));
             log.Write($"Embedded payload verified; app={bundle.Manifest.AppVersion}; APK SHA256={bundle.Manifest.Files["app.apk"]}");
-            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh(); CaptureLogCommand.Refresh();
+            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
             await ScanAsync(); timer.Start();
         }
         catch (Exception e)
@@ -178,6 +183,17 @@ public sealed class MainViewModel : Observable, IDisposable
             await ScanAsync();
             if (device == null) { HelpCommand.Execute(null); return; }
             Busy = true; timer.Stop(); PagesChanged();
+            if (bundledApp == "gboard") {
+                var version = await adb.RunAsync(device.Serial, ["shell", "getprop", "ro.build.version.sdk"], 10);
+                if (version.ExitCode != 0 || !int.TryParse(version.Output.Trim(), out var sdk) || sdk <= 0)
+                    throw new IOException("نسخهٔ اندروید خودرو مشخص نشد. اتصال را بررسی کنید و دوباره امتحان کنید.");
+                if (sdk == 28) {
+                    MessageBox.Show(Application.Current.MainWindow,
+                        "این نسخه از جی‌بورد مخصوص خودروهای ۲۰۲۵ به بالا است. لطفا ابتدا مایکت را نصب کنید و سپس از طریق مایکت جی‌بورد را نصب کنید.",
+                        "نصب جی‌بورد", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+            }
             new ApkWindow(adb, log, device.Serial, bundledApp == null ? null : bundle!.File("apps/" + bundledApp + ".apk"), bundledApp, bundledApp == "gboard" ? new[] { bundle!.File("apps/gboard-config.xhdpi.apk") } : null) { Owner = Application.Current.MainWindow }.ShowDialog();
         }
         catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(e.Message, "نصب APK"); }
@@ -195,6 +211,36 @@ public sealed class MainViewModel : Observable, IDisposable
             new UninstallWindow(adb, log, device.Serial, bundle.File("app.apk")) { Owner = Application.Current.MainWindow }.ShowDialog();
         }
         catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(e.Message, "حذف APK"); }
+        finally { starting = false; Busy = false; PagesChanged(); timer.Start(); }
+    }
+    private async Task LaunchAppAsync()
+    {
+        if (Busy || starting || captureChanging || adb == null) return;
+        starting = true;
+        try {
+            while (scanning) await Task.Delay(50);
+            await ScanAsync();
+            if (device == null) { HelpCommand.Execute(null); return; }
+            var serial = device.Serial;
+            Busy = true; timer.Stop(); PagesChanged();
+            var installed = await adb.RunAsync(serial,
+                ["shell", "pm", "list", "packages", "--user", "0", "com.abrar.voyahiran"], 15);
+            if (installed.ExitCode != 0 || installed.Output.Contains("Error", StringComparison.OrdinalIgnoreCase)
+                || installed.Output.Contains("Exception", StringComparison.OrdinalIgnoreCase))
+                throw new IOException("بررسی نصب برنامه ناموفق بود. اتصال خودرو را بررسی کنید.");
+            if (!installed.Output.Split('\n').Any(line => line.Trim() == "package:com.abrar.voyahiran")) {
+                MessageBox.Show(Application.Current.MainWindow, "اول برنامه وویا ایران را نصب کنید.",
+                    "اجرای وویا ایران", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            var result = await adb.RunAsync(serial,
+                ["shell", "am", "start", "-W", "-n", "com.abrar.voyahiran/.ui.MainActivity"], 30);
+            if (result.ExitCode != 0 || result.Output.Contains("Error", StringComparison.OrdinalIgnoreCase)
+                || result.Output.Contains("Exception", StringComparison.OrdinalIgnoreCase))
+                throw new IOException("اجرای وویا ایران ناموفق بود.\n" + result.Output);
+            log.Write("Voyah Iran launch completed via am start -W.");
+        }
+        catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(Application.Current.MainWindow, e.Message, "اجرای وویا ایران"); }
         finally { starting = false; Busy = false; PagesChanged(); timer.Start(); }
     }
     private async Task RebootAsync()
@@ -220,9 +266,9 @@ public sealed class MainViewModel : Observable, IDisposable
     private void CaptureChanged()
     {
         Notify(nameof(CaptureLogTitle));
-        CaptureLogCommand.Refresh();
+        CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
         InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh();
-        MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh();
+        MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); LaunchAppCommand.Refresh();
     }
     private async Task ToggleCaptureAsync()
     {
@@ -298,7 +344,7 @@ public sealed class MainViewModel : Observable, IDisposable
     private void PagesChanged()
     {
         foreach (var name in new[] { nameof(HomeVisibility), nameof(ProgressVisibility), nameof(ProgressTitle), nameof(ProgressSubtitle), nameof(CanLeave) }) Notify(name);
-        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); RebootCommand.Refresh(); CaptureLogCommand.Refresh(); HomeCommand.Refresh();
+        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh(); HomeCommand.Refresh();
     }
     public void Dispose() { disposed = true; timer.Stop(); capture?.Dispose(); /* ADB may still own its executable: retain verified cache for diagnostics. */ }
 }

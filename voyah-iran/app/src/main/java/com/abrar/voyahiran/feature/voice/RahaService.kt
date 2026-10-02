@@ -211,10 +211,10 @@ class RahaService : Service() {
                         }
                         val outcome = if (command.action in com.abrar.voyahiran.feature.media.RahaMediaControl.actions) {
                             com.abrar.voyahiran.feature.media.RahaMediaControl.execute(this@RahaService, command.action)
+                        } else if (command.action in setOf("OPEN_DEFAULT_MAP", "OPEN_DEFAULT_MUSIC", "OPEN_OEM_RADIO")) {
+                            com.abrar.voyahiran.feature.navigation.DefaultAppLaunch.execute(
+                                this@RahaService, command.action, command.parameters["requiredApp"] as? String)
                         } else if (command.action == "NAVIGATE_TO_SAVED_PLACE") {
-                            feedback.yieldAudioForMedia()
-                            feedback.dismiss() // Let Neshan own focus and receive its accessibility clicks.
-                            delay(200)
                             com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.navigate(
                                 this@RahaService, command.parameters["destination"] as? String ?: error("Missing destination")) {
                                 resultEpoch != cancelledEpoch || !(application as VoyahIranApplication).subscriptions.allowed || !prefs.enabled

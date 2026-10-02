@@ -17,6 +17,8 @@ import java.util.concurrent.Executors
 /** Wire protocol recovered from the supplied Qinggan 1.0.0 firmware. */
 class QingganStarMapping(context: Context) : StarMapping {
     private val context = context.applicationContext
+    // H97A Android 9 QGKeyEvent parcels contain key, action, Bundle only.
+    private val keyCodec = QingganKeyCodec(android.os.Build.VERSION.SDK_INT >= 30)
     private val operations = Mutex()
     @Volatile private var voice: (() -> Unit)? = null
     @Volatile private var media: ((Int, Int, Int) -> Boolean)? = null
@@ -38,11 +40,12 @@ class QingganStarMapping(context: Context) : StarMapping {
             data.enforceInterface(CALLBACK)
             var consumed = false
             if (data.readInt() != 0) {
-                val key = data.readInt()
-                val action = data.readInt()
-                val keyFlags = data.readInt()
-                val extras = data.readBundle(javaClass.classLoader)
-                val display = data.readInt()
+                val event = keyCodec.read({ data.readInt() }, { data.readBundle(javaClass.classLoader) })
+                val key = event.code
+                val action = event.action
+                val keyFlags = event.flags
+                val extras = event.payload
+                val display = event.display
                 if (code == 2) { data.readString(); data.readInt() }
                 val epoch = generation.get()
                 if (voice != null && key == 130) {
@@ -85,7 +88,7 @@ class QingganStarMapping(context: Context) : StarMapping {
     override suspend fun intercept(previous: Int) = operations.withLock {
         connect()
         // Replaying a target that itself maps elsewhere could recurse or change the OEM action.
-        for (target in listOf(previous, SteeringKeys.BACK).filter { it != SteeringKeys.STAR }.distinct()) {
+        for (target in StarBackTransport.replayTargets(android.os.Build.VERSION.SDK_INT, previous)) {
             val mapped = call(9, { writeInt(target); writeString(context.packageName) }) { readInt() }
             if (mapped != target) throw SteeringException(SteeringFailure.UNAVAILABLE)
         }
@@ -163,10 +166,15 @@ class QingganStarMapping(context: Context) : StarMapping {
 
     private fun inject(event: RoutedKey) {
         com.abrar.voyahiran.core.logging.AppLog.info("StarEvent", "inject code=${event.code} action=${event.action} display=${event.display}")
+        if (StarBackTransport.directCenter(android.os.Build.VERSION.SDK_INT, event)) {
+            val result = com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("steering-back", "center"), 3)
+            if (result.exitCode != 0 || result.timedOut) throw SteeringException(SteeringFailure.CONNECTION)
+            return
+        }
         call(7, {
             writeInt(1)
-            writeInt(event.code); writeInt(event.action); writeInt(event.flags)
-            writeBundle((event.payload as? OemPayload)?.extras); writeInt(event.display)
+            keyCodec.write(QingganKeyCodec.Event(event.code, event.action, event.flags,
+                (event.payload as? OemPayload)?.extras, event.display), { writeInt(it) }, { writeBundle(it) })
             writeString(context.packageName)
         }) { Unit }
     }

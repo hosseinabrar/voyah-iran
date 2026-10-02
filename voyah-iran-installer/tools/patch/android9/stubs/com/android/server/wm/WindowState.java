@@ -1,0 +1,2 @@
+package com.android.server.wm; import android.graphics.Rect; import android.view.WindowManager; class WindowState { WindowManagerService mService; public int getDisplayId(){return 0;} public boolean isVisibleLw(){return false;} WindowManager.LayoutParams mAttrs; AppWindowToken mAppToken; Rect mParentFrame,mDisplayFrame,mContainingFrame,mVisibleFrame,mFrame; public Rect getContentFrameLw(){return null;} Rect getStableFrameLw(){return null;} }
+

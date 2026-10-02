@@ -30,3 +30,18 @@ Home is launched only for one-app plans. Two-app plans previously ran two full s
 
 ## Excluded foreground applications as destinations
 A non-movable foreground (e.g. Vehicle) no longer blocks the other display's user app. Only movable foreground stacks enter the transfer list; excluded stacks are never moved or closed. One candidate transfers onto the opposite display and opens Home only on its source. Two candidates swap. No candidates on two present displays yields EMPTY (central message); a missing display still does not qualify as EMPTY. This supersedes the earlier mixed user/system-app restriction.
+
+## Android 9 H97A support (2026-09-27)
+
+Verified factory ActivityManagerService exposes getAllStackInfos() and moveStackToDisplay(II); ActivityStackSupervisor supplies configuration/topActivity/visible/displayId/stackId. AndroidSource maps physical key 287 to 3115. Select IActivityManager via ActivityManager.getService() on API 28; keep IActivityTaskManager on API 30. The capability gate is separate from OEM launcher hooks. Existing plan/debounce/subscription/source Home/rollback behavior remains shared. 23 JVM tests cover API selection, key codec, press handling and transfer planning. Deploy app and bridge together via installer; hardware validation pending.
+
+## H97A app crash after successful transfer
+
+app switch log-2026-09-27_16-05-33: at 16:05:27.714 untrusted_app lookup of input_method_ext is denied; Neshan crashes in InputMethodManager.getInstance during ViewRootImpl.moveWindowToDisplay. MOVED/DONE only confirmed stack movement, not app survival. Vendor CIL permits untrusted_app_27 but not modern untrusted_app to find this service.
+
+install-bridge.sh now recognizes the exact factory plat_service_contexts SHA256 5857c40c8bdc6e325149a5c92be0c5b9ff93796ad449a5550b224d05e5594668 on API28. It backs up and changes only input_method_ext to the existing input_method_service label (the standard primary IME app API classification). Patched hash c9a724ddd2486f025260b80113fd24ef73956f5c6e6bdf54eab52486a48149c7. Compiled policy and enforcing mode remain unchanged; system_server already has add/find for this label. No permission to other OEM services is added. Unknown files are skipped and logged. Reboot is required because servicemanager loads these labels at startup.
+
+Backup location is printed as VOYAH_PASSENGER_IME_ACCESS. To revert, restore that verified original file to /system/etc/selinux/plat_service_contexts using root while system is writable, preserve root:root mode0644, run restorecon and reboot. Verify original/patched hashes before restoration. Static transform/hash/idempotency checks passed; hardware validation pending.
+
+## Supersedes the service-context replacement above (16:17 failure)
+The actual install rejected rename over plat_service_contexts. Firmware vendor CIL grants su_28_0 service_contexts_file_28_0 read/getattr/open only, unlike system_file. Removed the entire attempted context-file mutation from install-bridge.sh; do not try in-place writes or disable SELinux. Original file was not replaced by the failed mv; the backup remains. API28 transfer gated off to prevent the confirmed modern-app passenger IME crash. Android11 transfer remains enabled. A supported API28 passenger IME access solution is still unresolved.

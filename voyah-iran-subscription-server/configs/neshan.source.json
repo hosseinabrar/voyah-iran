@@ -1,7 +1,7 @@
 {
   "purpose": "voyah-iran-neshan-config",
   "schemaVersion": 1,
-  "revision": 2,
+  "revision": 4,
   "packageName": "org.rajman.neshan.traffic.tehran.navigator",
   "profiles": [
     {
@@ -27,6 +27,98 @@
           "stateClass": "ki0.c",
           "activeMethod": "H",
           "engineMethod": "A"
+        }
+      },
+      "driving": {
+        "activeIds": [
+          "closeMaterialCardViewDrivingControl",
+          "closeImageViewDrivingControl"
+        ],
+        "routeIds": [
+          "address_panel_upcoming_step_frame",
+          "streetNameNormal",
+          "streetNameCompact"
+        ],
+        "moreScopeIds": [
+          "bottomNavigationViewMain",
+          "itemTextView"
+        ],
+        "moreLabel": "سایر",
+        "entryLabels": [
+          "ورود به حالت رانندگی",
+          "حالت رانندگی آزاد"
+        ]
+      }
+    },
+    {
+      "id": "14.13.0.6-70794",
+      "versionName": "14.13.0.6",
+      "versionCode": 70794,
+      "apkSha256": "02573f577f105cccf0f3b1d6453f9c1f8923a77c96351632c8bb97e98d430542",
+      "hook": {
+        "stepClass": "a90.b",
+        "updateClass": "d90.i",
+        "updateMethod": "b",
+        "resetClass": "b90.b",
+        "resetMethod": "b",
+        "distance": "a",
+        "type": "f",
+        "modifier": "g",
+        "road": "h",
+        "roadExtra": "i",
+        "turnIndex": "j",
+        "routeState": {
+          "ownerClass": "org.rajman.neshan.core.BaseApplication",
+          "instanceField": "o",
+          "stateClass": "iq0.e",
+          "activeMethod": "U",
+          "engineMethod": "D"
+        }
+      },
+      "driving": {
+        "activeIds": [
+          "closeMaterialCardViewDrivingControl",
+          "closeImageViewDrivingControl"
+        ],
+        "routeIds": [
+          "address_panel_upcoming_step_frame",
+          "streetNameNormal",
+          "streetNameCompact"
+        ],
+        "moreScopeIds": [
+          "bottomNavigationViewMain",
+          "itemTextView"
+        ],
+        "moreLabel": "سایر",
+        "entryLabels": [
+          "ورود به حالت رانندگی",
+          "حالت رانندگی آزاد"
+        ]
+      }
+    },
+    {
+      "id": "14.14.0.4-70799",
+      "versionName": "14.14.0.4",
+      "versionCode": 70799,
+      "apkSha256": "7e17451029594040eeccedfbeb4ae97ea29eb5f035a88fef3dc44e6ebb095330",
+      "hook": {
+        "stepClass": "d90.b",
+        "updateClass": "g90.i",
+        "updateMethod": "b",
+        "resetClass": "e90.b",
+        "resetMethod": "b",
+        "distance": "a",
+        "type": "f",
+        "modifier": "g",
+        "road": "h",
+        "roadExtra": "i",
+        "turnIndex": "j",
+        "routeState": {
+          "ownerClass": "org.rajman.neshan.core.BaseApplication",
+          "instanceField": "n",
+          "stateClass": "ur0.e",
+          "activeMethod": "U",
+          "engineMethod": "D"
         }
       },
       "driving": {

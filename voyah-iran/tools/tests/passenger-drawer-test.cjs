@@ -33,3 +33,30 @@ vm.runInContext(source.slice(source.indexOf('        function makeButton'),sourc
 assert.strictEqual(construction.makeButton({}),actualButton);
 assert.equal(description,'فهرست برنامه‌ها');assert.equal(tag,'voyah-iran-passenger-apps');assert.equal(tiles,4);assert(image.bitmap);assert(click.click);
 console.log('PASS: actual button construction, Java CharSequence/Object arguments, icon and listener');
+
+// Execute restored passenger-only list hook with the real script body.
+const navigation=read('OemNavigationScript.kt');
+const stockApps=[{getPackageName:()=> 'stock'}];
+const user={getPackageName:()=> 'user.music'}, system={getPackageName:()=> 'system.app'};
+const list=a=>({items:[...a],size(){return this.items.length},get(i){return this.items[i]},add(x){this.items.push(x)}});
+let allow=true,queries=0;
+const original={call:(_,screen)=>list(screen===1?stockApps:[...stockApps,user,system,user])};
+const manager={getAllApps:{overload:()=>original}};
+const java={use:n=>n.endsWith('AllAppDataManager')?manager:n==='java.util.ArrayList'?{$new:x=>list(x.items)}:{},cast:x=>x};
+const baseApp={getContentResolver:()=>({}),getPackageManager:()=>({getApplicationInfo:p=>{queries++;return {flags:{value:p==='system.app'?1:0}}},getLaunchIntentForPackage:()=>({})})};
+const sandbox={VI_STOCK_PASSENGER_LIST:true,Java:java,Global:{getInt:()=>allow?1:0},Base:{getInstance:()=>baseApp},console};
+vm.runInNewContext(navigation.slice(navigation.indexOf('        // Use the factory passenger drawer'),navigation.indexOf('        function remember(value)')),sandbox);
+assert.equal(original.implementation(0).size(),4);assert.equal(queries,0);
+allow=false;assert.equal(original.implementation(1).size(),1);assert.equal(queries,0);
+allow=true;const enriched=original.implementation(1);
+assert.deepEqual(enriched.items.map(x=>x.getPackageName()),['stock','user.music']);
+assert.equal(stockApps.length,1);
+console.log('PASS: passenger-only user apps, setting off, no central scan, no duplicates, original list unchanged');
+
+for (const flag of [false, undefined]) {
+    let touched=false;
+    vm.runInNewContext(navigation.slice(navigation.indexOf('        // Use the factory passenger drawer'),navigation.indexOf('        function remember(value)')),
+        {VI_STOCK_PASSENGER_LIST:flag,Java:{use:()=>{touched=true;throw Error('Must not access OEM list')}},console});
+    assert.equal(touched,false);
+}
+console.log('PASS: custom-drawer variants and missing policy never access or hook OEM app lists');

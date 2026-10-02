@@ -12,6 +12,7 @@ object AppDisplayBridge {
     private val runner = ProcessCommandRunner(useBridge = false)
     @Synchronized
     fun set(enabled: Boolean): CommandResult {
+        if (!com.abrar.voyahiran.core.compat.VehiclePlatform.displayFrameworkHooks) return CommandResult(1, "DISPLAY_POLICY_UNSUPPORTED_PLATFORM")
         val nonce = (if (enabled) "1:" else "0:") + UUID.randomUUID().toString().replace("-", "")
         fun read(key: String) = runner.run(listOf("/system/bin/settings", "get", "global", key), 3)
         val previous = read(KEY)

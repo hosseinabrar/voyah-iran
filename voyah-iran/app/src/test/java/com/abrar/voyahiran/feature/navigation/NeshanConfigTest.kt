@@ -81,12 +81,13 @@ class NeshanConfigTest {
         // Optional standalone invocation supplies the actual publication artifact.
         val path = System.getProperty("neshan.published") ?: return
         val catalog = NeshanConfig.verify(File(path).readText())
-        assertEquals(1, catalog.profiles.size)
-        val p = catalog.profiles.single()
+        assertEquals(3, catalog.profiles.size)
+        val p = catalog.profiles.single { it.versionCode == 70789L }
         assertEquals(70789L, p.versionCode)
         assertEquals("l10.b", p.json.getJSONObject("hook").getString("stepClass"))
         assertTrue("ورود به حالت رانندگی" in p.labels("entryLabels"))
-        assertTrue(catalog.profiles.none { it.versionCode == 70794L })
+        assertEquals("a90.b", catalog.profiles.single { it.versionCode == 70794L }.json.getJSONObject("hook").getString("stepClass"))
+        assertEquals("d90.b", catalog.profiles.single { it.versionCode == 70799L }.json.getJSONObject("hook").getString("stepClass"))
         val profile = JSONObject(p.json.toString())
         val second = JSONObject(p.json.toString()).put("id", "test-second-version")
             .put("versionCode", 123456).put("apkSha256", "0".repeat(64))

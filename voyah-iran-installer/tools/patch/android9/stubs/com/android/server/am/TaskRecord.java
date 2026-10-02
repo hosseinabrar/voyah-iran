@@ -1,0 +1,1 @@
+package com.android.server.am; import com.android.server.wm.ConfigurationContainer; class TaskRecord extends ConfigurationContainer { protected int getChildCount(){return 0;} protected ActivityRecord getChildAt(int i){return null;} }

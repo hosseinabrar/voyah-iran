@@ -6,6 +6,7 @@ package com.abrar.raha
  */
 object RahaSpeechVocabulary {
     val targets = listOf(
+
         "سرد کن", "سردکن", "خنک کن", "گرم کن", "گرمکن", "ماساژ", "ماساژور",
         "هیتر", "دیفراست جلو", "دیفراست عقب", "تهویه", "سیستم تهویه", "کولر", "بخاری", "ای سی", "کمپرسور", "مکس کولر",
         "مکس ای سی", "حداکثر سرمایش", "سرمایش حداکثری", "دمای اتاق", "دمای کابین", "دمای داخل", "دما",
@@ -20,7 +21,7 @@ object RahaSpeechVocabulary {
         "همگام شه", "همگام بشه", "همگام سازی", "مثل هم", "یکسان شه", "عوض کن", "یکسان کرد", "تا ته زیاد کن", "موجی", "غلتکی", "چرخشی", "دایره ای", "لول سه", "سطح سه", "سطح دو", "سطح یک",
         "در همه جهت", "در همه جهات", "مستقیم", "به سمت صورت", "به صورت", "به پا", "به شیشه", "داخلی", "خارجی", "تازه", "حداکثر", "حداقل"
     )
-    val positions = listOf("", "راننده", "شاگرد", "چپ", "راست", "صندلی", "صندلی راننده", "صندلی شاگرد", "دو طرف")
+    val positions = listOf("", "راننده", "شاگرد", "همراه", "چپ", "راست", "صندلی", "صندلی راننده", "صندلی شاگرد", "دو طرف")
     private val extra = listOf(
         "تا انتها فعال سازی بصورت به شکل خودکار انجام شود بوزه بوزد وضعیت پخش ویوینگ تهویه اتاق ای سی کولر ای سی ماشین مود مد",
         "رها لطفا خواهشا میشه کن کنید کنین کنی بکن رو را و ر برای به روی تو از حالت مد قرار انتخاب تنظیم سمت طرف بده بذار بگذار بزار بشه باشه بیار ببر کردن هم فقط ها های",
@@ -31,6 +32,16 @@ object RahaSpeechVocabulary {
         "همه هر دو طرف آروم آرومتر آرامتر تندتر کاهش افزایش بیشترین کمترین آخر"
     )
     fun phrases(): List<String> = buildSet {
+        for (noun in listOf("رادیو", "نقشه", "پخش", "برنامه نقشه", "برنامه نشان", "برنامه موزیک")) {
+            add("برو رو $noun")
+            add("برو روی $noun")
+            add("$noun رو باز کن")
+        }
+        add("کمک")
+        add("کمک راننده")
+        for (target in listOf("شیشه", "شیشه عقب", "گرمکن صندلی", "تهویه صندلی", "ماساژ صندلی", "دمای", "آینه", "نمایشگر"))
+            add("$target کمک راننده")
+        for (phrase in (RahaAppLaunchRecognizer.nouns + "|" + RahaAppLaunchRecognizer.verbs + "|برنامه|اپلیکیشن").split("|")) { add(phrase); addAll(phrase.split(" ")) }
         for (names in RahaNavigationRecognizer.aliases.values) for (name in names) {
             add(name)
             addAll(name.split(' '))
@@ -76,7 +87,7 @@ object RahaSpeechVocabulary {
         val bounds = RahaLevelVocabulary.maximum + RahaLevelVocabulary.minimum
         val phaseTwo = RahaPhaseTwoRecognizer.fragranceNames + RahaPhaseTwoRecognizer.saveWords + RahaPhaseTwoRecognizer.recallWords +
             RahaPhaseTwoRecognizer.memoryWords.filterNot { it == "driver" } + listOf("درایور", "رانندگی", "موقعیت", "فعلی", "پروفایل", "شماره", "کانال", "مدت", "زمان", "ساعت", "دقیقه", "شصت", "نامحدود", "دائمی", "همیشه", "با", "غلظت", "ضعیف", "متوسط", "قوی", "مدیوم", "ملایم")
-        for (scent in RahaFragranceVocabulary.scents) for (name in scent.spoken) {
+        for (name in listOf("بامبو", "گل", "مه", "اسکارلت")) {
             add(name)
             add("رایحه رو روی $name بذار")
             add("عطر $name")
@@ -136,6 +147,11 @@ object RahaSpeechVocabulary {
         for (verb in listOf("رو تغییر بده", "را تغییر بده", "را تغییر دهید", "رو عوض کن", "را عوض کنید", "رو سوئیچ کن")) add("دوربین $verb")
         val material = targets + operators + positions + extra + bounds + RahaLevelVocabulary.units + phaseTwo
         for (noun in RahaPhaseTwoRecognizer.fragranceNames) {
+            for (name in listOf("بامبو", "گل", "مه", "اسکارلت")) {
+                add("$noun $name")
+                for (verb in listOf("فعال کن", "روشن کن", "پخش کن")) add("$noun $name رو $verb")
+            }
+
             for (verb in listOf("روشن", "خاموش", "اکتیو", "زیاد کن", "کم کن", "متوسط", "حداکثر", "حداقل", "شماره یک", "شماره دو", "شماره سه")) add("$noun $verb")
         }
         for (verb in RahaPhaseTwoRecognizer.saveWords + RahaPhaseTwoRecognizer.recallWords) {

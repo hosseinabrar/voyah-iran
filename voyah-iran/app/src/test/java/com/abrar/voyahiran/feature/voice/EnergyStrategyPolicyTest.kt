@@ -4,6 +4,12 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class EnergyStrategyPolicyTest {
+    @org.junit.Test fun h97aLegacyMenuUsesFixedLabels() {
+        org.junit.Assert.assertEquals(mapOf("smart" to 1,"electric" to 2,"fuel" to 3,"save" to 4),EnergyStrategyPolicy.legacyModes(true))
+        org.junit.Assert.assertTrue(EnergyStrategyPolicy.legacyModes(false).isEmpty())
+        org.junit.Assert.assertFalse(EnergyStrategyPolicy.legacyModes(true).containsKey("hybrid"))
+    }
+
     @Test fun fuelFirstVehiclesNeverAcceptSaveOrSmart() {
         for (ca in listOf(false, true)) {
             val modes = EnergyStrategyPolicy.modes(true, ca, true)

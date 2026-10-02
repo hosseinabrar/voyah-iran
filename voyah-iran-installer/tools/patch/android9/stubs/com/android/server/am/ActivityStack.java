@@ -1,0 +1,1 @@
+package com.android.server.am; import com.android.server.wm.ConfigurationContainer; class ActivityStack { protected int getChildCount(){return 0;} protected ConfigurationContainer getChildAt(int i){return null;} }

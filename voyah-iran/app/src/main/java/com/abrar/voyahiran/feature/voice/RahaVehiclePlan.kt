@@ -60,6 +60,7 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
             }
         }
         when (action) {
+            RahaAction.OPEN_DEFAULT_MAP, RahaAction.OPEN_DEFAULT_MUSIC, RahaAction.OPEN_OEM_RADIO -> error("App launch is handled in the application")
             RahaAction.NAVIGATE_TO_SAVED_PLACE -> error("Navigation uses the selected map app, not CAN")
             RahaAction.SET_CLIMATE_POWER -> {
                 a("AC_POWER_SWITCH", if (on()) 1 else 0)

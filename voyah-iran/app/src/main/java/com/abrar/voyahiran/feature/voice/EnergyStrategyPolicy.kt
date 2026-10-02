@@ -2,6 +2,10 @@ package com.abrar.voyahiran.feature.voice
 
 /** Mirrors FragmentDrivePreferenceBindingImpl, including its relabelled Fuel/Save buttons. */
 object EnergyStrategyPolicy {
+    /** H97A 2023 FragmentDrivePreference: fixed Smart / Electric / Fuel / Save labels. */
+    fun legacyModes(extends: Boolean): Map<String, Int> = if (extends)
+        mapOf("smart" to 1, "electric" to 2, "fuel" to 3, "save" to 4) else emptyMap()
+
     fun modes(extends: Boolean, caPlatform: Boolean, xOverseas: Boolean): Map<String, Int> {
         if (!extends) return emptyMap()
         return buildMap {

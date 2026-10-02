@@ -44,7 +44,7 @@
                 android:layout_marginTop="@dimen/space_sm"
                 android:text="@string/comfort_tab" />
             <Button
-                android:id="@+id/apolloTab" android:visibility="gone"
+                android:id="@+id/apolloTab" android:visibility="visible"
                 style="@style/NavigationTab"
                 android:layout_marginTop="@dimen/space_sm"
                 android:text="@string/apollo_tab" />

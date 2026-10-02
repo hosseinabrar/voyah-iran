@@ -34,7 +34,18 @@ internal object OemAudioBinder {
         val intType = Int::class.javaPrimitiveType!!
         val channel = mapOf("media" to 3, "call" to 6, "navigation" to 1, "voice" to 22, "system" to 5).getValue(p["channel"] as String)
         val caller = "com.abrar.voyahiran"
-        fun volume() = type.getMethod("getStreamVolume", intType, String::class.java).invoke(remote, channel, caller) as Int
+        // H97A's installed SDK exposes getStreamVolume(int); newer SDKs also require
+        // the calling package. Resolve the signature before invoking, so a remote
+        // failure is never mistaken for a different API and retried.
+        val volumeGetter = try {
+            type.getMethod("getStreamVolume", intType, String::class.java)
+        } catch (_: NoSuchMethodException) {
+            type.getMethod("getStreamVolume", intType)
+        }
+        AppLog.info("RahaAudio", "volumeGetterArguments=${volumeGetter.parameterTypes.size} action=$action channel=$channel")
+        fun volume(): Int = if (volumeGetter.parameterTypes.size == 2)
+            volumeGetter.invoke(remote, channel, caller) as Int
+        else volumeGetter.invoke(remote, channel) as Int
         fun mute() = type.getMethod("isStreamMute", intType).invoke(remote, channel) as Boolean
         val expected: Any
         val read: () -> Any

@@ -37,12 +37,21 @@ internal object OemEnergyBinder {
         check(binder.isBinderAlive && binder.interfaceDescriptor==api.name) { "CAN descriptor mismatch" }
         val remote=loader.loadClass("com.qinggan.canbus.ICanBusService\$Stub").getMethod("asInterface",IBinder::class.java).invoke(null,binder)
         fun field(name:String):Any = checkNotNull(try {facade.getField(name).get(null)} catch(_:NoSuchFieldException){stateType.getField(name).get(null)})
+        val menuType=loader.loadClass("com.qinggan.app.vehiclesetting.fragments.drivepreference.DrivePreferenceConfigs")
+        val legacyMenu=menuType.methods.none { it.name == "isDoFengH97acd" && it.parameterCount == 0 }
         val port=object : EnergyCommandPort {
             override fun modes():Map<String,Int> {
                 val type=loader.loadClass("com.qinggan.app.vehiclesetting.fragments.drivepreference.DrivePreferenceConfigs")
                 val config=type.getConstructor().newInstance()
                 fun flag(name:String)=type.getMethod(name).invoke(config) as Boolean
                 val extender=flag("isSupportExtends")
+                if (legacyMenu) {
+                    // Supplied H97A menu has four fixed labels, no hybrid relabelling.
+                    check(type.methods.any { it.name == "isDoFengH97c" && it.parameterCount == 0 }) { "Unknown energy menu capability contract" }
+                    return EnergyStrategyPolicy.legacyModes(extender).also {
+                        AppLog.info("RahaEnergy", "route=binder profile=H97A-legacy extender=$extender modes=$it")
+                    }
+                }
                 val ca=flag("isDoFengH97acd")
                 // Old China firmware does not expose this method. Other failures are not swallowed.
                 val xMethod=try {type.getMethod("is97XOversea")} catch(_:NoSuchMethodException){null}
@@ -54,12 +63,13 @@ internal object OemEnergyBinder {
             override fun read(field:String)=api.getMethod("getVehicleState",stateType).invoke(remote,field(field)) as Int
             override fun validate(field:String,bundle:Boolean) {
                 field(field)
-                if(bundle)api.getMethod("setVehicleAndAirConditionBundleState",Bundle::class.java,Bundle::class.java)
+                check(!legacyMenu || field != "SREV_SOC_SET") { "This factory energy menu cannot set a reserve percentage" }
+                if(bundle && !legacyMenu)api.getMethod("setVehicleAndAirConditionBundleState",Bundle::class.java,Bundle::class.java)
                 else api.getMethod("setVehicleState",stateType,Int::class.javaPrimitiveType)
             }
             override fun write(field:String,value:Int,bundle:Boolean) {
                 AppLog.info("RahaEnergy","write field=$field value=$value bundle=$bundle")
-                val result=if(bundle) {
+                val result=if(bundle && !legacyMenu) {
                     val values=Bundle().apply {putInt(field(field).toString(),value)}
                     api.getMethod("setVehicleAndAirConditionBundleState",Bundle::class.java,Bundle::class.java).invoke(remote,null,values)
                 } else api.getMethod("setVehicleState",stateType,Int::class.javaPrimitiveType).invoke(remote,field(field),value)

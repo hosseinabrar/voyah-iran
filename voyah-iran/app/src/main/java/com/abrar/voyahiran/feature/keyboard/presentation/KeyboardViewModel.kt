@@ -31,7 +31,7 @@ class KeyboardViewModel(application: Application) : AndroidViewModel(application
             catch (error: Exception) {
                 com.abrar.voyahiran.core.logging.AppLog.error("Keyboard", "request-failed enabled=$enabled failure=${(error as? KeyboardException)?.failure}", error)
                 val actual = withContext(Dispatchers.IO) { runCatching { repository.read() }.getOrNull() }
-                mutable.value = KeyboardUiState(actual, error = (error as? KeyboardException)?.failure ?: KeyboardFailure.FAILED)
+                mutable.value = KeyboardUiState(actual ?: mutable.value.snapshot, error = (error as? KeyboardException)?.failure ?: KeyboardFailure.FAILED)
             }
         }
     }

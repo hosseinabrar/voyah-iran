@@ -9,12 +9,18 @@ internal interface DriverAssistancePort {
 }
 
 /** OEM request values are not interchangeable with booleans or camera feedback values. */
-internal class DriverAssistanceExecutor(private val port: DriverAssistancePort) {
+internal class DriverAssistanceExecutor(private val port: DriverAssistancePort, private val legacyLane: Boolean = false) {
     data class Change(val field: String, val value: Int, val feedback: String = field,
                       val expected: Int = value, val valid: IntRange = 1..2)
 
     fun execute(action: String, p: Map<String, Any>) {
-        val changes = plan(action, p)
+        check(!legacyLane || action != "SET_LANE_DEPARTURE_ALERT_TYPE") { "Factory lane menu does not expose warning-type selection" }
+        val changes = if (legacyLane && action == "SET_LANE_SUPPORT_MODE" && !p.containsKey("sensitivity")) {
+            val field = "LDW_RDP_LKS_FUNC_ENABLE"
+            port.validate(field)
+            val current = port.read(field)
+            listOf(Change(field, legacyLaneMode(p, current), valid = 1..4))
+        } else plan(action, p)
         // Resolve and read the entire request before making a multi-field change.
         changes.forEach {
             port.validate(it.field)
@@ -31,6 +37,15 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort) 
     }
 
     companion object {
+        /** 2023 menu uses one off/warning/keeping/centering state, no separate master switch. */
+        fun legacyLaneMode(p: Map<String, Any>, current: Int): Int {
+            require(current in 1..4) { "Lane mode unavailable" }
+            if (p.keys == setOf("enabled") && p["enabled"] is Boolean)
+                return if (p["enabled"] == false) 1 else if (current == 1) 2 else current
+            require(p.keys == setOf("mode"))
+            return mapOf("off" to 1,"warning" to 2,"keeping" to 3).getValue(p["mode"] as String)
+        }
+
         private val toggles = mapOf(
             "SET_PEDESTRIAN_WARNING_SOUND" to "HUM_VSP_FUNCTION_SW",
             "SET_DOOR_OPEN_WARNING" to "DOW_SYSTEM_SWITCH",

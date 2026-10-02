@@ -51,6 +51,9 @@ public sealed class LogcatCapture : IDisposable
     }
     public static async Task<LogcatCapture> StartAsync(string executable, string serial, string filePath, IAdbClient adb)
     {
+        var loggingState = await adb.RunAsync(serial, ["shell", "getprop", "init.svc.logd"], 5);
+        if (loggingState.ExitCode == 0 && loggingState.Output.Trim() == "stopped")
+            throw new IOException("ثبت گزارش‌های سیستم متوقف است. ابتدا تیک «افزایش سرعت نمایشگرها» را در تنظیمات وویا ایران بردارید و دوباره شروع گزارش‌گیری را بزنید.");
         var marker = "VOYAH_LOG_START_" + Guid.NewGuid().ToString("N");
         var capture = new LogcatCapture(executable, serial, filePath, marker);
         try {

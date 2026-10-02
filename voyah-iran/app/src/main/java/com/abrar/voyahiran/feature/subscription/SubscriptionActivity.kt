@@ -18,11 +18,8 @@ class SubscriptionActivity : ComponentActivity() {
         val manager=(application as VoyahIranApplication).subscriptions
         SubscriptionService.start(this)
         binding.retry.setOnClickListener {
-            binding.retry.visibility=View.GONE
-            binding.statusIcon.visibility=View.GONE
-            binding.contact.visibility=View.GONE
-            binding.progress.visibility=View.VISIBLE
-            binding.message.setText(R.string.subscription_checking)
+            // Render only manager state: repeated identical failures must not leave
+            // a manually displayed spinner behind when StateFlow conflates them.
             manager.refresh()
         }
         binding.exit.setOnClickListener { finishAffinity() }

@@ -1,0 +1,1 @@
+package com.android.server.am; import android.graphics.Rect; class ActivityDisplay extends com.android.server.wm.ConfigurationContainer { android.view.Display mDisplay; Rect bounds; public Rect getBounds(){return bounds;} protected int getChildCount(){return 0;} protected ActivityStack getChildAt(int i){return null;} }

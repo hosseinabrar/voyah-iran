@@ -22,6 +22,14 @@ Directory.CreateDirectory(root);
 await LogcatCaptureTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);
 var passed = 0;
+Check(VehicleInstallProfile.Detect("28", "qti/f0506h:9", "jenkins-PRJ_H97a_8155_OTA_1010-9").LegacyFramework, "H97A selects verified Android 9 reconstruction, not Android 11 patch");
+Check(VehicleInstallProfile.Detect("30", "h97x", "").PatchFramework, "Android 11 retains exact patch verification");
+foreach (var sdk in new[] { "", "27", "29", "31", "28" }) {
+    bool rejected=false;
+    try { VehicleInstallProfile.Detect(sdk, "unknown", ""); } catch(InvalidDataException) { rejected=true; }
+    Check(rejected, "Unknown platform rejected before writes: " + sdk);
+}
+
 var boundary = new LogcatBoundary("SESSION_UNIQUE_MARKER");
 Check(!boundary.Accept("old buffered log"), "Capture excludes old backlog");
 Check(!boundary.Accept("unrelated marker"), "Capture waits for its own marker");
@@ -46,7 +54,19 @@ using (var log = new SessionLog(Path.Combine(root, "logs")))
     log.Hide("secret-value"); log.Write("secret-value remains secret-value");
     Check(!log.ReadText().Contains("secret-value"), "Secret omitted from persisted log");
 }
-string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/myket.apk", "apps/gboard.apk", "apps/gboard-config.xhdpi.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/display/ActivityRecord-getOrientation.original.smali", "patch/display/ActivityRecord-layoutLetterbox.original.smali", "patch/display/ActivityRecord-getRequestedOrientation.original.smali", "patch/display/ActivityRecord-resolveOverrideConfiguration.original.smali", "patch/display/WindowState-applyGravityAndUpdateFrame.original.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$2.smali", "patch/display/helpers/VoyahIranDisplayPolicy.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy.smali", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
+string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/neshan.apk", "apps/myket.apk", "apps/gboard.apk", "apps/gboard-config.xhdpi.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/display/ActivityRecord-getOrientation.original.smali", "patch/display/ActivityRecord-layoutLetterbox.original.smali", "patch/display/ActivityRecord-getRequestedOrientation.original.smali", "patch/display/ActivityRecord-resolveOverrideConfiguration.original.smali", "patch/display/WindowState-applyGravityAndUpdateFrame.original.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$2.smali", "patch/display/helpers/VoyahIranDisplayPolicy.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy.smali", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
+names = names.Concat(Android9FrameworkAssets.RequiredFiles).ToArray();
+var sourceRoot = new DirectoryInfo(AppContext.BaseDirectory);
+while (sourceRoot != null && !Directory.Exists(Path.Combine(sourceRoot.FullName, "tools", "patch", "android9"))) sourceRoot = sourceRoot.Parent;
+if (sourceRoot != null)
+{
+    var patchRoot = Path.Combine(sourceRoot.FullName, "tools", "patch", "android9");
+    var packaged = Directory.GetFiles(patchRoot).Where(p => Path.GetFileName(p) == "Android9Patch.java" ||
+        new[] { ".smali", ".jar", ".json" }.Contains(Path.GetExtension(p)) || Path.GetFileName(p).EndsWith("LICENSE.txt"))
+        .Concat(new[] { "helpers", "previous-v1", "previous-v2" }.SelectMany(dir => Directory.GetFiles(Path.Combine(patchRoot, dir), "*.smali", SearchOption.AllDirectories)))
+        .Select(p => "patch/android9/" + Path.GetRelativePath(patchRoot, p).Replace('\\', '/')).ToHashSet();
+    Check(packaged.SetEquals(Android9FrameworkAssets.RequiredFiles), "Actual Android 9 payload files exactly match extraction allowlist");
+}
 MemoryStream Fixture(bool corrupt = false)
 {
     var memory = new MemoryStream();
@@ -67,6 +87,15 @@ MemoryStream Fixture(bool corrupt = false)
 using var valid = Fixture();
 var bundle = PayloadBundle.Extract(valid, Path.Combine(root, "bundle"));
 Check(File.Exists(bundle.File("adb.exe")), "Bundle extracted and checked");
+Check(File.Exists(bundle.File("patch/android9/previous-v1/helpers/com/android/server/am/VoyahIranLegacyDisplay.smali")), "Previous display patch upgrade fixture extracted");
+foreach (var unexpected in new[] { "patch/android9/previous-v1/unknown.smali", "../escape.txt" })
+{
+    var saved = names;
+    names = names.Append(unexpected).ToArray();
+    try { using var invalidPath = Fixture(); PayloadBundle.Extract(invalidPath, Path.Combine(root, Guid.NewGuid().ToString("N"))); throw new Exception("Unsafe path accepted"); }
+    catch (InvalidDataException e) { Check(e.Message.Contains(unexpected), "Unknown/path-traversal payload rejected with offending path"); }
+    finally { names = saved; }
+}
 try { using var invalid = Fixture(true); PayloadBundle.Extract(invalid, Path.Combine(root, "invalid")); throw new Exception("Corruption accepted"); }
 catch (InvalidDataException) { Check(true, "Corrupt embedded APK rejected"); }
 
@@ -90,10 +119,30 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     Check(phases.Count(p => p.State == PhaseState.Succeeded) == 8, "All eight phases verified on simulated success");
     Check(fake.Calls.Count(c => c.SequenceEqual(new[] { "reboot" })) == 1, "One reboot on success");
     Check(!fake.Calls.Any(c => c.Contains("ime")), "Installer leaves keyboard preference to user");
+    Check(fake.Calls.Single(c => c[0] == "install").Contains("--no-streaming"), "Android 11 retains push installation");
     var operations = fake.Calls.Select(c => c[0]).ToList();
     Check(operations.IndexOf("root") < operations.IndexOf("wait-for-device") &&
         operations.IndexOf("wait-for-device") < operations.IndexOf("remount") &&
         operations.IndexOf("remount") < operations.IndexOf("install"), "Root and reconnect and remount precede APK installation");
+}
+using (var log = new SessionLog(Path.Combine(root, "h97a-logs")))
+{
+    var fake = new FakeAdb("h97a", bundle);
+    // Verify the compatible framework stage is reached, with streaming retained.
+    await new InstallEngine(fake, bundle, log, Path.Combine(root, "h97a-backup"), new FakePatcher("none")).RunAsync("CAR");
+    Check(!fake.Calls.Any(c => c.Contains("su")), "H97A uses verified adbd root without su PATH");
+    Check(fake.Calls.Any(c => c.Contains("/system/bin/sh") && c.Any(a => a.EndsWith("framework.sh"))), "H97A installs its verified framework result");
+    Check(fake.Calls.Any(c => c[0] == "install"), "H97A installs the compatible APK and bridge");
+    Check(fake.Calls.Single(c => c[0] == "install").Contains("--streaming"), "H97A avoids system_server opening shell_data_file");
+}
+using (var log = new SessionLog(Path.Combine(root, "h97a-unsupported-framework")))
+{
+    var fake = new FakeAdb("h97a", bundle);
+    var rejected = false;
+    try { await new InstallEngine(fake, bundle, log, Path.Combine(root, "h97a-rejected"), new FakePatcher("patch")).RunAsync("CAR"); }
+    catch (InvalidDataException) { rejected = true; }
+    Check(rejected && !fake.Calls.Any(c => c[0] == "install" || c[0] == "push" || c[0] == "reboot"),
+        "Unsupported Android 9 patch fails before APK, staging and reboot");
 }
 foreach (var mode in new[] { "reconnect", "reconnect-timeout", "reconnect-firmware", "reconnect-boot" })
 {
@@ -114,7 +163,7 @@ foreach (var mode in new[] { "reconnect", "reconnect-timeout", "reconnect-firmwa
     Check(patch.Calls == 1, "Patch not rebuilt during reconnect: " + mode);
     Check(fake.PostPatchWaitSerial == "CAR" && fake.PostPatchWaitTimeout == 120, "Wait bounded and pinned to original device: " + mode);
     if (failed) Check(!fake.Calls.Any(c => c[0] is "install" or "push" or "reboot"), "Reconnect failure stops before payload writes: " + mode);
-    else Check(fake.Calls.FindIndex(c => c[0] == "install") > fake.Calls.FindLastIndex(c => c[0] == "wait-for-device"), "Install resumes after reconnect");
+    else Check(fake.Calls.FindIndex(c => c[0] == "install") > fake.Calls.FindIndex(fake.Calls.FindIndex(c => c[0] == "pull"), c => c[0] == "wait-for-device"), "Install resumes after reconnect");
 }
 foreach (var mode in new[] { "remount-recover", "remount-recover-nonzero", "remount-reboot" })
 {
@@ -125,7 +174,7 @@ foreach (var mode in new[] { "remount-recover", "remount-recover-nonzero", "remo
     try { await engine.RunAsync("CAR"); } catch (IOException) { failed = true; }
     Check(failed == (mode == "remount-reboot"), "Remount recovery outcome: " + mode);
     Check(fake.Calls.Count(c => c[0] == "remount") == 2, "Remount retried once: " + mode);
-    Check(fake.Calls.Count(c => c[0] == "root") == 2, "Root reacquired after reboot: " + mode);
+    Check(fake.Calls.Count(c => c[0] == "root") == (failed ? 2 : 3), "Root reacquired after reboot: " + mode);
     Check(fake.Calls.Count(c => c[0] == "reboot") == (failed ? 1 : 2), "Bounded preparation reboot: " + mode);
     if (failed) Check(!fake.Calls.Any(c => c[0] == "install"), "Repeated reboot request stops before APK install");
     else Check(fake.Calls.FindIndex(c => c[0] == "install") > fake.Calls.FindLastIndex(c => c[0] == "remount"), "Install waits for successful remount: " + mode);
@@ -203,7 +252,7 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
     public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
     {
         Calls.Add(args);
-        if (args[0] == "wait-for-device" && Calls.Any(c => c[0] == "pull"))
+        if (args[0] == "wait-for-device" && Calls.Any(c => c[0] == "pull") && !Calls.Any(c => c[0] == "reboot"))
         {
             WaitEntered = true; PostPatchWaitSerial = serial; PostPatchWaitTimeout = timeoutSeconds;
             if (failure == "reconnect") return Reconnect.Task;
@@ -211,6 +260,8 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
         }
         if (WaitEntered && failure == "reconnect-boot" && args.Contains("/proc/sys/kernel/random/boot_id"))
             return Task.FromResult(new CommandResult(0, Guid.Empty.ToString()));
+        if (args.Contains("ro.build.version.sdk")) return Task.FromResult(new CommandResult(0, failure == "h97a" ? "28" : "30"));
+        if (args.Contains("ro.vendor.build.fingerprint")) return Task.FromResult(new CommandResult(0, failure == "h97a" ? "jenkins-PRJ_H97a_8155_OTA_1010-9" : "test"));
         if (args.Contains("ro.build.fingerprint"))
             return Task.FromResult(new CommandResult(0, WaitEntered && failure == "reconnect-firmware" ? "changed" : "test-firmware"));
         string text = ""; var exit = 0;
@@ -234,7 +285,13 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
         else if (args.Contains("sys.boot_completed")) text = "1";
         else if (args.Contains("init.svc.voyahiran_bridge")) text = "running";
         else if (args.Contains("pm")) text = "package:/data/app/com.abrar.voyahiran/base.apk";
-        else if (args[0] == "install") { text = "Success"; if (failure == "apk") exit = 1; }
+        else if (args[0] == "install") {
+            text = "Success"; if (failure == "apk") exit = 1;
+            if (failure == "h97a" && !args.Contains("--streaming")) {
+                exit = 255;
+                text = "System server has no access to read file context u:object_r:shell_data_file:s0; Error: Can't open file: /data/local/tmp/app.apk";
+            }
+        }
         else if (args.Any(a => a.EndsWith("payload.sh"))) { text = "VOYAH_BRIDGE_INSTALLED"; if (failure == "bridge") exit = 1; if (failure == "timeout") throw new TimeoutException("Simulated remote timeout"); }
         else if (args.Any(a => a.EndsWith("framework.sh")) && args.Contains("/system/bin/sh")) { patched = true; text = "Keyboard framework installed and verified"; if (failure == "framework") exit = 1; if (failure == "missing-marker") text = ""; }
         return Task.FromResult(new CommandResult(exit, text));

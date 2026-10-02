@@ -18,6 +18,7 @@
 
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -208,6 +209,18 @@
             <Button android:id="@+id/keyboardRetry" style="@style/NavigationTab"
                 android:layout_width="wrap_content" android:layout_gravity="start"
                 android:layout_marginTop="@dimen/space_sm" android:text="@string/retry" android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="@dimen/space_lg">
+            <CheckBox android:id="@+id/displaySpeed" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:text="افزایش سرعت نمایشگرها"
+                android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false" />
+            <TextView style="@style/Text.Secondary" android:text="غیرفعال سازی ثبت گزارش‌های سیستمی"
+                android:layout_marginTop="@dimen/space_sm" />
         </LinearLayout>
         <Button android:id="@+id/rebootDevice"
             android:layout_width="match_parent" android:layout_height="wrap_content"

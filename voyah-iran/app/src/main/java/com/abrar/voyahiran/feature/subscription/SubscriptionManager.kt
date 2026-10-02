@@ -26,10 +26,31 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
     private val mutable = MutableStateFlow(SubscriptionStatus.CHECKING)
     val state = mutable.asStateFlow()
     val allowed: Boolean get() = SubscriptionAccessPolicy.allowed(grant,repository.now(),denied)
-    fun refresh() { start(); wake.trySend(Unit) }
+    fun refresh() {
+        if (!allowed && !denied) mutable.value = SubscriptionStatus.CHECKING
+        start()
+        wake.trySend(Unit)
+    }
     @Synchronized fun start() {
         if(started) return
         started = true
+        // Independent of network renewal/VIN calls; one serialized bundle-only check per 10 s.
+        scope.launch(Dispatchers.IO) {
+            while (isActive) {
+                delay(10_000)
+                try { com.abrar.voyahiran.feature.apollo.data.ApolloControl.sync(app, verify = true) }
+                catch (e: CancellationException) { throw e }
+                catch (e: Exception) { AppLog.error("Apollo", "Periodic reconciliation failed; retry in 10 seconds", e) }
+            }
+        }
+        scope.launch(Dispatchers.IO) {
+            while (isActive) {
+                try { com.abrar.voyahiran.feature.apollo.data.AvmTurnControl.update(app, "read") }
+                catch (e: CancellationException) { throw e }
+                catch (e: Exception) { AppLog.error("AvmTurn", "Startup/runtime sync failed", e) }
+                delay(10_000)
+            }
+        }
         scope.launch {
             var vin: String? = null
             var nextRefresh = 0L
@@ -49,6 +70,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                         wasAllowed=startFeatures()
                         if(wasAllowed) { mutable.value=SubscriptionStatus.ACTIVE; announced=false }
                     }
+                    syncApollo() // Apply local Voyah Iran subscription state before waiting for the network.
                     if(!allowed && wasAllowed) nextRefresh=0
                     if(nowElapsed >= nextRefresh) {
                         if(!allowed) mutable.value = if(denied) SubscriptionStatus.BLOCKED else SubscriptionStatus.CHECKING
@@ -78,6 +100,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                     mutable.value=SubscriptionStatus.VEHICLE_UNAVAILABLE
                     AppLog.error("Subscription", "VIN or runtime initialization failed", e)
                 }
+                syncApollo()
                 if(!allowed) {
                     if(wasAllowed) { app.stopService(Intent(app,RahaService::class.java)); app.stopService(Intent(app,DriveMemoryService::class.java)); wasAllowed=false }
                     // Restore the star button even if the previous app process died with a recovery journal.
@@ -87,6 +110,14 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                 val forced=withTimeoutOrNull(if(vin==null) 10000L else 30000L) { wake.receive(); true } == true
                 if(forced)nextRefresh=0
             }
+        }
+    }
+    private suspend fun syncApollo() {
+        try {
+            withContext(Dispatchers.IO) { com.abrar.voyahiran.feature.apollo.data.ApolloControl.sync(app) }
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            AppLog.error("Apollo", "Subscription/startup sync failed; will retry", e)
         }
     }
     private suspend fun announce() {

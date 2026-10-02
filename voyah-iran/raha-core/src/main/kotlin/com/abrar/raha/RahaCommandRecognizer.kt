@@ -5,7 +5,7 @@ import com.abrar.voicecommands.VehicleCommand
 
 /** Vehicle-independent intent vocabulary. No Android, OEM or CAN dependencies. */
 enum class RahaAction {
-    NAVIGATE_TO_SAVED_PLACE,
+    NAVIGATE_TO_SAVED_PLACE, OPEN_DEFAULT_MAP, OPEN_DEFAULT_MUSIC, OPEN_OEM_RADIO,
     SET_PEDESTRIAN_WARNING_SOUND, SET_CLIMATE_POWER, SET_AC_POWER, SET_MAX_COOLING, SET_CLIMATE_AUTO,
     ADJUST_CABIN_TEMPERATURE, ADJUST_FAN_SPEED, SET_AIRFLOW_DIRECTION,
     SET_AIR_RECIRCULATION, SET_FRONT_DEFROSTER, SET_REAR_DEFROSTER,
@@ -61,6 +61,7 @@ class RahaCommandRecognizer {
             return unknown("درخواست منفی، شرطی یا پرسشی اجرا نمی‌شود")
         if (Regex("(?:^| )(روشنه|خاموشه|فعاله|چنده|هست|نیست|کردی|میدونی)(?: |$)").containsMatchIn(text))
             return unknown("این جمله پرسش درباره وضعیت است")
+        RahaAppLaunchRecognizer.recognize(text)?.let { return it }
         RahaNavigationRecognizer.recognize(text)?.let { return it }
         RahaPhaseSevenRecognizer.recognize(text)?.let { return it }
         RahaPhaseSixRecognizer.recognize(text)?.let { return it }
@@ -247,7 +248,7 @@ class RahaCommandRecognizer {
             // Scoped ASR repair: «همگام شیشه» commonly comes from «همگام شه».
             // A real window noun remains meaningful in all other command families.
             take("شیشه")
-            take("راننده و شاگرد|چپ و راست|دو طرف|2 طرف|هر دو طرف|هر 2 طرف")
+            take("راننده و شاگرد|راننده و همراه|چپ و راست|دو طرف|2 طرف|هر دو طرف|هر 2 طرف")
             take("جلو")
             val on=power() ?: !separate
             if(separate && on) return@rule null
@@ -312,7 +313,8 @@ class RahaCommandRecognizer {
     }
 
     internal class Scan(text:String) {
-        private val tokens=text.split(' ').toMutableList()
+        // Resolve the compound target before any rule consumes the word driver.
+        private val tokens=text.replace(Regex("""(?<!\S)کمک راننده(?!\S)"""), "شاگرد").split(' ').toMutableList()
         private val original=text
         var last=""; private set
         var problem:String?=null
@@ -350,7 +352,7 @@ class RahaCommandRecognizer {
         }
         fun zone(default:String="front"):String? {
             if(take("عقب|پشت|ردیف دوم|ردیف 2")){problem="وویا فری کنترل مستقل تهویه عقب ندارد";return null}
-            val left=take("راننده|چپ"); val right=take("شاگرد|راست|بغل|سرنشین جلو")
+            val left=take("راننده|چپ"); val right=take("شاگرد|همراه|راست|بغل|سرنشین جلو")
             val front=take("جلو")
             if(left && right) {if(!take("و"))return null;return "front"}
             val all=take("همه|دو طرف|2 طرف")
@@ -359,7 +361,7 @@ class RahaCommandRecognizer {
         }
         fun seat():String? {
             if(take("عقب|پشت|ردیف دوم|ردیف 2")){problem="فقط صندلی‌های جلو پشتیبانی می‌شوند";return null}
-            val left=take("راننده|چپ"); val right=take("شاگرد|راست|بغل|سرنشین جلو")
+            val left=take("راننده|چپ"); val right=take("شاگرد|همراه|راست|بغل|سرنشین جلو")
             take("جلو")
             if(left && right){problem="هر بار یک صندلی را مشخص کنید";return null}
             return if(right) "passenger" else "driver"
@@ -391,7 +393,7 @@ class RahaCommandRecognizer {
             "نذار" to "بذار", "نگذار" to "بگذار", "نشه" to "بشه",
             "نشود" to "بشود", "نباشه" to "باشه", "نباشد" to "باشد"
         )
-        private val filler=setOf("رها","لطفا","خواهشا","میشه","می","شه","کنی","کن","کنید","کنین","کنن","بکن","بکنید","رو","را","ر","و","برای","به","در","روی","تو","از","حالت","مد","مود","دکمه","قرار","انتخاب","تنظیم","تنظیمات","سمت","طرف","بده","بذار","بزار","بگذار","بشه","بشود","باشه","باشد","بیار","ببر","کردن","کرد","خیلی","اینجا","میخوام","میخواهم","خوام","خواهم","میخواهیم","میخوایم","بخوره","بچرخه","بیاد","کار","کنه","هم","دیگه","فقط","بگیر","ها","های")
+        private val filler=setOf("رها","لطفا","خواهشا","میشه","می","شه","کنی","کن","کنید","کنین","کنن","بکن","بکنید","رو","را","ر","و","برای","به","در","روی","تو","از","حالت","مد","مود","دکمه","قرار","انتخاب","تنظیم","تنظیمات","سمت","جهت","طرف","بده","بذار","بزار","بگذار","بشه","بشود","باشه","باشد","بیار","ببر","کردن","کرد","خیلی","اینجا","میخوام","میخواهم","خوام","خواهم","میخواهیم","میخوایم","بخوره","بچرخه","بیاد","کار","کنه","هم","دیگه","فقط","بگیر","ها","های")
         fun normalize(raw:String):String {
             var s=raw.lowercase().replace('ي','ی').replace('ك','ک').replace('ۀ','ه')
                 .replace(Regex("[\\u064B-\\u065F\\u0670]"),"").replace(Regex("[\\u200c\\u200e\\u200f]")," ")

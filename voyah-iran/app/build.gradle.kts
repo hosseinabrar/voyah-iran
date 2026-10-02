@@ -17,7 +17,7 @@ android {
     buildToolsVersion = "37.0.0"
     defaultConfig {
         applicationId = "com.abrar.voyahiran"
-        minSdk = 30
+        minSdk = 28
         targetSdk = 32
         versionCode = 14
         versionName = "1.1.0"

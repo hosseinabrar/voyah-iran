@@ -4,6 +4,32 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class DriverAssistanceExecutorTest {
+    @org.junit.Test fun h97aLaneModeUsesSingleStateAndPreservesExistingMode() {
+        org.junit.Assert.assertEquals(2, DriverAssistanceExecutor.legacyLaneMode(mapOf("enabled" to true),1))
+        for(current in 2..4) org.junit.Assert.assertEquals(current, DriverAssistanceExecutor.legacyLaneMode(mapOf("enabled" to true),current))
+        org.junit.Assert.assertEquals(1, DriverAssistanceExecutor.legacyLaneMode(mapOf("enabled" to false),4))
+        org.junit.Assert.assertEquals(3, DriverAssistanceExecutor.legacyLaneMode(mapOf("mode" to "keeping"),2))
+    }
+
+    @Test fun legacyLaneWritesModeInsteadOfModernMasterSwitch() {
+        val fake=Fake().apply {values["LDW_RDP_LKS_FUNC_ENABLE"]=1}
+        val executor=DriverAssistanceExecutor(fake,legacyLane=true)
+        executor.execute("SET_LANE_SUPPORT_MODE",mapOf("enabled" to true))
+        assertEquals(listOf("LDW_RDP_LKS_FUNC_ENABLE" to 2),fake.writes)
+        fake.values["LDW_RDP_LKS_FUNC_ENABLE"]=4; fake.writes.clear()
+        executor.execute("SET_LANE_SUPPORT_MODE",mapOf("enabled" to true))
+        assertTrue(fake.writes.isEmpty())
+        executor.execute("SET_LANE_SUPPORT_MODE",mapOf("enabled" to false))
+        assertEquals(listOf("LDW_RDP_LKS_FUNC_ENABLE" to 1),fake.writes)
+    }
+    @Test fun legacyWarningTypeIsRejectedBeforeWriting() {
+        val fake=Fake().apply {values["LDW_WARNING_TYPE"]=1}
+        var rejected=false
+        try {DriverAssistanceExecutor(fake,legacyLane=true).execute("SET_LANE_DEPARTURE_ALERT_TYPE",mapOf("type" to "vibration"))}
+        catch(_:IllegalStateException) {rejected=true}
+        assertTrue(rejected); assertTrue(fake.writes.isEmpty())
+    }
+
     private class Fake : DriverAssistancePort {
         val values = mutableMapOf<String, Int>()
         val writes = mutableListOf<Pair<String, Int>>()

@@ -19,7 +19,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         if (result.ExitCode != 0) throw new IOException($"فرمان نصب ناموفق بود (کد {result.ExitCode}). جزئیات در گزارش ثبت شده است.");
         return result.Output.Trim();
     }
-    private Task<string> Root(int timeout, params string[] args) => Command(timeout, ["shell", "su", "0", .. args]);
+    private Task<string> Root(int timeout, params string[] args) => Command(timeout, ["shell", .. args]);
     private static string FirstWord(string value) => value.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.ToLowerInvariant() ?? "";
     private async Task VerifyHash(string remote, string expected)
     {
@@ -98,6 +98,11 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             var discovery = await adb.RunAsync(null, ["devices", "-l"]);
             var ready = DeviceParser.SingleReady(DeviceParser.Parse(discovery.Output));
             if (discovery.ExitCode != 0 || ready?.Serial != serial) throw new IOException("اتصال خودرو تغییر کرده است. فقط همین خودرو را متصل نگه دارید.");
+            var sdkText = await Command(15, "shell", "getprop", "ro.build.version.sdk");
+            var vendorFingerprint = await Command(15, "shell", "getprop", "ro.vendor.build.fingerprint");
+            var systemFingerprint = await Command(15, "shell", "getprop", "ro.build.fingerprint");
+            var platform = VehicleInstallProfile.Detect(sdkText, systemFingerprint, vendorFingerprint);
+            log.Write($"COMPATIBILITY: {platform.Name}; sdk={sdkText}; vendor={vendorFingerprint}; frameworkPatch={platform.PatchFramework}");
             Done();
             Begin(InstallPhase.Root);
             await PrepareWritableSystem();
@@ -113,22 +118,43 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             await Command(90, "pull", "/system/framework/services.jar", backup);
             if (PayloadBundle.Digest(backup) != currentHash) throw new InvalidDataException("بررسی بکاپ لپ‌تاپ ناموفق بود.");
             log.Write($"Verified current vehicle JAR backup: {backup}");
+            string? legacyVdex = platform.LegacyFramework ? "none" : null;
+            var legacyVdexHash = "";
+            if (platform.LegacyFramework && currentHash == "1c16f5976318fadcf7add92c518a93896f99e2a78f742b7347d8539103264882")
+            {
+                const string vdexRemote = "/system/framework/oat/arm64/services.vdex";
+                legacyVdexHash = FirstWord(await Root(30, "sha256sum", vdexRemote));
+                if (legacyVdexHash != "a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06")
+                    throw new InvalidDataException("فریم‌ور اندروید ۹ با نسخهٔ بررسی‌شده متفاوت است. فایل‌های خودرو تغییر نکردند؛ گزارش را برای پشتیبانی بفرستید.");
+                legacyVdex = Path.Combine(directory, "services.vdex");
+                await Command(90, "pull", vdexRemote, legacyVdex);
+                if (PayloadBundle.Digest(legacyVdex) != legacyVdexHash) throw new InvalidDataException("بکاپ VDEX با فایل خودرو مطابقت ندارد.");
+                log.Write("Verified Android 9 VDEX backup; reconstructing services code locally before any APK/framework writes.");
+            }
             Done();
             Begin(InstallPhase.PreparePatch);
-            var patch = await (patcher ?? new JavaFrameworkPatcher(bundle, log)).PatchAsync(backup, Path.Combine(directory, "patch"));
+            var patch = platform.PatchFramework
+                ? await (patcher ?? new JavaFrameworkPatcher(bundle, log, legacyVdex)).PatchAsync(backup, Path.Combine(directory, "patch"))
+                : new FrameworkPatchResult(currentHash, currentHash, backup, true);
+            if (!platform.PatchFramework)
+                log.Write("H97A Android 9: original services.jar/odex/vdex preserved. Keyboard persistence and display framework correction are unavailable in this compatibility profile.");
             if (patch.OriginalHash != currentHash) throw new InvalidDataException("Patch input hash differs from vehicle backup");
             await File.WriteAllTextAsync(Path.Combine(directory, "patch-result.json"), System.Text.Json.JsonSerializer.Serialize(patch, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
-            if (patch.AlreadyPatched) log.Write("The exact supported keyboard and display patches are already present; framework replacement will be skipped.");
+            if (platform.PatchFramework && patch.AlreadyPatched) log.Write("The exact supported keyboard and display patches are already present; framework replacement will be skipped.");
             await ReconnectAfterPatch(fingerprint, bootId);
             // Detect concurrent firmware changes before installing any app files.
             await VerifyHash("/system/framework/services.jar", currentHash);
+            if (legacyVdexHash.Length != 0) await VerifyHash("/system/framework/oat/arm64/services.vdex", legacyVdexHash);
             Done();
             Begin(InstallPhase.Apk);
-            // Transfer first, then let PackageManager install the local APK. Streaming
-            // installation on some head units aborts without returning a package error.
-            log.Write("Installing APK without streaming; transfer and package installation are separate. Keep USB connected.");
+            // Newer units require push installation; H97A cannot open shell-labelled staging files.
+            // Select the transport before installation, without retrying ambiguous package writes.
+            var apkTransport = platform.StreamApk ? "--streaming" : "--no-streaming";
+            log.Write(platform.StreamApk
+                ? "Installing APK with streaming for H97A: bypassing shell_data_file staging via PackageManager stdin. Keep USB connected."
+                : "Installing APK without streaming; transfer and package installation are separate. Keep USB connected.");
             var apkResult = await adb.RunAsync(serial,
-                ["install", "--no-streaming", "-r", "--user", "0", bundle.File("app.apk")], 600);
+                ["install", apkTransport, "-r", "--user", "0", bundle.File("app.apk")], 600);
             if (apkResult.ExitCode != 0 || !apkResult.Output.Split('\n').Any(l => l.Trim() == "Success"))
             {
                 log.Write($"APK install failed: exit={apkResult.ExitCode}; output={apkResult.Output}");
@@ -169,7 +195,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
                 await Command(60, "push", patch.FilePath, stage + "/services.jar");
                 await VerifyHash(stage + "/services.jar", patch.PatchedHash);
                 await Command(30, "push", bundle.File("manage-keyboard-framework.sh"), stage + "/framework.sh");
-                var framework = await Root(180, "/system/bin/sh", stage + "/framework.sh", "install", stage + "/services.jar", patch.OriginalHash, patch.PatchedHash);
+                var framework = await Root(180, "/system/bin/sh", stage + "/framework.sh", "install", stage + "/services.jar", patch.OriginalHash, patch.PatchedHash, legacyVdexHash);
                 if (!framework.Contains("Keyboard framework installed and verified", StringComparison.Ordinal) && !framework.Contains("Already installed", StringComparison.Ordinal))
                     throw new IOException("نصب فایل سیستم تأیید نشد؛ خودرو ریبوت نشد.");
             }
@@ -198,6 +224,11 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             if (!rebooted) throw new TimeoutException("خودرو در مهلت پنج دقیقه دوباره آماده نشد. اتصال را بررسی کنید و گزارش را نگه دارید.");
             Done();
             Begin(InstallPhase.Verify);
+            // Reboot resets adbd's UID on some firmwares. Never depend on su being in PATH.
+            await Command(20, "root");
+            await Command(45, "wait-for-device");
+            if (await Command(15, "shell", "id", "-u") != "0")
+                throw new IOException("دسترسی روت پس از راه‌اندازی مجدد تأیید نشد.");
             await VerifyHash("/system/framework/services.jar", patch.PatchedHash);
             await VerifyHash("/data/local/tmp/voyahiran-bridge/bridge.apk", bundle.Manifest.Files["app.apk"]);
             await VerifyHash("/data/local/tmp/voyahiran-bridge/roa/frida-inject", bundle.Manifest.Files["roa/frida-inject"]);

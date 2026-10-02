@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$Apk,
     [string]$PlatformTools,
@@ -58,6 +58,7 @@ $files = [ordered]@{
     'libwinpthread-1.dll' = (Join-Path $PlatformTools 'libwinpthread-1.dll')
     'NOTICE.txt' = (Join-Path $PlatformTools 'NOTICE.txt')
     'app.apk' = $Apk
+    'apps/neshan.apk' = (Join-Path $PSScriptRoot '..\tools\apps\neshan.apk')
     'apps/myket.apk' = (Join-Path $PSScriptRoot '..\tools\apps\myket.apk')
     'apps/gboard-config.xhdpi.apk' = (Join-Path $PSScriptRoot '..\tools\apps\gboard-config.xhdpi.apk')
     'apps/gboard.apk' = (Join-Path $PSScriptRoot '..\tools\apps\gboard.apk')
@@ -86,6 +87,14 @@ Get-ChildItem (Join-Path $patchTools 'display/legacy-center') -File -Filter '*.s
     $files['patch/display/legacy-center/' + $_.Name] = $_.FullName
 }
 $runtimePath = (Resolve-Path -LiteralPath $JavaRuntime).Path.TrimEnd('\','/')
+$legacyPatch = (Resolve-Path -LiteralPath (Join-Path $patchTools 'android9')).Path
+Get-ChildItem $legacyPatch -File | Where-Object {
+    $_.Name -eq 'Android9Patch.java' -or $_.Extension -in @('.smali', '.jar', '.json') -or $_.Name -like '*LICENSE.txt'
+} | ForEach-Object { $files['patch/android9/' + $_.Name] = $_.FullName }
+Get-ChildItem (Join-Path $legacyPatch 'helpers'), (Join-Path $legacyPatch 'previous-v1'), (Join-Path $legacyPatch 'previous-v2') -Recurse -File -Filter '*.smali' | ForEach-Object {
+    $relative = $_.FullName.Substring($legacyPatch.Length + 1).Replace('\','/')
+    $files['patch/android9/' + $relative] = $_.FullName
+}
 if (-not (Test-Path -LiteralPath (Join-Path $runtimePath 'bin\java.exe'))) { throw 'Bundled Java runtime is missing.' }
 Get-ChildItem -LiteralPath $runtimePath -File -Recurse | ForEach-Object {
     $name = 'java/' + $_.FullName.Substring($runtimePath.Length + 1).Replace('\','/')

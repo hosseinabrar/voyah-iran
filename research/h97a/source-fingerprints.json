@@ -1,0 +1,42 @@
+[
+  {
+    "path": "build.prop",
+    "size": 7385,
+    "sha256": "56ed2902e386c1560fb0ff01f4053723a9680d6c8d636792726dc094ffa3e46c"
+  },
+  {
+    "path": "vendor/build.prop",
+    "size": 4966,
+    "sha256": "b14a7d6cbe9999b3fd212ddf46eb420dd0d18898aeb92e2fff8abfe25579dbbb"
+  },
+  {
+    "path": "framework/services.jar",
+    "size": 183,
+    "sha256": "1c16f5976318fadcf7add92c518a93896f99e2a78f742b7347d8539103264882"
+  },
+  {
+    "path": "framework/oat/arm64/services.vdex",
+    "size": 9772532,
+    "sha256": "a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06"
+  },
+  {
+    "path": "framework/boot-QGAPI.vdex",
+    "size": 1747828,
+    "sha256": "6ef0336d85840ed79611ec9ddfad5ae584ca98e2cfc6064cad2c999910e3182d"
+  },
+  {
+    "path": "priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk",
+    "size": 256577799,
+    "sha256": "f4cda01b8244d50935db95cf0d2c3037135b15f15a482b2dce9771fbb74f6092"
+  },
+  {
+    "path": "priv-app/Setting-release-signed/Setting-release-signed.apk",
+    "size": 44161317,
+    "sha256": "520a06bc233527bc755f66952a3ca1cc27259352de1aff56bbdb643bf35686d0"
+  },
+  {
+    "path": "priv-app/Calendar-release-signed/Calendar-release-signed.apk",
+    "size": 18435187,
+    "sha256": "c160aedebb91c85e055d0ee72258b1d1f2f8f8b2bfaa68209e57f84012543c48"
+  }
+]

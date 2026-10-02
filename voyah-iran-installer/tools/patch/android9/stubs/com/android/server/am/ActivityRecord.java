@@ -1,0 +1,2 @@
+package com.android.server.am; import com.android.server.wm.ConfigurationContainer; import android.content.pm.ActivityInfo; final class ActivityRecord extends ConfigurationContainer { final ActivityManagerService service=null; ActivityInfo info; int display; ActivityDisplay screen; ActivityDisplay getDisplay(){return screen;} ConfigurationContainer parent; int getDisplayId(){return display;} protected ConfigurationContainer getParent(){return parent;} boolean ensureActivityConfiguration(int c,boolean p){return true;} }
+

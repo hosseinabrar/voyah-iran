@@ -17,11 +17,7 @@ class AndroidKeyboardPort(context: Context, private val runner: CommandRunner = 
         val manager = context.getSystemService(InputMethodManager::class.java)
         // The passenger service shares DEFAULT_INPUT_METHOD. Ask the primary service
         // which IME is actually active rather than treating that shared key as truth.
-        val status = runner.run(listOf("su", "0", "ime", "current", "--user", userId.toString()), 5)
-        val current = if (status.exitCode == 0 && !status.timedOut)
-            status.output.lineSequence().firstOrNull { it.trim().startsWith("mCurMethodId=") }
-                ?.trim()?.removePrefix("mCurMethodId=")?.takeUnless { it == "null" }
-            else null
+        val current = KeyboardStatusReader(runner).read(userId)
         return KeyboardSnapshot(current,
             manager.inputMethodList.map { Keyboard(it.id, it.packageName) })
     }

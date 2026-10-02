@@ -23,6 +23,8 @@ object BridgeServer {
         val token = File("/data/local/tmp/voyahiran-bridge/bridge.token").readText().trim()
         check(token.matches(Regex("[a-f0-9]{64}")))
         val runner = ProcessCommandRunner(useBridge = false)
+        SystemLoggingControl.restoreAtBoot()
+        // App stopping is suspended pending vehicle tests; boost controls system logging only.
         roa.start()
         neshan.start()
         OemNavigationManager.start()
@@ -46,10 +48,13 @@ object BridgeServer {
                 val output = DataOutputStream(socket.getOutputStream())
                 val parsed = BridgeProtocol.read(input, token)
                 val request = parsed.id
-                val command = BridgePolicy.resolve(parsed.arguments)
+                val command = BridgePolicy.resolve(parsed.arguments, android.os.Build.VERSION.SDK_INT)
                 val result = if (command == null) CommandResult(126, "Operation denied")
                 // Display ACK polling must not hold up vehicle/startup commands.
                 else if (command.first() == "app-display") AppDisplayBridge.set(command[1] == "enable")
+                // A Back press must not wait behind long vehicle operations. Its DOWN/UP pair
+                // has a separate lock and cannot change a task's display or global focus.
+                else if (command == listOf("steering-back", "center")) LegacySteeringBack.press()
                 else if (!execution.tryLock()) CommandResult(75, "Bridge busy; no command executed")
                 else try {
                     AppLog.info("BridgeServer", "request=$request operation=${command.first()} accepted")
@@ -63,6 +68,14 @@ object BridgeServer {
                                 runner.run(listOf("/system/bin/am", "force-stop", "--user", "0", command[1]), parsed.timeout)
                             else runner.run(listOf("/system/bin/pm", "uninstall", "--user", "0", command[1]), parsed.timeout)
                         }
+                        "apollo-capability" -> ApolloCapability.read()
+                        "avm-turn" -> AvmTurnBridge.execute(command[1])
+                        "apollo-test-read" -> ApolloExperimentBridge.execute()
+                        "apollo-test-set" -> ApolloExperimentBridge.execute(command[1], command[2].toInt())
+                        "apollo-feature" -> ApolloBundle.setFeature(command[1], command[2] == "on")
+                        "apollo-reconcile" -> ApolloBundle.reconcile(command[1].toInt())
+                        "apollo-state" -> ApolloBundle.apply(command[1].toInt())
+                        "system-logging" -> SystemLoggingControl.command(command[1])
                         "neshan-direct" -> neshan.command(command[1])
                         "cluster-navigation" -> OemClusterNavigation.command(command)
                         "subscription-vin" -> VehicleIdentity.read()

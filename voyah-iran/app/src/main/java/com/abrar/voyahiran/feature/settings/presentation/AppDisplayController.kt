@@ -18,6 +18,10 @@ class AppDisplayController(context: Context) {
 
     fun refresh() = setEnabled(preferences.enabled)
     fun setEnabled(enabled: Boolean) {
+        if (!com.abrar.voyahiran.core.compat.VehiclePlatform.displayFrameworkHooks) {
+            mutable.value = AppDisplayState(enabled = false)
+            return
+        }
         if (mutable.value.busy) return
         val previous = preferences.enabled
         mutable.value = AppDisplayState(previous, busy = true)

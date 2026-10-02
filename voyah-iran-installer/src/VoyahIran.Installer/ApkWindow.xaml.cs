@@ -10,6 +10,7 @@ public partial class ApkWindow : Window
     private readonly SessionLog log;
     private string? path;
     private bool busy;
+    private string InstallTitle => bundledApp switch { "myket" => "نصب مایکت", "gboard" => "نصب Gboard", "neshan" => "نصب نشان", _ => "نصب APK" };
     private readonly string? bundledApp;
     private readonly IReadOnlyList<string> bundledSplits;
     private readonly IAdbClient adb;
@@ -21,7 +22,7 @@ public partial class ApkWindow : Window
         this.bundledSplits = bundledSplits ?? Array.Empty<string>();
         if (bundledPath != null) {
             path = bundledPath;
-            Title = bundledApp == "myket" ? "نصب مایکت" : "نصب Gboard";
+            Title = InstallTitle;
             Heading.Text = Title; FileLabel.Text = "";
             PickButton.Visibility = InstallButton.Visibility = Visibility.Collapsed;
             RoutedEventHandler? start = null;
@@ -53,7 +54,7 @@ public partial class ApkWindow : Window
                 await Task.Run(() => File.Copy(split, copy));
             }
             var info = await Task.Run(() => ApkInfo.Read(snapshot));
-            var expected = bundledApp == "myket" ? "ir.mservices.market" : bundledApp == "gboard" ? "com.google.android.inputmethod.latin" : null;
+            var expected = bundledApp == "myket" ? "ir.mservices.market" : bundledApp == "gboard" ? "com.google.android.inputmethod.latin" : bundledApp == "neshan" ? "org.rajman.neshan.traffic.tehran.navigator" : null;
             if (expected != null && info.Package != expected) throw new InvalidDataException("هویت فایل نصب مطابق انتظار نیست.");
             if (snapshots.Count > 1) await installer.InstallSplitAsync(snapshots, info);
             else await installer.InstallAsync(snapshot, info);
@@ -71,7 +72,7 @@ public partial class ApkWindow : Window
             {
                 Title = "در انتظار راه‌اندازی مجدد نمایشگر…";
                 await RebootPrompt.RunAsync(this, adb, log, serial);
-                Title = bundledApp == "myket" ? "نصب مایکت" : bundledApp == "gboard" ? "نصب Gboard" : "نصب APK";
+                Title = InstallTitle;
             }
         }
         catch (Exception ex) { log.Write(ex.ToString()); MessageBox.Show(this, ex.Message, "نصب APK ناموفق بود", MessageBoxButton.OK, MessageBoxImage.Error); }

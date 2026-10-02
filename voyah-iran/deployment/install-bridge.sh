@@ -1,6 +1,7 @@
 #!/system/bin/sh
 set -eu
-# Fixed, app-owned destinations only. No changes to OEM boot scripts or load.bin.
+# Fixed, app-owned bridge destinations only.
+# No changes to OEM boot scripts or load.bin.
 stage="$1"
 expected="$2"
 case "$stage" in /data/local/tmp/voyahiran-stage-*) ;; *) exit 10 ;; esac
@@ -49,6 +50,22 @@ sleep 1
 settings --user 0 put secure enabled_accessibility_services "${other_services:+$other_services:}$overlay_service"
 settings --user 0 put secure accessibility_enabled 1
 echo 'VOYAH_PERMISSION_OK: Raha overlay host enabled'
+
+# Observe only the central OEM app-list button when launcher attachment is unavailable.
+drawer_service="$package/com.abrar.voyahiran.feature.launcher.LauncherDrawerService"
+current_services=$(settings --user 0 get secure enabled_accessibility_services)
+case "$current_services" in null) current_services='' ;; esac
+case ":$current_services:" in
+    *":$drawer_service:"*) ;;
+    *) settings --user 0 put secure enabled_accessibility_services "${current_services:+$current_services:}$drawer_service" ;;
+esac
+settings --user 0 put secure accessibility_enabled 1
+drawer_actual=$(settings --user 0 get secure enabled_accessibility_services)
+case ":$drawer_actual:" in
+    *":$drawer_service:"*) ;;
+    *) echo 'ERROR: launcher drawer service was not enabled'; exit 27 ;;
+esac
+echo 'VOYAH_PERMISSION_OK: launcher drawer fallback host enabled'
 echo 'VOYAH_PERMISSIONS_VERIFIED' 
 
 # Check the complete ROA runtime before changing installation files.
@@ -68,6 +85,8 @@ chmod 700 "$backup"
 if [ -d "$dest" ]; then cp -pR "$dest" "$backup/bridge"; fi
 if [ -f "$rc" ]; then cp -p "$rc" "$backup/service.rc"; fi
 echo "Backup: $backup"
+# H97A service_contexts_file is read-only even for su. Never replace it here.
+# Passenger transfer for modern apps remains gated until a supported fix exists.
 setprop ctl.stop voyahiran_bridge || true
 mkdir -p "$dest"
 chown 0:0 "$dest"
@@ -95,7 +114,16 @@ restorecon -RF "$dest"
 # and no global SELinux change is required. Receiver requires INSTALL_PACKAGES.
 provision=$(am broadcast --user 0 --include-stopped-packages -n "$package/.core.bridge.BridgeProvisionReceiver" --es token "$(cat "$stage.token")")
 echo "$provision" | grep -q 'result=200' || { echo 'App credential provisioning failed'; exit 21; }
-cp "$stage.rc" "$rc.new"
+if [ "$(getprop ro.build.version.sdk)" = 28 ] &&
+    { getprop ro.build.fingerprint; getprop ro.vendor.build.fingerprint; } | grep -Eiq '(^|[^a-z0-9])h97a([^a-z0-9]|$)'; then
+    # H97A permits shell_exec as the shell domain entrypoint, but not zygote_exec.
+    # Enter through sh, then exec ART in that same domain. Unlike su, shell has
+    # the OEM NVRAM library's required read/write-open permission for vdh_device.
+    sed 's|^service voyahiran_bridge .*|service voyahiran_bridge /system/bin/sh -c "exec /system/bin/app_process /system/bin com.abrar.voyahiran.core.bridge.BridgeServer"|' "$stage.rc" > "$rc.new"
+    echo 'VOYAH_BRIDGE_PROFILE: H97A shell entrypoint; SELinux enforcing unchanged'
+else
+    cp "$stage.rc" "$rc.new"
+fi
 chown 0:0 "$rc.new"
 chmod 644 "$rc.new"
 mv "$rc.new" "$rc"

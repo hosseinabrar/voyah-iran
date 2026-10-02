@@ -31,6 +31,12 @@ internal static class LogcatCaptureTests
                 Path.Combine(root, "rejected-marker.txt"), Path.Combine(root, "rejected.txt"), new MarkerAdb(true));
         } catch (IOException) { failed = true; }
         Require(failed, "marker rejection cannot report successful capture");
+        failed = false;
+        var stoppedFile = Path.Combine(root, "stopped-logd.txt");
+        try {
+            using var unexpected = await LogcatCapture.StartAsync(executable, "unused", stoppedFile, new MarkerAdb(stopped: true));
+        } catch (IOException e) { failed = e.Message.Contains("افزایش سرعت نمایشگرها"); }
+        Require(failed && !File.Exists(stoppedFile), "stopped logging explains recovery without creating an empty capture");
         Console.WriteLine("PASS: logcat capture lifecycle, disconnect and startup failure");
     }
     private static string ReadShared(string path) {
@@ -41,8 +47,10 @@ internal static class LogcatCaptureTests
     private static void Require(bool value, string name) {
         if (!value) throw new Exception("FAIL logcat: " + name);
     }
-    private sealed class MarkerAdb(bool reject = false) : IAdbClient {
+    private sealed class MarkerAdb(bool reject = false, bool stopped = false) : IAdbClient {
         public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false) {
+            if (args.SequenceEqual(new[] { "shell", "getprop", "init.svc.logd" }))
+                return Task.FromResult(new CommandResult(0, stopped ? "stopped" : "running"));
             if (reject) return Task.FromResult(new CommandResult(1, "simulated log command failure"));
             File.WriteAllText(serial! + ".tmp", args[^1]);
             File.Move(serial! + ".tmp", serial!);

@@ -118,7 +118,7 @@ Java.perform(function () {
         }
         // Use the factory passenger drawer and its display-aware launch path.
         // Data enrichment is independent from passenger button construction.
-        try {
+        if (globalThis.VI_STOCK_PASSENGER_LIST === true) try {
             const Data = Java.use('com.qinggan.launcher.allapp.AllAppDataManager');
             const Bean = Java.use('com.qinggan.launcher.allapp.AppBean');
             const List = Java.use('java.util.ArrayList');

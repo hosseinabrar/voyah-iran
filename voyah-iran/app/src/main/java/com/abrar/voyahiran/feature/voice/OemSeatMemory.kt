@@ -32,7 +32,24 @@ object OemSeatMemory {
         return try {
             val apk = File("/system/priv-app/VehicleAir-release-signed/VehicleAir-release-signed.apk")
             check(apk.isFile) { "OEM seat application unavailable" }
-            val type = PathClassLoader(apk.path, javaClass.classLoader).loadClass("com.qinggan.bus.QGBusEvent")
+            // Parent-first loading can select the framework's hidden QGAPI class instead
+            // of the public Parcelable shipped in VehicleAir. Load only this event family
+            // from that APK; Android classes (Bundle/Parcelable) retain parent delegation.
+            val loader = object : PathClassLoader(apk.path, javaClass.classLoader) {
+                override fun loadClass(name: String, resolve: Boolean): Class<*> {
+                    if (name == "com.qinggan.bus.QGBusEvent" || name.startsWith("com.qinggan.bus.QGBusEvent\$")) {
+                        synchronized(this) {
+                            val loaded = findLoadedClass(name) ?: findClass(name)
+                            if (resolve) resolveClass(loaded)
+                            return loaded
+                        }
+                    }
+                    return super.loadClass(name, resolve)
+                }
+            }
+            val type = loader.loadClass("com.qinggan.bus.QGBusEvent")
+            com.abrar.voyahiran.core.logging.AppLog.info("RahaSeat",
+                "event source=${apk.path} loader=${type.classLoader} constructors=${type.declaredConstructors.joinToString { it.toGenericString() }}")
             val event = type.getConstructor().newInstance()
             type.getField("mEventType").set(event, "SeatMemory")
             type.getField("mSource").set(event, context.packageName)

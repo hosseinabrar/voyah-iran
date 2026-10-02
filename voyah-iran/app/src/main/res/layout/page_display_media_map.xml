@@ -48,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:text="@string/retry"
                 android:visibility="gone" />
+            <LinearLayout android:id="@+id/passengerDisplayOptions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
             <CheckBox android:id="@+id/screenSwap" android:checked="true" android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_md" android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
@@ -70,6 +71,7 @@
             <TextView android:id="@+id/passengerAppsError" style="@style/Text.Secondary"
                 android:textColor="@color/error" android:text="@string/screen_swap_error"
                 android:accessibilityLiveRegion="polite" android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
@@ -91,6 +93,7 @@
 <TextView style="@style/Text.Heading" android:text="@string/navigation_section"/>
 <TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_md" android:text="@string/default_navigator" android:labelFor="@id/navigator"/>
 <Spinner android:id="@+id/navigator" android:layout_width="match_parent" android:layout_height="@dimen/touch_target" android:layout_marginTop="@dimen/space_sm" android:spinnerMode="dropdown"/>
+<TextView android:id="@+id/neshanInstallNotice" style="@style/Text.Body" android:layout_marginTop="@dimen/space_md" android:text="@string/neshan_install_notice" android:textDirection="rtl" android:visibility="gone" tools:visibility="visible"/>
 <CheckBox android:id="@+id/neshanDriving" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:layout_marginTop="@dimen/space_md" android:buttonTint="@color/accent" android:text="@string/neshan_auto_driving" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:visibility="gone" tools:visibility="visible"/>
 <CheckBox android:id="@+id/neshanCluster" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:layout_marginTop="@dimen/space_sm" android:buttonTint="@color/accent" android:text="@string/neshan_cluster" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:visibility="gone" tools:visibility="visible"/>
 <CheckBox android:id="@+id/neshanVoiceNavigation" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:layout_marginTop="@dimen/space_sm" android:buttonTint="@color/accent" android:text="@string/neshan_voice_navigation" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:visibility="gone" tools:visibility="visible"/>

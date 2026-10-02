@@ -1,0 +1,1 @@
+package com.android.server.am; import android.content.Context; import com.android.server.wm.WindowManagerService; public class ActivityManagerService { final Context mContext=null; final ActivityStackSupervisor mStackSupervisor=null; WindowManagerService mWindowManager; }

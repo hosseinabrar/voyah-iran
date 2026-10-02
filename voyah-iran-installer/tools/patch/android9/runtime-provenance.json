@@ -1,0 +1,15 @@
+{
+  "source": "JADX distribution, embedded Smali 3.0.9",
+  "sourceSha256": "966d314282d95ff7c72f597bb9c744999856666a3b856575e3c035a9c12a0b65",
+  "includedPrefixes": [
+    "com/android/tools/smali/",
+    "com/google/common/",
+    "com/google/errorprone/",
+    "com/google/j2objc/",
+    "org/checkerframework/",
+    "javax/annotation/",
+    "org/antlr/",
+    "com/beust/jcommander/"
+  ],
+  "runtimeSha256": "228a97d4b1457f0e6425e7d410b223ffac47a44514b8bfb78f436d0fa533fb73"
+}

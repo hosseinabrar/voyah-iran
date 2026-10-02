@@ -33,6 +33,8 @@ public partial class MainWindow : Window
             e.Cancel = true;
             MessageBox.Show(this, "نصب در حال انجام است. تا پایان عملیات، برنامه را باز و کابل را متصل نگه دارید.", "نصب وویا ایران", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        else if (model.CanOperationBusy) { e.Cancel = true; }
+        else if (model.HasCanReport) { e.Cancel = true; await model.FinishCanAsync(); if (!model.HasCanReport) Close(); }
         else if (model.ReportOperationBusy) { e.Cancel = true; }
         else if (model.HasReportToSave) {
             e.Cancel = true;

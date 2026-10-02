@@ -13,7 +13,19 @@ object BridgePolicy {
     private val cameraLaunch = listOf("am", "start", "--user", "0", "--display", "0", "-n",
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
-    fun resolve(request: List<String>): List<String>? {
+    fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
+        if (request == listOf("apollo-capability")) return request
+        if (request.size == 2 && request[0] == "avm-turn" && request[1] in listOf("read", "on", "off")) return request
+        if (request == listOf("apollo-test-read")) return request
+        if (request.size == 3 && request[0] == "apollo-test-set" &&
+            com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.entries.any {
+                it.name == request[1] && request[2].toIntOrNull()?.let(it::accepts) == true
+            }) return request
+        if (request.size == 3 && request[0] == "apollo-feature" &&
+            com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.entries.any { it.name == request[1] } && request[2] in listOf("on", "off")) return request
+        if (request.size == 2 && request[0] in listOf("apollo-state", "apollo-reconcile") && request[1] in listOf("1", "2")) return request
+        if (request.size == 2 && request[0] == "system-logging" && request[1] in listOf("enable", "disable", "status")) return request
+        if (request == listOf("steering-back", "center")) return request
         if (request.size == 2 && request[0] == "neshan-direct" && request[1] in listOf("enable", "disable", "status")) return request
         if (request == listOf("cluster-navigation", "clear")) return request
         if (request.size == 5 && request[0] == "cluster-navigation" && request[1] == "show" &&
@@ -80,7 +92,7 @@ esac
         if (request == listOf("reboot")) return listOf("/system/bin/reboot")
         if (request.size == 2 && request[0] == "roa-hook" && request[1] in listOf("enable", "disable", "status")) return request
         if (request == listOf("ime", "current", "--user", "0")) return listOf("/system/bin/sh", "-c",
-            "/system/bin/dumpsys input_method | /system/bin/grep -m 1 'mCurMethodId='")
+            "/system/bin/dumpsys input_method | /system/bin/grep 'mCurMethodId='")
         if (request == listOf("settings", "delete", "global", "voyah_iran_ime_override")) {
             return listOf("/system/bin/settings") + request.drop(1)
         }
@@ -115,7 +127,11 @@ esac
         if (request.size == 5 && request[0] == "ime" && request[1] in listOf("enable", "set") &&
             request[2] == "--user" && request[3] == "0" &&
             Regex("(?:com\\.google\\.android\\.inputmethod\\.latin|com\\.qinggan\\.app\\.qgime(?:\\.second)?)/[A-Za-z0-9_.$]+").matches(request[4])) {
-            return listOf("/system/bin/ime") + request.drop(1)
+            // Android 9's handler consumes the next argument as the ID; no --user support.
+            // Bypass OEM ime wrappers and address only the primary input-method service.
+            return if (sdkInt <= 28) listOf("/system/bin/sh", "-c",
+                "[ \"\$(/system/bin/am get-current-user)\" = 0 ] || exit 1; exec /system/bin/cmd input_method ime " + request[1] + " '" + request[4] + "'")
+            else listOf("/system/bin/cmd", "input_method", "ime") + request.drop(1)
         }
         if (request.size == 5 && request.take(4) == listOf("pm", "uninstall", "--user", "0") &&
             request[4] != "com.abrar.voyahiran" &&

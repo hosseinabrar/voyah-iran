@@ -18,7 +18,7 @@ Schema 1 implements the tested `(int,double,List)` progress and `(List)` reset c
 The fixed engine keeps original method results, ASCII-safe Unicode transport, source age expiry
 and heartbeat cleanup. Cluster enum mapping/transliteration remain generic client functions.
 
-Initial profile is only 14.12.0.3 / 70789. Unknown APKs are not guessed. To support another version,
+Revision 4 includes 14.12.0.3 / 70789, 14.13.0.6 / 70794 and statically verified 14.14.0.4 / 70799. Unknown APKs are not guessed. To support another version,
 analyze and test its contract, append its profile, increase revision, sign and upload the same file.
 Never reuse a revision with different content. New method signatures or behaviors may require
 a new engine/schema and app release.

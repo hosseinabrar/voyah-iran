@@ -75,7 +75,13 @@ internal object OemDriverAssistanceBinder {
             override fun pause(milliseconds:Long) {Thread.sleep(milliseconds)}
         }
         AppLog.info("RahaAdas","route=binder action=$action parameters=$parameters")
-        DriverAssistanceExecutor(port).execute(action,parameters)
+        val legacyLane = android.os.Build.VERSION.SDK_INT == 28
+        if (legacyLane && action == "SET_LANE_SUPPORT_MODE") {
+            val config=loader.loadClass("com.qinggan.app.basevehiclesetting.canbustools.VehicleConfig")
+            val flags=if(parameters["mode"] == "keeping") listOf("isSupportLKW") else listOf("isSupportLDW","isSupportLKW","isSupportLCA")
+            check(flags.any { config.getMethod(it).invoke(null) == true }) { "Factory lane option unavailable" }
+        }
+        DriverAssistanceExecutor(port, legacyLane).execute(action,parameters)
         AppLog.info("RahaAdas","confirmed action=$action")
     }
 }

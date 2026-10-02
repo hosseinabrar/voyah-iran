@@ -6,7 +6,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.LocationManager
-import android.os.CancellationSignal
+import androidx.core.os.CancellationSignal
+import androidx.core.location.LocationManagerCompat
 import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
@@ -83,7 +84,7 @@ internal class NeshanPlacePicker(private val activity: ComponentActivity, place:
             val request=CancellationSignal();signal=request;locate.isEnabled=false
             message("در حال دریافت موقعیت…")
             handler.postDelayed(timeout,20000)
-            manager.getCurrentLocation(provider,request,activity.mainExecutor) {location ->
+            LocationManagerCompat.getCurrentLocation(manager,provider,request,activity.mainExecutor) {location ->
                 if(closed || signal!==request)return@getCurrentLocation
                 handler.removeCallbacks(timeout);signal=null;locate.isEnabled=true
                 if(location==null)message("موقعیت دریافت نشد؛ دوباره امتحان کنید")

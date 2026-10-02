@@ -17,7 +17,8 @@ class NeshanDrivingService : AccessibilityService() {
     private val session = NeshanEntrySession()
     private var verifyUntil = 0L
     private var menuClicked = false
-    private val tick = Runnable { inspect() }
+    private var tickPending = false
+    private val tick = Runnable { tickPending = false; inspect() }
     private val preferences get() = NavigationPreferences(this)
     private val enabled get() = (application as VoyahIranApplication).subscriptions.allowed &&
         (preferences.autoDriving || preferences.voiceNavigationEnabled)
@@ -52,7 +53,7 @@ class NeshanDrivingService : AccessibilityService() {
         } finally { root.recycle() }
     }
     private fun schedule() {
-        if (!handler.hasCallbacks(tick)) handler.postDelayed(tick, 350)
+        if (!tickPending) { tickPending = true; handler.postDelayed(tick, 350) }
     }
     private fun inspect() {
         if (!enabled || !session.inside) { reset(); return }
@@ -189,11 +190,11 @@ class NeshanDrivingService : AccessibilityService() {
     }
     private fun isCentralApplicationWindow(root: AccessibilityNodeInfo): Boolean {
         val currentWindows = windows
-        return try { currentWindows.any { it.id == root.windowId && it.displayId == 0 && it.type == AccessibilityWindowInfo.TYPE_APPLICATION } }
+        return try { currentWindows.any { it.id == root.windowId && (android.os.Build.VERSION.SDK_INT < 30 || it.displayId == 0) && it.type == AccessibilityWindowInfo.TYPE_APPLICATION } }
         finally { currentWindows.forEach { it.recycle() } }
     }
     private fun reset() {
-        handler.removeCallbacks(tick); session.leave(); verifyUntil = 0L; menuClicked = false
+        handler.removeCallbacks(tick); tickPending = false; session.leave(); verifyUntil = 0L; menuClicked = false
     }
     override fun onInterrupt() { NeshanVoiceNavigation.pending?.failure = "Accessibility interrupted"; reset() }
     override fun onDestroy() {

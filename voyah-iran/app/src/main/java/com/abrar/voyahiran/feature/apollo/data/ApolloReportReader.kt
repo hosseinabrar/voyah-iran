@@ -7,7 +7,7 @@ import com.abrar.voyahiran.feature.drivememory.data.CanDriveGateway
 import kotlinx.coroutines.CancellationException
 import org.json.JSONObject
 
-/** Read-only: provider query + CAN getters. No command runner or write method. */
+/** Read-only provider and CAN queries, including experimental controls through the bridge. */
 class ApolloReportReader(context: Context) {
     private val resolver = context.applicationContext.contentResolver
     private val gateway = CanDriveGateway(context) {}
@@ -34,6 +34,6 @@ class ApolloReportReader(context: Context) {
                 com.abrar.voyahiran.core.logging.AppLog.changed("Apollo/$feature", "checked=${values[feature]}")
             }
         } finally { gateway.close() }
-        return ApolloReport(subscription, values)
+        return ApolloReport(subscription, values, ApolloExperimentPort.read())
     }
 }

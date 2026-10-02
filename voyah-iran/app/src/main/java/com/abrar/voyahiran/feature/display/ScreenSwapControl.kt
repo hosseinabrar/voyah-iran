@@ -16,7 +16,7 @@ class ScreenSwapControl(private val app: VoyahIranApplication) {
     private val gate = ScreenSwapPress()
     private val runner = ProcessCommandRunner()
     @Volatile private var readyUntil = 0L
-    private fun enabled() = app.subscriptions.allowed &&
+    private fun enabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap && app.subscriptions.allowed &&
         Settings.Global.getInt(app.contentResolver, "voyah_iran_screen_swap", 1) == 1
     fun start() { scope.launch {
         while (isActive) {

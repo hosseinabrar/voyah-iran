@@ -18,7 +18,7 @@ internal object RahaPhaseThreeRecognizer {
     val small = "یکم|یه کم|1 کم|کمی|کم ای|کم یه|یه مقدار|1 مقدار|یک مقدار|مقداری|کمه|اندکی|کم"
     val full = "تا انتها|تا آخر|تا ته|کاملا|کامل|تمام"
     val vocabulary = listOf(doors, "قفل|آنلاک|باز", windows, roof, shade, trunk, charge, fuel, opening, closing, vent, small, full, "بیشتر|تا نصف|تا نیمه|ببر",
-        "قفل کودک|قفل بچه|چپ|راست|راننده|شاگرد|جلو|عقب|پشت|همه|هر دو|چهارتا|هر چهار|نصف|نیمه|درصد|کامل|تمام|تا آخر|صد|پنجاه|هفتاد|هشتاد|نود")
+        "قفل کودک|قفل بچه|چپ|راست|راننده|شاگرد|همراه|جلو|عقب|پشت|همه|هر دو|چهارتا|هر چهار|نصف|نیمه|درصد|کامل|تمام|تا آخر|صد|پنجاه|هفتاد|هشتاد|نود")
 
     fun recognize(text: String): Recognition.Matched? {
         val results = mutableListOf<VehicleCommand>()
@@ -35,7 +35,7 @@ internal object RahaPhaseThreeRecognizer {
         rule {
             if(!take(doors)) return@rule null
             // Door locks share one central actuator, regardless of spoken seating position.
-            while(take("راننده|شاگرد|سرنشین|مسافر|چپ|راست|جلو|عقب|پشت|ردیف اول|ردیف دوم|ردیف 1|ردیف 2|همه|همگی|تمام|هر دو|هر 2|هر چهار|هر 4|ماشین|خودرو")) { }
+            while(take("راننده|شاگرد|همراه|سرنشین|مسافر|چپ|راست|جلو|عقب|پشت|ردیف اول|ردیف دوم|ردیف 1|ردیف 2|همه|همگی|تمام|هر دو|هر 2|هر چهار|هر 4|ماشین|خودرو")) { }
             val unlocked=take("باز|آنلاک")
             val lockWord=take("قفل")
             if(!unlocked && !lockWord) return@rule null
@@ -135,7 +135,7 @@ internal object RahaPhaseThreeRecognizer {
         val rear=take("عقب|پشت")
         val front=take("جلو")
         val left=take("راننده|چپ")
-        val right=take("شاگرد|راست|بغل")
+        val right=take("شاگرد|همراه|راست|بغل")
         val all=take("همه|همگی|هر چهار|هر 4|چهارتا|4 تا|تمام")
         if(rear && front || all && (rear || front || left || right)) return null
         return when {

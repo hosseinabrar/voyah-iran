@@ -6,6 +6,14 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun steeringBackIsLimitedToTheFixedCenterOperation() {
+        val command = listOf("steering-back", "center")
+        assertEquals(command, BridgePolicy.resolve(command))
+        for (request in listOf(listOf("steering-back"), listOf("steering-back", "1"),
+            listOf("steering-back", "center", "4"), listOf("input", "keyevent", "4"))) {
+            assertNull(BridgePolicy.resolve(request))
+        }
+    }
     @Test fun mediaAccessCanOnlyGrantOurOwnListenerOnUserZero() {
         assertEquals(listOf("/system/bin/cmd", "notification", "allow_listener",
             "com.abrar.voyahiran/com.abrar.voyahiran.feature.media.SteeringMediaListener", "0"),
@@ -75,8 +83,23 @@ class BridgePolicyTest {
         val command = BridgePolicy.resolve(listOf("ime", "current", "--user", "0"))!!
         assertTrue(command.last().contains("dumpsys input_method |"))
         assertFalse(command.last().contains("input_method_ext"))
+        assertFalse(command.last().contains("-m 1")) // Drain dumpsys; avoid system-server EPIPE.
         assertNull(BridgePolicy.resolve(listOf("ime", "current", "--user", "10")))
         assertNull(BridgePolicy.resolve(listOf("ime", "current", "--user", "0", ";reboot")))
+    }
+    @Test fun keyboardCommandsUseVersionSpecificPrimaryServiceSyntax() {
+        val id = "com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME"
+        for (operation in listOf("enable", "set")) {
+            val request = listOf("ime", operation, "--user", "0", id)
+            val legacy = BridgePolicy.resolve(request, 28)!!
+            assertEquals(listOf("/system/bin/sh", "-c"), legacy.take(2))
+            assertTrue(legacy.last().contains("get-current-user"))
+            assertTrue(legacy.last().endsWith("exec /system/bin/cmd input_method ime $operation '$id'"))
+            assertFalse(legacy.last().contains("--user"))
+            assertEquals(listOf("/system/bin/cmd", "input_method", "ime", operation, "--user", "0", id), BridgePolicy.resolve(request, 30))
+            assertNull(BridgePolicy.resolve(request.dropLast(1) + "$id'; reboot", 28))
+            assertNull(BridgePolicy.resolve(listOf("ime", operation, "--user", "10", id), 28))
+        }
     }
     @Test fun overrideCannotSelectPassengerOrInjectCommands() {
         val prefix = listOf("settings", "put", "global", "voyah_iran_ime_override")

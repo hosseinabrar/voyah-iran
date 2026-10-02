@@ -28,11 +28,12 @@ object OemScreenSwapManager {
             String::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
             .invoke(pm, pkg, 0, 0) as? ApplicationInfo
     }
-    private val apiType by lazy { Class.forName("android.app.IActivityTaskManager") }
+    private val contract by lazy { checkNotNull(ScreenSwapContract.forSdk(android.os.Build.VERSION.SDK_INT)) }
+    private val apiType by lazy { Class.forName(contract.api) }
     private var prepared: List<ScreenSwapPlan.Stack> = emptyList()
     private var preparedAt = 0L
     private var lastMove = -10000L
-    private fun enabled(force: Boolean) = BridgeSubscriptionSession.active &&
+    private fun enabled(force: Boolean) = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap && BridgeSubscriptionSession.active &&
         setting(force) &&
         Class.forName("android.os.SystemProperties").getMethod("getInt", String::class.java, Int::class.javaPrimitiveType)
             .invoke(null, "persist.qg.canbus.bcm_screenAutoLiftFdb", 2) == 2
@@ -60,7 +61,7 @@ object OemScreenSwapManager {
         }
         return try {
             if (!enabled(operation == "execute")) { prepared = emptyList(); return CommandResult(0, "OEM") }
-            api = Class.forName("android.app.ActivityTaskManager").getMethod("getService").invoke(null)
+            api = Class.forName(contract.owner).getMethod("getService").invoke(null)
             val stacks = snapshot(api!!)
             val moves = ScreenSwapPlan.moves(stacks)
             val now = SystemClock.elapsedRealtime()
