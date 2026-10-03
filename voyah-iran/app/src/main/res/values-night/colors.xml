@@ -1,0 +1,23 @@
+<resources>
+    <color name="background">#191D25</color>
+    <color name="rail">#191D25</color>
+    <color name="surface">#23272F</color>
+    <color name="surface_elevated">#2D3442</color>
+    <color name="stroke">#373F4A</color>
+    <color name="accent">#4099F3</color>
+    <color name="accent_surface">#263F59</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#CACACA</color>
+    <color name="error">#FFB4AB</color>
+    <color name="transparent">#00000000</color>
+    <color name="reboot_red">#B3261E</color>
+    <color name="reboot_text">#FFFFFF</color>
+    <color name="confirm_green">#277FCF</color>
+    <color name="button_gray">#58616F</color>
+    <color name="control_track">#373F4A</color>
+    <color name="switch_track">#808894</color>
+    <color name="divider">#20FFFFFF</color>
+    <color name="hint_text">#99CACACA</color>
+    <color name="selected_text">#FFFFFF</color>
+    <color name="ripple">#264099F3</color>
+</resources>

@@ -7,39 +7,39 @@
             android:layout_marginTop="@dimen/space_lg" android:padding="@dimen/space_lg" android:background="@drawable/bg_card">
 <CheckBox android:id="@+id/master" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-        android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+        android:buttonTint="@null" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
         android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_enable" />
             <LinearLayout android:id="@+id/wakeOptions" android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="vertical" android:alpha="0.4" android:layout_marginTop="@dimen/space_md">
                 <TextView style="@style/Text.Secondary" android:text="@string/raha_wake_hint" />
 <CheckBox android:id="@+id/wakeHey" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-        android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+        android:buttonTint="@null" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
         android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_wake_hey" /><CheckBox android:id="@+id/wakeHello" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-        android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+        android:buttonTint="@null" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
         android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_wake_hello" /><CheckBox android:id="@+id/wakeName" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-        android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+        android:buttonTint="@null" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
         android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_wake_name" />
             </LinearLayout>
             <TextView android:id="@+id/wakeVolumeLabel" style="@style/Text.Secondary"
                 android:layout_marginTop="@dimen/space_md" android:text="حداقل بلندی صدا برای فعال شدن رها" />
-            <SeekBar android:id="@+id/wakeVolume" android:layout_width="match_parent" android:layout_height="56dp"
-                android:max="100" android:progressTint="@color/accent" android:thumbTint="@color/accent"
+            <SeekBar android:id="@+id/wakeVolume" android:layout_width="match_parent" android:layout_height="@dimen/touch_target"
+                android:max="100" android:progressTint="@color/accent" android:thumbTint="@null"
                 android:contentDescription="حداقل بلندی صدا برای فعال شدن رها" />
             <TextView style="@style/Text.Caption"
                 android:text="با افزایش این مقدار، صداهای آرام‌تر رها را فعال نمی‌کنند. صفر یعنی بدون محدودیت. این تنظیم روی دکمهٔ فرمان و شنیدن دستور پس از فعال شدن اثری ندارد." />
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
                 <CheckBox android:id="@+id/callsEnabled" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
-                    android:minHeight="@dimen/touch_target" android:buttonTint="@color/accent" android:paddingStart="@dimen/space_sm"
+                    android:minHeight="@dimen/touch_target" android:buttonTint="@null" android:paddingStart="@dimen/space_sm"
                     android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:text="تماس از طریق رها" />
                 <Button android:id="@+id/contacts" android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginStart="16dp" android:visibility="gone" android:text="مخاطب‌ها" />
             </LinearLayout>
             <TextView android:id="@+id/contactsStatus" style="@style/Text.Caption" android:visibility="gone" />
             <CheckBox android:id="@+id/showTranscript" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:minHeight="@dimen/touch_target" android:buttonTint="@color/accent"
+                android:minHeight="@dimen/touch_target" android:buttonTint="@null"
                 android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
                 android:text="@string/raha_show_transcript" />
             <TextView android:id="@+id/error" style="@style/Text.Caption" android:visibility="gone" android:accessibilityLiveRegion="polite" />

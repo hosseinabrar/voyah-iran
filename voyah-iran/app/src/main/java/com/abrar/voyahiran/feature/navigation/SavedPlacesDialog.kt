@@ -20,11 +20,11 @@ internal class SavedPlacesDialog(private val activity:ComponentActivity) {
     private val dialogs=mutableSetOf<AlertDialog>()
     private fun dp(n:Int)=(activity.resources.displayMetrics.density*n).toInt()
     private fun column()=LinearLayout(activity).apply { orientation=LinearLayout.VERTICAL;layoutDirection=View.LAYOUT_DIRECTION_RTL;setPadding(dp(18),dp(12),dp(18),dp(12)) }
-    private fun label(value:String)=TextView(activity).apply { text=value;textSize=18f;setTextColor(activity.getColor(R.color.text_primary));setPadding(0,dp(8),0,dp(8)) }
+    private fun label(value:String)=TextView(activity).apply { text=value;setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, activity.resources.getDimension(com.abrar.voyahiran.R.dimen.text_secondary_size));setTextColor(activity.getColor(R.color.text_primary));setPadding(0,dp(8),0,dp(8)) }
     private fun button(value:String,red:Boolean=false)=Button(activity).apply {
-        text=value;isAllCaps=false;textSize=16f;setTextColor(Color.WHITE)
+        text=value;isAllCaps=false;setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, activity.resources.getDimension(com.abrar.voyahiran.R.dimen.text_secondary_size));setTextColor(Color.WHITE)
         backgroundTintList=android.content.res.ColorStateList.valueOf(activity.getColor(if(red)R.color.reboot_red else R.color.confirm_green))
-        minHeight=dp(48)
+        minHeight=activity.resources.getDimensionPixelSize(R.dimen.segment_height)
     }
     fun show() {
         val body=column()
@@ -68,11 +68,11 @@ internal class SavedPlacesDialog(private val activity:ComponentActivity) {
     @Suppress("DEPRECATION") // Car Android 11: keep the save button reachable above the IME.
     private fun edit(place:RahaSavedPlace?, changed:()->Unit) {
         val body=column()
-        fun input(value:String)=EditText(activity).apply { setText(value);textSize=18f;setTextColor(activity.getColor(R.color.text_primary));isSingleLine=true;filters=arrayOf(android.text.InputFilter.LengthFilter(300)) }
+        fun input(value:String)=EditText(activity).apply { setText(value);setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, activity.resources.getDimension(com.abrar.voyahiran.R.dimen.text_secondary_size));setTextColor(activity.getColor(R.color.text_primary));isSingleLine=true;filters=arrayOf(android.text.InputFilter.LengthFilter(300)) }
         body.addView(label("نام"))
-        val name=input(place?.name.orEmpty()).apply { hint="مثال: خونه";setHintTextColor(Color.GRAY) };body.addView(name)
+        val name=input(place?.name.orEmpty()).apply { hint="مثال: خونه";setHintTextColor(activity.getColor(R.color.hint_text)) };body.addView(name)
         body.addView(label("نام‌های جایگزین (حداکثر ۴ نام، با کاما جدا کنید)"))
-        val aliases=input(place?.aliases?.joinToString("، ").orEmpty()).apply { hint="مثال: خونه، خانه، منزل، منزل خودمون";setHintTextColor(Color.GRAY) };body.addView(aliases)
+        val aliases=input(place?.aliases?.joinToString("، ").orEmpty()).apply { hint="مثال: خونه، خانه، منزل، منزل خودمون";setHintTextColor(activity.getColor(R.color.hint_text)) };body.addView(aliases)
         body.addView(label("موقعیت روی نقشه"))
         val picker=NeshanPlacePicker(activity,place);body.addView(picker)
         val error=label("").apply {setTextColor(activity.getColor(R.color.error));visibility=View.GONE};body.addView(error)
@@ -94,7 +94,7 @@ internal class SavedPlacesDialog(private val activity:ComponentActivity) {
     }
     private fun showDialog(dialog:AlertDialog,large:Boolean) {
         dialogs+=dialog;dialog.show()
-        dialog.window?.setBackgroundDrawable(ColorDrawable(activity.getColor(R.color.surface)))
+        dialog.window?.setBackgroundDrawable(activity.getDrawable(R.drawable.bg_card))
         if(large) {
             val bounds=if(android.os.Build.VERSION.SDK_INT>=30) activity.windowManager.currentWindowMetrics.bounds
                 else android.graphics.Rect().also { activity.window.decorView.getWindowVisibleDisplayFrame(it) }

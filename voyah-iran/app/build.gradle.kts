@@ -76,3 +76,10 @@ dependencies {
     testImplementation(libs.robolectric)
 }
 
+// Robolectric's older ASM cannot inspect the JDK 25 bundled with Android Studio.
+// Only host-side test bytecode tooling is affected; no runtime dependency ships in the APK.
+configurations.matching { it.name.endsWith("UnitTestRuntimeClasspath") }.configureEach {
+    resolutionStrategy.force("org.ow2.asm:asm:9.9", "org.ow2.asm:asm-tree:9.9",
+        "org.ow2.asm:asm-commons:9.9", "org.ow2.asm:asm-analysis:9.9", "org.ow2.asm:asm-util:9.9")
+}
+

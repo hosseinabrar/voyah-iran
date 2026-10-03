@@ -33,7 +33,7 @@
                 android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm"
                 android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent"
+                android:buttonTint="@null"
                 android:text="@string/correction_label"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body"
@@ -57,7 +57,7 @@
                     style="@style/Text.Body"
                     android:text="@string/unknown_time"
                     android:textSize="@dimen/text_clock"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="@font/iransansx"
                     android:textDirection="ltr"
                     android:gravity="start"
                     tools:text="10:24" />
@@ -97,7 +97,7 @@
                 tools:text="@string/applied" />
             <Button
                 android:id="@+id/retryButton"
-                style="@style/NavigationTab"
+                style="@style/Oem.Button"
                 android:layout_width="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginTop="@dimen/space_sm"
@@ -120,7 +120,7 @@
                 android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm"
                 android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent"
+                android:buttonTint="@null"
                 android:text="@string/star_back_label"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body"
@@ -164,7 +164,7 @@
                 android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm"
                 android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent"
+                android:buttonTint="@null"
                 android:text="@string/rear_camera_label"
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body"
@@ -181,8 +181,8 @@
             <TextView android:id="@+id/rearCameraStatus" style="@style/Text.Body"
                 android:layout_marginTop="@dimen/space_md" android:text="@string/rear_camera_error"
                 android:accessibilityLiveRegion="polite" android:visibility="gone" />
-<Button android:id="@+id/rearCameraOpen" style="@style/NavigationTab" android:layout_width="wrap_content" android:text="@string/rear_camera_open" android:visibility="gone"/>
-            <Button android:id="@+id/rearCameraRetry" style="@style/NavigationTab"
+<Button android:id="@+id/rearCameraOpen" style="@style/Oem.Button" android:layout_width="wrap_content" android:text="@string/rear_camera_open" android:visibility="gone"/>
+            <Button android:id="@+id/rearCameraRetry" style="@style/Oem.Button"
                 android:layout_width="wrap_content" android:layout_gravity="start"
                 android:layout_marginTop="@dimen/space_sm" android:text="@string/retry"
                 android:visibility="gone" />
@@ -194,7 +194,7 @@
             <CheckBox android:id="@+id/gboard"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm"
-                android:paddingEnd="@dimen/space_sm" android:buttonTint="@color/accent"
+                android:paddingEnd="@dimen/space_sm" android:buttonTint="@null"
                 android:text="@string/gboard_label" android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body" android:textDirection="rtl"
                 android:gravity="center_vertical|start" android:enabled="false" tools:enabled="true" />
@@ -206,7 +206,7 @@
             <TextView android:id="@+id/keyboardStatus" style="@style/Text.Body"
                 android:layout_marginTop="@dimen/space_md" android:accessibilityLiveRegion="polite"
                 android:visibility="gone" />
-            <Button android:id="@+id/keyboardRetry" style="@style/NavigationTab"
+            <Button android:id="@+id/keyboardRetry" style="@style/Oem.Button"
                 android:layout_width="wrap_content" android:layout_gravity="start"
                 android:layout_marginTop="@dimen/space_sm" android:text="@string/retry" android:visibility="gone" />
         </LinearLayout>
@@ -216,7 +216,7 @@
             <CheckBox android:id="@+id/displaySpeed" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent" android:text="افزایش سرعت نمایشگرها"
+                android:buttonTint="@null" android:text="افزایش سرعت نمایشگرها"
                 android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
                 android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false" />
             <TextView style="@style/Text.Secondary" android:text="غیرفعال سازی ثبت گزارش‌های سیستمی"
@@ -228,9 +228,9 @@
             <TextView style="@style/Text.Body" android:textStyle="bold" android:text="آزمایش ورود محلی خودرو" />
             <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm"
                 android:text="برای تست ورود بدون QR و مموری صندلی. قبل از تغییر، پشتیبان گرفته می‌شود. این آزمایش حساب آنلاین ایجاد نمی‌کند و موفقیت مموری صندلی باید روی خودرو بررسی شود. تکرار خودکار فعال نیست." />
-            <Button android:id="@+id/localProfileApply" style="@style/NavigationTab" android:text="اعمال تنظیم آزمایشی" />
-            <Button android:id="@+id/localProfileRead" style="@style/NavigationTab" android:text="بررسی وضعیت" />
-            <Button android:id="@+id/localProfileRestore" style="@style/NavigationTab" android:text="بازگردانی وضعیت قبلی" />
+            <Button android:id="@+id/localProfileApply" style="@style/Oem.Button" android:text="اعمال تنظیم آزمایشی" />
+            <Button android:id="@+id/localProfileRead" style="@style/Oem.Button" android:text="بررسی وضعیت" />
+            <Button android:id="@+id/localProfileRestore" style="@style/Oem.Button" android:text="بازگردانی وضعیت قبلی" />
             <ProgressBar android:id="@+id/localProfileProgress" android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone" />
             <TextView android:id="@+id/localProfileStatus" style="@style/Text.Body"

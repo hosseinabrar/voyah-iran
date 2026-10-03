@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="rail_width">160dp</dimen>
-    <dimen name="brand_size">128dp</dimen>
+    <dimen name="rail_width">170dp</dimen>
+    <dimen name="brand_size">72dp</dimen>
 </resources>

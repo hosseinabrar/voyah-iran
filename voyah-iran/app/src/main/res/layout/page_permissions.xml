@@ -20,7 +20,7 @@
         tools:entries="@array/preview_permission_apps"/>
     <Button
         android:id="@+id/uninstall"
-        style="@style/NavigationTab"
+        style="@style/Oem.Button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/space_md"
@@ -30,16 +30,16 @@
         android:backgroundTint="@null"
         android:text="@string/uninstall_app"
         android:textColor="@color/reboot_text"/>
-    <Button android:id="@+id/forceStop" style="@style/NavigationTab"
+    <Button android:id="@+id/forceStop" style="@style/Oem.Button"
         android:layout_width="wrap_content" android:layout_height="match_parent"
         android:layout_marginStart="@dimen/space_md"
         android:paddingStart="@dimen/space_lg" android:paddingEnd="@dimen/space_lg"
         android:background="@drawable/bg_force_stop" android:backgroundTint="@null"
-        android:text="@string/force_stop_app" android:textColor="@color/reboot_text"/>
+        android:text="@string/force_stop_app" android:textColor="@color/text_primary"/>
 </LinearLayout>
 <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:indeterminate="true" android:visibility="gone"/>
 <TextView android:id="@+id/feedback" style="@style/Text.Caption" android:textColor="@color/error" android:accessibilityLiveRegion="polite" android:visibility="gone" android:text="@string/permissions_error"/>
-<Button android:id="@+id/refresh" style="@style/NavigationTab" android:text="@string/permissions_refresh"/>
+<Button android:id="@+id/refresh" style="@style/Oem.Button" android:layout_marginTop="@dimen/space_md" android:layout_marginBottom="@dimen/space_md" android:text="@string/permissions_refresh"/>
 <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
 <CheckBox android:id="@+id/permissionMicrophone" style="@style/PermissionTile" android:text="@string/perm_microphone" tools:enabled="true"/>

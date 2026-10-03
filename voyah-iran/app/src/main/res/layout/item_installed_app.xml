@@ -3,7 +3,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:minHeight="@dimen/touch_target" android:orientation="horizontal"
     android:layoutDirection="rtl" android:gravity="center_vertical"
-    android:padding="@dimen/space_sm" android:background="@color/background">
+    android:padding="@dimen/space_sm" android:background="@android:color/transparent">
     <ImageView android:id="@+id/appIcon" android:layout_width="@dimen/permission_app_icon"
         android:layout_height="@dimen/permission_app_icon" android:layout_marginEnd="@dimen/space_md"
         android:importantForAccessibility="no" tools:src="@drawable/ic_app"/>

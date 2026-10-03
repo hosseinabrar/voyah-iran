@@ -11,9 +11,11 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
 
 /** Inflates and measures the actual Android XML; no browser mockup or root commands. */
 @RunWith(RobolectricTestRunner::class)
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [30], qualifiers = "fa-rIR-w1280dp-h720dp-land-mdpi")
 class SettingsLayoutTest {
     @Test fun persianLocaleKeepsRailOnPhysicalRightAndContentRtl() {
@@ -38,15 +40,18 @@ class SettingsLayoutTest {
     @Test
     @Config(qualifiers = "fa-rIR-w480dp-h800dp-port-mdpi")
     fun narrowWindowWrapsTheLabelInsteadOfTruncatingIt() {
-        val binding = layout(480, 800)
+        val binding = layout(480, 800) {
+            it.settingsPage.timeZoneCorrection.setText(R.string.correction_description)
+        }
         assertLabelHasNoEllipsis(binding.settingsPage.timeZoneCorrection)
         assertTrue(binding.settingsPage.timeZoneCorrection.layout.lineCount > 1)
     }
 
-    private fun layout(width: Int, height: Int): ActivityMainBinding {
+    private fun layout(width: Int, height: Int, configure: (ActivityMainBinding) -> Unit = {}): ActivityMainBinding {
         val context = RuntimeEnvironment.getApplication()
         context.setTheme(R.style.Theme_VoyahIran)
         return ActivityMainBinding.inflate(LayoutInflater.from(context)).also {
+            configure(it)
             it.root.measure(
                 View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY),

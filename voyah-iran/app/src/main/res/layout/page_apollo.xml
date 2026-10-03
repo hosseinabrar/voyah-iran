@@ -18,16 +18,16 @@
             <CheckBox android:id="@+id/emergencySteering" android:layout_marginStart="24dp" android:alpha="0.45" android:clickable="true" android:focusable="true" style="@style/ReportCheckBox" android:text="@string/apollo_emergency_steering" />
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginStart="24dp" android:orientation="vertical">
-                <TextView style="@style/Text.Heading" android:text="هشدار سرعت" />
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                    <ToggleButton android:id="@+id/speedWarningExact" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textOn="دقیق" android:textOff="دقیق" />
-                    <ToggleButton android:id="@+id/speedWarningPercent" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:textOn="درصدی" android:textOff="درصدی" />
+                <TextView style="@style/Text.Title" android:text="هشدار سرعت" />
+                <LinearLayout android:background="@drawable/bg_segment_track" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <ToggleButton style="@style/Oem.Toggle" android:id="@+id/speedWarningExact" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textOn="دقیق" android:textOff="دقیق" />
+                    <ToggleButton style="@style/Oem.Toggle" android:id="@+id/speedWarningPercent" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textOn="درصدی" android:textOff="درصدی" />
                 </LinearLayout>
             </LinearLayout>
             <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:indeterminate="true"
                 android:indeterminateTint="@color/accent" android:visibility="gone" />
-            <Button android:id="@+id/refresh" style="@style/NavigationTab" android:text="@string/apollo_refresh" />
+            <Button android:id="@+id/refresh" style="@style/Oem.Button" android:text="@string/apollo_refresh" />
         </LinearLayout>
         <LinearLayout android:visibility="gone" android:id="@+id/experiments" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg" android:padding="@dimen/space_lg"

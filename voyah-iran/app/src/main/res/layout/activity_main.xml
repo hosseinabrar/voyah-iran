@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:layoutDirection="rtl"
+    android:orientation="horizontal"
     tools:context=".ui.MainActivity">
 
     <!-- Logical start is the right edge for the Persian application shell. -->
     <ScrollView
         android:id="@+id/navigationRail"
         android:layout_width="@dimen/rail_width"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:background="@color/rail"
-        android:fillViewport="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:fillViewport="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/rail_padding">
-            <ImageView
-                android:layout_width="@dimen/brand_size"
-                android:layout_height="@dimen/brand_size"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="fitCenter"
-                android:layout_marginTop="@dimen/space_md"
-                android:importantForAccessibility="no"
-                android:src="@drawable/ic_app" />
             
             <Button
                 android:id="@+id/settingsTab"
                 style="@style/NavigationTab"
-                android:layout_marginTop="@dimen/space_xl"
+                android:layout_marginTop="@dimen/space_md"
                 android:text="@string/settings_tab" />
             <Button android:id="@+id/displayMediaMapTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/display_media_map_tab"/>
             <Button
@@ -58,14 +48,10 @@
         </LinearLayout>
     </ScrollView>
 
-    <FrameLayout
+    <FrameLayout android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layoutDirection="rtl"
-        app:layout_constraintStart_toEndOf="@id/navigationRail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl">
         <include android:id="@+id/displayMediaMapPage" layout="@layout/page_display_media_map"/>
         <include android:id="@+id/settingsPage" layout="@layout/page_settings" />
         <include android:id="@+id/comfortPage" layout="@layout/page_comfort" />
@@ -75,7 +61,7 @@
         <include android:id="@+id/diagnosticsPage" layout="@layout/page_diagnostics" />
         <include android:id="@+id/aboutPage" layout="@layout/page_about" />
     </FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
 
 
 

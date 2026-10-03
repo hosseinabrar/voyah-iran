@@ -1,0 +1,33 @@
+<resources>
+ <style name="Theme.VoyahIran.Dialog" parent="android:style/Theme.Material.Dialog.Alert">
+        <item name="android:fontFamily">@font/iransansx</item>
+  <item name="android:colorAccent">@color/accent</item><item name="android:colorBackgroundFloating">@color/surface</item>
+  <item name="android:textColorPrimary">@color/text_primary</item><item name="android:textColorSecondary">@color/text_secondary</item>
+  <item name="android:buttonStyle">@style/Oem.Button</item><item name="android:editTextStyle">@style/Oem.EditText</item>
+ </style>
+<style name="Theme.VoyahIran" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">@font/iransansx</item>
+        <item name="android:windowLightStatusBar">@bool/oem_light_theme</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:checkboxStyle">@style/Oem.CheckBox</item>
+        <item name="android:radioButtonStyle">@style/Oem.Segment</item>
+        <item name="android:buttonStyle">@style/Oem.Button</item>
+        <item name="android:buttonStyleToggle">@style/Oem.Toggle</item>
+        <item name="android:seekBarStyle">@style/Oem.SeekBar</item>
+        <item name="android:spinnerStyle">@style/Oem.Spinner</item>
+        <item name="android:editTextStyle">@style/Oem.EditText</item>
+        <item name="android:alertDialogTheme">@style/Theme.VoyahIran.Dialog</item>
+        <item name="android:colorControlNormal">@color/text_secondary</item>
+        <item name="android:colorControlActivated">@color/accent</item>
+        <item name="android:colorControlHighlight">@color/ripple</item>
+        <item name="android:textColorHint">@color/hint_text</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:colorBackgroundFloating">@color/surface</item>
+    </style>
+</resources>

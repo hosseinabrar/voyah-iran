@@ -29,7 +29,7 @@ internal class NeshanPlacePicker(private val activity: ComponentActivity, place:
     private val handler=Handler(Looper.getMainLooper())
     private var closed=false
     private var signal:CancellationSignal?=null
-    private val locate=Button(activity).apply { text="◎ موقعیت من";setTextColor(Color.BLACK);backgroundTintList=android.content.res.ColorStateList.valueOf(Color.WHITE) }
+    private val locate=Button(activity).apply { text="◎ موقعیت من";setTextColor(activity.getColor(com.abrar.voyahiran.R.color.text_primary));backgroundTintList=android.content.res.ColorStateList.valueOf(activity.getColor(com.abrar.voyahiran.R.color.surface)) }
     private val permission=activity.activityResultRegistry.register("saved-place-location-"+UUID.randomUUID(),ActivityResultContracts.RequestMultiplePermissions()) {
         if(!closed) { if(hasPermission())locateNow() else message("برای نمایش موقعیت، دسترسی مکان را فعال کنید") }
     }
@@ -40,7 +40,7 @@ internal class NeshanPlacePicker(private val activity: ComponentActivity, place:
     init {
         orientation=VERTICAL
         if(BuildConfig.NESHAN_MAP_KEY.isBlank()) {
-            addView(TextView(activity).apply {text="نقشه در این نسخه آماده نیست.";setTextColor(Color.WHITE)})
+            addView(TextView(activity).apply {text="نقشه در این نسخه آماده نیست.";setTextColor(activity.getColor(com.abrar.voyahiran.R.color.text_primary))})
         } else {
             web.settings.javaScriptEnabled=true
             web.settings.domStorageEnabled=true

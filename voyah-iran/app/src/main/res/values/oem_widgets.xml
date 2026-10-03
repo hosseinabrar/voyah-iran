@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimensions/blue selection/knob are based on the OEM Driver Assist widgets. -->
+    <style name="Oem.CheckBox" parent="android:style/Widget.Material.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/oem_switch_spaced</item>
+        <item name="android:buttonTint">@null</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:minHeight">@dimen/touch_target</item>
+        <item name="android:drawablePadding">@dimen/control_gap</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:fontFamily">@font/iransansx</item>
+    </style>
+    <style name="Oem.Segments" parent="">
+        <item name="android:background">@drawable/bg_segment_track</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:minHeight">@dimen/segment_height</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="Oem.Segment" parent="android:style/Widget.Material.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_segment</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">@color/control_text</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:minHeight">@dimen/segment_height</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+    <style name="Oem.Toggle" parent="android:style/Widget.Material.Button.Toggle">
+        <item name="android:background">@drawable/bg_segment</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">@color/control_text</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:minHeight">@dimen/segment_height</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">12dp</item>
+    </style>
+    <style name="Oem.Button" parent="android:style/Widget.Material.Button.Borderless">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/segment_height</item>
+        <item name="android:background">@drawable/bg_button</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="Oem.SeekBar" parent="android:style/Widget.Material.SeekBar">
+        <item name="android:progressDrawable">@drawable/oem_seek_track</item>
+        <item name="android:thumb">@drawable/oem_seek_thumb</item>
+        <item name="android:thumbTint">@null</item>
+        <item name="android:splitTrack">false</item>
+        <item name="android:minHeight">@dimen/touch_target</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+    </style>
+    <style name="Oem.Spinner" parent="android:style/Widget.Material.Spinner">
+        <item name="android:background">@drawable/bg_oem_spinner</item>
+        <item name="android:popupBackground">@drawable/bg_card</item>
+        <item name="android:minHeight">@dimen/segment_height</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">48dp</item>
+    </style>
+    <style name="Oem.EditText" parent="android:style/Widget.Material.EditText">
+        <item name="android:background">@drawable/bg_input</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:minHeight">@dimen/segment_height</item>
+        <item name="android:textSize">@dimen/text_secondary_size</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColorHint">@color/hint_text</item>
+        <item name="android:padding">16dp</item>
+    </style>
+    <style name="Theme.VoyahIran.Dialog" parent="android:style/Theme.Material.Light.Dialog.Alert">
+        <item name="android:fontFamily">@font/iransansx</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorBackgroundFloating">@color/surface</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:buttonStyle">@style/Oem.Button</item>
+        <item name="android:editTextStyle">@style/Oem.EditText</item>
+    </style>
+</resources>

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="space_xs">4dp</dimen>
     <dimen name="space_sm">8dp</dimen>
@@ -7,20 +6,28 @@
     <dimen name="space_xl">32dp</dimen>
     <dimen name="page_padding">24dp</dimen>
     <dimen name="rail_width">120dp</dimen>
-    <dimen name="rail_padding">16dp</dimen>
-    <dimen name="touch_target">56dp</dimen>
+    <dimen name="rail_padding">8dp</dimen>
+    <dimen name="touch_target">64dp</dimen>
     <dimen name="card_radius">20dp</dimen>
-    <dimen name="small_radius">12dp</dimen>
+    <dimen name="small_radius">16dp</dimen>
     <dimen name="stroke_width">1dp</dimen>
     <dimen name="icon_size">24dp</dimen>
-    <dimen name="brand_size">88dp</dimen>
-    <dimen name="text_caption">14sp</dimen>
-    <dimen name="text_body">18sp</dimen>
+    <dimen name="brand_size">64dp</dimen>
+    <dimen name="text_caption">16sp</dimen>
+    <dimen name="text_body">20sp</dimen>
     <dimen name="text_title">24sp</dimen>
-    <dimen name="text_heading">30sp</dimen>
+    <dimen name="text_heading">28sp</dimen>
     <dimen name="text_clock">40sp</dimen>
     <dimen name="permission_app_icon">40dp</dimen>
-    <dimen name="reboot_button_height">80dp</dimen>
+    <dimen name="reboot_button_height">70dp</dimen>
     <dimen name="notice_text_size">24sp</dimen>
+    <dimen name="switch_width">64dp</dimen>
+    <dimen name="switch_height">36dp</dimen>
+    <dimen name="switch_knob">30dp</dimen>
+    <dimen name="switch_inset">3dp</dimen>
+    <dimen name="control_gap">16dp</dimen>
+    <dimen name="segment_radius">35dp</dimen>
+    <dimen name="segment_height">64dp</dimen>
+    <dimen name="text_secondary_size">18sp</dimen>
+    <dimen name="navigation_height">80dp</dimen>
 </resources>
-

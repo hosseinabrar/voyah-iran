@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#0B1018</color>
-    <color name="rail">#101722</color>
-    <color name="surface">#151F2D</color>
-    <color name="surface_elevated">#1B2838</color>
-    <color name="stroke">#2B3A4C</color>
-    <color name="accent">#65DECC</color>
-    <color name="accent_surface">#163A3B</color>
-    <color name="text_primary">#F1F5FA</color>
-    <color name="text_secondary">#AABBCD</color>
-    <color name="error">#FFB4AB</color>
+    <color name="background">#F1F3F6</color>
+    <color name="rail">#F1F3F6</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_elevated">#E8ECF1</color>
+    <color name="stroke">#CDD3DC</color>
+    <color name="accent">#247ED4</color>
+    <color name="accent_surface">#DCECFB</color>
+    <color name="text_primary">#202732</color>
+    <color name="text_secondary">#53606E</color>
+    <color name="error">#B3261E</color>
     <color name="transparent">#00000000</color>
     <color name="reboot_red">#B3261E</color>
     <color name="reboot_text">#FFFFFF</color>
-    <color name="confirm_green">#21634F</color>
-    <color name="button_gray">#505762</color>
+    <color name="confirm_green">#277FCF</color>
+    <color name="button_gray">#58616F</color>
+    <color name="control_track">#E3E8EF</color>
+    <color name="switch_track">#AEB7C2</color>
+    <color name="divider">#1A202732</color>
+    <color name="hint_text">#737E8C</color>
+    <color name="selected_text">#FFFFFF</color>
+    <color name="ripple">#264099F3</color>
 </resources>

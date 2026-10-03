@@ -10,7 +10,7 @@
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/orbCenter" app:layout_constraintBottom_toBottomOf="@id/orbCenter" />
-    <TextView android:id="@+id/rahaTranscript" android:layout_width="0dp" android:layout_height="wrap_content"
+    <TextView android:fontFamily="@font/iransansx" android:id="@+id/rahaTranscript" android:layout_width="0dp" android:layout_height="wrap_content"
         android:visibility="gone" android:background="@drawable/raha_transcript_background"
         android:textColor="@color/raha_transcript_text" android:textSize="@dimen/raha_transcript_size"
         android:padding="@dimen/raha_transcript_padding" android:gravity="center" android:textDirection="firstStrong"

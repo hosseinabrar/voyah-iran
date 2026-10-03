@@ -83,7 +83,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         panel.visibility=if(promptText.isBlank()) View.GONE else View.VISIBLE
         if(promptText.isBlank()) return
         fun dp(n:Int)=(n*context.resources.displayMetrics.density).toInt()
-        val question=TextView(context).apply { text=promptText; textSize=22f; setTextColor(android.graphics.Color.WHITE); gravity=Gravity.CENTER; setPadding(dp(8),dp(8),dp(8),dp(8)) }
+        val question=TextView(context).apply { typeface=context.resources.getFont(R.font.iransansx); text=promptText; textSize=22f; setTextColor(android.graphics.Color.WHITE); gravity=Gravity.CENTER; setPadding(dp(8),dp(8),dp(8),dp(8)) }
         panel.addView(question)
         if(promptChoices.isNotEmpty()) {
             // Wait for actual window/panel bounds, including the orb and wrapped question.
@@ -97,6 +97,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
                 panel.paddingTop+panel.paddingBottom,dp(72),dp(8)).coerceAtMost(promptChoices.size)
             promptChoices.take(count).forEachIndexed { index,label ->
                 panel.addView(android.widget.Button(context).apply {
+                    typeface=context.resources.getFont(R.font.iransansx)
                     text=label; textSize=22f; maxLines=2; ellipsize=android.text.TextUtils.TruncateAt.END
                     setTextColor(android.graphics.Color.WHITE); backgroundTintList=android.content.res.ColorStateList.valueOf(0xff34344c.toInt())
                     setOnClickListener { promptSelect?.invoke(index) }

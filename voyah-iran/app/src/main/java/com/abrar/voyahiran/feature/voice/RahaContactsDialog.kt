@@ -23,7 +23,7 @@ object RahaContactsDialog {
         val edits=mutableMapOf<String,String>()
         val content=LinearLayout(activity).apply { orientation=LinearLayout.VERTICAL; layoutDirection=View.LAYOUT_DIRECTION_RTL; setPadding(dp(16),dp(8),dp(16),dp(8)) }
         val headings=LinearLayout(activity).apply {
-            for(label in listOf("نام داخل گوشی","نام فارسی برای رها")) addView(TextView(activity).apply { text=label; textSize=18f; setPadding(dp(8),dp(8),dp(8),dp(8)) },LinearLayout.LayoutParams(0,dp(48),1f))
+            for(label in listOf("نام داخل گوشی","نام فارسی برای رها")) addView(TextView(activity).apply { text=label; setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, activity.resources.getDimension(com.abrar.voyahiran.R.dimen.text_secondary_size)); setPadding(dp(8),dp(8),dp(8),dp(8)) },LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1f))
         }
         content.addView(headings)
         val list=ListView(activity).apply { itemsCanFocus=true; descendantFocusability=ViewGroup.FOCUS_AFTER_DESCENDANTS }
@@ -34,10 +34,10 @@ object RahaContactsDialog {
             override fun getItemId(position:Int)=position.toLong()
             fun createHolder():Holder {
                 val row=LinearLayout(activity).apply { gravity=android.view.Gravity.CENTER_VERTICAL; setPadding(0,dp(4),0,dp(4)) }
-                val original=TextView(activity).apply { textSize=17f; textDirection=View.TEXT_DIRECTION_FIRST_STRONG; setPadding(dp(8),0,dp(8),0) }
-                val spoken=EditText(activity).apply { textSize=18f; setSingleLine(true); textDirection=View.TEXT_DIRECTION_RTL; filters=arrayOf(android.text.InputFilter.LengthFilter(120)); inputType=android.text.InputType.TYPE_CLASS_TEXT }
+                val original=TextView(activity).apply { setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, activity.resources.getDimension(com.abrar.voyahiran.R.dimen.text_secondary_size)); textDirection=View.TEXT_DIRECTION_FIRST_STRONG; setPadding(dp(8),0,dp(8),0) }
+                val spoken=EditText(activity).apply { setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, activity.resources.getDimension(com.abrar.voyahiran.R.dimen.text_secondary_size)); setSingleLine(true); textDirection=View.TEXT_DIRECTION_RTL; filters=arrayOf(android.text.InputFilter.LengthFilter(120)); inputType=android.text.InputType.TYPE_CLASS_TEXT }
                 row.addView(original,LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1f))
-                row.addView(spoken,LinearLayout.LayoutParams(0,dp(56),1f))
+                row.addView(spoken,LinearLayout.LayoutParams(0,activity.resources.getDimensionPixelSize(com.abrar.voyahiran.R.dimen.touch_target),1f))
                 return Holder(row,original,spoken)
             }
             override fun getView(position:Int,convertView:View?,parent:ViewGroup):View {
