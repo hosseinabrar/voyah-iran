@@ -25,6 +25,7 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
     private fun passengerAppsEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_passenger_apps", 1) == 1
     fun bind() {
         AppThemeController.bind(activity, view)
+        AppDensityController.bind(activity, view)
         view.passengerDisplayOptions.visibility = if (com.abrar.voyahiran.core.compat.VehiclePlatform.isH97a) View.GONE else View.VISIBLE
         view.screenSwap.isEnabled = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap
         view.passengerApps.isEnabled = com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks

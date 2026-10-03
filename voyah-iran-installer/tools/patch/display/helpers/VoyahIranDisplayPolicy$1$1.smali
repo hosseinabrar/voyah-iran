@@ -40,7 +40,7 @@
         }
     .end annotation
 
-    .line 47
+    .line 75
     iput-object p3, p0, Lcom/android/server/wm/VoyahIranDisplayPolicy$1$1;->val$service:Lcom/android/server/wm/ActivityTaskManagerService;
 
     iput-object p4, p0, Lcom/android/server/wm/VoyahIranDisplayPolicy$1$1;->val$resolver:Landroid/content/ContentResolver;
@@ -57,7 +57,7 @@
 .method public onChange(Z)V
     .locals 1
 
-    .line 48
+    .line 76
     iget-object p1, p0, Lcom/android/server/wm/VoyahIranDisplayPolicy$1$1;->val$service:Lcom/android/server/wm/ActivityTaskManagerService;
 
     iget-object v0, p0, Lcom/android/server/wm/VoyahIranDisplayPolicy$1$1;->val$resolver:Landroid/content/ContentResolver;

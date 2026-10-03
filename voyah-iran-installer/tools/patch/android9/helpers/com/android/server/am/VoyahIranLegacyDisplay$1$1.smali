@@ -40,7 +40,7 @@
         }
     .end annotation
 
-    .line 41
+    .line 69
     iput-object p3, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$service:Lcom/android/server/am/ActivityManagerService;
 
     iput-object p4, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$resolver:Landroid/content/ContentResolver;
@@ -57,7 +57,7 @@
 .method public onChange(Z)V
     .registers 3
 
-    .line 42
+    .line 70
     iget-object p1, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$service:Lcom/android/server/am/ActivityManagerService;
 
     iget-object v0, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$resolver:Landroid/content/ContentResolver;

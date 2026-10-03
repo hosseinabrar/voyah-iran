@@ -615,6 +615,20 @@ class MainActivity : ComponentActivity() {
         if (position >= 0 && apps.selectedItemPosition != position) apps.setSelection(position)
         uninstall.isEnabled = !state.busy && state.selected != null
         forceStop.isEnabled = !state.busy && state.selected != null
+        val sizeButtons = listOf(packageSizeTiny, packageSizeSmall, packageSizeNormal, packageSizeLarge, packageSizeHuge)
+        val densities = listOf(120, 140, 160, 180, 200)
+        val effectiveDensity = state.customDensity ?: state.defaultDensity
+        packageSizeChoices.check(sizeButtons[densities.indexOf(effectiveDensity).coerceAtLeast(0)].id)
+        packageSizeInherit.isChecked = state.customDensity == null
+        packageSizeChoices.visibility = if (state.customDensity == null) View.GONE else View.VISIBLE
+        packageSizeInherit.isEnabled = !state.busy && state.selected != null
+        packageSizeInherit.setOnClickListener {
+            permissions.setDensity(if (packageSizeInherit.isChecked) "inherit" else effectiveDensity.toString())
+        }
+        sizeButtons.forEachIndexed { index, button ->
+            button.isEnabled = !state.busy && state.selected != null
+            button.setOnClickListener { permissions.setDensity(densities[index].toString()) }
+        }
         apps.isEnabled = !state.busy
         refresh.isEnabled = !state.busy
         progress.visibility = if (state.busy) View.VISIBLE else View.GONE

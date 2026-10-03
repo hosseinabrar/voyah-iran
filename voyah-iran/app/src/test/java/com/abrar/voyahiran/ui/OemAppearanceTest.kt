@@ -33,6 +33,9 @@ class OemAppearanceTest {
         val context = RuntimeEnvironment.getApplication()
         context.setTheme(R.style.Theme_VoyahIran)
         val b = ActivityMainBinding.inflate(LayoutInflater.from(context))
+        assertEquals(R.id.appSizeNormal, b.displayMediaMapPage.appSizeChoices.checkedRadioButtonId)
+        assertTrue(b.permissionsPage.packageSizeInherit.isChecked)
+        assertEquals(R.id.packageSizeNormal, b.permissionsPage.packageSizeChoices.checkedRadioButtonId)
         val pages = listOf("settings" to b.settingsPage.root, "display" to b.displayMediaMapPage.root,
             "comfort" to b.comfortPage.root, "apollo" to b.apolloPage.root,
             "voice" to b.voicePage.root, "permissions" to b.permissionsPage.root)
@@ -57,6 +60,16 @@ class OemAppearanceTest {
             output.outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
             bitmap.recycle()
             inspect(page)
+            if (name == "display" && page is android.widget.ScrollView) {
+                val rect = android.graphics.Rect()
+                b.displayMediaMapPage.appSizeChoices.getDrawingRect(rect)
+                page.offsetDescendantRectToMyCoords(b.displayMediaMapPage.appSizeChoices, rect)
+                page.scrollTo(0, (rect.top - 140).coerceAtLeast(0))
+                val sizePreview = Bitmap.createBitmap(1775, 670, Bitmap.Config.ARGB_8888)
+                b.root.draw(Canvas(sizePreview))
+                File("build/reports/oem-ui/$theme-app-size.png").outputStream().use { sizePreview.compress(Bitmap.CompressFormat.PNG, 100, it) }
+                sizePreview.recycle()
+            }
             if (page is android.widget.ScrollView) {
                 page.scrollTo(0, page.getChildAt(0).height)
                 val bottom = Bitmap.createBitmap(1775, 670, Bitmap.Config.ARGB_8888)

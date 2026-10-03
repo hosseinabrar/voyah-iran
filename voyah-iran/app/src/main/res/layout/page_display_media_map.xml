@@ -72,6 +72,16 @@
                 android:textColor="@color/error" android:text="@string/screen_swap_error"
                 android:accessibilityLiveRegion="polite" android:visibility="gone" />
             </LinearLayout>
+            <TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_lg" android:text="@string/app_size_title"/>
+            <RadioGroup android:id="@+id/appSizeChoices" style="@style/Oem.Segments" android:layout_width="match_parent" android:layout_height="wrap_content" android:checkedButton="@id/appSizeNormal">
+                <RadioButton style="@style/Oem.Segment" android:id="@+id/appSizeTiny" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_tiny"/>
+                <RadioButton style="@style/Oem.Segment" android:id="@+id/appSizeSmall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_small"/>
+                <RadioButton style="@style/Oem.Segment" android:id="@+id/appSizeNormal" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_normal"/>
+                <RadioButton style="@style/Oem.Segment" android:id="@+id/appSizeLarge" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_large"/>
+                <RadioButton style="@style/Oem.Segment" android:id="@+id/appSizeHuge" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_huge"/>
+            </RadioGroup>
+            <ProgressBar android:id="@+id/appSizeProgress" android:layout_width="32dp" android:layout_height="32dp" android:visibility="gone"/>
+            <TextView android:id="@+id/appSizeError" style="@style/Text.Secondary" android:textColor="@color/error" android:text="@string/app_size_error" android:visibility="gone" android:accessibilityLiveRegion="polite"/>
             <TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_lg" android:text="@string/app_theme_title"/>
             <RadioGroup style="@style/Oem.Segments" android:id="@+id/appThemeChoices" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                 <RadioButton style="@style/Oem.Segment" android:id="@+id/appThemeDark" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="@dimen/segment_height" android:buttonTint="@null" android:textColor="@color/control_text" android:textSize="@dimen/text_body" android:text="@string/app_theme_dark"/>

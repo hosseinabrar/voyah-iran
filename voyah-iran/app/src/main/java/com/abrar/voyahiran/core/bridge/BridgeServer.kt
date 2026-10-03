@@ -52,6 +52,8 @@ object BridgeServer {
                 val result = if (command == null) CommandResult(126, "Operation denied")
                 // Display ACK polling must not hold up vehicle/startup commands.
                 else if (command.first() == "app-display") AppDisplayBridge.set(command[1] == "enable")
+                else if (command.first() == "app-density") AppDensityBridge.set(command[1])
+                else if (command.first() == "app-density-package") AppDensityBridge.setPackage(command[1], command[2])
                 else if (command.first() == "app-theme") AppThemeBridge.set(command[1])
                 // A Back press must not wait behind long vehicle operations. Its DOWN/UP pair
                 // has a separate lock and cannot change a task's display or global focus.

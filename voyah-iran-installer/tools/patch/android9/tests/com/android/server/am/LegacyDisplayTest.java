@@ -48,6 +48,36 @@ public class LegacyDisplayTest {
   a.info.applicationInfo.packageName="factory.app";a.info.applicationInfo.flags=1;night.setInt(null,0x20);
   VoyahIranLegacyDisplay.configuration(a,override);check(override.uiMode==0x13,"factory theme untouched");
   a.info.applicationInfo.flags=0;a.display=1;VoyahIranLegacyDisplay.configuration(a,override);check(override.uiMode==0x23,"passenger theme applied");
+  java.lang.reflect.Field density=VoyahIranLegacyDisplay.class.getDeclaredField("appDensity");density.setAccessible(true);
+  a.screen.mDisplay.width=1920;a.screen.mDisplay.height=720;state("enabled",true);
+  for(int dpi:new int[]{120,140,160,180,200}) {
+   check(VoyahIranLegacyDisplay.densityFor(Integer.toString(dpi))==dpi,"preset accepted");density.setInt(null,dpi);
+   VoyahIranLegacyDisplay.configuration(a,override);
+   check(override.densityDpi==dpi && override.screenWidthDp==1775*160/dpi && override.screenHeightDp==670*160/dpi,"density scales logical area");
+   check(override.windowConfiguration.appBounds.toString().equals("145,50,1920,720"),"physical safe area unchanged");
+   check(a.override.densityDpi==dpi,"live override updated when bounds unchanged");
+  }
+  state("enabled",false);density.setInt(null,120);VoyahIranLegacyDisplay.configuration(a,override);
+  check(override.densityDpi==120,"density works with safe area disabled");
+  a.info.applicationInfo.flags=1;override.densityDpi=213;VoyahIranLegacyDisplay.configuration(a,override);
+  check(override.densityDpi==213,"OEM density unchanged");
+  check(VoyahIranLegacyDisplay.densityFor(null)==160,"normal is default");
+  java.lang.reflect.Field packages=VoyahIranLegacyDisplay.class.getDeclaredField("packageDensities");packages.setAccessible(true);
+  packages.set(null,VoyahIranLegacyDisplay.parseDensities("user.player=200;test.other=120;bad=140;test.invalid=999"));
+  a.info.applicationInfo.flags=0;a.info.applicationInfo.packageName="user.player";state("enabled",true);
+  VoyahIranLegacyDisplay.configuration(a,override);
+  check(override.densityDpi==200 && override.screenWidthDp==1775*160/200,"per-package safe-area density");
+  check(a.override.densityDpi==200,"live package override updated");
+  density.setInt(null,140);VoyahIranLegacyDisplay.configuration(a,override);
+  check(override.densityDpi==200 && VoyahIranLegacyDisplay.densityForPackage("test.new")==140,"global changes preserve custom choice");
+  packages.set(null,VoyahIranLegacyDisplay.parseDensities("-"));VoyahIranLegacyDisplay.configuration(a,override);
+  check(override.densityDpi==140 && a.override.densityDpi==140,"inherit restores current default live");
+  check(VoyahIranLegacyDisplay.parseDensities("bad=140;test.invalid=999").isEmpty(),"invalid overrides ignored");
+  a.info.applicationInfo.packageName="com.abrar.voyahiran";override.densityDpi=160;
+  a.override.densityDpi=160;
+  VoyahIranLegacyDisplay.configuration(a,override);
+  check(override.densityDpi==160 && a.override.densityDpi==160,"own app excluded from density");
+  check(override.screenWidthDp==1775 && override.screenHeightDp==670,"own app safe area retained with native density");
   System.out.println(count+" Android 9 display checks passed");
  }
 }

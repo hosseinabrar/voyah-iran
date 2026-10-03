@@ -1,1 +1,1 @@
-package android.app; import android.graphics.Rect; public class WindowConfiguration { public Rect bounds,appBounds; public Rect getBounds(){return bounds;} public void setBounds(Rect r){bounds=new Rect(r);} public void setAppBounds(Rect r){appBounds=new Rect(r);} }
+package android.app; import android.graphics.Rect; public class WindowConfiguration { public Rect bounds,appBounds; public Rect getAppBounds(){return appBounds;} public Rect getBounds(){return bounds;} public void setBounds(Rect r){bounds=new Rect(r);} public void setAppBounds(Rect r){appBounds=new Rect(r);} }

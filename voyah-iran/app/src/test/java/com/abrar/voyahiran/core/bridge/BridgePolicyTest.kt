@@ -6,6 +6,13 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun appDensityOnlyAcceptsTheFivePresets() {
+        for (dpi in listOf("120", "140", "160", "180", "200"))
+            assertEquals(listOf("app-density", dpi), BridgePolicy.resolve(listOf("app-density", dpi)))
+        for (request in listOf(listOf("app-density", "0"), listOf("app-density", "999"),
+            listOf("app-density", "160;reboot"), listOf("app-density", "160", "extra")))
+            assertNull(BridgePolicy.resolve(request))
+    }
     @Test fun phoneOperationsAreBoundedAndCannotDialUssdOrShellText() {
         val mac="AA:BB:CC:DD:EE:FF"
         for(request in listOf(listOf("raha-phone","device"),listOf("raha-phone","read",mac,"0"),listOf("raha-phone","dial",mac,"+989121234567")))

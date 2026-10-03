@@ -17,6 +17,34 @@ public final class VoyahIranDisplayPolicy {
     private static final String THEME = "voyah_iran_app_theme";
     private static volatile String themeMode = "vehicle";
     private static volatile int nightMode;
+    private static final String DENSITY = "voyah_iran_app_density";
+    private static volatile int appDensity = 160;
+    private static final String PACKAGE_DENSITY = "voyah_iran_app_density_packages";
+    private static volatile java.util.Map<String, Integer> packageDensities = java.util.Collections.emptyMap();
+    static java.util.Map<String, Integer> parseDensities(String raw) {
+        java.util.Map<String, Integer> result = new java.util.HashMap<>();
+        if (raw != null) for (String entry : raw.split(";")) {
+            String[] pair = entry.split("=");
+            if (pair.length == 2 && pair[0].length() <= 255 && pair[0].matches("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+") &&
+                    (pair[1].equals("120") || pair[1].equals("140") || pair[1].equals("160") || pair[1].equals("180") || pair[1].equals("200")))
+                result.put(pair[0], Integer.valueOf(pair[1]));
+        }
+        return java.util.Collections.unmodifiableMap(result);
+    }
+    static int densityForPackage(String pkg) {
+        Integer custom = packageDensities.get(pkg);
+        return custom == null ? appDensity : custom;
+    }
+    private static int densityForActivity(ActivityRecord a) {
+        return densityForPackage(a.info.applicationInfo.packageName);
+    }
+    static int densityFor(String value) {
+        if ("120".equals(value)) return 120;
+        if ("140".equals(value)) return 140;
+        if ("180".equals(value)) return 180;
+        if ("200".equals(value)) return 200;
+        return 160;
+    }
 
     // OEM ThemeModels: Classic=2 / Modern=1 -> default; Speedy Dash=4 -> simple.
     static int nightFor(String mode, String vehicleTheme) {
@@ -49,6 +77,8 @@ public final class VoyahIranDisplayPolicy {
                     };
                     resolver.registerContentObserver(Settings.Global.getUriFor(KEY), false, observer);
                     resolver.registerContentObserver(Settings.Global.getUriFor(THEME), false, observer);
+                    resolver.registerContentObserver(Settings.Global.getUriFor(DENSITY), false, observer);
+                    resolver.registerContentObserver(Settings.Global.getUriFor(PACKAGE_DENSITY), false, observer);
                     refresh(service, resolver);
                 } catch (RuntimeException e) {
                     enabled = false;
@@ -68,6 +98,9 @@ public final class VoyahIranDisplayPolicy {
             String mode = Settings.Global.getString(resolver, THEME);
             themeMode = "dark".equals(mode) || "light".equals(mode) ? mode : "vehicle";
             nightMode = desiredNight();
+            appDensity = densityFor(Settings.Global.getString(resolver, DENSITY));
+            String packageRequest = Settings.Global.getString(resolver, PACKAGE_DENSITY);
+            packageDensities = parseDensities(packageRequest);
             synchronized (service.mGlobalLock) {
                 service.mRootWindowContainer.forAllActivities(new java.util.function.Consumer<ActivityRecord>() {
                     @Override public void accept(ActivityRecord a) {
@@ -82,6 +115,8 @@ public final class VoyahIranDisplayPolicy {
             }
             Settings.Global.putString(resolver, ACK, request == null ? "1:default" : request);
             Settings.Global.putString(resolver, THEME + "_ack", themeMode);
+            Settings.Global.putString(resolver, DENSITY + "_ack", Integer.toString(appDensity));
+            Settings.Global.putString(resolver, PACKAGE_DENSITY + "_ack", packageRequest == null ? "-" : packageRequest);
             Log.i(TAG, "Applied enabled=" + enabled + " displays=0,1 left=145 top=50");
         } catch (RuntimeException e) {
             Log.e(TAG, "Reconfiguration failed; request not acknowledged", e);
@@ -102,6 +137,13 @@ public final class VoyahIranDisplayPolicy {
         return enabled && candidate(a);
     }
 
+    private static boolean densityCandidate(ActivityRecord a) {
+        if (!candidate(a)) return false;
+        ApplicationInfo app = a.info.applicationInfo;
+        return !"com.abrar.voyahiran".equals(app.packageName) && app.uid >= 10000 &&
+                (app.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) == 0;
+    }
+
     public static int orientation(ActivityRecord a, int requested) {
         // -2 is WindowContainer's "unset/no orientation source", not an app request.
         return requested != -2 && applies(a) ? 0 : requested;
@@ -112,6 +154,18 @@ public final class VoyahIranDisplayPolicy {
         if (candidate(a) && nightMode != 0) {
             Configuration themed = a.getResolvedOverrideConfiguration();
             themed.uiMode = (themed.uiMode & ~0x30) | nightMode;
+        }
+        if (densityCandidate(a)) {
+            Configuration result = a.getResolvedOverrideConfiguration();
+            int density = densityForActivity(a);
+            result.densityDpi = density;
+            Rect content = parent.windowConfiguration == null ? null : parent.windowConfiguration.getAppBounds();
+            if ((content == null || content.isEmpty()) && parent.windowConfiguration != null) content = parent.windowConfiguration.getBounds();
+            if (content != null && !content.isEmpty()) {
+                result.screenWidthDp = content.width() * 160 / density;
+                result.screenHeightDp = content.height() * 160 / density;
+                result.smallestScreenWidthDp = Math.min(result.screenWidthDp, result.screenHeightDp);
+            }
         }
         if (!applies(a)) return;
         Rect full = parent.windowConfiguration.getBounds();

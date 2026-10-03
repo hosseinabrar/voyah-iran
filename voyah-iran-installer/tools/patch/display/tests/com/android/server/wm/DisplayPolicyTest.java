@@ -73,6 +73,33 @@ public class DisplayPolicyTest {
   state(false);check(VoyahIranDisplayPolicy.orientation(a,7)==7,"disable restores original request");
   w.mAttrs.type=1;frames.mFrame=new Rect(0,0,1920,720);VoyahIranDisplayPolicy.afterFrame(w,frames);
   check(frames.mFrame.left==0 && frames.mFrame.top==0,"disabled frame unmodified");
+  java.lang.reflect.Field density=VoyahIranDisplayPolicy.class.getDeclaredField("appDensity");density.setAccessible(true);
+  a.info.applicationInfo.packageName="test.user";a.info.applicationInfo.flags=0;
+  for(int dpi:new int[]{120,140,160,180,200}) {
+   check(VoyahIranDisplayPolicy.densityFor(Integer.toString(dpi))==dpi,"preset accepted");density.setInt(null,dpi);
+   state(true);VoyahIranDisplayPolicy.configuration(a,parent);
+   check(a.config.densityDpi==dpi && a.config.screenWidthDp==1775*160/dpi && a.config.screenHeightDp==590*160/dpi,"density scales logical safe area, not physical bounds");
+   check(out.bounds.toString().equals("145,50,1920,720"),"physical safe area stays fixed");
+   state(false);VoyahIranDisplayPolicy.configuration(a,parent);
+   check(a.config.screenWidthDp==1920*160/dpi,"density independent of safe area toggle");
+  }
+  check(VoyahIranDisplayPolicy.densityFor("999")==160,"invalid preset falls back to normal");
+  a.info.applicationInfo.packageName="factory.camera";a.info.applicationInfo.flags=1;a.config.densityDpi=213;
+  VoyahIranDisplayPolicy.configuration(a,parent);check(a.config.densityDpi==213,"OEM density untouched");
+  java.lang.reflect.Field packages=VoyahIranDisplayPolicy.class.getDeclaredField("packageDensities");packages.setAccessible(true);
+  packages.set(null,VoyahIranDisplayPolicy.parseDensities("test.user=120;test.other=200;bad=140;test.invalid=999"));
+  check(VoyahIranDisplayPolicy.densityForPackage("test.user")==120,"package override wins");
+  density.setInt(null,180);
+  check(VoyahIranDisplayPolicy.densityForPackage("test.user")==120 && VoyahIranDisplayPolicy.densityForPackage("test.new")==180,"global changes preserve overrides");
+  a.info.applicationInfo.flags=0;a.info.applicationInfo.packageName="test.user";a.display=1;state(true);
+  VoyahIranDisplayPolicy.configuration(a,parent);check(a.config.densityDpi==120 && a.config.screenWidthDp==1775*160/120,"package density applied on passenger display");
+  packages.set(null,VoyahIranDisplayPolicy.parseDensities("-"));VoyahIranDisplayPolicy.configuration(a,parent);
+  check(a.config.densityDpi==180,"removing override follows current default");
+  check(VoyahIranDisplayPolicy.parseDensities("bad=140;test.invalid=999").isEmpty(),"invalid overrides ignored");
+  a.info.applicationInfo.packageName="com.abrar.voyahiran";a.config.densityDpi=160;
+  VoyahIranDisplayPolicy.configuration(a,parent);
+  check(a.config.densityDpi==160,"own app excluded from density while safe area remains");
+  check(out.bounds.toString().equals("145,50,1920,720"),"own app safe area retained");
   System.out.println(checks+" display policy checks passed");
  }
 }

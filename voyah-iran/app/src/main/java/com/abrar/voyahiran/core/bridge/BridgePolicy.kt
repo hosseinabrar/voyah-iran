@@ -14,6 +14,9 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
+        if (request.size == 3 && request[0] == "app-density-package" && AppDensityPreferences.validPackage(request[1]) &&
+            (request[2] == "inherit" || request[2] in listOf("120", "140", "160", "180", "200"))) return request
+        if (request.size == 2 && request[0] == "app-density" && request[1] in listOf("120", "140", "160", "180", "200")) return request
         if (request.size == 2 && request[0] == "app-theme" && request[1] in listOf("dark", "light", "vehicle")) return request
         if (request == listOf("raha-phone", "device")) return request
         if (request.size == 4 && request[0] == "raha-phone" && request[2].matches(Regex("[0-9A-F]{2}(?::[0-9A-F]{2}){5}")) &&

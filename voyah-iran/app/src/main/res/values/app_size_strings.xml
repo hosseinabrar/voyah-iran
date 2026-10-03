@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_size_title">اندازه پیش‌فرض برنامه‌ها</string>
+    <string name="app_size_tiny">بسیار کوچک</string>
+    <string name="app_size_small">کوچک</string>
+    <string name="app_size_normal">معمولی</string>
+    <string name="app_size_large">بزرگ</string>
+    <string name="app_size_huge">بسیار بزرگ</string>
+    <string name="app_size_error">اعمال اندازه تأیید نشد. نسخهٔ جدید نصاب وویا ایران را نصب و خودرو را راه‌اندازی مجدد کنید؛ سپس دوباره امتحان کنید.</string>
+    <string name="package_size_title">اندازه نمایش این برنامه</string>
+    <string name="package_size_inherit">پیروی از اندازه پیش‌فرض برنامه‌ها</string>
+    <string name="package_size_description">با انتخاب اندازهٔ اختصاصی، فقط همین برنامه تغییر می‌کند. برای بازگشت به تنظیم عمومی، گزینهٔ پیروی از پیش‌فرض را فعال کنید.</string>
+</resources>

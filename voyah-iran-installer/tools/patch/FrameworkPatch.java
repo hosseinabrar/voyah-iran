@@ -299,7 +299,10 @@ class DisplayPolicyPatch {
         else FrameworkPatch.require(!code.contains(".method getRequestedConfigurationOrientation("), "Vendor orientation override requires review");
         boolean current = matchesHelpers(classes, templates.resolve("display/helpers"), folder);
         if (installed) FrameworkPatch.require(current || matchesHelpers(classes, templates.resolve("display/legacy-center"), folder)
-                || matchesHelpers(classes, templates.resolve("display/legacy-before-theme"), folder),
+                || matchesHelpers(classes, templates.resolve("display/legacy-before-theme"), folder)
+                || matchesHelpers(classes, templates.resolve("display/legacy-before-density"), folder)
+                || matchesHelpers(classes, templates.resolve("display/legacy-global-density"), folder)
+                || matchesHelpers(classes, templates.resolve("display/legacy-before-user-density"), folder),
             "Display helper differs from supported current or center-only policy");
         else {
             try (var helpers = Files.list(templates.resolve("display/helpers"))) {
