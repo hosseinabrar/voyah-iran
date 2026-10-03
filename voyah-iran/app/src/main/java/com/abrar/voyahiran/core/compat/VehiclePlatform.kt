@@ -10,6 +10,9 @@ object VehiclePlatform {
             android.os.Build.DEVICE, android.os.Build.PRODUCT, android.os.Build.MODEL,
             android.os.Build.BOARD, android.os.Build.FINGERPRINT)
     }
+    val localProfileTest: Boolean get() = listOf(android.os.Build.DEVICE, android.os.Build.PRODUCT,
+        android.os.Build.MODEL, android.os.Build.BOARD, android.os.Build.FINGERPRINT)
+        .any { Regex("(?i)(?<![a-z0-9])h97[ac](?![a-z0-9])").containsMatchIn(it) }
     val screenSwap: Boolean get() = com.abrar.voyahiran.core.bridge.ScreenSwapContract.forSdk(android.os.Build.VERSION.SDK_INT) != null
     val frameworkHooks: Boolean get() = android.os.Build.VERSION.SDK_INT == 30
     // Separate from OEM launcher/screen-swap hooks, which still use Android 11 contracts.

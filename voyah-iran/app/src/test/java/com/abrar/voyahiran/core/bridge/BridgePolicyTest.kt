@@ -6,6 +6,19 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @org.junit.Test fun localProfileTestOnlyAllowsBoundedManualOperations() {
+        for (op in listOf("status", "apply", "restore")) {
+            val request = listOf("local-profile-test", op)
+            assertEquals(request, BridgePolicy.resolve(request))
+        }
+        for (request in listOf(
+            listOf("local-profile-test", "watch"),
+            listOf("local-profile-test", "apply; reboot"),
+            listOf("local-profile-test", "apply", "/private/other"),
+            listOf("local-profile-test")
+        )) assertNull(BridgePolicy.resolve(request))
+    }
+
     @Test fun steeringBackIsLimitedToTheFixedCenterOperation() {
         val command = listOf("steering-back", "center")
         assertEquals(command, BridgePolicy.resolve(command))

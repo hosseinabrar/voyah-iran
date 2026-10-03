@@ -14,6 +14,7 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
+        if (request.size == 2 && request[0] == "local-profile-test" && request[1] in listOf("status", "apply", "restore")) return request
         if (request == listOf("apollo-capability")) return request
         if (request.size == 2 && request[0] == "avm-turn" && request[1] in listOf("read", "on", "off")) return request
         if (request == listOf("apollo-test-read")) return request

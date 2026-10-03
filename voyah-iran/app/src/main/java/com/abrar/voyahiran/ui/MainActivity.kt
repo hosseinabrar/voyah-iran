@@ -121,6 +121,7 @@ class MainActivity : ComponentActivity() {
         projectNotice = null
         super.onPause()
     }
+    private val localProfile: com.abrar.voyahiran.feature.settings.presentation.LocalProfileViewModel by viewModels()
     private val reboot: com.abrar.voyahiran.feature.settings.presentation.RebootViewModel by viewModels()
     private val permissions: com.abrar.voyahiran.feature.permissions.PermissionsViewModel by viewModels()
     private val apollo: com.abrar.voyahiran.feature.apollo.presentation.ApolloViewModel by viewModels()
@@ -170,6 +171,24 @@ class MainActivity : ComponentActivity() {
             updateLogging(if (binding.settingsPage.displaySpeed.isChecked) "enable" else "disable")
         }
         updateLogging("status")
+        binding.settingsPage.localProfileCard.visibility = if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) View.VISIBLE else View.GONE
+        binding.settingsPage.localProfileRead.setOnClickListener { localProfile.run("status") }
+        binding.settingsPage.localProfileApply.setOnClickListener { localProfile.run("apply") }
+        binding.settingsPage.localProfileRestore.setOnClickListener { localProfile.run("restore") }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                localProfile.state.collect { state ->
+                    with(binding.settingsPage) {
+                        localProfileApply.isEnabled = !state.busy
+                        localProfileRead.isEnabled = !state.busy
+                        localProfileRestore.isEnabled = !state.busy
+                        localProfileProgress.visibility = if (state.busy) View.VISIBLE else View.GONE
+                        localProfileStatus.text = state.text
+                    }
+                }
+            }
+        }
+
         binding.settingsPage.rebootDevice.setOnClickListener {
             android.app.AlertDialog.Builder(this)
                 .setTitle(R.string.reboot_label)
