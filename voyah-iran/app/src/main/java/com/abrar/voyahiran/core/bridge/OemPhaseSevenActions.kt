@@ -42,7 +42,7 @@ internal object OemPhaseSevenActions {
                 require(p["channel"] in setOf("media","call","navigation","voice","system"))
                 when(action) {
                     RahaAction.SET_AUDIO_VOLUME -> {require(p.keys==setOf("channel","level"));if(p["level"] !in setOf("min","max"))require(number("level") in 0..30)}
-                    RahaAction.ADJUST_AUDIO_VOLUME -> {require(p.keys==setOf("channel","delta"));require(number("delta") in setOf(-1,1))}
+                    RahaAction.ADJUST_AUDIO_VOLUME -> {require(p.keys==setOf("channel","delta"));require(number("delta") in -30..30 && number("delta") != 0)}
                     else->{require(p.keys==setOf("channel","enabled"));bool()}
                 }
                 request.put("audio",true)

@@ -13,6 +13,19 @@ class RahaPhaseSevenRecognizerTest {
         assertEquals(text,action,c.action)
         if(key!=null)assertEquals(text,value,c.parameters[key])
     }
+    @Test fun volumeAliasesAndExplicitSteps() {
+        mapOf("ولوم رو کم  کن" to -1, "والیوم رو ۵ تا کم کن" to -5,
+            "صدا رو ۵ تا زیاد کن" to 5, "ولوم صدا رو ۵ تا زیاد کن" to 5,
+            "ولوم رو ببر بالا" to 1, "ولوم و بیار پایین" to -1,
+            "ولوم رو ۱۰ تا بیار پایین" to -10,
+            "والیوم را پنج پله کاهش دهید" to -5,
+            "صدای موسیقی را سه واحد افزایش بده" to 3
+        ).forEach { (text, delta) -> match(text,"ADJUST_AUDIO_VOLUME","delta",delta) }
+        listOf("ولوم رو بذار رو ۱۰", "ولوم و بذار رو ۱۰", "ولوم بشه ۱۰", "والیوم را روی ده تنظیم کنید")
+            .forEach { match(it,"SET_AUDIO_VOLUME","level",10) }
+        listOf("صدا رو ۳۱ تا زیاد کن", "صدا رو ۰ تا کم کن", "صدا رو ۲ و ۵ تا کم کن")
+            .forEach { assertFalse(it, recognizer.recognize(it) is Recognition.Matched) }
+    }
     @Test fun assistantTogglesAcrossWordOrderAndFormalSpeech() {
         val cases=mapOf("هشدار باز شدن در" to "SET_DOOR_OPEN_WARNING", "هشدار برخورد جلو" to "SET_FORWARD_COLLISION_WARNING",
             "هشدار ترافیک عقب" to "SET_REAR_CROSS_TRAFFIC_WARNING", "هشدار برخورد عقب" to "SET_REAR_COLLISION_WARNING",

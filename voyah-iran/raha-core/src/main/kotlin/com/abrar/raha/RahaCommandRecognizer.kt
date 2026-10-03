@@ -403,6 +403,7 @@ class RahaCommandRecognizer {
             s=s.replace("اچ دی سی","hdc").replace("ای اس سی","esc")
             s=s.replace("می شه","میشه").replace(Regex("(?<!\\S)ای سی(?!\\S)"),"AC_TOKEN")
             s=s.replace("تا انتها", "تا ته").replace(Regex("(?<!\\S)مد(?!\\S)"), "مود")
+            s=s.replace(Regex("(?<!\\S)(?:استوپ|استاپ)(?!\\S)"), "قطع")
             s=RahaFormalVocabulary.normalize(s)
             s=RahaColloquialVocabulary.normalize(s)
             s=s.replace(Regex("(?<=بیست )و(?=یک|دو|سه|چهار|پنج|شش|هفت|هشت|نه)"),"و ")

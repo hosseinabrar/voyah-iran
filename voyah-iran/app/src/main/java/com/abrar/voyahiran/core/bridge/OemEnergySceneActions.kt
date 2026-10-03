@@ -12,6 +12,11 @@ internal object OemEnergySceneActions {
 
     fun execute(action: RahaAction, params: Map<String, Any>) {
         require(action in actions)
+        if (action == RahaAction.STOP_CHARGING) {
+            require(params.isEmpty())
+            OemStopCharging.execute()
+            return
+        }
         fun bool() { require(params["enabled"] is Boolean) }
         fun integer(key: String): Int {
             val n = (params[key] as? Number)?.toDouble() ?: error("Missing $key")
@@ -108,11 +113,6 @@ internal object OemEnergySceneActions {
                         ensure(read('IVI_SOC_MODESET')===4,'Select the OEM reserve mode before changing its charge target');
                         write('SREV_SOC_SET',(p.percent-25)/5);
                     }
-                } else if(action==='STOP_CHARGING') {
-                    const m=Java.use('java.util.LinkedHashMap').${'$'}new(); const I=Java.use('java.lang.Integer');
-                    m.put(state('HUM_STOP_CHARGE'),I.valueOf.overload('int').call(I,1));
-                    m.put(state('CHARGE_GUN_UNLOCK_SET'),I.valueOf.overload('int').call(I,1));
-                    tool.setMultiSerially.overload('java.util.Map','boolean').call(tool,m,false);
                 } else if(action==='SET_POWER_KEEP_DURATION' || action==='SET_POWER_KEEP_ENGINE_CHARGING') {
                     feature('leavecar');
                     const manager=hold(), prefs=ctx.getSharedPreferences('power_hold_sp',0);

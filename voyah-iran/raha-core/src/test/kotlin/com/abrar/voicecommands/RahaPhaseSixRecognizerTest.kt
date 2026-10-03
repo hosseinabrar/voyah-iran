@@ -14,6 +14,13 @@ class RahaPhaseSixRecognizerTest {
         assertEquals(text, action, command.action)
         assertEquals(text, params, command.parameters)
     }
+    @Test fun chargingStopAliases() {
+        listOf("شارژ رو استوپ کن", "شارژ رو قطع کن", "شارژر رو قطع کن", "شارژر رو آزاد کن",
+            "شارژ را استاپ کنید", "استوپ کردن شارژ", "شارژ رو متوقف کن")
+            .forEach { check(it, "STOP_CHARGING", emptyMap()) }
+        check("موزیک رو استوپ کن", "PAUSE_MEDIA", emptyMap())
+        check("موزیک رو استاپ کن", "PAUSE_MEDIA", emptyMap())
+    }
     @Test fun energyAliasesAndWordOrder() {
         for ((mode, names) in RahaPhaseSixRecognizer.strategies) for (name in names.split('|')) {
             for (sentence in listOf("حالت $name", "ماشین رو بذار تو مد $name", "$name رو فعال کن", "لطفا حالت مصرف انرژی را روی $name تنظیم کنید"))

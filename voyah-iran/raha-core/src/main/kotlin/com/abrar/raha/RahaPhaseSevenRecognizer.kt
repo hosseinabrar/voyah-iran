@@ -21,7 +21,7 @@ internal object RahaPhaseSevenRecognizer {
     )
     private const val lane="کمک حفظ خط|حفظ خط|کمک بین خطوط|کمک حرکت بین خطوط|نگهداری بین خطوط|بین خطوط|بین خط|خروج از خط|لین اسیست|لین اسیستانت|lka"
     private const val display="نمایشگر|مانیتور|صفحه نمایش|صفحه"
-    private const val sound="صدای|صدا|ولوم|بلندی صدای|بلندی صدا|حجم صدای|حجم صدا"
+    private const val sound="ولوم صدا|والیوم صدا|والیوم|صدای|صدا|ولوم|بلندی صدای|بلندی صدا|حجم صدای|حجم صدا"
     private const val media="موزیک|موسیقی|آهنگ|ترانه|رسانه|موزیکو|آهنگو"
     private const val mediaPlay="پخش|پلی|ادامه|بخون|بخونه|شروع|اجرا|وصل|از سر بگیر|از سر بگیرید"
     private const val mediaPause="پاز|مکث|متوقف|توقف|قطع|نگه دار|نگهدار|نگه دارید|استاپ"
@@ -166,7 +166,10 @@ internal object RahaPhaseSevenRecognizer {
                     when {bound!=null->mapOf("channel" to channel,"level" to bound)
                         n!=null&&delta==null&&n%1==0.0&&n in 0.0..30.0->mapOf("channel" to channel,"level" to n.toInt())
                         else->null}
-                } else if(bound==null&&n==null&&delta!=null)mapOf("channel" to channel,"delta" to delta) else null
+                } else if(bound==null && delta!=null && (n==null || (n%1==0.0 && n in 1.0..30.0))) {
+                    take("تا|پله|درجه|واحد")
+                    mapOf("channel" to channel,"delta" to delta * (n?.toInt() ?: 1))
+                } else null
             }
         }
         for(action in listOf(RahaAction.PLAY_MEDIA,RahaAction.PAUSE_MEDIA,RahaAction.NEXT_MEDIA,RahaAction.PREVIOUS_MEDIA))rule(action) {
@@ -242,7 +245,7 @@ internal object RahaPhaseSevenRecognizer {
         RahaAction.SET_DISPLAY_THEME_MODE->"حالت نمایشگر: ${label(p["mode"])}"
         RahaAction.SET_DISPLAY_BRIGHTNESS->"روشنایی نمایشگر ${label(p["display"])}: "+if(p.containsKey("percent"))"${p["percent"]} درصد" else if((p["deltaPercent"] as Int)>0)"بیشتر" else "کمتر"
         RahaAction.SET_AUDIO_VOLUME->"صدای ${label(p["channel"])}: ${label(p["level"])}"
-        RahaAction.ADJUST_AUDIO_VOLUME->"صدای ${label(p["channel"])}: ${if(p["delta"]==1)"بیشتر" else "کمتر"}"
+        RahaAction.ADJUST_AUDIO_VOLUME->"صدای ${label(p["channel"])}: ${if((p["delta"] as Number).toInt()>0)"بیشتر" else "کمتر"}"
         RahaAction.SET_AUDIO_MUTE->"صدای ${label(p["channel"])}: ${if(p["enabled"]==true)"بی‌صدا" else "صدادار"}"
         else->"${toggles[action]?.substringBefore('|')}: "+if(p.containsKey("sensitivity"))"حساسیت ${label(p["sensitivity"])}" else if(p["enabled"]==true)"فعال" else "غیرفعال"
         }
