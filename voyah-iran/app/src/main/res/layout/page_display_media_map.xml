@@ -72,6 +72,15 @@
                 android:textColor="@color/error" android:text="@string/screen_swap_error"
                 android:accessibilityLiveRegion="polite" android:visibility="gone" />
             </LinearLayout>
+            <TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_lg" android:text="@string/app_theme_title"/>
+            <RadioGroup android:id="@+id/appThemeChoices" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <RadioButton android:id="@+id/appThemeDark" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:text="@string/app_theme_dark"/>
+                <RadioButton android:id="@+id/appThemeLight" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:text="@string/app_theme_light"/>
+                <RadioButton android:id="@+id/appThemeVehicle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:text="@string/app_theme_vehicle"/>
+            </RadioGroup>
+            <TextView style="@style/Text.Secondary" android:text="@string/app_theme_description"/>
+            <ProgressBar android:id="@+id/appThemeProgress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:indeterminate="true" android:visibility="gone"/>
+            <TextView android:id="@+id/appThemeError" style="@style/Text.Secondary" android:textColor="@color/error" android:text="@string/app_theme_error" android:visibility="gone" android:accessibilityLiveRegion="polite"/>
         </LinearLayout>
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"

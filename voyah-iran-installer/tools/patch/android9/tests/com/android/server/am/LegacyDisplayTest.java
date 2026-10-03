@@ -37,6 +37,17 @@ public class LegacyDisplayTest {
   state("enabled",false);check(VoyahIranLegacyDisplay.orientation(a,1)==1,"disable preserves portrait request");
   wc.full=new Rect(0,0,1920,720);VoyahIranLegacyDisplay.bounds(a,out);
   check(out.toString().equals("1,2,3,4"),"disabled bounds unchanged");
+  check(VoyahIranLegacyDisplay.nightFor("vehicle","default")==0x20,"Classic/Modern dark");
+  check(VoyahIranLegacyDisplay.nightFor("vehicle","simple")==0x10,"Speedy Dash light");
+  check(VoyahIranLegacyDisplay.nightFor("dark","simple")==0x20,"dark override");
+  check(VoyahIranLegacyDisplay.nightFor("light","default")==0x10,"light override");
+  java.lang.reflect.Field night=VoyahIranLegacyDisplay.class.getDeclaredField("nightMode");night.setAccessible(true);night.setInt(null,0x20);
+  a.info.applicationInfo.flags=0;a.display=0;override.uiMode=0x13;
+  VoyahIranLegacyDisplay.configuration(a,override);check(override.uiMode==0x23,"night works with safe area off and preserves type");
+  night.setInt(null,0x10);VoyahIranLegacyDisplay.configuration(a,override);check(override.uiMode==0x13,"switch to light");
+  a.info.applicationInfo.packageName="factory.app";a.info.applicationInfo.flags=1;night.setInt(null,0x20);
+  VoyahIranLegacyDisplay.configuration(a,override);check(override.uiMode==0x13,"factory theme untouched");
+  a.info.applicationInfo.flags=0;a.display=1;VoyahIranLegacyDisplay.configuration(a,override);check(override.uiMode==0x23,"passenger theme applied");
   System.out.println(count+" Android 9 display checks passed");
  }
 }

@@ -1,1 +1,1 @@
-package android.content.res; import android.app.WindowConfiguration; public class Configuration { public static final int ORIENTATION_LANDSCAPE=2; public WindowConfiguration windowConfiguration; public int orientation,densityDpi,screenWidthDp,screenHeightDp,smallestScreenWidthDp; }
+package android.content.res; import android.app.WindowConfiguration; public class Configuration { public static final int ORIENTATION_LANDSCAPE=2; public WindowConfiguration windowConfiguration; public int uiMode,orientation,densityDpi,screenWidthDp,screenHeightDp,smallestScreenWidthDp; }

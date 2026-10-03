@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_theme_title">تم پیش‌فرض برنامه‌های نصب‌شده</string>
+    <string name="app_theme_dark">تیره</string>
+    <string name="app_theme_light">روشن</string>
+    <string name="app_theme_vehicle">تم خودرو</string>
+    <string name="app_theme_description">برای برنامه‌هایی که از تم دستگاه پیروی می‌کنند. در حالت تم خودرو، کلاسیک و مدرن تیره و Speedy Dash روشن خواهد بود.</string>
+    <string name="app_theme_error">اعمال تم تأیید نشد. نسخهٔ جدید نصاب وویا ایران را نصب و خودرو را راه‌اندازی مجدد کنید؛ سپس دوباره امتحان کنید.</string>
+</resources>

@@ -14,6 +14,17 @@ import android.util.Log;
 public final class VoyahIranDisplayPolicy {
     private static final String KEY = "voyah_iran_display_policy";
     private static final String ACK = "voyah_iran_display_policy_ack";
+    private static final String THEME = "voyah_iran_app_theme";
+    private static volatile String themeMode = "vehicle";
+    private static volatile int nightMode;
+
+    // OEM ThemeModels: Classic=2 / Modern=1 -> default; Speedy Dash=4 -> simple.
+    static int nightFor(String mode, String vehicleTheme) {
+        return "light".equals(mode) || ("vehicle".equals(mode) && "simple".equals(vehicleTheme)) ? 0x10 : 0x20;
+    }
+    private static int desiredNight() {
+        return nightFor(themeMode, android.os.SystemProperties.get("persist.sys.qg.currenttheme", "default"));
+    }
     private static final String TAG = "VI/DisplayPolicy";
     private static volatile boolean enabled;
     private static boolean scheduled;
@@ -29,15 +40,22 @@ public final class VoyahIranDisplayPolicy {
             @Override public void run() {
                 try {
                     final ContentResolver resolver = service.mContext.getContentResolver();
+                    if (observer != null) {
+                        if (nightMode != desiredNight()) refresh(service, resolver);
+                        return;
+                    }
                     observer = new ContentObserver(handler) {
                         @Override public void onChange(boolean selfChange) { refresh(service, resolver); }
                     };
                     resolver.registerContentObserver(Settings.Global.getUriFor(KEY), false, observer);
+                    resolver.registerContentObserver(Settings.Global.getUriFor(THEME), false, observer);
                     refresh(service, resolver);
                 } catch (RuntimeException e) {
                     enabled = false;
                     scheduled = false;
                     Log.e(TAG, "Initialization failed; original layout retained", e);
+                } finally {
+                    if (scheduled) handler.postDelayed(this, 2000);
                 }
             }
         });
@@ -47,6 +65,9 @@ public final class VoyahIranDisplayPolicy {
         try {
             String request = Settings.Global.getString(resolver, KEY);
             enabled = request == null || request.equals("1") || request.matches("1:[a-f0-9]{32}");
+            String mode = Settings.Global.getString(resolver, THEME);
+            themeMode = "dark".equals(mode) || "light".equals(mode) ? mode : "vehicle";
+            nightMode = desiredNight();
             synchronized (service.mGlobalLock) {
                 service.mRootWindowContainer.forAllActivities(new java.util.function.Consumer<ActivityRecord>() {
                     @Override public void accept(ActivityRecord a) {
@@ -60,6 +81,7 @@ public final class VoyahIranDisplayPolicy {
                 service.mWindowManager.requestTraversal();
             }
             Settings.Global.putString(resolver, ACK, request == null ? "1:default" : request);
+            Settings.Global.putString(resolver, THEME + "_ack", themeMode);
             Log.i(TAG, "Applied enabled=" + enabled + " displays=0,1 left=145 top=50");
         } catch (RuntimeException e) {
             Log.e(TAG, "Reconfiguration failed; request not acknowledged", e);
@@ -86,6 +108,11 @@ public final class VoyahIranDisplayPolicy {
     }
 
     public static void configuration(ActivityRecord a, Configuration parent) {
+        initialize(a);
+        if (candidate(a) && nightMode != 0) {
+            Configuration themed = a.getResolvedOverrideConfiguration();
+            themed.uiMode = (themed.uiMode & ~0x30) | nightMode;
+        }
         if (!applies(a)) return;
         Rect full = parent.windowConfiguration.getBounds();
         if (full.width() <= LEFT + 320 || full.height() <= TOP + 200 || full.width() <= full.height()) return;

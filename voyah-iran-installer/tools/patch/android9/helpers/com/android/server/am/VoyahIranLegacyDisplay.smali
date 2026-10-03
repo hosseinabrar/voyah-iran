@@ -6,14 +6,31 @@
 # static fields
 .field private static final KEY:Ljava/lang/String; = "voyah_iran_display_policy"
 
+.field private static final THEME:Ljava/lang/String; = "voyah_iran_app_theme"
+
 .field private static volatile enabled:Z
+
+.field private static volatile nightMode:I
 
 .field private static observer:Landroid/database/ContentObserver;
 
 .field private static scheduled:Z
 
+.field private static volatile themeMode:Ljava/lang/String;
+
 
 # direct methods
+.method static constructor <clinit>()V
+    .registers 1
+
+    .line 16
+    const-string v0, "vehicle"
+
+    sput-object v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->themeMode:Ljava/lang/String;
+
+    return-void
+.end method
+
 .method public constructor <init>()V
     .registers 1
 
@@ -41,7 +58,27 @@
     return-object p0
 .end method
 
-.method static synthetic access$100(Lcom/android/server/am/ActivityManagerService;Landroid/content/ContentResolver;)V
+.method static synthetic access$100()I
+    .registers 1
+
+    .line 13
+    sget v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->nightMode:I
+
+    return v0
+.end method
+
+.method static synthetic access$200()I
+    .registers 1
+
+    .line 13
+    invoke-static {}, Lcom/android/server/am/VoyahIranLegacyDisplay;->desiredNight()I
+
+    move-result v0
+
+    return v0
+.end method
+
+.method static synthetic access$300(Lcom/android/server/am/ActivityManagerService;Landroid/content/ContentResolver;)V
     .registers 2
 
     .line 13
@@ -50,7 +87,7 @@
     return-void
 .end method
 
-.method static synthetic access$202(Z)Z
+.method static synthetic access$402(Z)Z
     .registers 1
 
     .line 13
@@ -59,7 +96,16 @@
     return p0
 .end method
 
-.method static synthetic access$302(Z)Z
+.method static synthetic access$500()Z
+    .registers 1
+
+    .line 13
+    sget-boolean v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->scheduled:Z
+
+    return v0
+.end method
+
+.method static synthetic access$502(Z)Z
     .registers 1
 
     .line 13
@@ -71,7 +117,7 @@
 .method public static applies(Ljava/lang/Object;)Z
     .registers 3
 
-    .line 50
+    .line 66
     instance-of v0, p0, Lcom/android/server/am/ActivityRecord;
 
     const/4 v1, 0x0
@@ -80,14 +126,14 @@
 
     return v1
 
-    .line 51
+    .line 67
     :cond_0
     check-cast p0, Lcom/android/server/am/ActivityRecord;
 
-    .line 52
+    .line 68
     invoke-static {p0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->initialize(Lcom/android/server/am/ActivityRecord;)V
 
-    .line 53
+    .line 69
     sget-boolean v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->enabled:Z
 
     if-eqz v0, :cond_1
@@ -107,11 +153,15 @@
 .method public static bounds(Lcom/android/server/am/ActivityRecord;Landroid/graphics/Rect;)V
     .registers 5
 
-    .line 61
+    .line 77
     invoke-static {p0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->applies(Ljava/lang/Object;)Z
 
     move-result v0
 
+    .line 78
+    invoke-static {p0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->updateTheme(Lcom/android/server/am/ActivityRecord;)V
+
+    .line 79
     if-eqz v0, :cond_4
 
     invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getDisplay()Lcom/android/server/am/ActivityDisplay;
@@ -122,7 +172,7 @@
 
     goto :goto_1
 
-    .line 63
+    .line 82
     :cond_0
     invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getDisplay()Lcom/android/server/am/ActivityDisplay;
 
@@ -134,13 +184,13 @@
 
     return-void
 
-    .line 64
+    .line 83
     :cond_1
     new-instance v0, Landroid/graphics/Point;
 
     invoke-direct {v0}, Landroid/graphics/Point;-><init>()V
 
-    .line 65
+    .line 84
     invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getDisplay()Lcom/android/server/am/ActivityDisplay;
 
     move-result-object p0
@@ -149,7 +199,7 @@
 
     invoke-virtual {p0, v0}, Landroid/view/Display;->getRealSize(Landroid/graphics/Point;)V
 
-    .line 66
+    .line 85
     new-instance p0, Landroid/graphics/Rect;
 
     iget v1, v0, Landroid/graphics/Point;->x:I
@@ -160,7 +210,7 @@
 
     invoke-direct {p0, v2, v2, v1, v0}, Landroid/graphics/Rect;-><init>(IIII)V
 
-    .line 67
+    .line 86
     invoke-virtual {p0}, Landroid/graphics/Rect;->width()I
 
     move-result v0
@@ -189,7 +239,7 @@
 
     goto :goto_0
 
-    .line 68
+    .line 87
     :cond_2
     iget v0, p0, Landroid/graphics/Rect;->left:I
 
@@ -205,15 +255,15 @@
 
     invoke-virtual {p1, v0, v1, v2, p0}, Landroid/graphics/Rect;->set(IIII)V
 
-    .line 69
+    .line 88
     return-void
 
-    .line 67
+    .line 86
     :cond_3
     :goto_0
     return-void
 
-    .line 61
+    .line 79
     :cond_4
     :goto_1
     return-void
@@ -222,7 +272,7 @@
 .method private static candidate(Lcom/android/server/am/ActivityRecord;)Z
     .registers 5
 
-    .line 42
+    .line 58
     const/4 v0, 0x0
 
     if-eqz p0, :cond_4
@@ -241,7 +291,7 @@
 
     if-ne v1, v2, :cond_4
 
-    .line 43
+    .line 59
     :cond_0
     invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getActivityType()I
 
@@ -267,13 +317,13 @@
 
     goto :goto_0
 
-    .line 44
+    .line 60
     :cond_1
     iget-object p0, p0, Lcom/android/server/am/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
 
     iget-object p0, p0, Landroid/content/pm/ActivityInfo;->applicationInfo:Landroid/content/pm/ApplicationInfo;
 
-    .line 45
+    .line 61
     const-string v1, "com.abrar.voyahiran"
 
     iget-object v3, p0, Landroid/content/pm/ApplicationInfo;->packageName:Ljava/lang/String;
@@ -302,7 +352,7 @@
     :cond_3
     return v0
 
-    .line 43
+    .line 59
     :cond_4
     :goto_0
     return v0
@@ -311,24 +361,49 @@
 .method public static configuration(Lcom/android/server/am/ActivityRecord;Landroid/content/res/Configuration;)V
     .registers 4
 
-    .line 72
+    .line 91
+    invoke-static {p0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->initialize(Lcom/android/server/am/ActivityRecord;)V
+
+    .line 92
+    invoke-static {p0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->candidate(Lcom/android/server/am/ActivityRecord;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    sget v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->nightMode:I
+
+    if-eqz v0, :cond_0
+
+    iget v0, p1, Landroid/content/res/Configuration;->uiMode:I
+
+    and-int/lit8 v0, v0, -0x31
+
+    sget v1, Lcom/android/server/am/VoyahIranLegacyDisplay;->nightMode:I
+
+    or-int/2addr v0, v1
+
+    iput v0, p1, Landroid/content/res/Configuration;->uiMode:I
+
+    .line 93
+    :cond_0
     new-instance v0, Landroid/graphics/Rect;
 
     invoke-direct {v0}, Landroid/graphics/Rect;-><init>()V
 
     invoke-static {p0, v0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->bounds(Lcom/android/server/am/ActivityRecord;Landroid/graphics/Rect;)V
 
-    .line 73
+    .line 94
     invoke-virtual {v0}, Landroid/graphics/Rect;->isEmpty()Z
 
     move-result v1
 
-    if-eqz v1, :cond_0
+    if-eqz v1, :cond_1
 
     return-void
 
-    .line 74
-    :cond_0
+    .line 95
+    :cond_1
     invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getDisplay()Lcom/android/server/am/ActivityDisplay;
 
     move-result-object p0
@@ -339,23 +414,23 @@
 
     iget p0, p0, Landroid/content/res/Configuration;->densityDpi:I
 
-    .line 75
-    if-gtz p0, :cond_1
+    .line 96
+    if-gtz p0, :cond_2
 
     return-void
 
-    .line 76
-    :cond_1
+    .line 97
+    :cond_2
     iget-object v1, p1, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
     invoke-virtual {v1, v0}, Landroid/app/WindowConfiguration;->setBounds(Landroid/graphics/Rect;)V
 
-    .line 77
+    .line 98
     iget-object v1, p1, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
     invoke-virtual {v1, v0}, Landroid/app/WindowConfiguration;->setAppBounds(Landroid/graphics/Rect;)V
 
-    .line 78
+    .line 99
     invoke-virtual {v0}, Landroid/graphics/Rect;->width()I
 
     move-result v1
@@ -366,7 +441,7 @@
 
     iput v1, p1, Landroid/content/res/Configuration;->screenWidthDp:I
 
-    .line 79
+    .line 100
     invoke-virtual {v0}, Landroid/graphics/Rect;->height()I
 
     move-result v0
@@ -377,19 +452,40 @@
 
     iput v0, p1, Landroid/content/res/Configuration;->screenHeightDp:I
 
-    .line 80
+    .line 101
     const/4 p0, 0x2
 
     iput p0, p1, Landroid/content/res/Configuration;->orientation:I
 
-    .line 81
+    .line 102
     return-void
+.end method
+
+.method private static desiredNight()I
+    .registers 3
+
+    .line 22
+    sget-object v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->themeMode:Ljava/lang/String;
+
+    const-string v1, "persist.sys.qg.currenttheme"
+
+    const-string v2, "default"
+
+    invoke-static {v1, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-static {v0, v1}, Lcom/android/server/am/VoyahIranLegacyDisplay;->nightFor(Ljava/lang/String;Ljava/lang/String;)I
+
+    move-result v0
+
+    return v0
 .end method
 
 .method private static initialize(Lcom/android/server/am/ActivityRecord;)V
     .registers 3
 
-    .line 20
+    .line 29
     sget-boolean v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->scheduled:Z
 
     if-nez v0, :cond_1
@@ -400,16 +496,16 @@
 
     goto :goto_0
 
-    .line 21
+    .line 30
     :cond_0
     const/4 v0, 0x1
 
     sput-boolean v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->scheduled:Z
 
-    .line 22
+    .line 31
     iget-object p0, p0, Lcom/android/server/am/ActivityRecord;->service:Lcom/android/server/am/ActivityManagerService;
 
-    .line 23
+    .line 32
     new-instance v0, Landroid/os/Handler;
 
     invoke-static {}, Landroid/os/Looper;->getMainLooper()Landroid/os/Looper;
@@ -418,26 +514,69 @@
 
     invoke-direct {v0, v1}, Landroid/os/Handler;-><init>(Landroid/os/Looper;)V
 
-    .line 24
+    .line 33
     new-instance v1, Lcom/android/server/am/VoyahIranLegacyDisplay$1;
 
     invoke-direct {v1, p0, v0}, Lcom/android/server/am/VoyahIranLegacyDisplay$1;-><init>(Lcom/android/server/am/ActivityManagerService;Landroid/os/Handler;)V
 
     invoke-virtual {v0, v1}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
 
-    .line 39
+    .line 55
     return-void
 
-    .line 20
+    .line 29
     :cond_1
     :goto_0
     return-void
 .end method
 
+.method static nightFor(Ljava/lang/String;Ljava/lang/String;)I
+    .registers 3
+
+    .line 19
+    const-string v0, "light"
+
+    invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_1
+
+    const-string v0, "vehicle"
+
+    invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result p0
+
+    if-eqz p0, :cond_0
+
+    const-string p0, "simple"
+
+    invoke-virtual {p0, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result p0
+
+    if-eqz p0, :cond_0
+
+    goto :goto_0
+
+    :cond_0
+    const/16 p0, 0x20
+
+    goto :goto_1
+
+    :cond_1
+    :goto_0
+    const/16 p0, 0x10
+
+    :goto_1
+    return p0
+.end method
+
 .method public static orientation(Ljava/lang/Object;I)I
     .registers 3
 
-    .line 57
+    .line 73
     const/4 v0, -0x2
 
     if-eq p1, v0, :cond_0
@@ -457,7 +596,7 @@
 .method private static refresh(Lcom/android/server/am/ActivityManagerService;Landroid/content/ContentResolver;)V
     .registers 18
 
-    .line 85
+    .line 115
     move-object/from16 v1, p0
 
     move-object/from16 v0, p1
@@ -469,7 +608,7 @@
 
     move-result-object v2
 
-    .line 86
+    .line 116
     const/4 v4, 0x1
 
     if-eqz v2, :cond_1
@@ -504,105 +643,148 @@
     :goto_1
     sput-boolean v5, Lcom/android/server/am/VoyahIranLegacyDisplay;->enabled:Z
 
-    .line 87
+    .line 117
+    const-string v5, "voyah_iran_app_theme"
+
+    invoke-static {v0, v5}, Landroid/provider/Settings$Global;->getString(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v5
+
+    .line 118
+    const-string v6, "dark"
+
+    invoke-virtual {v6, v5}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v6
+
+    if-nez v6, :cond_3
+
+    const-string v6, "light"
+
+    invoke-virtual {v6, v5}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v6
+
+    if-eqz v6, :cond_2
+
+    goto :goto_2
+
+    :cond_2
+    const-string v5, "vehicle"
+
+    :cond_3
+    :goto_2
+    sput-object v5, Lcom/android/server/am/VoyahIranLegacyDisplay;->themeMode:Ljava/lang/String;
+
+    .line 119
+    invoke-static {}, Lcom/android/server/am/VoyahIranLegacyDisplay;->desiredNight()I
+
+    move-result v5
+
+    sput v5, Lcom/android/server/am/VoyahIranLegacyDisplay;->nightMode:I
+
+    .line 120
     monitor-enter p0
     :try_end_0
     .catch Ljava/lang/RuntimeException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 88
+    .line 121
     :try_start_1
     iget-object v5, v1, Lcom/android/server/am/ActivityManagerService;->mStackSupervisor:Lcom/android/server/am/ActivityStackSupervisor;
 
-    .line 89
+    .line 122
     invoke-virtual {v5}, Lcom/android/server/am/ActivityStackSupervisor;->getChildCount()I
 
     move-result v6
 
     sub-int/2addr v6, v4
 
-    :goto_2
-    if-ltz v6, :cond_7
+    :goto_3
+    if-ltz v6, :cond_9
 
-    .line 90
+    .line 123
     invoke-virtual {v5, v6}, Lcom/android/server/am/ActivityStackSupervisor;->getChildAt(I)Lcom/android/server/am/ActivityDisplay;
 
     move-result-object v7
 
-    .line 91
+    .line 124
     invoke-virtual {v7}, Lcom/android/server/am/ActivityDisplay;->getChildCount()I
 
     move-result v8
 
     sub-int/2addr v8, v4
 
-    :goto_3
-    if-ltz v8, :cond_6
+    :goto_4
+    if-ltz v8, :cond_8
 
-    .line 92
+    .line 125
     invoke-virtual {v7, v8}, Lcom/android/server/am/ActivityDisplay;->getChildAt(I)Lcom/android/server/am/ActivityStack;
 
     move-result-object v9
 
-    .line 93
+    .line 126
     invoke-virtual {v9}, Lcom/android/server/am/ActivityStack;->getChildCount()I
 
     move-result v10
 
     sub-int/2addr v10, v4
 
-    :goto_4
-    if-ltz v10, :cond_5
+    :goto_5
+    if-ltz v10, :cond_7
 
-    .line 94
+    .line 127
     invoke-virtual {v9, v10}, Lcom/android/server/am/ActivityStack;->getChildAt(I)Lcom/android/server/wm/ConfigurationContainer;
 
     move-result-object v11
 
     check-cast v11, Lcom/android/server/am/TaskRecord;
 
-    .line 95
+    .line 128
     invoke-virtual {v11}, Lcom/android/server/am/TaskRecord;->getChildCount()I
 
     move-result v12
 
     sub-int/2addr v12, v4
 
-    :goto_5
-    if-ltz v12, :cond_4
+    :goto_6
+    if-ltz v12, :cond_6
 
-    .line 96
+    .line 129
     invoke-virtual {v11, v12}, Lcom/android/server/am/TaskRecord;->getChildAt(I)Lcom/android/server/am/ActivityRecord;
 
     move-result-object v13
 
-    .line 97
+    .line 130
     invoke-static {v13}, Lcom/android/server/am/VoyahIranLegacyDisplay;->candidate(Lcom/android/server/am/ActivityRecord;)Z
 
     move-result v14
 
-    if-eqz v14, :cond_3
+    if-eqz v14, :cond_5
 
-    .line 98
+    .line 131
+    invoke-static {v13}, Lcom/android/server/am/VoyahIranLegacyDisplay;->updateTheme(Lcom/android/server/am/ActivityRecord;)V
+
+    .line 132
     invoke-virtual {v13}, Lcom/android/server/am/ActivityRecord;->getBounds()Landroid/graphics/Rect;
 
     move-result-object v14
 
-    .line 99
+    .line 133
     sget-boolean v15, Lcom/android/server/am/VoyahIranLegacyDisplay;->enabled:Z
 
-    if-nez v15, :cond_2
+    if-nez v15, :cond_4
 
     iget v15, v14, Landroid/graphics/Rect;->left:I
 
     const/16 v3, 0x91
 
-    if-ne v15, v3, :cond_2
+    if-ne v15, v3, :cond_4
 
     iget v3, v14, Landroid/graphics/Rect;->top:I
 
     const/16 v14, 0x32
 
-    if-ne v3, v14, :cond_2
+    if-ne v3, v14, :cond_4
 
     new-instance v3, Landroid/graphics/Rect;
 
@@ -610,71 +792,78 @@
 
     invoke-virtual {v13, v3}, Lcom/android/server/am/ActivityRecord;->setBounds(Landroid/graphics/Rect;)I
 
-    .line 100
-    :cond_2
+    .line 134
+    :cond_4
     const/4 v3, 0x0
 
     invoke-virtual {v13, v3, v4}, Lcom/android/server/am/ActivityRecord;->ensureActivityConfiguration(IZ)Z
 
-    goto :goto_6
+    goto :goto_7
 
-    .line 97
-    :cond_3
+    .line 130
+    :cond_5
     const/4 v3, 0x0
 
-    .line 95
-    :goto_6
+    .line 128
+    :goto_7
     add-int/lit8 v12, v12, -0x1
 
-    goto :goto_5
+    goto :goto_6
 
-    .line 93
-    :cond_4
+    .line 126
+    :cond_6
     const/4 v3, 0x0
 
     add-int/lit8 v10, v10, -0x1
 
-    goto :goto_4
+    goto :goto_5
 
-    .line 91
-    :cond_5
+    .line 124
+    :cond_7
     const/4 v3, 0x0
 
     add-int/lit8 v8, v8, -0x1
 
-    goto :goto_3
+    goto :goto_4
 
-    .line 89
-    :cond_6
+    .line 122
+    :cond_8
     const/4 v3, 0x0
 
     add-int/lit8 v6, v6, -0x1
 
-    goto :goto_2
+    goto :goto_3
 
-    .line 106
-    :cond_7
+    .line 140
+    :cond_9
     iget-object v3, v1, Lcom/android/server/am/ActivityManagerService;->mWindowManager:Lcom/android/server/wm/WindowManagerService;
 
     invoke-static {v3}, Lcom/android/server/wm/VoyahIranLegacyFrames;->traverse(Lcom/android/server/wm/WindowManagerService;)V
 
-    .line 107
+    .line 141
     monitor-exit p0
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 108
+    .line 142
     :try_start_2
     const-string v1, "voyah_iran_display_policy_ack"
 
-    if-nez v2, :cond_8
+    if-nez v2, :cond_a
 
     const-string v2, "1:default"
 
-    :cond_8
+    :cond_a
     invoke-static {v0, v1, v2}, Landroid/provider/Settings$Global;->putString(Landroid/content/ContentResolver;Ljava/lang/String;Ljava/lang/String;)Z
 
-    .line 109
+    .line 143
+    const-string v1, "voyah_iran_app_theme_ack"
+
+    sget-object v2, Lcom/android/server/am/VoyahIranLegacyDisplay;->themeMode:Ljava/lang/String;
+
+    invoke-static {v0, v1, v2}, Landroid/provider/Settings$Global;->putString(Landroid/content/ContentResolver;Ljava/lang/String;Ljava/lang/String;)Z
+
+    .line 144
     const-string v0, "VI/DisplayPolicy9"
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -707,10 +896,10 @@
     :try_end_2
     .catch Ljava/lang/RuntimeException; {:try_start_2 .. :try_end_2} :catch_0
 
-    .line 112
-    goto :goto_7
+    .line 147
+    goto :goto_8
 
-    .line 107
+    .line 141
     :catchall_0
     move-exception v0
 
@@ -724,18 +913,80 @@
     :try_end_4
     .catch Ljava/lang/RuntimeException; {:try_start_4 .. :try_end_4} :catch_0
 
-    .line 110
+    .line 145
     :catch_0
     move-exception v0
 
-    .line 111
+    .line 146
     const-string v1, "VI/DisplayPolicy9"
 
     const-string v2, "Reconfiguration failed; no acknowledgement"
 
     invoke-static {v1, v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    .line 113
-    :goto_7
+    .line 148
+    :goto_8
+    return-void
+.end method
+
+.method private static updateTheme(Lcom/android/server/am/ActivityRecord;)V
+    .registers 4
+
+    .line 105
+    invoke-static {p0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->candidate(Lcom/android/server/am/ActivityRecord;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_2
+
+    sget v0, Lcom/android/server/am/VoyahIranLegacyDisplay;->nightMode:I
+
+    if-nez v0, :cond_0
+
+    goto :goto_0
+
+    .line 106
+    :cond_0
+    invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getOverrideConfiguration()Landroid/content/res/Configuration;
+
+    move-result-object v0
+
+    .line 107
+    iget v1, v0, Landroid/content/res/Configuration;->uiMode:I
+
+    and-int/lit8 v1, v1, 0x30
+
+    sget v2, Lcom/android/server/am/VoyahIranLegacyDisplay;->nightMode:I
+
+    if-ne v1, v2, :cond_1
+
+    return-void
+
+    .line 108
+    :cond_1
+    new-instance v1, Landroid/content/res/Configuration;
+
+    invoke-direct {v1, v0}, Landroid/content/res/Configuration;-><init>(Landroid/content/res/Configuration;)V
+
+    .line 109
+    iget v0, v1, Landroid/content/res/Configuration;->uiMode:I
+
+    and-int/lit8 v0, v0, -0x31
+
+    sget v2, Lcom/android/server/am/VoyahIranLegacyDisplay;->nightMode:I
+
+    or-int/2addr v0, v2
+
+    iput v0, v1, Landroid/content/res/Configuration;->uiMode:I
+
+    .line 110
+    invoke-virtual {p0, v1}, Lcom/android/server/am/ActivityRecord;->onOverrideConfigurationChanged(Landroid/content/res/Configuration;)V
+
+    .line 111
+    return-void
+
+    .line 105
+    :cond_2
+    :goto_0
     return-void
 .end method

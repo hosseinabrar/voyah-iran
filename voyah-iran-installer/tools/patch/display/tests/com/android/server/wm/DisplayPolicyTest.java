@@ -21,6 +21,20 @@ public class DisplayPolicyTest {
  public static void main(String[] args)throws Exception {
   java.lang.reflect.Field init=VoyahIranDisplayPolicy.class.getDeclaredField("scheduled");init.setAccessible(true);init.set(null,true);
   Activity a=new Activity();state(true);
+  check(VoyahIranDisplayPolicy.nightFor("vehicle","default")==0x20,"Classic and Modern dark");
+  check(VoyahIranDisplayPolicy.nightFor("vehicle","simple")==0x10,"Speedy Dash light");
+  check(VoyahIranDisplayPolicy.nightFor("dark","simple")==0x20,"explicit dark ignores vehicle");
+  check(VoyahIranDisplayPolicy.nightFor("light","default")==0x10,"explicit light ignores vehicle");
+  java.lang.reflect.Field night=VoyahIranDisplayPolicy.class.getDeclaredField("nightMode");night.setAccessible(true);night.setInt(null,0x20);
+  state(false); Configuration themeParent=new Configuration();a.config.uiMode=0x13;
+  VoyahIranDisplayPolicy.configuration(a,themeParent);
+  check(a.config.uiMode==0x23,"night changes independently of safe area, preserves car type");
+  night.setInt(null,0x10);VoyahIranDisplayPolicy.configuration(a,themeParent);
+  check(a.config.uiMode==0x13,"light transition");
+  a.info.applicationInfo.flags=1;night.setInt(null,0x20);VoyahIranDisplayPolicy.configuration(a,themeParent);
+  check(a.config.uiMode==0x13,"OEM theme untouched");a.info.applicationInfo.flags=0;
+  a.display=1;VoyahIranDisplayPolicy.configuration(a,themeParent);check(a.config.uiMode==0x23,"passenger theme applied");a.display=0;
+  night.setInt(null,0);state(true);
   check(VoyahIranDisplayPolicy.applies(a),"user app eligible");
   check(VoyahIranDisplayPolicy.orientation(a,7)==0,"portrait forced landscape");
   check(VoyahIranDisplayPolicy.orientation(a,-2)==-2,"unset sentinel preserved");

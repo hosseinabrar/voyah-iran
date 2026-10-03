@@ -53,5 +53,16 @@ public static class Android9FrameworkAssets
         "patch/android9/previous-v2/helpers/com/android/server/am/VoyahIranLegacyDisplay$1.smali",
         "patch/android9/previous-v2/helpers/com/android/server/am/VoyahIranLegacyDisplay.smali",
         "patch/android9/previous-v2/helpers/com/android/server/wm/VoyahIranLegacyFrames.smali",
+        "patch/android9/previous-v3/ActivityRecord-getRequestedOrientation.patched.smali",
+        "patch/android9/previous-v3/ActivityRecord-updateOverrideConfiguration.patched.smali",
+        "patch/android9/previous-v3/AppWindowToken-getOrientation.patched.smali",
+        "patch/android9/previous-v3/AppWindowToken-getOrientationIgnoreVisibility.patched.smali",
+        "patch/android9/previous-v3/AppWindowToken-layoutLetterbox.patched.smali",
+        "patch/android9/previous-v3/InputMethodManagerService-updateInputMethodsFromSettingsLocked.patched.smali",
+        "patch/android9/previous-v3/WindowState-applyGravityAndUpdateFrame.patched.smali",
+        "patch/android9/previous-v3/helpers/com/android/server/am/VoyahIranLegacyDisplay.smali",
+        "patch/android9/previous-v3/helpers/com/android/server/am/VoyahIranLegacyDisplay$1.smali",
+        "patch/android9/previous-v3/helpers/com/android/server/am/VoyahIranLegacyDisplay$1$1.smali",
+        "patch/android9/previous-v3/helpers/com/android/server/wm/VoyahIranLegacyFrames.smali",
     ];
 }

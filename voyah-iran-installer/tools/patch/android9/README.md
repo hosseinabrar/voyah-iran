@@ -28,7 +28,9 @@ original classes passed a complete disassemble/assemble/disassemble comparison.
 
 Displays 0 and 1 use their own width/height, with 145 px left and 50 px top margins.
 User apps and Voyah Iran are included; launcher, system apps, cluster and multiwindow
-are excluded. One Settings observer handles toggling; no polling/process injection.
+are excluded. Settings observers handle toggling; no process injection.
+The installed-app theme extension also checks the cached vehicle-theme system property
+every two seconds (no CAN traffic); see `../display/APP-THEME.md`.
 On disable, previously constrained bounds are cleared before stock recalculation.
 This capability is separate from SDK-30-only launcher/screen-switch hooks.
 

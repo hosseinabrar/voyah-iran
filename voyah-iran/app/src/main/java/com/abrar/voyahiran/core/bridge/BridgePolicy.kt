@@ -14,6 +14,7 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
+        if (request.size == 2 && request[0] == "app-theme" && request[1] in listOf("dark", "light", "vehicle")) return request
         if (request == listOf("raha-phone", "device")) return request
         if (request.size == 4 && request[0] == "raha-phone" && request[2].matches(Regex("[0-9A-F]{2}(?::[0-9A-F]{2}){5}")) &&
             ((request[1] == "read" && request[3].toLongOrNull()?.let { it >= 0 } == true) ||
