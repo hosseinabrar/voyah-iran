@@ -19,6 +19,23 @@ class LauncherDrawerService : AccessibilityService() {
     override fun onInterrupt() = Unit
     @Suppress("DEPRECATION")
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        // Android 9 has no verified OEM injection hook. Use the exact central Home id there.
+        if (android.os.Build.VERSION.SDK_INT == 28 && event?.eventType == AccessibilityEvent.TYPE_VIEW_CLICKED &&
+            event.packageName?.toString() == "com.qinggan.app.launcher" && LauncherPreferences.enabled(this) &&
+            (application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.allowed) {
+            val node = event.source
+            val home = try { node?.viewIdResourceName == "com.qinggan.app.launcher:id/screen_up_home_icon" }
+                finally { node?.recycle() }
+            if(home) {
+                handler.removeCallbacks(open)
+                handler.postDelayed({
+                    if(LauncherPreferences.enabled(this)) startActivity(Intent(this,VoyahLauncherActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),
+                        ActivityOptions.makeBasic().apply{launchDisplayId=0}.toBundle())
+                },250)
+                return
+            }
+        }
         if (!com.abrar.voyahiran.core.compat.VehiclePlatform.launcherDrawer) return
         if (event?.eventType != AccessibilityEvent.TYPE_VIEW_CLICKED) return
         // A later navigation click cancels an opening still waiting for the OEM handler.

@@ -10,6 +10,10 @@
             android:orientation="vertical"
             android:padding="@dimen/space_lg">
             <TextView style="@style/Text.Title" android:text="@string/display_section"/>
+            <CheckBox android:id="@+id/customLauncher" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:text="لانچر اختصاصی وویا ایران" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" />
+            <TextView android:id="@+id/customLauncherError" style="@style/Text.Secondary" android:visibility="gone" android:textColor="@color/error" />
             <CheckBox
                 android:id="@+id/appDisplayCorrection"
                 android:layout_marginTop="@dimen/space_md"

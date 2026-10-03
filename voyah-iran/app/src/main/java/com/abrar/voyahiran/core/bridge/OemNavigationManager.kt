@@ -77,7 +77,7 @@ object OemNavigationManager {
         // Drawer selection is model-based. No app inventory or OEM list reconciliation.
         val stockPassengerList = !com.abrar.voyahiran.core.compat.VehiclePlatform.launcherDrawer
         script.writeText("globalThis.VI_STOCK_PASSENGER_LIST = $stockPassengerList;\n" +
-            OemNavigationScript.source + "\n" + PassengerDrawerScript.source)
+            OemNavigationScript.source + "\n" + PassengerDrawerScript.source + "\n" + LauncherHomeScript.source)
         check(script.setReadable(false, false) && script.setReadable(true, true))
         ready = false; error = null; target = pid
         val process = ProcessBuilder(runtime.path, "-p", pid, "-s", script.path, "-i").redirectErrorStream(true).start()

@@ -133,6 +133,8 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
         }
     }
     private suspend fun startFeatures(): Boolean = try {
+        try { com.abrar.voyahiran.feature.launcher.LauncherPreferences.provision(com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(app)) }
+        catch (e: Exception) { if(e is CancellationException) throw e; AppLog.error("Launcher", "startup provisioning failed", e) }
         if(app.starBackup.desired || app.starBackup.read()!=null) StarBackService.request(app,StarBackService.RESUME)
         // A failed read before registration may have left this shared controller running.
         // Reset its connection so start() re-arms both saved restore targets.

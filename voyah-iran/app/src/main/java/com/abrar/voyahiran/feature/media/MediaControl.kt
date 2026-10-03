@@ -20,7 +20,7 @@ object MediaControl {
     fun component(context: Context) = ComponentName(context, SteeringMediaListener::class.java)
     fun accessNeeded(context: Context): Boolean {
         val prefs = com.abrar.voyahiran.feature.navigation.NavigationPreferences(context)
-        return enabled(context) || prefs.musicAutoPlay || prefs.musicPauseOnDoor
+        return enabled(context) || prefs.musicAutoPlay || prefs.musicPauseOnDoor || com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(context)
     }
     suspend fun provision(context: Context) {
         val enable = accessNeeded(context)

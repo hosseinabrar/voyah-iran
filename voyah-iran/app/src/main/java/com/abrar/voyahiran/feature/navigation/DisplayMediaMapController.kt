@@ -24,6 +24,21 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
     private fun screenSwapEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_screen_swap", 1) == 1
     private fun passengerAppsEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_passenger_apps", 1) == 1
     fun bind() {
+        view.customLauncher.isChecked = com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(activity)
+        view.customLauncher.setOnClickListener {
+            val desired = view.customLauncher.isChecked
+            view.customLauncher.isEnabled = false
+            view.customLauncherError.visibility = View.GONE
+            activity.lifecycleScope.launch {
+                try { com.abrar.voyahiran.feature.launcher.LauncherPreferences.set(activity, desired) }
+                catch (e: Exception) {
+                    if (e is CancellationException) throw e
+                    view.customLauncher.isChecked = com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(activity)
+                    view.customLauncherError.text = e.message
+                    view.customLauncherError.visibility = View.VISIBLE
+                } finally { view.customLauncher.isEnabled = true }
+            }
+        }
         AppThemeController.bind(activity, view)
         AppDensityController.bind(activity, view)
         view.passengerDisplayOptions.visibility = if (com.abrar.voyahiran.core.compat.VehiclePlatform.isH97a) View.GONE else View.VISIBLE

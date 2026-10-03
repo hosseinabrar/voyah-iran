@@ -71,6 +71,12 @@ object BridgeServer {
                                 runner.run(listOf("/system/bin/am", "force-stop", "--user", "0", command[1]), parsed.timeout)
                             else runner.run(listOf("/system/bin/pm", "uninstall", "--user", "0", command[1]), parsed.timeout)
                         }
+                        "launcher-map" -> LauncherMapBridge.execute(command)
+                        "launcher-home" -> {
+                            val enable=command[1]=="enable"
+                            val access=if(enable && android.os.Build.VERSION.SDK_INT==28) runner.run(LauncherDrawerAccess.arguments,5) else CommandResult(0,"")
+                            if(access.exitCode!=0 || access.timedOut) access else runner.run(listOf("/system/bin/settings","put","global","voyah_iran_launcher_home",if(enable)"1" else "0"),3)
+                        }
                         "raha-phone" -> OemPhoneBridge.execute(command)
                         "local-profile-test" -> LocalProfileTest.execute(command[1])
                         "apollo-capability" -> ApolloCapability.read()
