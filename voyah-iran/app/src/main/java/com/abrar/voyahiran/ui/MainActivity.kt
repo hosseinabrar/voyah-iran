@@ -211,6 +211,10 @@ class MainActivity : ComponentActivity() {
         }
         binding.apolloPage.subscription.setOnClickListener { apollo.setEnabled(binding.apolloPage.subscription.isChecked) }
         binding.apolloPage.refresh.setOnClickListener { apollo.refresh() }
+        binding.apolloPage.speedWarningEnabled.setOnClickListener {
+            val enabled = binding.apolloPage.speedWarningEnabled.isChecked
+            apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_WARNING, if (enabled) 2 else 1)
+        }
         binding.apolloPage.speedWarningExact.setOnClickListener {
             apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_OFFSET, 1)
         }
@@ -594,11 +598,17 @@ class MainActivity : ComponentActivity() {
             boxes[index].alpha = if (subscription.isChecked) 1f else 0.45f
         }
         experiments.visibility = View.GONE
+        val warningState = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_WARNING]
+        val warningEnabled = warningState == 2
+        show(speedWarningEnabled, R.string.apollo_speed_warning, when (warningState) { 1 -> false; 2 -> true; else -> null })
+        speedWarningEnabled.isEnabled = subscription.isChecked && !state.busy && warningState in 1..2
+        speedWarningEnabled.alpha = if (subscription.isChecked && warningState in 1..2) 1f else 0.45f
+        speedWarningModes.visibility = if (warningEnabled) View.VISIBLE else View.GONE
         val speedStyle = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_OFFSET]
         speedWarningExact.isChecked = speedStyle == 1
         speedWarningPercent.isChecked = speedStyle == 2
         listOf(speedWarningExact, speedWarningPercent).forEach {
-            it.isEnabled = subscription.isChecked && !state.busy && speedStyle in 1..2
+            it.isEnabled = subscription.isChecked && warningEnabled && !state.busy && speedStyle in 1..2
             it.alpha = if (subscription.isChecked && speedStyle in 1..2) 1f else 0.45f
         }
         progress.visibility = if (state.busy) View.VISIBLE else View.GONE
