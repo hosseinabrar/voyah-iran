@@ -1,0 +1,10 @@
+﻿Neshan maneuver,Neshan direction,Neshan direction value,suggested raw cluster ID (unverified),verified cluster ID,observed image / notes
+TURN,U_TURN,0,5,,
+TURN,SHARP_RIGHT,1,4,,
+TURN,RIGHT,2,3,,
+TURN,SLIGHT_RIGHT,3,2,,
+TURN,STRAIGHT,4,1,,
+TURN,SLIGHT_LEFT,5,8,,
+TURN,LEFT,6,7,,
+TURN,SHARP_LEFT,7,6,,
+TURN,UNKNOWN,-1,0,,

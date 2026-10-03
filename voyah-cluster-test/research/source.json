@@ -1,0 +1,12 @@
+{
+  "apk": "Neshan.apk",
+  "sha256": "a5e32beb3aaea641787fdfd4b0cf64a741d6c9237a53155f4c66331531a39061",
+  "version": "14.12.0.3 (70789)",
+  "directionClass": "rx.d",
+  "maneuverClass": "rx.h",
+  "enumCounts": {
+    "directions": 9,
+    "maneuvers": 19
+  },
+  "suggestions": "Unverified Baidu raw-icon hypothesis, NOT generic Qinggan enum ordinals. Manually adjustable."
+}

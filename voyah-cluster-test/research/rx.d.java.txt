@@ -1,0 +1,57 @@
+package rx;
+
+/* JADX INFO: loaded from: classes3.dex */
+public enum d {
+    U_TURN(0),
+    SHARP_RIGHT(1),
+    RIGHT(2),
+    SLIGHT_RIGHT(3),
+    STRAIGHT(4),
+    SLIGHT_LEFT(5),
+    LEFT(6),
+    SHARP_LEFT(7),
+    UNKNOWN(-1);
+
+    public static final /* synthetic */ wn.a K = wn.b.a(b());
+
+    /* JADX INFO: renamed from: i, reason: collision with root package name */
+    public static final a f56922i = new a(null);
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    public final int f56931d;
+
+    public static final class a {
+        public /* synthetic */ a(fo.k kVar) {
+            this();
+        }
+
+        /* JADX WARN: Code duplicated, block: B:10:0x0017  */
+        /* JADX WARN: Code duplicated, block: B:12:0x001a A[RETURN] */
+        public final d a(int i12) {
+            for (d dVar : d.values()) {
+                if (dVar.e() == i12) {
+                    if (dVar == null) {
+                        return d.UNKNOWN;
+                    }
+                    return dVar;
+                }
+            }
+            dVar = null;
+            if (dVar == null) {
+                return d.UNKNOWN;
+            }
+            return dVar;
+        }
+
+        public a() {
+        }
+    }
+
+    d(int i12) {
+        this.f56931d = i12;
+    }
+
+    public final int e() {
+        return this.f56931d;
+    }
+}

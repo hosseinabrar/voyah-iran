@@ -1,0 +1,79 @@
+package rx;
+
+/* JADX INFO: loaded from: classes3.dex */
+public enum h {
+    TURN(0),
+    NEW_NAME(1),
+    DEPART(2),
+    ARRIVE(3),
+    MERGE(4),
+    ON_RAMP(5),
+    OFF_RAMP(6),
+    FORK(7),
+    END_OF_ROAD(8),
+    CONTINUE(9),
+    ROUNDABOUT(10),
+    ROTARY(11),
+    ROUNDABOUT_TURN(12),
+    BIKE_STATION(13),
+    WALK(14),
+    USE_LANE(15),
+    EXIT_ROUNDABOUT(16),
+    NEW_EXIT_ROUNDABOUT(17),
+    UNKNOWN(-1);
+
+    public static final /* synthetic */ wn.a V = wn.b.a(b());
+
+    /* JADX INFO: renamed from: i, reason: collision with root package name */
+    public static final a f56952i = new a(null);
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    public final int f56961d;
+
+    public static final class a {
+        public /* synthetic */ a(fo.k kVar) {
+            this();
+        }
+
+        /* JADX WARN: Code duplicated, block: B:10:0x0017  */
+        /* JADX WARN: Code duplicated, block: B:12:0x001a A[RETURN] */
+        public final h a(int i12) {
+            for (h hVar : h.values()) {
+                if (hVar.e() == i12) {
+                    if (hVar == null) {
+                        return h.UNKNOWN;
+                    }
+                    return hVar;
+                }
+            }
+            hVar = null;
+            if (hVar == null) {
+                return h.UNKNOWN;
+            }
+            return hVar;
+        }
+
+        public a() {
+        }
+    }
+
+    h(int i12) {
+        this.f56961d = i12;
+    }
+
+    public final int e() {
+        return this.f56961d;
+    }
+
+    public final boolean i() {
+        return this == NEW_EXIT_ROUNDABOUT;
+    }
+
+    public final boolean j() {
+        return this == CONTINUE || this == NEW_NAME;
+    }
+
+    public final boolean k() {
+        return this == ROUNDABOUT || this == ROTARY;
+    }
+}
