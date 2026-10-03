@@ -14,6 +14,10 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
+        if (request == listOf("raha-phone", "device")) return request
+        if (request.size == 4 && request[0] == "raha-phone" && request[2].matches(Regex("[0-9A-F]{2}(?::[0-9A-F]{2}){5}")) &&
+            ((request[1] == "read" && request[3].toLongOrNull()?.let { it >= 0 } == true) ||
+             (request[1] == "dial" && request[3].matches(Regex("\\+?[0-9]{3,20}"))))) return request
         if (request.size == 2 && request[0] == "local-profile-test" && request[1] in listOf("status", "apply", "restore")) return request
         if (request == listOf("apollo-capability")) return request
         if (request.size == 2 && request[0] == "avm-turn" && request[1] in listOf("read", "on", "off")) return request

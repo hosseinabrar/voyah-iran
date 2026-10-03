@@ -61,6 +61,7 @@ android {
 }
 
 dependencies {
+    implementation("net.java.dev.jna:jna:5.18.1@aar")
     implementation(project(":raha-feedback"))
     implementation(project(":raha-runtime"))
     implementation(files("../raha-runtime/libs/sherpa-onnx-1.13.8.aar"))

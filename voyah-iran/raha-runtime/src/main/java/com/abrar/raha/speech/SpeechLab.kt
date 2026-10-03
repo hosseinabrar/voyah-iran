@@ -68,7 +68,7 @@ class SpeechLab(context: Context) : AutoCloseable {
         }
     }
 
-    fun start(reuseLast: Boolean, listener: Listener) {
+    fun start(reuseLast: Boolean, listener: Listener, carModeOverride: Boolean? = null, initialSilenceMs: Int = 6000) {
         cancelled.set(false)
         worker.execute {
             var live: LiveSpeechSession? = null
@@ -81,10 +81,10 @@ class SpeechLab(context: Context) : AutoCloseable {
                     }
                     live = if (choice.shenavaModel != null)
                         LiveShenavaSession(checkNotNull(shenava), cancelled::get, partial)
-                    else LiveVoskSession(checkNotNull(backend), cancelled::get, partial, choice == EngineChoice.CAR_LIVE)
+                    else LiveVoskSession(checkNotNull(backend), cancelled::get, partial, carModeOverride ?: (choice == EngineChoice.CAR_LIVE))
                 }
                 val session = live
-                val recording = if (reuseLast) checkNotNull(last) else record(listener) { session?.accept(it) }
+                val recording = if (reuseLast) checkNotNull(last) else record(listener, initialSilenceMs.coerceIn(1000, 15000)) { session?.accept(it) }
                 if (!cancelled.get()) {
                     if (!reuseLast) last = recording.takeIf { it.samples.isNotEmpty() }
                     post { if (!cancelled.get()) listener.onDecoding() }
@@ -135,7 +135,8 @@ class SpeechLab(context: Context) : AutoCloseable {
     }
     /** Continuous mic, bounded decoder state, serialized with manual recording/model cleanup. */
     @SuppressLint("MissingPermission")
-    fun watch(phrases:Set<String>, listener:WakeListener, sensitivity:com.abrar.raha.WakeSensitivity = com.abrar.raha.WakeSensitivity.LEGACY) {
+    fun watch(phrases:Set<String>, listener:WakeListener, sensitivity:com.abrar.raha.WakeSensitivity = com.abrar.raha.WakeSensitivity.LEGACY,
+        minimumWakeLevel: () -> Int = { 0 }) {
         cancelled.set(false)
         worker.execute {
             var failure:Throwable?=null
@@ -145,6 +146,7 @@ class SpeechLab(context: Context) : AutoCloseable {
                 val detector=checkNotNull(vad)
                 detector.reset()
                 val gate=com.abrar.raha.RahaWakeGate(phrases)
+                val volumeGate=com.abrar.raha.RahaWakeVolumeGate()
                 val confirmation=com.abrar.raha.RahaWakeConfirmation(sensitivity)
                 var lastWakeDecision=""
 
@@ -175,10 +177,11 @@ class SpeechLab(context: Context) : AutoCloseable {
                         detector.acceptWaveform(FloatArray(count) { pcm[it]/32768f })
                         val voiceActive=detector.isSpeechDetected()
                         while(!detector.empty()) detector.pop()
+                        var energy=0.0
+                        for(i in 0 until count) energy += pcm[i].toDouble()*pcm[i]
+                        val level=(kotlin.math.sqrt(energy/count)/32768.0*700).toInt().coerceIn(0,100)
+                        val volumeAllowed=volumeGate.accept(level, minimumWakeLevel(), count*1000/RATE, now)
                         if(now-levelAt>=64) {
-                            var energy=0.0
-                            for(i in 0 until count) energy += pcm[i].toDouble()*pcm[i]
-                            val level=(kotlin.math.sqrt(energy/count)/32768.0*700).toInt().coerceIn(0,100)
                             post {if(!cancelled.get()) { listener.onLevel(level); listener.onSpeech(voiceActive) }}
                             levelAt=now
                         }
@@ -191,11 +194,20 @@ class SpeechLab(context: Context) : AutoCloseable {
                         val confidence=if(first?.optString("word")=="رها" && first.has("conf"))
                             first.optDouble("conf").takeIf { it.isFinite() } else null
                         val candidate=phrases.any { text==it || text.startsWith("$it ") }
+                        if(candidate && !gate.active && !volumeAllowed) {
+                            // Discard quiet wake hypotheses so later noise cannot revive stale words.
+                            confirmation.reset();decoder.reset();previous=""
+                            if(preview) {
+                                preview=false
+                                post {if(!cancelled.get())listener.onCandidate(false)}
+                            }
+                            continue
+                        }
                         if(candidate && !preview && !gate.active) {
                             preview=true;previewUntil=now+8000
                             post {if(!cancelled.get())listener.onCandidate(true)}
                         }
-                        val accepted=gate.active || confirmation.accept(text,confidence,now,endpoint)
+                        val accepted=gate.active || (volumeAllowed && confirmation.accept(text,confidence,now,endpoint))
                         if(!gate.active && (text=="رها" || text.startsWith("رها "))) {
                             val decision="$sensitivity accepted=$accepted final=$endpoint"
                             if(decision!=lastWakeDecision) {
@@ -206,7 +218,7 @@ class SpeechLab(context: Context) : AutoCloseable {
                         // Keep feeding the same decoder while pending: joined commands aren't dropped.
                         val command=if(endpoint && accepted)gate.final(text,now) else null
                         val partial=if(!endpoint && accepted)gate.partial(text,now) else null
-                        if(endpoint) { confirmation.reset(); lastWakeDecision="" }
+                        if(endpoint) { confirmation.reset(); volumeGate.reset(); lastWakeDecision="" }
                         // Notify activation before text/result so begin cannot erase a joined command.
                         if(!state && gate.active) {
                             state=true
@@ -249,7 +261,7 @@ class SpeechLab(context: Context) : AutoCloseable {
 
     private data class Recording(val samples: FloatArray, val peak: Float, val clipped: Boolean)
     @SuppressLint("MissingPermission")
-    private fun record(listener: Listener, onAudio: (FloatArray) -> Unit): Recording {
+    private fun record(listener: Listener, initialSilenceMs: Int, onAudio: (FloatArray) -> Unit): Recording {
         val detector = checkNotNull(vad)
         detector.reset()
         val minimum = AudioRecord.getMinBufferSize(RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
@@ -287,7 +299,7 @@ class SpeechLab(context: Context) : AutoCloseable {
                     post { if (!cancelled.get()) listener.onLevel(level) }
                 }
                 if (!detector.empty()) break
-                if (!speech && total >= RATE * 6) break
+                if (!speech && total >= RATE * initialSilenceMs / 1000) break
             }
             detector.flush()
             val detected = speech || !detector.empty()

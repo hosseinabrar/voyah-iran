@@ -146,11 +146,11 @@ class AvmTurnPolicyTest {
         assertNull(p.step(on.copy(left=false),1100))
         assertEquals(Action.Open(Side.LEFT),p.step(on,1200))
     }
-    @Test fun speedIncreaseCancelsCloseEvenBeforeHiddenCallback() {
+    @Test fun speedIncreaseDoesNotCancelCloseWhileCameraRemainsVisible() {
         val p=AvmTurnPolicy(); val off=opened(p).copy(left=false)
         assertEquals(Action.Select(Side.FRONT),p.step(off,200))
         assertNull(p.step(off.copy(speedKmh=30),400))
-        assertNull(p.step(off.copy(speedKmh=30),3200))
+        assertEquals(Action.Close,p.step(off.copy(speedKmh=26),3200))
         assertNull(p.step(off,4000))
     }
     @Test fun forceHiddenDuringDelayDoesNotCloseManuallyReopenedCamera() {
@@ -160,12 +160,13 @@ class AvmTurnPolicyTest {
         p.visibilityChanged(Visibility.USER)
         assertNull(p.step(off,3200))
     }
-    @Test fun speedIncreaseDuringOpeningDiscardsLateAck() {
+    @Test fun speedIncreaseDuringOpeningRetainsOwnership() {
         val p=AvmTurnPolicy()
         assertEquals(Action.Open(Side.LEFT),p.step(on,0)); p.openResult(true,0)
         assertNull(p.step(on.copy(speedKmh=30),100))
         p.visibilityChanged(Visibility.USER)
-        assertNull(p.step(on.copy(visibility=Visibility.USER),200))
-        assertNull(p.step(on.copy(left=false,visibility=Visibility.USER),4000))
+        assertEquals(Action.Select(Side.LEFT),p.step(on.copy(visibility=Visibility.USER),200))
+        assertEquals(Action.Select(Side.FRONT),p.step(on.copy(left=false,visibility=Visibility.USER,speedKmh=26),4000))
+        assertEquals(Action.Close,p.step(on.copy(left=false,visibility=Visibility.USER,speedKmh=26),7000))
     }
 }

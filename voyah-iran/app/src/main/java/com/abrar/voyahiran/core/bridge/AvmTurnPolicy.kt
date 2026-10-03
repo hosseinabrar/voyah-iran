@@ -56,13 +56,6 @@ internal class AvmTurnPolicy {
             abandon()
             return null
         }
-        // OEM can force-hide AVM at the speed threshold before delivering its callback.
-        // Relinquish this session immediately; never race that hide with a front/close request.
-        if (input.speedKmh != null && input.speedKmh >= 25 && (owned || openingAt != null)) {
-            suppressed = !off
-            abandon()
-            return null
-        }
         if (owned && input.visibility != Visibility.USER) {
             suppressed = !off
             abandon()

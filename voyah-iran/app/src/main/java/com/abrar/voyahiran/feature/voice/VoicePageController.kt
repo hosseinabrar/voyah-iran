@@ -23,6 +23,28 @@ class VoicePageController(private val activity: ComponentActivity, private val u
         else { ui.error.setText(R.string.raha_mic_denied); ui.error.visibility = View.VISIBLE }
     }
     fun bind() {
+        ui.wakeVolume.setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(bar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
+                ui.wakeVolumeLabel.text = "حداقل بلندی صدا برای فعال شدن رها: $progress از ۱۰۰"
+                if (fromUser) prefs.minimumWakeLevel = progress
+            }
+            override fun onStartTrackingTouch(bar: android.widget.SeekBar?) = Unit
+            override fun onStopTrackingTouch(bar: android.widget.SeekBar?) = Unit
+        })
+        ui.contacts.setOnClickListener { RahaContactsDialog.show(activity) }
+        ui.callsEnabled.setOnClickListener {
+            prefs.callsEnabled=ui.callsEnabled.isChecked
+            RahaPhonebook.sync(activity)
+            render()
+            if(prefs.callsEnabled) activity.lifecycleScope.launch {
+                ui.contactsStatus.visibility=View.VISIBLE
+                ui.contactsStatus.text="در حال بارگذاری مخاطب‌ها…"
+                ui.contacts.isEnabled=false
+                RahaPhonebook.refresh(activity)
+                ui.contacts.isEnabled=true
+                ui.contactsStatus.text=RahaPhonebook.status
+            }
+        }
         ui.showTranscript.setOnClickListener { prefs.showTranscript=ui.showTranscript.isChecked }
         ui.master.setOnClickListener {
             if (ui.master.isChecked && activity.checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -54,7 +76,17 @@ class VoicePageController(private val activity: ComponentActivity, private val u
     }
     private fun render() {
         val enabled = prefs.enabled
+        ui.wakeVolume.progress=prefs.minimumWakeLevel
+        ui.wakeVolumeLabel.text="حداقل بلندی صدا برای فعال شدن رها: ${prefs.minimumWakeLevel} از ۱۰۰"
+        ui.wakeVolume.isEnabled=enabled
+        ui.wakeVolume.alpha=if(enabled) 1f else 0.4f
         ui.master.isChecked = enabled
+        ui.callsEnabled.isChecked=prefs.callsEnabled
+        ui.callsEnabled.isEnabled=enabled
+        ui.callsEnabled.alpha=if(enabled) 1f else 0.4f
+        ui.contacts.visibility=if(prefs.callsEnabled) View.VISIBLE else View.GONE
+        ui.contactsStatus.visibility=if(prefs.callsEnabled) View.VISIBLE else View.GONE
+        ui.contactsStatus.text=RahaPhonebook.status
         ui.showTranscript.isChecked=prefs.showTranscript
         ui.showTranscript.isEnabled=enabled
         ui.showTranscript.alpha=if(enabled) 1f else 0.4f

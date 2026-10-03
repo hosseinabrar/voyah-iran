@@ -25,7 +25,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         private val visibleOwners = mutableSetOf<RahaFeedback>()
         fun hostDisconnected() {
             Handler(Looper.getMainLooper()).post {
-                visibleOwners.toList().forEach { it.dismiss() }
+                visibleOwners.toList().forEach { it.dismiss(); it.cancel() }
             }
         }
     }
@@ -63,9 +63,47 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     private val sounds = RahaSounds(context)
     private val audioFocus = RahaAudioFocus(context) { dismiss(); cancel() }
     private var root: View? = null
+    // addView succeeds before the first traversal attaches the view to its window.
+    val showing get() = root != null && root?.visibility == View.VISIBLE && policy.state != FeedbackState.HIDDEN
     private var orb: RahaOrbView? = null
     private var transcriptView: TextView? = null
     private var transcript = ""
+    private var promptText = ""
+    private var promptChoices = emptyList<String>()
+    private var promptSelect: ((Int)->Unit)? = null
+    fun prompt(text: String, choices: List<String>, selected: (Int)->Unit): Unit = onMain {
+        begin(tentative=true)
+        promptText=text; promptChoices=choices; promptSelect=selected
+        renderPrompt(); refresh()
+        if(showing) sounds.play(RahaSounds.Cue.READY)
+    }
+    private fun renderPrompt() {
+        val panel=root?.findViewById<android.widget.LinearLayout>(R.id.rahaPrompt) ?: return
+        panel.removeAllViews()
+        panel.visibility=if(promptText.isBlank()) View.GONE else View.VISIBLE
+        if(promptText.isBlank()) return
+        fun dp(n:Int)=(n*context.resources.displayMetrics.density).toInt()
+        val question=TextView(context).apply { text=promptText; textSize=22f; setTextColor(android.graphics.Color.WHITE); gravity=Gravity.CENTER; setPadding(dp(8),dp(8),dp(8),dp(8)) }
+        panel.addView(question)
+        if(promptChoices.isNotEmpty()) {
+            // Wait for actual window/panel bounds, including the orb and wrapped question.
+            // Relayout callbacks below also handle changes of display size or density.
+            val width=panel.width-panel.paddingLeft-panel.paddingRight
+            if(width<=0 || root?.height==0) return
+            question.measure(View.MeasureSpec.makeMeasureSpec(width,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED))
+            val bottomInset=root?.rootWindowInsets?.stableInsetBottom ?: 0
+            val available=(root?.height ?: 0)-panel.top-bottomInset-dp(16)
+            val count=RahaPromptLayout.buttonCount(available,question.measuredHeight,
+                panel.paddingTop+panel.paddingBottom,dp(72),dp(8)).coerceAtMost(promptChoices.size)
+            promptChoices.take(count).forEachIndexed { index,label ->
+                panel.addView(android.widget.Button(context).apply {
+                    text=label; textSize=22f; maxLines=2; ellipsize=android.text.TextUtils.TruncateAt.END
+                    setTextColor(android.graphics.Color.WHITE); backgroundTintList=android.content.res.ColorStateList.valueOf(0xff34344c.toInt())
+                    setOnClickListener { promptSelect?.invoke(index) }
+                },android.widget.LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,dp(72)).apply { bottomMargin=dp(8) })
+            }
+        }
+    }
     private var closed = false
     private var focusAttempted = false
     private var voiceActive = false
@@ -89,7 +127,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         // A new activation always replaces our previous window, including a stale one.
         if (!detach()) { Log.w("RahaFeedback", "new overlay postponed until old window is removed") }
         interactionStarted = SystemClock.elapsedRealtime()
-        transcript=""; voiceActive=false; sounds.stop(); policy.cancel(); policy.begin(interactionStarted, !manual && !tentative)
+        promptText=""; promptChoices=emptyList(); promptSelect=null; transcript=""; voiceActive=false; sounds.stop(); policy.cancel(); policy.begin(interactionStarted, !manual && !tentative)
         Log.i("RahaFeedback", "new interaction; remaining overlay owners=${visibleOwners.size}")
         if(manual && !tentative) sounds.play(RahaSounds.Cue.READY)
         refresh()
@@ -112,7 +150,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     }
     /** Release transient focus before media control, so later focus restoration cannot undo Pause. */
     fun yieldAudioForMedia(): Unit = onMain { audioFocus.release() }
-    fun dismiss(): Unit = onMain { policy.cancel(); transcript=""; voiceActive=false; sounds.stop(); main.removeCallbacks(tick); render() }
+    fun dismiss(): Unit = onMain { policy.cancel(); promptText=""; promptChoices=emptyList(); promptSelect=null; transcript=""; voiceActive=false; sounds.stop(); main.removeCallbacks(tick); render() }
     private fun acquireAudio(): Boolean {
         if (!focusAttempted) {
             interactionStarted = SystemClock.elapsedRealtime()
@@ -157,11 +195,18 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
                 if(host != null) host.addView(view,ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT))
                 else { manager.addView(view,params); attachedWindows=manager; attachedType=windowType; Log.i("RahaFeedback", "overlay attached type=$windowType") }
                 root=view; visibleOwners.add(this); orb=view.findViewById(R.id.orb); transcriptView=view.findViewById(R.id.rahaTranscript)
+                view.addOnLayoutChangeListener { _,l,t,r,b,oldL,oldT,oldR,oldB ->
+                    if(r-l!=oldR-oldL || b-t!=oldB-oldT) renderPrompt()
+                }
+                view.findViewById<View>(R.id.rahaPrompt).addOnLayoutChangeListener { _,l,t,r,_,oldL,oldT,oldR,_ ->
+                    if(t!=oldT || r-l!=oldR-oldL) renderPrompt()
+                }
+                renderPrompt()
             } catch(e:Exception) { Log.e("RahaFeedback","overlay failed",e) }
         }
         orb?.phase = if(policy.state == FeedbackState.WAITING && voiceActive) FeedbackState.LISTENING else policy.state
         transcriptView?.apply {
-            val visible=showTranscript() && transcript.isNotBlank()
+            val visible=promptText.isBlank() && showTranscript() && transcript.isNotBlank()
             visibility=if(visible) View.VISIBLE else View.GONE
             text=if(visible) transcript else ""
         }

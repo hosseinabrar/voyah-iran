@@ -33,6 +33,7 @@ object RahaSpeechVocabulary {
         "همه هر دو طرف آروم آرومتر آرامتر تندتر کاهش افزایش بیشترین کمترین آخر"
     )
     fun phrases(): List<String> = buildSet {
+        addAll(RahaContacts.vocabulary())
         for (noun in listOf("رادیو", "نقشه", "پخش", "برنامه نقشه", "برنامه نشان", "برنامه موزیک")) {
             add("برو رو $noun")
             add("برو روی $noun")

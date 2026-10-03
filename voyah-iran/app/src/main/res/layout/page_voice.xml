@@ -23,6 +23,21 @@
         android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
         android:textDirection="rtl" android:gravity="center_vertical|start" android:text="@string/raha_wake_name" />
             </LinearLayout>
+            <TextView android:id="@+id/wakeVolumeLabel" style="@style/Text.Secondary"
+                android:layout_marginTop="@dimen/space_md" android:text="حداقل بلندی صدا برای فعال شدن رها" />
+            <SeekBar android:id="@+id/wakeVolume" android:layout_width="match_parent" android:layout_height="56dp"
+                android:max="100" android:progressTint="@color/accent" android:thumbTint="@color/accent"
+                android:contentDescription="حداقل بلندی صدا برای فعال شدن رها" />
+            <TextView style="@style/Text.Caption"
+                android:text="با افزایش این مقدار، صداهای آرام‌تر رها را فعال نمی‌کنند. صفر یعنی بدون محدودیت. این تنظیم روی دکمهٔ فرمان و شنیدن دستور پس از فعال شدن اثری ندارد." />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                <CheckBox android:id="@+id/callsEnabled" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:minHeight="@dimen/touch_target" android:buttonTint="@color/accent" android:paddingStart="@dimen/space_sm"
+                    android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:text="تماس از طریق رها" />
+                <Button android:id="@+id/contacts" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp" android:visibility="gone" android:text="مخاطب‌ها" />
+            </LinearLayout>
+            <TextView android:id="@+id/contactsStatus" style="@style/Text.Caption" android:visibility="gone" />
             <CheckBox android:id="@+id/showTranscript" android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target" android:buttonTint="@color/accent"
                 android:textColor="@color/text_primary" android:textSize="@dimen/text_body"

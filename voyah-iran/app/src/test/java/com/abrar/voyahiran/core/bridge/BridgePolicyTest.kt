@@ -6,6 +6,14 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun phoneOperationsAreBoundedAndCannotDialUssdOrShellText() {
+        val mac="AA:BB:CC:DD:EE:FF"
+        for(request in listOf(listOf("raha-phone","device"),listOf("raha-phone","read",mac,"0"),listOf("raha-phone","dial",mac,"+989121234567")))
+            assertEquals(request,BridgePolicy.resolve(request))
+        for(request in listOf(listOf("raha-phone","read",mac,"-1"),listOf("raha-phone","read","all","0"),
+            listOf("raha-phone","dial",mac,"*123#"),listOf("raha-phone","dial",mac,"123;reboot"),listOf("raha-phone","dial",mac,"123","extra")))
+            assertNull(BridgePolicy.resolve(request))
+    }
     @org.junit.Test fun localProfileTestOnlyAllowsBoundedManualOperations() {
         for (op in listOf("status", "apply", "restore")) {
             val request = listOf("local-profile-test", op)

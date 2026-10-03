@@ -18,11 +18,11 @@ enum class EngineChoice(val silence: Float, val streaming: Boolean, val shenavaM
 
 class VoskBackend(context: Context) : AutoCloseable {
     private val model = Model(install(context).absolutePath)
-    private var grammarRevision = -1L
+    private var grammarRevision = ""
     private var carGrammar = ""
     private var wakeGrammar = ""
     @Synchronized private fun grammar(wake: Boolean): String {
-        val revision=com.abrar.raha.RahaNavigationRecognizer.revision
+        val revision="${com.abrar.raha.RahaNavigationRecognizer.revision}:${com.abrar.raha.RahaContacts.revision}"
         if(grammarRevision!=revision) {
             carGrammar=JSONArray(RahaSpeechVocabulary.phrases()).toString()
             wakeGrammar=JSONArray(RahaSpeechVocabulary.wakePhrases()).toString()

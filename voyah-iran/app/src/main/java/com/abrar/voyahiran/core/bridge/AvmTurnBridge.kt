@@ -46,7 +46,10 @@ internal object AvmTurnBridge {
         var policy = AvmTurnPolicy()
         var visible = Visibility.UNKNOWN
         var lastInput: Input? = null
+        var pending: Side? = null
+        var attempts=0
         while (true) {
+            val tickStarted=SystemClock.elapsedRealtime()
             try {
                 if (client == null && (!enabled || !BridgeSubscriptionSession.active)) {
                     Thread.sleep(500); continue
@@ -63,6 +66,7 @@ internal object AvmTurnBridge {
                         if (event.first !== c) continue
                         visible = when (event.second) { 0 -> Visibility.HIDDEN; 1 -> Visibility.USER; 2 -> Visibility.REVERSE; else -> Visibility.UNKNOWN }
                         policy.visibilityChanged(visible)
+                        if(visible!=Visibility.USER) pending=null
                         AppLog.info("AvmTurn", "AVM callback=${event.second} visibility=$visible")
                     }
                 }
@@ -88,19 +92,14 @@ internal object AvmTurnBridge {
                     } else when (action) {
                         is Action.Open -> {
                             if (visible == Visibility.HIDDEN && !c.visibilityChangedSinceRead && enabled && BridgeSubscriptionSession.active && c.speed() in 0..24) {
-                                val result = c.openFromLauncher()
+                                val result = c.openFromVoiceRequest()
                                 policy.openResult(result == 0, SystemClock.elapsedRealtime())
                                 AppLog.info("AvmTurn", "open side=${action.side} result=$result")
                             }
                         }
-                        is Action.Select -> {
-                            if (visible == Visibility.USER && !c.visibilityChangedSinceRead && enabled && BridgeSubscriptionSession.active && c.speed() in 0..24) {
-                                val result = c.select(action.side)
-                                policy.selectResult(result)
-                                AppLog.info("AvmTurn", "select side=${action.side} dispatched=$result")
-                            } else policy.selectDeferred()
-                        }
+                        is Action.Select -> { pending=action.side; attempts=0 }
                         Action.Close -> if (visible == Visibility.USER) {
+                            pending=null
                             // A hide/reopen in the queue must not close a new manual session.
                             if (fresh.visibility == visible && !c.visibilityChangedSinceRead) {
                                 AppLog.info("AvmTurn", "close after owned session dispatched=${c.closeFromButton()}")
@@ -108,21 +107,41 @@ internal object AvmTurnBridge {
                         }
                     }
                 }
-                if (!enabled || !BridgeSubscriptionSession.active) {
-                    c.close(); client = null; policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN; status = "idle"
+                drain()
+                pending?.let { side ->
+                    val signalMatches=when(side) {
+                        Side.LEFT -> fresh.left==true && fresh.right==false
+                        Side.RIGHT -> fresh.right==true && fresh.left==false
+                        Side.FRONT -> fresh.left==false && fresh.right==false
+                    }
+                    if(!signalMatches || visible!=Visibility.USER || !enabled || !BridgeSubscriptionSession.active ||
+                        fresh.reverse!=false || fresh.pdc!=false || fresh.speedKmh !in 0..24) {
+                        pending=null
+                        policy.selectDeferred()
+                    } else {
+                        val confirmed=c.select(side)
+                        attempts++
+                        if(confirmed || attempts==1 || attempts%10==0)
+                            AppLog.info("AvmTurn","selection side=$side attempts=$attempts confirmed=$confirmed")
+                        if(confirmed) pending=null
+                    }
                 }
-                Thread.sleep(200)
+                if (!enabled || !BridgeSubscriptionSession.active) {
+                    c.close(); client = null; pending=null; policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN; status = "idle"
+                }
+                Thread.sleep((100-(SystemClock.elapsedRealtime()-tickStarted)).coerceAtLeast(1))
             } catch (e: Exception) {
                 status = "retry"
                 AppLog.error("AvmTurn", "monitor failed; ownership discarded, retry in 5s", e)
                 runCatching { client?.close() }
-                client = null; policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN
+                client = null; pending=null; pending=null; policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN
                 Thread.sleep(5_000)
             } catch (e: LinkageError) {
                 status = "unsupported"
+                AppLog.info("AvmTurn", "native linkage detail=${e.message.orEmpty().take(1800)}")
                 AppLog.error("AvmTurn", "OEM SDK unavailable", e)
                 runCatching { client?.close() }; client = null
-                policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN
+                pending=null; policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN
                 Thread.sleep(5_000)
             }
         }
@@ -181,6 +200,10 @@ internal object AvmTurnBridge {
             }
         }
         private val native = AvmNativeStateReader()
+        private var commands: AvmNativeCommandPort? = null
+        private fun prepareCommands() { if(commands==null) commands=AvmNativeCommandPort() }
+        private fun sendNative(packet:ByteArray):Boolean =
+            checkNotNull(commands).send(packet)
         private var openedAt = Long.MAX_VALUE
         init {
             try { check(systemApi.getMethod("registerCallback",callbackType).invoke(system,callback) == true) { "AVM callback registration failed" } }
@@ -188,7 +211,7 @@ internal object AvmTurnBridge {
         }
         fun close() {
             try { systemApi.getMethod("unregisterCallback",callbackType).invoke(system,callback) }
-            finally { native.close() }
+            finally { try { commands?.close() } finally { native.close() } }
         }
         private fun state(name: String) = (getter.invoke(can,stateType.getField(name).get(null)) as Number).toInt()
         fun initialVisibility() = when(state("APA_AVM_STS")) { 0 -> Visibility.HIDDEN; 2 -> Visibility.USER; else -> Visibility.UNKNOWN }
@@ -216,26 +239,41 @@ internal object AvmTurnBridge {
             return Input(enabled,BridgeSubscriptionSession.active,reverse(),speed().takeIf { it>=0 },
                 switch("LEFT_DIRECTION_LIGHT"),switch("RIGHT_DIRECTION_LIGHT"),visible,pdc())
         }
-        fun openFromLauncher(): Int {
+        fun openFromVoiceRequest(): Int {
             openedAt = SystemClock.elapsedRealtime()
             val request = loader.loadClass("com.qinggan.canbus.DFVehicleState")
-                .getField("IVI_REQ_AVM_SW").get(null)
+                .getField("IVI_VOICE_REQ_AVM_SW").get(null)
             canApi.getMethod("setVehicleState", stateType, Int::class.javaPrimitiveType)
                 .invoke(can, request, 1)
             // Binder completion is dispatch only; policy waits for the visible callback.
-            AppLog.info("AvmTurn", "launcher open IVI_REQ_AVM_SW=1 dispatched")
+            AppLog.info("AvmTurn", "voice open IVI_VOICE_REQ_AVM_SW=1 dispatched")
             return 0
         }
         fun closeFromButton(): Boolean {
+            prepareCommands()
             if (!safeToClose()) return false
-            // Native close button verified in the user's manual close capture.
-            // Closing must work after the turn signal is off, unlike camera selection.
-            return tap(60, 75, selecting = false)
+            val sequence=native.sample?.sequence ?: return false
+            if(!sendNative(AvmNativeCommand.closeTouch(true))) return false
+            // Always release the same touch; never leave a native pointer held down.
+            val released:Boolean
+            try { Thread.sleep(80) } finally { released=sendNative(AvmNativeCommand.closeTouch(false)) }
+            val deadline=SystemClock.elapsedRealtime()+1800
+            while(released && SystemClock.elapsedRealtime()<deadline) {
+                val sample=native.sample
+                if(sample!=null && sample.sequence>sequence && !sample.frame.active) {
+                    AppLog.info("AvmTurn","native close confirmed")
+                    return true
+                }
+                if(!safeToClose()) break
+                Thread.sleep(100)
+            }
+            AppLog.info("AvmTurn","native close not confirmed released=$released")
+            return false
         }
         private fun safeToClose(): Boolean {
             val sample = native.sample ?: return false
             return !native.failed && sample.at >= openedAt && sample.frame.active &&
-                !visibilityChangedSinceRead && reverse() == false && pdc() == false && speed() in 0..24
+                !visibilityChangedSinceRead && reverse() == false && pdc() == false
         }
         private var selectingSide: Side? = null
         private fun safeToSelect(): Boolean {
@@ -251,48 +289,22 @@ internal object AvmTurnBridge {
             }
         }
 
-        private fun awaitFrame(afterSequence: Long = -1, predicate: (AvmNativeFrame) -> Boolean): AvmNativeStateReader.Sample? {
-            val deadline = SystemClock.elapsedRealtime() + 1800
-            while (SystemClock.elapsedRealtime() < deadline) {
-                if (!safeToSelect()) return null
-                val sample = native.sample
-                if (sample != null && sample.at >= openedAt && sample.sequence > afterSequence && sample.frame.active && predicate(sample.frame)) return sample
-                Thread.sleep(100)
-            }
-            return null
-        }
-        private fun tap(x: Int, y: Int, selecting: Boolean = true): Boolean {
-            if (selecting) {
-                if (!safeToSelect()) return false
-            } else if (!safeToClose()) return false
-            val method=systemApi.getMethod("touchEvent",*Array(6) { Int::class.javaPrimitiveType!! })
-            fun touch(kind: Int) = (method.invoke(system,kind,x,y,0,0,0) as Number).toInt()
-            val down=touch(0)
-            val up: Int
-            try { Thread.sleep(80) } finally { up=touch(1) }
-            return down == 0 && up == 0
-        }
+        /** One attempt per monitor tick: never wait here for the response. */
         fun select(side: Side): Boolean {
-            selectingSide = side
-            val initial = awaitFrame { true } ?: run {
-                AppLog.info("AvmTurn", "selection skipped: no current native AVM state or higher-priority camera activity")
-                return false
-            }
-            // Preserve the user's current 2D/3D mode. No mode-toggle touch is sent.
-            val current = native.sample ?: return false
-            if (!current.frame.active || current.frame.twoDimensional != initial.frame.twoDimensional) return false
-            val target = current.frame.targetView(side)
-            if (current.frame.view == target) return true
-            if (!safeToSelect()) return false
-            // Native getViewSelect mapping includes 3D south-west=11 and south-east=12.
-            // Dispatch a native view request; success still requires frame confirmation.
-            val result = (systemApi.getMethod("sendMsg", *Array(3) { Int::class.javaPrimitiveType!! })
-                .invoke(system, 14, target, 0) as Number).toInt()
-            AppLog.info("AvmTurn", "view request mode=${if (current.frame.twoDimensional) "2D" else "3D"} side=$side sendMsg(14,$target,0) result=$result")
-            if (result != 0) return false
-            val confirmed = awaitFrame(current.sequence) { it.twoDimensional == current.frame.twoDimensional && it.view == target } != null
-            AppLog.info("AvmTurn", "side=$side native confirmation=$confirmed")
-            return confirmed
+            prepareCommands()
+            selectingSide=side
+            if(!safeToSelect()) return false
+            val current=native.sample ?: return false
+            if(current.at<openedAt || !current.frame.active) return false
+            val target=current.frame.targetView(side)
+            if(current.frame.view==target) return true
+            if(side!=Side.FRONT) {
+                if(!sendNative(AvmNativeCommand.sideTouch(side,true,current.frame.twoDimensional))) return false
+                try { Thread.sleep(80) }
+                finally { sendNative(AvmNativeCommand.sideTouch(side,false,current.frame.twoDimensional)) }
+            } else sendNative(AvmNativeCommand.view(target))
+            // The next 100 ms tick reads the actual state before considering another touch.
+            return false
         }
     }
 }

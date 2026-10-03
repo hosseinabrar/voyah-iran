@@ -408,6 +408,9 @@ class RahaCommandRecognizer {
             s=RahaColloquialVocabulary.normalize(s)
             s=s.replace(Regex("(?<=بیست )و(?=یک|دو|سه|چهار|پنج|شش|هفت|هشت|نه)"),"و ")
             val numbers=mapOf("بیست و نه" to "29","بیست و هشت" to "28","بیست و هفت" to "27","بیست و شش" to "26","بیست و پنج" to "25","بیست و چهار" to "24","بیست و سه" to "23","بیست و دو" to "22","بیست و یک" to "21","سی" to "30","بیست" to "20","نوزده" to "19","هجده" to "18","هفده" to "17","شانزده" to "16","پانزده" to "15","چهارده" to "14","سیزده" to "13","دوازده" to "12","یازده" to "11","ده" to "10","نه" to "9","هشت" to "8","هفت" to "7","شش" to "6","پنج" to "5","چهار" to "4","سوم" to "3","دوم" to "2","اول" to "1","سه" to "3","دو" to "2","یک" to "1","یه" to "1","صفر" to "0")
+            // ASR may attach the counting suffix: چهارتا, بیست و سه‌تا, ۴تا.
+            val countedNumbers = numbers.keys.joinToString("|") { Regex.escape(it) }
+            s=s.replace(Regex("(?<!\\S)($countedNumbers|\\d+)تا(?!\\S)")) { "${it.groupValues[1]} تا" }
             for((word,n) in numbers)s=s.replace(Regex("(?<!\\S)$word(?!\\S)"),n)
             s=s.replace(Regex("(?<!\\S)(\\d+) و نیم(?!\\S)")){"${it.groupValues[1]}.5"}
             return s.replace("AC_TOKEN","ای سی")

@@ -1,0 +1,4 @@
+Names: https://github.com/farbodbj/persian-gender-by-name and https://github.com/farbodbj/iranian-surname-frequencies (Apache-2.0; bundled licenses).
+Converter tables and dictionary: https://github.com/elektito/finglish (MIT, copyright 2017 Mostafa Razavi; bundled license). Bounded Kotlin adaptation.
+Frequency data: https://github.com/behnam/persian-word-frequency , copyright 2012 Behnam Esfahbod, Persian Wikipedia 2012.02.02. CC BY-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/
+frequency.tsv.gz contains the 50,000 most frequent words from that data. Derived names.tsv.gz ranks ambiguous Latin spellings using full word frequencies, surname frequency and name length; this derived data is also distributed under CC BY-SA 3.0. No contact data is uploaded. User corrections override generated names.

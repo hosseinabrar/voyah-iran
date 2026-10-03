@@ -4,6 +4,12 @@ import android.content.Context
 
 class VoicePreferences(context: Context) {
     private val prefs = context.getSharedPreferences("raha", Context.MODE_PRIVATE)
+    var minimumWakeLevel: Int
+        get() = prefs.getInt("minimumWakeLevel", 0).coerceIn(0, 100)
+        set(value) { prefs.edit().putInt("minimumWakeLevel", value.coerceIn(0, 100)).apply() }
+    var callsEnabled: Boolean
+        get() = prefs.getBoolean("callsEnabled", false)
+        set(value) { check(prefs.edit().putBoolean("callsEnabled", value).commit()) }
     var showTranscript: Boolean
         get() = prefs.getBoolean("showTranscript", false)
         set(value) { check(prefs.edit().putBoolean("showTranscript", value).commit()) }

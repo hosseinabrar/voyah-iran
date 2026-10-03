@@ -26,6 +26,17 @@ class RahaPhaseSevenRecognizerTest {
         listOf("صدا رو ۳۱ تا زیاد کن", "صدا رو ۰ تا کم کن", "صدا رو ۲ و ۵ تا کم کن")
             .forEach { assertFalse(it, recognizer.recognize(it) is Recognition.Matched) }
     }
+    @Test fun volumeWithAttachedCountingSuffix() {
+        mapOf("چهارتا" to 4, "دوتا" to 2, "دهتا" to 10, "بیست و سهتا" to 23,
+            "۴تا" to 4, "4تا" to 4, "٤تا" to 4, "چهار‌تا" to 4, "چهار تا" to 4
+        ).forEach { (count, amount) ->
+            match("صدا رو $count کم کن", "ADJUST_AUDIO_VOLUME", "delta", -amount)
+            match("ولوم رو $count زیاد کن", "ADJUST_AUDIO_VOLUME", "delta", amount)
+        }
+        listOf("صدا رو ۳۱تا زیاد کن", "صدا رو صفرتا کم کن")
+            .forEach { assertFalse(it, recognizer.recognize(it) is Recognition.Matched) }
+        assertEquals("راستا", RahaCommandRecognizer.normalize("راستا"))
+    }
     @Test fun assistantTogglesAcrossWordOrderAndFormalSpeech() {
         val cases=mapOf("هشدار باز شدن در" to "SET_DOOR_OPEN_WARNING", "هشدار برخورد جلو" to "SET_FORWARD_COLLISION_WARNING",
             "هشدار ترافیک عقب" to "SET_REAR_CROSS_TRAFFIC_WARNING", "هشدار برخورد عقب" to "SET_REAR_COLLISION_WARNING",

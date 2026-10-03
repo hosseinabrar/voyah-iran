@@ -39,7 +39,7 @@ class RahaService : Service() {
     private lateinit var speech: SpeechLab
     private lateinit var feedback: RahaFeedback
     private var captureEpoch = 0L
-    private var cancelledEpoch = 0L
+    @Volatile private var cancelledEpoch = 0L
     private var overlayRetryAt = 0L
     private var ready = false
     private var preparing = false
@@ -50,9 +50,15 @@ class RahaService : Service() {
     private var watchPhrases = emptySet<String>()
     private var manual = false
     private var navigationRevision = -1L
+    private var contactsRevision = -1L
+    private val calls = com.abrar.raha.RahaCallDialog(SystemClock::elapsedRealtime)
+    private var callSnapshot = emptyList<RahaContact>()
+    private var callTimeout: Job? = null
+    private var callListenPending = false
 
     override fun onCreate() {
         super.onCreate()
+        RahaPhonebook.sync(this)
         try { com.abrar.voyahiran.feature.navigation.SavedPlacesStore(this).sync() }
         catch(e: Exception) { AppLog.error("Raha", "saved destinations unavailable", e) }
         navigationRevision=com.abrar.raha.RahaNavigationRecognizer.revision
@@ -77,7 +83,13 @@ class RahaService : Service() {
                         AppLog.info("RahaFeedback", "overlay permission exit=${grant.exitCode} allowed=${Settings.canDrawOverlays(this@RahaService)} highConfigured=${highOverlayConfigured()} highConnected=${com.abrar.raha.feedback.RahaOverlayService.instance != null} detail=${grant.output}")
                     }
                     if (!ready && !preparing) prepare()
+                    if (calls.waiting && !prefs.callsEnabled) cancelInteraction()
                     if (ready) {
+                        val contactsNow=com.abrar.raha.RahaContacts.revision
+                        if(contactsNow!=contactsRevision && !manual && !manualPending && !executing && !feedback.receiving && !calls.waiting) {
+                            contactsRevision=contactsNow
+                            if(recording) cancelInteraction()
+                        }
                         val revision=com.abrar.raha.RahaNavigationRecognizer.revision
                         if(revision!=navigationRevision && !manual && !manualPending && !executing && !feedback.receiving) {
                             navigationRevision=revision
@@ -115,12 +127,13 @@ class RahaService : Service() {
             scope.launch { runCatching { keys.setVoiceListener(null) }; stopSelf() }
             return START_NOT_STICKY
         }
+        if (!prefs.callsEnabled && calls.waiting) cancelInteraction()
         if (recording && !manual && watchPhrases != prefs.phrases) cancelInteraction()
         return START_STICKY
     }
     private fun button() {
         if (closed || !prefs.enabled || !(application as VoyahIranApplication).subscriptions.allowed) return
-        if (manual || manualPending || feedback.receiving || com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending != null) {
+        if (calls.waiting || manual || manualPending || feedback.receiving || com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending != null) {
             AppLog.info("Raha", "steering voice button cancels active listening")
             cancelInteraction()
             return
@@ -133,6 +146,8 @@ class RahaService : Service() {
         if (recording) speech.cancel() else reconcile()
     }
     private fun cancelInteraction() {
+        calls.cancel(); callSnapshot=emptyList(); callListenPending=false
+        callTimeout?.cancel(); callTimeout=null
         cancelledEpoch++
         captureEpoch++ // Invalidate queued transcripts from this recording before cancelling it.
         manualPending = false
@@ -142,7 +157,22 @@ class RahaService : Service() {
     }
     private fun reconcile() {
         if (closed || !prefs.enabled || !(application as VoyahIranApplication).subscriptions.allowed || !ready || recording || executing) return
-        if (manualPending) {
+        if (callListenPending && calls.waiting) {
+            callListenPending=false; recording=true; manual=true
+            val epoch=++captureEpoch
+            val confirming=calls.step is com.abrar.raha.RahaCallDialog.Step.Confirm
+            speech.start(false, object:SpeechLab.Listener {
+                override fun onLevel(percent:Int) { if(epoch==captureEpoch) feedback.level(percent) }
+                override fun onPartial(text:String) {} // Keep the question visible until a final answer.
+                override fun onDecoding() {}
+                override fun onComplete(result:SpeechResult?) {
+                    recording=false; manual=false
+                    if(epoch==captureEpoch) advanceCall(if(result==null) calls.cancel() else calls.speak(result.text))
+                    reconcile()
+                }
+                override fun onError(error:Throwable) { recording=false; manual=false; if(epoch==captureEpoch) cancelInteraction(); reconcile() }
+            }, carModeOverride=if(confirming) false else true, initialSilenceMs=10_000)
+        } else if (manualPending) {
             manualPending = false; recording = true; manual = true
             val epoch = ++captureEpoch
             feedback.begin(manual = true)
@@ -186,11 +216,24 @@ class RahaService : Service() {
                         if(epoch == captureEpoch) feedback.result(false)
                     } else reconcile()
                 }
-            })
+            }, minimumWakeLevel = { prefs.minimumWakeLevel })
         }
     }
     private fun command(text: String) {
         if (closed || !prefs.enabled || executing) return
+        if (prefs.callsEnabled) {
+            val target=com.abrar.raha.RahaContacts.target(text)
+            if(target!=null) {
+                val snapshot=RahaPhonebook.contacts()
+                val matches=com.abrar.raha.RahaContacts.matching(target,snapshot.map { it.spoken })
+                if(matches.isNotEmpty()) {
+                    callSnapshot=snapshot
+                    advanceCall(calls.begin(target,snapshot.map { com.abrar.raha.RahaCallDialog.Candidate(it.id,it.spoken) }))
+                    return
+                }
+                if(text.contains("تماس") || text.contains("زنگ")) { feedback.result(false); return }
+            }
+        }
         AppLog.info("Raha", "final transcript=$text")
         feedback.text(text)
         when (val result = recognizer.recognize(text)) {
@@ -235,6 +278,56 @@ class RahaService : Service() {
                         AppLog.error("Raha", "command execution failed: ${command.action}", e)
                     } finally { executing = false; reconcile() }
                 }
+            }
+        }
+    }
+    private fun advanceCall(step:com.abrar.raha.RahaCallDialog.Step) {
+        callTimeout?.cancel(); callTimeout=null
+        captureEpoch++
+        if(recording) speech.cancel()
+        callListenPending=false
+        when(step) {
+            is com.abrar.raha.RahaCallDialog.Step.Cancelled -> cancelInteraction()
+            is com.abrar.raha.RahaCallDialog.Step.Dial -> {
+                val selected=callSnapshot.singleOrNull { it.id==step.contact.id }
+                calls.cancel(); callSnapshot=emptyList()
+                if(selected==null || !prefs.callsEnabled || !feedback.showing) { cancelInteraction(); return }
+                executing=true
+                val epoch=cancelledEpoch
+                feedback.processing()
+                scope.launch {
+                    try {
+                        val ok=withContext(Dispatchers.IO) {
+                            if(epoch!=cancelledEpoch) false else RahaPhonebook.dial(this@RahaService,selected) { epoch!=cancelledEpoch }
+                        }
+                        if(epoch==cancelledEpoch) { feedback.dismiss(); feedback.result(ok) }
+                    } catch(e:CancellationException) { throw e }
+                    catch(_:Exception) { if(epoch==cancelledEpoch) feedback.result(false) }
+                    finally { executing=false; reconcile() }
+                }
+            }
+            else -> {
+                val choices=when(step) {
+                    is com.abrar.raha.RahaCallDialog.Step.Choose -> step.candidates
+                    is com.abrar.raha.RahaCallDialog.Step.Confirm -> listOf(step.contact)
+                    else -> emptyList()
+                }
+                val question=when(step) {
+                    is com.abrar.raha.RahaCallDialog.Step.Choose -> "کدوم ${step.query}؟"
+                    is com.abrar.raha.RahaCallDialog.Step.Confirm -> "با ${step.contact.name} تماس بگیرم؟"
+                    else -> ""
+                }
+                val labels=choices.map { candidate ->
+                    val suffix=if(choices.count { it.name==candidate.name }>1) callSnapshot.firstOrNull { it.id==candidate.id }?.number?.takeLast(4)?.let { " ($it)" }.orEmpty() else ""
+                    "تماس با ${candidate.name}$suffix"
+                }
+                feedback.prompt(question,labels) { index ->
+                    choices.getOrNull(index)?.let { advanceCall(calls.select(it.id)) }
+                }
+                if(!feedback.showing) { cancelInteraction(); return }
+                callListenPending=true
+                callTimeout=scope.launch { delay(10_000); cancelInteraction(); reconcile() }
+                reconcile()
             }
         }
     }
