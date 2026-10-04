@@ -22,7 +22,9 @@ class VoyahLauncherActivity : ComponentActivity() {
     private lateinit var vehiclePage: LauncherVehicleDashboard
     private var vehicleTicker: Job? = null
     private var visible=false
-    private var commandJob: Job?=null
+    private val commandJobs=mutableMapOf<String,Job>()
+    private val vehicleCache=LauncherVehicleCache()
+    private var lastVehicleRead=0L
     private val compass by lazy { LauncherCompass(this) {vehiclePage.compass=it} }
     private var preview: LauncherMapPreview? = null
     private var mapView: TextureView? = null
@@ -152,49 +154,46 @@ class VoyahLauncherActivity : ComponentActivity() {
             compass.start();vehiclePage.artwork.start(lifecycleScope)
             if(vehicleTicker?.isActive==true)return
             vehicleTicker=lifecycleScope.launch {
+                var revision=-1L
                 while(isActive) {
-                    val r=withContext(Dispatchers.IO) {com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle","read"),4)}
+                    val r=withContext(Dispatchers.IO) {com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle","watch",revision.toString()),4)}
                     if(r.exitCode==0 && !r.timedOut) {
-                        runCatching {LauncherVehicleState.parse(org.json.JSONObject(r.output))}.onSuccess {
-                            vehiclePage.state=it;compass.speed=it.speed
-                        }.onFailure {vehiclePage.state=vehiclePage.state.copy(fresh=false)}
-                    } else vehiclePage.state=vehiclePage.state.copy(fresh=false)
+                        runCatching {val json=org.json.JSONObject(r.output);revision=json.optLong("revision",-1);LauncherVehicleState.parse(json)}.onSuccess {
+                            lastVehicleRead=android.os.SystemClock.elapsedRealtime();vehicleCache.accept(it);vehiclePage.state=vehicleCache.display;compass.speed=it.speed
+                        }.onFailure {if(android.os.SystemClock.elapsedRealtime()-lastVehicleRead>15000)vehiclePage.state=vehiclePage.state.copy(fresh=false)}
+                    } else if(android.os.SystemClock.elapsedRealtime()-lastVehicleRead>15000)vehiclePage.state=vehiclePage.state.copy(fresh=false)
                     compass.expire()
-                    delay(500)
+                    delay(if(r.exitCode==0)100 else 1000)
                 }
             }
         } else {
             vehicleTicker?.cancel();vehicleTicker=null;compass.stop();vehiclePage.artwork.stop();vehiclePage.stopAnimations()
-            vehiclePage.state=vehiclePage.state.copy(fresh=false)
+            if(android.os.SystemClock.elapsedRealtime()-lastVehicleRead>15000)vehiclePage.state=vehiclePage.state.copy(fresh=false)
             if(visible)preview?.startMonitoring()
         }
     }
     private fun vehicleCommand(op:String,value:String) {
-        if(commandJob?.isActive==true || !visible || pager.page!=1 || !vehiclePage.state.fresh)return
+        if(!visible || pager.page!=1 || !vehiclePage.state.fresh)return
         if(!(application as VoyahIranApplication).subscriptions.allowed)return
-        vehiclePage.busy=true
-        val expectedEnergy=vehiclePage.state.modes[value]
-        commandJob=lifecycleScope.launch {
+        val key=if(op=="height" || op=="drive")"drive-height" else op
+        commandJobs.remove(key)?.cancel()
+        val request=vehicleCache.request(op,value)
+        vehiclePage.state=vehicleCache.display
+        commandJobs[key]=lifecycleScope.launch {
             try {
                 val r=withContext(Dispatchers.IO) {com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle",op,value),12)}
                 check(r.exitCode==0 && !r.timedOut) {r.output}
-                // Do not optimistically select a mode. Readback is also needed if the user changes pages.
-                val confirmed=withTimeoutOrNull(15000) {
-                    while(isActive) {
-                        delay(500)
-                        val read=withContext(Dispatchers.IO){com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle","read"),4)}
-                        if(read.exitCode!=0 || read.timedOut)continue
-                        val s=LauncherVehicleState.parse(org.json.JSONObject(read.output));vehiclePage.state=s
-                        if(when(op){"energy"->s.energy==expectedEnergy;"recovery"->s.recovery==value.toInt();"drive"->s.drive==value.toInt();"height"->s.heightIndex==value.toInt() && s.height in listOf(1,3,5,7,9);else->false})return@withTimeoutOrNull true
-                    }
-                    false
+                // Readback arrives through the single shared reader, never a second polling loop.
+                val confirmed=withTimeoutOrNull(if(op=="height")30000L else 10000L) {
+                    while(vehicleCache.pending(request))delay(100)
+                    true
                 } ?: false
                 if(!confirmed)error("Vehicle feedback was not confirmed")
             } catch(e:CancellationException){throw e}
             catch(e:Exception){
                 com.abrar.voyahiran.core.logging.AppLog.error("LauncherVehicle","$op=$value",e)
                 if(visible)android.widget.Toast.makeText(this@VoyahLauncherActivity,"تغییر توسط خودرو تأیید نشد",android.widget.Toast.LENGTH_LONG).show()
-            } finally {vehiclePage.busy=false}
+            } finally {vehicleCache.finish(request);vehiclePage.state=vehicleCache.display}
         }
     }
     override fun onNewIntent(intent:Intent){super.onNewIntent(intent);pager.show(0)}

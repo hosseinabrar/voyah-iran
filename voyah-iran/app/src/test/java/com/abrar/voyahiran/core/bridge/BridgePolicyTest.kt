@@ -6,6 +6,15 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun launcherWatchOnlyAcceptsBoundedNumericCursor() {
+        for(cursor in listOf("-1","0","1000")) {
+            val request=listOf("launcher-vehicle","watch",cursor)
+            assertEquals(request,BridgePolicy.resolve(request))
+        }
+        for(cursor in listOf("-2","all","0;reboot","999999999999999999999"))
+            assertNull(BridgePolicy.resolve(listOf("launcher-vehicle","watch",cursor)))
+        assertNull(BridgePolicy.resolve(listOf("launcher-vehicle","watch","0","extra")))
+    }
     @Test fun appDensityOnlyAcceptsTheFivePresets() {
         for (dpi in listOf("120", "140", "160", "180", "200"))
             assertEquals(listOf("app-density", dpi), BridgePolicy.resolve(listOf("app-density", dpi)))

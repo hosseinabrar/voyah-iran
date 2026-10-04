@@ -15,9 +15,10 @@ class LauncherVehicleDashboard(context:Context):View(context) {
     private var compassAnimation:ValueAnimator?=null
     private var groundAnimation:ValueAnimator?=null
     var lightTheme=false
-        set(v){field=v;artwork.light=v;invalidate()}
+        set(v){if(field==v)return;field=v;artwork.light=v;invalidate()}
     var state=LauncherVehicleState()
         set(v){
+            if(field==v)return
             if(field.groundMm!=v.groundMm) {
                 groundAnimation?.cancel()
                 val target=v.groundMm?.toFloat()

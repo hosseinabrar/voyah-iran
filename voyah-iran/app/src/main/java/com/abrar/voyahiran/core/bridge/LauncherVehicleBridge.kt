@@ -1,6 +1,10 @@
 package com.abrar.voyahiran.core.bridge
 
 import android.os.IBinder
+import android.os.Binder
+import android.os.Parcel
+import android.os.Parcelable
+import android.os.SystemClock
 import com.abrar.voyahiran.core.logging.AppLog
 import com.abrar.voyahiran.core.shell.CommandResult
 import com.abrar.voyahiran.core.shell.ProcessCommandRunner
@@ -13,9 +17,18 @@ import java.io.File
 /** Bounded, symbolic operations; the factory drive service retains its ECU interlocks and mode bundle. */
 internal object LauncherVehicleBridge {
     private var cached: Session? = null
-    @Synchronized fun execute(op: String, value: String = ""): CommandResult = try {
-        val s=cached?.takeIf { it.binder.isBinderAlive } ?: Session().also { cached=it }
-        if(op == "read") CommandResult(0,s.readAll().toString()) else {
+    private val leaseTimer=java.util.concurrent.Executors.newSingleThreadScheduledExecutor { r -> Thread(r,"LauncherCanLease").apply {isDaemon=true} }
+    init { leaseTimer.scheduleWithFixedDelay({
+        synchronized(this) {
+            cached?.takeIf {SystemClock.elapsedRealtime()-it.lastRead>10000}?.let {it.close();cached=null}
+        }
+    },5,5,java.util.concurrent.TimeUnit.SECONDS) }
+    fun execute(op: String, value: String = ""): CommandResult = try {
+        val s=synchronized(this) {cached?.takeIf { it.binder.isBinderAlive } ?: run {
+            cached?.close();cached=null
+            Session().also { it.start();cached=it }
+        }}
+        if(op == "read" || op == "watch") CommandResult(0,s.readAll(if(op=="watch")value.toLongOrNull() else null).toString()) else {
             check(BridgeSubscriptionSession.active) { "Subscription inactive" }
             when(op) {
                 "energy" -> OemEnergyBinder.execute("SET_ENERGY_STRATEGY",mapOf("strategy" to value))
@@ -49,7 +62,7 @@ internal object LauncherVehicleBridge {
             CommandResult(0,"DISPATCHED")
         }
     } catch(e:Exception) {
-        cached=null
+        synchronized(this) {cached?.close();cached=null}
         AppLog.error("LauncherVehicle","$op failed",e)
         CommandResult(1,(e.cause ?: e).toString())
     }
@@ -87,15 +100,76 @@ internal object LauncherVehicleBridge {
                     if(t.methods.any {it.name=="is97XOversea"}) flag("is97XOversea") else false)
             }.getOrElse { AppLog.error("LauncherVehicle","Energy capabilities unavailable",it);emptyMap() }
         }
-        fun readAll()=JSONObject().apply {
-            for(n in listOf("DRIVING_MODE_SET","ASC_MODE_SELECT","ASC_ADJUST_DIREACT","ASC_MAINTAIN_SWITCH","ASC_ADJUST_SUSTEMP",
-                "HUM_ENERGY_PTREGEN_LEVL_FB","IVI_SOC_MODESET","AMBIENT_AIR_PRESSURE","ASC_SENSOR_ERROR_STS",
-                "ASC_RF_HEIGHT","ASC_LF_HEIGHT","ASC_LR_HEIGHT","ASC_RR_HEIGHT","MANUAL_EASY_ENTER_SET"))
-                put(n,runCatching { read(n) }.getOrNull() ?: JSONObject.NULL)
-            put("speed",runCatching {speed()}.getOrNull() ?: JSONObject.NULL)
-            put("modes",JSONObject(modes))
-            put("supportsSuspension",runCatching{flag("isSupportAsc")}.getOrDefault(false))
-            put("supportsOuting",runCatching{flag("isSupportOffload")}.getOrDefault(false))
+        private val names=listOf("DRIVING_MODE_SET","ASC_MODE_SELECT","ASC_ADJUST_DIREACT","ASC_MAINTAIN_SWITCH","ASC_ADJUST_SUSTEMP",
+            "HUM_ENERGY_PTREGEN_LEVL_FB","IVI_SOC_MODESET","AMBIENT_AIR_PRESSURE","ASC_SENSOR_ERROR_STS",
+            "ASC_RF_HEIGHT","ASC_LF_HEIGHT","ASC_LR_HEIGHT","ASC_RR_HEIGHT","MANUAL_EASY_ENTER_SET")
+        private val values=HashMap<String,Int?>()
+        private val lock=java.lang.Object()
+        private var revision=0L
+        private fun update(name:String,value:Int) {synchronized(lock) {if(values[name]!=value || !values.containsKey(name)){values[name]=value;revision++;lock.notifyAll()}}}
+        @Volatile var lastRead=SystemClock.elapsedRealtime();private set
+        private val callbackType=loader.loadClass("com.qinggan.canbus.ICanBusServiceCallback")
+        private val callbackStub=loader.loadClass("com.qinggan.canbus.ICanBusServiceCallback\$Stub")
+        private fun transaction(name:String)=callbackStub.getDeclaredField("TRANSACTION_$name").apply {isAccessible=true}.getInt(null)
+        private val stateCode=transaction("onVehicleStateChanged")
+        private val speedCode=transaction("onVehicleSpeedChanged")
+        private val creator=type.getField("CREATOR").get(null) as Parcelable.Creator<*>
+        private val watched by lazy {names.mapNotNull { n -> runCatching {field(n) to n}.getOrNull() }.toMap()}
+        @Volatile private var listening=false
+        private val death=IBinder.DeathRecipient {listening=false;synchronized(lock){lock.notifyAll()}}
+        private val callbackBinder=object:Binder() {
+            override fun onTransact(code:Int,data:Parcel,reply:Parcel?,flags:Int):Boolean {
+                if(code==IBinder.INTERFACE_TRANSACTION) {reply?.writeString(callbackType.name);return true}
+                data.enforceInterface(callbackType.name)
+                if(listening) when(code) {
+                    stateCode -> {
+                        val state=if(data.readInt()!=0)creator.createFromParcel(data) else null
+                        val value=data.readInt()
+                        watched[state]?.let {name->update(name,value)}
+                    }
+                    speedCode -> {val value=data.readInt();update("speed",value)}
+                }
+                // Other OEM callbacks are intentionally ignored; never query or write from Binder threads.
+                reply?.writeNoException()
+                return true
+            }
+        }
+        private val callback=callbackStub.getMethod("asInterface",IBinder::class.java).invoke(null,callbackBinder)
+        fun start() {
+            watched // Resolve symbols before accepting callbacks.
+            listening=true
+            try {
+                binder.linkToDeath(death,0)
+                check(api.getMethod("addCallback",callbackType).invoke(remote,callback) == true) {"CAN callback registration rejected"}
+                for(n in names+"speed") {
+                    val value=runCatching {if(n=="speed")speed() else read(n)}.getOrNull()
+                    // A callback received during the initial read wins over an older snapshot.
+                    synchronized(lock){if(!values.containsKey(n))values[n]=value}
+                }
+                AppLog.info("LauncherVehicle","CAN listener attached; initial snapshot loaded")
+            } catch(e:Exception) {close();throw e}
+        }
+        fun close() {
+            val wasListening=listening
+            listening=false
+            synchronized(lock){lock.notifyAll()}
+            runCatching {binder.unlinkToDeath(death,0)}
+            if(wasListening)runCatching {api.getMethod("removeCallback",callbackType).invoke(remote,callback)}
+        }
+        fun readAll(after:Long?=null):JSONObject {
+            check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
+            lastRead=SystemClock.elapsedRealtime()
+            return JSONObject().apply {
+                synchronized(lock) {
+                    if(after!=null && after==revision)lock.wait(2000)
+                    check(listening && binder.isBinderAlive) {"CAN listener disconnected"}
+                    for(n in names+"speed")put(n,values[n] ?: JSONObject.NULL)
+                    put("revision",revision)
+                }
+                put("modes",JSONObject(modes))
+                put("supportsSuspension",runCatching{flag("isSupportAsc")}.getOrDefault(false))
+                put("supportsOuting",runCatching{flag("isSupportOffload")}.getOrDefault(false))
+            }
         }
     }
 }
