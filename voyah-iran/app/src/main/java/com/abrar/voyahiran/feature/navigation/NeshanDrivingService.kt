@@ -30,15 +30,15 @@ class NeshanDrivingService : AccessibilityService() {
     }
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (!enabled) { reset(); return }
-        if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED || !session.inside) inspectFocus()
+        if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
+            event?.eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED || !session.inside) inspectFocus()
         if (session.inside) schedule()
     }
     private fun inspectFocus() {
         if (!enabled) { reset(); return }
-        val root = rootInActiveWindow ?: return
+        val root = automationRoot() ?: return
         try {
             val pkg = root.packageName?.toString()
-            if (!isCentralApplicationWindow(root)) return
             if (pkg == NavigationPreferences.NESHAN) {
                 NeshanVoiceNavigation.pending?.entered = true
                 if (!session.inside) AppLog.info(TAG, "foreground visit started")
@@ -58,9 +58,9 @@ class NeshanDrivingService : AccessibilityService() {
     private fun inspect() {
         if (!enabled || !session.inside) { reset(); return }
         val now = SystemClock.elapsedRealtime()
-        val root = rootInActiveWindow
+        val root = automationRoot()
         try {
-            if (root != null && root.packageName?.toString() == NavigationPreferences.NESHAN && isCentralApplicationWindow(root)) {
+            if (root != null && root.packageName?.toString() == NavigationPreferences.NESHAN) {
                 val route = NeshanVoiceNavigation.pending
                 if (route != null) {
                     session.consume(); verifyUntil = 0L // A voice destination never starts free driving in this visit.
@@ -188,10 +188,34 @@ class NeshanDrivingService : AccessibilityService() {
         val nodes = root.findAccessibilityNodeInfosByViewId("${NavigationPreferences.NESHAN}:id/$id")
         return try { nodes.any { it.isVisibleToUser } } finally { nodes.forEach { it.recycle() } }
     }
-    private fun isCentralApplicationWindow(root: AccessibilityNodeInfo): Boolean {
-        val currentWindows = windows
-        return try { currentWindows.any { it.id == root.windowId && (android.os.Build.VERSION.SDK_INT < 30 || it.displayId == 0) && it.type == AccessibilityWindowInfo.TYPE_APPLICATION } }
-        finally { currentWindows.forEach { it.recycle() } }
+    /** Click nodes in the app itself, never inject a gesture through the launcher card. */
+    private fun automationRoot(): AccessibilityNodeInfo? {
+        val cardDisplay = com.abrar.voyahiran.feature.launcher.LauncherEmbeddedMapSurface.automationDisplayId
+        val candidates = if (android.os.Build.VERSION.SDK_INT >= 30) {
+            val all = windowsOnAllDisplays
+            buildList {
+                all[0]?.let { addAll(it) }
+                if (cardDisplay != null && cardDisplay != 0) all[cardDisplay]?.let { addAll(it) }
+                // Recycle windows from unrelated displays as well, without inspecting their content.
+                for (i in 0 until all.size()) if (all.keyAt(i) != 0 && all.keyAt(i) != cardDisplay)
+                    all.valueAt(i).forEach { it.recycle() }
+            }
+        } else windows // Android 9 does not expose windowsOnAllDisplays.
+        try {
+            for (window in candidates) {
+                if (window.type != AccessibilityWindowInfo.TYPE_APPLICATION) continue
+                // Central background windows must not keep an old Neshan visit alive.
+                val card = android.os.Build.VERSION.SDK_INT >= 30 && window.displayId == cardDisplay
+                if (!card && !window.isActive && !window.isFocused) continue
+                val root = window.root ?: continue
+                if (root.packageName?.toString() == NavigationPreferences.NESHAN) return root
+                root.recycle()
+            }
+            val root = rootInActiveWindow ?: return null
+            if (candidates.any { it.id == root.windowId && it.type == AccessibilityWindowInfo.TYPE_APPLICATION }) return root
+            root.recycle()
+            return null
+        } finally { candidates.forEach { it.recycle() } }
     }
     private fun reset() {
         handler.removeCallbacks(tick); tickPending = false; session.leave(); verifyUntil = 0L; menuClicked = false

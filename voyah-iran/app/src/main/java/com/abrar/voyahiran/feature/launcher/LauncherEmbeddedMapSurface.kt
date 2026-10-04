@@ -12,6 +12,7 @@ import android.view.View
  * No input forwarding or tap-exclusion region: the launcher owns all card gestures.
  */
 internal class LauncherEmbeddedMapSurface(private val context:Context,private val view:SurfaceView) {
+    companion object { @Volatile var automationDisplayId: Int? = null; private set }
     private var display:VirtualDisplay?=null
     var attached=false;private set
     val displayId get()=display?.display?.displayId
@@ -55,6 +56,8 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         active(true)
     }
     fun active(value:Boolean) {
+        if(value && attached) automationDisplayId=displayId
+        else if(automationDisplayId==displayId) automationDisplayId=null
         if(Build.VERSION.SDK_INT>=29) display?.let {
             VirtualDisplay::class.java.getDeclaredMethod("setDisplayState",Boolean::class.javaPrimitiveType)
                 .apply {isAccessible=true}.invoke(it,value && attached)
