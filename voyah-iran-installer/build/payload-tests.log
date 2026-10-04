@@ -1,0 +1,109 @@
+PASS: logcat capture lifecycle, disconnect and startup failure
+PASS: uninstall exclusion, input validation, user scope and failed removal
+PASS: H97A selects verified Android 9 reconstruction, not Android 11 patch
+PASS: Android 11 retains exact patch verification
+PASS: Unknown platform rejected before writes: 
+PASS: Unknown platform rejected before writes: 27
+PASS: Unknown platform rejected before writes: 29
+PASS: Unknown platform rejected before writes: 31
+PASS: Unknown platform rejected before writes: 28
+PASS: Capture excludes old backlog
+PASS: Capture waits for its own marker
+PASS: Capture starts at marker
+PASS: Capture accepts subsequent Unicode logs
+PASS: Engineering password: 2026-09-12T00:00:00+08:00
+PASS: Engineering password: 2026-09-14T00:00:00+08:00
+PASS: Engineering password: 2026-12-31T00:00:00+08:00
+PASS: Engineering password: 2026-09-12T19:29:59+03:30
+PASS: Engineering password: 2026-09-12T19:30:00+03:30
+PASS: Engineering password: 2026-12-31T19:30:00+03:30
+PASS: USB ready
+PASS: Unauthorized blocked
+PASS: Offline blocked
+PASS: Multiple devices blocked
+PASS: ADB daemon noise ignored
+PASS: Secret omitted from persisted log
+PASS: Actual Android 9 payload files exactly match extraction allowlist
+PASS: Bundle extracted and checked
+PASS: Previous display patch upgrade fixture extracted
+PASS: Unknown/path-traversal payload rejected with offending path
+PASS: Unknown/path-traversal payload rejected with offending path
+PASS: Corrupt embedded APK rejected
+PASS: root failure never reboots
+PASS: root rejected before APK changes
+PASS: remount failure never reboots
+PASS: remount rejected before APK changes
+PASS: remount-empty failure never reboots
+PASS: remount-empty rejected before APK changes
+PASS: firmware failure never reboots
+PASS: firmware rejected before APK changes
+PASS: patch failure never reboots
+PASS: patch rejected before APK changes
+PASS: apk failure never reboots
+PASS: bridge failure never reboots
+PASS: framework failure never reboots
+PASS: framework-transfer failure never reboots
+PASS: missing-marker failure never reboots
+PASS: timeout failure never reboots
+PASS: Uncertain remote write keeps staging
+PASS: All eight phases verified on simulated success
+PASS: One reboot on success
+PASS: Installer leaves keyboard preference to user
+PASS: Android 11 retains push installation
+PASS: Root and reconnect and remount precede APK installation
+PASS: H97A uses verified adbd root without su PATH
+PASS: H97A installs its verified framework result
+PASS: H97A installs the compatible APK and bridge
+PASS: H97A avoids system_server opening shell_data_file
+PASS: Unsupported Android 9 patch fails before APK, staging and reboot
+PASS: No APK install while USB is disconnected
+PASS: Post-patch reconnect outcome: reconnect
+PASS: Patch not rebuilt during reconnect: reconnect
+PASS: Wait bounded and pinned to original device: reconnect
+PASS: Install resumes after reconnect
+PASS: Post-patch reconnect outcome: reconnect-timeout
+PASS: Patch not rebuilt during reconnect: reconnect-timeout
+PASS: Wait bounded and pinned to original device: reconnect-timeout
+PASS: Reconnect failure stops before payload writes: reconnect-timeout
+PASS: Post-patch reconnect outcome: reconnect-firmware
+PASS: Patch not rebuilt during reconnect: reconnect-firmware
+PASS: Wait bounded and pinned to original device: reconnect-firmware
+PASS: Reconnect failure stops before payload writes: reconnect-firmware
+PASS: Post-patch reconnect outcome: reconnect-boot
+PASS: Patch not rebuilt during reconnect: reconnect-boot
+PASS: Wait bounded and pinned to original device: reconnect-boot
+PASS: Reconnect failure stops before payload writes: reconnect-boot
+PASS: Remount recovery outcome: remount-recover
+PASS: Remount retried once: remount-recover
+PASS: Root reacquired after reboot: remount-recover
+PASS: Bounded preparation reboot: remount-recover
+PASS: Install waits for successful remount: remount-recover
+PASS: Remount recovery outcome: remount-recover-nonzero
+PASS: Remount retried once: remount-recover-nonzero
+PASS: Root reacquired after reboot: remount-recover-nonzero
+PASS: Bounded preparation reboot: remount-recover-nonzero
+PASS: Install waits for successful remount: remount-recover-nonzero
+PASS: Remount recovery outcome: remount-reboot
+PASS: Remount retried once: remount-reboot
+PASS: Root reacquired after reboot: remount-reboot
+PASS: Bounded preparation reboot: remount-reboot
+PASS: Repeated reboot request stops before APK install
+PASS: Manual reboot outcome: success
+PASS: Reboot is never retried: success
+PASS: Reboot stays on selected device: success
+PASS: Reboot confirms completed boot after boot ID changes
+PASS: Manual reboot outcome: identity-error
+PASS: Reboot is never retried: identity-error
+PASS: Reboot stays on selected device: identity-error
+PASS: Manual reboot outcome: reboot-error
+PASS: Reboot is never retried: reboot-error
+PASS: Reboot stays on selected device: reboot-error
+PASS: Myket install permission granted and read back
+PASS: Myket gets only install-packages permission
+PASS: Real bundled Myket identity and permission
+PASS: Real bundled Gboard identity
+PASS: Gboard base and split install atomically for user zero
+PASS: Split install rejects failure
+PASS: Split install rejects missing-split
+PASS: Mismatched APK set rejected before device operations
+All 106 checks passed. Fixtures: C:\Users\Nahid\AppData\Local\Temp\VoyahIranInstallerTests\46a645e0b3af42ddb4eccf39261c0567

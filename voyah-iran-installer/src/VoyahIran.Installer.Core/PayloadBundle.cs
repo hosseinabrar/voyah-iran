@@ -11,7 +11,11 @@ public sealed class PayloadBundle
     public BundleManifest Manifest { get; }
     private PayloadBundle(string root, BundleManifest manifest) { Root = root; Manifest = manifest; }
     public string File(string name) => Path.Combine(Root, name);
-    public static string Digest(string path) => Convert.ToHexString(SHA256.HashData(System.IO.File.ReadAllBytes(path))).ToLowerInvariant();
+    public static string Digest(string path)
+    {
+        using var stream = System.IO.File.OpenRead(path);
+        return Convert.ToHexString(SHA256.HashData(stream)).ToLowerInvariant();
+    }
     public static PayloadBundle Extract(Stream stream, string root)
     {
         using var zip = new ZipArchive(stream, ZipArchiveMode.Read);
@@ -31,7 +35,9 @@ public sealed class PayloadBundle
         foreach (var name in manifest.Files.Keys)
         {
             var entry = zip.GetEntry(name) ?? throw new InvalidDataException($"Missing {name}");
-            if (entry.Length > 256 * 1024 * 1024) throw new InvalidDataException("Oversized payload");
+            // The application includes offline speech models and OEM launcher animation assets.
+            long maxBytes = name == "app.apk" ? 512L * 1024 * 1024 : 256L * 1024 * 1024;
+            if (entry.Length > maxBytes) throw new InvalidDataException($"Oversized payload: {name} ({entry.Length} bytes; limit {maxBytes} bytes)");
             var path = Path.Combine(root, name);
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             entry.ExtractToFile(path, false);

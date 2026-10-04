@@ -19,6 +19,14 @@ if (args.Contains("logcat")) {
 }
 var root = Path.Combine(Path.GetTempPath(), "VoyahIranInstallerTests", Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(root);
+if (args.Length == 2 && args[0] == "--verify-payload") {
+    try {
+        using var payload = File.OpenRead(args[1]);
+        var extracted = PayloadBundle.Extract(payload, Path.Combine(root, "actual-payload"));
+        Console.WriteLine($"PASS: Actual payload extracted and all {extracted.Manifest.Files.Count} file hashes verified");
+    } finally { Directory.Delete(root, true); }
+    return;
+}
 await LogcatCaptureTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);
 var passed = 0;
