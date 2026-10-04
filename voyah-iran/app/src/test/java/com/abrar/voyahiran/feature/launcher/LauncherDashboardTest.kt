@@ -181,14 +181,12 @@ class LauncherDashboardTest {
         view.mapMessage=""
         tap(300f,300f);assertEquals(2,claims);assertEquals(1,opens)
     }
-    @Test fun launcherThemeFollowsPreferenceAndVehicle() {
-        assertTrue(LauncherTheme.resolve("light","default",0x20))
-        assertFalse(LauncherTheme.resolve("dark","simple",0x10))
-        assertTrue(LauncherTheme.resolve("vehicle","simple",0x20))
-        assertFalse(LauncherTheme.resolve(null,"default",0x10))
-        assertFalse(LauncherTheme.resolve("vehicle","modern",0x10))
-        assertTrue(LauncherTheme.resolve("vehicle",null,0x10))
-        assertFalse(LauncherTheme.resolve("vehicle",null,0x20))
+    @Test fun launcherThemeFollowsOnlyVehicle() {
+        assertTrue(LauncherTheme.resolve("simple"))
+        assertFalse(LauncherTheme.resolve("default"))
+        assertFalse(LauncherTheme.resolve("modern"))
+        assertFalse(LauncherTheme.resolve(null))
+        assertFalse(LauncherTheme.resolve(""))
     }
     @Test fun renderLightThemeAndSwitchBackWithoutLosingState() {
         val view=LauncherDashboard(RuntimeEnvironment.getApplication())

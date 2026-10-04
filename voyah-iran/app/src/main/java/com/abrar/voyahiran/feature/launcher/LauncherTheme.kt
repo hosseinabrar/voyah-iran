@@ -1,19 +1,18 @@
 package com.abrar.voyahiran.feature.launcher
 
-import android.content.Context
-import android.content.res.Configuration
-import android.provider.Settings
-
+/** Launcher follows the vehicle theme, independently of third-party app theme overrides. */
 internal object LauncherTheme {
-    private val propertyReader by lazy { runCatching { Class.forName("android.os.SystemProperties").getMethod("get",String::class.java,String::class.java) }.getOrNull() }
-    fun isLight(context: Context): Boolean {
-        val mode=Settings.Global.getString(context.contentResolver,"voyah_iran_app_theme")
-        val vehicle=runCatching { propertyReader?.invoke(null,"persist.sys.qg.currenttheme","") as? String }.getOrNull()
-        return resolve(mode,vehicle,context.resources.configuration.uiMode)
+    private val propertyReader by lazy {
+        runCatching {
+            Class.forName("android.os.SystemProperties").getMethod("get", String::class.java, String::class.java)
+        }.getOrNull()
     }
-    internal fun resolve(mode: String?, vehicle: String?, uiMode: Int): Boolean = when(mode) {
-        "light" -> true
-        "dark" -> false
-        else -> if(!vehicle.isNullOrEmpty()) vehicle=="simple" else uiMode and Configuration.UI_MODE_NIGHT_MASK==Configuration.UI_MODE_NIGHT_NO
+    fun isLight(): Boolean {
+        val vehicle = runCatching {
+            propertyReader?.invoke(null, "persist.sys.qg.currenttheme", "") as? String
+        }.getOrNull()
+        return resolve(vehicle)
     }
+    // Speedy Dash is named "simple" in the OEM property. Unknown themes default to dark.
+    internal fun resolve(vehicle: String?): Boolean = vehicle == "simple"
 }

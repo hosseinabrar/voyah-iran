@@ -111,7 +111,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         }
     }
     private fun updateTheme() {
-        val light=LauncherTheme.isLight(this)
+        val light=LauncherTheme.isLight()
         dashboard.lightTheme=light
         container.setBackgroundColor(if(light)0xffe5ebf3.toInt() else Color.BLACK)
     }
