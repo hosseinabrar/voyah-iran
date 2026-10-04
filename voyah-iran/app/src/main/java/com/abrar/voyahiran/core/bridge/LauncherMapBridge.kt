@@ -46,12 +46,24 @@ internal object LauncherMapBridge {
             val current = stack.javaClass.getField("displayId").getInt(stack)
             check(current != 1 || args[0]=="launcher-map-claim") { "Map is on passenger display" }
             if (current != destination) apiClass.getMethod("moveStackToDisplay", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType).invoke(api, id, destination)
+            if(destination==0) {
+                // Drop preview display bounds before launching the normal launcher entry point.
+                // Keep the task alive so active navigation survives the handoff.
+                apiClass.getMethod("resizeTask",Int::class.javaPrimitiveType,android.graphics.Rect::class.java,Int::class.javaPrimitiveType)
+                    .invoke(api,taskIds.single(),null,0)
+            }
         }
         val runner = ProcessCommandRunner(useBridge = false)
         val resolved = runner.run(listOf("/system/bin/cmd", "package", "resolve-activity", "--brief", "--user", "0", "-a", "android.intent.action.MAIN", "-c", "android.intent.category.LAUNCHER", pkg), 4)
         val component = resolved.output.lineSequence().map(String::trim).lastOrNull { it.startsWith("$pkg/") && !it.contains(' ') }
         check(component != null) { "Map launcher activity missing" }
-        runner.run(listOf("/system/bin/am", "start", "--user", "0", "--display", destination.toString(), "--activity-single-top", "-n", component), 5)
+        runner.run(launchArguments(component,destination), 5)
         }
     } catch (e: Exception) { CommandResult(1, "Map preview: ${e.cause?.message ?: e.message}") }
+
+    internal fun launchArguments(component:String,destination:Int):List<String> =
+        listOf("/system/bin/am","start","--user","0","--display",destination.toString()) +
+            if(destination==0) listOf("--windowingMode","1","-a","android.intent.action.MAIN",
+                "-c","android.intent.category.LAUNCHER","-f","0x10200000","-n",component)
+            else listOf("--activity-single-top","-n",component)
 }
