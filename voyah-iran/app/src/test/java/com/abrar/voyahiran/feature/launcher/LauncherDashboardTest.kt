@@ -87,7 +87,7 @@ class LauncherDashboardTest {
         assertTrue(LauncherWeather.parse(data,1000000,true).notice.startsWith("Saved"))
         val view=LauncherDashboard(RuntimeEnvironment.getApplication())
         view.layout(0,0,1775,660)
-        for((name,state) in listOf("weather-day" to LauncherWeather.parse(data,1000000,false),"weather-night" to LauncherWeatherState("Tehran",20.0,14.0,26.0,0,false,""))) {
+        for((name,state) in listOf("weather-day" to LauncherWeather.parse(data,1000000,false),"weather-night" to LauncherWeatherState("Tehran",20.0,14.0,26.0,0,false,""),"weather-night-cloudy" to LauncherWeatherState("Tehran",20.0,14.0,26.0,2,false,""))) {
             view.weather=state
             val bitmap=Bitmap.createBitmap(1775,660,Bitmap.Config.ARGB_8888)
             view.draw(Canvas(bitmap))
@@ -148,5 +148,37 @@ class LauncherDashboardTest {
         assertNull(policy.resolve(listOf("launcher-map","org.map","-1")))
         assertNotNull(policy.resolve(listOf("launcher-map","org.map","2")))
         assertNotNull(policy.resolve(listOf("launcher-map","org.map","0")))
+    }
+    @Test fun mapOwnershipStatusRequiresVisibleMatchingDisplay() {
+        assertTrue(LauncherMapPreview.isVisibleHere("MAP_DISPLAY=2 MAP_VISIBLE=1",2))
+        assertFalse(LauncherMapPreview.isVisibleHere("MAP_DISPLAY=20 MAP_VISIBLE=1",2))
+        assertFalse(LauncherMapPreview.isVisibleHere("MAP_DISPLAY=1 MAP_VISIBLE=1",2))
+        assertFalse(LauncherMapPreview.isVisibleHere("MAP_DISPLAY=2 MAP_VISIBLE=0",2))
+        assertFalse(LauncherMapPreview.isVisibleHere("Error",2))
+        val policy=com.abrar.voyahiran.core.bridge.BridgePolicy
+        for(command in listOf("launcher-map-claim","launcher-map-status")) {
+            assertNotNull(policy.resolve(listOf(command,"org.rajman.neshan","2")))
+            assertNull(policy.resolve(listOf(command,"org.rajman.neshan","1")))
+            assertNull(policy.resolve(listOf(command,"org.map;reboot","2")))
+        }
+    }
+    @Test fun fallbackMapWholeCardShowsMap() {
+        val view=LauncherDashboard(RuntimeEnvironment.getApplication())
+        view.layout(0,0,1775,660)
+        var claims=0;var opens=0
+        view.onShowMap={claims++};view.onMap={opens++}
+        fun tap(x:Float,y:Float) {
+            view.onTouchEvent(android.view.MotionEvent.obtain(0,0,android.view.MotionEvent.ACTION_DOWN,x,y,0))
+            view.onTouchEvent(android.view.MotionEvent.obtain(0,1,android.view.MotionEvent.ACTION_UP,x,y,0))
+        }
+        view.mapMessage="نقشه روی نمایشگر شاگرد است"
+        tap(300f,300f);assertEquals(1,claims);assertEquals(0,opens)
+        tap(435f,500f);assertEquals(2,claims);assertEquals(0,opens)
+        val bitmap=Bitmap.createBitmap(1775,660,Bitmap.Config.ARGB_8888)
+        view.draw(Canvas(bitmap))
+        val output=File("build/reports/launcher/map-fallback.png");output.parentFile!!.mkdirs()
+        output.outputStream().use {bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
+        view.mapMessage=""
+        tap(300f,300f);assertEquals(2,claims);assertEquals(1,opens)
     }
 }

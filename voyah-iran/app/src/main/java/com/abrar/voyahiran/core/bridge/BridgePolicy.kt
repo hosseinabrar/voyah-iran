@@ -14,7 +14,7 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
-        if (request.size == 3 && request[0] == "launcher-map" && AppDensityPreferences.validPackage(request[1]) && request[1] != "com.abrar.voyahiran" && request[2].toIntOrNull()?.let { it == 0 || it in 2..10000 } == true) return request
+        if (request.size == 3 && request[0] in setOf("launcher-map", "launcher-map-claim", "launcher-map-status") && AppDensityPreferences.validPackage(request[1]) && request[1] != "com.abrar.voyahiran" && request[2].toIntOrNull()?.let { it == 0 || it in 2..10000 } == true) return request
         if (request.size == 2 && request[0] == "launcher-home" && request[1] in listOf("enable", "disable"))
             return request
         if (request.size == 3 && request[0] == "app-density-package" && AppDensityPreferences.validPackage(request[1]) &&

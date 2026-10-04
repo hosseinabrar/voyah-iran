@@ -30,6 +30,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         dashboard=LauncherDashboard(this)
         setContentView(container)
         dashboard.onMap = { preview?.open { finish() } }
+        dashboard.onShowMap = { preview?.showInCard() }
         dashboard.onMedia = { button ->
             runCatching {
             val controller=dashboard.media.controller
@@ -76,6 +77,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             activeNavigator=navigator
             preview=LauncherMapPreview(this,lifecycleScope) { dashboard.mapMessage=it }.also {it.packageName(navigator)}
             map.surfaceTextureListener=preview
+            preview?.startMonitoring()
             container.addView(map,0,FrameLayout.LayoutParams((width*871f/1775).toInt(),height).apply{leftMargin=left;topMargin=top})
         } else mapView?.layoutParams=FrameLayout.LayoutParams((width*871f/1775).toInt(),height).apply{leftMargin=left;topMargin=top}
     }
@@ -85,9 +87,10 @@ class VoyahLauncherActivity : ComponentActivity() {
         if(preview!=null && activeNavigator!=NavigationPreferences(this).navigator) {
             preview?.close();preview=null
             mapView?.let(container::removeView);mapView=null
-            dashboard.mapMessage=""
+            dashboard.mapMessage="نقشه در دسترس نیست"
             layoutContent()
         }
+        preview?.startMonitoring()
         weather.start()
         ticker?.cancel()
         ticker=lifecycleScope.launch {
@@ -102,6 +105,6 @@ class VoyahLauncherActivity : ComponentActivity() {
         }
     }
     // Android 9 may pause the host when the map resumes on its virtual display; it is still visible.
-    override fun onStop(){weather.stop();ticker?.cancel();super.onStop()}
+    override fun onStop(){preview?.stopMonitoring();weather.stop();ticker?.cancel();super.onStop()}
     override fun onDestroy(){preview?.close();preview=null;super.onDestroy()}
 }

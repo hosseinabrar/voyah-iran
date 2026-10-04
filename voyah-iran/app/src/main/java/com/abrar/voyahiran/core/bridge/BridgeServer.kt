@@ -71,7 +71,7 @@ object BridgeServer {
                                 runner.run(listOf("/system/bin/am", "force-stop", "--user", "0", command[1]), parsed.timeout)
                             else runner.run(listOf("/system/bin/pm", "uninstall", "--user", "0", command[1]), parsed.timeout)
                         }
-                        "launcher-map" -> LauncherMapBridge.execute(command)
+                        "launcher-map", "launcher-map-claim", "launcher-map-status" -> LauncherMapBridge.execute(command)
                         "launcher-home" -> {
                             val enable=command[1]=="enable"
                             val access=if(enable && android.os.Build.VERSION.SDK_INT==28) runner.run(LauncherDrawerAccess.arguments,5) else CommandResult(0,"")

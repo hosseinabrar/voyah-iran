@@ -14,11 +14,15 @@ class LauncherDashboard(context: Context) : View(context) {
         set(value) { field = value; invalidate() }
     var weather = LauncherWeatherState()
         set(value) { field=value; invalidate() }
+    private val moonBitmap by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_weather_moon,BitmapFactory.Options().apply {inSampleSize=4}) }
+    private val nightCloudBitmap by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_weather_overcast) }
     private var weatherIconId = 0
     private var weatherBitmap: Bitmap? = null
-    var mapMessage = ""
+    var mapMessage = "در حال نمایش نقشه…"
         set(value) { field = value; invalidate() }
     var onMap: () -> Unit = {}
+    var onShowMap: () -> Unit = {}
+    private val mapDefault=BitmapFactory.decodeResource(resources,R.drawable.launcher_map_default)
     var onMedia: (Int) -> Unit = {}
     var onOpenMusic: () -> Unit = {}
     var onSeek: (Long) -> Unit = {}
@@ -32,6 +36,9 @@ class LauncherDashboard(context: Context) : View(context) {
         "USB_MUSIC" to R.drawable.launcher_source_usb
     ).mapValues { BitmapFactory.decodeResource(resources, it.value) }
     private val persian = resources.getFont(com.abrar.raha.feedback.R.font.iransansx_regular)
+    private val persianBold = resources.getFont(com.abrar.raha.feedback.R.font.iransansx_bold)
+    private val latin = Typeface.create("sans-serif",Typeface.NORMAL)
+    private val latinBold = Typeface.create("sans-serif",Typeface.BOLD)
     override fun onDraw(c: Canvas) {
         super.onDraw(c)
         c.save(); c.scale(width / 1775f, height / 660f)
@@ -43,11 +50,19 @@ class LauncherDashboard(context: Context) : View(context) {
             c.save(); c.scale(1f,.13f,x+w/2,y+h); c.drawCircle(x+w/2,y+h,w*.55f,paint); c.restore(); paint.shader=null;c.restore()
         }
         card(887f,0f,428f,660f); card(1331f,0f,428f,426f); card(1331f,442f,428f,218f)
+        if(mapMessage.isNotEmpty()) {
+            c.save();c.clipPath(Path().apply {addRoundRect(RectF(0f,0f,871f,660f),16f,16f,Path.Direction.CW)})
+            val scale=maxOf(871f/mapDefault.width,660f/mapDefault.height)
+            val dw=mapDefault.width*scale;val dh=mapDefault.height*scale
+            paint.color=Color.WHITE;c.drawBitmap(mapDefault,null,RectF((871f-dw)/2,(660f-dh)/2,(871f+dw)/2,(660f+dh)/2),paint);c.restore()
+        }
         c.save();c.clipRect(0f,0f,871f,660f)
         paint.shader=RadialGradient(435f,667f,435f,intArrayOf(0x556278b6,Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
         c.scale(1f,.13f,435f,660f);c.drawCircle(435f,660f,450f,paint);paint.shader=null;c.restore()
         fun text(t: String,x:Float,y:Float,size:Float,color:Int=Color.WHITE,center:Boolean=false,bold:Boolean=false,fa:Boolean=false) {
-            paint.color=color;paint.textSize=size;paint.typeface=if(fa)persian else Typeface.create("sans-serif",if(bold)Typeface.BOLD else Typeface.NORMAL)
+            paint.color=color;paint.textSize=size
+            val usePersian=fa || t.any { it in '\u0600'..'\u06ff' || it in '\u0750'..'\u077f' || it in '\u08a0'..'\u08ff' || it in '\ufb50'..'\ufdff' || it in '\ufe70'..'\ufeff' }
+            paint.typeface=if(usePersian) {if(bold)persianBold else persian} else {if(bold)latinBold else latin}
             paint.textAlign=if(center)Paint.Align.CENTER else Paint.Align.LEFT
             val max=if(x < 1331) 372f else 398f
             var value=t
@@ -55,7 +70,11 @@ class LauncherDashboard(context: Context) : View(context) {
             if(value != t) value=value.dropLast(1)+"…"
             c.drawText(value,x,y,paint)
         }
-        if(mapMessage.isNotEmpty()) text(mapMessage,435f,330f,24f,center=true,fa=true)
+        if(mapMessage.isNotEmpty()) {
+            paint.shader=LinearGradient(285f,465f,585f,535f,0xff617bbb.toInt(),0xff354b86.toInt(),Shader.TileMode.CLAMP)
+            c.drawRoundRect(285f,465f,585f,535f,14f,14f,paint);paint.shader=null
+            text("Show Map",435f,510f,27f,center=true)
+        }
         val oemIcon = sourceIcons[media.oemSource]
         val hasSourceIcon = oemIcon != null || media.sourceIcon != null
         if (oemIcon != null) {
@@ -69,8 +88,8 @@ class LauncherDashboard(context: Context) : View(context) {
         text(media.source, if(hasSourceIcon) 951f else 911f,45f,23f)
         c.restore()
         paint.color = 0xffe1e7f5.toInt(); paint.strokeWidth = 2.5f
-        c.drawLine(1288f, 27f, 1280f, 35f, paint)
-        c.drawLine(1280f, 35f, 1288f, 43f, paint)
+        c.drawLine(1280f, 27f, 1288f, 35f, paint)
+        c.drawLine(1288f, 35f, 1280f, 43f, paint)
         if(media.radio) {
             text(media.title,1101f,255f,48f,center=true,bold=true)
             text(media.artist,1101f,310f,26f,0xffbfc9de.toInt(),center=true)
@@ -109,13 +128,10 @@ class LauncherDashboard(context: Context) : View(context) {
         c.restore()
         if(weather.temperature != null) {
             if (!weather.day && weather.code in 0..2) {
-                val moon=Path().apply {addCircle(1664f,540f,47f,Path.Direction.CW)}
-                moon.op(Path().apply{addCircle(1686f,523f,43f,Path.Direction.CW)},Path.Op.DIFFERENCE)
-                paint.color=0xffe9edf6.toInt();c.drawPath(moon,paint)
-                if(weather.code==2) {
-                    paint.color=0xffbdc5d5.toInt();c.drawRoundRect(1620f,558f,1710f,583f,13f,13f,paint)
-                    c.drawCircle(1655f,553f,24f,paint)
-                }
+                paint.color=Color.WHITE
+                val bounds=if(weather.code==2) RectF(1549f,459f,1699f,609f) else RectF(1550f,462f,1730f,642f)
+                c.drawBitmap(moonBitmap,null,bounds,paint)
+                if(weather.code==2) c.drawBitmap(nightCloudBitmap,null,RectF(1573f,519f,1718f,647f),paint)
             } else {
                 val id=LauncherWeatherCode.icon(if(!weather.day && weather.code in 80..82) 63 else weather.code)
                 if(id!=weatherIconId) { weatherIconId=id;weatherBitmap=BitmapFactory.decodeResource(resources,id) }
@@ -129,7 +145,10 @@ class LauncherDashboard(context: Context) : View(context) {
         if(e.action==MotionEvent.ACTION_UP) {
             val x=e.x*1775/width;val y=e.y*660/height
             when {
-                x<871 -> onMap()
+                x<871 -> {
+                    if(mapMessage.isEmpty())onMap()
+                    else onShowMap()
+                }
                 x in 887f..1315f -> when {
                     y in 536f..616f && x in 947f..1027f -> onMedia(0)
                     y in 536f..616f && x in 1061f..1141f -> onMedia(1)
