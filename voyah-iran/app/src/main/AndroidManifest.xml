@@ -28,7 +28,7 @@
         android:theme="@style/Theme.VoyahIran">
         <receiver android:name=".core.bridge.BridgeProvisionReceiver" android:exported="true"
             android:permission="android.permission.INSTALL_PACKAGES" />
-        <activity android:name=".feature.launcher.LauncherDrawerActivity" android:exported="false" android:screenOrientation="landscape" android:excludeFromRecents="true" />
+        <activity android:name=".feature.launcher.LauncherDrawerActivity" android:taskAffinity="com.abrar.voyahiran.drawer" android:exported="false" android:screenOrientation="landscape" android:excludeFromRecents="true" />
         <service android:name=".feature.launcher.LauncherDrawerService" android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" android:label="فهرست برنامه‌ها">
             <intent-filter><action android:name="android.accessibilityservice.AccessibilityService" /></intent-filter>
