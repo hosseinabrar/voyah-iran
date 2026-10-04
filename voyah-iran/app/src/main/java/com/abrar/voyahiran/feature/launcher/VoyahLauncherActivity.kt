@@ -17,6 +17,13 @@ import kotlinx.coroutines.*
 class VoyahLauncherActivity : ComponentActivity() {
     private lateinit var dashboard: LauncherDashboard
     private lateinit var container: FrameLayout
+    private lateinit var pager: LauncherPager
+    private lateinit var firstPage: FrameLayout
+    private lateinit var vehiclePage: LauncherVehicleDashboard
+    private var vehicleTicker: Job? = null
+    private var visible=false
+    private var commandJob: Job?=null
+    private val compass by lazy { LauncherCompass(this) {vehiclePage.compass=it} }
     private var preview: LauncherMapPreview? = null
     private var mapView: TextureView? = null
     private var activeNavigator = ""
@@ -28,6 +35,22 @@ class VoyahLauncherActivity : ComponentActivity() {
         window.statusBarColor=Color.BLACK;window.navigationBarColor=Color.BLACK
         container=FrameLayout(this).apply { setBackgroundColor(Color.BLACK); layoutDirection=View.LAYOUT_DIRECTION_LTR }
         dashboard=LauncherDashboard(this)
+        vehiclePage=LauncherVehicleDashboard(this)
+        pager=LauncherPager(this)
+        firstPage=FrameLayout(this)
+        firstPage.addView(dashboard,FrameLayout.LayoutParams(-1,-1))
+        pager.addView(firstPage,FrameLayout.LayoutParams(-1,-1))
+        pager.addView(vehiclePage,FrameLayout.LayoutParams(-1,-1))
+        pager.onPage={updatePageWork()}
+        vehiclePage.onCommand=::vehicleCommand
+        vehiclePage.onDrive={
+            val options=LauncherVehicleState.driveNames.entries.filter {it.key!=4 || vehiclePage.state.supportsOuting}
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Driving mode")
+                .setSingleChoiceItems(options.map{it.value}.toTypedArray(),options.indexOfFirst{it.key==vehiclePage.state.drive}) { dialog,index ->
+                    dialog.dismiss();vehicleCommand("drive",options[index].key.toString())
+                }.setNegativeButton(android.R.string.cancel,null).show()
+        }
         setContentView(container)
         dashboard.onMap = { preview?.open { finish() } }
         dashboard.onShowMap = { preview?.showInCard() }
@@ -67,7 +90,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         val top=(50f*real.y/720-location[1]).toInt().coerceAtLeast(0)
         val width=container.width-left;val height=container.height-top
         val lp=FrameLayout.LayoutParams(width,height).apply{leftMargin=left;topMargin=top}
-        if(dashboard.parent==null)container.addView(dashboard,lp) else dashboard.layoutParams=lp
+        if(pager.parent==null)container.addView(pager,lp) else pager.layoutParams=lp
         if(preview==null) {
             val map=TextureView(this)
             mapView=map
@@ -78,8 +101,8 @@ class VoyahLauncherActivity : ComponentActivity() {
             preview=LauncherMapPreview(this,lifecycleScope) { dashboard.mapMessage=it }.also {it.packageName(navigator)}
             map.surfaceTextureListener=preview
             preview?.startMonitoring()
-            container.addView(map,0,FrameLayout.LayoutParams((width*871f/1775).toInt(),height).apply{leftMargin=left;topMargin=top})
-        } else mapView?.layoutParams=FrameLayout.LayoutParams((width*871f/1775).toInt(),height).apply{leftMargin=left;topMargin=top}
+            firstPage.addView(map,0,FrameLayout.LayoutParams((width*871f/1775).toInt(),height))
+        } else mapView?.layoutParams=FrameLayout.LayoutParams((width*871f/1775).toInt(),height)
     }
     override fun onResume() {
         super.onResume()
@@ -90,11 +113,13 @@ class VoyahLauncherActivity : ComponentActivity() {
         if(!enabled || !subscribed || screen!=0) {finish();return}
         if(preview!=null && activeNavigator!=NavigationPreferences(this).navigator) {
             preview?.close();preview=null
-            mapView?.let(container::removeView);mapView=null
+            mapView?.let(firstPage::removeView);mapView=null
             dashboard.mapMessage="نقشه در دسترس نیست"
             layoutContent()
         }
         preview?.startMonitoring()
+        visible=true
+        updatePageWork()
         updateTheme()
         weather.start()
         ticker?.cancel()
@@ -113,6 +138,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     private fun updateTheme() {
         val light=LauncherTheme.isLight()
         dashboard.lightTheme=light
+        vehiclePage.lightTheme=light
         container.setBackgroundColor(if(light)0xffe5ebf3.toInt() else Color.BLACK)
     }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
@@ -120,6 +146,59 @@ class VoyahLauncherActivity : ComponentActivity() {
         updateTheme()
     }
     // Android 9 may pause the host when the map resumes on its virtual display; it is still visible.
-    override fun onStop(){preview?.stopMonitoring();weather.stop();ticker?.cancel();super.onStop()}
-    override fun onDestroy(){preview?.close();preview=null;super.onDestroy()}
+    private fun updatePageWork() {
+        if(visible && pager.page==1) {
+            preview?.stopMonitoring()
+            compass.start();vehiclePage.artwork.start(lifecycleScope)
+            if(vehicleTicker?.isActive==true)return
+            vehicleTicker=lifecycleScope.launch {
+                while(isActive) {
+                    val r=withContext(Dispatchers.IO) {com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle","read"),4)}
+                    if(r.exitCode==0 && !r.timedOut) {
+                        runCatching {LauncherVehicleState.parse(org.json.JSONObject(r.output))}.onSuccess {
+                            vehiclePage.state=it;compass.speed=it.speed
+                        }.onFailure {vehiclePage.state=vehiclePage.state.copy(fresh=false)}
+                    } else vehiclePage.state=vehiclePage.state.copy(fresh=false)
+                    compass.expire()
+                    delay(500)
+                }
+            }
+        } else {
+            vehicleTicker?.cancel();vehicleTicker=null;compass.stop();vehiclePage.artwork.stop();vehiclePage.stopAnimations()
+            vehiclePage.state=vehiclePage.state.copy(fresh=false)
+            if(visible)preview?.startMonitoring()
+        }
+    }
+    private fun vehicleCommand(op:String,value:String) {
+        if(commandJob?.isActive==true || !visible || pager.page!=1 || !vehiclePage.state.fresh)return
+        if(!(application as VoyahIranApplication).subscriptions.allowed)return
+        vehiclePage.busy=true
+        val expectedEnergy=vehiclePage.state.modes[value]
+        commandJob=lifecycleScope.launch {
+            try {
+                val r=withContext(Dispatchers.IO) {com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle",op,value),12)}
+                check(r.exitCode==0 && !r.timedOut) {r.output}
+                // Do not optimistically select a mode. Readback is also needed if the user changes pages.
+                val confirmed=withTimeoutOrNull(15000) {
+                    while(isActive) {
+                        delay(500)
+                        val read=withContext(Dispatchers.IO){com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle","read"),4)}
+                        if(read.exitCode!=0 || read.timedOut)continue
+                        val s=LauncherVehicleState.parse(org.json.JSONObject(read.output));vehiclePage.state=s
+                        if(when(op){"energy"->s.energy==expectedEnergy;"recovery"->s.recovery==value.toInt();"drive"->s.drive==value.toInt();"height"->s.heightIndex==value.toInt() && s.height in listOf(1,3,5,7,9);else->false})return@withTimeoutOrNull true
+                    }
+                    false
+                } ?: false
+                if(!confirmed)error("Vehicle feedback was not confirmed")
+            } catch(e:CancellationException){throw e}
+            catch(e:Exception){
+                com.abrar.voyahiran.core.logging.AppLog.error("LauncherVehicle","$op=$value",e)
+                if(visible)android.widget.Toast.makeText(this@VoyahLauncherActivity,"تغییر توسط خودرو تأیید نشد",android.widget.Toast.LENGTH_LONG).show()
+            } finally {vehiclePage.busy=false}
+        }
+    }
+    override fun onNewIntent(intent:Intent){super.onNewIntent(intent);pager.show(0)}
+    @Deprecated("Legacy Back callback") override fun onBackPressed(){if(pager.page==1)pager.show(0) else super.onBackPressed()}
+    override fun onStop(){visible=false;updatePageWork();preview?.stopMonitoring();weather.stop();ticker?.cancel();super.onStop()}
+    override fun onDestroy(){vehiclePage.artwork.close();compass.stop();preview?.close();preview=null;super.onDestroy()}
 }
