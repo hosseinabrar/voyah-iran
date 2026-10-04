@@ -1,6 +1,9 @@
 ﻿[CmdletBinding()]
 param(
     [string]$Apk,
+    [string]$Mapping,
+    [string]$ProtectedRun,
+    [switch]$FastCompression,
     [string]$PlatformTools,
     [string]$JavaRuntime,
     [string]$Apktool,
@@ -11,8 +14,10 @@ $androidRoot = Join-Path $PSScriptRoot '..\..\voyah-iran'
 $roaDescriptor = 'Lcom/abrar/voyahiran/core/bridge/RoaHookManager;'
 if (-not $Apk) {
     $runs = Join-Path $androidRoot 'build\raha-protected'
-    $signed = Get-ChildItem -LiteralPath $runs -Filter signed-report.json -Recurse -File |
-        Sort-Object { $_.Directory.Name } -Descending | Select-Object -First 1
+    $signed = if ($ProtectedRun) { Get-Item -LiteralPath (Join-Path $ProtectedRun 'signed-report.json') } else {
+        Get-ChildItem -LiteralPath $runs -Filter signed-report.json -Recurse -File |
+            Sort-Object { $_.Directory.Name } -Descending | Select-Object -First 1
+    }
     if (-not $signed) { throw 'No signed protected APK. Run Protect-Raha.ps1 and Sign-Raha.ps1 before publishing.' }
     $run = $signed.Directory.FullName
     $signReport = Get-Content -LiteralPath $signed.FullName -Raw | ConvertFrom-Json
@@ -29,12 +34,18 @@ if (-not $Apk) {
         throw 'Android release has changed. Protect and sign the new release before publishing the installer.'
     }
     # R8 renames this bridge class; validate its actual descriptor in the APK.
-    $mapping = [IO.File]::ReadAllText((Join-Path $run 'mapping.txt'))
-    $mapped = [regex]::Match($mapping, '(?m)^com\.abrar\.voyahiran\.core\.bridge\.RoaHookManager -> ([^:]+):\r?$')
+    $protectedMappingText = [IO.File]::ReadAllText((Join-Path $run 'mapping.txt'))
+    $mapped = [regex]::Match($protectedMappingText, '(?m)^com\.abrar\.voyahiran\.core\.bridge\.RoaHookManager -> ([^:]+):\r?$')
     if (-not $mapped.Success) { throw 'ROA bridge mapping missing from protected release.' }
     $roaDescriptor = 'L' + $mapped.Groups[1].Value.Replace('.', '/') + ';'
     Write-Host "Using signed protected APK: $Apk"
     Write-Host "Protected APK SHA256: $($signReport.sha256)"
+}
+if ($Mapping) {
+    $mappingText=[IO.File]::ReadAllText((Resolve-Path -LiteralPath $Mapping))
+    $mapped=[regex]::Match($mappingText, '(?m)^com\.abrar\.voyahiran\.core\.bridge\.RoaHookManager -> ([^:]+):\r?$')
+    if (-not $mapped.Success) { throw 'ROA bridge mapping missing from release.' }
+    $roaDescriptor='L' + $mapped.Groups[1].Value.Replace('.', '/') + ';'
 }
 if (-not $PlatformTools) { $PlatformTools = Join-Path $PSScriptRoot '..\tools\platform-tools' }
 if (-not (Test-Path -LiteralPath $Apk -PathType Leaf)) {
@@ -151,6 +162,7 @@ $destination = Join-Path $PSScriptRoot '..\payload\bundle.zip'
 [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination)) | Out-Null
 $temporary = "$destination.$([Guid]::NewGuid().ToString('N')).new"
 if (Test-Path -LiteralPath $temporary) { Remove-Item -LiteralPath $temporary -Force }
+$compression = if ($FastCompression) { [IO.Compression.CompressionLevel]::Fastest } else { [IO.Compression.CompressionLevel]::Optimal }
 $hashes = [ordered]@{}
 $zip = [IO.Compression.ZipFile]::Open($temporary, [IO.Compression.ZipArchiveMode]::Create)
 $sha = [Security.Cryptography.SHA256]::Create()
@@ -160,7 +172,7 @@ try {
         if ($name.EndsWith('.sha256')) { $bytes = [Text.Encoding]::ASCII.GetBytes(([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-','').ToLowerInvariant()) }
         if ($name.EndsWith('.sh') -or $name.EndsWith('.rc')) { $bytes = [Text.Encoding]::ASCII.GetBytes([Text.Encoding]::UTF8.GetString($bytes).Replace("`r`n","`n").TrimStart([char]0xFEFF)) }
         $hashes[$name] = ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-','').ToLowerInvariant()
-        $stream = $zip.CreateEntry($name, [IO.Compression.CompressionLevel]::Optimal).Open()
+        $stream = $zip.CreateEntry($name, $compression).Open()
         try { $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() }
     }
     $manifest = [ordered]@{ AppVersion=$AppVersion; PatchSchema=1; Files=$hashes }
@@ -170,7 +182,3 @@ try {
 } finally { $zip.Dispose(); $sha.Dispose() }
 Move-Item -LiteralPath $temporary -Destination $destination -Force
 Write-Host "Payload prepared: $destination"
-
-
-
-
