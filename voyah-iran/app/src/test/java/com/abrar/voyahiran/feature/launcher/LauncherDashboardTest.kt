@@ -181,4 +181,33 @@ class LauncherDashboardTest {
         view.mapMessage=""
         tap(300f,300f);assertEquals(2,claims);assertEquals(1,opens)
     }
+    @Test fun launcherThemeFollowsPreferenceAndVehicle() {
+        assertTrue(LauncherTheme.resolve("light","default",0x20))
+        assertFalse(LauncherTheme.resolve("dark","simple",0x10))
+        assertTrue(LauncherTheme.resolve("vehicle","simple",0x20))
+        assertFalse(LauncherTheme.resolve(null,"default",0x10))
+        assertFalse(LauncherTheme.resolve("vehicle","modern",0x10))
+        assertTrue(LauncherTheme.resolve("vehicle",null,0x10))
+        assertFalse(LauncherTheme.resolve("vehicle",null,0x20))
+    }
+    @Test fun renderLightThemeAndSwitchBackWithoutLosingState() {
+        val view=LauncherDashboard(RuntimeEnvironment.getApplication())
+        view.layout(0,0,1775,660)
+        view.weather=LauncherWeatherState("Tehran",20.0,14.0,26.0,2,false,"")
+        view.mapMessage="unavailable"
+        for(light in listOf(true,false)) {
+            view.lightTheme=light
+            val bitmap=Bitmap.createBitmap(1775,660,Bitmap.Config.ARGB_8888)
+            val canvas=Canvas(bitmap)
+            canvas.drawColor(if(light)0xffe5ebf3.toInt() else android.graphics.Color.BLACK)
+            view.draw(canvas)
+            val pixel=bitmap.getPixel(900,100)
+            if(light) assertTrue(android.graphics.Color.red(pixel)>220) else assertTrue(android.graphics.Color.red(pixel)<100)
+            assertEquals("Tehran",view.weather.city)
+            assertEquals("unavailable",view.mapMessage)
+            val name=if(light)"launcher-light" else "launcher-dark"
+            val output=File("build/reports/launcher/$name.png");output.parentFile!!.mkdirs()
+            output.outputStream().use {bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
+        }
+    }
 }

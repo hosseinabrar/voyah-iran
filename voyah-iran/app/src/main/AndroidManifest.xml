@@ -28,7 +28,7 @@
         android:theme="@style/Theme.VoyahIran">
         <receiver android:name=".core.bridge.BridgeProvisionReceiver" android:exported="true"
             android:permission="android.permission.INSTALL_PACKAGES" />
-        <activity android:name=".feature.launcher.VoyahLauncherActivity" android:exported="true" android:launchMode="singleTask" android:screenOrientation="landscape" android:excludeFromRecents="true" android:theme="@android:style/Theme.Material.NoActionBar" />
+        <activity android:name=".feature.launcher.VoyahLauncherActivity" android:configChanges="uiMode" android:exported="true" android:launchMode="singleTask" android:screenOrientation="landscape" android:excludeFromRecents="true" android:theme="@android:style/Theme.Material.NoActionBar" />
         <activity android:name=".feature.launcher.LauncherDrawerActivity" android:exported="false" android:screenOrientation="landscape" android:excludeFromRecents="true" />
         <service android:name=".feature.launcher.LauncherDrawerService" android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" android:label="فهرست برنامه‌ها">

@@ -10,6 +10,13 @@ import java.util.Locale
 
 /** Layout coordinates match the approved 1775-pixel OEM safe area; no OEM bars are drawn. */
 class LauncherDashboard(context: Context) : View(context) {
+    var lightTheme = false
+        set(value) { if(field!=value) {field=value;invalidate()} }
+    private val foreground get() = if(lightTheme) 0xff252f3c.toInt() else Color.WHITE
+    private val secondary get() = if(lightTheme) 0xff71839e.toInt() else 0xffbfc9de.toInt()
+    private val accentTop get() = if(lightTheme) 0xff719eff.toInt() else 0xff617bbb.toInt()
+    private val accentBottom get() = if(lightTheme) 0xff3868e5.toInt() else 0xff354b86.toInt()
+    private val darkIconFilter = PorterDuffColorFilter(0xff293543.toInt(),PorterDuff.Mode.SRC_IN)
     var media = LauncherMediaState()
         set(value) { field = value; invalidate() }
     var weather = LauncherWeatherState()
@@ -22,6 +29,7 @@ class LauncherDashboard(context: Context) : View(context) {
         set(value) { field = value; invalidate() }
     var onMap: () -> Unit = {}
     var onShowMap: () -> Unit = {}
+    private val mapLight by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_map_default_light) }
     private val mapDefault=BitmapFactory.decodeResource(resources,R.drawable.launcher_map_default)
     var onMedia: (Int) -> Unit = {}
     var onOpenMusic: () -> Unit = {}
@@ -43,23 +51,24 @@ class LauncherDashboard(context: Context) : View(context) {
         super.onDraw(c)
         c.save(); c.scale(width / 1775f, height / 660f)
         fun card(x: Float, y: Float, w: Float, h: Float) {
-            paint.shader = LinearGradient(x,y,x+w,y+h,intArrayOf(Color.rgb(60,75,119),Color.rgb(27,35,58)),null,Shader.TileMode.CLAMP)
+            paint.shader = LinearGradient(x,y,x+w,y+h,if(lightTheme) intArrayOf(0xfffcfdff.toInt(),0xffeef4fc.toInt()) else intArrayOf(Color.rgb(60,75,119),Color.rgb(27,35,58)),null,Shader.TileMode.CLAMP)
             c.drawRoundRect(x,y,x+w,y+h,16f,16f,paint); paint.shader = null
             c.save(); c.clipPath(Path().apply { addRoundRect(RectF(x,y,x+w,y+h),16f,16f,Path.Direction.CW) })
-            paint.shader = RadialGradient(x+w/2,y+h+7,w*.5f,intArrayOf(0x776278b6,Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
+            paint.shader = RadialGradient(x+w/2,y+h+7,w*.5f,intArrayOf(if(lightTheme) 0x559ec5fc else 0x776278b6,Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
             c.save(); c.scale(1f,.13f,x+w/2,y+h); c.drawCircle(x+w/2,y+h,w*.55f,paint); c.restore(); paint.shader=null;c.restore()
         }
         card(887f,0f,428f,660f); card(1331f,0f,428f,426f); card(1331f,442f,428f,218f)
         if(mapMessage.isNotEmpty()) {
             c.save();c.clipPath(Path().apply {addRoundRect(RectF(0f,0f,871f,660f),16f,16f,Path.Direction.CW)})
+            val mapDefault=if(lightTheme)mapLight else mapDefault
             val scale=maxOf(871f/mapDefault.width,660f/mapDefault.height)
             val dw=mapDefault.width*scale;val dh=mapDefault.height*scale
             paint.color=Color.WHITE;c.drawBitmap(mapDefault,null,RectF((871f-dw)/2,(660f-dh)/2,(871f+dw)/2,(660f+dh)/2),paint);c.restore()
         }
         c.save();c.clipRect(0f,0f,871f,660f)
-        paint.shader=RadialGradient(435f,667f,435f,intArrayOf(0x556278b6,Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
+        paint.shader=RadialGradient(435f,667f,435f,intArrayOf(if(lightTheme) 0x449ec5fc else 0x556278b6,Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
         c.scale(1f,.13f,435f,660f);c.drawCircle(435f,660f,450f,paint);paint.shader=null;c.restore()
-        fun text(t: String,x:Float,y:Float,size:Float,color:Int=Color.WHITE,center:Boolean=false,bold:Boolean=false,fa:Boolean=false) {
+        fun text(t: String,x:Float,y:Float,size:Float,color:Int=foreground,center:Boolean=false,bold:Boolean=false,fa:Boolean=false) {
             paint.color=color;paint.textSize=size
             val usePersian=fa || t.any { it in '\u0600'..'\u06ff' || it in '\u0750'..'\u077f' || it in '\u08a0'..'\u08ff' || it in '\ufb50'..'\ufdff' || it in '\ufe70'..'\ufeff' }
             paint.typeface=if(usePersian) {if(bold)persianBold else persian} else {if(bold)latinBold else latin}
@@ -71,9 +80,9 @@ class LauncherDashboard(context: Context) : View(context) {
             c.drawText(value,x,y,paint)
         }
         if(mapMessage.isNotEmpty()) {
-            paint.shader=LinearGradient(285f,465f,585f,535f,0xff617bbb.toInt(),0xff354b86.toInt(),Shader.TileMode.CLAMP)
+            paint.shader=LinearGradient(285f,465f,585f,535f,accentTop,accentBottom,Shader.TileMode.CLAMP)
             c.drawRoundRect(285f,465f,585f,535f,14f,14f,paint);paint.shader=null
-            text("Show Map",435f,510f,27f,center=true)
+            text("Show Map",435f,510f,27f,Color.WHITE,center=true)
         }
         val oemIcon = sourceIcons[media.oemSource]
         val hasSourceIcon = oemIcon != null || media.sourceIcon != null
@@ -87,44 +96,59 @@ class LauncherDashboard(context: Context) : View(context) {
         c.save(); c.clipRect(911f, 0f, 1255f, 65f)
         text(media.source, if(hasSourceIcon) 951f else 911f,45f,23f)
         c.restore()
-        paint.color = 0xffe1e7f5.toInt(); paint.strokeWidth = 2.5f
+        paint.color = foreground; paint.strokeWidth = 2.5f
         c.drawLine(1280f, 27f, 1288f, 35f, paint)
         c.drawLine(1288f, 35f, 1280f, 43f, paint)
         if(media.radio) {
             text(media.title,1101f,255f,48f,center=true,bold=true)
-            text(media.artist,1101f,310f,26f,0xffbfc9de.toInt(),center=true)
+            text(media.artist,1101f,310f,26f,secondary,center=true)
         } else {
             val cover = media.cover ?: defaultCover
             val rect=RectF(971f,82f,1231f,342f)
             c.save();c.clipPath(Path().apply{addRoundRect(rect,12f,12f,Path.Direction.CW)})
-            paint.color=Color.WHITE;c.drawBitmap(cover,null,rect,paint);c.restore()
+            paint.color=Color.WHITE
+            if(lightTheme && media.cover==null) {
+                paint.color=0xffdce8f7.toInt();c.drawRect(rect,paint)
+                paint.color=0xffeaf1fa.toInt();c.drawCircle(1101f,212f,92f,paint)
+                paint.color=0xffd3e2f3.toInt();c.drawCircle(1101f,212f,31f,paint)
+            } else c.drawBitmap(cover,null,rect,paint)
+            c.restore()
             text(media.title,1101f,393f,32f,center=true,bold=true)
-            text(media.artist,1101f,435f,23f,0xffbfc9de.toInt(),center=true)
+            text(media.artist,1101f,435f,23f,secondary,center=true)
         }
         if(!media.radio) {
-            paint.color=if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,480f,1291f,480f,paint)
-            if(media.duration>0) { paint.color=if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,480f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),480f,paint) }
+            paint.color=if(lightTheme) 0xffcdd9e8.toInt() else if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,480f,1291f,480f,paint)
+            if(media.duration>0) { paint.color=if(lightTheme) 0xff668cce.toInt() else if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,480f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),480f,paint) }
             fun time(ms:Long)=String.format(Locale.US,"%d:%02d",ms/60000,ms/1000%60)
             text(time(media.position),911f,509f,17f);text(time(media.duration),1250f,509f,17f)
         }
-        paint.shader=LinearGradient(1060f,545f,1140f,625f,0xff617bbb.toInt(),0xff354b86.toInt(),Shader.TileMode.CLAMP)
+        paint.shader=LinearGradient(1060f,545f,1140f,625f,accentTop,accentBottom,Shader.TileMode.CLAMP)
         c.drawCircle(1101f,576f,38f,paint);paint.shader=null
-        listOf(987f to icons[0],1101f to icons[if(media.playing)2 else 1],1215f to icons[3]).forEach { (x,b)->c.drawBitmap(b,null,RectF(x-18,558f,x+18,594f),paint) }
+        listOf(987f to icons[0],1101f to icons[if(media.playing)2 else 1],1215f to icons[3]).forEach { (x,b)->
+            paint.colorFilter=if(lightTheme && x!=1101f)darkIconFilter else null
+            c.drawBitmap(b,null,RectF(x-18,558f,x+18,594f),paint)
+        }
+        paint.colorFilter=null
         val now=Calendar.getInstance();val cx=1545f;val cy=177f
-        paint.color=0xff252726.toInt();c.drawCircle(cx,cy,124f,paint)
-        for(i in 0..59) { c.save();c.rotate(i*6f,cx,cy);paint.color=0xffe6eaf1.toInt();paint.strokeWidth=if(i%5==0)2f else 1f;c.drawLine(cx,cy-116,cx,cy-if(i%5==0)107 else 112,paint);c.restore() }
-        fun hand(degrees:Float,length:Float,stroke:Float) {c.save();c.rotate(degrees,cx,cy);paint.color=0xffedf3ff.toInt();paint.strokeWidth=stroke;paint.strokeCap=Paint.Cap.ROUND;c.drawLine(cx,cy,cx,cy-length,paint);paint.strokeCap=Paint.Cap.BUTT;c.restore()}
+        if(lightTheme) {
+            paint.shader=RadialGradient(cx,cy+4,135f,intArrayOf(0x00344358,0x00344358,0x22344358,Color.TRANSPARENT),floatArrayOf(0f,.86f,.93f,1f),Shader.TileMode.CLAMP)
+            c.drawCircle(cx,cy+4,135f,paint);paint.shader=null
+            paint.shader=LinearGradient(cx-100,cy-100,cx+100,cy+124,0xffffffff.toInt(),0xffedf0f4.toInt(),Shader.TileMode.CLAMP)
+        } else paint.color=0xff252726.toInt()
+        c.drawCircle(cx,cy,124f,paint);paint.shader=null
+        for(i in 0..59) { c.save();c.rotate(i*6f,cx,cy);paint.color=if(lightTheme)foreground else 0xffe6eaf1.toInt();paint.strokeWidth=if(i%5==0)2f else 1f;c.drawLine(cx,cy-116,cx,cy-if(i%5==0)107 else 112,paint);c.restore() }
+        fun hand(degrees:Float,length:Float,stroke:Float) {c.save();c.rotate(degrees,cx,cy);paint.color=if(lightTheme)foreground else 0xffedf3ff.toInt();paint.strokeWidth=stroke;paint.strokeCap=Paint.Cap.ROUND;c.drawLine(cx,cy,cx,cy-length,paint);paint.strokeCap=Paint.Cap.BUTT;c.restore()}
         hand((now.get(Calendar.HOUR)%12)*30f+now.get(Calendar.MINUTE)*.5f,65f,5f)
         hand(now.get(Calendar.MINUTE)*6f+now.get(Calendar.SECOND)*.1f,84f,4f)
-        paint.color=0xffdfeaff.toInt();c.drawCircle(cx,cy,7f,paint)
+        paint.color=if(lightTheme)foreground else 0xffdfeaff.toInt();c.drawCircle(cx,cy,7f,paint)
         text(LauncherClock.persianDate(now.timeInMillis),cx,349f,26f,center=true,fa=true)
-        text(LauncherClock.gregorianDate(now.timeInMillis),cx,387f,17f,0xffb8c4df.toInt(),center=true)
+        text(LauncherClock.gregorianDate(now.timeInMillis),cx,387f,17f,secondary,center=true)
         fun degree(value: Double?) = value?.let { String.format(Locale.US,"%.0f°",it) } ?: "—"
         c.save();c.clipRect(1355f,455f,1588f,640f)
         text(weather.city,1387f,494f,23f)
         text(degree(weather.temperature),1387f,548f,51f)
-        text(if(weather.temperature==null) weather.notice else LauncherWeatherCode.description(weather.code),1387f,580f,19f,0xffc3cfe5.toInt())
-        if(weather.temperature!=null) text(degree(weather.high)+" / "+degree(weather.low),1387f,608f,18f,0xffc3cfe5.toInt())
+        text(if(weather.temperature==null) weather.notice else LauncherWeatherCode.description(weather.code),1387f,580f,19f,secondary)
+        if(weather.temperature!=null) text(degree(weather.high)+" / "+degree(weather.low),1387f,608f,18f,secondary)
         c.restore()
         if(weather.temperature != null) {
             if (!weather.day && weather.code in 0..2) {
@@ -138,7 +162,7 @@ class LauncherDashboard(context: Context) : View(context) {
                 weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1577f,462f,1757f,642f),paint) }
             }
         }
-        text("Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",1355f,646f,12f,0xffb8c4df.toInt())
+        text("Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",1355f,646f,12f,secondary)
         c.restore()
     }
     override fun onTouchEvent(e: MotionEvent): Boolean {

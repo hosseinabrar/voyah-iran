@@ -91,10 +91,12 @@ class VoyahLauncherActivity : ComponentActivity() {
             layoutContent()
         }
         preview?.startMonitoring()
+        updateTheme()
         weather.start()
         ticker?.cancel()
         ticker=lifecycleScope.launch {
             while(isActive) {
+                updateTheme()
                 dashboard.media=withContext(Dispatchers.IO){ runCatching {
                     val state=LauncherMedia.read(this@VoyahLauncherActivity)
                     if(state.cover==null) state.copy(cover=artwork.load(state.coverUri)) else state
@@ -103,6 +105,15 @@ class VoyahLauncherActivity : ComponentActivity() {
                 delay(1000)
             }
         }
+    }
+    private fun updateTheme() {
+        val light=LauncherTheme.isLight(this)
+        dashboard.lightTheme=light
+        container.setBackgroundColor(if(light)0xffe5ebf3.toInt() else Color.BLACK)
+    }
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        updateTheme()
     }
     // Android 9 may pause the host when the map resumes on its virtual display; it is still visible.
     override fun onStop(){preview?.stopMonitoring();weather.stop();ticker?.cancel();super.onStop()}
