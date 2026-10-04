@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
@@ -17,8 +17,8 @@
   </ItemGroup>
   <!-- Refresh before resource embedding, not BeforePublish (which is too late). -->
   <Target Name="PrepareVoyahPayload" BeforeTargets="PrepareForBuild" Condition="'$(DesignTimeBuild)' != 'true'">
-    <Exec Condition="'$(Configuration)' == 'Release'" Command="powershell.exe -STA -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\build\Publish-Android.ps1&quot;" />
-    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\build\Prepare-Payload.ps1&quot;" />
+    <Exec Condition="'$(Configuration)' == 'Release'" Command="powershell.exe -STA -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\build\Publish-Android.ps1&quot; -PreparePayload -ReuseUnchanged" />
+    <Exec Condition="'$(Configuration)' != 'Release'" Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\build\Prepare-Payload.ps1&quot;" />
   </Target>
   <Target Name="RejectStalePayloadPublish" BeforeTargets="Publish" Condition="'$(NoBuild)' == 'true'">
     <Error Text="Publish with NoBuild is unsupported: publish with build enabled so the latest Android payload is embedded." />
@@ -32,5 +32,3 @@
     <Message Importance="high" Text="Installer: $(_InstallerVersioned)" />
   </Target>
 </Project>
-
-

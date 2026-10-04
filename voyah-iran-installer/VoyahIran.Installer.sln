@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoyahIran.Installer", "src\VoyahIran.Installer\VoyahIran.Installer.csproj", "{1AC45477-1467-442F-A281-F74F81FEED56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoyahIran.Installer.Tests", "tests\VoyahIran.Installer.Tests\VoyahIran.Installer.Tests.csproj", "{6F1820BC-E51A-42D9-829A-700BB44C7EC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Settings", "Build Settings", "{84799F77-296C-4FB0-B877-54070F6C0C2B}"
+	ProjectSection(SolutionItems) = preProject
+		Build Settings.cmd = Build Settings.cmd
+		build\BUILD-SETTINGS.md = build\BUILD-SETTINGS.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

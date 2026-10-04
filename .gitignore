@@ -45,3 +45,7 @@ Desktop.ini
 
 # Local reverse-engineering intermediates
 /work/
+
+# Per-user encrypted build credentials and local publish settings
+/voyah-iran-installer/build/BuildSettings.local.json*
+/voyah-iran-installer/build/PayloadReuse.local.json
