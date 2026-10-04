@@ -21,6 +21,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     private var mapView: TextureView? = null
     private var activeNavigator = ""
     private var ticker: Job? = null
+    private val weather by lazy { LauncherWeather(this,lifecycleScope) { dashboard.weather=it } }
     private val artwork by lazy { LauncherArtwork(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +88,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             dashboard.mapMessage=""
             layoutContent()
         }
+        weather.start()
         ticker?.cancel()
         ticker=lifecycleScope.launch {
             while(isActive) {
@@ -100,6 +102,6 @@ class VoyahLauncherActivity : ComponentActivity() {
         }
     }
     // Android 9 may pause the host when the map resumes on its virtual display; it is still visible.
-    override fun onStop(){ticker?.cancel();super.onStop()}
+    override fun onStop(){weather.stop();ticker?.cancel();super.onStop()}
     override fun onDestroy(){preview?.close();preview=null;super.onDestroy()}
 }

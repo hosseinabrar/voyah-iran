@@ -12,6 +12,10 @@ import java.util.Locale
 class LauncherDashboard(context: Context) : View(context) {
     var media = LauncherMediaState()
         set(value) { field = value; invalidate() }
+    var weather = LauncherWeatherState()
+        set(value) { field=value; invalidate() }
+    private var weatherIconId = 0
+    private var weatherBitmap: Bitmap? = null
     var mapMessage = ""
         set(value) { field = value; invalidate() }
     var onMap: () -> Unit = {}
@@ -96,7 +100,29 @@ class LauncherDashboard(context: Context) : View(context) {
         paint.color=0xffdfeaff.toInt();c.drawCircle(cx,cy,7f,paint)
         text(LauncherClock.persianDate(now.timeInMillis),cx,349f,26f,center=true,fa=true)
         text(LauncherClock.gregorianDate(now.timeInMillis),cx,387f,17f,0xffb8c4df.toInt(),center=true)
-        text("Weather",1387f,530f,23f);text("—",1387f,588f,51f)
+        fun degree(value: Double?) = value?.let { String.format(Locale.US,"%.0f°",it) } ?: "—"
+        c.save();c.clipRect(1355f,455f,1588f,640f)
+        text(weather.city,1387f,494f,23f)
+        text(degree(weather.temperature),1387f,548f,51f)
+        text(if(weather.temperature==null) weather.notice else LauncherWeatherCode.description(weather.code),1387f,580f,19f,0xffc3cfe5.toInt())
+        if(weather.temperature!=null) text(degree(weather.high)+" / "+degree(weather.low),1387f,608f,18f,0xffc3cfe5.toInt())
+        c.restore()
+        if(weather.temperature != null) {
+            if (!weather.day && weather.code in 0..2) {
+                val moon=Path().apply {addCircle(1664f,540f,47f,Path.Direction.CW)}
+                moon.op(Path().apply{addCircle(1686f,523f,43f,Path.Direction.CW)},Path.Op.DIFFERENCE)
+                paint.color=0xffe9edf6.toInt();c.drawPath(moon,paint)
+                if(weather.code==2) {
+                    paint.color=0xffbdc5d5.toInt();c.drawRoundRect(1620f,558f,1710f,583f,13f,13f,paint)
+                    c.drawCircle(1655f,553f,24f,paint)
+                }
+            } else {
+                val id=LauncherWeatherCode.icon(if(!weather.day && weather.code in 80..82) 63 else weather.code)
+                if(id!=weatherIconId) { weatherIconId=id;weatherBitmap=BitmapFactory.decodeResource(resources,id) }
+                weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1577f,462f,1757f,642f),paint) }
+            }
+        }
+        text("Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",1355f,646f,12f,0xffb8c4df.toInt())
         c.restore()
     }
     override fun onTouchEvent(e: MotionEvent): Boolean {
