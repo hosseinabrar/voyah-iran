@@ -5,7 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
-import android.view.TextureView
+import android.view.SurfaceView
 import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
@@ -27,7 +27,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     private var lastVehicleRead=0L
     private val compass by lazy { LauncherCompass(this) {vehiclePage.compass=it} }
     private var preview: LauncherMapPreview? = null
-    private var mapView: TextureView? = null
+    private var mapView: SurfaceView? = null
     private var activeNavigator = ""
     private var ticker: Job? = null
     private val weather by lazy { LauncherWeather(this,lifecycleScope) { dashboard.weather=it } }
@@ -94,14 +94,14 @@ class VoyahLauncherActivity : ComponentActivity() {
         val lp=FrameLayout.LayoutParams(width,height).apply{leftMargin=left;topMargin=top}
         if(pager.parent==null)container.addView(pager,lp) else pager.layoutParams=lp
         if(preview==null) {
-            val map=TextureView(this)
+            val map=SurfaceView(this)
             mapView=map
             map.clipToOutline=true
             map.outlineProvider=object:android.view.ViewOutlineProvider(){override fun getOutline(v:View,o:android.graphics.Outline){o.setRoundRect(0,0,v.width,v.height,16f)}}
             val navigator=NavigationPreferences(this).navigator
             activeNavigator=navigator
-            preview=LauncherMapPreview(this,lifecycleScope) { dashboard.mapMessage=it }.also {it.packageName(navigator)}
-            map.surfaceTextureListener=preview
+            preview=LauncherMapPreview(this,lifecycleScope,{ dashboard.mapMessage=it },map).also {it.packageName(navigator)}
+            map.holder.addCallback(preview!!)
             preview?.startMonitoring()
             firstPage.addView(map,0,FrameLayout.LayoutParams((width*871f/1775).toInt(),height))
         } else mapView?.layoutParams=FrameLayout.LayoutParams((width*871f/1775).toInt(),height)

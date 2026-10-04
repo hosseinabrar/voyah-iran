@@ -1,0 +1,6 @@
+HiddenApiBypass 6.1 (Apache-2.0)
+Upstream: https://github.com/LSPosed/AndroidHiddenApiBypass
+Artifact: https://repo.maven.apache.org/maven2/org/lsposed/hiddenapibypass/hiddenapibypass/6.1/hiddenapibypass-6.1.aar
+SHA256: e3161dd21c97a4540b1698a33f7062aeaa1450008e1e2176070e5380f7a6324c
+Used only for process-local access to native map SurfaceControl embedding APIs on Android 10+.
+License: hiddenapibypass-LICENSE.txt
