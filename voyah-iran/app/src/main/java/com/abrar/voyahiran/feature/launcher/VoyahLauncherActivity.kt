@@ -83,7 +83,11 @@ class VoyahLauncherActivity : ComponentActivity() {
     }
     override fun onResume() {
         super.onResume()
-        if(!LauncherPreferences.enabled(this) || !(application as VoyahIranApplication).subscriptions.allowed || (window.decorView.display?.displayId ?:0)!=0) {finish();return}
+        val enabled=LauncherPreferences.enabled(this)
+        val subscribed=(application as VoyahIranApplication).subscriptions.allowed
+        val screen=window.decorView.display?.displayId ?:0
+        com.abrar.voyahiran.core.logging.AppLog.info("LauncherHome","resume enabled=$enabled subscription=$subscribed display=$screen")
+        if(!enabled || !subscribed || screen!=0) {finish();return}
         if(preview!=null && activeNavigator!=NavigationPreferences(this).navigator) {
             preview?.close();preview=null
             mapView?.let(container::removeView);mapView=null

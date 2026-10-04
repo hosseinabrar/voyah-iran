@@ -7,31 +7,39 @@ Java.perform(function () {
     const Global = Java.use('android.provider.Settings' + String.fromCharCode(36) + 'Global');
     const Intent = Java.use('android.content.Intent');
     const Options = Java.use('android.app.ActivityOptions');
-    const View = Java.use('android.view.View');
-    const click = View.performClick.overload();
     function allowed(ctx) {
         const until = Number(Global.getString(ctx.getContentResolver(), 'voyah_iran_launcher_lease'));
         const remaining = until - Date.now();
         return remaining > 0 && remaining <= 90000 && Global.getInt(ctx.getContentResolver(), 'voyah_iran_launcher_home', 0) === 1;
     }
-    click.implementation = function () {
-        try {
-            const display = this.getDisplay();
-            if (display !== null && display.getDisplayId() === 0 && this.getId() !== -1 &&
-                this.getResources().getResourceEntryName(this.getId()).toString() === 'screen_up_home_icon' &&
-                allowed(this.getContext())) {
-                const intent = Intent.${'$'}new();
-                intent.setClassName('com.abrar.voyahiran', 'com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity');
-                intent.addFlags(0x10000000 | 0x04000000);
-                const options = Options.makeBasic(); options.setLaunchDisplayId(0);
-                this.getContext().startActivity(intent, options.toBundle());
-                console.log('VI_HOME central launcher opened');
-                return true;
-            }
-        } catch(e) { console.log('VI_HOME fallback ' + e); }
-        return click.call(this);
-    };
-    console.log('VI_HOME_READY');
+    // Hook the actual OEM listener; framework performClick can be bypassed by ART compiled callers.
+    try {
+        const Bar = Java.use('com.qinggan.launcher.navigation.NavigationBarMain');
+        const click = Bar.onClick.overload('android.view.View');
+        click.implementation = function (view) {
+            try {
+                const name = view.getId() === -1 ? '' : String(view.getResources().getResourceEntryName(view.getId()));
+                if (name === 'screen_up_home_icon' || name === 'screen_down_home_icon') {
+                    const screen = Number(this.mScreenId.value);
+                    const ctx = this.getContext();
+                    const enabled = Global.getInt(ctx.getContentResolver(), 'voyah_iran_launcher_home', 0);
+                    const remaining = Number(Global.getString(ctx.getContentResolver(), 'voyah_iran_launcher_lease')) - Date.now();
+                    console.log('VI_HOME_CLICK display=' + screen + ' enabled=' + enabled + ' leaseMs=' + remaining);
+                    if (screen === 0 && allowed(ctx)) {
+                        const intent = Intent.${'$'}new();
+                        intent.setClassName('com.abrar.voyahiran', 'com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity');
+                        intent.addFlags(0x10000000 | 0x04000000);
+                        const options = Options.makeBasic(); options.setLaunchDisplayId(0);
+                        ctx.startActivity(intent, options.toBundle());
+                        console.log('VI_HOME central launcher opened');
+                        return;
+                    }
+                }
+            } catch(e) { console.log('VI_HOME fallback ' + e); }
+            return click.call(this, view);
+        };
+        console.log('VI_HOME_READY listener=NavigationBarMain.onClick');
+    } catch(e) { console.log('VI_HOME_UNAVAILABLE ' + e); }
     // Same factory MediaManager consumed by the CCC card. No notification parsing.
     try {
         const Manager = Java.use('com.qinggan.app.mediaCentre.MediaManager');
