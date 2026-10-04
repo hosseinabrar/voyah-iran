@@ -24,6 +24,7 @@ object BridgeServer {
         check(token.matches(Regex("[a-f0-9]{64}")))
         val runner = ProcessCommandRunner(useBridge = false)
         SystemLoggingControl.restoreAtBoot()
+        LocalProfileTest.startAtBoot()
         // App stopping is suspended pending vehicle tests; boost controls system logging only.
         roa.start()
         neshan.start()
