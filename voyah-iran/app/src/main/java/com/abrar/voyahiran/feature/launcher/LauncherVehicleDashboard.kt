@@ -135,6 +135,12 @@ class LauncherVehicleDashboard(context:Context):View(context) {
             var x=rect.left
             listOf(190f,130f,100f,156f).forEachIndexed {i,ww->val end=x+ww*575/576;c.drawBitmap(artwork.wheels[i],null,RectF(x,rect.top,end,rect.bottom),p);x=end}
         } else artwork.body?.let {c.drawBitmap(it,null,rect,p)}
+        // Fixed callout endpoint below the body even in the Lowest suspension frame.
+        if(ground!=null) {
+            p.color=muted;p.strokeWidth=1.5f;p.style=Paint.Style.STROKE
+            c.drawPath(Path().apply {moveTo(1618f,438f);lineTo(1588f,438f);lineTo(1558f,380f)},p)
+            p.style=Paint.Style.FILL;c.drawCircle(1558f,380f,2.5f,p)
+        }
         text(c,ground?.let{String.format(Locale.US,"%.0f mm",it)} ?: "— mm",1630f,446f,23f)
         driveIcons[state.drive]?.let {
             p.colorFilter=if(lightTheme)PorterDuffColorFilter(fg,PorterDuff.Mode.SRC_IN) else null
