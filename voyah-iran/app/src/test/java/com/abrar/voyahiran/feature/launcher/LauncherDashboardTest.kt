@@ -53,7 +53,15 @@ class LauncherDashboardTest {
         }
         tap(900f,640f);assertEquals(1,opened)
         tap(1101f,576f);assertEquals(1,control);assertEquals(1,opened)
-        tap(1101f,480f);assertEquals(50000L,seek);assertEquals(1,opened)
+        tap(1101f,480f);assertEquals(-1L,seek);assertEquals(1,opened)
+        val session=android.media.session.MediaSession(RuntimeEnvironment.getApplication(),"seek-test")
+        try {
+            org.robolectric.Shadows.shadowOf(session.controller).setPlaybackState(android.media.session.PlaybackState.Builder()
+                .setState(android.media.session.PlaybackState.STATE_PAUSED,0,0f)
+                .setActions(android.media.session.PlaybackState.ACTION_SEEK_TO).build())
+            view.media=view.media.copy(controller=session.controller)
+            tap(1101f,480f);assertEquals(50000L,seek);assertEquals(1,opened)
+        } finally {session.release()}
     }
     @Test fun oemSourcesOpenTheirOwnPageWithoutAutoplay() {
         for(source in listOf("LOCAL_RADIO","USB_MUSIC","BT_MUSIC")) {
@@ -101,6 +109,36 @@ class LauncherDashboardTest {
         assertNull(LauncherWeather.displayState(org.json.JSONObject("""{"saved":1000000}"""),saved,true).temperature)
         assertEquals(10000L,LauncherWeather.retryInterval(true))
         assertEquals(300000L,LauncherWeather.retryInterval(false))
+    }
+    @Test fun pausedMusicIsKeptOnlyInMemoryUntilSourceChanges() {
+        val memory=LauncherMediaMemory()
+        assertEquals("no music",memory.paused(null,false).title)
+        memory.remember(LauncherMediaState("Apple Music","Tamasha","Shadmehr",playing=true,position=84000,duration=228000,sourcePackage="com.apple.android.music"))
+        val paused=memory.paused(null,false)
+        assertEquals("Tamasha",paused.title);assertFalse(paused.playing)
+        assertEquals(84000L,paused.position);assertEquals("com.apple.android.music",paused.sourcePackage)
+        assertEquals("Tamasha",memory.paused(null,false).title)
+        assertEquals("no music",LauncherMediaMemory().paused(null,false).title)
+        assertEquals("no music",memory.paused(null,true).title)
+        memory.remember(LauncherMediaState("USB","New track",oemSource="USB_MUSIC",playing=true))
+        assertEquals("USB",memory.paused(null,false).source)
+    }
+    @Test fun neshanCityUsesStructuredCityAndRejectsErrors() {
+        assertEquals("Gorgan",LauncherCity.cityName(org.json.JSONObject("""{"status":"OK","city":"گرگان","state":"گلستان"}""")))
+        assertEquals("Tehran",LauncherCity.cityName(org.json.JSONObject("""{"status":"OK","city":"تهران"}""")))
+        assertNull(LauncherCity.cityName(org.json.JSONObject("""{"status":"ERROR","code":484}""")))
+        assertNull(LauncherCity.cityName(org.json.JSONObject("""{"status":"OK","city":null}""")))
+    }
+    @Test fun cityLookupFallsBackInOrderAndNeverDisplaysCoordinates() {
+        var calls=0
+        assertEquals("Tehran",LauncherCity.resolveUsing({"Tehran"},{calls++;"Gorgan"}))
+        assertEquals(0,calls)
+        assertEquals("Gorgan",LauncherCity.resolveUsing({null},{calls++;"Gorgan"}))
+        assertEquals(1,calls)
+        assertEquals("Gorgan",LauncherCity.resolveUsing({error("No backend")},{"Gorgan"}))
+        assertEquals("Unknown",LauncherCity.resolveUsing({" "},{null}))
+        assertEquals("Unknown",LauncherCity.resolveUsing({null},{error("Offline")}))
+        assertNull(LauncherCity.cityName(org.json.JSONObject("""{"status":"OK","state":"گلستان"}""")))
     }
     @Test fun bridgeNeverAcceptsPassengerOrShellInjectionForMap() {
         val policy=com.abrar.voyahiran.core.bridge.BridgePolicy

@@ -83,8 +83,8 @@ class LauncherDashboard(context: Context) : View(context) {
             text(media.artist,1101f,435f,23f,0xffbfc9de.toInt(),center=true)
         }
         if(!media.radio) {
-            paint.color=0xff7c879f.toInt();paint.strokeWidth=4f;c.drawLine(911f,480f,1291f,480f,paint)
-            if(media.duration>0) { paint.color=Color.WHITE;c.drawLine(911f,480f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),480f,paint) }
+            paint.color=if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,480f,1291f,480f,paint)
+            if(media.duration>0) { paint.color=if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,480f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),480f,paint) }
             fun time(ms:Long)=String.format(Locale.US,"%d:%02d",ms/60000,ms/1000%60)
             text(time(media.position),911f,509f,17f);text(time(media.duration),1250f,509f,17f)
         }
@@ -134,7 +134,7 @@ class LauncherDashboard(context: Context) : View(context) {
                     y in 536f..616f && x in 947f..1027f -> onMedia(0)
                     y in 536f..616f && x in 1061f..1141f -> onMedia(1)
                     y in 536f..616f && x in 1175f..1255f -> onMedia(2)
-                    !media.radio && media.duration > 0 && x in 911f..1291f && y in 455f..505f -> onSeek(((x-911f)/380f*media.duration).toLong())
+                    !media.radio && x in 911f..1291f && y in 455f..505f -> { if(media.canSeek) onSeek(((x-911f)/380f*media.duration).toLong()) }
                     else -> onOpenMusic()
                 }
             }

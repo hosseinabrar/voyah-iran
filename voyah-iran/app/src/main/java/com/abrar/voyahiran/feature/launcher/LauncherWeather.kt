@@ -2,7 +2,6 @@ package com.abrar.voyahiran.feature.launcher
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -98,12 +97,7 @@ internal class LauncherWeather(private val context: Context, private val scope: 
                 check(it.getJSONObject("daily").getJSONArray("temperature_2m_min").getDouble(0).isFinite())
             }
         } finally {connection.disconnect()}
-        val city=runCatching {
-            Geocoder(context,Locale.ENGLISH).getFromLocation(fix.latitude,fix.longitude,1)?.firstOrNull()?.let {
-                it.locality ?: it.subAdminArea ?: it.adminArea
-            }
-        }.getOrNull()?.takeIf { it.all { c -> c.code < 128 } }
-            ?: String.format(Locale.US,"%.2f, %.2f",fix.latitude,fix.longitude)
+        val city=LauncherCity.resolve(context,fix.latitude,fix.longitude)
         return data.put("city",city).put("lat",fix.latitude).put("lon",fix.longitude).put("saved",System.currentTimeMillis())
     }
     companion object {

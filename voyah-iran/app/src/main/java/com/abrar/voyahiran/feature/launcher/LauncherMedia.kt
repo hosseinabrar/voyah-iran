@@ -14,9 +14,14 @@ import org.json.JSONObject
 data class LauncherMediaState(val source: String = "Music", val title: String = "no music", val artist: String = "",
     val cover: Bitmap? = null, val playing: Boolean = false, val position: Long = 0, val duration: Long = 0,
     val controller: MediaController? = null, val radio: Boolean = false, val coverUri: String = "",
-    val sourcePackage: String = "", val oemSource: String = "", val sourceIcon: android.graphics.drawable.Drawable? = null)
+    val sourcePackage: String = "", val oemSource: String = "", val sourceIcon: android.graphics.drawable.Drawable? = null) {
+    val canSeek: Boolean get() = !radio && duration > 0 &&
+        ((controller?.playbackState?.actions ?: 0L) and PlaybackState.ACTION_SEEK_TO != 0L)
+}
 
 object LauncherMedia {
+    private val memory = LauncherMediaMemory()
+    private var lastOemSource = ""
     private var iconPackage = ""
     private var icon: android.graphics.drawable.Drawable? = null
     private fun appIcon(context: Context, pkg: String): android.graphics.drawable.Drawable? {
@@ -29,7 +34,11 @@ object LauncherMedia {
     fun read(context: Context): LauncherMediaState {
         val sessions = runCatching { context.getSystemService(MediaSessionManager::class.java).getActiveSessions(MediaControl.component(context)) }.getOrDefault(emptyList())
         val oem = runCatching { JSONObject(Settings.Global.getString(context.contentResolver, "voyah_iran_launcher_media")) }.getOrNull()
-        val oemActive = oem != null && SystemClock.elapsedRealtime() - oem.optLong("at", -10000) in 0..6500 && oem.optBoolean("playing")
+        val oemFresh = oem != null && SystemClock.elapsedRealtime() - oem.optLong("at", -10000) in 0..6500
+        val currentOemSource = if(oemFresh) oem!!.optString("source") else ""
+        val sourceChanged = currentOemSource.isNotBlank() && currentOemSource != "NO" && lastOemSource.isNotBlank() && lastOemSource != currentOemSource
+        if(currentOemSource.isNotBlank()) lastOemSource=currentOemSource
+        val oemActive = oemFresh && oem!!.optBoolean("playing")
         val active = sessions.firstOrNull { it.playbackState?.state == PlaybackState.STATE_PLAYING &&
             !(oemActive && it.packageName in setOf("com.qinggan.media", "com.qinggan.app.music", "com.qinggan.app.radio")) }
         if (active != null) {
@@ -38,12 +47,12 @@ object LauncherMedia {
             val duration = m?.getLong(MediaMetadata.METADATA_KEY_DURATION) ?: 0
             val elapsed = if (state != null && state.lastPositionUpdateTime > 0) ((SystemClock.elapsedRealtime() - state.lastPositionUpdateTime) * state.playbackSpeed).toLong() else 0
             val title = m?.getString(MediaMetadata.METADATA_KEY_TITLE).orEmpty().ifBlank { "no music" }
-            return LauncherMediaState(runCatching { context.packageManager.getApplicationLabel(context.packageManager.getApplicationInfo(active.packageName, 0)).toString() }.getOrDefault("Music"),
+            return memory.remember(LauncherMediaState(runCatching { context.packageManager.getApplicationLabel(context.packageManager.getApplicationInfo(active.packageName, 0)).toString() }.getOrDefault("Music"),
                 title, m?.getString(MediaMetadata.METADATA_KEY_ARTIST).orEmpty().ifBlank { "Unknown" },
                 m?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART) ?: m?.getBitmap(MediaMetadata.METADATA_KEY_ART) ?: m?.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON),
                 true, ((state?.position ?: 0) + elapsed).coerceAtLeast(0).let { if(duration > 0) it.coerceAtMost(duration) else it }, duration, active,
                 sourcePackage = active.packageName, sourceIcon = appIcon(context, active.packageName),
-                coverUri = m?.getString(MediaMetadata.METADATA_KEY_ALBUM_ART_URI) ?: m?.getString(MediaMetadata.METADATA_KEY_ART_URI) ?: m?.getString(MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI).orEmpty())
+                coverUri = m?.getString(MediaMetadata.METADATA_KEY_ALBUM_ART_URI) ?: m?.getString(MediaMetadata.METADATA_KEY_ART_URI) ?: m?.getString(MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI).orEmpty()))
         }
         if (oem != null && oemActive) {
             val radio = oem.optString("source") == "LOCAL_RADIO"
@@ -53,9 +62,30 @@ object LauncherMedia {
             } else oem.optString("title").ifBlank { if(radio) "No station" else if(oem.optString("source")=="BT_MUSIC") "Please play music" else "no music" }
             val duration=oem.optLong("duration").coerceAtLeast(0)
             val position=(oem.optLong("position") + if(oem.optLong("positionAt")>0) ((SystemClock.elapsedRealtime()-oem.optLong("positionAt"))*oem.optDouble("speed",0.0)).toLong() else 0).coerceAtLeast(0)
-            return LauncherMediaState(when(oem.optString("source")) { "LOCAL_RADIO" -> "Radio"; "BT_MUSIC", "SYSTEM_BT_MUSIC" -> "Bluetooth"; "USB_MUSIC" -> "USB"; else -> oem.optString("source").replace('_', ' ') }, title,
-                if(radio) oem.optString("band") else oem.optString("artist").ifBlank { "Unknown" }, playing = true, radio = radio, oemSource = oem.optString("source"), controller = sessions.firstOrNull { it.packageName in setOf("com.qinggan.media", "com.qinggan.app.music", "com.qinggan.app.radio") && it.playbackState?.state == PlaybackState.STATE_PLAYING }, position=if(duration>0)position.coerceAtMost(duration)else 0,duration=duration,coverUri = if(radio) "" else oem.optString("cover"))
+            return memory.remember(LauncherMediaState(when(oem.optString("source")) { "LOCAL_RADIO" -> "Radio"; "BT_MUSIC", "SYSTEM_BT_MUSIC" -> "Bluetooth"; "USB_MUSIC" -> "USB"; else -> oem.optString("source").replace('_', ' ') }, title,
+                if(radio) oem.optString("band") else oem.optString("artist").ifBlank { "Unknown" }, playing = true, radio = radio, oemSource = oem.optString("source"), controller = sessions.firstOrNull { it.packageName in setOf("com.qinggan.media", "com.qinggan.app.music", "com.qinggan.app.radio") && it.playbackState?.state == PlaybackState.STATE_PLAYING }, position=if(duration>0)position.coerceAtMost(duration)else 0,duration=duration,coverUri = if(radio) "" else oem.optString("cover")))
         }
-        return LauncherMediaState()
+        val previous = memory.last
+        val controller = sessions.firstOrNull { it.packageName == previous?.controller?.packageName ||
+            (previous?.sourcePackage?.isNotEmpty()==true && it.packageName==previous.sourcePackage) ||
+            (previous?.oemSource?.isNotEmpty()==true && it.packageName in setOf("com.qinggan.media", "com.qinggan.app.music", "com.qinggan.app.radio")) }
+        return memory.paused(controller, sourceChanged)
+    }
+}
+
+/** Process RAM only: intentionally no preferences, files or saved-instance state. */
+internal class LauncherMediaMemory {
+    var last: LauncherMediaState? = null
+        private set
+    fun remember(state: LauncherMediaState): LauncherMediaState {
+        last=state
+        return state
+    }
+    fun paused(controller: MediaController?, sourceChanged: Boolean): LauncherMediaState {
+        if(sourceChanged) last=null
+        val previous=last ?: return LauncherMediaState()
+        val position=controller?.playbackState?.position?.takeIf {it>=0} ?: previous.position
+        return previous.copy(playing=false,controller=controller,position=if(previous.duration>0) position.coerceAtMost(previous.duration) else position)
+            .also {last=it}
     }
 }

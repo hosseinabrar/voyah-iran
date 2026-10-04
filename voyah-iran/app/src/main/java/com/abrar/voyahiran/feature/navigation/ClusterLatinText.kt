@@ -201,8 +201,9 @@ internal object ClusterLatinText {
         }
         return out.toString()
     }
-    fun convert(text: String): String {
-        val tokens = shortRoadName(text).replace(Regex("[،,؛;:()\\[\\]«»]"), " ")
+    fun convert(text: String): String = convertName(shortRoadName(text))
+    fun convertName(text: String): String {
+        val tokens = text.replace(Regex("[،,؛;:()\\[\\]«»]"), " ")
             .split(Regex("\\s+")).filter { it.isNotEmpty() }
         val out = mutableListOf<String>()
         var i = 0
