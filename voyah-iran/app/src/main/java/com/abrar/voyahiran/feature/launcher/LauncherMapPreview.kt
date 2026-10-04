@@ -23,6 +23,9 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     private var initialAttempted=false
     private var busy=false
     private val moves=Mutex()
+    // Handoff must survive Activity destruction; canceling it can strand the live task.
+    private val handoffScope=CoroutineScope(SupervisorJob()+Dispatchers.Main.immediate)
+    private var handoff:Job?=null
     var fullscreen = false
         private set
     fun packageName(value: String) { packageName = value }
@@ -83,9 +86,12 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     }
     fun open(done: () -> Unit) { if(packageName.isNotBlank())move(0,false,done) }
     fun startMonitoring() {
+        if(closed)return
         active=true
+        fullscreen=false
         view.visibility=View.VISIBLE
         runCatching {embedded.active(true)}.onFailure {error("نقشه در دسترس نیست")}
+        if(holder!=null)attachSurface()
         if(monitor?.isActive==true)return
         monitor=scope.launch {
             while(isActive && !closed && !fullscreen) {
@@ -112,14 +118,33 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         runCatching {embedded.active(false)}
         view.visibility=View.INVISIBLE
     }
+    fun hostStopped() {
+        // Opening a task may briefly pause/stop HOME while the system reparents it.
+        // Do not turn the source display off or start a competing handoff mid-transfer.
+        if(busy && !closed)return
+        stopMonitoring()
+        initialAttempted=false
+        if(handoff?.isActive==true)return
+        val id=embedded.displayId ?: run { if(closed)handoffScope.cancel();return }
+        val pkg=packageName
+        handoff=handoffScope.launch {
+            moves.withLock {
+                val result=withContext(Dispatchers.IO) {
+                    ProcessCommandRunner().run(listOf("su","0","launcher-map-release",pkg,id.toString()),10)
+                }
+                com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap","host handoff display=$id exit=${result.exitCode} ${result.output}")
+                if(closed) {embedded.close();handoffScope.cancel()}
+            }
+        }
+    }
     override fun surfaceDestroyed(h:SurfaceHolder) {
         holder=null;embedded.detach()
         if(!fullscreen)error("نقشه در دسترس نیست")
     }
     fun close() {
-        closed=true;stopMonitoring();job?.cancel()
+        closed=true;hostStopped()
         view.holder.removeCallback(this)
-        embedded.close();holder=null
+        holder=null
     }
     companion object {
         internal fun isVisibleHere(output: String, displayId: Int): Boolean =

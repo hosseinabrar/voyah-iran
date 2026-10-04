@@ -54,7 +54,7 @@ class VoyahLauncherActivity : ComponentActivity() {
                 }.setNegativeButton(android.R.string.cancel,null).show()
         }
         setContentView(container)
-        dashboard.onMap = { preview?.open { finish() } }
+        dashboard.onMap = { preview?.open { preview?.stopMonitoring() } }
         dashboard.onShowMap = { preview?.showInCard() }
         dashboard.onMedia = { button ->
             runCatching {
@@ -198,6 +198,6 @@ class VoyahLauncherActivity : ComponentActivity() {
     }
     override fun onNewIntent(intent:Intent){super.onNewIntent(intent);pager.show(0)}
     @Deprecated("Legacy Back callback") override fun onBackPressed(){if(pager.page==1)pager.show(0) else super.onBackPressed()}
-    override fun onStop(){visible=false;updatePageWork();preview?.stopMonitoring();weather.stop();ticker?.cancel();super.onStop()}
+    override fun onStop(){visible=false;updatePageWork();preview?.hostStopped();weather.stop();ticker?.cancel();super.onStop()}
     override fun onDestroy(){vehiclePage.artwork.close();compass.stop();preview?.close();preview=null;super.onDestroy()}
 }

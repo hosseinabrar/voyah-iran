@@ -36,6 +36,8 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
                 "Landroid/view/WindowManagerGlobal;->getWindow",
                 "Landroid/view/IWindowSession;->reparentDisplayContent",
                 "Landroid/view/IWindowManager;->dontOverrideDisplayInfo",
+                "Landroid/view/InputWindowHandle;",
+                "Landroid/view/SurfaceControl\$Transaction;",
                 "Landroid/hardware/display/VirtualDisplay;->setDisplayState")) {"Native embedding API access unavailable"}
             val global=Class.forName("android.view.WindowManagerGlobal")
             val session=global.getMethod("getWindowSession").invoke(null)
@@ -45,6 +47,22 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
             Class.forName("android.view.IWindowSession").getMethod("reparentDisplayContent",
                 Class.forName("android.view.IWindow"),Class.forName("android.view.SurfaceControl"),Int::class.javaPrimitiveType)
                 .invoke(session,window,control,displayId!!)
+            // reparentDisplayContent installs a native input portal. Replace it with a
+            // non-touchable handle: the dashboard, not the embedded map, owns card taps.
+            val handleType=Class.forName("android.view.InputWindowHandle")
+            val handle=handleType.getConstructor(Class.forName("android.view.InputApplicationHandle"),Int::class.javaPrimitiveType)
+                .newInstance(null,view.display.displayId)
+            handleType.getField("name").set(handle,"VoyahIran read-only map")
+            handleType.getField("layoutParamsFlags").setInt(handle,android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            val transactionType=Class.forName("android.view.SurfaceControl\$Transaction")
+            val transaction=transactionType.getConstructor().newInstance()
+            try {
+                val controlType=Class.forName("android.view.SurfaceControl")
+                transactionType.getMethod("setInputWindowInfo",controlType,handleType).invoke(transaction,control,handle)
+                transactionType.getMethod("setWindowCrop",controlType,Int::class.javaPrimitiveType,Int::class.javaPrimitiveType)
+                    .invoke(transaction,control,width,height)
+                transactionType.getMethod("apply").invoke(transaction)
+            } finally { transactionType.getMethod("close").invoke(transaction) }
             val wm=global.getMethod("getWindowManagerService").invoke(null)
             Class.forName("android.view.IWindowManager").getMethod("dontOverrideDisplayInfo",Int::class.javaPrimitiveType)
                 .invoke(wm,displayId!!)
@@ -55,6 +73,9 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         attached=true
         active(true)
     }
+    // Intentional OEM framework integration: attach() grants the process-local exemption
+    // before this API is used. Callers handle unsupported firmware by hiding the preview.
+    @android.annotation.SuppressLint("BlockedPrivateApi")
     fun active(value:Boolean) {
         if(value && attached) automationDisplayId=displayId
         else if(automationDisplayId==displayId) automationDisplayId=null
