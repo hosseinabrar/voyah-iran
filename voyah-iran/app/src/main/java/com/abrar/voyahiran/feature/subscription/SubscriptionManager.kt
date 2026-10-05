@@ -107,7 +107,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                     if(app.starBackup.read()!=null) StarBackService.request(app,StarBackService.RESUME)
                     announce()
                 }
-                val forced=withTimeoutOrNull(if(vin==null) 10000L else 30000L) { wake.receive(); true } == true
+                val forced=withTimeoutOrNull(if(allowed && !wasAllowed) 3000L else if(vin==null) 10000L else 30000L) { wake.receive(); true } == true
                 if(forced)nextRefresh=0
             }
         }
@@ -139,7 +139,10 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
         app.driveMemoryController.detach()
         DriveMemoryService.request(app,DriveMemoryService.RESUME)
         if(VoicePreferences(app).enabled) withContext(Dispatchers.IO) {
-            ProcessCommandRunner().run(listOf("su","0","raha-service","start"),5)
+            val result = ProcessCommandRunner().run(listOf("su","0","raha-service","start"),5)
+            check(result.exitCode == 0 && !result.timedOut) {
+                "Raha startup not accepted: exit=${result.exitCode} ${result.output}"
+            }
         }
         try { com.abrar.voyahiran.feature.media.MediaControl.provision(app) }
         catch (e: Exception) {
@@ -155,7 +158,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
         true
     } catch(e: Exception) {
         if(e is CancellationException) throw e
-        AppLog.info("Subscription","Feature startup deferred: ${e.javaClass.simpleName}")
+        AppLog.info("Subscription","Feature startup deferred: ${e.javaClass.simpleName}: ${e.message}")
         false
     }
 }

@@ -69,6 +69,7 @@ object BridgeServer {
                                 runner.run(listOf("/system/bin/am", "force-stop", "--user", "0", command[1]), parsed.timeout)
                             else runner.run(listOf("/system/bin/pm", "uninstall", "--user", "0", command[1]), parsed.timeout)
                         }
+                        "music-startup-hide" -> MusicStartupWindow.hide(command[1])
                         "raha-phone" -> OemPhoneBridge.execute(command)
                         "local-profile-test" -> LocalProfileTest.execute(command[1])
                         "apollo-capability" -> ApolloCapability.read()
