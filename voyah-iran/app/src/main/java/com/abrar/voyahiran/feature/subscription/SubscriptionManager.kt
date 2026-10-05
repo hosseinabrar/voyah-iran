@@ -69,6 +69,12 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                         updateRuntimeSession()
                         wasAllowed=startFeatures()
                         if(wasAllowed) { mutable.value=SubscriptionStatus.ACTIVE; announced=false }
+                        else {
+                            // Do not let DNS/HTTP renewal block retrying local startup.
+                            // Recheck grant expiry and the runtime session on every retry.
+                            delay(3000)
+                            continue
+                        }
                     }
                     syncApollo() // Apply local Voyah Iran subscription state before waiting for the network.
                     if(!allowed && wasAllowed) nextRefresh=0

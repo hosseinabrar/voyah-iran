@@ -75,6 +75,8 @@ class RahaService : Service() {
                 try {
                     if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
                         error("Microphone permission unavailable")
+                    // Model loading is asynchronous; do not serialize it behind bridge setup.
+                    if (!ready && !preparing) prepare()
                     if ((!Settings.canDrawOverlays(this@RahaService) || !highOverlayConfigured()) && SystemClock.elapsedRealtime() >= overlayRetryAt) {
                         overlayRetryAt = SystemClock.elapsedRealtime() + 10000
                         val grant = withContext(Dispatchers.IO) {
@@ -82,7 +84,6 @@ class RahaService : Service() {
                         }
                         AppLog.info("RahaFeedback", "overlay permission exit=${grant.exitCode} allowed=${Settings.canDrawOverlays(this@RahaService)} highConfigured=${highOverlayConfigured()} highConnected=${com.abrar.raha.feedback.RahaOverlayService.instance != null} detail=${grant.output}")
                     }
-                    if (!ready && !preparing) prepare()
                     if (calls.waiting && !prefs.callsEnabled) cancelInteraction()
                     if (ready) {
                         val contactsNow=com.abrar.raha.RahaContacts.revision
@@ -113,10 +114,13 @@ class RahaService : Service() {
 
     private fun prepare() {
         preparing = true
+        val startedAt = SystemClock.elapsedRealtime()
+        AppLog.info("Raha", "model initialization started")
         speech.prepare(EngineChoice.CAR_LIVE) { failure ->
             preparing = false
             ready = failure == null
             error.value = failure != null
+            AppLog.info("Raha", "model initialization finished ready=$ready elapsedMs=${SystemClock.elapsedRealtime() - startedAt}")
             if (failure != null) AppLog.error("Raha", "model initialization failed", failure)
         }
     }
