@@ -26,6 +26,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
     private val mutable = MutableStateFlow(SubscriptionStatus.CHECKING)
     val state = mutable.asStateFlow()
     val allowed: Boolean get() = SubscriptionAccessPolicy.allowed(grant,repository.now(),denied)
+    val vipAllowed: Boolean get() = SubscriptionAccessPolicy.vipAllowed(grant,repository.now(),denied)
     fun refresh() {
         if (!allowed && !denied) mutable.value = SubscriptionStatus.CHECKING
         start()
