@@ -19,7 +19,15 @@ object LocalProfileTest {
         return result.get()
     }
 
-    private fun executeOnWorker(operation: String): CommandResult {
+    private fun executeOnWorker(request: String): CommandResult {
+        val desiredFile = java.io.File("/data/local/voyahiran-login-desired")
+        val backupFile = java.io.File("/data/local/voyahiran-login-activity.state")
+        if (!desiredFile.exists()) desiredFile.writeText(if (backupFile.exists()) "1" else "0")
+        if (request == "apply" && !BridgeSubscriptionSession.vipActive) return CommandResult(126, "VIP required")
+        val desired = when(request) { "apply" -> true; "restore" -> false; else -> desiredFile.readText().trim() == "1" }
+        val operation = if(request == "reconcile") {
+            if(desired && BridgeSubscriptionSession.loginVipActive) "apply" else "restore"
+        } else request
         if (operation !in listOf("status", "apply", "restore")) return CommandResult(126, "Operation denied")
         if (!com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest)
             return CommandResult(126, "Unsupported vehicle variant")
@@ -39,6 +47,13 @@ object LocalProfileTest {
             val backup = java.io.File("/data/local/voyahiran-login-activity.state")
             val runner = ProcessCommandRunner(useBridge = false)
             pm.getActivityInfo(login, android.content.pm.PackageManager.MATCH_DISABLED_COMPONENTS)
+            if (request == "reconcile") {
+                val blocked = pm.getComponentEnabledSetting(login) == android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                if ((operation == "apply" && blocked) || (operation == "restore" && !backup.exists()))
+                    return CommandResult(0, "login_activity_blocked=$blocked login_desired=$desired")
+                if (operation == "restore" && pm.getComponentEnabledSetting(login) == backup.readText().trim().toInt())
+                    return CommandResult(0, "login_activity_blocked=$blocked login_desired=$desired")
+            }
             if (operation == "apply") {
                 pm.getActivityInfo(home, 0)
                 if (!backup.exists()) {
@@ -55,7 +70,7 @@ object LocalProfileTest {
                 check(original in 0..4)
                 pm.setComponentEnabledSetting(login, original, android.content.pm.PackageManager.DONT_KILL_APP)
                 check(pm.getComponentEnabledSetting(login) == original)
-                backup.delete()
+                if (request != "reconcile") backup.delete()
             }
             // Remove the previous click automation and boot profile writer.
             if (operation != "status") {
@@ -65,7 +80,8 @@ object LocalProfileTest {
             val state = pm.getComponentEnabledSetting(login)
             val blocked = state == android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
             check(operation != "apply" || blocked) { "Activity disable not confirmed" }
-            val output = "login_activity_blocked=$blocked componentState=$state"
+            if (request == "apply" || request == "restore") desiredFile.writeText(if(desired) "1" else "0")
+            val output = "login_activity_blocked=$blocked login_desired=$desired componentState=$state"
             com.abrar.voyahiran.core.logging.AppLog.info("LocalProfile", "operation=$operation $output")
             CommandResult(0, output)
         } catch (e: Exception) {
@@ -77,7 +93,19 @@ object LocalProfileTest {
         }
     }
 
-    fun startAtBoot() = Unit // PackageManager persists the component state across reboot.
+    fun reconcile() {
+        if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest)
+            handler.post { runCatching { executeOnWorker("reconcile") } }
+    }
+    fun startAtBoot() {
+        if (!com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) return
+        handler.post(object : Runnable {
+            override fun run() {
+                runCatching { executeOnWorker("reconcile") }
+                handler.postDelayed(this, 10_000)
+            }
+        })
+    }
 
     private val SCRIPT = """
 #!/system/bin/sh

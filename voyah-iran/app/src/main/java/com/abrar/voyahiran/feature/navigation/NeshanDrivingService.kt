@@ -20,7 +20,7 @@ class NeshanDrivingService : AccessibilityService() {
     private var tickPending = false
     private val tick = Runnable { tickPending = false; inspect() }
     private val preferences get() = NavigationPreferences(this)
-    private val enabled get() = (application as VoyahIranApplication).subscriptions.allowed &&
+    private val enabled get() = (application as VoyahIranApplication).subscriptions.vipAllowed &&
         (preferences.autoDriving || preferences.voiceNavigationEnabled)
 
     override fun onServiceConnected() {

@@ -6,6 +6,14 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun vipLeaseIsSeparateAndBounded() {
+        val request=listOf("subscription-vip-session","90","2592000")
+        assertEquals(request,BridgePolicy.resolve(request))
+        assertNull(BridgePolicy.resolve(listOf("subscription-vip-session","91","2592000")))
+        assertNull(BridgePolicy.resolve(listOf("subscription-vip-session","90","34560001")))
+        assertNull(BridgePolicy.resolve(listOf("subscription-vip-session","90","-1")))
+        assertNull(BridgePolicy.resolve(listOf("subscription-vip-session","90")))
+    }
     @Test fun phoneOperationsAreBoundedAndCannotDialUssdOrShellText() {
         val mac="AA:BB:CC:DD:EE:FF"
         for(request in listOf(listOf("raha-phone","device"),listOf("raha-phone","read",mac,"0"),listOf("raha-phone","dial",mac,"+989121234567")))

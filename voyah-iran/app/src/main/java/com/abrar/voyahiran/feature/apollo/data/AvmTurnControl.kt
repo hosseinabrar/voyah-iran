@@ -13,7 +13,7 @@ object AvmTurnControl {
     suspend fun update(context: Context, operation: String) = lock.withLock {
         if(operation != "read") check(prefs(context).edit().putBoolean("enabled",operation=="on").commit())
         val app=context.applicationContext as VoyahIranApplication
-        val desired=checked(app) && app.subscriptions.allowed
+        val desired=checked(app) && app.subscriptions.vipAllowed
         ProcessCommandRunner().run(listOf("su","0","avm-turn",if(desired) "on" else "off"),6)
     }
 }

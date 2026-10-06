@@ -25,6 +25,8 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
     private var announced = false
     private val mutable = MutableStateFlow(SubscriptionStatus.CHECKING)
     val state = mutable.asStateFlow()
+    private val vipMutable = MutableStateFlow(false)
+    val vipState = vipMutable.asStateFlow()
     val allowed: Boolean get() = SubscriptionAccessPolicy.allowed(grant,repository.now(),denied)
     val vipAllowed: Boolean get() = SubscriptionAccessPolicy.vipAllowed(grant,repository.now(),denied)
     fun refresh() {
@@ -57,6 +59,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
             var nextRefresh = 0L
             var retries = 0
             var wasAllowed = false
+            var previousVip: Boolean? = null
             while(isActive) {
                 val nowElapsed = android.os.SystemClock.elapsedRealtime()
                 try {
@@ -65,10 +68,12 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                         grant = withContext(Dispatchers.IO) { repository.cached(vin) }
                         denied = repository.blocked()
                     }
+                    vipMutable.value = vipAllowed
                     // A valid local grant unlocks features before waiting for the network.
                     if(allowed && !wasAllowed) {
                         updateRuntimeSession()
                         wasAllowed=startFeatures()
+                        if (wasAllowed) previousVip=vipAllowed
                         if(wasAllowed) { mutable.value=SubscriptionStatus.ACTIVE; announced=false }
                         else {
                             // Do not let DNS/HTTP renewal block retrying local startup.
@@ -96,6 +101,16 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                         }
                     }
                     updateRuntimeSession()
+                    if (previousVip != vipAllowed) {
+                        wasAllowed = false
+                        if (!vipAllowed) {
+                            app.stopService(Intent(app,RahaService::class.java))
+                            app.stopService(Intent(app,DriveMemoryService::class.java))
+                            app.driveMemoryController.detach()
+                        }
+                        previousVip = vipAllowed
+                    }
+                    vipMutable.value = vipAllowed
                     if(allowed) {
                         if(!wasAllowed) wasAllowed=startFeatures()
                         if(wasAllowed) { mutable.value=SubscriptionStatus.ACTIVE; announced=false }
@@ -108,6 +123,11 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                     AppLog.error("Subscription", "VIN or runtime initialization failed", e)
                 }
                 syncApollo()
+                try {
+                    withContext(Dispatchers.IO) { com.abrar.voyahiran.feature.keyboard.data.KeyboardVipControl.sync(app) }
+                } catch (e: CancellationException) { throw e }
+                catch (e: Exception) { AppLog.error("Keyboard", "VIP reconciliation failed; will retry", e) }
+                vipMutable.value = vipAllowed
                 if(!allowed) {
                     if(wasAllowed) { app.stopService(Intent(app,RahaService::class.java)); app.stopService(Intent(app,DriveMemoryService::class.java)); wasAllowed=false }
                     // Restore the star button even if the previous app process died with a recovery journal.
@@ -138,14 +158,16 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
         check(!result.timedOut && result.exitCode == 0) {
             "Runtime session was not accepted: ${result.output}"
         }
+        val vipResult=withContext(Dispatchers.IO) { ProcessCommandRunner().run(listOf("su","0","subscription-vip-session",if(vipAllowed) seconds.toString() else "0", if(vipAllowed) (grant!!.expiresAt-repository.now()).coerceIn(0,34560000).toString() else "0"),3) }
+        check(!vipResult.timedOut && vipResult.exitCode == 0) { "VIP runtime session was not accepted" }
     }
     private suspend fun startFeatures(): Boolean = try {
         if(app.starBackup.desired || app.starBackup.read()!=null) StarBackService.request(app,StarBackService.RESUME)
         // A failed read before registration may have left this shared controller running.
         // Reset its connection so start() re-arms both saved restore targets.
         app.driveMemoryController.detach()
-        DriveMemoryService.request(app,DriveMemoryService.RESUME)
-        if(VoicePreferences(app).enabled) withContext(Dispatchers.IO) {
+        if(vipAllowed) DriveMemoryService.request(app,DriveMemoryService.RESUME)
+        if(vipAllowed && VoicePreferences(app).enabled) withContext(Dispatchers.IO) {
             val result = ProcessCommandRunner().run(listOf("su","0","raha-service","start"),5)
             check(result.exitCode == 0 && !result.timedOut) {
                 "Raha startup not accepted: exit=${result.exitCode} ${result.output}"

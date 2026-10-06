@@ -20,7 +20,7 @@ internal object AvmTurnBridge {
 
     @Synchronized fun execute(operation: String): CommandResult = try {
         if (operation == "on") {
-            check(BridgeSubscriptionSession.active) { "Subscription inactive" }
+            check(BridgeSubscriptionSession.vipActive) { "Subscription inactive" }
             if (!enabled) {
                 val equipment = ApolloCapability.read()
                 check(equipment.exitCode == 0 && equipment.output == "APOLLO_CAPABILITY sdb=1") { "Baidu equipment not confirmed" }
@@ -51,7 +51,7 @@ internal object AvmTurnBridge {
         while (true) {
             val tickStarted=SystemClock.elapsedRealtime()
             try {
-                if (client == null && (!enabled || !BridgeSubscriptionSession.active)) {
+                if (client == null && (!enabled || !BridgeSubscriptionSession.vipActive)) {
                     Thread.sleep(500); continue
                 }
                 val c = client ?: Client().also {
@@ -91,7 +91,7 @@ internal object AvmTurnBridge {
                         AppLog.info("AvmTurn", "operation skipped: PDC active or unknown")
                     } else when (action) {
                         is Action.Open -> {
-                            if (visible == Visibility.HIDDEN && !c.visibilityChangedSinceRead && enabled && BridgeSubscriptionSession.active && c.speed() in 0..24) {
+                            if (visible == Visibility.HIDDEN && !c.visibilityChangedSinceRead && enabled && BridgeSubscriptionSession.vipActive && c.speed() in 0..24) {
                                 val result = c.openFromVoiceRequest()
                                 policy.openResult(result == 0, SystemClock.elapsedRealtime())
                                 AppLog.info("AvmTurn", "open side=${action.side} result=$result")
@@ -114,7 +114,7 @@ internal object AvmTurnBridge {
                         Side.RIGHT -> fresh.right==true && fresh.left==false
                         Side.FRONT -> fresh.left==false && fresh.right==false
                     }
-                    if(!signalMatches || visible!=Visibility.USER || !enabled || !BridgeSubscriptionSession.active ||
+                    if(!signalMatches || visible!=Visibility.USER || !enabled || !BridgeSubscriptionSession.vipActive ||
                         fresh.reverse!=false || fresh.pdc!=false || fresh.speedKmh !in 0..24) {
                         pending=null
                         policy.selectDeferred()
@@ -126,7 +126,7 @@ internal object AvmTurnBridge {
                         if(confirmed) pending=null
                     }
                 }
-                if (!enabled || !BridgeSubscriptionSession.active) {
+                if (!enabled || !BridgeSubscriptionSession.vipActive) {
                     c.close(); client = null; pending=null; policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN; status = "idle"
                 }
                 Thread.sleep((100-(SystemClock.elapsedRealtime()-tickStarted)).coerceAtLeast(1))
@@ -236,7 +236,7 @@ internal object AvmTurnBridge {
             check(!native.failed) { "Native AVM receiver unavailable" }
             readRevision = revision
             fun switch(name: String): Boolean? = when(state(name)) { 1 -> false; 2 -> true; else -> null }
-            return Input(enabled,BridgeSubscriptionSession.active,reverse(),speed().takeIf { it>=0 },
+            return Input(enabled,BridgeSubscriptionSession.vipActive,reverse(),speed().takeIf { it>=0 },
                 switch("LEFT_DIRECTION_LIGHT"),switch("RIGHT_DIRECTION_LIGHT"),visible,pdc())
         }
         fun openFromVoiceRequest(): Int {
@@ -277,7 +277,7 @@ internal object AvmTurnBridge {
         }
         private var selectingSide: Side? = null
         private fun safeToSelect(): Boolean {
-            if (!enabled || !BridgeSubscriptionSession.active || native.failed || visibilityChangedSinceRead ||
+            if (!enabled || !BridgeSubscriptionSession.vipActive || native.failed || visibilityChangedSinceRead ||
                 reverse() != false || pdc() != false || speed() !in 0..24) return false
             val left=state("LEFT_DIRECTION_LIGHT")
             val right=state("RIGHT_DIRECTION_LIGHT")

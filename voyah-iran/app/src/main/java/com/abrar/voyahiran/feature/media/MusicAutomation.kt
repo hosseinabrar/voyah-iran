@@ -45,7 +45,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
     private var bootLaunchPackage: String? = null
 
     fun tick() {
-        val allowed = app.subscriptions.allowed
+        val allowed = app.subscriptions.vipAllowed
         if (!allowed || !preferences.musicAutoPlay) startup?.cancel()
         if (allowed && !vehicleOff && preferences.musicAutoPlay && preferences.musicPlayer.isNotBlank() && !attempted) {
             attempted = true
@@ -59,7 +59,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
         if (allowed && (preferences.musicPauseOnDoor || preferences.musicAutoPlay)) {
             if (doors == null || doors?.isCompleted == true) doors = scope.launch {
                 try {
-                    while (isActive && app.subscriptions.allowed && (preferences.musicPauseOnDoor || preferences.musicAutoPlay)) {
+                    while (isActive && app.subscriptions.vipAllowed && (preferences.musicPauseOnDoor || preferences.musicAutoPlay)) {
                         try {
                             val door = withContext(Dispatchers.IO) { gateway.readDriverDoor() }
                             val opened = policy.doorOpened(door)
@@ -121,7 +121,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
             var launched = service == null
             repeat(10) { attempt ->
                 kotlin.coroutines.coroutineContext.ensureActive()
-                if (!app.subscriptions.allowed || vehicleOff || !preferences.musicAutoPlay || preferences.musicPlayer != selection) return
+                if (!app.subscriptions.vipAllowed || vehicleOff || !preferences.musicAutoPlay || preferences.musicPlayer != selection) return
                 if (context.getSystemService(AudioManager::class.java).mode != AudioManager.MODE_NORMAL) return
                 val controllers = sessions()
                 if (controllers.any { it.packageName != packageName && playing(it) }) {

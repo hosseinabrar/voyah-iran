@@ -83,6 +83,7 @@ object BridgeServer {
                         "neshan-direct" -> neshan.command(command[1])
                         "cluster-navigation" -> OemClusterNavigation.command(command)
                         "subscription-vin" -> VehicleIdentity.read()
+                        "subscription-vip-session" -> BridgeSubscriptionSession.updateVip(command[1].toInt(), command[2].toInt())
                         "subscription-session" -> BridgeSubscriptionSession.update(command[1].toInt())
                         "raha-command" -> RahaVehicleBridge.execute(command[1], command[2])
                         "raha-seat-ui" -> OemSeatPopup.show()

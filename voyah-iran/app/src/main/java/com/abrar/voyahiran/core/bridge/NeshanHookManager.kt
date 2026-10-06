@@ -153,7 +153,7 @@ internal class NeshanHookManager {
     }
     private fun tick() {
         refreshConfig()
-        if (!BridgeSubscriptionSession.active || !flag.exists()) { stop(); return }
+        if (!BridgeSubscriptionSession.vipActive || !flag.exists()) { stop(); return }
         if (now() >= pidCheckAt) {
             cachedPid = targetPid(); pidCheckAt = now() + 1000
         }

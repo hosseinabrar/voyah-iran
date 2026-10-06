@@ -14,6 +14,11 @@ class KeyboardViewModel(application: Application) : AndroidViewModel(application
     private val repository = KeyboardRepository(AndroidKeyboardPort(application))
     private val mutable = MutableStateFlow(KeyboardUiState())
     val state = mutable.asStateFlow()
+    init {
+        viewModelScope.launch {
+            com.abrar.voyahiran.feature.keyboard.data.KeyboardVipControl.changes.collect { refresh() }
+        }
+    }
     fun refresh() = perform(null)
     fun setEnabled(enabled: Boolean) = perform(enabled)
     private fun perform(enabled: Boolean?) {
@@ -23,7 +28,8 @@ class KeyboardViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             try {
                 val actual = withContext(Dispatchers.IO) {
-                    if (enabled == null) repository.read() else repository.setEnabled(enabled)
+                    if (enabled == null) repository.read() else
+                        com.abrar.voyahiran.feature.keyboard.data.KeyboardVipControl.setEnabled(getApplication(), enabled)
                 }
                 mutable.value = KeyboardUiState(actual)
                 com.abrar.voyahiran.core.logging.AppLog.info("Keyboard", "current=${actual.current} gboardInstalled=${actual.gboard != null} selected=${actual.enabled}")

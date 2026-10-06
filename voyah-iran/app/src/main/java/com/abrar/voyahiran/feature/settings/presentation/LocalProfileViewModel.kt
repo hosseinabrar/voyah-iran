@@ -37,7 +37,12 @@ class LocalProfileViewModel : ViewModel() {
                 check(result.exitCode == 0 && !result.timedOut && enabled != null) { "Unconfirmed state" }
                 check(operation != "apply" || enabled) { "Enable not confirmed" }
                 check(operation != "restore" || !enabled) { "Disable not confirmed" }
-                mutable.value = LocalProfileUiState(enabled=enabled)
+                val desired = when {
+                    result.output.contains("login_desired=true") -> true
+                    result.output.contains("login_desired=false") -> false
+                    else -> enabled
+                }
+                mutable.value = LocalProfileUiState(enabled=desired)
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {
                 AppLog.error("LocalProfile", "Unable to confirm activation setting", e)

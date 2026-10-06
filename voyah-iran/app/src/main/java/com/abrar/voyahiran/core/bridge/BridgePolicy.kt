@@ -67,6 +67,7 @@ esac
         if (request.size == 2 && request[0] == "screen-swap" && request[1] in listOf("enable", "disable"))
             return listOf("/system/bin/settings", "put", "global", "voyah_iran_screen_swap", if (request[1] == "enable") "1" else "0")
         if (request.size == 2 && request[0] == "app-display" && request[1] in listOf("enable", "disable")) return request
+        if(request.size==3 && request[0]=="subscription-vip-session" && request[1].toIntOrNull() in 0..90 && request[2].toIntOrNull() in 0..34560000) return request
         if(request==listOf("subscription-vin","read")) return request
         if(request.size==2 && request[0]=="subscription-session" && request[1].toIntOrNull() in 0..90) return request
         if(request==listOf("subscription-ui","open")) return listOf("/system/bin/am","start","--user","0","--display","0","-n","com.abrar.voyahiran/.feature.subscription.SubscriptionActivity","--activity-new-task","--activity-clear-top")

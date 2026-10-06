@@ -191,7 +191,7 @@
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
             android:orientation="vertical" android:padding="@dimen/space_lg">
-            <CheckBox android:id="@+id/gboard"
+            <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/gboard"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm"
                 android:paddingEnd="@dimen/space_sm" android:buttonTint="@color/accent"
@@ -225,7 +225,7 @@
         <LinearLayout android:id="@+id/localProfileCard" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
             android:orientation="vertical" android:padding="@dimen/space_lg">
-            <CheckBox android:id="@+id/localProfileApply" android:layout_width="match_parent"
+            <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/localProfileApply" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
                 android:buttonTint="@color/accent" android:text="فعال‌سازی خودرو"

@@ -48,7 +48,7 @@ internal object NeshanVoiceNavigation {
                 // Let Raha's 1300ms success indication finish before opening the map.
                 delay(1450)
                 check(NavigationPreferences(app).voiceNavigationEnabled &&
-                    (app as com.abrar.voyahiran.VoyahIranApplication).subscriptions.allowed) { "Navigation disabled" }
+                    (app as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) { "Navigation disabled" }
                 check(serviceConnected) { "Neshan accessibility disconnected" }
                 val active = Request(destination, NeshanRouteProgress(SystemClock.elapsedRealtime()))
                 request = active
@@ -57,7 +57,7 @@ internal object NeshanVoiceNavigation {
                 AppLog.info("NeshanRoute", "accepted destination=$id; explicit package launched")
                 while (SystemClock.elapsedRealtime() - active.progress.startedAt < 45_000) {
                     check(NavigationPreferences(app).voiceNavigationEnabled &&
-                        app.subscriptions.allowed) { "Navigation cancelled" }
+                        app.subscriptions.vipAllowed) { "Navigation cancelled" }
                     active.failure?.let { error(it) }
                     if (active.completed) {
                         AppLog.info("NeshanRoute", "route guidance confirmed destination=$id")

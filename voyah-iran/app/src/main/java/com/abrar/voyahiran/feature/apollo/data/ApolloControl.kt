@@ -17,7 +17,7 @@ object ApolloControl {
     suspend fun sync(context: Context, force: Boolean = false, verify: Boolean = false) = lock.withLock {
         val app = context.applicationContext as VoyahIranApplication
         repeat(6) { attempt ->
-            val value = ApolloPolicy.value(app.subscriptions.allowed, checked(app))
+            val value = ApolloPolicy.value(app.subscriptions.vipAllowed, checked(app))
             if (!force && !verify && applied == value) return@withLock
             val result = ProcessCommandRunner().run(listOf("su", "0", if (verify && !force) "apollo-reconcile" else "apollo-state", value.toString()), 5)
             if (result.exitCode == 75 && !result.timedOut && attempt < 5) delay(300L + attempt * 100L)

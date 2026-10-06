@@ -328,6 +328,13 @@ class MainActivity : ComponentActivity() {
         selectTab(Tab.entries.firstOrNull { it != Tab.DIAGNOSTICS && it.name == savedInstanceState?.getString(TAB_KEY) } ?: Tab.SETTINGS)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    (application as VoyahIranApplication).subscriptions.vipState.collect {
+                        renderApollo(apollo.state.value)
+                        renderDrive(drive.state.value)
+                        if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) localProfile.run("status")
+                    }
+                }
                 // Opening the UI and an in-place subscription unlock share this path.
                 launch {
                     (application as VoyahIranApplication).subscriptions.state
@@ -408,8 +415,10 @@ class MainActivity : ComponentActivity() {
         if ((application as VoyahIranApplication).starBackup.let { it.desired || it.read() != null }) {
             StarBackService.request(this, StarBackService.RESUME)
         } else lifecycleScope.launch { steering.refresh() }
-        if (drive.state.value.anyEnabled) DriveMemoryService.request(this, DriveMemoryService.RESUME)
-        else lifecycleScope.launch { drive.start() }
+        if ((application as VoyahIranApplication).subscriptions.vipAllowed) {
+            if (drive.state.value.anyEnabled) DriveMemoryService.request(this, DriveMemoryService.RESUME)
+            else lifecycleScope.launch { drive.start() }
+        }
     }
 
     override fun onStop() {
