@@ -122,7 +122,7 @@
 
     goto :goto_1
 
-    .line 63
+    .line 64
     :cond_0
     invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getDisplay()Lcom/android/server/am/ActivityDisplay;
 
@@ -134,13 +134,13 @@
 
     return-void
 
-    .line 64
+    .line 65
     :cond_1
     new-instance v0, Landroid/graphics/Point;
 
     invoke-direct {v0}, Landroid/graphics/Point;-><init>()V
 
-    .line 65
+    .line 66
     invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getDisplay()Lcom/android/server/am/ActivityDisplay;
 
     move-result-object p0
@@ -149,7 +149,7 @@
 
     invoke-virtual {p0, v0}, Landroid/view/Display;->getRealSize(Landroid/graphics/Point;)V
 
-    .line 66
+    .line 67
     new-instance p0, Landroid/graphics/Rect;
 
     iget v1, v0, Landroid/graphics/Point;->x:I
@@ -160,7 +160,7 @@
 
     invoke-direct {p0, v2, v2, v1, v0}, Landroid/graphics/Rect;-><init>(IIII)V
 
-    .line 67
+    .line 68
     invoke-virtual {p0}, Landroid/graphics/Rect;->width()I
 
     move-result v0
@@ -189,7 +189,7 @@
 
     goto :goto_0
 
-    .line 68
+    .line 69
     :cond_2
     iget v0, p0, Landroid/graphics/Rect;->left:I
 
@@ -205,10 +205,10 @@
 
     invoke-virtual {p1, v0, v1, v2, p0}, Landroid/graphics/Rect;->set(IIII)V
 
-    .line 69
+    .line 70
     return-void
 
-    .line 67
+    .line 68
     :cond_3
     :goto_0
     return-void
@@ -311,14 +311,14 @@
 .method public static configuration(Lcom/android/server/am/ActivityRecord;Landroid/content/res/Configuration;)V
     .registers 4
 
-    .line 72
+    .line 73
     new-instance v0, Landroid/graphics/Rect;
 
     invoke-direct {v0}, Landroid/graphics/Rect;-><init>()V
 
     invoke-static {p0, v0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->bounds(Lcom/android/server/am/ActivityRecord;Landroid/graphics/Rect;)V
 
-    .line 73
+    .line 74
     invoke-virtual {v0}, Landroid/graphics/Rect;->isEmpty()Z
 
     move-result v1
@@ -327,7 +327,7 @@
 
     return-void
 
-    .line 74
+    .line 75
     :cond_0
     invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getDisplay()Lcom/android/server/am/ActivityDisplay;
 
@@ -339,23 +339,23 @@
 
     iget p0, p0, Landroid/content/res/Configuration;->densityDpi:I
 
-    .line 75
+    .line 76
     if-gtz p0, :cond_1
 
     return-void
 
-    .line 76
+    .line 77
     :cond_1
     iget-object v1, p1, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
     invoke-virtual {v1, v0}, Landroid/app/WindowConfiguration;->setBounds(Landroid/graphics/Rect;)V
 
-    .line 77
+    .line 78
     iget-object v1, p1, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
     invoke-virtual {v1, v0}, Landroid/app/WindowConfiguration;->setAppBounds(Landroid/graphics/Rect;)V
 
-    .line 78
+    .line 79
     invoke-virtual {v0}, Landroid/graphics/Rect;->width()I
 
     move-result v1
@@ -366,7 +366,7 @@
 
     iput v1, p1, Landroid/content/res/Configuration;->screenWidthDp:I
 
-    .line 79
+    .line 80
     invoke-virtual {v0}, Landroid/graphics/Rect;->height()I
 
     move-result v0
@@ -377,12 +377,12 @@
 
     iput v0, p1, Landroid/content/res/Configuration;->screenHeightDp:I
 
-    .line 80
+    .line 81
     const/4 p0, 0x2
 
     iput p0, p1, Landroid/content/res/Configuration;->orientation:I
 
-    .line 81
+    .line 82
     return-void
 .end method
 
@@ -457,7 +457,7 @@
 .method private static refresh(Lcom/android/server/am/ActivityManagerService;Landroid/content/ContentResolver;)V
     .registers 18
 
-    .line 85
+    .line 86
     move-object/from16 v1, p0
 
     move-object/from16 v0, p1
@@ -469,7 +469,7 @@
 
     move-result-object v2
 
-    .line 86
+    .line 87
     const/4 v4, 0x1
 
     if-eqz v2, :cond_1
@@ -504,16 +504,16 @@
     :goto_1
     sput-boolean v5, Lcom/android/server/am/VoyahIranLegacyDisplay;->enabled:Z
 
-    .line 87
+    .line 88
     monitor-enter p0
     :try_end_0
     .catch Ljava/lang/RuntimeException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 88
+    .line 89
     :try_start_1
     iget-object v5, v1, Lcom/android/server/am/ActivityManagerService;->mStackSupervisor:Lcom/android/server/am/ActivityStackSupervisor;
 
-    .line 89
+    .line 90
     invoke-virtual {v5}, Lcom/android/server/am/ActivityStackSupervisor;->getChildCount()I
 
     move-result v6
@@ -523,12 +523,12 @@
     :goto_2
     if-ltz v6, :cond_7
 
-    .line 90
+    .line 91
     invoke-virtual {v5, v6}, Lcom/android/server/am/ActivityStackSupervisor;->getChildAt(I)Lcom/android/server/am/ActivityDisplay;
 
     move-result-object v7
 
-    .line 91
+    .line 92
     invoke-virtual {v7}, Lcom/android/server/am/ActivityDisplay;->getChildCount()I
 
     move-result v8
@@ -538,12 +538,12 @@
     :goto_3
     if-ltz v8, :cond_6
 
-    .line 92
+    .line 93
     invoke-virtual {v7, v8}, Lcom/android/server/am/ActivityDisplay;->getChildAt(I)Lcom/android/server/am/ActivityStack;
 
     move-result-object v9
 
-    .line 93
+    .line 94
     invoke-virtual {v9}, Lcom/android/server/am/ActivityStack;->getChildCount()I
 
     move-result v10
@@ -553,14 +553,14 @@
     :goto_4
     if-ltz v10, :cond_5
 
-    .line 94
+    .line 95
     invoke-virtual {v9, v10}, Lcom/android/server/am/ActivityStack;->getChildAt(I)Lcom/android/server/wm/ConfigurationContainer;
 
     move-result-object v11
 
     check-cast v11, Lcom/android/server/am/TaskRecord;
 
-    .line 95
+    .line 96
     invoke-virtual {v11}, Lcom/android/server/am/TaskRecord;->getChildCount()I
 
     move-result v12
@@ -570,24 +570,24 @@
     :goto_5
     if-ltz v12, :cond_4
 
-    .line 96
+    .line 97
     invoke-virtual {v11, v12}, Lcom/android/server/am/TaskRecord;->getChildAt(I)Lcom/android/server/am/ActivityRecord;
 
     move-result-object v13
 
-    .line 97
+    .line 98
     invoke-static {v13}, Lcom/android/server/am/VoyahIranLegacyDisplay;->candidate(Lcom/android/server/am/ActivityRecord;)Z
 
     move-result v14
 
     if-eqz v14, :cond_3
 
-    .line 98
+    .line 99
     invoke-virtual {v13}, Lcom/android/server/am/ActivityRecord;->getBounds()Landroid/graphics/Rect;
 
     move-result-object v14
 
-    .line 99
+    .line 100
     sget-boolean v15, Lcom/android/server/am/VoyahIranLegacyDisplay;->enabled:Z
 
     if-nez v15, :cond_2
@@ -610,7 +610,7 @@
 
     invoke-virtual {v13, v3}, Lcom/android/server/am/ActivityRecord;->setBounds(Landroid/graphics/Rect;)I
 
-    .line 100
+    .line 101
     :cond_2
     const/4 v3, 0x0
 
@@ -618,17 +618,17 @@
 
     goto :goto_6
 
-    .line 97
+    .line 98
     :cond_3
     const/4 v3, 0x0
 
-    .line 95
+    .line 96
     :goto_6
     add-int/lit8 v12, v12, -0x1
 
     goto :goto_5
 
-    .line 93
+    .line 94
     :cond_4
     const/4 v3, 0x0
 
@@ -636,7 +636,7 @@
 
     goto :goto_4
 
-    .line 91
+    .line 92
     :cond_5
     const/4 v3, 0x0
 
@@ -644,7 +644,7 @@
 
     goto :goto_3
 
-    .line 89
+    .line 90
     :cond_6
     const/4 v3, 0x0
 
@@ -652,18 +652,18 @@
 
     goto :goto_2
 
-    .line 106
+    .line 107
     :cond_7
     iget-object v3, v1, Lcom/android/server/am/ActivityManagerService;->mWindowManager:Lcom/android/server/wm/WindowManagerService;
 
     invoke-static {v3}, Lcom/android/server/wm/VoyahIranLegacyFrames;->traverse(Lcom/android/server/wm/WindowManagerService;)V
 
-    .line 107
+    .line 108
     monitor-exit p0
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 108
+    .line 109
     :try_start_2
     const-string v1, "voyah_iran_display_policy_ack"
 
@@ -674,7 +674,7 @@
     :cond_8
     invoke-static {v0, v1, v2}, Landroid/provider/Settings$Global;->putString(Landroid/content/ContentResolver;Ljava/lang/String;Ljava/lang/String;)Z
 
-    .line 109
+    .line 110
     const-string v0, "VI/DisplayPolicy9"
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -707,10 +707,10 @@
     :try_end_2
     .catch Ljava/lang/RuntimeException; {:try_start_2 .. :try_end_2} :catch_0
 
-    .line 112
+    .line 113
     goto :goto_7
 
-    .line 107
+    .line 108
     :catchall_0
     move-exception v0
 
@@ -724,18 +724,18 @@
     :try_end_4
     .catch Ljava/lang/RuntimeException; {:try_start_4 .. :try_end_4} :catch_0
 
-    .line 110
+    .line 111
     :catch_0
     move-exception v0
 
-    .line 111
+    .line 112
     const-string v1, "VI/DisplayPolicy9"
 
     const-string v2, "Reconfiguration failed; no acknowledgement"
 
     invoke-static {v1, v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    .line 113
+    .line 114
     :goto_7
     return-void
 .end method

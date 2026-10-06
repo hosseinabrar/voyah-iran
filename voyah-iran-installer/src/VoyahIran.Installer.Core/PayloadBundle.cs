@@ -1,4 +1,4 @@
-﻿using System.IO.Compression;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text.Json;
 
@@ -20,7 +20,7 @@ public sealed class PayloadBundle
         string[] required = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/neshan.apk", "apps/myket.apk", "apps/gboard.apk", "apps/gboard-config.xhdpi.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh",
             "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt",
             "patch/display/ActivityRecord-getOrientation.original.smali", "patch/display/ActivityRecord-layoutLetterbox.original.smali", "patch/display/ActivityRecord-getRequestedOrientation.original.smali", "patch/display/ActivityRecord-resolveOverrideConfiguration.original.smali", "patch/display/WindowState-applyGravityAndUpdateFrame.original.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$2.smali", "patch/display/helpers/VoyahIranDisplayPolicy.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy.smali", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
-        required = required.Concat(Android9FrameworkAssets.RequiredFiles).ToArray();
+        required = required.Concat(["patch/display/legacy-welcome/VoyahIranDisplayPolicy.smali", "patch/display/legacy-welcome/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-welcome/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-welcome/VoyahIranDisplayPolicy$2.smali"]).Concat(Android9FrameworkAssets.RequiredFiles).ToArray();
         if (manifest.PatchSchema != 1 || required.Any(n => !manifest.Files.ContainsKey(n))) throw new InvalidDataException("Unsupported payload schema");
         var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var name in manifest.Files.Keys) {
