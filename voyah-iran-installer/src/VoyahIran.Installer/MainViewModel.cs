@@ -67,6 +67,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
     public ActionCommand GboardCommand { get; }
     public ActionCommand NeshanCommand { get; }
     public ActionCommand LaunchAppCommand { get; }
+    public ActionCommand SetClockCommand { get; }
     public ActionCommand RebootCommand { get; }
     public ActionCommand HelpCommand { get; }
     public ActionCommand CopyCommand { get; }
@@ -93,6 +94,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
         NeshanCommand = new ActionCommand(async () => await OpenApkAsync("neshan"), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         GboardCommand = new ActionCommand(async () => await OpenApkAsync("gboard"), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         LaunchAppCommand = new ActionCommand(async () => await LaunchAppAsync(), () => !Busy && !starting && !captureChanging && !CanBusy && bundle != null);
+        SetClockCommand = new ActionCommand(async () => await SetClockAsync(), () => !Busy && !starting && !captureChanging && !CanBusy && bundle != null);
         RebootCommand = new ActionCommand(async () => await RebootAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         InstallCommand = new ActionCommand(async () => await InstallAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         HelpCommand = new ActionCommand(() => new ConnectionHelpWindow { Owner = Application.Current.MainWindow }.ShowDialog());
@@ -118,7 +120,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
             adb = new AdbClient(bundle.File("adb.exe"), log);
             VersionText = "نسخهٔ " + bundle.Manifest.AppVersion; Notify(nameof(VersionText));
             log.Write($"Embedded payload verified; app={bundle.Manifest.AppVersion}; APK SHA256={bundle.Manifest.Files["app.apk"]}");
-            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
+            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
             await ScanAsync(); timer.Start();
         }
         catch (Exception e)
@@ -268,7 +270,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
         Notify(nameof(CaptureLogTitle));
         CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
         InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh();
-        MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); LaunchAppCommand.Refresh();
+        MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh();
     }
     private async Task ToggleCaptureAsync()
     {
@@ -344,7 +346,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
     private void PagesChanged()
     {
         foreach (var name in new[] { nameof(HomeVisibility), nameof(ProgressVisibility), nameof(ProgressTitle), nameof(ProgressSubtitle), nameof(CanLeave) }) Notify(name);
-        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh(); HomeCommand.Refresh();
+        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh(); HomeCommand.Refresh();
     }
     public void Dispose() { disposed = true; timer.Stop(); capture?.Dispose(); /* ADB may still own its executable: retain verified cache for diagnostics. */ }
 }
