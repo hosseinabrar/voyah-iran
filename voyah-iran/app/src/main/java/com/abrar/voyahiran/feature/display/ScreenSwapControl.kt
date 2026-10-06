@@ -16,18 +16,13 @@ class ScreenSwapControl(private val app: VoyahIranApplication) {
     private val gate = ScreenSwapPress()
     private val runner = ProcessCommandRunner()
     @Volatile private var readyUntil = 0L
-    private fun enabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap && app.subscriptions.allowed &&
-        Settings.Global.getInt(app.contentResolver, "voyah_iran_screen_swap", 1) == 1
+    private fun enabled() = com.abrar.voyahiran.feature.launcher.VirtualScreenTest.displayId != null
     fun start() { scope.launch {
         while (isActive) {
             try {
                 if (enabled()) {
                     operations.withLock {
-                        val result = runner.run(listOf("su", "0", "screen-swap-runtime", "prepare"), 3)
-                        readyUntil = if (result.exitCode == 0 && !result.timedOut && result.output.trim() in listOf("READY", "EMPTY"))
-                            SystemClock.elapsedRealtime() + 1200 else 0
-                        if (result.exitCode != 0 || result.timedOut)
-                            AppLog.changed("ScreenSwap", "prepare failed=${result.exitCode} ${result.output}")
+                        readyUntil = SystemClock.elapsedRealtime() + 1200
                     }
                     app.steeringKeys.setScreenSwapListener(::key)
                 } else {
@@ -52,7 +47,8 @@ class ScreenSwapControl(private val app: VoyahIranApplication) {
             scope.launch {
                 if (!enabled()) return@launch
                 operations.withLock {
-                    val result = runner.run(listOf("su", "0", "screen-swap-runtime", "execute"), 8)
+                    val id = com.abrar.voyahiran.feature.launcher.VirtualScreenTest.displayId ?: return@withLock
+                    val result = runner.run(listOf("su", "0", "virtual-test", "swap", id.toString()), 8)
                     AppLog.info("ScreenSwap", "result=${result.exitCode} ${result.output}")
                     if (result.exitCode == 0 && result.output.trim() == "EMPTY") {
                         withContext(Dispatchers.Main) {

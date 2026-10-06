@@ -79,6 +79,7 @@ object BridgeServer {
                             val access=if(enable && android.os.Build.VERSION.SDK_INT==28) runner.run(LauncherDrawerAccess.arguments,5) else CommandResult(0,"")
                             if(access.exitCode!=0 || access.timedOut) access else runner.run(listOf("/system/bin/settings","put","global","voyah_iran_launcher_home",if(enable)"1" else "0"),3)
                         }
+                        "virtual-test" -> VirtualScreenTestBridge.execute(command[1],command[2].toInt())
                         "raha-phone" -> OemPhoneBridge.execute(command)
                         "local-profile-test" -> LocalProfileTest.execute(command[1])
                         "apollo-capability" -> ApolloCapability.read()

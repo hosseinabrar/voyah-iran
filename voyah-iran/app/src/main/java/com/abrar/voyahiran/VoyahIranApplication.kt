@@ -19,6 +19,7 @@ class VoyahIranApplication : Application() {
         super.onCreate()
         com.abrar.voyahiran.feature.voice.RahaPhonebook.start(this)
         com.abrar.voyahiran.core.bridge.BridgeClient.configure(filesDir)
+        com.abrar.voyahiran.feature.launcher.VirtualScreenTest.start(this)
         com.abrar.voyahiran.feature.display.ScreenSwapControl(this).start()
         appDisplay.refresh()
         com.abrar.voyahiran.feature.navigation.NeshanConfigStore.refresh(this)

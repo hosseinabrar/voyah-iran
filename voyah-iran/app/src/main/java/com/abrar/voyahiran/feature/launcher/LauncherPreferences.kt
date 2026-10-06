@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 object LauncherPreferences {
-    fun enabled(c: Context) = c.getSharedPreferences("launcher", 0).getBoolean("enabled", false)
+    fun enabled(c: Context) = false // virtual-screen-test: isolate the display experiment
     suspend fun set(c: Context, enabled: Boolean) {
         val previous=enabled(c)
         provision(enabled)
