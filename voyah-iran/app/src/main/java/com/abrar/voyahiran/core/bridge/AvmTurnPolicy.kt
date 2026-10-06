@@ -21,6 +21,7 @@ internal class AvmTurnPolicy {
     private var selected: Side? = null
     private var openingAt: Long? = null
     private var closeAt: Long? = null
+    private var waitingForPdc = false
     private var suppressed = false
 
     /** Every AVM visibility callback must be delivered, including hide followed by manual reopen. */
@@ -72,9 +73,10 @@ internal class AvmTurnPolicy {
             } else return null
         }
         // PDC owns camera presentation while active. Unknown is equally non-actionable.
-        // Keep our ownership only while the same AVM session remains visible, but restart
-        // the full close delay after PDC releases it.
+        // Remember a blocked close until PDC releases the same owned camera session.
+        if (!off) { waitingForPdc = false; closeAt = null }
         if (input.pdc != false) {
+            if (owned && off) waitingForPdc = true
             closeAt = null
             return null
         }
@@ -84,7 +86,8 @@ internal class AvmTurnPolicy {
                 return Action.Close
             }
             if (off) {
-                val deadline = closeAt ?: (now + 3_000).also {
+                val deadline = closeAt ?: (now + if (waitingForPdc) 1_000 else 3_000).also {
+                    waitingForPdc = false
                     closeAt = it
                     selected = Side.FRONT
                     return Action.Select(Side.FRONT)
@@ -108,5 +111,5 @@ internal class AvmTurnPolicy {
         return null
     }
 
-    private fun abandon() { owned = false; selected = null; openingAt = null; closeAt = null }
+    private fun abandon() { owned = false; selected = null; openingAt = null; closeAt = null; waitingForPdc = false }
 }
