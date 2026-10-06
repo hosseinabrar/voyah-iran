@@ -146,7 +146,7 @@
     <string name="passenger_apps_description">برنامه‌ها را از نوار کناری نمایشگر شاگرد انتخاب و روی همان نمایشگر اجرا کنید.</string>
     <string name="neshan_install_notice"><font color="#FFD54F">تذکر:</font> برای استفاده از قابلیت‌های نشان حتما برنامه نشان را از طریق دکمه \"نصب نشان\" نصاب وویا ایران نصب کنید</string>
     <string name="avm_turn_label">نمایش دوربین با راهنما</string>
-    <string name="avm_turn_description">نمایش دوربین سمت راهنما در سرعت کمتر از ۲۵؛ بسته شدن خودکار ۳ ثانیه پس از خاموش شدن راهنما (آزمایشی)</string>
+    <string name="avm_turn_description">نمایش دوربین سمت راهنما در زمان راهنما زدن با سرعت کمتر از ۲۵ کیلومتر بر ساعت</string>
     <string name="avm_turn_wait">در حال ارتباط با خودرو…</string>
     <string name="avm_turn_read_ok">تنظیم ذخیره شد؛ عملکرد خودکار دوربین را روی خودرو آزمایش کنید.</string>
     <string name="avm_turn_failed">وضعیت تأیید نشد؛ جزئیات در گزارش ثبت شده است.</string>
