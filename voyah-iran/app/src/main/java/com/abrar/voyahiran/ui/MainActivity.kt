@@ -172,18 +172,20 @@ class MainActivity : ComponentActivity() {
         }
         updateLogging("status")
         binding.settingsPage.localProfileCard.visibility = if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) View.VISIBLE else View.GONE
-        binding.settingsPage.localProfileRead.setOnClickListener { localProfile.run("status") }
-        binding.settingsPage.localProfileApply.setOnClickListener { localProfile.run("apply") }
-        binding.settingsPage.localProfileRestore.setOnClickListener { localProfile.run("restore") }
+        binding.settingsPage.localProfileApply.setOnClickListener {
+            localProfile.run(if (localProfile.state.value.enabled == null) "status"
+                else if (binding.settingsPage.localProfileApply.isChecked) "apply" else "restore")
+        }
+        if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) localProfile.run("status")
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 localProfile.state.collect { state ->
                     with(binding.settingsPage) {
                         localProfileApply.isEnabled = !state.busy
-                        localProfileRead.isEnabled = !state.busy
-                        localProfileRestore.isEnabled = !state.busy
+                        localProfileApply.isChecked = state.enabled == true
                         localProfileProgress.visibility = if (state.busy) View.VISIBLE else View.GONE
                         localProfileStatus.text = state.text
+                        localProfileStatus.visibility = if (state.text.isBlank()) View.GONE else View.VISIBLE
                     }
                 }
             }

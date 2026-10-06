@@ -225,12 +225,14 @@
         <LinearLayout android:id="@+id/localProfileCard" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
             android:orientation="vertical" android:padding="@dimen/space_lg">
-            <TextView style="@style/Text.Body" android:textStyle="bold" android:text="آزمایش ورود محلی خودرو" />
+            <CheckBox android:id="@+id/localProfileApply" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:text="فعال‌سازی خودرو"
+                android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false" />
             <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm"
-                android:text="برای تست ورود بدون QR و مموری صندلی. قبل از تغییر، پشتیبان گرفته می‌شود. این آزمایش حساب آنلاین ایجاد نمی‌کند و موفقیت مموری صندلی باید روی خودرو بررسی شود. تکرار خودکار فعال نیست." />
-            <Button android:id="@+id/localProfileApply" style="@style/NavigationTab" android:text="اعمال تنظیم آزمایشی" />
-            <Button android:id="@+id/localProfileRead" style="@style/NavigationTab" android:text="بررسی وضعیت" />
-            <Button android:id="@+id/localProfileRestore" style="@style/NavigationTab" android:text="بازگردانی وضعیت قبلی" />
+                android:text="عدم نمایش صفحه لاگین (کیو آر کد) در ابتدای روشن شدن خودرو" />
             <ProgressBar android:id="@+id/localProfileProgress" android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone" />
             <TextView android:id="@+id/localProfileStatus" style="@style/Text.Body"
