@@ -56,6 +56,7 @@ using (var log = new SessionLog(Path.Combine(root, "logs")))
 }
 string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/neshan.apk", "apps/myket.apk", "apps/gboard.apk", "apps/gboard-config.xhdpi.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/display/ActivityRecord-getOrientation.original.smali", "patch/display/ActivityRecord-layoutLetterbox.original.smali", "patch/display/ActivityRecord-getRequestedOrientation.original.smali", "patch/display/ActivityRecord-resolveOverrideConfiguration.original.smali", "patch/display/WindowState-applyGravityAndUpdateFrame.original.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$2.smali", "patch/display/helpers/VoyahIranDisplayPolicy.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy.smali", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
 names = names.Concat(Android9FrameworkAssets.RequiredFiles).ToArray();
+names = names.Concat(new[] { "legacy-welcome", "legacy-welcome-variant" }.SelectMany(dir => new[] { "VoyahIranDisplayPolicy.smali", "VoyahIranDisplayPolicy$1.smali", "VoyahIranDisplayPolicy$1$1.smali", "VoyahIranDisplayPolicy$2.smali" }.Select(file => "patch/display/" + dir + "/" + file))).Distinct().ToArray();
 var sourceRoot = new DirectoryInfo(AppContext.BaseDirectory);
 while (sourceRoot != null && !Directory.Exists(Path.Combine(sourceRoot.FullName, "tools", "patch", "android9"))) sourceRoot = sourceRoot.Parent;
 if (sourceRoot != null)
@@ -63,7 +64,7 @@ if (sourceRoot != null)
     var patchRoot = Path.Combine(sourceRoot.FullName, "tools", "patch", "android9");
     var packaged = Directory.GetFiles(patchRoot).Where(p => Path.GetFileName(p) == "Android9Patch.java" ||
         new[] { ".smali", ".jar", ".json" }.Contains(Path.GetExtension(p)) || Path.GetFileName(p).EndsWith("LICENSE.txt"))
-        .Concat(new[] { "helpers", "previous-v1", "previous-v2" }.SelectMany(dir => Directory.GetFiles(Path.Combine(patchRoot, dir), "*.smali", SearchOption.AllDirectories)))
+        .Concat(new[] { "helpers", "previous-v1", "previous-v2", "previous-welcome", "previous-welcome-variant" }.SelectMany(dir => Directory.GetFiles(Path.Combine(patchRoot, dir), "*.smali", SearchOption.AllDirectories)))
         .Select(p => "patch/android9/" + Path.GetRelativePath(patchRoot, p).Replace('\\', '/')).ToHashSet();
     Check(packaged.SetEquals(Android9FrameworkAssets.RequiredFiles), "Actual Android 9 payload files exactly match extraction allowlist");
 }

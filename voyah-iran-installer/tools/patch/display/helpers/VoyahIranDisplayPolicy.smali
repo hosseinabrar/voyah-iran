@@ -90,19 +90,19 @@
 .method public static afterFrame(Lcom/android/server/wm/WindowState;Lcom/android/server/wm/WindowFrames;)V
     .locals 0
 
-    .line 156
+    .line 161
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->safe(Lcom/android/server/wm/WindowState;)Landroid/graphics/Rect;
 
     move-result-object p0
 
-    .line 157
+    .line 162
     if-eqz p0, :cond_0
 
     iget-object p1, p1, Lcom/android/server/wm/WindowFrames;->mFrame:Landroid/graphics/Rect;
 
     invoke-static {p1, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 158
+    .line 163
     :cond_0
     return-void
 .end method
@@ -840,10 +840,31 @@
     return-object v2
 .end method
 
+.method static supportsLoginWelcomeVariant(Ljava/lang/String;)Z
+    .locals 1
+
+    .line 138
+    const-string v0, "(?i)(?<![a-z0-9])h97[ac](?![a-z0-9])"
+
+    invoke-static {v0}, Ljava/util/regex/Pattern;->compile(Ljava/lang/String;)Ljava/util/regex/Pattern;
+
+    move-result-object v0
+
+    invoke-virtual {v0, p0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+
+    move-result-object p0
+
+    invoke-virtual {p0}, Ljava/util/regex/Matcher;->find()Z
+
+    move-result p0
+
+    return p0
+.end method
+
 .method private static suppressLoginWelcome(Lcom/android/server/wm/WindowState;)V
     .locals 5
 
-    .line 138
+    .line 142
     const-string v0, "VI/DisplayPolicy"
 
     iget-object v1, p0, Lcom/android/server/wm/WindowState;->mAttrs:Landroid/view/WindowManager$LayoutParams;
@@ -864,7 +885,7 @@
 
     iget-object v1, p0, Lcom/android/server/wm/WindowState;->mAttrs:Landroid/view/WindowManager$LayoutParams;
 
-    .line 139
+    .line 143
     invoke-virtual {v1}, Landroid/view/WindowManager$LayoutParams;->getTitle()Ljava/lang/CharSequence;
 
     move-result-object v1
@@ -879,7 +900,7 @@
 
     goto :goto_1
 
-    .line 140
+    .line 144
     :cond_0
     new-instance v1, Ljava/lang/StringBuilder;
 
@@ -907,7 +928,27 @@
 
     move-result-object v1
 
-    sget-object v3, Landroid/os/Build;->MODEL:Ljava/lang/String;
+    sget-object v4, Landroid/os/Build;->MODEL:Ljava/lang/String;
+
+    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    sget-object v4, Landroid/os/Build;->BOARD:Ljava/lang/String;
+
+    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
+
+    sget-object v3, Landroid/os/Build;->FINGERPRINT:Ljava/lang/String;
 
     invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
@@ -919,23 +960,13 @@
 
     sget-object v3, Ljava/util/Locale;->ROOT:Ljava/util/Locale;
 
-    .line 141
+    .line 146
     invoke-virtual {v1, v3}, Ljava/lang/String;->toLowerCase(Ljava/util/Locale;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 142
-    const-string v3, "h97a"
-
-    invoke-virtual {v1, v3}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-
-    move-result v3
-
-    if-nez v3, :cond_1
-
-    const-string v3, "h97c"
-
-    invoke-virtual {v1, v3}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+    .line 147
+    invoke-static {v1}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->supportsLoginWelcomeVariant(Ljava/lang/String;)Z
 
     move-result v1
 
@@ -943,7 +974,7 @@
 
     return-void
 
-    .line 144
+    .line 149
     :cond_1
     :try_start_0
     iget-object v1, p0, Lcom/android/server/wm/WindowState;->mContext:Landroid/content/Context;
@@ -962,14 +993,14 @@
 
     move-result v1
 
-    .line 146
+    .line 151
     const/4 v2, 0x2
 
     if-eq v1, v2, :cond_2
 
     return-void
 
-    .line 149
+    .line 154
     :cond_2
     const/4 v1, 0x0
 
@@ -985,24 +1016,24 @@
     :try_end_0
     .catch Ljava/lang/RuntimeException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 152
+    .line 157
     :cond_3
     goto :goto_0
 
-    .line 150
+    .line 155
     :catch_0
     move-exception p0
 
-    .line 151
+    .line 156
     const-string v1, "Cannot read login welcome policy"
 
     invoke-static {v0, v1, p0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    .line 153
+    .line 158
     :goto_0
     return-void
 
-    .line 139
+    .line 143
     :cond_4
     :goto_1
     return-void

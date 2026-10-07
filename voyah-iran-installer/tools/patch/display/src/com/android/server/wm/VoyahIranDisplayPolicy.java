@@ -134,12 +134,17 @@ public final class VoyahIranDisplayPolicy {
         clip(frames.mStableFrame, bounds);
     }
 
+    static boolean supportsLoginWelcomeVariant(String variant) {
+        return java.util.regex.Pattern.compile("(?i)(?<![a-z0-9])h97[ac](?![a-z0-9])").matcher(variant).find();
+    }
+
     private static void suppressLoginWelcome(WindowState w) {
         if (w.mAttrs == null || !"com.qinggan.app.login".equals(w.mAttrs.packageName) ||
                 !"LoginingView".contentEquals(w.mAttrs.getTitle())) return;
         String variant = (android.os.Build.DEVICE + " " + android.os.Build.PRODUCT + " " +
-                android.os.Build.MODEL).toLowerCase(java.util.Locale.ROOT);
-        if (!variant.contains("h97a") && !variant.contains("h97c")) return;
+                android.os.Build.MODEL + " " + android.os.Build.BOARD + " " +
+                android.os.Build.FINGERPRINT).toLowerCase(java.util.Locale.ROOT);
+        if (!supportsLoginWelcomeVariant(variant)) return;
         try {
             int state = w.mContext.getPackageManager().getComponentEnabledSetting(
                 new android.content.ComponentName("com.qinggan.app.login", "com.qinggan.app.login.RootActivity"));

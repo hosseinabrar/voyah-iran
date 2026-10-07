@@ -115,7 +115,7 @@ class Android9Patch {
         var before=classes(source);check(before.size()==4713||before.size()==4717,"Unexpected class count");
         boolean already=before.containsKey("com/android/server/am/VoyahIranLegacyDisplay.smali");
         Path accepted=templates;
-        if(already) for(String version:List.of("previous-v1","previous-v2","previous-welcome")) {
+        if(already) for(String version:List.of("previous-v1","previous-v2","previous-welcome","previous-welcome-variant")) {
             Path candidate=templates.resolve(version);
             if(classes(candidate.resolve("helpers")).entrySet().stream().allMatch(e -> { try { return before.containsKey(e.getKey()) && canonical(text(before.get(e.getKey()))).equals(canonical(text(e.getValue()))); } catch(Exception ex) { return false; } })) { accepted=candidate; break; }
         }
