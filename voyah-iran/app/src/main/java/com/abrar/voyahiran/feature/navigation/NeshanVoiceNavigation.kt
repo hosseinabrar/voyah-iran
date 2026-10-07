@@ -16,7 +16,9 @@ internal object NeshanVoiceNavigation {
         "soroush_central" to Destination("نمایندگی مرکزی سروش موتور", 35.59486389160156, 51.29362487792969),
         "shahpary" to Destination("نمایندگی شاهپری", 35.7361246, 51.4933056)
     )
-    class Request(val destination: Destination, val progress: NeshanRouteProgress) {
+    class Request(val destination: Destination, var progress: NeshanRouteProgress) {
+        val startup = NeshanStartupGate()
+        var destinationSent = false
         var entered = false
         var completed = false
         var failure: String? = null
@@ -31,30 +33,45 @@ internal object NeshanVoiceNavigation {
         check(prefs.voiceNavigationEnabled) { "مسیریابی با رها در تنظیمات نشان فعال نیست" }
         val destination = destinations[id] ?: SavedPlacesStore(context).users().firstOrNull { it.id==id }
             ?.let { Destination(it.name,it.latitude,it.longitude) } ?: error("مکان انتخاب‌شده دیگر موجود نیست")
-        check(routeJob?.isActive != true && pending == null) { "Navigation request already active" }
+
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:${destination.latitude},${destination.longitude}"))
             .setPackage(NavigationPreferences.NESHAN).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         check(context.packageManager.resolveActivity(intent, 0) != null) { "نشان نصب نیست یا امکان اجرای مسیریابی ندارد" }
+        val launchIntent = context.packageManager.getLaunchIntentForPackage(NavigationPreferences.NESHAN)
+            ?: error("نشان قابل اجرا نیست")
         if (!serviceConnected) NavigationPreferences.provisionAccessibility(context)
         repeat(25) { if (!serviceConnected) delay(200) }
         check(serviceConnected) { "Neshan accessibility service is not connected" }
         check(!cancelled()) { "Navigation cancelled before launch" }
+        routeJob?.cancelAndJoin() // A new spoken request replaces a stalled previous attempt.
         val app = context.applicationContext
+        val active = Request(destination, NeshanRouteProgress(SystemClock.elapsedRealtime()))
+        pending = active // Reserve automation before any launch or success-animation delay.
         // Acceptance is the end of Raha's command. Route automation has its own lifetime
         // and must never signal feedback or observe cancellation of a subsequent utterance.
         routeJob = scope.launch {
-            var request: Request? = null
+            val request = active
             try {
                 // Let Raha's 1300ms success indication finish before opening the map.
                 delay(1450)
                 check(NavigationPreferences(app).voiceNavigationEnabled &&
                     (app as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) { "Navigation disabled" }
                 check(serviceConnected) { "Neshan accessibility disconnected" }
-                val active = Request(destination, NeshanRouteProgress(SystemClock.elapsedRealtime()))
-                request = active
-                pending = active
-                app.startActivity(intent)
-                AppLog.info("NeshanRoute", "accepted destination=$id; explicit package launched")
+                val options = android.app.ActivityOptions.makeBasic().apply { launchDisplayId = 0 }.toBundle()
+                app.startActivity(launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), options)
+                val startupAt = SystemClock.elapsedRealtime()
+                AppLog.info("NeshanRoute", "opening normal entry; waiting for map UI destination=$id")
+                while (!active.startup.ready(SystemClock.elapsedRealtime())) {
+                    check(serviceConnected && NavigationPreferences(app).voiceNavigationEnabled && app.subscriptions.vipAllowed) { "Navigation disabled during startup" }
+                    active.failure?.let { error(it) }
+                    check(SystemClock.elapsedRealtime() - startupAt < 15_000) { "Neshan map UI not ready after normal launch" }
+                    delay(100)
+                }
+                active.failure?.let { error(it) }
+                active.progress = NeshanRouteProgress(SystemClock.elapsedRealtime())
+                app.startActivity(intent, options)
+                active.destinationSent = true
+                AppLog.info("NeshanRoute", "map ready after ${SystemClock.elapsedRealtime()-startupAt}ms; destination dispatched=$id")
                 while (SystemClock.elapsedRealtime() - active.progress.startedAt < 45_000) {
                     check(NavigationPreferences(app).voiceNavigationEnabled &&
                         app.subscriptions.vipAllowed) { "Navigation cancelled" }
