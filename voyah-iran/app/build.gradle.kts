@@ -2,6 +2,10 @@ import java.util.Properties
 
 plugins { id("com.android.application") }
 
+val releaseMinify = providers.gradleProperty("voyah.minify").orNull?.let {
+    it.toBooleanStrictOrNull() ?: error("voyah.minify must be true or false")
+} ?: true
+
 val mapLocalProperties = Properties().apply {
     rootProject.file("local.properties").takeIf { it.isFile }?.inputStream()?.use { load(it) }
 }
@@ -43,8 +47,8 @@ android {
             if (!publishStore.isNullOrBlank()) {
                 signingConfig = signingConfigs.getByName("installerPublish")
             }
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = releaseMinify
+            isShrinkResources = releaseMinify
             isDebuggable = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
