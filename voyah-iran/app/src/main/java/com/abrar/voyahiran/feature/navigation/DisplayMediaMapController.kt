@@ -24,9 +24,6 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
     private fun screenSwapEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_screen_swap", 1) == 1
     private fun passengerAppsEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_passenger_apps", 1) == 1
     fun bind() {
-        activity.lifecycleScope.launch {
-            (activity.application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipState.collect { renderMusic(); renderNeshan() }
-        }
         view.passengerDisplayOptions.visibility = if (com.abrar.voyahiran.core.compat.VehiclePlatform.isH97a) View.GONE else View.VISIBLE
         view.screenSwap.isEnabled = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap
         view.passengerApps.isEnabled = com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks
@@ -156,6 +153,10 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
             }
         }
         renderNeshan()
+        // StateFlow emits immediately on Main.immediate: create all controls first.
+        activity.lifecycleScope.launch {
+            (activity.application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipState.collect { renderMusic(); renderNeshan() }
+        }
     }
 
     private fun refreshApps() = activity.lifecycleScope.launch {
