@@ -29,6 +29,7 @@ object BridgeServer {
         roa.start()
         neshan.start()
         OemNavigationManager.start()
+        SeatMemoryActivation.start()
         val execution = java.util.concurrent.locks.ReentrantLock()
         val pool = ThreadPoolExecutor(2, 2, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(4))
         ServerSocket(BridgePolicy.PORT, 8, InetAddress.getByName("127.0.0.1")).use { server ->
@@ -72,6 +73,7 @@ object BridgeServer {
                         "music-startup-hide" -> MusicStartupWindow.hide(command[1])
                         "raha-phone" -> OemPhoneBridge.execute(command)
                         "local-profile-test" -> LocalProfileTest.execute(command[1])
+                        "seat-memory-activation" -> SeatMemoryActivation.command(command[1])
                         "apollo-capability" -> ApolloCapability.read()
                         "avm-turn" -> AvmTurnBridge.execute(command[1])
                         "apollo-test-read" -> ApolloExperimentBridge.execute()

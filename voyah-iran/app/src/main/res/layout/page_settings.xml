@@ -238,6 +238,23 @@
             <TextView android:id="@+id/localProfileStatus" style="@style/Text.Body"
                 android:accessibilityLiveRegion="polite" android:layout_marginTop="@dimen/space_sm" />
         </LinearLayout>
+        <LinearLayout android:id="@+id/seatMemoryActivationCard" android:visibility="gone"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="@dimen/space_lg">
+            <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/seatMemoryActivation"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target"
+                android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:text="فعال‌سازی حافظه صندلی"
+                android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm"
+                android:text="هر سه حافظه صندلی فعال می‌شوند" />
+            <TextView android:id="@+id/seatMemoryActivationStatus" style="@style/Text.Body"
+                android:visibility="gone" android:accessibilityLiveRegion="polite"
+                android:layout_marginTop="@dimen/space_sm" />
+        </LinearLayout>
         <Button android:id="@+id/rebootDevice"
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:minHeight="@dimen/reboot_button_height" android:layout_marginTop="@dimen/space_lg"

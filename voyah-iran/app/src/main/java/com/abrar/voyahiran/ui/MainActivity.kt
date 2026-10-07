@@ -121,6 +121,7 @@ class MainActivity : ComponentActivity() {
         projectNotice = null
         super.onPause()
     }
+    private val seatMemoryActivation: com.abrar.voyahiran.feature.settings.presentation.SeatMemoryActivationViewModel by viewModels()
     private val localProfile: com.abrar.voyahiran.feature.settings.presentation.LocalProfileViewModel by viewModels()
     private val reboot: com.abrar.voyahiran.feature.settings.presentation.RebootViewModel by viewModels()
     private val permissions: com.abrar.voyahiran.feature.permissions.PermissionsViewModel by viewModels()
@@ -186,6 +187,26 @@ class MainActivity : ComponentActivity() {
                         localProfileProgress.visibility = if (state.busy) View.VISIBLE else View.GONE
                         localProfileStatus.text = state.text
                         localProfileStatus.visibility = if (state.text.isBlank()) View.GONE else View.VISIBLE
+                    }
+                }
+            }
+        }
+
+        binding.settingsPage.seatMemoryActivationCard.visibility =
+            if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) View.VISIBLE else View.GONE
+        binding.settingsPage.seatMemoryActivation.setOnClickListener {
+            seatMemoryActivation.run(if (seatMemoryActivation.state.value.enabled == null) "status"
+                else if (binding.settingsPage.seatMemoryActivation.isChecked) "enable" else "disable")
+        }
+        if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) seatMemoryActivation.run("status")
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                seatMemoryActivation.state.collect { state ->
+                    with(binding.settingsPage) {
+                        seatMemoryActivation.isEnabled = !state.busy
+                        seatMemoryActivation.isChecked = state.enabled == true
+                        seatMemoryActivationStatus.text = state.text
+                        seatMemoryActivationStatus.visibility = if (state.text.isBlank()) View.GONE else View.VISIBLE
                     }
                 }
             }

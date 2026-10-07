@@ -6,6 +6,18 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun seatMemoryActivationOnlyAllowsFixedPreferenceOperations() {
+        for (op in listOf("status", "enable", "disable")) {
+            val request = listOf("seat-memory-activation", op)
+            assertEquals(request, BridgePolicy.resolve(request, 28))
+            assertEquals(request, BridgePolicy.resolve(request, 30))
+        }
+        for (request in listOf(listOf("seat-memory-activation"),
+            listOf("seat-memory-activation", "sendSeat01"),
+            listOf("seat-memory-activation", "enable;reboot"),
+            listOf("seat-memory-activation", "enable", "extra"))) assertNull(BridgePolicy.resolve(request))
+    }
+
     @Test fun vipLeaseIsSeparateAndBounded() {
         val request=listOf("subscription-vip-session","90","2592000")
         assertEquals(request,BridgePolicy.resolve(request))
