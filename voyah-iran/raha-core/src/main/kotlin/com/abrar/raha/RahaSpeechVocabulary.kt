@@ -86,6 +86,8 @@ object RahaSpeechVocabulary {
         addAll(RahaPhaseTwoRecognizer.odorTargets)
         add("کنن")
         addAll(listOf("خیلی گرمه", "هوا خیلی گرمه", "خیلی سرده", "هوای تازه می خوام", "کولر رو تا ته زیاد کن", "شیشه بخار گرفته", "شیشه جلو بخار گرفته", "شیشه عقب بخار گرفته", "هوا رو عوض کن"))
+        for (verb in listOf("نشون بده", "نشان بده", "نمایش بده")) add("نقشه رو $verb")
+        for (verb in listOf("بکش پایین", "بکش بالا", "بده پایین", "بده بالا")) add("شیشه رو $verb")
         val bounds = RahaLevelVocabulary.maximum + RahaLevelVocabulary.minimum
         val phaseTwo = RahaPhaseTwoRecognizer.fragranceNames + RahaPhaseTwoRecognizer.saveWords + RahaPhaseTwoRecognizer.recallWords +
             RahaPhaseTwoRecognizer.memoryWords.filterNot { it == "driver" } + listOf("درایور", "رانندگی", "موقعیت", "فعلی", "پروفایل", "شماره", "کانال", "مدت", "زمان", "ساعت", "دقیقه", "شصت", "نامحدود", "دائمی", "همیشه", "با", "غلظت", "ضعیف", "متوسط", "قوی", "مدیوم", "ملایم")
