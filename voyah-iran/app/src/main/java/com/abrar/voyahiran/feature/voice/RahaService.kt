@@ -228,11 +228,13 @@ class RahaService : Service() {
         if (prefs.callsEnabled) {
             val target=com.abrar.raha.RahaContacts.target(text)
             if(target!=null) {
+                val lookupStarted=android.os.SystemClock.elapsedRealtime()
                 val snapshot=RahaPhonebook.contacts()
-                val matches=com.abrar.raha.RahaContacts.matching(target,snapshot.map { it.spoken })
-                if(matches.isNotEmpty()) {
+                val step=calls.begin(target,snapshot.map { com.abrar.raha.RahaCallDialog.Candidate(it.id,it.spoken) })
+                AppLog.info("RahaContacts", "lookup count=${snapshot.size} elapsedMs=${android.os.SystemClock.elapsedRealtime()-lookupStarted}")
+                if(step !is com.abrar.raha.RahaCallDialog.Step.Cancelled) {
                     callSnapshot=snapshot
-                    advanceCall(calls.begin(target,snapshot.map { com.abrar.raha.RahaCallDialog.Candidate(it.id,it.spoken) }))
+                    advanceCall(step)
                     return
                 }
                 if(text.contains("تماس") || text.contains("زنگ")) { feedback.result(false); return }
