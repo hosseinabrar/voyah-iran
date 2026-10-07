@@ -1,4 +1,4 @@
-"""Experimental local-only Raha protection. Python 3.10+ and JDK 17+.
+"""Local-only application protection with an app_process dependency boundary. Python 3.10+ and JDK 17+.
 
 Never builds the app, signs it, replaces the release APK, or updates the installer.
 The reference APK and its matching R8 mapping are mandatory inputs.
@@ -235,6 +235,79 @@ def choose_targets(mapping, strings, inventory):
     return targets, match[1]
 
 
+def dependency_graph(java, tool, apk, output, log):
+    """Analyze the final R8 DEX, not source-level guesses about shared dependencies."""
+    classes = output / "dependency-tool"
+    classes.mkdir()
+    source = Path(__file__).with_name("DexDependencies.java")
+    javac = java.with_name("javac.exe" if sys.platform == "win32" else "javac")
+    run([javac, "-encoding", "UTF-8", "--release", "17", "-cp", tool,
+         "-d", classes, source], output, log)
+    import os
+    graph_file = output / "dependencies.tsv"
+    run([java, "-cp", str(classes) + os.pathsep + str(tool), "DexDependencies", apk, graph_file], output, log)
+    graph, native = {}, set()
+    for line in graph_file.read_text(encoding="utf-8").splitlines():
+        name, kind, *references = line.split("\t")
+        require(name not in graph and kind in ("native", "ordinary"), "Invalid dependency graph")
+        graph[name] = set(references)
+        if kind == "native":
+            native.add(name)
+    return graph, native
+
+
+def choose_app_targets(mapping, strings, inventory, graph, native=()):
+    match = re.search(r"^# pg_map_id: (\S+)", mapping, re.M)
+    require(match, "R8 mapping ID missing")
+    markers = [json.loads(s[4:]) for s in strings if s.startswith("~~R8{")]
+    require(any(m.get("pg-map-id") == match[1] for m in markers), "APK and R8 mapping do not match")
+    require(set(graph) == set(inventory), "Dependency inventory does not match APK")
+    require(all(set(refs) <= graph.keys() for refs in graph.values()), "Unresolved local dependency")
+    names, method_owners = {}, {}
+    owner = None
+    for line in mapping.splitlines():
+        entry = re.fullmatch(r"(\S+) -> (\S+):", line)
+        if entry:
+            owner = "L" + entry[2].replace(".", "/") + ";"
+            if owner in inventory:
+                names.setdefault(owner, set()).add(entry[1])
+        elif owner in inventory:
+            method_owners.setdefault(owner, set()).update(
+                re.findall(r"(com\.abrar\.[\w.$]+)\.[\w$<>]+\(", line))
+    roots = {BRIDGE, "Lcom/abrar/voyahiran/core/bridge/AppInventory;"}
+    require(roots <= inventory.keys(), "Root entry point missing")
+    reasons = {r: "app_process entry point" for r in roots}
+    for descriptor, originals in names.items():
+        # All bridge-owned implementation must remain usable outside Application startup,
+        # including merged/synthetic holders carrying an inlined bridge method.
+        if any(n.startswith("com.abrar.voyahiran.core.bridge.") for n in originals | method_owners.get(descriptor, set())):
+            reasons[descriptor] = "root bridge implementation"
+    for descriptor in native:
+        require(descriptor in graph, "Unknown native class")
+        reasons[descriptor] = "native binding"
+    queue = list(reasons)
+    for descriptor in queue:
+        for dependency in sorted(graph[descriptor]):
+            if dependency not in reasons:
+                reasons[dependency] = "dependency of " + descriptor
+                queue.append(dependency)
+    targets = {}
+    excluded = {}
+    for descriptor, originals in names.items():
+        owned = any(n.startswith("com.abrar.") for n in originals)
+        if not owned:
+            continue
+        if descriptor in reasons:
+            excluded[descriptor] = {"classes": sorted(originals), "reason": reasons[descriptor]}
+        elif not all(n.startswith("com.abrar.") for n in originals):
+            excluded[descriptor] = {"classes": sorted(originals), "reason": "merged with third-party code"}
+        else:
+            targets[descriptor] = sorted(originals)
+    require(targets, "No eligible application classes remain")
+    require(not targets.keys() & reasons.keys(), "Protected code is reachable from an unprotected entry point")
+    return targets, match[1], excluded, reasons
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--java", required=True, type=Path)
@@ -247,7 +320,6 @@ def main():
     require(apk.is_file() and java.is_file(), "Input APK or Java executable missing")
     inventory, strings = apk_inventory(apk)
     mapping = args.mapping.read_text(encoding="utf-8")
-    targets, map_id = choose_targets(mapping, strings, inventory)
     output = (args.output or ROOT / "build/raha-protected" /
               (datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:8])).resolve()
     require(not output.exists(), "Output directory already exists; choose a new one")
@@ -256,12 +328,14 @@ def main():
     source_hash = digest(apk.read_bytes())
     shutil.copy2(apk, output / "input.apk")
     shutil.copy2(args.mapping, output / "mapping.txt")
+    tool = prepare_tool(java, args.cache.resolve(), log)
+    graph, native = dependency_graph(java, tool, apk, output, log)
+    targets, map_id, exclusions, root_closure = choose_app_targets(mapping, strings, inventory, graph, native)
     # Java regex matches the whole descriptor. Everything except these classes is excluded.
     rules = output / "exclude.rules"
     rules.write_text("(?!(?:" + "|".join(re.escape(t) for t in sorted(targets)) + ")$).*\n", encoding="utf-8")
-    tool = prepare_tool(java, args.cache.resolve(), log)
     unsigned = output / "raha-protected-unsigned.apk"
-    print(f"Protecting {len(targets)} Raha classes; original APK preserved.", flush=True)
+    print(f"Protecting {len(targets)} application classes; original APK preserved.", flush=True)
     run([java, "-jar", tool, "-f", output / "input.apk", "-K", "-r", rules,
          "-x", "-o", unsigned], tool.parent, log)
     require(unsigned.is_file(), "DPT did not produce an output APK")
@@ -271,7 +345,7 @@ def main():
     with zipfile.ZipFile(unsigned, "a") as z:
         z.writestr("assets/NOTICE-dpt-shell.txt", f"dpt-shell {VERSION}\n{REPO}\n\n" + license_text)
     after, _ = apk_inventory(unsigned)
-    require(not targets.keys() & after.keys(), "Protected Raha classes are still in ordinary DEX")
+    require(not targets.keys() & after.keys(), "Protected application classes are still in ordinary DEX")
     for name, methods in inventory.items():
         if name not in targets:
             require(name in after, "Unprotected class disappeared: " + name)
@@ -290,11 +364,14 @@ def main():
               "input_sha256": source_hash, "unsigned_sha256": digest(unsigned.read_bytes()),
               "protected_classes": targets, "preserved_classes": len(inventory) - len(targets),
               "static_checks": "passed", "r8_boundaries_checked": True,
-              "shared_synthetic_classes_preserved": sorted(synthetic_descriptors(mapping) & inventory.keys()),
+              "protection_scope": "application-v2", "root_dependency_closure_checked": True,
+              "first_party_exclusions": exclusions,
+              "root_dependency_closure": root_closure,
+              "shared_synthetic_classes_preserved": sorted((synthetic_descriptors(mapping) & inventory.keys()) - targets.keys()),
               "runtime_tested": False, "signed": False,
               "limitations": ["No runtime compatibility or anti-extraction guarantee",
                               "Static mapping checks are not a proof against runtime extraction",
-                              "Models, constants and app-process bridge are not encrypted",
+                              "Assets and app-process dependency closure remain outside DPT",
                               "DPT runtime signature verification is not enabled"]}
     (output / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print("STATIC CHECKS PASSED; unsigned, NOT ready to install:", unsigned)
