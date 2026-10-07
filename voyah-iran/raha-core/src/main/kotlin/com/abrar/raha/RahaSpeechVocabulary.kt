@@ -159,6 +159,18 @@ object RahaSpeechVocabulary {
         for (verb in RahaPhaseTwoRecognizer.saveWords + RahaPhaseTwoRecognizer.recallWords) {
             add("مموری راننده رو $verb کن")
             add("موقعیت صندلی رو $verb کن")
+            add("صندلی رو $verb کن")
+            for (slot in listOf("یک", "دو", "سه")) {
+                add("حافظه صندلی $slot رو $verb کن")
+                add("مموری صندلی $slot رو $verb کن")
+                add("وضعیت صندلی $slot رو $verb کن")
+            }
+        }
+        for (slot in listOf("یک", "دو", "سه")) {
+            add("صندلی رو ببر تو موقعیت $slot")
+            add("صندلی رو برگردون به موقعیت $slot")
+            add("صندلی رو برگردان به وضعیت $slot")
+            add("صندلی رو ببر تو وضعیت $slot")
         }
         for (target in listOf("دما", "دمای اتاق", "دمای کولر", "فن کولر", "سرعت فن", "گرم کن صندلی", "سرد کن صندلی", "ماساژ")) {
             for (bound in bounds) {

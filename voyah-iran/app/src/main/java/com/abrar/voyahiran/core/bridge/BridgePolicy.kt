@@ -90,7 +90,6 @@ esac
 """.trimIndent())
         if (request == listOf("raha-service", "start")) return listOf("/system/bin/am", "start-foreground-service", "--user", "0",
             "-n", "com.abrar.voyahiran/.feature.voice.RahaService")
-        if (request.size == 2 && request[0] == "seat-memory-activation" && request[1] in listOf("enable", "disable", "status")) return request
         if (request == listOf("raha-seat-ui", "show")) return request
         if (request.size == 3 && request[0] == "raha-command" &&
             com.abrar.raha.RahaAction.entries.any { it.name == request[1] } && request[2].length <= 256) return request
