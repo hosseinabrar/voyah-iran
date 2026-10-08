@@ -23,7 +23,7 @@ internal object AvmTurnBridge {
             check(BridgeSubscriptionSession.vipActive) { "Subscription inactive" }
             if (!enabled) {
                 val equipment = ApolloCapability.read()
-                check(equipment.exitCode == 0 && equipment.output == "APOLLO_CAPABILITY sdb=1") { "Baidu equipment not confirmed" }
+                check(equipment.exitCode == 0 && equipment.output == "APOLLO_CAPABILITY available=1") { "Baidu equipment not confirmed" }
                 enabled = true
                 AppLog.info("AvmTurn", "automatic monitor enabled")
             }

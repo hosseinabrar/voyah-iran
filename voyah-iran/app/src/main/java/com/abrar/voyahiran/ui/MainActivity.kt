@@ -79,10 +79,10 @@ class MainActivity : ComponentActivity() {
                 val result = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
                     com.abrar.voyahiran.core.shell.ProcessCommandRunner().run(listOf("su", "0", "apollo-capability"), 5)
                 }
-                val sdb = if (result.exitCode == 0 && !result.timedOut)
-                    Regex("APOLLO_CAPABILITY sdb=(\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull() else null
-                if (sdb != null) {
-                    apolloAvailable = sdb == 1
+                val available = if (result.exitCode == 0 && !result.timedOut)
+                    Regex("APOLLO_CAPABILITY available=(\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull() else null
+                if (available != null) {
+                    apolloAvailable = available == 1
                     binding.apolloTab.visibility = if (apolloAvailable) View.VISIBLE else View.GONE
                     binding.comfortPage.avmTurnCard.visibility = if (apolloAvailable) View.VISIBLE else View.GONE
                     if (apolloAvailable) updateAvmTurn("read")
