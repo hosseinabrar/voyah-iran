@@ -17,14 +17,26 @@ class NeshanDrivingService : AccessibilityService() {
     private val session = NeshanEntrySession()
     private var verifyUntil = 0L
     private var menuClicked = false
+    private var rootIsCard = false
+    private var cardRetryAt = 0L
+    private val cardVisible get() = com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible &&
+        com.abrar.voyahiran.feature.launcher.LauncherEmbeddedMapSurface.automationDisplayId != null
+    private val cardWatch = object : Runnable {
+        override fun run() {
+            if (cardVisible && enabled) inspectFocus()
+            handler.postDelayed(this, 1500L)
+        }
+    }
     private var tickPending = false
     private val tick = Runnable { tickPending = false; inspect() }
     private val preferences get() = NavigationPreferences(this)
     private val enabled get() = (application as VoyahIranApplication).subscriptions.vipAllowed &&
-        (preferences.autoDriving || preferences.voiceNavigationEnabled)
+        (preferences.autoDriving || preferences.voiceNavigationEnabled || cardVisible)
 
     override fun onServiceConnected() {
         instance = this
+        handler.removeCallbacks(cardWatch)
+        handler.postDelayed(cardWatch, 1500L)
         NeshanVoiceNavigation.serviceConnected = true
         AppLog.info(TAG, "accessibility connected; menu entry + visible navigation reader")
         inspectFocus()
@@ -73,6 +85,8 @@ class NeshanDrivingService : AccessibilityService() {
                             else listOf("bottomNavigationViewMain", "closeMaterialCardViewDrivingControl", "address_panel_upcoming_step_frame")
                         route.startup.observe(ids.any { visible(root, it) }, now)
                     } else if (preferences.voiceNavigationEnabled) enterRoute(root, route, now)
+                } else if (rootIsCard) {
+                    maintainCardDriving(root, now)
                 } else if (preferences.autoDriving && (!session.consumed || verifyUntil != 0L)) enterDriving(root, now)
             }
         } catch (e: RuntimeException) {
@@ -83,6 +97,28 @@ class NeshanDrivingService : AccessibilityService() {
             verifyUntil = 0L
         }
         if (NeshanVoiceNavigation.pending != null || (preferences.autoDriving && (!session.consumed || verifyUntil != 0L))) schedule()
+    }
+    /** Re-arm only on a recognizable idle map, never on a destination/route preview. */
+    private fun maintainCardDriving(root: AccessibilityNodeInfo, now: Long) {
+        val profile = NeshanConfigStore.profile ?: return
+        if ((profile.labels("routeIds") + profile.labels("activeIds")).any { visible(root, it) }) {
+            if (verifyUntil != 0L) AppLog.info(TAG, "card driving confirmed")
+            session.consume(); verifyUntil = 0L; menuClicked = false; cardRetryAt = 0L
+            return
+        }
+        // A manual route preview can exist before guidance exposes its route IDs.
+        if (listOf("شروع", "رانندگی").any { hasVisibleLabel(root, it) }) {
+            session.consume(); verifyUntil = 0L; menuClicked = false
+            return
+        }
+        if (verifyUntil != 0L) return
+        if (session.consumed) {
+            if (now < cardRetryAt || !profile.labels("moreScopeIds").any { visible(root, it) }) return
+            session.leave(); session.enter(now); menuClicked = false
+            AppLog.info(TAG, "card idle map detected; entering free driving")
+        }
+        enterDriving(root, now)
+        if (session.consumed) cardRetryAt = now + 10_000L
     }
     private fun enterRoute(root: AccessibilityNodeInfo, request: NeshanVoiceNavigation.Request, now: Long) {
         val progress = request.progress
@@ -148,6 +184,14 @@ class NeshanDrivingService : AccessibilityService() {
             if (menuClicked) AppLog.info(TAG, "More tab clicked; profile=${profile.id}")
         }
     }
+    private fun hasVisibleLabel(root: AccessibilityNodeInfo, label: String): Boolean {
+        val nodes = root.findAccessibilityNodeInfosByText(label)
+        return try {
+            nodes.any { node -> node.isVisibleToUser && listOf(node.text, node.contentDescription).any {
+                it != null && NeshanDrivingLabels.normalize(it.toString()) == label
+            } }
+        } finally { nodes.forEach { it.recycle() } }
+    }
     private fun clickLabel(root: AccessibilityNodeInfo, label: String): Boolean {
         val nodes = if (listOf(root.text, root.contentDescription).any { it?.toString()?.let(NeshanDrivingLabels::normalize) == label })
             listOf(AccessibilityNodeInfo.obtain(root)) else root.findAccessibilityNodeInfosByText(label)
@@ -197,6 +241,7 @@ class NeshanDrivingService : AccessibilityService() {
     }
     /** Click nodes in the app itself, never inject a gesture through the launcher card. */
     private fun automationRoot(): AccessibilityNodeInfo? {
+        rootIsCard = false
         val cardDisplay = com.abrar.voyahiran.feature.launcher.LauncherEmbeddedMapSurface.automationDisplayId
             .takeIf { com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible }
         val target = NeshanVoiceNavigation.pending?.displayId
@@ -220,7 +265,10 @@ class NeshanDrivingService : AccessibilityService() {
                 val passenger = android.os.Build.VERSION.SDK_INT >= 30 && window.displayId == 1
                 if (!card && !passenger && !window.isActive && !window.isFocused) continue
                 val root = window.root ?: continue
-                if (root.packageName?.toString() == NavigationPreferences.NESHAN && root.isVisibleToUser) return root
+                if (root.packageName?.toString() == NavigationPreferences.NESHAN && root.isVisibleToUser) {
+                    rootIsCard = card
+                    return root
+                }
                 root.recycle()
             }
             if (android.os.Build.VERSION.SDK_INT >= 30 && target != null && target != 0) return null
@@ -235,6 +283,7 @@ class NeshanDrivingService : AccessibilityService() {
     }
     override fun onInterrupt() { NeshanVoiceNavigation.pending?.failure = "Accessibility interrupted"; reset() }
     override fun onDestroy() {
+        handler.removeCallbacks(cardWatch)
         if (instance === this) instance = null
         NeshanVoiceNavigation.serviceConnected = false
         NeshanVoiceNavigation.pending?.failure = "Accessibility disconnected"
