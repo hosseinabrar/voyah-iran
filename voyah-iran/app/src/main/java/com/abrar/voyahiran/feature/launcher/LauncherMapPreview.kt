@@ -125,6 +125,9 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         // Do not turn the source display off or start a competing handoff mid-transfer.
         if(busy && !closed)return
         stopMonitoring()
+        // Covering HOME must not move its map or request another launch on resume.
+        // Only final disposal releases ownership of the virtual display.
+        if(!closed)return
         initialAttempted=false
         if(handoff?.isActive==true)return
         val id=embedded.displayId ?: run { if(closed)handoffScope.cancel();return }
@@ -140,8 +143,12 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         }
     }
     override fun surfaceDestroyed(h:SurfaceHolder) {
-        holder=null;embedded.detach()
-        if(!fullscreen)error("نقشه در دسترس نیست")
+        holder=null
+        if(closed) embedded.detach() else runCatching { embedded.park() }.onFailure {
+            embedded.detach()
+            com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap","background output failed",it)
+        }
+        // Losing a window surface is not loss of the map task. Preserve card state.
     }
     fun close() {
         closed=true;hostStopped()
