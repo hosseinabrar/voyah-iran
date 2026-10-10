@@ -37,6 +37,9 @@ class LauncherAppsActivity : ComponentActivity() {
     private var refreshJob: Job? = null
     private var guard: Job? = null
     private var opening = false
+    private var actions: LauncherAppActions? = null
+    private var actionBusy = false
+    private val badges=mutableListOf<View>()
     private var editing = false
     private var draggedId: String? = null
     private var dropIndex = -1
@@ -124,6 +127,7 @@ class LauncherAppsActivity : ComponentActivity() {
     }
     override fun onPause(){finishEditing();guard?.cancel();guard=null;super.onPause()}
     private fun applyTheme() {
+        actions?.dismiss()
         light=LauncherTheme.isLight()
         LauncherWindowTheme.apply(window,light)
         root.setBackgroundColor(LauncherWindowTheme.background(light))
@@ -183,6 +187,7 @@ class LauncherAppsActivity : ComponentActivity() {
     private fun render() {
         val selected=pager.page
         stopWobble()
+        badges.clear()
         pager.removeAllViews()
         for(pageIndex in 0 until LauncherAppsPolicy.pages(entries.size)) {
             val page=object:FrameLayout(this@LauncherAppsActivity) {
@@ -206,7 +211,21 @@ class LauncherAppsActivity : ComponentActivity() {
                     val value=android.util.TypedValue();theme.resolveAttribute(android.R.attr.selectableItemBackground,value,true);setBackgroundResource(value.resourceId)
                 }
                 val size=(112f*resources.displayMetrics.widthPixels/1920).toInt().coerceAtLeast(56)
-                tile.addView(ImageView(this).apply {setImageDrawable(entry.icon);scaleType=ImageView.ScaleType.FIT_CENTER},LinearLayout.LayoutParams(size,size))
+                val iconBox=FrameLayout(this).apply {clipChildren=false;clipToPadding=false}
+                iconBox.addView(ImageView(this).apply {setImageDrawable(entry.icon);scaleType=ImageView.ScaleType.FIT_CENTER},FrameLayout.LayoutParams(size,size).apply {leftMargin=22;topMargin=22})
+                if(entry.component!=null && entry.component.packageName!=packageName) {
+                    val badge=TextView(this).apply {
+                        text="⋯";gravity=Gravity.CENTER;contentDescription="Options for ${entry.label}"
+                        setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,28f)
+                        setTextColor(if(light)0xff303947.toInt() else 0xffeef3fb.toInt())
+                        background=android.graphics.drawable.GradientDrawable().apply {shape=android.graphics.drawable.GradientDrawable.OVAL;setColor(if(light)0xfff2f6fc.toInt() else 0xff26364f.toInt());setStroke(1,0xff657995.toInt())}
+                        visibility=if(editing)View.VISIBLE else View.GONE
+                        isFocusable=true;setOnClickListener {showActions(entry,this)}
+                    }
+                    iconBox.addView(badge,FrameLayout.LayoutParams(44,44,Gravity.TOP or Gravity.RIGHT))
+                    badges+=badge
+                }
+                tile.addView(iconBox,LinearLayout.LayoutParams(size+44,size+22))
                 tile.addView(TextView(this).apply {
                     text=entry.label
                     if(entry.label.any {it in '\u0600'..'\u06ff'})typeface=resources.getFont(com.abrar.raha.feedback.R.font.iransansx_regular)
@@ -230,7 +249,7 @@ class LauncherAppsActivity : ComponentActivity() {
                 tile.setOnClickListener { if(!editing)open(entry) else if(!touchedContent)finishEditing() }
                 tile.setOnLongClickListener {
                     if(!allowed())return@setOnLongClickListener true
-                    editing=true;done.visibility=View.VISIBLE;updateEditSpacing();startWobble()
+                    editing=true;badges.forEach {it.visibility=View.VISIBLE};done.visibility=View.VISIBLE;updateEditSpacing();startWobble()
                     draggedId=entry.id
                     if(!tile.startDragAndDrop(ClipData.newPlainText("app",entry.id),View.DragShadowBuilder(tile),entry.id,0))draggedId=null
                     true
@@ -315,6 +334,7 @@ class LauncherAppsActivity : ComponentActivity() {
         if(!::pager.isInitialized)return
         if(draggedId!=null)pager.cancelDragAndDrop()
         pager.removeCallbacks(edgeTurn);edgeDirection=0;draggedId=null
+        actions?.dismiss();badges.forEach {it.visibility=View.GONE}
         editing=false;done.visibility=View.GONE;updateEditSpacing();stopWobble()
         deferredEntries?.let {entries=ordered(it);deferredEntries=null;render()}
         highlightDrop(-1)
@@ -331,6 +351,40 @@ class LauncherAppsActivity : ComponentActivity() {
                 }
                 contentDescription="Page ${index+1}";setOnClickListener {pager.show(index)}
             },LinearLayout.LayoutParams(if(index==pager.page)28 else 8,5).apply {setMargins(7,0,7,0)})
+        }
+    }
+    private fun showActions(entry:Entry,anchor:View) {
+        if(!editing || actionBusy || !allowed() || entry.component==null || entry.component.packageName==packageName)return
+        actions?.dismiss()
+        actions=LauncherAppActions(content,light).also { ui ->
+            ui.menu(anchor,{performAppAction(entry,false)},{ui.confirm(entry.label) {performAppAction(entry,true)}})
+        }
+    }
+    private fun performAppAction(entry:Entry,remove:Boolean) {
+        val pkg=entry.component?.packageName ?: return
+        if(actionBusy || !allowed() || pkg==packageName)return
+        actionBusy=true
+        lifecycleScope.launch {
+            try {
+                val result=withContext(Dispatchers.IO) {
+                    val info=packageManager.getApplicationInfo(pkg,0)
+                    check(info.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)==0)
+                    ProcessCommandRunner().run(listOf("su","0",if(remove)"pm" else "am",if(remove)"uninstall" else "force-stop","--user","0",pkg),30)
+                }
+                check(result.exitCode==0 && !result.timedOut && (!remove || result.output.lineSequence().any {it.trim()=="Success"})) {result.output}
+                if(remove) {
+                    refreshJob?.cancel();deferredEntries=null
+                    entries=entries.filter {it.component?.packageName!=pkg}
+                    orderPrefs.edit().putString("ids",org.json.JSONArray(entries.map {it.id}).toString()).apply()
+                    render();refresh()
+                }
+                Toast.makeText(this@LauncherAppsActivity,if(remove)"App removed" else "App stopped",Toast.LENGTH_SHORT).show()
+            } catch(e:CancellationException){throw e}
+            catch(e:Exception) {
+                AppLog.error("LauncherApps","app action remove=$remove package=$pkg failed",e)
+                Toast.makeText(this@LauncherAppsActivity,"Operation failed. Please try again.",Toast.LENGTH_LONG).show()
+                if(remove)refresh()
+            } finally {actionBusy=false}
         }
     }
     private fun open(entry:Entry) {
