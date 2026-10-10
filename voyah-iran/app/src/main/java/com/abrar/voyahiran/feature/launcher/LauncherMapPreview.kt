@@ -73,7 +73,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                     if(r.exitCode!=0 || r.timedOut || r.output.contains("Error:")) {
                         error(if(r.output.contains("passenger display")) "نقشه روی نمایشگر شاگرد است" else "نقشه در دسترس نیست")
                         com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap",r.output)
-                    } else if(id==0) {fullscreen=true;error("");done?.invoke()}
+                    } else if(id==0) {fullscreen=true;initialAttempted=false;error("");done?.invoke()}
                     // For the card, wait for read-only ownership verification before uncovering it.
                 }
             } catch(e:CancellationException) {throw e}

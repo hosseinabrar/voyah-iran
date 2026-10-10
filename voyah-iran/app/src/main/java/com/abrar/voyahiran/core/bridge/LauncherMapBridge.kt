@@ -6,7 +6,7 @@ import com.abrar.voyahiran.core.shell.ProcessCommandRunner
 
 /** Moves only the selected map's normal activity stack; never moves a vehicle/system stack. */
 internal object LauncherMapBridge {
-    fun execute(args: List<String>): CommandResult = try {
+    @Synchronized fun execute(args: List<String>): CommandResult = try {
         check(BridgeSubscriptionSession.active) { "Subscription inactive" }
         val pkg = args[1]
         val release = args[0] == "launcher-map-release"
@@ -48,44 +48,58 @@ internal object LauncherMapBridge {
             check(wc.javaClass.getMethod("getActivityType").invoke(wc) == 1) { "Map must be a normal activity" }
             val current = stack.javaClass.getField("displayId").getInt(stack)
             check(current != 1 || args[0]=="launcher-map-claim") { "Map is on passenger display" }
-            if(current==destination && destination!=0) return CommandResult(0,"Map already in preview")
             if(release) {
                 val focused=apiClass.getMethod("getFocusedStackInfo").invoke(api)
                 val focusedPackage=focused?.let { (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.packageName }
                 if(focusedPackage!=pkg) return CommandResult(0,"Map retained in preview; foreground=$focusedPackage")
             }
-            val host=if(destination!=0) stacks.filterNotNull().firstOrNull {
-                it.javaClass.getField("displayId").getInt(it)==0 &&
-                    (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.className==
-                    "com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity"
-            } else null
-            // Use the normal task-launch path, which completes configuration/resume and
-            // surface updates. OEM moveStackToDisplay can throw halfway through reparenting.
-            val options=android.app.ActivityOptions.makeBasic().setLaunchDisplayId(destination)
-            android.app.ActivityOptions::class.java.getMethod("setLaunchWindowingMode",Int::class.javaPrimitiveType)
-                .invoke(options,1)
-            val result=apiClass.getMethod("startActivityFromRecents",Int::class.javaPrimitiveType,android.os.Bundle::class.java)
-                .invoke(api,taskIds.single(),options.toBundle()) as Int
-            check(result>=0) { "Map task launch failed: $result" }
-            // The recents entry point raises HOME. Keep our host above HOME on the central
-            // screen when embedding; this does not relaunch or move the host activity.
-            if(host!=null) {
-                val hostTasks=host.javaClass.getField("taskIds").get(host) as IntArray
-                apiClass.getMethod("moveTaskToFront",Class.forName("android.app.IApplicationThread"),String::class.java,
-                    Int::class.javaPrimitiveType,Int::class.javaPrimitiveType,android.os.Bundle::class.java)
-                    .invoke(api,null,"com.android.shell",hostTasks.last(),0,null)
+            val stackId=stack.javaClass.getField("stackId").getInt(stack)
+            fun live()=(apiClass.getMethod("getAllStackInfos").invoke(api) as List<*>).filterNotNull().firstOrNull {
+                it.javaClass.getField("stackId").getInt(it)==stackId && containsMap(it)
             }
-            apiClass.getMethod("resizeTask",Int::class.javaPrimitiveType,android.graphics.Rect::class.java,Int::class.javaPrimitiveType)
-                .invoke(api,taskIds.single(),null,0)
+            fun fit() {
+                apiClass.getMethod("setTaskWindowingMode",Int::class.javaPrimitiveType,Int::class.javaPrimitiveType,Boolean::class.javaPrimitiveType)
+                    .invoke(api,taskIds.single(),1,false)
+                val resized=apiClass.getMethod("resizeTask",Int::class.javaPrimitiveType,android.graphics.Rect::class.java,Int::class.javaPrimitiveType)
+                    .invoke(api,taskIds.single(),null,0)
+                apiClass.getMethod("setFocusedStack",Int::class.javaPrimitiveType).invoke(api,stackId)
+                com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap","fit stack=$stackId resizeResult=$resized bounds=${live()?.let { it.javaClass.getField("bounds").get(it) }}")
+            }
+            fun move(to:Int) {
+                val before=checkNotNull(live()) { "Map stack disappeared" }
+                if(before.javaClass.getField("displayId").getInt(before)!=to) {
+                    try {
+                        apiClass.getMethod("moveStackToDisplay",Int::class.javaPrimitiveType,Int::class.javaPrimitiveType).invoke(api,stackId,to)
+                    } catch(e:java.lang.reflect.InvocationTargetException) {
+                        val cause=e.targetException
+                        val landed=live()?.let { it.javaClass.getField("displayId").getInt(it)==to }==true
+                        if(cause !is NullPointerException || cause.message?.contains("moveFocusableActivityToTop")!=true || !landed) throw e
+                        com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap","OEM focus error after confirmed move; completing layout",cause)
+                    }
+                }
+                check(live()?.let {it.javaClass.getField("displayId").getInt(it)==to}==true) {"Map stack did not reach display $to"}
+                fit()
+            }
+            // The tested swap leaves another activity in the virtual source. A map handoff
+            // has no second app, so retain a dedicated empty activity underneath it instead.
+            if(current>1) ensureAnchor(current,apiClass,api)
+            if(destination>1) ensureAnchor(destination,apiClass,api)
+            try { move(destination) } catch(e:Exception) {
+                runCatching { move(current) }.onFailure {
+                    com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap","rollback failed stack=$stackId",it)
+                }
+                throw e
+            }
             val after=apiClass.getMethod("getAllStackInfos").invoke(api) as List<*>
             check(after.filterNotNull().any {
                 it.javaClass.getField("displayId").getInt(it)==destination &&
                     (it.javaClass.getField("taskIds").get(it) as IntArray).contains(taskIds.single()) && containsMap(it)
             }) { "Map task did not reach display $destination" }
-            com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "task-launch task=${taskIds.single()} display=$current->$destination result=$result release=$release")
-            return CommandResult(0,"Map task launched on display $destination")
+            com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "stack-transfer stack=$stackId task=${taskIds.single()} display=$current->$destination release=$release")
+            return CommandResult(0,"Map stack moved to display $destination")
         }
         if(release) return CommandResult(0, "Map returned to central display")
+        if(destination>1) ensureAnchor(destination,apiClass,api)
         val runner = ProcessCommandRunner(useBridge = false)
         val resolved = runner.run(listOf("/system/bin/cmd", "package", "resolve-activity", "--brief", "--user", "0", "-a", "android.intent.action.MAIN", "-c", "android.intent.category.LAUNCHER", pkg), 4)
         val component = resolved.output.lineSequence().map(String::trim).lastOrNull { it.startsWith("$pkg/") && !it.contains(' ') }
@@ -93,6 +107,24 @@ internal object LauncherMapBridge {
         runner.run(launchArguments(component,destination), 5)
         }
     } catch (e: Exception) { CommandResult(1, "Map preview: ${e.cause?.message ?: e.message}") }
+
+    private fun ensureAnchor(display:Int,apiClass:Class<*>,api:Any) {
+        val global=Class.forName("android.hardware.display.DisplayManagerGlobal")
+        val info=global.getMethod("getDisplayInfo",Int::class.javaPrimitiveType).invoke(global.getMethod("getInstance").invoke(null),display)
+        check(info!=null && info.javaClass.getField("name").get(info)=="VoyahIran.MapPreview" &&
+            info.javaClass.getField("ownerPackageName").get(info)=="com.abrar.voyahiran") {"Not an owned preview display"}
+        val anchor="com.abrar.voyahiran.feature.launcher.LauncherMapAnchorActivity"
+        fun present()=(apiClass.getMethod("getAllStackInfos").invoke(api) as List<*>).filterNotNull().any {
+            it.javaClass.getField("displayId").getInt(it)==display &&
+                (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.className==anchor
+        }
+        if(present())return
+        val r=ProcessCommandRunner(useBridge=false).run(listOf("/system/bin/am","start","--user","0","--display",display.toString(),
+            "-n","com.abrar.voyahiran/$anchor"),4)
+        check(r.exitCode==0 && !r.timedOut && !r.output.contains("Error:")) {"Preview anchor launch failed: ${r.output}"}
+        repeat(20) { if(present())return; android.os.SystemClock.sleep(50) }
+        error("Preview anchor did not become ready")
+    }
 
     internal fun launchArguments(component:String,destination:Int):List<String> =
         listOf("/system/bin/am","start","--user","0","--display",destination.toString()) +
