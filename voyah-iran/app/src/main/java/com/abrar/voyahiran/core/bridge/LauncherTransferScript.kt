@@ -12,6 +12,7 @@ Java.perform(function () {
         const WM = Java.use('android.view.WindowManager');
         const LP = Java.use('android.view.WindowManager' + String.fromCharCode(36) + 'LayoutParams');
         const View = Java.use('android.view.View');
+        const JString = Java.use('java.lang.String');
         const Point = Java.use('android.graphics.Point');
         const Anim = Java.use('com.pateo.material.anim.ActivityAnimUtils');
         const launch = Anim.startActivityByAnim.overload('android.content.Context', 'android.content.Intent', 'int');
@@ -58,8 +59,8 @@ Java.perform(function () {
             try {publish(s,'end');} catch(e) {}
             console.log('VI_MAP_TRANSFER end reason='+reason+' package='+s.pkg);
             if(fade) {
-                s.view.animate().alpha(0).setDuration(220).start();
-                setTimeout(function(){Java.scheduleOnMainThread(function(){remove(s);});},260);
+                s.view.animate().alpha(0).setDuration(350).start();
+                setTimeout(function(){Java.scheduleOnMainThread(function(){remove(s);});},390);
             } else remove(s);
         }
         function poll(s) {
@@ -71,7 +72,8 @@ Java.perform(function () {
                 if(found) {
                     const top=found.topActivity.value, bounds=found.bounds.value;
                     ready=top!==null && String(top.getPackageName())===s.pkg && found.visible.value &&
-                        (bounds.isEmpty() || (bounds.width()>=s.width*.9 && bounds.height()>=s.height*.9));
+                        (bounds.isEmpty() || (Math.abs(Number(bounds.left.value)-s.left)<=2 && Math.abs(Number(bounds.top.value)-s.top)<=2 &&
+                            Math.abs(bounds.width()-s.width)<=2 && Math.abs(bounds.height()-s.height)<=2));
                 }
                 s.stable=ready ? s.stable+1 : 0;
                 if(s.stable>=3 && elapsed>=500) {finish(s,true,'bounds-ready');return;}
@@ -99,15 +101,26 @@ Java.perform(function () {
                 if(dest===null)return launch.call(this,ctx,intent,display);
                 const dc=ctx.createDisplayContext(dest), wm=Java.cast(dc.getSystemService('window'),WM);
                 const view=View.${'$'}new(dc); view.setBackgroundColor(-16777216);
-                const lp=LP.${'$'}new(-1,-1,2038,0x18 | 0x100 | 0x200,-1);
-                lp.setTitle('VoyahIran map transfer');
-                const size=Point.${'$'}new();dest.getSize(size);
+                const size=Point.${'$'}new();dest.getRealSize(size);
+                const resolver=ctx.getContentResolver();
+                const raw=Global.getString(resolver,'voyah_iran_display_policy');
+                const ackRaw=Global.getString(resolver,'voyah_iran_display_policy_ack');
+                const request=raw===null?null:String(raw), ack=ackRaw===null?'':String(ackRaw);
+                const enabled=request===null?ack==='1:default':(request==='1'||/^1:[a-f0-9]{32}$/.test(request))&&ack===request;
+                const app=ctx.getPackageManager().getApplicationInfo(pkg,0);
+                const eligible=pkg==='com.abrar.voyahiran'||((Number(app.flags.value)&129)===0&&Number(app.uid.value)>=10000);
+                const w=Number(size.x.value),h=Number(size.y.value);
+                const inset=enabled&&eligible&&w>465&&h>250&&w>h;
+                const left=inset?145:0,top=inset?50:0;
+                const lp=LP.${'$'}new(w-left,h-top,2038,0x18 | 0x100 | 0x200,-1);
+                lp.gravity.value=51;lp.x.value=left;lp.y.value=top;
+                lp.setTitle(JString.${'$'}new('VoyahIran map transfer'));
                 s={ctx:Java.retain(ctx),intent:Java.retain(intent),wm:Java.retain(wm),view:Java.retain(view),
-                    pkg:pkg,width:Number(size.x.value),height:Number(size.y.value),started:Date.now(),stable:0,removed:false,ending:false};
+                    pkg:pkg,left:left,top:top,width:w-left,height:h-top,started:Date.now(),stable:0,removed:false,ending:false};
                 s.drawListener=DrawListener.${'$'}new();
                 view.getViewTreeObserver().addOnDrawListener(s.drawListener);
                 current=s;wm.addView(view,lp);publish(s,'start');
-                console.log('VI_MAP_TRANSFER start package='+pkg);
+                console.log('VI_MAP_TRANSFER start package='+pkg+' bounds='+left+','+top+','+w+','+h);
                 // Launch after the black overlay draws. A missing draw must not swallow the app launch.
                 setTimeout(function(){Java.scheduleOnMainThread(function(){
                     if(!s.launched && !s.removed) {

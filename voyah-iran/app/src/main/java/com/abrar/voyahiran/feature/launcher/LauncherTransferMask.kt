@@ -12,7 +12,7 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.withTimeoutOrNull
 
 /** Uses an application overlay so stopping HOME does not uncover an unfinished resize. */
-internal class LauncherTransferMask(context: Context) {
+internal class LauncherTransferMask(private val context: Context, private val packageName: String) {
     private val wm = context.applicationContext.getSystemService(WindowManager::class.java)
     private val view = View(context.applicationContext).apply { setBackgroundColor(Color.BLACK) }
     private val handler = Handler(Looper.getMainLooper())
@@ -32,8 +32,17 @@ internal class LauncherTransferMask(context: Context) {
         return try {
             val flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-            wm.addView(view, WindowManager.LayoutParams(-1,-1,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,flags,PixelFormat.OPAQUE)
-                .apply { title="VoyahIran central map transfer" })
+            val size = android.graphics.Point().also { wm.defaultDisplay.getRealSize(it) }
+            val resolver = context.contentResolver
+            val request = android.provider.Settings.Global.getString(resolver,"voyah_iran_display_policy")
+            val ack = android.provider.Settings.Global.getString(resolver,"voyah_iran_display_policy_ack")
+            val eligible = runCatching {
+                val app=context.packageManager.getApplicationInfo(packageName,0)
+                packageName==context.packageName || (app.flags and 129 == 0 && app.uid >= 10000)
+            }.getOrDefault(false)
+            val bounds = LauncherTransferBounds.resolve(size.x,size.y,request,ack,eligible)
+            wm.addView(view, WindowManager.LayoutParams(bounds.width(),bounds.height(),WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,flags,PixelFormat.OPAQUE)
+                .apply { title="VoyahIran central map transfer"; gravity=android.view.Gravity.TOP or android.view.Gravity.LEFT; x=bounds.left; y=bounds.top })
             attached = true
             handler.postDelayed(timeout, 20_000)
             val ready = withTimeoutOrNull(800) { drawn.await(); true } == true
@@ -47,7 +56,7 @@ internal class LauncherTransferMask(context: Context) {
     }
     fun finish(fade: Boolean) {
         if (!attached) return
-        if (fade) view.animate().alpha(0f).setDuration(220).withEndAction { remove() }.start()
+        if (fade) view.animate().alpha(0f).setDuration(350).withEndAction { remove() }.start()
         else remove()
     }
     private fun remove() {

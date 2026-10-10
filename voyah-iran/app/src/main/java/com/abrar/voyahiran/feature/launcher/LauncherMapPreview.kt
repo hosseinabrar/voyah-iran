@@ -88,7 +88,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 moves.withLock {
                     if(closed || ((fullscreen || !active) && id!=0))return@withLock
                     if (id == 0) {
-                        mask = LauncherTransferMask(context)
+                        mask = LauncherTransferMask(context,packageName)
                         mask?.show()
                     }
                     val clean = !claim && id != 0 && packageName.isNotBlank() &&
