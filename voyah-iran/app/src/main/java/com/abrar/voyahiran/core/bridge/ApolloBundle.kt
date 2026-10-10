@@ -75,7 +75,8 @@ internal object ApolloBundle {
         }
         val result = if (feature == null) method.invoke(remote, null, bundle) else method.invoke(remote, state, value)
         check(result !is Number || result.toInt() >= 0) { "OEM rejected Apollo bundle: $result" }
-        if (feature != null) {
+        if (feature != null && feature != com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.EMERGENCY_LANE &&
+            feature != com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.EMERGENCY_STEERING) {
             val getter = api.getMethod("getVehicleState", stateType)
             val deadline = android.os.SystemClock.elapsedRealtime() + 2000
             var actual = getter.invoke(remote, state) as Int

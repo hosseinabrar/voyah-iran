@@ -206,7 +206,7 @@ class MainActivity : ComponentActivity() {
         binding.apolloTab.visibility = View.GONE
         binding.apolloTab.setOnClickListener { if (apolloAvailable) { selectTab(Tab.APOLLO); apollo.refresh() } }
         with(binding.apolloPage) {
-            listOf(laneChange, emergencyLane, trafficLight, lightChange, signs, emergencySteering)
+            listOf(laneChange, trafficLight, lightChange, signs)
                 .zip(com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.displayed).forEach { (box, feature) ->
                     box.setOnClickListener { apollo.setFeature(feature, box.isChecked) }
                 }
@@ -600,7 +600,7 @@ class MainActivity : ComponentActivity() {
         subscription.isEnabled = !state.busy
         state.error?.let { android.widget.Toast.makeText(this@MainActivity, it, android.widget.Toast.LENGTH_LONG).show() }
         val features = com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.displayed
-        val boxes = listOf(laneChange, emergencyLane, trafficLight, lightChange, signs, emergencySteering)
+        val boxes = listOf(laneChange, trafficLight, lightChange, signs)
         val titles = listOf(R.string.apollo_lane_change, R.string.apollo_emergency_lane, R.string.apollo_traffic_light,
             R.string.apollo_light_change, R.string.apollo_signs, R.string.apollo_emergency_steering)
         features.forEachIndexed { index, feature ->

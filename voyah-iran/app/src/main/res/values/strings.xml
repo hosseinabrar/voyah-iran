@@ -77,7 +77,7 @@
     <string name="apollo_tab">آپولو</string>
     <string name="apollo_report_note">وضعیت گزینه‌ها از خودرو خوانده می‌شود.</string>
     <string name="apollo_subscription">فعال سازی آپولو</string>
-    <string name="apollo_lane_change">تغییر لاین با راهنمای چپ و راست</string>
+    <string name="apollo_lane_change">تغییر لاین بین خطوط با زدن راهنمای چپ و راست در زمان فعال بودن کروز کنترل هوشمند</string>
     <string name="apollo_navigation">هدایت ناوبری (NOA)</string>
     <string name="apollo_traffic_light">تشخیص چراغ راهنمایی و نمایش در کلاستر</string>
     <string name="apollo_light_change">یادآوری تغییر وضعیت چراغ راهنمایی با صدا</string>

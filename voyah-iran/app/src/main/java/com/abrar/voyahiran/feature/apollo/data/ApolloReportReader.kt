@@ -9,6 +9,7 @@ import org.json.JSONObject
 
 /** Read-only provider and CAN queries, including experimental controls through the bridge. */
 class ApolloReportReader(context: Context) {
+    private val appContext = context.applicationContext
     private val resolver = context.applicationContext.contentResolver
     private val gateway = CanDriveGateway(context) {}
     suspend fun read(): ApolloReport {
@@ -31,9 +32,12 @@ class ApolloReportReader(context: Context) {
                     com.abrar.voyahiran.core.logging.AppLog.error("Apollo", "feature-read-failed feature=$feature", error)
                     null
                 }
+                values[feature] = ApolloSelections.display(appContext, feature, values[feature])
                 com.abrar.voyahiran.core.logging.AppLog.changed("Apollo/$feature", "checked=${values[feature]}")
             }
         } finally { gateway.close() }
-        return ApolloReport(subscription, values, ApolloExperimentPort.read())
+        val experiments = ApolloExperimentPort.read()
+        experiments.forEach { (setting, value) -> if (value != null) ApolloSelections.save(appContext, setting, value) }
+        return ApolloReport(subscription, values, experiments)
     }
 }

@@ -19,11 +19,14 @@ object ApolloControl {
         repeat(6) { attempt ->
             val value = ApolloPolicy.value(app.subscriptions.vipAllowed, checked(app))
             if (!force && !verify && applied == value) return@withLock
+            // Capture the currently displayed/OEM selections before enabling the bundle.
+            if (value == 2 && applied != 2 && !ApolloSelections.hasSnapshot(app)) ApolloReportReader(app).read()
             val result = ProcessCommandRunner().run(listOf("su", "0", if (verify && !force) "apollo-reconcile" else "apollo-state", value.toString()), 5)
             if (result.exitCode == 75 && !result.timedOut && attempt < 5) delay(300L + attempt * 100L)
             else {
                 check(result.exitCode == 0 && !result.timedOut && result.output.contains("value=$value")) { result.output }
                 applied = value
+                if (value == 2 && result.output.contains("bundle dispatched")) ApolloSelections.replay(app)
                 return@withLock
             }
         }
