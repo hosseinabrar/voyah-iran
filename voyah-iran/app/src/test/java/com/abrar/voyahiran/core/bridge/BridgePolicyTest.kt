@@ -6,10 +6,12 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
-    @Test fun cleanMapOnlyAllowsNeshanOnVirtualDisplays() {
+    @Test fun cleanMapAcceptsSelectedAppsOnlyOnVirtualDisplays() {
         val valid = listOf("launcher-map-clean", "org.rajman.neshan.traffic.tehran.navigator", "7")
         assertEquals(valid, BridgePolicy.resolve(valid))
-        for ((index, value) in listOf(1 to "other.app", 2 to "0", 2 to "1", 2 to "10001", 2 to "7;reboot")) {
+        assertEquals(listOf("launcher-map-clean", "com.example.maps", "7"),
+            BridgePolicy.resolve(listOf("launcher-map-clean", "com.example.maps", "7")))
+        for ((index, value) in listOf(1 to "com.abrar.voyahiran", 1 to "bad;package", 2 to "0", 2 to "1", 2 to "10001", 2 to "7;reboot")) {
             assertNull(BridgePolicy.resolve(valid.toMutableList().apply { this[index] = value }))
         }
         assertNull(BridgePolicy.resolve(valid + "extra"))

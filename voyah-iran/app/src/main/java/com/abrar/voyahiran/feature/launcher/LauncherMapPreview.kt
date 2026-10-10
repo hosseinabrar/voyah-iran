@@ -68,7 +68,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
             try {
                 moves.withLock {
                     if(closed || ((fullscreen || !active) && id!=0))return@withLock
-                    val clean = !claim && id != 0 && packageName == com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN &&
+                    val clean = !claim && id != 0 && packageName.isNotBlank() &&
                         LauncherMapWakeSession.pending &&
                         (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed &&
                         com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null
@@ -121,7 +121,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         if(!active || !embedded.attached || embedded.displayId!=id)return@withLock
                         if(r.exitCode==0 && !r.timedOut) {
                             if (isVisibleHere(r.output,id) && LauncherMapWakeSession.pending &&
-                                packageName == com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN &&
+                                packageName.isNotBlank() &&
                                 com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible &&
                                 com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null &&
                                 (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) {

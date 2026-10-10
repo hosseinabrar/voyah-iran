@@ -34,9 +34,15 @@ internal object LauncherMapBridge {
         val stack = candidates.firstOrNull { it.javaClass.getField("displayId").getInt(it)==1 } ?: candidates.firstOrNull()
         if (args[0] == "launcher-map-clean") {
             check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
-            check(pkg == "org.rajman.neshan.traffic.tehran.navigator" && destination > 1)
+            check(pkg != "com.abrar.voyahiran" && destination > 1)
             // Never kill a map owned by a physical display, even if it moved during the request.
             if (candidates.all { it.javaClass.getField("displayId").getInt(it) == destination }) {
+                val inventory = ProcessCommandRunner(useBridge=false).run(
+                    listOf("/system/bin/pm", "list", "packages", "-3", "--user", "0"), 5)
+                check(inventory.exitCode == 0 && !inventory.timedOut &&
+                    inventory.output.lineSequence().any { it.trim() == "package:$pkg" }) {
+                    "Clean restart requires a user-installed map"
+                }
                 val stopped = ProcessCommandRunner(useBridge=false).run(
                     listOf("/system/bin/am", "force-stop", "--user", "0", pkg), 5)
                 check(stopped.exitCode == 0 && !stopped.timedOut && !stopped.output.contains("Error:")) {
