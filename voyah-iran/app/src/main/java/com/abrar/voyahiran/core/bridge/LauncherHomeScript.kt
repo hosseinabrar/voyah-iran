@@ -72,7 +72,7 @@ Java.perform(function () {
         const Manager = Java.use('com.qinggan.app.mediaCentre.MediaManager');
         const App = Java.use('android.app.ActivityThread');
         let last = '', previous = '', publishedAt = 0;
-        setInterval(function () { Java.perform(function () {
+        function publishMedia() { Java.perform(function () {
             try {
                 const ctx = App.currentApplication();
                 if (ctx === null || !allowed(ctx)) return;
@@ -96,7 +96,28 @@ Java.perform(function () {
                 Global.putString(ctx.getContentResolver(), 'voyah_iran_launcher_media', JSON.stringify(value));
                 previous = signature; publishedAt = Date.now();
             } catch(e) { if (String(e) !== last) { last = String(e); console.log('VI_HOME_MEDIA ' + e); } }
-        }); }, 1000);
+        }); }
+        let publicationPending = false;
+        function mediaChanged() {
+            if (publicationPending) return;
+            publicationPending = true;
+            setTimeout(function () { publicationPending = false; publishMedia(); }, 0);
+        }
+        ['onMediaInfoChange', 'onMediaStateChange', 'onMediaOriginalStateChange',
+         'onMediaTypeChange', 'onMediaConnected', 'onSessionEvent'].forEach(function (name) {
+            try {
+                Manager[name].overloads.forEach(function (method) {
+                    method.implementation = function () {
+                        const result = method.apply(this, arguments);
+                        mediaChanged();
+                        return result;
+                    };
+                });
+            } catch(e) { console.log('VI_HOME_MEDIA_LISTENER ' + name + ' ' + e); }
+        });
+        publishMedia();
+        // Lease/freshness heartbeat only; state changes publish immediately from callbacks.
+        setInterval(publishMedia, 5000);
     } catch(e) { console.log('VI_HOME_MEDIA_UNAVAILABLE ' + e); }
 });
 """.trimIndent()

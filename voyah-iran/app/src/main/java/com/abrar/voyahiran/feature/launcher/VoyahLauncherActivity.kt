@@ -32,6 +32,19 @@ class VoyahLauncherActivity : ComponentActivity() {
     private var mapView: SurfaceView? = null
     private var activeNavigator = ""
     private var ticker: Job? = null
+    private var defaultPlayJob: Job? = null
+    private var coverJob: Job? = null
+    private var mediaAt=0L
+    private var mediaSnapshot=LauncherMediaState()
+    private val mediaObserver by lazy { LauncherMediaObserver(this,lifecycleScope) { state ->
+        mediaSnapshot=state;mediaAt=android.os.SystemClock.elapsedRealtime()
+        dashboard.media=state
+        coverJob?.cancel()
+        if(state.cover==null && state.coverUri.isNotBlank()) coverJob=lifecycleScope.launch {
+            val cover=withContext(Dispatchers.IO) { artwork.load(state.coverUri) }
+            dashboard.media=dashboard.media.copy(cover=cover)
+        }
+    } }
     private val weather by lazy { LauncherWeather(this,lifecycleScope) { dashboard.weather=it } }
     private val artwork by lazy { LauncherArtwork(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +77,15 @@ class VoyahLauncherActivity : ComponentActivity() {
         setContentView(container)
         dashboard.onMap = { preview?.open { preview?.stopMonitoring() } }
         dashboard.onShowMap = { preview?.showInCard() }
-        dashboard.onMedia = { button ->
+        dashboard.onMedia = media@{ button ->
+            if (!dashboard.media.playing && dashboard.media.controller == null) {
+                if(defaultPlayJob?.isActive!=true) defaultPlayJob=lifecycleScope.launch {
+                    try { com.abrar.voyahiran.feature.media.RahaMediaControl.playDefault(this@VoyahLauncherActivity) }
+                    catch(e:CancellationException) { throw e }
+                    catch(e:Exception) { com.abrar.voyahiran.core.logging.AppLog.error("LauncherMedia","default play failed",e) }
+                }
+                return@media
+            }
             runCatching {
             val controller=dashboard.media.controller
             val key=when(button){0->88;2->87;else->if(dashboard.media.playing)127 else 126}
@@ -132,14 +153,18 @@ class VoyahLauncherActivity : ComponentActivity() {
         updatePageWork()
         updateTheme()
         weather.start()
+        mediaObserver.start()
         ticker?.cancel()
         ticker=lifecycleScope.launch {
             while(isActive) {
                 updateTheme()
-                dashboard.media=withContext(Dispatchers.IO){ runCatching {
-                    val state=LauncherMedia.read(this@VoyahLauncherActivity)
-                    if(state.cover==null) state.copy(cover=artwork.load(state.coverUri)) else state
-                }.getOrElse { com.abrar.voyahiran.core.logging.AppLog.info("LauncherMedia", "read failed: ${it.javaClass.simpleName}");LauncherMediaState() } }
+                // Animate elapsed time locally; playback changes arrive through callbacks.
+                val state=mediaSnapshot
+                if(state.playing && state.duration>0) {
+                    val elapsed=android.os.SystemClock.elapsedRealtime()-mediaAt
+                    val speed=state.controller?.playbackState?.playbackSpeed ?: 1f
+                    dashboard.media=dashboard.media.copy(position=(state.position+(elapsed*speed).toLong()).coerceIn(0,state.duration))
+                }
                 if(!LauncherPreferences.enabled(this@VoyahLauncherActivity) || !(application as VoyahIranApplication).subscriptions.allowed) { finish();break }
                 delay(1000)
             }
@@ -207,6 +232,6 @@ class VoyahLauncherActivity : ComponentActivity() {
         }
     }
     override fun onNewIntent(intent:Intent){super.onNewIntent(intent);pager.show(0)}
-    override fun onStop(){visible=false;updatePageWork();preview?.hostStopped();weather.stop();ticker?.cancel();super.onStop()}
+    override fun onStop(){visible=false;updatePageWork();preview?.hostStopped();weather.stop();mediaObserver.stop();coverJob?.cancel();ticker?.cancel();super.onStop()}
     override fun onDestroy(){vehiclePage.artwork.close();compass.stop();preview?.close();preview=null;super.onDestroy()}
 }

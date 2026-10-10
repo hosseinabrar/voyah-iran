@@ -12,6 +12,46 @@ import com.abrar.voyahiran.core.shell.CommandResult
 
 /** Use a real application identity; the OEM media shell dispatch supplies an empty package. */
 object RahaMediaControl {
+    /** Explicit empty-card play: address the selected player, never a stale global recipient. */
+    suspend fun playDefault(context: Context) {
+        val prefs=com.abrar.voyahiran.feature.navigation.NavigationPreferences(context)
+        val selection=prefs.musicPlayer
+        val pkg=selection.substringBefore('#')
+        val manager=context.getSystemService(MediaSessionManager::class.java)
+        fun session()=runCatching { manager.getActiveSessions(MediaControl.component(context)) }
+            .getOrDefault(emptyList()).firstOrNull { it.packageName==pkg }
+        val radio=selection==com.abrar.voyahiran.feature.navigation.NavigationPreferences.OEM_RADIO
+        if(!radio) session()?.let { it.transportControls.play();return }
+        val serviceName=when(selection) {
+            com.abrar.voyahiran.feature.navigation.NavigationPreferences.OEM_RADIO -> "com.qinggan.media.radio.LocalRadioBrowserService"
+            com.abrar.voyahiran.feature.navigation.NavigationPreferences.OEM_MUSIC -> "com.qinggan.media.usbmusic.LocalMediaBrowserService"
+            else -> context.packageManager.queryIntentServices(android.content.Intent("android.media.browse.MediaBrowserService").setPackage(pkg),0)
+                .firstOrNull { it.serviceInfo.exported }?.serviceInfo?.name
+        }
+        if(serviceName!=null) {
+            val ready=kotlinx.coroutines.CompletableDeferred<MediaController?>()
+            var browser: android.media.browse.MediaBrowser?=null
+            try {
+                browser=android.media.browse.MediaBrowser(context,android.content.ComponentName(pkg,serviceName),
+                    object:android.media.browse.MediaBrowser.ConnectionCallback() {
+                        override fun onConnected() { ready.complete(browser?.let { MediaController(context,it.sessionToken) }) }
+                        override fun onConnectionFailed() { ready.complete(null) }
+                        override fun onConnectionSuspended() { ready.complete(null) }
+                    },null)
+                browser.connect()
+                val target=kotlinx.coroutines.withTimeoutOrNull(5000) { ready.await() }
+                if(target!=null) { target.transportControls.play();return }
+            } finally { browser?.disconnect() }
+        }
+        com.abrar.voyahiran.feature.navigation.DefaultAppLaunch.execute(context,
+            if(radio) "OPEN_OEM_RADIO" else "OPEN_DEFAULT_MUSIC",null)
+        val target=kotlinx.coroutines.withTimeoutOrNull(8000) {
+            var found=session()
+            while(found==null) { kotlinx.coroutines.delay(200);found=session() }
+            found
+        }
+        checkNotNull(target) { "Default player did not expose a playback session" }.transportControls.play()
+    }
     val actions = setOf("PLAY_MEDIA", "PAUSE_MEDIA", "NEXT_MEDIA", "PREVIOUS_MEDIA")
     fun execute(context: Context, action: String): CommandResult {
         require(action in actions)
