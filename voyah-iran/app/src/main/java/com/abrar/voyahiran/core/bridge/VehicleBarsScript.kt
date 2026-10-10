@@ -8,6 +8,7 @@ Java.perform(function () {
         const Controller=Java.use('com.qinggan.launcher.navigation.NavigationBarController');
         const Color=Java.use('android.graphics.drawable.ColorDrawable');
         const View=Java.use('android.view.View');
+        const JString=Java.use('java.lang.String');
         const LP=Java.use('android.view.WindowManager'+String.fromCharCode(36)+'LayoutParams');
         const WM=Java.use('android.view.WindowManager');
         const DM=Java.use('android.hardware.display.DisplayManager');
@@ -74,7 +75,7 @@ Java.perform(function () {
                 // because QG_NAVIGATION_BAR (2110) is layer 3 and must never be covered.
                 const lp=LP.__DOLLAR__new(width,height,2038,0x8|0x10|0x100|0x200,-3);
                 lp.gravity.value=51;lp.x.value=left;lp.y.value=0;
-                lp.setTitle('VoyahIran.BarBackground.'+display);
+                lp.setTitle(JString.__DOLLAR__new('VoyahIran.BarBackground.'+display));
                 s.wm.addView(v,lp);s.view=v;s.key=key;
                 console.log('VI_BAR_THEME display='+display+' light='+light);
             } catch(e) {if(b)restore(b);removeTop(s);console.log('VI_BAR_THEME_ERROR '+e);}

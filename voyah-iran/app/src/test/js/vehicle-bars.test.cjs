@@ -10,7 +10,8 @@ const classes={
 'com.qinggan.launcher.navigation.NavigationBarController':{show:{overload:()=>({call(){}})}},
 'android.graphics.drawable.ColorDrawable':{$new:drawable},
 'android.view.View':{$new:()=>({setBackgroundColor(c){this.color=c}})},
-'android.view.WindowManager$LayoutParams':{$new:(w,h,t,f,fmt)=>({w,h,t,f,fmt,gravity:{},x:{},y:{},setTitle(){}})},
+'android.view.WindowManager$LayoutParams':{$new:(w,h,t,f,fmt)=>({w,h,t,f,fmt,gravity:{},x:{},y:{},setTitle(value){assert.equal(value.javaString,true,'Window title must be a Java CharSequence');this.title=value.text}})},
+'java.lang.String':{$new:text=>({javaString:true,text})},
 'android.view.WindowManager':{},'android.hardware.display.DisplayManager':{},
 'android.graphics.Point':{$new:()=>({x:{value:0}})},
 'android.os.SystemProperties':{get:()=>theme},'com.qinggan.utils.ScreenLiftUtils':{getScreenLiftState:()=>lift}};
