@@ -104,29 +104,29 @@ class LauncherDashboard(context: Context) : View(context) {
             text(media.artist,1101f,310f,26f,secondary,center=true)
         } else {
             val cover = media.cover ?: defaultCover
-            val rect=RectF(971f,82f,1231f,342f)
+            val rect=RectF(941f,78f,1261f,398f)
             c.save();c.clipPath(Path().apply{addRoundRect(rect,12f,12f,Path.Direction.CW)})
             paint.color=Color.WHITE
             if(lightTheme && media.cover==null) {
                 paint.color=0xffdce8f7.toInt();c.drawRect(rect,paint)
-                paint.color=0xffeaf1fa.toInt();c.drawCircle(1101f,212f,92f,paint)
-                paint.color=0xffd3e2f3.toInt();c.drawCircle(1101f,212f,31f,paint)
+                paint.color=0xffeaf1fa.toInt();c.drawCircle(1101f,238f,113f,paint)
+                paint.color=0xffd3e2f3.toInt();c.drawCircle(1101f,238f,38f,paint)
             } else c.drawBitmap(cover,null,rect,paint)
             c.restore()
-            text(media.title,1101f,393f,32f,center=true,bold=true)
-            text(media.artist,1101f,435f,23f,secondary,center=true)
+            text(media.title,1101f,437f,32f,center=true,bold=true)
+            text(media.artist,1101f,465f,23f,secondary,center=true)
         }
         if(!media.radio) {
-            paint.color=if(lightTheme) 0xffcdd9e8.toInt() else if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,480f,1291f,480f,paint)
-            if(media.duration>0) { paint.color=if(lightTheme) 0xff668cce.toInt() else if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,480f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),480f,paint) }
+            paint.color=if(lightTheme) 0xffcdd9e8.toInt() else if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,494f,1291f,494f,paint)
+            if(media.duration>0) { paint.color=if(lightTheme) 0xff668cce.toInt() else if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,494f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),494f,paint) }
             fun time(ms:Long)=String.format(Locale.US,"%d:%02d",ms/60000,ms/1000%60)
-            text(time(media.position),911f,509f,17f);text(time(media.duration),1250f,509f,17f)
+            text(time(media.position),911f,522f,17f);text(time(media.duration),1250f,522f,17f)
         }
-        paint.shader=LinearGradient(1060f,545f,1140f,625f,accentTop,accentBottom,Shader.TileMode.CLAMP)
-        c.drawCircle(1101f,576f,38f,paint);paint.shader=null
+        paint.shader=LinearGradient(1060f,549f,1140f,629f,accentTop,accentBottom,Shader.TileMode.CLAMP)
+        c.drawCircle(1101f,580f,38f,paint);paint.shader=null
         listOf(987f to icons[0],1101f to icons[if(media.playing)2 else 1],1215f to icons[3]).forEach { (x,b)->
             paint.colorFilter=if(lightTheme && x!=1101f)darkIconFilter else null
-            c.drawBitmap(b,null,RectF(x-18,558f,x+18,594f),paint)
+            c.drawBitmap(b,null,RectF(x-18,562f,x+18,598f),paint)
         }
         paint.colorFilter=null
         val now=Calendar.getInstance();val cx=1545f;val cy=177f
@@ -177,7 +177,7 @@ class LauncherDashboard(context: Context) : View(context) {
                     y in 536f..616f && x in 947f..1027f -> onMedia(0)
                     y in 536f..616f && x in 1061f..1141f -> onMedia(1)
                     y in 536f..616f && x in 1175f..1255f -> onMedia(2)
-                    !media.radio && x in 911f..1291f && y in 455f..505f -> { if(media.canSeek) onSeek(((x-911f)/380f*media.duration).toLong()) }
+                    !media.radio && x in 911f..1291f && y in 478f..540f -> { if(media.canSeek) onSeek(((x-911f)/380f*media.duration).toLong()) }
                     else -> onOpenMusic()
                 }
             }
