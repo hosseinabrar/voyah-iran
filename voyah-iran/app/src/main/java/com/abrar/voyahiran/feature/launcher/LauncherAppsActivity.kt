@@ -357,7 +357,14 @@ class LauncherAppsActivity : ComponentActivity() {
         if(!editing || actionBusy || !allowed() || entry.component==null || entry.component.packageName==packageName)return
         actions?.dismiss()
         actions=LauncherAppActions(content,light).also { ui ->
-            ui.menu(anchor,{performAppAction(entry,false)},{ui.confirm(entry.label) {performAppAction(entry,true)}})
+            ui.menu(anchor,{performAppAction(entry,false)},{ui.confirm(entry.label) {performAppAction(entry,true)}},{
+                if(allowed()) {
+                    val intent=Intent(this,com.abrar.voyahiran.ui.MainActivity::class.java)
+                        .putExtra("com.abrar.voyahiran.OPEN_PERMISSIONS_PACKAGE",entry.component.packageName)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent,ActivityOptions.makeBasic().apply {launchDisplayId=0}.toBundle())
+                }
+            })
         }
     }
     private fun performAppAction(entry:Entry,remove:Boolean) {

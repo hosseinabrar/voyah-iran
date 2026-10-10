@@ -20,9 +20,14 @@ class PermissionsViewModel(app: Application) : AndroidViewModel(app) {
     private val repository = PermissionRepository(app)
     private val mutable = MutableStateFlow(PermissionsState())
     val state = mutable.asStateFlow()
-    fun refresh() = runOperation {
+    private var pendingPackage:String?=null
+    fun openApp(pkg:String) {
+        if(mutable.value.busy) {pendingPackage=pkg;return}
+        refresh(pkg)
+    }
+    fun refresh(preferred:String?=null) = runOperation {
         val apps = repository.apps()
-        val selected = mutable.value.selected?.takeIf { p -> apps.any { it.packageName == p } } ?: apps.firstOrNull()?.packageName
+        val selected = (preferred ?: mutable.value.selected)?.takeIf { p -> apps.any { it.packageName == p } } ?: apps.firstOrNull()?.packageName
         mutable.value.copy(apps = apps, selected = selected, permissions = selected?.let(repository::permissions).orEmpty())
     }
     fun uninstall(pkg: String) = runOperation {
@@ -78,6 +83,8 @@ class PermissionsViewModel(app: Application) : AndroidViewModel(app) {
                     try { withContext(Dispatchers.IO) { repository.permissions(pkg) } } catch (_: Exception) { null }
                 }
                 mutable.value = withDensity(mutable.value.copy(permissions = current ?: mutable.value.permissions, busy = false, error = true))
+            } finally {
+                pendingPackage?.let {pkg -> pendingPackage=null;openApp(pkg)}
             }
         }
     }

@@ -395,8 +395,24 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        openRequestedPermissions()
+    }
+
+    private fun openRequestedPermissions() {
+        val key="com.abrar.voyahiran.OPEN_PERMISSIONS_PACKAGE"
+        val pkg=intent?.getStringExtra(key) ?: return
+        intent.removeExtra(key)
+        if(!Regex("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+").matches(pkg))return
+        selectTab(Tab.PERMISSIONS)
+        permissions.openApp(pkg)
+    }
+
     override fun onStart() {
         super.onStart()
+        openRequestedPermissions()
         com.abrar.voyahiran.feature.navigation.NeshanConfigStore.refresh(this)
         // This receiver only listens to protected system broadcasts, not app commands.
         registerReceiver(timeChanged, IntentFilter().apply {

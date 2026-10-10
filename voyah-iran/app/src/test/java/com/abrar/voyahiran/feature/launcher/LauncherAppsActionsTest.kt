@@ -18,6 +18,16 @@ class LauncherAppsActionsTest {
   if(v is ViewGroup)for(i in 0 until v.childCount)find(v.getChildAt(i),text)?.let {return it}
   return null
  }
+ @Test fun permissionsOnlyInvokesNavigationAndDismissesMenu() {
+  val controller=Robolectric.buildActivity(Activity::class.java).setup()
+  val host=FrameLayout(controller.get());controller.get().setContentView(host)
+  val anchor=View(controller.get());host.addView(anchor)
+  var opened=0
+  LauncherAppActions(host,false).menu(anchor,{fail("Unexpected stop")},{fail("Unexpected removal")},{opened++})
+  find(host,"Permissions")!!.performClick()
+  assertEquals(1,opened);assertEquals(1,host.childCount)
+  controller.destroy()
+ }
  @Test fun removalRequiresExplicitConfirmInBothThemes() {
   for(light in listOf(false,true)) {
    val controller=Robolectric.buildActivity(Activity::class.java).setup()

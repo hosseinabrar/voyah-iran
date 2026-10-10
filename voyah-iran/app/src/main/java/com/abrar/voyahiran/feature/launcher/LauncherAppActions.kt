@@ -30,13 +30,22 @@ internal class LauncherAppActions(private val host:FrameLayout, private val ligh
     private val scale get()=(host.resources.displayMetrics.widthPixels/1920f).coerceAtLeast(.65f)
     private fun px(v:Int)=(v*scale).toInt()
     private val removeColor get()=if(light)0xffff3b30.toInt() else 0xffff453a.toInt()
-    private fun actionIcon(remove:Boolean):android.graphics.drawable.Drawable = object:android.graphics.drawable.Drawable() {
+    private fun actionIcon(remove:Boolean,permissions:Boolean=false):android.graphics.drawable.Drawable = object:android.graphics.drawable.Drawable() {
         private val paint=android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply {
             color=if(remove)removeColor else textColor;strokeWidth=1.8f;strokeCap=android.graphics.Paint.Cap.ROUND;strokeJoin=android.graphics.Paint.Join.ROUND
         }
         override fun draw(canvas:android.graphics.Canvas) {
             canvas.save();canvas.translate(bounds.left.toFloat(),bounds.top.toFloat());canvas.scale(bounds.width()/24f,bounds.height()/24f)
-            if(remove) {
+            if(permissions) {
+                paint.style=android.graphics.Paint.Style.STROKE
+                val path=android.graphics.Path().apply {
+                    moveTo(12f,2f);lineTo(20f,5f);lineTo(20f,11f)
+                    cubicTo(20f,16f,16f,20f,12f,22f)
+                    cubicTo(8f,20f,4f,16f,4f,11f);lineTo(4f,5f);close()
+                }
+                canvas.drawPath(path,paint)
+                canvas.drawLine(8f,12f,11f,15f,paint);canvas.drawLine(11f,15f,16f,9f,paint)
+            } else if(remove) {
                 paint.style=android.graphics.Paint.Style.STROKE
                 canvas.drawRoundRect(6f,7f,18f,21f,1.5f,1.5f,paint)
                 canvas.drawLine(4f,5f,20f,5f,paint);canvas.drawLine(9f,2f,15f,2f,paint)
@@ -73,19 +82,24 @@ internal class LauncherAppActions(private val host:FrameLayout, private val ligh
             host.addView(view,FrameLayout.LayoutParams(-1,-1))
         }
     }
-    fun menu(anchor:View,stop:()->Unit,remove:()->Unit) {
+    fun menu(anchor:View,stop:()->Unit,remove:()->Unit,permissions:()->Unit) {
         val cover=layer()
         val panel=LinearLayout(host.context).apply {orientation=LinearLayout.VERTICAL;background=shape();setPadding(px(12),px(10),px(12),px(10));isClickable=true}
         panel.addView(button("Force Stop") {dismiss();stop()}.apply {
             setCompoundDrawables(actionIcon(text.toString()=="Remove"),null,null,null);compoundDrawablePadding=px(14)
             background=RippleDrawable(ColorStateList.valueOf(0x33429bff),null,shape());gravity=Gravity.LEFT or Gravity.CENTER_VERTICAL;setPadding(px(24),0,0,0)
         },LinearLayout.LayoutParams(-1,px(68)))
+        panel.addView(button("Permissions") {dismiss();permissions()}.apply {
+            background=RippleDrawable(ColorStateList.valueOf(0x33429bff),null,shape())
+            setCompoundDrawables(actionIcon(false,true),null,null,null);compoundDrawablePadding=px(14)
+            gravity=Gravity.LEFT or Gravity.CENTER_VERTICAL;setPadding(px(24),0,0,0)
+        },LinearLayout.LayoutParams(-1,px(68)).apply {topMargin=px(6)})
         panel.addView(button("Remove") {dismiss();remove()}.apply {setTextColor(removeColor);setCompoundDrawables(actionIcon(text.toString()=="Remove"),null,null,null);compoundDrawablePadding=px(14)
             background=RippleDrawable(ColorStateList.valueOf(0x33429bff),null,shape());gravity=Gravity.LEFT or Gravity.CENTER_VERTICAL;setPadding(px(24),0,0,0)},LinearLayout.LayoutParams(-1,px(68)).apply {topMargin=px(6)})
         val a=IntArray(2);val h=IntArray(2);anchor.getLocationOnScreen(a);host.getLocationOnScreen(h)
-        cover.addView(panel,FrameLayout.LayoutParams(px(300),px(162)).apply {
+        cover.addView(panel,FrameLayout.LayoutParams(px(300),px(236)).apply {
             leftMargin=(a[0]-h[0]).coerceIn(0,(host.width-px(300)).coerceAtLeast(0))
-            topMargin=(a[1]-h[1]+anchor.height).coerceIn(0,(host.height-px(162)).coerceAtLeast(0))
+            topMargin=(a[1]-h[1]+anchor.height).coerceIn(0,(host.height-px(236)).coerceAtLeast(0))
         })
     }
     fun confirm(name:String,remove:()->Unit) {
