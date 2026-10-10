@@ -178,6 +178,11 @@ class LauncherDashboardTest {
         view.draw(Canvas(bitmap))
         val output=File("build/reports/launcher/map-fallback.png");output.parentFile!!.mkdirs()
         output.outputStream().use {bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
+        view.mapMessage=LauncherMapPreview.LOADING
+        tap(300f,300f);tap(435f,500f)
+        assertEquals(2,claims);assertEquals(0,opens)
+        view.draw(Canvas(bitmap))
+        File("build/reports/launcher/map-loading.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG,100,it) }
         view.mapMessage=""
         tap(300f,300f);assertEquals(2,claims);assertEquals(1,opens)
     }

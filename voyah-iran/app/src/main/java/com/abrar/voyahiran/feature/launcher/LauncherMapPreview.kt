@@ -63,7 +63,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     private fun move(id: Int, claim: Boolean, done: (() -> Unit)? = null) {
         if(closed || busy)return
         busy=true
-        error("در حال نمایش نقشه…")
+        error(LOADING)
         job=scope.launch {
             try {
                 moves.withLock {
@@ -88,12 +88,48 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         error(if(r.output.contains("passenger display")) "نقشه روی نمایشگر شاگرد است" else "نقشه در دسترس نیست")
                         com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap",r.output)
                     } else if(id==0) {fullscreen=true;initialAttempted=false;error("");done?.invoke()}
-                    // For the card, wait for read-only ownership verification before uncovering it.
+                    else {
+                        // Keep the opaque card above SurfaceView until both ownership and output are ready.
+                        check(awaitCardReady(id)) { "Map transfer did not produce a ready card surface" }
+                        if(!closed && active && embedded.displayId == id) error("")
+                    }
                 }
             } catch(e:CancellationException) {throw e}
             catch(e:Exception) {error("نقشه در دسترس نیست");com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap","move failed",e)}
             finally {busy=false}
         }
+    }
+    private suspend fun awaitCardReady(id: Int): Boolean {
+        return withTimeoutOrNull(12_000L) {
+            var confirmations = 0
+            while (!closed && active && !fullscreen && embedded.displayId == id) {
+                val status = withContext(Dispatchers.IO) {
+                    ProcessCommandRunner().run(listOf("su", "0", "launcher-map-status", packageName, id.toString()), 4)
+                }
+                val ready = status.exitCode == 0 && !status.timedOut && isVisibleHere(status.output, id) &&
+                    embedded.attached && outputReady()
+                confirmations = if (ready) confirmations + 1 else 0
+                if (confirmations >= 2) return@withTimeoutOrNull true
+                delay(150)
+            }
+            false
+        } ?: false
+    }
+    /** PixelCopy reports whether the live SurfaceView has a buffer; never expose the anchor alone. */
+    private suspend fun outputReady(): Boolean {
+        val bitmap = android.graphics.Bitmap.createBitmap(1, 1, android.graphics.Bitmap.Config.ARGB_8888)
+        val result = CompletableDeferred<Boolean>()
+        try {
+            android.view.PixelCopy.request(view, bitmap, { code ->
+                bitmap.recycle()
+                result.complete(code == android.view.PixelCopy.SUCCESS)
+            }, android.os.Handler(android.os.Looper.getMainLooper()))
+        } catch (_: IllegalArgumentException) {
+            bitmap.recycle()
+            return false
+        }
+        // The callback owns the bitmap even if the transfer is cancelled while copying.
+        return withTimeoutOrNull(1000) { result.await() } ?: false
     }
     fun showInCard() {
         if(ensureDisplay()) move(embedded.displayId!!,true)
@@ -118,7 +154,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         val r=withContext(Dispatchers.IO) {
                             ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,id.toString()),4)
                         }
-                        if(!active || !embedded.attached || embedded.displayId!=id)return@withLock
+                        if(busy || !active || !embedded.attached || embedded.displayId!=id)return@withLock
                         if(r.exitCode==0 && !r.timedOut) {
                             if (isVisibleHere(r.output,id) && LauncherMapWakeSession.pending &&
                                 packageName.isNotBlank() &&
@@ -126,6 +162,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                                 com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null &&
                                 (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) {
                                 move(id, false)
+                                return@withLock
                             }
                             error(if(isVisibleHere(r.output,id)) "" else if(r.output.contains("MAP_DISPLAY=1 ")) "نقشه روی نمایشگر شاگرد است" else "نقشه در دسترس نیست")
                         } else if(r.exitCode!=75) error("نقشه در دسترس نیست")
@@ -177,6 +214,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         holder=null
     }
     companion object {
+        internal const val LOADING = "در حال نمایش نقشه…"
         internal fun isVisibleHere(output: String, displayId: Int): Boolean =
             Regex("(?:^|\\s)MAP_DISPLAY=$displayId MAP_VISIBLE=1(?:$|\\s)").containsMatchIn(output)
     }

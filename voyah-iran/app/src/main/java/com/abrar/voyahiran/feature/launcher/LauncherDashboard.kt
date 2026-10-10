@@ -25,7 +25,7 @@ class LauncherDashboard(context: Context) : View(context) {
     private val nightCloudBitmap by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_weather_overcast) }
     private var weatherIconId = 0
     private var weatherBitmap: Bitmap? = null
-    var mapMessage = "در حال نمایش نقشه…"
+    var mapMessage = LauncherMapPreview.LOADING
         set(value) { field = value; invalidate() }
     var onMap: () -> Unit = {}
     var onShowMap: () -> Unit = {}
@@ -34,6 +34,12 @@ class LauncherDashboard(context: Context) : View(context) {
     var onMedia: (Int) -> Unit = {}
     var onOpenMusic: () -> Unit = {}
     var onSeek: (Long) -> Unit = {}
+    private val loadingDark = SweepGradient(435f,500f,
+        intArrayOf(0x00354b78,0xff354b78.toInt(),0xff6385bf.toInt(),0xffa9c6ed.toInt(),0x00a9c6ed),
+        floatArrayOf(0f,.28f,.60f,.8333f,1f))
+    private val loadingLight = SweepGradient(435f,500f,
+        intArrayOf(0x00243860,0xff47628f.toInt(),0xff304b79.toInt(),0xff203656.toInt(),0x00203656),
+        floatArrayOf(0f,.28f,.60f,.8333f,1f))
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val defaultCover = BitmapFactory.decodeResource(resources, R.drawable.launcher_album_default)
     private val icons = listOf(R.drawable.launcher_previous, R.drawable.launcher_play, R.drawable.launcher_pause, R.drawable.launcher_next).map { BitmapFactory.decodeResource(resources, it) }
@@ -79,7 +85,20 @@ class LauncherDashboard(context: Context) : View(context) {
             if(value != t) value=value.dropLast(1)+"…"
             c.drawText(value,x,y,paint)
         }
-        if(mapMessage.isNotEmpty()) {
+        if(mapMessage == LauncherMapPreview.LOADING) {
+            // Large, thick comet ring: a rounded bright head and a fading navy tail.
+            c.save()
+            val angle=(android.os.SystemClock.uptimeMillis()%1200L)*.3f
+            c.rotate(angle,435f,500f)
+            paint.color=Color.WHITE; paint.style=Paint.Style.STROKE; paint.strokeWidth=18f
+            paint.strokeCap=Paint.Cap.BUTT; paint.shader=if(lightTheme)loadingLight else loadingDark
+            c.drawArc(388f,453f,482f,547f,0f,300f,false,paint)
+            paint.shader=null; paint.style=Paint.Style.FILL
+            paint.color=if(lightTheme)0xff203656.toInt() else 0xffa9c6ed.toInt()
+            c.drawCircle(458.5f,459.297f,9f,paint)
+            c.restore()
+            if(isShown) postInvalidateOnAnimation()
+        } else if(mapMessage.isNotEmpty()) {
             paint.shader=LinearGradient(285f,465f,585f,535f,accentTop,accentBottom,Shader.TileMode.CLAMP)
             c.drawRoundRect(285f,465f,585f,535f,14f,14f,paint);paint.shader=null
             text("Show Map",435f,510f,27f,Color.WHITE,center=true)
@@ -171,7 +190,7 @@ class LauncherDashboard(context: Context) : View(context) {
             when {
                 x<871 -> {
                     if(mapMessage.isEmpty())onMap()
-                    else onShowMap()
+                    else if(mapMessage != LauncherMapPreview.LOADING) onShowMap()
                 }
                 x in 887f..1315f -> when {
                     y in 536f..616f && x in 947f..1027f -> onMedia(0)
