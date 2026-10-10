@@ -24,6 +24,7 @@ internal class LauncherWeather(private val context: Context, private val scope: 
     private val prefs = context.getSharedPreferences("launcher_weather", Context.MODE_PRIVATE)
     private var location: Location? = null
     private var job: Job? = null
+    private var resolvedCity: String? = null
     private var attempted = -300_000L
     private var startupPending = true
     private var failed = false
@@ -39,32 +40,55 @@ internal class LauncherWeather(private val context: Context, private val scope: 
             }
         }
         job = scope.launch {
+            // Temporary city diagnostics: independent of weather HTTP success, no overlapping requests.
+            launch {
+                while (isActive) {
+                    val started=SystemClock.elapsedRealtime()
+                    val fix=freshLocation()
+                    if(fix==null) com.abrar.voyahiran.core.logging.AppLog.info("LauncherCity","lookup skipped: no recent location")
+                    else {
+                        val city=withContext(Dispatchers.IO) { LauncherCity.resolve(context,fix.latitude,fix.longitude) }
+                        ensureActive()
+                        resolvedCity=city
+                        publish(System.currentTimeMillis(),startupPending || failed)
+                    }
+                    delay((CITY_TEST_INTERVAL_MS-(SystemClock.elapsedRealtime()-started)).coerceAtLeast(1000L))
+                }
+            }
             while (isActive) {
-                val fix = location?.takeIf { (SystemClock.elapsedRealtimeNanos() - it.elapsedRealtimeNanos) in 0..3_600_000_000_000L }
+                val fix = freshLocation()
                 val now = System.currentTimeMillis()
                 val old = cached
                 // Publish the saved response before waiting for GPS/network, including on cold start.
-                update(displayState(old, now, startupPending || failed || fix == null))
+                publish(now, startupPending || failed || fix == null)
                 val known = displayState(old, now, false).let { it.temperature != null && LauncherWeatherCode.description(it.code) != "Unknown" }
                 val urgent = startupPending || failed || !known
                 if (fix != null && (urgent || now-(old?.optLong("saved") ?: 0) >= REFRESH_INTERVAL_MS) &&
                     SystemClock.elapsedRealtime()-attempted >= retryInterval(urgent)) {
                     attempted = SystemClock.elapsedRealtime()
-                    val result = withContext(Dispatchers.IO) { runCatching { fetch(fix) }.getOrNull() }
+                    val result = withContext(Dispatchers.IO) { runCatching { fetch(fix) }.onFailure { com.abrar.voyahiran.core.logging.AppLog.info("LauncherWeather","fetch failed: ${it.javaClass.simpleName}") }.getOrNull() }
                     ensureActive()
                     // Retry delays start after completion, so slow failures never produce a tight loop.
                     attempted = SystemClock.elapsedRealtime()
                     failed = result == null
                     if (result != null) {
+                        result.put("city",resolvedCity ?: "Unknown")
                         cached=result
                         startupPending=false
                         prefs.edit().putString("response", result.toString()).apply()
                     }
-                    update(displayState(cached, System.currentTimeMillis(), startupPending || failed))
+                    publish(System.currentTimeMillis(), startupPending || failed)
                 }
                 delay(5_000)
             }
         }
+    }
+    private fun freshLocation() = location?.takeIf {
+        (SystemClock.elapsedRealtimeNanos()-it.elapsedRealtimeNanos) in 0..3_600_000_000_000L
+    }
+    private fun publish(now: Long, saved: Boolean) {
+        val state=displayState(cached,now,saved)
+        update(resolvedCity?.let { state.copy(city=it) } ?: state)
     }
     fun stop() { job?.cancel(); job=null; runCatching { manager.removeUpdates(this) } }
     override fun onLocationChanged(value: Location) {
@@ -97,10 +121,10 @@ internal class LauncherWeather(private val context: Context, private val scope: 
                 check(it.getJSONObject("daily").getJSONArray("temperature_2m_min").getDouble(0).isFinite())
             }
         } finally {connection.disconnect()}
-        val city=LauncherCity.resolve(context,fix.latitude,fix.longitude)
-        return data.put("city",city).put("lat",fix.latitude).put("lon",fix.longitude).put("saved",System.currentTimeMillis())
+        return data.put("lat",fix.latitude).put("lon",fix.longitude).put("saved",System.currentTimeMillis())
     }
     companion object {
+        internal const val CITY_TEST_INTERVAL_MS = 5_000L
         internal const val REFRESH_INTERVAL_MS = 300_000L
         internal fun retryInterval(urgent: Boolean): Long = if(urgent) 10_000L else 300_000L
         internal fun displayState(data: JSONObject?, now: Long, saved: Boolean): LauncherWeatherState {

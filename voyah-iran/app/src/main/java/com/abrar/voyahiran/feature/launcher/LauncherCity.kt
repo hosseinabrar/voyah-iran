@@ -13,26 +13,32 @@ import java.util.Locale
 
 /** System geocoder first, then Neshan; neither failure blocks weather display indefinitely. */
 internal object LauncherCity {
-    private var lastError = ""
+    private const val TAG = "LauncherCity"
     // One bounded worker: a hung OEM geocoder cannot accumulate threads or queued requests.
     private val geocoderWorker = ThreadPoolExecutor(0,1,30,TimeUnit.SECONDS,SynchronousQueue<Runnable>(),
         { task -> Thread(task,"launcher-city").apply { isDaemon=true } },ThreadPoolExecutor.AbortPolicy())
-    fun resolve(context: Context, latitude: Double, longitude: Double): String =
-        resolveUsing({ systemCity(context,latitude,longitude) }, { lookup(latitude,longitude) })
+    @Synchronized fun resolve(context: Context, latitude: Double, longitude: Double): String {
+        val started=android.os.SystemClock.elapsedRealtime()
+        AppLog.info(TAG,"lookup started")
+        val result=resolveUsing({ systemCity(context,latitude,longitude) }, { lookup(latitude,longitude) })
+        AppLog.info(TAG,"lookup complete city=$result elapsedMs=${android.os.SystemClock.elapsedRealtime()-started}")
+        return result
+    }
     internal fun resolveUsing(system: () -> String?, neshan: () -> String?): String =
         runCatching { system() }.getOrNull()?.takeIf {it.isNotBlank()}
             ?: runCatching { neshan() }.getOrNull()?.takeIf {it.isNotBlank()} ?: "Unknown"
     @Suppress("DEPRECATION")
     private fun systemCity(context: Context, latitude: Double, longitude: Double): String? {
-        if(!Geocoder.isPresent()) return null
+        if(!Geocoder.isPresent()) { AppLog.info(TAG,"Android geocoder unavailable");return null }
         val task=runCatching { geocoderWorker.submit(Callable {
             Geocoder(context.applicationContext,Locale.ENGLISH).getFromLocation(latitude,longitude,1)
                 ?.firstOrNull()?.locality?.trim()?.takeIf { it.isNotBlank() }?.let(::englishName)
-        }) }.getOrNull() ?: return null
-        return try {task.get(5,TimeUnit.SECONDS)} catch(e:Exception) {task.cancel(true);null}
+        }) }.onFailure { AppLog.info(TAG,"Android worker unavailable: ${it.javaClass.simpleName}") }.getOrNull() ?: return null
+        return try {task.get(5,TimeUnit.SECONDS).also { AppLog.info(TAG,"Android result=${it ?: "empty locality"}; fallback=${it.isNullOrBlank()}") }}
+        catch(e:Exception) {task.cancel(true);AppLog.info(TAG,"Android failed: ${(e.cause ?: e).javaClass.simpleName}; trying Neshan");null}
     }
     fun lookup(latitude: Double, longitude: Double): String? {
-        if(BuildConfig.NESHAN_SEARCH_KEY.isBlank()) return null
+        if(BuildConfig.NESHAN_SEARCH_KEY.isBlank()) { AppLog.info(TAG,"Neshan skipped: API key missing");return null }
         val connection = URL("https://api.neshan.org/v5/reverse?lat=$latitude&lng=$longitude").openConnection() as HttpURLConnection
         return try {
             connection.connectTimeout=5000;connection.readTimeout=5000;connection.instanceFollowRedirects=false
@@ -43,12 +49,13 @@ internal object LauncherCity {
                 while(true) { val n=input.read(buffer);if(n<0)break;check(output.size()+n<=65536);output.write(buffer,0,n) }
                 output.toString("UTF-8")
             }
-            val city=cityName(JSONObject(raw))
-            lastError=""
+            val data=JSONObject(raw)
+            val city=cityName(data)
+            AppLog.info(TAG,"Neshan HTTP=200 status=${data.optString("status")} city=${city ?: "empty city/village"}")
             city
         } catch(e:Exception) {
             val reason=if(e is IllegalStateException) e.message.orEmpty() else e.javaClass.simpleName
-            if(reason!=lastError) {lastError=reason;AppLog.info("LauncherWeather","Neshan city lookup: $reason")}
+            AppLog.info(TAG,"Neshan failed: $reason")
             null
         } finally {connection.disconnect()}
     }
