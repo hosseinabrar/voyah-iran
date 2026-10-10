@@ -11,7 +11,23 @@ import kotlinx.coroutines.sync.withLock
 
 /** Read-only monitoring; passenger ownership changes only on an explicit button press. */
 class LauncherMapPreview(private val context: Context, private val scope: CoroutineScope, private val error: (String) -> Unit, private val view:SurfaceView) : SurfaceHolder.Callback {
-    init { LauncherMapWakeSession.observe(context) }
+    private var departingUntil = 0L
+    private val transferObserver = object : android.database.ContentObserver(android.os.Handler(android.os.Looper.getMainLooper())) {
+        override fun onChange(selfChange: Boolean) {
+            runCatching {
+                val data = org.json.JSONObject(android.provider.Settings.Global.getString(context.contentResolver, "voyah_iran_map_transfer") ?: "{}")
+                val age = System.currentTimeMillis() - data.optLong("time")
+                if (!closed && data.optString("pkg") == packageName && age in 0..12000) {
+                    departingUntil = android.os.SystemClock.elapsedRealtime() + if(data.optString("state")=="start") 12000 else 1000
+                    error("نقشه روی نمایشگر شاگرد است")
+                }
+            }
+        }
+    }
+    init {
+        LauncherMapWakeSession.observe(context)
+        context.contentResolver.registerContentObserver(android.provider.Settings.Global.getUriFor("voyah_iran_map_transfer"), false, transferObserver)
+    }
     private val embedded=LauncherEmbeddedMapSurface(context,view)
     private var holder:SurfaceHolder?=null
     private var surfaceWidth=0
@@ -63,11 +79,18 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     private fun move(id: Int, claim: Boolean, done: (() -> Unit)? = null) {
         if(closed || busy)return
         busy=true
+        departingUntil=0L
         error(LOADING)
         job=scope.launch {
+            var mask: LauncherTransferMask? = null
+            var centralReady = false
             try {
                 moves.withLock {
                     if(closed || ((fullscreen || !active) && id!=0))return@withLock
+                    if (id == 0) {
+                        mask = LauncherTransferMask(context)
+                        mask?.show()
+                    }
                     val clean = !claim && id != 0 && packageName.isNotBlank() &&
                         LauncherMapWakeSession.pending &&
                         (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed &&
@@ -87,7 +110,23 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                     if(r.exitCode!=0 || r.timedOut || r.output.contains("Error:")) {
                         error(if(r.output.contains("passenger display")) "نقشه روی نمایشگر شاگرد است" else "نقشه در دسترس نیست")
                         com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap",r.output)
-                    } else if(id==0) {fullscreen=true;initialAttempted=false;error("");done?.invoke()}
+                    } else if(id==0) {
+                        fullscreen=true;initialAttempted=false;error("");done?.invoke()
+                        centralReady = withTimeoutOrNull(8000) {
+                            var stable = 0
+                            while (!closed) {
+                                val status = withContext(Dispatchers.IO) {
+                                    ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,"0"),4)
+                                }
+                                stable = if (status.exitCode == 0 && !status.timedOut && isVisibleHere(status.output,0) &&
+                                    status.output.contains("MAP_FITTED=1")) stable + 1 else 0
+                                if (stable >= 3) return@withTimeoutOrNull true
+                                delay(120)
+                            }
+                            false
+                        } == true
+                        com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "central transfer fitted=$centralReady")
+                    }
                     else {
                         // Keep the opaque card above SurfaceView until both ownership and output are ready.
                         check(awaitCardReady(id)) { "Map transfer did not produce a ready card surface" }
@@ -96,7 +135,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 }
             } catch(e:CancellationException) {throw e}
             catch(e:Exception) {error("نقشه در دسترس نیست");com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap","move failed",e)}
-            finally {busy=false}
+            finally {mask?.finish(centralReady);busy=false}
         }
     }
     private suspend fun awaitCardReady(id: Int): Boolean {
@@ -154,7 +193,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         val r=withContext(Dispatchers.IO) {
                             ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,id.toString()),4)
                         }
-                        if(busy || !active || !embedded.attached || embedded.displayId!=id)return@withLock
+                        if(busy || !active || !embedded.attached || embedded.displayId!=id || android.os.SystemClock.elapsedRealtime()<departingUntil)return@withLock
                         if(r.exitCode==0 && !r.timedOut) {
                             if (isVisibleHere(r.output,id) && LauncherMapWakeSession.pending &&
                                 packageName.isNotBlank() &&
@@ -209,6 +248,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         // Losing a window surface is not loss of the map task. Preserve card state.
     }
     fun close() {
+        context.contentResolver.unregisterContentObserver(transferObserver)
         closed=true;hostStopped()
         view.holder.removeCallback(this)
         holder=null

@@ -76,7 +76,15 @@ internal object LauncherMapBridge {
             val current=visibleStack?.let { it.javaClass.getField("displayId").getInt(it) } ?: -1
             val top=visibleStack?.let { (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.packageName==pkg } == true
             val visible=visibleStack?.let { runCatching { it.javaClass.getField("visible").getBoolean(it) }.getOrDefault(top) } == true
-            CommandResult(0,"MAP_DISPLAY=$current MAP_VISIBLE=${if(top && visible) 1 else 0}")
+            val fitted = if (current == 0 && visibleStack != null) runCatching {
+                val bounds = visibleStack.javaClass.getField("bounds").get(visibleStack) as android.graphics.Rect
+                val global = Class.forName("android.hardware.display.DisplayManagerGlobal")
+                val info = global.getMethod("getDisplayInfo", Int::class.javaPrimitiveType)
+                    .invoke(global.getMethod("getInstance").invoke(null), 0)
+                bounds.isEmpty || (bounds.width() >= info.javaClass.getField("logicalWidth").getInt(info) * .9 &&
+                    bounds.height() >= info.javaClass.getField("logicalHeight").getInt(info) * .9)
+            }.getOrDefault(false) else false
+            CommandResult(0,"MAP_DISPLAY=$current MAP_VISIBLE=${if(top && visible) 1 else 0} MAP_FITTED=${if(fitted) 1 else 0}")
         } else {
         if (stack != null) {
             val taskIds=stack.javaClass.getField("taskIds").get(stack) as IntArray
