@@ -130,6 +130,10 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     Check(fake.Calls.Count(c => c.SequenceEqual(new[] { "reboot" })) == 1, "One reboot on success");
     Check(!fake.Calls.Any(c => c.Contains("ime")), "Installer leaves keyboard preference to user");
     Check(fake.Calls.Single(c => c[0] == "install").Contains("--no-streaming"), "Android 11 retains push installation");
+    var installIndex = fake.Calls.FindIndex(c => c[0] == "install");
+    var stopIndex = fake.Calls.FindIndex(c => c.SequenceEqual(new[] { "shell", "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran" }));
+    var leaseIndex = fake.Calls.FindIndex(c => c.SequenceEqual(new[] { "shell", "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0" }));
+    Check(stopIndex >= 0 && leaseIndex > stopIndex && installIndex > leaseIndex, "Stop app and expire live Home hook before replacing APK");
     var operations = fake.Calls.Select(c => c[0]).ToList();
     Check(operations.IndexOf("root") < operations.IndexOf("wait-for-device") &&
         operations.IndexOf("wait-for-device") < operations.IndexOf("remount") &&

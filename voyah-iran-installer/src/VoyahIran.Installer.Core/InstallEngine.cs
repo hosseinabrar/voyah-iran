@@ -147,6 +147,10 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             if (legacyVdexHash.Length != 0) await VerifyHash("/system/framework/oat/arm64/services.vdex", legacyVdexHash);
             Done();
             Begin(InstallPhase.Apk);
+            log.Write("Stopping Voyah Iran before APK replacement.");
+            await Root(15, "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran");
+            // Expire only the live Home-hook lease; keep the user's saved launcher preference.
+            await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
             // Newer units require push installation; H97A cannot open shell-labelled staging files.
             // Select the transport before installation, without retrying ambiguous package writes.
             var apkTransport = platform.StreamApk ? "--streaming" : "--no-streaming";
