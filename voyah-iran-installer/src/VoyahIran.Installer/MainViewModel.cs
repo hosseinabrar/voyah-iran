@@ -115,10 +115,10 @@ public sealed partial class MainViewModel : Observable, IDisposable
     {
         try
         {
-            log.Write($"Voyah Iran Installer {Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)} (dynamic framework patch); OS={Environment.OSVersion}; 64-bit={Environment.Is64BitProcess}");
+            log.Write($"Voyah Iran Installer {Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion} (dynamic framework patch); OS={Environment.OSVersion}; 64-bit={Environment.Is64BitProcess}");
             bundle = await Task.Run(() => PayloadBundle.Extract(Assembly.GetExecutingAssembly().GetManifestResourceStream("VoyahIran.Payload.zip") ?? throw new InvalidDataException("Payload missing"), Path.Combine(dataRoot, "Cache", Guid.NewGuid().ToString("N"))));
             adb = new AdbClient(bundle.File("adb.exe"), log);
-            VersionText = "نسخهٔ " + bundle.Manifest.AppVersion; Notify(nameof(VersionText));
+            VersionText = "نسخهٔ " + Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion; Notify(nameof(VersionText));
             log.Write($"Embedded payload verified; app={bundle.Manifest.AppVersion}; APK SHA256={bundle.Manifest.Files["app.apk"]}");
             InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
             await ScanAsync(); timer.Start();
