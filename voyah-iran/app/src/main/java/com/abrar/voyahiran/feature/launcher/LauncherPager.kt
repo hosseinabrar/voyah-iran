@@ -19,6 +19,7 @@ class LauncherPager(context:Context):FrameLayout(context) {
     private var velocity:VelocityTracker?=null
     private var animation:ValueAnimator?=null
     private var offset=0f
+    private val lastPage get() = (childCount - 1).coerceAtLeast(0)
     private var downOffset=0f
 
     override fun dispatchTouchEvent(e:MotionEvent):Boolean {
@@ -50,14 +51,14 @@ class LauncherPager(context:Context):FrameLayout(context) {
             dragging=false;settle(page,true,0f);return true
         }
         when(e.actionMasked) {
-            MotionEvent.ACTION_MOVE -> translate((downOffset+e.x-downX).coerceIn(-width.toFloat(),0f))
+            MotionEvent.ACTION_MOVE -> translate((downOffset+e.x-downX).coerceIn(-lastPage*width.toFloat(),0f))
             MotionEvent.ACTION_UP -> {
-                translate((downOffset+e.x-downX).coerceIn(-width.toFloat(),0f))
+                translate((downOffset+e.x-downX).coerceIn(-lastPage*width.toFloat(),0f))
                 velocity?.computeCurrentVelocity(1000,config.scaledMaximumFlingVelocity.toFloat())
                 val vx=velocity?.xVelocity ?: 0f
                 val next=if(abs(vx)>=config.scaledMinimumFlingVelocity && abs(e.x-downX)>slop)
-                    if(vx<0)1 else 0
-                else LauncherVehicleState.swipePage(page,e.x-downX,e.y-downY,width)
+                    if(vx<0)page+1 else page-1
+                else if(abs(e.x-downX)>width*.08f) page+(if(e.x<downX)1 else -1) else page
                 dragging=false;settle(next,true,vx)
             }
         }
@@ -66,7 +67,7 @@ class LauncherPager(context:Context):FrameLayout(context) {
     fun show(index:Int,animate:Boolean=true)=settle(index,animate,0f)
     private fun settle(index:Int,animate:Boolean,releaseVelocity:Float) {
         animation?.cancel()
-        val next=index.coerceIn(0,1);val changed=next!=page;page=next
+        val next=index.coerceIn(0,lastPage);val changed=next!=page;page=next
         val target=-page*width.toFloat()
         val distance=target-offset
         if(!animate || abs(distance)<1f)translate(target) else {

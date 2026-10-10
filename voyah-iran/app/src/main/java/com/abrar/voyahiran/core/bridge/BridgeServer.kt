@@ -64,6 +64,7 @@ object BridgeServer {
                 else try {
                     AppLog.info("BridgeServer", "request=$request operation=${command.first()} accepted")
                     when (command.first()) {
+                        "launcher-drawer" -> LauncherAppsBridge.execute(command)
                         "launcher-vehicle" -> LauncherVehicleBridge.execute(command[1],command.getOrElse(2){""})
                         "uninstall-user-app", "force-stop-user-app" -> {
                             val inventory = runner.run(listOf("/system/bin/pm", "list", "packages", "-3", "--user", "0"), 15)
@@ -76,9 +77,11 @@ object BridgeServer {
                         }
                         "launcher-map-clean", "launcher-map", "launcher-map-claim", "launcher-map-status", "launcher-map-release", "launcher-map-route" -> LauncherMapBridge.execute(command)
                         "launcher-home" -> {
-                            val enable=command[1]=="enable"
+                            val enable=command[1]=="enable" && BridgeSubscriptionSession.vipActive
                             val access=if(enable && android.os.Build.VERSION.SDK_INT==28) runner.run(LauncherDrawerAccess.arguments,5) else CommandResult(0,"")
-                            if(access.exitCode!=0 || access.timedOut) access else runner.run(listOf("/system/bin/settings","put","global","voyah_iran_launcher_home",if(enable)"1" else "0"),3)
+                            if(access.exitCode!=0 || access.timedOut) access else runner.run(listOf("/system/bin/settings","put","global","voyah_iran_launcher_home",if(enable)"1" else "0"),3).also {
+                                if(it.exitCode==0 && !it.timedOut) LauncherAppsBridge.enabledForLegacy=enable
+                            }
                         }
                         "music-startup-hide" -> MusicStartupWindow.hide(command[1])
                         "raha-phone" -> OemPhoneBridge.execute(command)

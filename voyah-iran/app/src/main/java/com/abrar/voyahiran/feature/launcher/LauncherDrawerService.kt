@@ -22,7 +22,7 @@ class LauncherDrawerService : AccessibilityService() {
         // Android 9 has no verified OEM injection hook. Use the exact central Home id there.
         if (android.os.Build.VERSION.SDK_INT == 28 && event?.eventType == AccessibilityEvent.TYPE_VIEW_CLICKED &&
             event.packageName?.toString() == "com.qinggan.app.launcher" && LauncherPreferences.enabled(this) &&
-            (application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.allowed) {
+            (application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) {
             val node = event.source
             val home = try { node?.viewIdResourceName == "com.qinggan.app.launcher:id/screen_up_home_icon" }
                 finally { node?.recycle() }
@@ -66,6 +66,10 @@ class LauncherDrawerService : AccessibilityService() {
             AppLog.info("LauncherDrawer", "keep OEM menu display=$clickedDisplay")
             return
         }
+        // The VIP drawer click has already been consumed by the OEM hook.
+        if(destination == 0 && LauncherPreferences.enabled(this) &&
+            (application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed &&
+            android.provider.Settings.Global.getInt(contentResolver,"voyah_iran_drawer_hook_ready",0)==1) return
         targetDisplay = destination
         val now = SystemClock.elapsedRealtime()
         if (now - lastOpen < 1000) return

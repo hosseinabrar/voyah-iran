@@ -6,6 +6,16 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun drawerOnlyAcceptsBoundedRequests() {
+        val nonce="a".repeat(32)
+        for(request in listOf(listOf("launcher-drawer","catalog",nonce,"all"),listOf("launcher-drawer","open",nonce,"AC"))) {
+            assertEquals(request,BridgePolicy.resolve(request))
+        }
+        for(request in listOf(listOf("launcher-drawer","open",nonce,"Navigation"),listOf("launcher-drawer","open",nonce,"AC;reboot"),listOf("launcher-drawer","open","bad","AC"))) {
+            assertNull(BridgePolicy.resolve(request))
+        }
+    }
+
     @Test fun cleanMapAcceptsSelectedAppsOnlyOnVirtualDisplays() {
         val valid = listOf("launcher-map-clean", "org.rajman.neshan.traffic.tehran.navigator", "7")
         assertEquals(valid, BridgePolicy.resolve(valid))

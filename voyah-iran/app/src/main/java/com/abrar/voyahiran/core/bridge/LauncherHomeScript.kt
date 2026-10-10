@@ -10,7 +10,8 @@ Java.perform(function () {
     function allowed(ctx) {
         const until = Number(Global.getString(ctx.getContentResolver(), 'voyah_iran_launcher_lease'));
         const remaining = until - Date.now();
-        return remaining > 0 && remaining <= 90000 && Global.getInt(ctx.getContentResolver(), 'voyah_iran_launcher_home', 0) === 1;
+        const vipRemaining = Number(Global.getString(ctx.getContentResolver(), 'voyah_iran_launcher_vip_lease')) - Date.now();
+        return vipRemaining > 0 && vipRemaining <= 90000 && remaining > 0 && remaining <= 90000 && Global.getInt(ctx.getContentResolver(), 'voyah_iran_launcher_home', 0) === 1;
     }
     // Readiness may arrive after OEM Home is already resumed. Observe both settings
     // instead of relying on a Home click or periodically stealing the foreground.
@@ -69,6 +70,9 @@ Java.perform(function () {
         click.implementation = function (view) {
             try {
                 const name = view.getId() === -1 ? '' : String(view.getResources().getResourceEntryName(view.getId()));
+                if ((name === 'screen_up_all_app_icon' || name === 'screen_down_all_app_icon') &&
+                    Number(this.mScreenId.value) === 0 && typeof globalThis.VI_OPEN_DRAWER === 'function' &&
+                    globalThis.VI_OPEN_DRAWER(this.getContext())) return;
                 if (name === 'screen_up_home_icon' || name === 'screen_down_home_icon') {
                     const screen = Number(this.mScreenId.value);
                     const ctx = this.getContext();
@@ -105,6 +109,12 @@ Java.perform(function () {
                         name === '.feature.launcher.VoyahLauncherActivity' ||
                         name.indexOf('/com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity') >= 0 ||
                         name.indexOf('/.feature.launcher.VoyahLauncherActivity') >= 0;
+                }
+                if (!home && Number(this.mScreenId.value) === 0 && String(pkg) === 'com.abrar.voyahiran' && allowed(this.getContext())) {
+                    const current = activity === null ? String(Apps.getTopAppInfo(this.getContext(), 0, 4)) : String(activity);
+                    if (current.indexOf('feature.launcher.LauncherAppsActivity') >= 0) {
+                        this.mScreenUpAllAppView.value.setChecked(true);return;
+                    }
                 }
                 if (home) {
                     this.mScreenUpHomeView.value.setChecked(true);

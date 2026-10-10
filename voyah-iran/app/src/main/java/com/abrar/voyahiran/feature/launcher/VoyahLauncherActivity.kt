@@ -138,7 +138,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         val enabled=LauncherPreferences.enabled(this)
-        val subscribed=(application as VoyahIranApplication).subscriptions.allowed
+        val subscribed=(application as VoyahIranApplication).subscriptions.vipAllowed
         val screen=window.decorView.display?.displayId ?:0
         com.abrar.voyahiran.core.logging.AppLog.info("LauncherHome","resume enabled=$enabled subscription=$subscribed display=$screen")
         if(!enabled || !subscribed || screen!=0) {finish();return}
@@ -165,7 +165,7 @@ class VoyahLauncherActivity : ComponentActivity() {
                     val speed=state.controller?.playbackState?.playbackSpeed ?: 1f
                     dashboard.media=dashboard.media.copy(position=(state.position+(elapsed*speed).toLong()).coerceIn(0,state.duration))
                 }
-                if(!LauncherPreferences.enabled(this@VoyahLauncherActivity) || !(application as VoyahIranApplication).subscriptions.allowed) { finish();break }
+                if(!LauncherPreferences.enabled(this@VoyahLauncherActivity) || !(application as VoyahIranApplication).subscriptions.vipAllowed) { finish();break }
                 delay(1000)
             }
         }
@@ -211,7 +211,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     }
     private fun vehicleCommand(op:String,value:String) {
         if(!visible || pager.page!=1 || !vehiclePage.state.fresh)return
-        if(!(application as VoyahIranApplication).subscriptions.allowed)return
+        if(!(application as VoyahIranApplication).subscriptions.vipAllowed)return
         val key=if(op=="height" || op=="drive")"drive-height" else op
         commandJobs.remove(key)?.cancel()
         val request=vehicleCache.request(op,value)

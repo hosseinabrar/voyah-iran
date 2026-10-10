@@ -43,6 +43,7 @@ object OemNavigationManager {
     @Synchronized fun start() {
         if (started) return
         started = true
+        publishDrawerReady(false)
         thread(name = "voyah-navigation-watch", isDaemon = true) {
             while (true) {
                 try { publishFallback(com.abrar.voyahiran.core.compat.VehiclePlatform.launcherDrawer); ensureDrawerAccess(); tick() }
@@ -56,7 +57,10 @@ object OemNavigationManager {
         }
     }
     private fun tick() {
-        if (!com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks) return
+        val drawerOnly = android.os.Build.VERSION.SDK_INT == 28
+        if (!com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks && !drawerOnly) return
+        // Android 9 only receives the isolated drawer/Home hooks, never Android 11 window hooks.
+        if (drawerOnly && (!BridgeSubscriptionSession.vipActive || !LauncherAppsBridge.enabledForLegacy)) { if(child != null) stop(); return }
         if (android.os.SystemClock.elapsedRealtime() < retryAt) return
         val pid = File("/proc").listFiles().orEmpty().filter { it.name.all(Char::isDigit) }.singleOrNull {
             runCatching { File(it, "cmdline").readText().substringBefore('\u0000') == "com.qinggan.app.launcher" }.getOrDefault(false)
@@ -76,8 +80,9 @@ object OemNavigationManager {
         check(digest.digest().joinToString("") { "%02x".format(it) } == expected) { "Navigation runtime hash mismatch" }
         // Drawer selection is model-based. No app inventory or OEM list reconciliation.
         val stockPassengerList = !com.abrar.voyahiran.core.compat.VehiclePlatform.launcherDrawer
-        script.writeText("globalThis.VI_STOCK_PASSENGER_LIST = $stockPassengerList;\n" +
-            VehicleBarsScript.source + "\n" + OemNavigationScript.source + "\n" + PassengerDrawerScript.source + "\n" + LauncherHomeScript.source + "\n" + LauncherTransferScript.source)
+        val fullScript = "globalThis.VI_STOCK_PASSENGER_LIST = $stockPassengerList;\n" +
+            VehicleBarsScript.source + "\n" + OemNavigationScript.source + "\n" + PassengerDrawerScript.source + "\n" + LauncherAppsScript.source + "\n" + LauncherHomeScript.source + "\n" + LauncherTransferScript.source
+        script.writeText(if(drawerOnly) LauncherAppsScript.source + "\n" + LauncherHomeScript.source else fullScript)
         check(script.setReadable(false, false) && script.setReadable(true, true))
         ready = false; error = null; target = pid
         val process = ProcessBuilder(runtime.path, "-p", pid, "-s", script.path, "-i").redirectErrorStream(true).start()
@@ -87,7 +92,8 @@ object OemNavigationManager {
                 process.inputStream.bufferedReader().useLines { lines -> lines.forEach { line ->
                     AppLog.info("Navigation", "pid=$pid " + line.take(1500))
                     if (child === process) {
-                        if (line == "VI_NAV_READY") ready = true
+                        if (line == "VI_DRAWER_READY" || (!drawerOnly && line == "VI_NAV_READY")) ready = true
+                        if (line == "VI_DRAWER_READY") publishDrawerReady(true)
                         // An unsupported optional hook must not tear down another
                         // successfully attached launcher capability.
                     }
@@ -99,7 +105,12 @@ object OemNavigationManager {
         check(ready && error == null) { error ?: "Launcher hook readiness not confirmed" }
         AppLog.info("Navigation", "Launcher hooks attached pid=$pid; drawer selection depends only on vehicle variant")
     }
+    private fun publishDrawerReady(value: Boolean) {
+        com.abrar.voyahiran.core.shell.ProcessCommandRunner(useBridge=false).run(listOf(
+            "/system/bin/settings","put","global","voyah_iran_drawer_hook_ready",if(value)"1" else "0"),2)
+    }
     private fun stop() {
+        publishDrawerReady(false)
         val process = child
         child = null; target = ""; ready = false
         process?.destroy()

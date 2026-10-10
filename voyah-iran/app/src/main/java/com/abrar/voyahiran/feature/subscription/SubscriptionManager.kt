@@ -162,7 +162,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
         check(!vipResult.timedOut && vipResult.exitCode == 0) { "VIP runtime session was not accepted" }
     }
     private suspend fun startFeatures(): Boolean = try {
-        try { com.abrar.voyahiran.feature.launcher.LauncherPreferences.provision(com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(app)) }
+        try { com.abrar.voyahiran.feature.launcher.LauncherPreferences.provision(vipAllowed && com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(app)) }
         catch (e: Exception) { if(e is CancellationException) throw e; AppLog.error("Launcher", "startup provisioning failed", e) }
         if(app.starBackup.desired || app.starBackup.read()!=null) StarBackService.request(app,StarBackService.RESUME)
         // A failed read before registration may have left this shared controller running.

@@ -22,6 +22,9 @@ object BridgeSubscriptionSession {
         temp.writeText("$now:${now + remaining}")
         check(temp.renameTo(loginExpiry))
         vipLease.update(seconds); vipReceived = true
+        com.abrar.voyahiran.core.shell.ProcessCommandRunner(useBridge=false).run(listOf(
+            "/system/bin/settings", "put", "global", "voyah_iran_launcher_vip_lease",
+            (System.currentTimeMillis()+seconds*1000L).toString()), 2)
         LocalProfileTest.reconcile()
         return CommandResult(0,"VIP runtime session updated")
     }

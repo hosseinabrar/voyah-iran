@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 object LauncherPreferences {
     fun enabled(c: Context) = c.getSharedPreferences("launcher", 0).getBoolean("enabled", false)
     suspend fun set(c: Context, enabled: Boolean) {
+        check(!enabled || (c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed)
         val previous=enabled(c)
         provision(enabled)
         check(c.getSharedPreferences("launcher", 0).edit().putBoolean("enabled", enabled).commit())

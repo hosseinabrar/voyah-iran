@@ -14,6 +14,11 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
+        if (request.size == 4 && request[0] == "launcher-drawer" &&
+            request[2].matches(Regex("[a-f0-9]{32}")) &&
+            ((request[1] == "catalog" && request[3] == "all") ||
+             (request[1] == "open" && request[3].matches(Regex("[A-Za-z0-9_.]{1,120}")) &&
+              com.abrar.voyahiran.feature.launcher.LauncherAppsPolicy.visible(request[3])))) return request
         if(request == listOf("launcher-vehicle","read")) return request
         if(request.size==3 && request[0]=="launcher-vehicle" && request[1]=="watch" && request[2].toLongOrNull()?.let {it>=-1}==true) return request
         if(request.size==3 && request[0]=="launcher-vehicle" && when(request[1]) {
