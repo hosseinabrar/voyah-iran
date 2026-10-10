@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.SurfaceView
 import android.view.View
 import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import com.abrar.voyahiran.VoyahIranApplication
@@ -40,6 +41,12 @@ class VoyahLauncherActivity : ComponentActivity() {
         dashboard=LauncherDashboard(this)
         vehiclePage=LauncherVehicleDashboard(this)
         pager=LauncherPager(this)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // HOME stays open: Back only returns from page two to page one.
+                if (pager.page != 0) pager.show(0)
+            }
+        })
         firstPage=FrameLayout(this)
         firstPage.addView(dashboard,FrameLayout.LayoutParams(-1,-1))
         pager.addView(firstPage,FrameLayout.LayoutParams(-1,-1))
@@ -200,7 +207,6 @@ class VoyahLauncherActivity : ComponentActivity() {
         }
     }
     override fun onNewIntent(intent:Intent){super.onNewIntent(intent);pager.show(0)}
-    @Deprecated("Legacy Back callback") override fun onBackPressed(){if(pager.page==1)pager.show(0) else super.onBackPressed()}
     override fun onStop(){visible=false;updatePageWork();preview?.hostStopped();weather.stop();ticker?.cancel();super.onStop()}
     override fun onDestroy(){vehiclePage.artwork.close();compass.stop();preview?.close();preview=null;super.onDestroy()}
 }
