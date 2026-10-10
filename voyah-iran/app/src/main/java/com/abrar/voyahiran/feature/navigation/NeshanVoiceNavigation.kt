@@ -30,6 +30,10 @@ internal object NeshanVoiceNavigation {
     private var routeJob: Job? = null
 
     suspend fun navigate(context: Context, id: String, cancelled: () -> Boolean): CommandResult {
+        while (com.abrar.voyahiran.feature.launcher.LauncherMapWakeSession.restarting) {
+            check(!cancelled()) { "Navigation cancelled during map restart" }
+            delay(100)
+        }
         val prefs = NavigationPreferences(context)
         check(prefs.voiceNavigationEnabled) { "مسیریابی با رها در تنظیمات نشان فعال نیست" }
         val destination = destinations[id] ?: SavedPlacesStore(context).users().firstOrNull { it.id==id }
@@ -47,6 +51,9 @@ internal object NeshanVoiceNavigation {
         routeJob?.cancelAndJoin() // A new spoken request replaces a stalled previous attempt.
         val app = context.applicationContext
         val active = Request(destination, NeshanRouteProgress(SystemClock.elapsedRealtime()))
+        // A new explicit route supersedes any old-session cleanup still waiting for HOME.
+        com.abrar.voyahiran.feature.launcher.LauncherMapWakeSession.handled =
+            com.abrar.voyahiran.feature.launcher.LauncherMapWakeSession.generation
         pending = active // Reserve automation before any launch or success-animation delay.
         // Acceptance is the end of Raha's command. Route automation has its own lifetime
         // and must never signal feedback or observe cancellation of a subsequent utterance.

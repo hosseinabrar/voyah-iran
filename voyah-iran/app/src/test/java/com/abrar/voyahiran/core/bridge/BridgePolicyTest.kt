@@ -6,6 +6,15 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun cleanMapOnlyAllowsNeshanOnVirtualDisplays() {
+        val valid = listOf("launcher-map-clean", "org.rajman.neshan.traffic.tehran.navigator", "7")
+        assertEquals(valid, BridgePolicy.resolve(valid))
+        for ((index, value) in listOf(1 to "other.app", 2 to "0", 2 to "1", 2 to "10001", 2 to "7;reboot")) {
+            assertNull(BridgePolicy.resolve(valid.toMutableList().apply { this[index] = value }))
+        }
+        assertNull(BridgePolicy.resolve(valid + "extra"))
+    }
+
     @Test fun mapRouteIsRestrictedToNeshanAndValidCoordinates() {
         val valid=listOf("launcher-map-route","org.rajman.neshan.traffic.tehran.navigator","7","35.7361246","51.4933056")
         assertEquals(valid,BridgePolicy.resolve(valid))

@@ -28,6 +28,9 @@ object BridgePolicy {
             request[2].toIntOrNull() in 2..10000 &&
             request[3].toDoubleOrNull()?.let { it.isFinite() && it in -90.0..90.0 } == true &&
             request[4].toDoubleOrNull()?.let { it.isFinite() && it in -180.0..180.0 } == true) return request
+        if (request.size == 3 && request[0] == "launcher-map-clean" &&
+            request[1] == "org.rajman.neshan.traffic.tehran.navigator" &&
+            request[2].toIntOrNull()?.let { it in 2..10000 } == true) return request
         if (request.size == 3 && request[0] in setOf("launcher-map", "launcher-map-claim", "launcher-map-status", "launcher-map-release") && AppDensityPreferences.validPackage(request[1]) && request[1] != "com.abrar.voyahiran" && request[2].toIntOrNull()?.let { it == 0 || it in 2..10000 } == true) return request
         if (request.size == 2 && request[0] == "launcher-home" && request[1] in listOf("enable", "disable"))
             return request

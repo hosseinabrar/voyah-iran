@@ -32,6 +32,19 @@ internal object LauncherMapBridge {
         val candidates=stacks.filterNotNull().filter(::containsMap)
         // Prefer passenger ownership, including a background task, over starting another copy.
         val stack = candidates.firstOrNull { it.javaClass.getField("displayId").getInt(it)==1 } ?: candidates.firstOrNull()
+        if (args[0] == "launcher-map-clean") {
+            check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
+            check(pkg == "org.rajman.neshan.traffic.tehran.navigator" && destination > 1)
+            // Never kill a map owned by a physical display, even if it moved during the request.
+            if (candidates.all { it.javaClass.getField("displayId").getInt(it) == destination }) {
+                val stopped = ProcessCommandRunner(useBridge=false).run(
+                    listOf("/system/bin/am", "force-stop", "--user", "0", pkg), 5)
+                check(stopped.exitCode == 0 && !stopped.timedOut && !stopped.output.contains("Error:")) {
+                    "Map clean stop failed: ${stopped.output}"
+                }
+            }
+            return execute(listOf("launcher-map", pkg, destination.toString()))
+        }
         if (release && (stack == null || stack.javaClass.getField("displayId").getInt(stack) != sourceDisplay))
             return CommandResult(0, "Map already outside preview")
         if(args[0]=="launcher-map-route") {

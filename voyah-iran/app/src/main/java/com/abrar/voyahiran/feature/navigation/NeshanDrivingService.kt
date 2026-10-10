@@ -70,6 +70,7 @@ class NeshanDrivingService : AccessibilityService() {
     }
     private fun inspect() {
         if (!enabled || !session.inside) { reset(); return }
+        if (com.abrar.voyahiran.feature.launcher.LauncherMapWakeSession.restarting) { schedule(); return }
         val now = SystemClock.elapsedRealtime()
         val root = automationRoot()
         try {

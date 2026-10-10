@@ -11,6 +11,7 @@ import kotlinx.coroutines.sync.withLock
 
 /** Read-only monitoring; passenger ownership changes only on an explicit button press. */
 class LauncherMapPreview(private val context: Context, private val scope: CoroutineScope, private val error: (String) -> Unit, private val view:SurfaceView) : SurfaceHolder.Callback {
+    init { LauncherMapWakeSession.observe(context) }
     private val embedded=LauncherEmbeddedMapSurface(context,view)
     private var holder:SurfaceHolder?=null
     private var surfaceWidth=0
@@ -67,8 +68,21 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
             try {
                 moves.withLock {
                     if(closed || ((fullscreen || !active) && id!=0))return@withLock
-                    val r=withContext(Dispatchers.IO) {
-                        ProcessCommandRunner().run(listOf("su","0",if(claim)"launcher-map-claim" else "launcher-map",packageName,id.toString()),15)
+                    val clean = !claim && id != 0 && packageName == com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN &&
+                        LauncherMapWakeSession.pending &&
+                        (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed &&
+                        com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null
+                    val generation = LauncherMapWakeSession.generation
+                    if (clean) LauncherMapWakeSession.restarting = true
+                    val r=try { withContext(Dispatchers.IO + NonCancellable) {
+                        if (clean) {
+                            ProcessCommandRunner().run(listOf("su", "0", "launcher-map-clean", packageName, id.toString()), 15)
+                        } else ProcessCommandRunner().run(listOf("su","0",if(claim)"launcher-map-claim" else "launcher-map",packageName,id.toString()),15)
+                    } } finally { if (clean) LauncherMapWakeSession.restarting = false }
+                    if (clean) {
+                        // One attempt per wake, including unsupported/failed force-stop, avoids a restart loop.
+                        LauncherMapWakeSession.handled = generation
+                        com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "clean session exit=${r.exitCode} ${r.output}")
                     }
                     if(r.exitCode!=0 || r.timedOut || r.output.contains("Error:")) {
                         error(if(r.output.contains("passenger display")) "نقشه روی نمایشگر شاگرد است" else "نقشه در دسترس نیست")
@@ -106,6 +120,13 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         }
                         if(!active || !embedded.attached || embedded.displayId!=id)return@withLock
                         if(r.exitCode==0 && !r.timedOut) {
+                            if (isVisibleHere(r.output,id) && LauncherMapWakeSession.pending &&
+                                packageName == com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN &&
+                                com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible &&
+                                com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null &&
+                                (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) {
+                                move(id, false)
+                            }
                             error(if(isVisibleHere(r.output,id)) "" else if(r.output.contains("MAP_DISPLAY=1 ")) "نقشه روی نمایشگر شاگرد است" else "نقشه در دسترس نیست")
                         } else if(r.exitCode!=75) error("نقشه در دسترس نیست")
                     } } catch(e:CancellationException) {throw e}
