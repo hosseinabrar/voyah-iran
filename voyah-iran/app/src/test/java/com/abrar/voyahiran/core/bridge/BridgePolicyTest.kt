@@ -47,7 +47,7 @@ class BridgePolicyTest {
         assertNull(BridgePolicy.resolve(listOf("launcher-vehicle","watch","0","extra")))
     }
     @Test fun appDensityOnlyAcceptsTheFivePresets() {
-        for (dpi in listOf("120", "140", "160", "180", "200"))
+        for (dpi in listOf("120", "140", "160", "200", "240"))
             assertEquals(listOf("app-density", dpi), BridgePolicy.resolve(listOf("app-density", dpi)))
         for (request in listOf(listOf("app-density", "0"), listOf("app-density", "999"),
             listOf("app-density", "160;reboot"), listOf("app-density", "160", "extra")))

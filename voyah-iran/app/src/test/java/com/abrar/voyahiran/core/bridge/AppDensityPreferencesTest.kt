@@ -14,7 +14,7 @@ class AppDensityPreferencesTest {
         assertTrue(AppDensityPreferences.parse(AppDensityPreferences.encode(emptyMap())).isEmpty())
     }
     @Test fun bridgeOnlyAcceptsPackagesAndPresetsOrInheritance() {
-        for (value in listOf("120", "140", "160", "180", "200", "inherit")) {
+        for (value in listOf("120", "140", "160", "200", "240", "inherit")) {
             val request = listOf("app-density-package", "test.player", value)
             assertEquals(request, BridgePolicy.resolve(request))
         }

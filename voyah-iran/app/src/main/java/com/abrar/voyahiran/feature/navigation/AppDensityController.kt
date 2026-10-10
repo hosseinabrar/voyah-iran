@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 internal object AppDensityController {
     fun bind(activity: ComponentActivity, view: PageDisplayMediaMapBinding) {
         val buttons = listOf(view.appSizeTiny, view.appSizeSmall, view.appSizeNormal, view.appSizeLarge, view.appSizeHuge)
-        val values = listOf("120", "140", "160", "180", "200")
+        val values = listOf("120", "140", "160", "200", "240")
         fun selected(): Int {
             val saved = Settings.Global.getString(activity.contentResolver, "voyah_iran_app_density")
             return buttons[values.indexOf(saved).takeIf { it >= 0 } ?: 2].id

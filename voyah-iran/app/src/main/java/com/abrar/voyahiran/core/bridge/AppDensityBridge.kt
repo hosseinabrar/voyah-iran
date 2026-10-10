@@ -8,7 +8,7 @@ internal object AppDensityBridge {
     private const val KEY = "voyah_iran_app_density"
     private val runner = ProcessCommandRunner(useBridge = false)
     @Synchronized fun set(mode: String): CommandResult {
-        require(mode in listOf("120", "140", "160", "180", "200"))
+        require(mode in listOf("120", "140", "160", "200", "240"))
         return write(KEY, mode)
     }
     @Synchronized fun setPackage(pkg: String, mode: String): CommandResult {

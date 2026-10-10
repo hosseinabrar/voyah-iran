@@ -653,7 +653,7 @@ class MainActivity : ComponentActivity() {
         uninstall.isEnabled = !state.busy && state.selected != null
         forceStop.isEnabled = !state.busy && state.selected != null
         val sizeButtons = listOf(packageSizeTiny, packageSizeSmall, packageSizeNormal, packageSizeLarge, packageSizeHuge)
-        val densities = listOf(120, 140, 160, 180, 200)
+        val densities = listOf(120, 140, 160, 200, 240)
         val effectiveDensity = state.customDensity ?: state.defaultDensity
         packageSizeChoices.check(sizeButtons[densities.indexOf(effectiveDensity).coerceAtLeast(0)].id)
         packageSizeInherit.isChecked = state.customDensity == null

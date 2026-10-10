@@ -40,8 +40,8 @@ object BridgePolicy {
         if (request.size == 2 && request[0] == "launcher-home" && request[1] in listOf("enable", "disable"))
             return request
         if (request.size == 3 && request[0] == "app-density-package" && AppDensityPreferences.validPackage(request[1]) &&
-            (request[2] == "inherit" || request[2] in listOf("120", "140", "160", "180", "200"))) return request
-        if (request.size == 2 && request[0] == "app-density" && request[1] in listOf("120", "140", "160", "180", "200")) return request
+            (request[2] == "inherit" || request[2] in listOf("120", "140", "160", "200", "240"))) return request
+        if (request.size == 2 && request[0] == "app-density" && request[1] in listOf("120", "140", "160", "200", "240")) return request
         if (request.size == 2 && request[0] == "app-theme" && request[1] in listOf("dark", "light", "vehicle")) return request
         if (request.size == 2 && request[0] == "music-startup-hide" &&
             request[1].matches(Regex("[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_]+)+"))) return request
