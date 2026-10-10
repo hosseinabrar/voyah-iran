@@ -12,6 +12,47 @@ Java.perform(function () {
         const remaining = until - Date.now();
         return remaining > 0 && remaining <= 90000 && Global.getInt(ctx.getContentResolver(), 'voyah_iran_launcher_home', 0) === 1;
     }
+    // Readiness may arrive after OEM Home is already resumed. Observe both settings
+    // instead of relying on a Home click or periodically stealing the foreground.
+    let homeCheckPending = false, lastAutoOpen = 0;
+    function checkFactoryHome(reason) {
+        if (homeCheckPending) return;
+        homeCheckPending = true;
+        Java.scheduleOnMainThread(function () {
+            homeCheckPending = false;
+            try {
+                const ctx = Java.use('android.app.ActivityThread').currentApplication();
+                if (ctx === null || !allowed(ctx)) return;
+                const top = String(Java.use('com.qinggan.launcher.base.utils.AppUtils').getTopAppInfo(ctx, 0, 4));
+                const activity = top.indexOf('/') >= 0 ? top.substring(top.indexOf('/') + 1) : top;
+                if (activity !== 'com.qinggan.app.launcher.activity.MainActivity' &&
+                    !(top.indexOf('com.qinggan.app.launcher/') === 0 && activity === '.activity.MainActivity')) return;
+                if (Date.now() - lastAutoOpen < 2000) return;
+                const intent = Intent.${'$'}new();
+                intent.setClassName('com.abrar.voyahiran', 'com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity');
+                intent.addFlags(0x10000000 | 0x04000000);
+                const options = Options.makeBasic(); options.setLaunchDisplayId(0);
+                ctx.startActivity(intent, options.toBundle());
+                lastAutoOpen = Date.now();
+                console.log('VI_HOME_AUTO opened reason=' + reason + ' top=' + top);
+            } catch(e) { console.log('VI_HOME_AUTO fallback ' + e); }
+        });
+    }
+    try {
+        const Observer = Java.registerClass({
+            name: 'com.abrar.voyahiran.bridge.LauncherReadyObserver',
+            superClass: Java.use('android.database.ContentObserver'),
+            methods: { onChange: [{returnType:'void', argumentTypes:['boolean'], implementation:function () {checkFactoryHome('settings');}}] }
+        });
+        const ctx = Java.use('android.app.ActivityThread').currentApplication();
+        const handler = Java.use('android.os.Handler').${'$'}new(Java.use('android.os.Looper').getMainLooper());
+        const observer = Observer.${'$'}new(handler);
+        ['voyah_iran_launcher_lease', 'voyah_iran_launcher_home'].forEach(function(key) {
+            ctx.getContentResolver().registerContentObserver(Global.getUriFor(key), false, observer);
+        });
+        checkFactoryHome('attach');
+        console.log('VI_HOME_AUTO_READY');
+    } catch(e) { console.log('VI_HOME_AUTO_UNAVAILABLE ' + e); }
     // Hook the actual OEM listener; framework performClick can be bypassed by ART compiled callers.
     try {
         const Bar = Java.use('com.qinggan.launcher.navigation.NavigationBarMain');
@@ -63,7 +104,9 @@ Java.perform(function () {
                     return;
                 }
             } catch(e) { console.log('VI_HOME_SELECTION fallback ' + e); }
-            return selected.call(this, pkg, activity);
+            const result = selected.call(this, pkg, activity);
+            if (Number(this.mScreenId.value) === 0) checkFactoryHome('foreground');
+            return result;
         };
         console.log('VI_HOME_SELECTION_READY');
     } catch(e) { console.log('VI_HOME_SELECTION_UNAVAILABLE ' + e); }
