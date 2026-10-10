@@ -30,18 +30,20 @@ class LauncherDrivePopupTest {
         }
         assertEquals("Easy exit",LauncherVehicleState(drive=1,manual=2).displayedDrive)
     }
-    @Test fun factoryPopupRendersAndSelectsMode() {
+    @Test fun factoryPopupRendersAndSelectsMode() = renderPopup(false)
+    @Test fun lightPopupRendersAndSelectsMode() = renderPopup(true)
+    private fun renderPopup(light: Boolean) {
         val controller=Robolectric.buildActivity(Activity::class.java).setup()
         val activity=controller.get()
         val anchor=View(activity);activity.setContentView(anchor);anchor.layout(0,0,1775,660)
         var selected=0
-        val popup=LauncherDrivePopup.show(anchor,LauncherVehicleState(drive=1)) {selected=it}
+        val popup=LauncherDrivePopup.show(anchor,LauncherVehicleState(drive=1),light) {selected=it}
         val content=popup.contentView
         content.measure(View.MeasureSpec.makeMeasureSpec(340,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(400,View.MeasureSpec.EXACTLY))
         content.layout(0,0,340,400)
         val bitmap=Bitmap.createBitmap(340,400,Bitmap.Config.ARGB_8888)
         content.draw(Canvas(bitmap))
-        val file=java.io.File("build/reports/launcher/drive-popup.png");file.parentFile.mkdirs()
+        val file=java.io.File("build/reports/launcher/drive-popup${if(light) "-light" else ""}.png");file.parentFile.mkdirs()
         file.outputStream().use {bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
         val rows=(content as ScrollView).getChildAt(0) as LinearLayout
         assertEquals(4,rows.childCount)

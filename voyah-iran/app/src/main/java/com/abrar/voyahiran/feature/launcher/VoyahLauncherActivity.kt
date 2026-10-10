@@ -71,7 +71,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         vehiclePage.onDrive={
             if(vehiclePage.state.driveMenuEnabled) {
                 drivePopup?.dismiss()
-                drivePopup=LauncherDrivePopup.show(vehiclePage,vehiclePage.state) { mode -> vehicleCommand("drive",mode.toString()) }
+                drivePopup=LauncherDrivePopup.show(vehiclePage,vehiclePage.state,vehiclePage.lightTheme) { mode -> vehicleCommand("drive",mode.toString()) }
             }
         }
         setContentView(container)
@@ -172,6 +172,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     }
     private fun updateTheme() {
         val light=LauncherTheme.isLight()
+        if(vehiclePage.lightTheme!=light) { drivePopup?.dismiss();drivePopup=null }
         dashboard.lightTheme=light
         vehiclePage.lightTheme=light
         container.setBackgroundColor(if(light)0xffe5ebf3.toInt() else Color.BLACK)

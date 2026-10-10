@@ -11,7 +11,7 @@ import android.widget.*
 
 /** CCC popup_window_layout/mode_item proportions, scaled with the launcher canvas. */
 internal object LauncherDrivePopup {
-    fun show(anchor: View, state: LauncherVehicleState, select: (Int) -> Unit): PopupWindow {
+    fun show(anchor: View, state: LauncherVehicleState, lightTheme: Boolean = false, select: (Int) -> Unit): PopupWindow {
         val context=anchor.context
         val scale=minOf(anchor.width/1775f, anchor.height/660f)
         fun px(n:Int)=(n*scale).toInt().coerceAtLeast(1)
@@ -23,7 +23,7 @@ internal object LauncherDrivePopup {
         val list=LinearLayout(context).apply { orientation=LinearLayout.VERTICAL;layoutDirection=View.LAYOUT_DIRECTION_LTR }
         val scroll=ScrollView(context).apply {
             isFillViewport=false;isVerticalScrollBarEnabled=false
-            background=GradientDrawable().apply {setColor(0xfc131b24.toInt());cornerRadius=28*scale}
+            background=GradientDrawable().apply {setColor(if(lightTheme)0xfcf2f6fc.toInt() else 0xfc131b24.toInt());cornerRadius=28*scale}
             clipToOutline=true
             addView(list)
         }
@@ -43,11 +43,12 @@ internal object LauncherDrivePopup {
             val image=ImageView(context).apply {
                 setImageDrawable(icon(if(selected) chosen[entry.key] ?: icons.getValue(entry.key) else icons.getValue(entry.key)))
             }
+            if(lightTheme && !selected) image.setColorFilter(0xff263651.toInt(),android.graphics.PorterDuff.Mode.SRC_IN)
             row.addView(image,LinearLayout.LayoutParams(px(40),px(40)))
             val label=TextView(context).apply {
                 text=names[entry.key];setTextSize(TypedValue.COMPLEX_UNIT_PX,28*scale)
                 typeface=Typeface.create("sans-serif",Typeface.NORMAL)
-                setTextColor(if(selected)0xff47b4ff.toInt() else Color.WHITE)
+                setTextColor(if(selected)0xff47b4ff.toInt() else if(lightTheme)0xff263651.toInt() else Color.WHITE)
                 maxLines=1;gravity=Gravity.CENTER_VERTICAL
             }
             row.addView(label,LinearLayout.LayoutParams(0,-1,1f).apply {leftMargin=px(15)})
