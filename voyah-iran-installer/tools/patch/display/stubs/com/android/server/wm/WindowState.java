@@ -1,1 +1,1 @@
-package com.android.server.wm; import android.view.WindowManager; class WindowState { WindowManager.LayoutParams mAttrs; ActivityRecord mActivityRecord; }
+package com.android.server.wm; import android.view.WindowManager; class WindowState { android.content.Context mContext; WindowManager.LayoutParams mAttrs; ActivityRecord mActivityRecord; public boolean hideLw(boolean animate){return false;} }

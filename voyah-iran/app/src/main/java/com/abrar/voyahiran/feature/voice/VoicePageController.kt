@@ -17,12 +17,16 @@ import kotlinx.coroutines.launch
 class VoicePageController(private val activity: ComponentActivity, private val ui: PageVoiceBinding) {
     private val prefs = VoicePreferences(activity)
     private val microphone = activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (!(activity.application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) return@registerForActivityResult
         prefs.enabled = granted
         render()
         if (granted) RahaService.resume(activity)
         else { ui.error.setText(R.string.raha_mic_denied); ui.error.visibility = View.VISIBLE }
     }
     fun bind() {
+        activity.lifecycleScope.launch { activity.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            (activity.application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipState.collect { render() }
+        } }
         ui.wakeVolume.setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(bar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
                 ui.wakeVolumeLabel.text = "حداقل بلندی صدا برای فعال شدن رها: $progress از ۱۰۰"

@@ -42,9 +42,10 @@ internal class MusicAutomation(private val context: Context, private val scope: 
     private var browser: MediaBrowser? = null
     private var browserController: MediaController? = null
     private var attempted = false
+    private var bootLaunchPackage: String? = null
 
     fun tick() {
-        val allowed = app.subscriptions.allowed
+        val allowed = app.subscriptions.vipAllowed
         if (!allowed || !preferences.musicAutoPlay) startup?.cancel()
         if (allowed && !vehicleOff && preferences.musicAutoPlay && preferences.musicPlayer.isNotBlank() && !attempted) {
             attempted = true
@@ -58,7 +59,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
         if (allowed && (preferences.musicPauseOnDoor || preferences.musicAutoPlay)) {
             if (doors == null || doors?.isCompleted == true) doors = scope.launch {
                 try {
-                    while (isActive && app.subscriptions.allowed && (preferences.musicPauseOnDoor || preferences.musicAutoPlay)) {
+                    while (isActive && app.subscriptions.vipAllowed && (preferences.musicPauseOnDoor || preferences.musicAutoPlay)) {
                         try {
                             val door = withContext(Dispatchers.IO) { gateway.readDriverDoor() }
                             val opened = policy.doorOpened(door)
@@ -120,7 +121,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
             var launched = service == null
             repeat(10) { attempt ->
                 kotlin.coroutines.coroutineContext.ensureActive()
-                if (!app.subscriptions.allowed || vehicleOff || !preferences.musicAutoPlay || preferences.musicPlayer != selection) return
+                if (!app.subscriptions.vipAllowed || vehicleOff || !preferences.musicAutoPlay || preferences.musicPlayer != selection) return
                 if (context.getSystemService(AudioManager::class.java).mode != AudioManager.MODE_NORMAL) return
                 val controllers = sessions()
                 if (controllers.any { it.packageName != packageName && playing(it) }) {
@@ -151,13 +152,29 @@ internal class MusicAutomation(private val context: Context, private val scope: 
         } catch (e: Exception) {
             if (e is CancellationException) throw e
             AppLog.error("MusicAutomation", "startup failed package=$packageName", e)
-        } finally { browser?.disconnect(); browser = null; browserController = null }
+        } finally {
+            browser?.disconnect(); browser = null; browserController = null
+            val launchedPackage = bootLaunchPackage
+            bootLaunchPackage = null
+            if (launchedPackage != null) withContext(NonCancellable + Dispatchers.IO) {
+                // A splash screen may replace its task and ignore launch-behind.
+                // Hide only our startup player, never another foreground app.
+                repeat(3) { attempt ->
+                    val result = com.abrar.voyahiran.core.shell.ProcessCommandRunner().run(
+                        listOf("su", "0", "music-startup-hide", launchedPackage), 4)
+                    AppLog.info("MusicAutomation", "hide startup player exit=${result.exitCode} detail=${result.output}")
+                    if (result.exitCode != 75 || attempt == 2) return@withContext
+                    delay(500)
+                }
+            }
+        }
     }
 
     private fun launchBehind(packageName: String) {
         val launch = context.packageManager.getLaunchIntentForPackage(packageName) ?: error("No launcher for $packageName")
         launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
         context.startActivity(launch, ActivityOptions.makeTaskLaunchBehind().toBundle())
+        bootLaunchPackage = packageName
         AppLog.info("MusicAutomation", "background launch requested package=$packageName")
     }
 

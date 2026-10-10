@@ -51,6 +51,9 @@ try {
  using var wrongKey=RSA.Create(2048);
  Check(!wrongKey.VerifyData(Encoding.ASCII.GetBytes(parts[0]+"."+parts[1]),Decode(parts[2]),HashAlgorithmName.SHA256,RSASignaturePadding.Pkcs1),"Wrong signing key rejected");
  var claims=JsonDocument.Parse(Decode(parts[1])).RootElement;
+ Check(claims.GetProperty("vip_user").GetBoolean(),"Existing registration policy signs VIP true");
+ var normalToken=signer.Sign(first with {VipUser=false},now).Split('.');
+ Check(!JsonDocument.Parse(Decode(normalToken[1])).RootElement.GetProperty("vip_user").GetBoolean(),"Standard subscription signs VIP false");
  Check(claims.GetProperty("sub").GetString()==vin&&claims.GetProperty("exp").GetInt64()==first.ExpiresAt,"Signed VIN and expiry");
  Check(claims.GetProperty("iss").GetString()=="voyahiran.ir"&&claims.GetProperty("aud").GetString()=="com.abrar.voyahiran"&&claims.GetProperty("v").GetInt32()==1,"Signed protocol identity");
  var fixture=Environment.GetEnvironmentVariable("INTEROP_OUTPUT");

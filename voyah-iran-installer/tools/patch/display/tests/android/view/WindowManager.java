@@ -1,1 +1,1 @@
-package android.view; public interface WindowManager { public static class LayoutParams {public int type;} }
+package android.view; public interface WindowManager { public static class LayoutParams {public int type; public String packageName; public CharSequence title=""; public CharSequence getTitle(){return title;} } }

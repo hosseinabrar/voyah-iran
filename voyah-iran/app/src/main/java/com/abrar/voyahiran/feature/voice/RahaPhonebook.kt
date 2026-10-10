@@ -39,7 +39,7 @@ object RahaPhonebook {
             var nextSync=0L
             while(isActive) {
                 try {
-                    if(VoicePreferences(app).callsEnabled && (app as VoyahIranApplication).subscriptions.allowed) {
+                    if(VoicePreferences(app).callsEnabled && (app as VoyahIranApplication).subscriptions.vipAllowed) {
                         val current=readDevice()
                         val now=android.os.SystemClock.elapsedRealtime()
                         if(current!=device || now>=nextSync) {
@@ -77,7 +77,7 @@ object RahaPhonebook {
     suspend fun refresh(context: Context): Boolean = withContext(Dispatchers.IO) { mutex.withLock {
         var stage="device"
         try {
-            check(VoicePreferences(context).callsEnabled && (context.applicationContext as VoyahIranApplication).subscriptions.allowed)
+            check(VoicePreferences(context).callsEnabled && (context.applicationContext as VoyahIranApplication).subscriptions.vipAllowed)
             val mac=readDevice()
             val prefs=context.getSharedPreferences("raha_contacts",Context.MODE_PRIVATE)
             val saved=decode(prefs.getString("records","[]").orEmpty())
@@ -143,7 +143,7 @@ object RahaPhonebook {
         return (0 until a.length()).map { i -> a.getJSONObject(i).let { RahaContact(it.getString("id"),it.getString("device"),it.getString("original"),it.getString("spoken"),it.getString("number"),it.optBoolean("available")) } }
     }
     suspend fun dial(context:Context, contact:RahaContact, cancelled:()->Boolean): Boolean = withContext(Dispatchers.IO) {
-        if(cancelled() || !VoicePreferences(context).enabled || !VoicePreferences(context).callsEnabled || !(context.applicationContext as VoyahIranApplication).subscriptions.allowed ||
+        if(cancelled() || !VoicePreferences(context).enabled || !VoicePreferences(context).callsEnabled || !(context.applicationContext as VoyahIranApplication).subscriptions.vipAllowed ||
             contacts().none { it.id==contact.id && it.number==contact.number }) return@withContext false
         val targetDevice=if(contact.builtIn) runCatching { readDevice() }.getOrNull() ?: return@withContext false else contact.device
         if(cancelled()) return@withContext false

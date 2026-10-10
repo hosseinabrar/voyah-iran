@@ -15,10 +15,16 @@ import java.io.File
 /** Uses SeatMemoryManager's interprocess event so OEM saved positions/UI stay consistent. */
 object OemSeatMemory {
     suspend fun execute(context: Context, command: VehicleCommand): CommandResult {
-        require(command.parameters["seat"] == "driver" && command.parameters["slot"] == "driver")
+        require(command.parameters["seat"] == "driver")
+        val slot = when (command.parameters["slot"]?.toString()) {
+            null, "driver", "1" -> "01"
+            "2" -> "02"
+            "3" -> "03"
+            else -> error("Unsupported seat memory slot")
+        }
         val operation = when (command.action) {
-            "SAVE_SEAT_POSITION" -> "saveSeat01"
-            "RECALL_SEAT_POSITION" -> "sendSeat01"
+            "SAVE_SEAT_POSITION" -> "saveSeat$slot"
+            "RECALL_SEAT_POSITION" -> "sendSeat$slot"
             else -> error("Unsupported seat operation")
         }
         val connected = CompletableDeferred<IBinder>()
@@ -69,7 +75,7 @@ object OemSeatMemory {
             } catch (e: Exception) {
                 com.abrar.voyahiran.core.logging.AppLog.error("RahaOemUi", "Seat operation dispatched; popup failed, operation will not be repeated", e)
             }
-            CommandResult(0, "OEM SeatMemory dispatched: $operation (Driving profile)")
+            CommandResult(0, "OEM SeatMemory dispatched: $operation (slot=$slot)")
         } catch (e: Exception) {
             com.abrar.voyahiran.core.logging.AppLog.error("RahaSeat", "OEM memory dispatch failed", e)
             CommandResult(1, e.toString())

@@ -5,7 +5,7 @@ import com.abrar.voyahiran.core.shell.ProcessCommandRunner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class NavigationPreferences(context: Context) {
+class NavigationPreferences(private val context: Context) {
     private val prefs = context.getSharedPreferences("display_media_map", Context.MODE_PRIVATE)
     var musicPlayer: String
         get() = prefs.getString("musicPlayer", OEM_MUSIC).orEmpty().ifBlank { OEM_MUSIC }
@@ -22,15 +22,16 @@ class NavigationPreferences(context: Context) {
     var neshanDriving: Boolean
         get() = prefs.getBoolean("neshanDriving", false)
         set(value) { check(prefs.edit().putBoolean("neshanDriving", value).commit()) }
-    val autoDriving get() = navigator == NESHAN && neshanDriving
+    private val vip get() = (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed
+    val autoDriving get() = vip && navigator == NESHAN && neshanDriving
     var neshanVoiceNavigation: Boolean
         get() = prefs.getBoolean("neshanVoiceNavigation", false)
         set(value) { check(prefs.edit().putBoolean("neshanVoiceNavigation", value).commit()) }
-    val voiceNavigationEnabled get() = navigator == NESHAN && neshanVoiceNavigation
+    val voiceNavigationEnabled get() = vip && navigator == NESHAN && neshanVoiceNavigation
     var neshanCluster: Boolean
         get() = prefs.getBoolean("neshanCluster", false)
         set(value) { check(prefs.edit().putBoolean("neshanCluster", value).commit()) }
-    val clusterEnabled get() = navigator == NESHAN && neshanCluster
+    val clusterEnabled get() = vip && navigator == NESHAN && neshanCluster
 
     companion object {
         const val NESHAN = "org.rajman.neshan.traffic.tehran.navigator"

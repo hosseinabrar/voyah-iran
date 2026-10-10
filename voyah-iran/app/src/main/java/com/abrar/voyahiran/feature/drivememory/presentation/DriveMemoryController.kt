@@ -127,7 +127,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     } }
 
     private fun process(modeObserved: Boolean, recoveryObserved: Boolean) {
-        if(!(context as com.abrar.voyahiran.VoyahIranApplication).subscriptions.allowed) return
+        if(!(context as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) return
         val now = SystemClock.elapsedRealtime()
         val driveWasPending = engine.memory.pending
         val request = engine.observe(sample, now, modeObserved)
@@ -176,6 +176,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     }
 
     private suspend fun protect(block: suspend () -> Unit): Boolean {
+        if (!(context as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) return false
         return try { block(); true }
         catch (error: CancellationException) { throw error }
         catch (error: Exception) {

@@ -109,8 +109,35 @@ class AvmTurnPolicyTest {
         assertNull(p.step(v.copy(pdc=true),3200))
         assertNull(p.step(v.copy(pdc=true),9000))
         assertEquals(Action.Select(Side.FRONT),p.step(v,10000))
-        assertNull(p.step(v,12999))
-        assertEquals(Action.Close,p.step(v,13000))
+        assertNull(p.step(v,10999))
+        assertEquals(Action.Close,p.step(v,11000))
+    }
+    @Test fun signalStopsDuringPdcAndClosesOneSecondAfterRelease() {
+        val p=AvmTurnPolicy(); val v=opened(p)
+        assertNull(p.step(v.copy(pdc=true),200))
+        assertNull(p.step(v.copy(left=false,pdc=true),300))
+        val off=v.copy(left=false,speedKmh=26)
+        assertEquals(Action.Select(Side.FRONT),p.step(off,5000))
+        assertNull(p.step(off,5999))
+        assertEquals(Action.Close,p.step(off,6000))
+    }
+    @Test fun renewedPdcRestartsOneSecondDelay() {
+        val p=AvmTurnPolicy(); val v=opened(p).copy(left=false)
+        p.step(v.copy(pdc=true),200)
+        p.step(v,1000)
+        assertNull(p.step(v.copy(pdc=true),1500))
+        p.step(v,3000)
+        assertNull(p.step(v,3999))
+        assertEquals(Action.Close,p.step(v,4000))
+    }
+    @Test fun signalResumptionCancelsPdcClose() {
+        val p=AvmTurnPolicy(); val v=opened(p)
+        p.step(v.copy(left=false,pdc=true),200)
+        p.step(v.copy(pdc=true),300)
+        p.step(v,2000)
+        assertEquals(Action.Select(Side.FRONT),p.step(v.copy(left=false),3000))
+        assertNull(p.step(v.copy(left=false),5999))
+        assertEquals(Action.Close,p.step(v.copy(left=false),6000))
     }
     @Test fun pdcPreventsSideChangesAndSubscriptionClose() {
         val p=AvmTurnPolicy(); val v=opened(p)

@@ -86,7 +86,18 @@ class LauncherDrawerActivity : Activity() {
             tile.addView(TextView(this).apply { text = entry.label; textSize = 17f; maxLines = 2; gravity = Gravity.CENTER; setTextColor(Color.WHITE) })
             tile.setOnClickListener {
                 try {
-                    startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(entry.component).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED),
+                    val ownMain = entry.component == ComponentName(this, com.abrar.voyahiran.ui.MainActivity::class.java)
+                    val launch = if (ownMain) {
+                        // Explicit foreground request, independent of the drawer's task or boot history.
+                        Intent(this, com.abrar.voyahiran.ui.MainActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    } else {
+                        Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+                            .setComponent(entry.component)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+                    }
+                    AppLog.info("LauncherDrawer", "launch component=${entry.component.flattenToShortString()} display=${currentDisplayId()} ownMain=$ownMain drawerTask=$taskId")
+                    startActivity(launch,
                         ActivityOptions.makeBasic().apply { launchDisplayId = currentDisplayId() }.toBundle())
                     finish()
                 } catch (e: Exception) { failure(e) }

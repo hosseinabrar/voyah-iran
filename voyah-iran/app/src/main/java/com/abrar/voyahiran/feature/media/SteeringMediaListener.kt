@@ -35,7 +35,7 @@ class SteeringMediaListener : NotificationListenerService() {
             while (isActive && connected) {
                 try {
                     automation.tick()
-                    usable = MediaControl.interceptEnabled(this@SteeringMediaListener) && app.subscriptions.allowed &&
+                    usable = MediaControl.interceptEnabled(this@SteeringMediaListener) && app.subscriptions.vipAllowed &&
                         getSystemService(AudioManager::class.java).mode == AudioManager.MODE_NORMAL
                     if (usable) {
                         val sessions = getSystemService(MediaSessionManager::class.java).getActiveSessions(MediaControl.component(this@SteeringMediaListener))
@@ -68,8 +68,8 @@ class SteeringMediaListener : NotificationListenerService() {
     }
     private fun onKey(key: Int, action: Int, display: Int): Boolean {
         val code = MediaRoutingPolicy.androidKey(key) ?: return false
-        if (!connected || !usable || !MediaControl.interceptEnabled(this) || !app.subscriptions.allowed) {
-            AppLog.info("SteeringMedia", "ignored key=$key action=$action display=$display connected=$connected usable=$usable enabled=${MediaControl.interceptEnabled(this)} subscription=${app.subscriptions.allowed}")
+        if (!connected || !usable || !MediaControl.interceptEnabled(this) || !app.subscriptions.vipAllowed) {
+            AppLog.info("SteeringMedia", "ignored key=$key action=$action display=$display connected=$connected usable=$usable enabled=${MediaControl.interceptEnabled(this)} subscription=${app.subscriptions.vipAllowed}")
             return false
         }
         val route = presses.route(key, action, target, display)
@@ -77,7 +77,7 @@ class SteeringMediaListener : NotificationListenerService() {
         route.target?.let { controller ->
             // Never call another Binder synchronously while replying to the OEM key engine.
             handler.post {
-                if (!connected || !usable || !MediaControl.interceptEnabled(this) || !app.subscriptions.allowed) return@post
+                if (!connected || !usable || !MediaControl.interceptEnabled(this) || !app.subscriptions.vipAllowed) return@post
                 try {
                     val now = SystemClock.uptimeMillis()
                     val down = controller.dispatchMediaButtonEvent(KeyEvent(now, now, KeyEvent.ACTION_DOWN, code, 0))

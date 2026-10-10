@@ -10,7 +10,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 
-/** Compiled into the vehicle's services DEX. No Frida, PackageManager calls or APK rewriting. */
+/** Compiled into the vehicle's services DEX. No Frida or APK rewriting. */
 public final class VoyahIranDisplayPolicy {
     private static final String KEY = "voyah_iran_display_policy";
     private static final String ACK = "voyah_iran_display_policy_ack";
@@ -202,6 +202,7 @@ public final class VoyahIranDisplayPolicy {
     }
 
     public static void beforeFrame(WindowState w, WindowFrames frames, Rect containing, Rect display) {
+        suppressLoginWelcome(w);
         Rect bounds = safe(w);
         if (bounds == null) return;
         clip(containing, bounds);
@@ -212,6 +213,29 @@ public final class VoyahIranDisplayPolicy {
         clip(frames.mContentFrame, bounds);
         clip(frames.mVisibleFrame, bounds);
         clip(frames.mStableFrame, bounds);
+    }
+
+    static boolean supportsLoginWelcomeVariant(String variant) {
+        return java.util.regex.Pattern.compile("(?i)(?<![a-z0-9])h97[ac](?![a-z0-9])").matcher(variant).find();
+    }
+
+    private static void suppressLoginWelcome(WindowState w) {
+        if (w.mAttrs == null || !"com.qinggan.app.login".equals(w.mAttrs.packageName) ||
+                !"LoginingView".contentEquals(w.mAttrs.getTitle())) return;
+        String variant = (android.os.Build.DEVICE + " " + android.os.Build.PRODUCT + " " +
+                android.os.Build.MODEL + " " + android.os.Build.BOARD + " " +
+                android.os.Build.FINGERPRINT).toLowerCase(java.util.Locale.ROOT);
+        if (!supportsLoginWelcomeVariant(variant)) return;
+        try {
+            int state = w.mContext.getPackageManager().getComponentEnabledSetting(
+                new android.content.ComponentName("com.qinggan.app.login", "com.qinggan.app.login.RootActivity"));
+            if (state != android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED) return;
+            // Keep the view's login callbacks/timers alive, but never present its surface.
+            // hideLw also updates input focus; do not merely paint a transparent window.
+            if (w.hideLw(false)) Log.i(TAG, "Suppressed login welcome window");
+        } catch (RuntimeException e) {
+            Log.e(TAG, "Cannot read login welcome policy", e);
+        }
     }
 
     public static void afterFrame(WindowState w, WindowFrames frames) {

@@ -2,6 +2,10 @@ import java.util.Properties
 
 plugins { id("com.android.application") }
 
+val releaseMinify = providers.gradleProperty("voyah.minify").orNull?.let {
+    it.toBooleanStrictOrNull() ?: error("voyah.minify must be true or false")
+} ?: true
+
 val mapLocalProperties = Properties().apply {
     rootProject.file("local.properties").takeIf { it.isFile }?.inputStream()?.use { load(it) }
 }
@@ -19,8 +23,8 @@ android {
         applicationId = "com.abrar.voyahiran"
         minSdk = 28
         targetSdk = 32
-        versionCode = 14
-        versionName = "1.1.0"
+        versionCode = 16
+        versionName = "2.0.1"
         buildConfigField("String", "NESHAN_MAP_KEY", neshanKey("neshan.mapKey", "NESHAN_MAP_KEY"))
         buildConfigField("String", "NESHAN_SEARCH_KEY", neshanKey("neshan.searchKey", "NESHAN_SEARCH_KEY"))
         buildConfigField("String", "SUBSCRIPTION_URL", "\"http://voyah-iran.ir/registerOrRenewSubscription\"")
@@ -43,8 +47,8 @@ android {
             if (!publishStore.isNullOrBlank()) {
                 signingConfig = signingConfigs.getByName("installerPublish")
             }
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = releaseMinify
+            isShrinkResources = releaseMinify
             isDebuggable = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }

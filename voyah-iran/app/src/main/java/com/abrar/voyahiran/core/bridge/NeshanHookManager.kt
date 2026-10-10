@@ -26,6 +26,7 @@ internal class NeshanHookManager {
     private var pid = ""
     private var retryAt = 0L
     private var filesReady = false
+    private var injectorPrefix: List<String>? = null
     private val configFile = File(directory, NeshanConfig.FILE_NAME)
     private val incomingConfig = File("/data/user/0/com.abrar.voyahiran/files/" + NeshanConfig.FILE_NAME)
     private var catalog: NeshanConfig.Catalog? = null
@@ -94,6 +95,23 @@ internal class NeshanHookManager {
         check(chmod.exitCode == 0 && !chmod.timedOut) { "Cannot secure Neshan runtime" }
         filesReady = true
     }
+    private fun injectorCommand(): List<String> {
+        injectorPrefix?.let { return it }
+        val context = File("/proc/self/attr/current").readText().trim().trimEnd('\u0000')
+        if (android.os.Build.VERSION.SDK_INT != 28 || context != "u:r:shell:s0")
+            return emptyList<String>().also { injectorPrefix = it }
+        val su = listOf("/system/xbin/su", "/system/bin/su").firstOrNull { File(it).canExecute() }
+            ?: error("Android 9 injector needs OEM su; no executable found")
+        val prefix = listOf(su, "0")
+        val probe = runner.run(prefix + listOf("/system/bin/id", "-Z"), 3)
+        val domain = probe.output.trim()
+        AppLog.info("NeshanDirect", "injector context=$context su=$su probeExit=${probe.exitCode} targetContext=$domain")
+        check(probe.exitCode == 0 && !probe.timedOut && domain == "u:r:su:s0") {
+            "OEM su did not provide the required injector context: $domain"
+        }
+        return prefix.also { injectorPrefix = it }
+    }
+
     private fun targetPid(): String {
         val result = runner.run(listOf("/system/bin/pidof", PACKAGE), 2)
         return result.output.trim().split(Regex("\\s+")).filter { it.matches(Regex("[1-9][0-9]*")) }
@@ -135,7 +153,7 @@ internal class NeshanHookManager {
     }
     private fun tick() {
         refreshConfig()
-        if (!BridgeSubscriptionSession.active || !flag.exists()) { stop(); return }
+        if (!BridgeSubscriptionSession.vipActive || !flag.exists()) { stop(); return }
         if (now() >= pidCheckAt) {
             cachedPid = targetPid(); pidCheckAt = now() + 1000
         }
@@ -152,7 +170,7 @@ internal class NeshanHookManager {
             }
             prepareFiles(); pid = target; ready = false; failure = null
             NeshanConfig.save(script, "const NESHAN_PROFILE = " + profile.json.toString() + ";\n" + NeshanHookScript.source)
-            val process = ProcessBuilder(executable.path, "-p", target, "-s", script.path, "-i").redirectErrorStream(true).start()
+            val process = ProcessBuilder(injectorCommand() + listOf(executable.path, "-p", target, "-s", script.path, "-i")).redirectErrorStream(true).start()
             child = process
             thread(name = "voyah-neshan-output", isDaemon = true) {
                 try { process.inputStream.bufferedReader(Charsets.UTF_8).useLines { lines -> lines.forEach { line ->

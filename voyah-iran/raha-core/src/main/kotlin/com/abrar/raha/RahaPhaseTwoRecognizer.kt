@@ -3,7 +3,7 @@ package com.abrar.raha
 import com.abrar.voicecommands.Recognition
 import com.abrar.voicecommands.VehicleCommand
 
-/** Phase-two intents only. No vehicle access; memory always names the Driver profile. */
+/** Phase-two intents only. No vehicle access; memory addresses the three driver-seat profiles. */
 internal object RahaPhaseTwoRecognizer {
     val fragranceNames = listOf("خوشبوکننده", "خوشبو کننده", "خوش بوکننده", "خوش بو کننده", "عطر", "رایحه", "اسانس", "عطرپاش", "عطر پاش", "بوگیر", "بو گیر", "بو", "بوی")
     val odorTargets = listOf("هوا", "هوای", "ماشین", "کابین", "اتاق", "داخل", "توی", "تو", "اینجا")
@@ -16,7 +16,7 @@ internal object RahaPhaseTwoRecognizer {
     )
     val saveWords = listOf("ذخیره", "سیو", "ثبت", "آپدیت", "به روز رسانی", "بروزرسانی", "به روز", "نگه دار")
     val recallWords = listOf("بازیابی", "ریکال", "فراخوانی", "برگردون", "برگردان", "بازگردان", "برگرده", "اعمال", "لود")
-    val memoryWords = listOf("مموری", "حافظه", "صندلی", "صندلیم", "موقعیت", "درایور", "driver")
+    val memoryWords = listOf("مموری", "حافظه", "صندلی", "صندلیم", "موقعیت", "وضعیت", "درایور", "driver")
     private val aliases = fragranceNames.joinToString("|")
 
     fun memoryRestriction(text: String): String? {
@@ -26,9 +26,7 @@ internal object RahaPhaseTwoRecognizer {
             !memory.take((saveWords + recallWords).joinToString("|"))) return null
         val restrictions = RahaCommandRecognizer.Scan(text)
         if (restrictions.take("شاگرد|همراه|راست|بغل|سرنشین|عقب|پشت|ردیف دوم|هر دو|همه|مهمان|استراحت|ریلکس|خواب|مسافر|پذیرایی"))
-            return "مموری فقط برای صندلی راننده و حالت Driver پشتیبانی می‌شود"
-        if (restrictions.number() != null || Regex("(?:^| )\\d+(?: |$)").containsMatchIn(text))
-            return "فقط پروفایل Driver پشتیبانی می‌شود؛ شمارهٔ حافظه انتخاب نکنید"
+            return "حافظه فقط برای صندلی راننده پشتیبانی می‌شود"
         return null
     }
 
@@ -94,10 +92,14 @@ internal object RahaPhaseTwoRecognizer {
         }
         for (save in listOf(true, false)) rule(if(save) RahaAction.SAVE_SEAT_POSITION else RahaAction.RECALL_SEAT_POSITION) {
             if (!take(memoryWords.joinToString("|"))) return@rule null
-            while(take("مموری|حافظه|موقعیت|صندلی|صندلیم|تنظیمات|تنظیم|حالت|پروفایل")) { }
-            if (!take((if(save) saveWords else recallWords).joinToString("|"))) return@rule null
+            while(take("مموری|حافظه|موقعیت|وضعیت|شماره|صندلی|صندلیم|تنظیمات|تنظیم|حالت|پروفایل")) { }
+            val verbs = if (save) saveWords else recallWords +
+                if (text.split(' ').any { it in setOf("موقعیت", "وضعیت", "حافظه", "مموری") }) listOf("ببر", "برو") else emptyList()
+            if (!take(verbs.joinToString("|"))) return@rule null
             while(take("راننده|چپ|درایور|درایوینگ|رانندگی|driver|driving|فعلی|الان|همین|قبلی|ذخیره شده")) { }
-            mapOf("seat" to "driver", "slot" to "driver")
+            val slot = number() ?: 1.0
+            if (slot !in 1.0..3.0 || slot % 1.0 != 0.0) return@rule null
+            mapOf("seat" to "driver", "slot" to if (slot == 1.0) "driver" else slot.toInt().toString())
         }
         return matches.distinctBy { it.action to it.parameters }.singleOrNull()?.let { Recognition.Matched(it) }
     }
@@ -194,8 +196,8 @@ internal object RahaPhaseTwoRecognizer {
         }
         RahaAction.SET_FRAGRANCE_INTENSITY -> "شدت رایحه: ${mapOf("low" to "ضعیف", "medium" to "متوسط", "high" to "قوی")[p["intensity"]]}"
         RahaAction.ADJUST_FRAGRANCE_INTENSITY -> "تغییر شدت رایحه: ${p["delta"]} پله"
-        RahaAction.SAVE_SEAT_POSITION -> "ذخیره یا به‌روزرسانی موقعیت صندلی راننده در حالت Driver"
-        RahaAction.RECALL_SEAT_POSITION -> "بازیابی موقعیت صندلی راننده از حالت Driver"
+        RahaAction.SAVE_SEAT_POSITION -> "ذخیره یا به‌روزرسانی حافظهٔ صندلی راننده"
+        RahaAction.RECALL_SEAT_POSITION -> "بازیابی حافظهٔ صندلی راننده"
         else -> action.name
     }
 }

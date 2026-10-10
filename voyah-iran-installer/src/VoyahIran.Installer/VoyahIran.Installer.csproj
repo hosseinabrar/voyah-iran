@@ -3,7 +3,9 @@
     <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
     <TargetPlatformMoniker>Windows,Version=7.0</TargetPlatformMoniker>
-    <AssemblyName>VoyahIran.Installer</AssemblyName><Version>1.1.0</Version>
+    <AssemblyName>VoyahIran.Installer</AssemblyName><Version>2.0.1</Version>
+    <InformationalVersion>virtual-screen-test</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\voyah-iran.ico</ApplicationIcon>
     <DebugType>embedded</DebugType>
@@ -26,7 +28,7 @@
   <Target Name="NameInstallerRelease" AfterTargets="Publish" Condition="'$(PublishSingleFile)' == 'true'">
     <PropertyGroup>
       <_InstallerOriginal>$([System.IO.Path]::Combine('$(PublishDir)', '$(AssemblyName).exe'))</_InstallerOriginal>
-      <_InstallerVersioned>$([System.IO.Path]::Combine('$(PublishDir)', 'voyah-iran-installer_$(Version).exe'))</_InstallerVersioned>
+      <_InstallerVersioned>$([System.IO.Path]::Combine('$(PublishDir)', 'voyah-iran-installer_$(InformationalVersion).exe'))</_InstallerVersioned>
     </PropertyGroup>
     <Move SourceFiles="$(_InstallerOriginal)" DestinationFiles="$(_InstallerVersioned)" />
     <Message Importance="high" Text="Installer: $(_InstallerVersioned)" />

@@ -26,6 +26,7 @@ public final class VoyahIranLegacyFrames {
         if (frame != null && !frame.isEmpty() && !frame.intersect(bounds)) frame.set(bounds);
     }
     public static void before(WindowState w, Rect containing, Rect display) {
+        suppressLoginWelcome(w);
         Rect b = safe(w);
         if (b == null) return;
         WindowState ime = w.mService == null ? null : (WindowState) w.mService.mInputMethodWindows.get(w.getDisplayId());
@@ -46,6 +47,29 @@ public final class VoyahIranLegacyFrames {
         if (frame != null && !frame.isEmpty() && decorBottom > bounds.top &&
                 decorBottom < bounds.bottom && frame.bottom == decorBottom) frame.bottom = bounds.bottom;
     }
+    static boolean supportsLoginWelcomeVariant(String variant) {
+        return java.util.regex.Pattern.compile("(?i)(?<![a-z0-9])h97[ac](?![a-z0-9])").matcher(variant).find();
+    }
+
+    private static void suppressLoginWelcome(WindowState w) {
+        if (w.mAttrs == null || !"com.qinggan.app.login".equals(w.mAttrs.packageName) ||
+                !"LoginingView".contentEquals(w.mAttrs.getTitle())) return;
+        String variant = (android.os.Build.DEVICE + " " + android.os.Build.PRODUCT + " " +
+                android.os.Build.MODEL + " " + android.os.Build.BOARD + " " +
+                android.os.Build.FINGERPRINT).toLowerCase(java.util.Locale.ROOT);
+        if (!supportsLoginWelcomeVariant(variant)) return;
+        try {
+            int state = w.mContext.getPackageManager().getComponentEnabledSetting(
+                new android.content.ComponentName("com.qinggan.app.login", "com.qinggan.app.login.RootActivity"));
+            if (state != android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED) return;
+            // Keep the view's login callbacks/timers alive, but never present its surface.
+            // hideLw also updates input focus; do not merely paint a transparent window.
+            if (w.hideLw(false)) android.util.Log.i("VI/DisplayPolicy", "Suppressed login welcome window");
+        } catch (RuntimeException e) {
+            android.util.Log.e("VI/DisplayPolicy", "Cannot read login welcome policy", e);
+        }
+    }
+
     public static void after(WindowState w) {
         Rect b = safe(w);
         if (b != null) clip(w.mFrame, b);

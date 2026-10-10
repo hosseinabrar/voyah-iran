@@ -171,7 +171,8 @@ class SpeechLab(context: Context) : AutoCloseable {
                     var resetAt=SystemClock.elapsedRealtime()+30000
                     var levelAt=0L
                     while(!cancelled.get()) {
-                        val count=recorder.read(pcm,0,pcm.size,AudioRecord.READ_BLOCKING)
+                        val count=readCancellable(recorder, pcm)
+                        if (cancelled.get() || closed) break
                         check(count>0){"Wake microphone read failed: $count"}
                         val now=SystemClock.elapsedRealtime()
                         detector.acceptWaveform(FloatArray(count) { pcm[it]/32768f })
@@ -282,7 +283,8 @@ class SpeechLab(context: Context) : AutoCloseable {
             var clipped = false
             val deadline = SystemClock.elapsedRealtime() + 15_000
             while (!cancelled.get() && total + pcm.size <= all.size && SystemClock.elapsedRealtime() < deadline) {
-                val count = recorder.read(pcm, 0, pcm.size, AudioRecord.READ_BLOCKING)
+                val count = readCancellable(recorder, pcm)
+                if (cancelled.get() || closed) break
                 check(count > 0) { "Microphone read failed: $count" }
                 val frame = FloatArray(count) { pcm[it] / 32768f }
                 var energy = 0.0
@@ -311,6 +313,19 @@ class SpeechLab(context: Context) : AutoCloseable {
             detector.reset()
             Log.i(TAG, "Microphone released before decoding")
         }
+    }
+    // OEM audio routing can leave a blocking read asleep indefinitely. Keep cancellation
+    // responsive and fail a stalled input so the service can retry instead of blocking
+    // every later preparation on the shared native-model executor.
+    private fun readCancellable(recorder: AudioRecord, pcm: ShortArray): Int {
+        val deadline = SystemClock.elapsedRealtime() + 3000
+        while (!cancelled.get() && !closed) {
+            val count = recorder.read(pcm, 0, pcm.size, AudioRecord.READ_NON_BLOCKING)
+            if (count != 0) return count
+            check(SystemClock.elapsedRealtime() < deadline) { "Microphone input stalled for 3 seconds" }
+            Thread.sleep(10)
+        }
+        return 0
     }
     fun cancel() { cancelled.set(true) }
     private fun post(action: () -> Unit) { main.post { if (!closed) action() } }

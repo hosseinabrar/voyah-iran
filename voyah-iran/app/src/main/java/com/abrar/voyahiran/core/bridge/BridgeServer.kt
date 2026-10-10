@@ -24,6 +24,7 @@ object BridgeServer {
         check(token.matches(Regex("[a-f0-9]{64}")))
         val runner = ProcessCommandRunner(useBridge = false)
         SystemLoggingControl.restoreAtBoot()
+        LocalProfileTest.startAtBoot()
         // App stopping is suspended pending vehicle tests; boost controls system logging only.
         roa.start()
         neshan.start()
@@ -80,6 +81,7 @@ object BridgeServer {
                             if(access.exitCode!=0 || access.timedOut) access else runner.run(listOf("/system/bin/settings","put","global","voyah_iran_launcher_home",if(enable)"1" else "0"),3)
                         }
                         "virtual-test" -> VirtualScreenTestBridge.execute(command[1],command[2].toInt())
+                        "music-startup-hide" -> MusicStartupWindow.hide(command[1])
                         "raha-phone" -> OemPhoneBridge.execute(command)
                         "local-profile-test" -> LocalProfileTest.execute(command[1])
                         "apollo-capability" -> ApolloCapability.read()
@@ -93,6 +95,7 @@ object BridgeServer {
                         "neshan-direct" -> neshan.command(command[1])
                         "cluster-navigation" -> OemClusterNavigation.command(command)
                         "subscription-vin" -> VehicleIdentity.read()
+                        "subscription-vip-session" -> BridgeSubscriptionSession.updateVip(command[1].toInt(), command[2].toInt())
                         "subscription-session" -> BridgeSubscriptionSession.update(command[1].toInt())
                         "raha-command" -> RahaVehicleBridge.execute(command[1], command[2])
                         "raha-seat-ui" -> OemSeatPopup.show()

@@ -21,7 +21,7 @@ internal object OemClusterNavigation {
     private var sentPlaceholder = false
     private var lastSentAt = 0L
     fun command(arguments: List<String>): CommandResult = synchronized(lock) {
-        if (arguments[1] == "show" && !BridgeSubscriptionSession.active)
+        if (arguments[1] == "show" && !BridgeSubscriptionSession.vipActive)
             return CommandResult(126, "Subscription runtime inactive")
         frame = if (arguments[1] == "show") ClusterFrame(arguments[2], arguments[3].toInt(), arguments[4].toInt()) else null
         lastRefresh = SystemClock.elapsedRealtime()
@@ -33,7 +33,7 @@ internal object OemClusterNavigation {
         CommandResult(0, "Cluster navigation queued")
     }
     private fun tick() = synchronized(lock) {
-        val next = frame?.takeIf { BridgeSubscriptionSession.active && SystemClock.elapsedRealtime() - lastRefresh < 3500 }
+        val next = frame?.takeIf { BridgeSubscriptionSession.vipActive && SystemClock.elapsedRealtime() - lastRefresh < 3500 }
         if (next == null) ClusterPlaceholder.close()
         if (next == null && !owned) return@synchronized
         try {

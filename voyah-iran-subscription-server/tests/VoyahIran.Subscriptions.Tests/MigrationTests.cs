@@ -27,6 +27,7 @@ internal static class MigrationTests {
    q.Parameters.AddWithValue("schema",schema);
    check((long)q.ExecuteScalar()! ==8,"Migration: all eight date columns are timestamptz");
    var info=store.Get("L123456789012345A")!;
+   check(info.VipUser==true,"Migration: existing subscriptions become VIP");
    check(info.FirstRegisteredAt==DateTimeOffset.FromUnixTimeSeconds(1700000000)
     && info.ExpiresAt==DateTimeOffset.FromUnixTimeSeconds(1705184000)
     && info.LastRenewedAt==DateTimeOffset.FromUnixTimeSeconds(1702592000),"Migration: exact instants preserved in non-UTC session");
@@ -41,7 +42,12 @@ internal static class MigrationTests {
    var now=DateTimeOffset.FromUnixTimeSeconds(1703000000).ToOffset(TimeSpan.FromHours(3.5));
    restarted.SetBlocked("L123456789012345A",false,now,"");
    check(restarted.RegisterOrRenew("L123456789012345A",now).Status=="unchanged","Migration: existing subscription remains usable");
+   q.CommandText="UPDATE subscriptions SET vip_user=FALSE WHERE vin='L123456789012345A'";
+   q.ExecuteNonQuery();
+   var standard=new SubscriptionStore(options).RegisterOrRenew("L123456789012345A",now);
+   check(!standard.VipUser,"Migration and unchanged grant preserve explicit standard tier");
    restarted.RegisterOrRenew("L123456789012345A",DateTimeOffset.FromUnixTimeSeconds(1705200000));
+   check(restarted.Get("L123456789012345A")!.VipUser==true,"Actual renewal upgrades to VIP");
    check(restarted.Get("L123456789012345A")!.RenewalCount==2,"Migration: renewal writes real timestamps");
   } finally {
    // Only the generated test schema is removed, never existing application tables.
