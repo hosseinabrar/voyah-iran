@@ -115,9 +115,9 @@ class Android9Patch {
         var before=classes(source);check(before.size()==4713||before.size()==4717,"Unexpected class count");
         boolean already=before.containsKey("com/android/server/am/VoyahIranLegacyDisplay.smali");
         Path accepted=templates;
-        if(already) for(String version:List.of("previous-v1","previous-v2","previous-v3","previous-v4","previous-v5","previous-v6")) {
+        if(already) for(String version:List.of("previous-v1","previous-v2","previous-v3","previous-v4","previous-v5","previous-v6", "previous-welcome", "previous-welcome-variant", "previous-merge-virtual", "previous-merge-production")) {
             Path candidate=templates.resolve(version);
-            if(canonical(text(before.get("com/android/server/am/VoyahIranLegacyDisplay.smali"))).equals(canonical(text(candidate.resolve("helpers/com/android/server/am/VoyahIranLegacyDisplay.smali"))))) { accepted=candidate; break; }
+            if(classes(candidate.resolve("helpers")).entrySet().stream().allMatch(e -> { try { return before.containsKey(e.getKey()) && canonical(text(before.get(e.getKey()))).equals(canonical(text(e.getValue()))); } catch(Exception ex) { return false; } })) { accepted=candidate; break; }
         }
         boolean upgrade=already && !accepted.equals(templates);
         var expected=new TreeMap<String,String>();for(var e:before.entrySet())expected.put(e.getKey(),text(e.getValue()));

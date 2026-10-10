@@ -10,10 +10,14 @@ object RahaContacts {
         val next = values.map(::normalize).filter(String::isNotBlank).distinct().sorted()
         if (next != names) { names = next; revision++ }
     }
-    fun normalize(value: String) = value.replace('ي','ی').replace('ك','ک')
-        .map { c -> when(c) { in '۰'..'۹' -> '0'+(c-'۰'); in '٠'..'٩' -> '0'+(c-'٠'); else -> c } }.joinToString("")
-        .replace('\u200c',' ').replace(Regex("[ًٌٍَُِّْـ]"), "")
-        .replace(Regex("\\s+"), " ").trim()
+    private val marks = Regex("[ًٌٍَُِّْـ]")
+    private val whitespace = Regex("\\s+")
+    fun normalize(value: String) = buildString(value.length) {
+        for (c in value) append(when(c) {
+            'ي' -> 'ی'; 'ك' -> 'ک'; '\u200c' -> ' '
+            in '۰'..'۹' -> '0'+(c-'۰'); in '٠'..'٩' -> '0'+(c-'٠'); else -> c
+        })
+    }.replace(marks, "").replace(whitespace, " ").trim()
     private val patterns = listOf(
         Regex("^(?:لطفا |لطفاً )?(?:زنگ بزن|زنگ بزنید|تماس برقرار کن|تماس برقرار کنید|تماس بگیر|تماس بگیرید|تماس) (?:به |با )?(.+)$"),
         Regex("^(?:لطفا |لطفاً )?(?:به |با )?(.+?) (?:رو |را )?(?:زنگ بزن|زنگ بزنید|تماس برقرار کن|تماس برقرار کنید|تماس بگیر|تماس بگیرید|بگیر|بگیرید)$"),

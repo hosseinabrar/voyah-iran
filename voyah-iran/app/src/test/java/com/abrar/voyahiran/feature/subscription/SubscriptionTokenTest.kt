@@ -8,6 +8,34 @@ class SubscriptionTokenTest {
  @Test fun acceptsCSharpSignedToken() {
   val value=SubscriptionToken(resource("public.pem")).verify(resource("token.txt"),"L123456789012345A")
   assertEquals(30*86400L,value.expiresAt-value.issuedAt)
+  assertTrue(value.vipUser)
+ }
+ @Test fun vipRequiresValidUnblockedVipGrant() {
+  val vip=SubscriptionGrant("L123456789012345A",100,200,true)
+  assertTrue(SubscriptionAccessPolicy.vipAllowed(vip,150,false))
+  assertFalse(SubscriptionAccessPolicy.vipAllowed(vip.copy(vipUser=false),150,false))
+  assertTrue(SubscriptionAccessPolicy.allowed(vip.copy(vipUser=false),150,false))
+  assertFalse(SubscriptionAccessPolicy.vipAllowed(vip,200,false))
+  assertFalse(SubscriptionAccessPolicy.vipAllowed(vip,150,true))
+  assertFalse(SubscriptionAccessPolicy.vipAllowed(null,150,false))
+ }
+ @Test fun signedVipClaimAcceptsBooleansAndRejectsMalformedValues() {
+  val pair=KeyPairGenerator.getInstance("RSA").apply{initialize(2048)}.generateKeyPair()
+  val pem="-----BEGIN PUBLIC KEY-----\n"+Base64.getEncoder().encodeToString(pair.public.encoded)+"\n-----END PUBLIC KEY-----"
+  val kid=java.security.MessageDigest.getInstance("SHA-256").digest(pair.public.encoded).joinToString(""){"%02x".format(it)}.take(16)
+  fun token(claim:String):String {
+   fun encode(s:ByteArray)=Base64.getUrlEncoder().withoutPadding().encodeToString(s)
+   val header="""{"alg":"RS256","typ":"JWT","kid":"$kid"}"""
+   val body="""{"v":1,"iss":"voyahiran.ir","aud":"com.abrar.voyahiran","sub":"L123456789012345A","iat":100,"exp":200$claim}"""
+   val input=encode(header.toByteArray())+"."+encode(body.toByteArray())
+   val sig=java.security.Signature.getInstance("SHA256withRSA").run {initSign(pair.private);update(input.toByteArray());sign()}
+   return input+"."+encode(sig)
+  }
+  val verifier=SubscriptionToken(pem)
+  assertTrue(verifier.verify(token(""),"L123456789012345A").vipUser)
+  assertTrue(verifier.verify(token(",\"vip_user\":true"),"L123456789012345A").vipUser)
+  assertFalse(verifier.verify(token(",\"vip_user\":false"),"L123456789012345A").vipUser)
+  assertThrows(IllegalArgumentException::class.java) {verifier.verify(token(",\"vip_user\":\"false\""),"L123456789012345A")}
  }
  @Test fun rejectsDifferentVehicle() { assertThrows(IllegalArgumentException::class.java) { SubscriptionToken(resource("public.pem")).verify(resource("token.txt"),"L223456789012345A") } }
  @Test fun rejectsTamperedPayload() {

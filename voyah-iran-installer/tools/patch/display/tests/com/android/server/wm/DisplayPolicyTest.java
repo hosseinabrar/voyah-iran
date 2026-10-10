@@ -19,6 +19,10 @@ public class DisplayPolicyTest {
   Configuration getResolvedOverrideConfiguration(){return config;}
  }
  public static void main(String[] args)throws Exception {
+  if (!VoyahIranDisplayPolicy.supportsLoginWelcomeVariant("f0506h f0506h f0506h for arm64 qti/f0506h/f0506h:9/PQ3B/9:user/jenkins-PRJ_H97a_8155_OTA_1010-9,test-keys")) throw new AssertionError("fingerprint-only h97a");
+  if (!VoyahIranDisplayPolicy.supportsLoginWelcomeVariant("msmnile_gvmq msmnile_gvmq msmnile_gvmq for arm64 sa8155 qti/msmnile_gvmq/msmnile_gvmq:11/RQ3A.211001.001/35:user/jenkins-PRJ_H97c_Platform_8155_OTA7.2_0430-35,test-keys")) throw new AssertionError("fingerprint-only h97c");
+  if (VoyahIranDisplayPolicy.supportsLoginWelcomeVariant("h97x") || VoyahIranDisplayPolicy.supportsLoginWelcomeVariant("h97abc")) throw new AssertionError("unrelated model");
+
   java.lang.reflect.Field init=VoyahIranDisplayPolicy.class.getDeclaredField("scheduled");init.setAccessible(true);init.set(null,true);
   Activity a=new Activity();state(true);
   check(VoyahIranDisplayPolicy.nightFor("vehicle","default")==0x20,"Classic and Modern dark");

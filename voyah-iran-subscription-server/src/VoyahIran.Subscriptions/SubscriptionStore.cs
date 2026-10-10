@@ -1,7 +1,7 @@
 using Npgsql;
 using NpgsqlTypes;
 namespace VoyahIran.Subscriptions;
-public sealed record SubscriptionGrant(string Vin, long ExpiresAt, string Status);
+public sealed record SubscriptionGrant(string Vin, long ExpiresAt, string Status, bool VipUser = true);
 public sealed class SubscriptionStore {
  private readonly string connectionString;
  private readonly SubscriptionOptions options;
@@ -36,34 +36,37 @@ public sealed class SubscriptionStore {
   blocked.CommandText="SELECT 1 FROM subscription_blocks WHERE vin=@vin";blocked.Parameters.AddWithValue("@vin",vin);
   if(blocked.ExecuteScalar() is not null)throw new SubscriptionBlockedException();
   using var read=connection.CreateCommand(); read.Transaction=tx;
-  read.CommandText="SELECT expires_at FROM subscriptions WHERE vin=@vin";
+  read.CommandText="SELECT expires_at,vip_user FROM subscriptions WHERE vin=@vin";
   read.Parameters.AddWithValue("@vin",vin);
-  var existing=read.ExecuteScalar();
-  long? previous=existing is null or DBNull ? null : new DateTimeOffset((DateTime)existing).ToUnixTimeSeconds();
+  long? previous=null; var vipUser=true;
+  using(var reader=read.ExecuteReader()) if(reader.Read()) {
+   previous=reader.GetFieldValue<DateTimeOffset>(0).ToUnixTimeSeconds();
+   vipUser=reader.GetBoolean(1);
+  }
   var seconds=now.ToUnixTimeSeconds();
   var grant=RenewalPolicy.Decide(vin,previous,seconds,options);
   var expires=grant.ExpiresAt;var status=grant.Status;var renew=status!="unchanged";
   if(renew) {
    using var write=connection.CreateCommand(); write.Transaction=tx;
    write.CommandText="""
-    INSERT INTO subscriptions(vin,created_at,expires_at,renewed_at) VALUES(@vin,@now,@expiry,@now)
-    ON CONFLICT(vin) DO UPDATE SET expires_at=@expiry,renewed_at=@now;
+    INSERT INTO subscriptions(vin,created_at,expires_at,renewed_at,vip_user) VALUES(@vin,@now,@expiry,@now,TRUE)
+    ON CONFLICT(vin) DO UPDATE SET expires_at=@expiry,renewed_at=@now,vip_user=TRUE;
     INSERT INTO renewal_events(vin,occurred_at,previous_expiry,new_expiry,reason) VALUES(@vin,@now,@previous,@expiry,@reason);
     """;
    write.Parameters.AddWithValue("@vin",vin);write.Parameters.AddWithValue("@now",NpgsqlDbType.TimestampTz,now.UtcDateTime);
    write.Parameters.AddWithValue("@expiry",NpgsqlDbType.TimestampTz,DateTimeOffset.FromUnixTimeSeconds(expires).UtcDateTime);
    write.Parameters.AddWithValue("@previous",NpgsqlDbType.TimestampTz,previous.HasValue
     ? (object)DateTimeOffset.FromUnixTimeSeconds(previous.Value).UtcDateTime : DBNull.Value);
-   write.Parameters.AddWithValue("@reason",status);write.ExecuteNonQuery();
+   write.Parameters.AddWithValue("@reason",status);write.ExecuteNonQuery();vipUser=true;
   }
-  tx.Commit();return new(vin,expires,status);
+  tx.Commit();return new(vin,expires,status,vipUser);
  }
  public SubscriptionDetails? Get(string vin) {
   using var c=Open();using var q=c.CreateCommand();
   q.CommandText="""
    SELECT s.created_at,s.expires_at,s.renewed_at,
    (SELECT COUNT(*) FROM renewal_events e WHERE e.vin=@vin AND e.reason='renewed'),
-   b.blocked_at,b.reason
+   b.blocked_at,b.reason,s.vip_user
    FROM (SELECT @vin AS vin) v
    LEFT JOIN subscriptions s ON s.vin=v.vin
    LEFT JOIN subscription_blocks b ON b.vin=v.vin;
@@ -71,7 +74,7 @@ public sealed class SubscriptionStore {
   if(reader.IsDBNull(0)&&reader.IsDBNull(4))return null;
   var count=reader.GetInt64(3);
   DateTimeOffset? Date(int i)=>reader.IsDBNull(i)?null:reader.GetFieldValue<DateTimeOffset>(i);
-  return new(vin,Date(0),count==0?null:Date(2),Date(1),count,!reader.IsDBNull(4),Date(4),reader.IsDBNull(5)?null:reader.GetString(5));
+  return new(vin,Date(0),count==0?null:Date(2),Date(1),count,!reader.IsDBNull(4),Date(4),reader.IsDBNull(5)?null:reader.GetString(5),reader.IsDBNull(6)?null:reader.GetBoolean(6));
  }
  public IReadOnlyList<SubscriptionDetails> List(int offset,int limit) {
   using var c=Open();using var q=c.CreateCommand();q.CommandText="SELECT vin FROM subscriptions UNION SELECT vin FROM subscription_blocks ORDER BY vin LIMIT @limit OFFSET @offset";
@@ -88,4 +91,4 @@ public sealed class SubscriptionStore {
 }
 
 public sealed class SubscriptionBlockedException : Exception { }
-public sealed record SubscriptionDetails(string Vin,DateTimeOffset? FirstRegisteredAt,DateTimeOffset? LastRenewedAt,DateTimeOffset? ExpiresAt,long RenewalCount,bool Blocked,DateTimeOffset? BlockedAt,string? BlockReason);
+public sealed record SubscriptionDetails(string Vin,DateTimeOffset? FirstRegisteredAt,DateTimeOffset? LastRenewedAt,DateTimeOffset? ExpiresAt,long RenewalCount,bool Blocked,DateTimeOffset? BlockedAt,string? BlockReason,bool? VipUser = null);

@@ -51,4 +51,4 @@ Write-Host "Using Python: $PythonExe"
 if (-not $Apk) { $Apk = Join-Path $projectRoot 'app/release/app-release.apk' }
 if (-not $Mapping) { $Mapping = Join-Path $projectRoot 'app/build/outputs/mapping/release/mapping.txt' }
 & $PythonExe @pythonArgs (Join-Path $PSScriptRoot 'protect_raha.py') --java $javaExe --apk $Apk --mapping $Mapping
-if ($LASTEXITCODE -ne 0) { throw 'Raha protection failed. Do not use the partial output.' }
+if ($LASTEXITCODE -ne 0) { throw 'Application protection failed. Do not use the partial output.' }

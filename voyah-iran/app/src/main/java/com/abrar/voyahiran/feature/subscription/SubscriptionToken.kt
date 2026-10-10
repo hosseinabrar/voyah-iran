@@ -7,7 +7,7 @@ import java.security.spec.X509EncodedKeySpec
 import java.util.Base64
 import org.json.JSONObject
 
-data class SubscriptionGrant(val vin: String, val issuedAt: Long, val expiresAt: Long)
+data class SubscriptionGrant(val vin: String, val issuedAt: Long, val expiresAt: Long, val vipUser: Boolean = true)
 class SubscriptionToken(publicPem: String) {
     private val decoder = Base64.getUrlDecoder()
     private val der = Base64.getMimeDecoder().decode(publicPem.replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", ""))
@@ -28,7 +28,13 @@ class SubscriptionToken(publicPem: String) {
         require(vin.matches(Regex("[A-HJ-NPR-Z0-9]{17}")) && data.getString("sub") == vin) { "Subscription VIN mismatch" }
         val issued = data.getLong("iat"); val expires = data.getLong("exp")
         require(issued > 0 && expires > issued && expires - issued <= 400L * 86400)
-        return SubscriptionGrant(vin, issued, expires)
+        // Old signed grants predate tiers and belong to existing VIP subscribers.
+        val vip = if (!data.has("vip_user")) true else {
+            val value = data.get("vip_user")
+            require(value is Boolean) { "Invalid VIP claim" }
+            value
+        }
+        return SubscriptionGrant(vin, issued, expires, vip)
     }
 }
 
@@ -44,6 +50,8 @@ object SubscriptionClock {
 }
 
 object SubscriptionAccessPolicy {
+    fun vipAllowed(grant: SubscriptionGrant?, now: Long, blocked: Boolean): Boolean =
+        allowed(grant, now, blocked) && grant?.vipUser == true
     fun allowed(grant: SubscriptionGrant?, now: Long, blocked: Boolean): Boolean =
         !blocked && grant != null && now >= grant.issuedAt && now < grant.expiresAt
 }

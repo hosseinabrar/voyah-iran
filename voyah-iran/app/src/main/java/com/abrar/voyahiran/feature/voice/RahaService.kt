@@ -71,10 +71,12 @@ class RahaService : Service() {
         feedback = RahaFeedback(this, ::cancelInteraction, showTranscript = { prefs.showTranscript })
         scope.launch {
             while (isActive) {
-                if (!prefs.enabled || !(application as VoyahIranApplication).subscriptions.allowed) { stopSelf(); break }
+                if (!prefs.enabled || !(application as VoyahIranApplication).subscriptions.vipAllowed) { stopSelf(); break }
                 try {
                     if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
                         error("Microphone permission unavailable")
+                    // Model loading is asynchronous; do not serialize it behind bridge setup.
+                    if (!ready && !preparing) prepare()
                     if ((!Settings.canDrawOverlays(this@RahaService) || !highOverlayConfigured()) && SystemClock.elapsedRealtime() >= overlayRetryAt) {
                         overlayRetryAt = SystemClock.elapsedRealtime() + 10000
                         val grant = withContext(Dispatchers.IO) {
@@ -82,7 +84,6 @@ class RahaService : Service() {
                         }
                         AppLog.info("RahaFeedback", "overlay permission exit=${grant.exitCode} allowed=${Settings.canDrawOverlays(this@RahaService)} highConfigured=${highOverlayConfigured()} highConnected=${com.abrar.raha.feedback.RahaOverlayService.instance != null} detail=${grant.output}")
                     }
-                    if (!ready && !preparing) prepare()
                     if (calls.waiting && !prefs.callsEnabled) cancelInteraction()
                     if (ready) {
                         val contactsNow=com.abrar.raha.RahaContacts.revision
@@ -113,10 +114,13 @@ class RahaService : Service() {
 
     private fun prepare() {
         preparing = true
+        val startedAt = SystemClock.elapsedRealtime()
+        AppLog.info("Raha", "model initialization started")
         speech.prepare(EngineChoice.CAR_LIVE) { failure ->
             preparing = false
             ready = failure == null
             error.value = failure != null
+            AppLog.info("Raha", "model initialization finished ready=$ready elapsedMs=${SystemClock.elapsedRealtime() - startedAt}")
             if (failure != null) AppLog.error("Raha", "model initialization failed", failure)
         }
     }
@@ -132,7 +136,7 @@ class RahaService : Service() {
         return START_STICKY
     }
     private fun button() {
-        if (closed || !prefs.enabled || !(application as VoyahIranApplication).subscriptions.allowed) return
+        if (closed || !prefs.enabled || !(application as VoyahIranApplication).subscriptions.vipAllowed) return
         if (calls.waiting || manual || manualPending || feedback.receiving || com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending != null) {
             AppLog.info("Raha", "steering voice button cancels active listening")
             cancelInteraction()
@@ -156,7 +160,7 @@ class RahaService : Service() {
         AppLog.info("Raha", "interaction cancelled; dispatched vehicle requests are not reversed")
     }
     private fun reconcile() {
-        if (closed || !prefs.enabled || !(application as VoyahIranApplication).subscriptions.allowed || !ready || recording || executing) return
+        if (closed || !prefs.enabled || !(application as VoyahIranApplication).subscriptions.vipAllowed || !ready || recording || executing) return
         if (callListenPending && calls.waiting) {
             callListenPending=false; recording=true; manual=true
             val epoch=++captureEpoch
@@ -224,11 +228,13 @@ class RahaService : Service() {
         if (prefs.callsEnabled) {
             val target=com.abrar.raha.RahaContacts.target(text)
             if(target!=null) {
+                val lookupStarted=android.os.SystemClock.elapsedRealtime()
                 val snapshot=RahaPhonebook.contacts()
-                val matches=com.abrar.raha.RahaContacts.matching(target,snapshot.map { it.spoken })
-                if(matches.isNotEmpty()) {
+                val step=calls.begin(target,snapshot.map { com.abrar.raha.RahaCallDialog.Candidate(it.id,it.spoken) })
+                AppLog.info("RahaContacts", "lookup count=${snapshot.size} elapsedMs=${android.os.SystemClock.elapsedRealtime()-lookupStarted}")
+                if(step !is com.abrar.raha.RahaCallDialog.Step.Cancelled) {
                     callSnapshot=snapshot
-                    advanceCall(calls.begin(target,snapshot.map { com.abrar.raha.RahaCallDialog.Candidate(it.id,it.spoken) }))
+                    advanceCall(step)
                     return
                 }
                 if(text.contains("تماس") || text.contains("زنگ")) { feedback.result(false); return }
@@ -245,7 +251,7 @@ class RahaService : Service() {
                 feedback.processing()
                 scope.launch {
                     try {
-                        check((application as VoyahIranApplication).subscriptions.allowed) { "Subscription inactive" }
+                        check((application as VoyahIranApplication).subscriptions.vipAllowed) { "Subscription inactive" }
                         AppLog.info("Raha", "execute action=${command.action} parameters=${command.parameters}")
                         if (command.action in setOf("PLAY_MEDIA", "PAUSE_MEDIA", "NEXT_MEDIA", "PREVIOUS_MEDIA")) {
                             feedback.yieldAudioForMedia()
@@ -260,7 +266,7 @@ class RahaService : Service() {
                         } else if (command.action == "NAVIGATE_TO_SAVED_PLACE") {
                             com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.navigate(
                                 this@RahaService, command.parameters["destination"] as? String ?: error("Missing destination")) {
-                                resultEpoch != cancelledEpoch || !(application as VoyahIranApplication).subscriptions.allowed || !prefs.enabled
+                                resultEpoch != cancelledEpoch || !(application as VoyahIranApplication).subscriptions.vipAllowed || !prefs.enabled
                             }
                         } else if (command.action in setOf("SAVE_SEAT_POSITION", "RECALL_SEAT_POSITION")) {
                             OemSeatMemory.execute(this@RahaService, command)
@@ -352,7 +358,7 @@ class RahaService : Service() {
             if (VoicePreferences(context).enabled) sync(context)
         }
         fun sync(context: Context) {
-            if (VoicePreferences(context).enabled) context.startForegroundService(Intent(context, RahaService::class.java))
+            if ((context.applicationContext as VoyahIranApplication).subscriptions.vipAllowed && VoicePreferences(context).enabled) context.startForegroundService(Intent(context, RahaService::class.java))
             else context.stopService(Intent(context, RahaService::class.java))
         }
     }

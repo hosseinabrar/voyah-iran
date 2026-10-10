@@ -21,9 +21,8 @@
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# DPT protects Raha by mapped class ownership. Do not inline/merge recognizer
-# implementations into bridge/framework classes that must run before DPT loads.
-# Names can still be obfuscated. This is NOT a package-wide keep of the app.
+# Retain recognizer implementations used to construct runtime vocabularies.
+# Names can still be obfuscated; application-wide boundaries follow below.
 -keep,allowobfuscation class com.abrar.raha.RahaCommandRecognizer** { *; }
 -keep,allowobfuscation class com.abrar.raha.RahaNavigationRecognizer** { *; }
 -keep,allowobfuscation class com.abrar.raha.RahaPhase*Recognizer** { *; }
@@ -32,3 +31,12 @@
 -keep class com.abrar.voyahiran.core.bridge.AppInventory { public static void main(java.lang.String[]); }
 
 -keepnames class com.abrar.voyahiran.feature.media.SteeringMediaListener
+
+# Preserve protection ownership boundaries without preserving internal names.
+# R8 may remove unused code and rename classes/members. Disabling optimization
+# also prevents generated lambda holders from merging across the root/DPT boundary;
+# package keep rules alone do not cover R8's newly generated shared holders.
+-dontoptimize
+-keep,allowshrinking,allowobfuscation class com.abrar.** { *; }
+# JNA resolves these custom native interfaces and their method names reflectively.
+-keep interface * extends com.sun.jna.Library { *; }

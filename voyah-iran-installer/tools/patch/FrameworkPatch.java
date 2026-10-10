@@ -302,7 +302,11 @@ class DisplayPolicyPatch {
                 || matchesHelpers(classes, templates.resolve("display/legacy-before-theme"), folder)
                 || matchesHelpers(classes, templates.resolve("display/legacy-before-density"), folder)
                 || matchesHelpers(classes, templates.resolve("display/legacy-global-density"), folder)
-                || matchesHelpers(classes, templates.resolve("display/legacy-before-user-density"), folder),
+                || matchesHelpers(classes, templates.resolve("display/legacy-before-user-density"), folder)
+                || matchesHelpers(classes, templates.resolve("display/legacy-welcome"), folder)
+                || matchesHelpers(classes, templates.resolve("display/legacy-welcome-variant"), folder)
+                || matchesHelpers(classes, templates.resolve("display/legacy-merge-virtual"), folder)
+                || matchesHelpers(classes, templates.resolve("display/legacy-merge-production"), folder),
             "Display helper differs from supported current or center-only policy");
         else {
             try (var helpers = Files.list(templates.resolve("display/helpers"))) {

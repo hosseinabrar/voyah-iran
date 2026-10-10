@@ -77,7 +77,7 @@
     <string name="apollo_tab">آپولو</string>
     <string name="apollo_report_note">وضعیت گزینه‌ها از خودرو خوانده می‌شود.</string>
     <string name="apollo_subscription">فعال سازی آپولو</string>
-    <string name="apollo_lane_change">تغییر لاین با راهنمای چپ و راست</string>
+    <string name="apollo_lane_change">تغییر لاین بین خطوط با زدن راهنمای چپ و راست در زمان فعال بودن کروز کنترل هوشمند</string>
     <string name="apollo_navigation">هدایت ناوبری (NOA)</string>
     <string name="apollo_traffic_light">تشخیص چراغ راهنمایی و نمایش در کلاستر</string>
     <string name="apollo_light_change">یادآوری تغییر وضعیت چراغ راهنمایی با صدا</string>
@@ -146,7 +146,7 @@
     <string name="passenger_apps_description">برنامه‌ها را از نوار کناری نمایشگر شاگرد انتخاب و روی همان نمایشگر اجرا کنید.</string>
     <string name="neshan_install_notice"><font color="#FFD54F">تذکر:</font> برای استفاده از قابلیت‌های نشان حتما برنامه نشان را از طریق دکمه \"نصب نشان\" نصاب وویا ایران نصب کنید</string>
     <string name="avm_turn_label">نمایش دوربین با راهنما</string>
-    <string name="avm_turn_description">نمایش دوربین سمت راهنما در سرعت کمتر از ۲۵؛ بسته شدن خودکار ۳ ثانیه پس از خاموش شدن راهنما (آزمایشی)</string>
+    <string name="avm_turn_description">نمایش دوربین سمت راهنما در زمان راهنما زدن با سرعت کمتر از ۲۵ کیلومتر بر ساعت</string>
     <string name="avm_turn_wait">در حال ارتباط با خودرو…</string>
     <string name="avm_turn_read_ok">تنظیم ذخیره شد؛ عملکرد خودکار دوربین را روی خودرو آزمایش کنید.</string>
     <string name="avm_turn_failed">وضعیت تأیید نشد؛ جزئیات در گزارش ثبت شده است.</string>

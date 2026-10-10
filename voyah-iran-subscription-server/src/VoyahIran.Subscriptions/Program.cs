@@ -40,7 +40,7 @@ app.MapPost("/registerOrRenewSubscription",(RegistrationRequest request,Subscrip
   // Never log the raw VIN, request body or signed token.
   var fingerprint=Convert.ToHexString(SHA256.HashData(Encoding.ASCII.GetBytes(vin)))[..12];
   log.LogInformation("Subscription {Status} vehicle={Vehicle} expiresAt={ExpiresAt} request={RequestId}",grant.Status,fingerprint,grant.ExpiresAt,http.TraceIdentifier);
-  return Results.Ok(new {token,expiresAt=DateTimeOffset.FromUnixTimeSeconds(grant.ExpiresAt),serverTime=now,status=grant.Status});
+  return Results.Ok(new {token,expiresAt=DateTimeOffset.FromUnixTimeSeconds(grant.ExpiresAt),serverTime=now,status=grant.Status,vip_user=grant.VipUser});
  } catch(SubscriptionBlockedException) {
   return Results.Problem(statusCode:403,title:"subscription_blocked",detail:"Contact Voyah Iran support.");
  } catch(NpgsqlException e) when(e.IsTransient) {

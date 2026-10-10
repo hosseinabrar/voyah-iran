@@ -1,5 +1,5 @@
 import unittest
-from protect_raha import choose_targets, BRIDGE
+from protect_raha import choose_targets, choose_app_targets, BRIDGE
 
 
 class ProtectionSelectionTests(unittest.TestCase):
@@ -93,6 +93,59 @@ com.abrar.raha.RahaPhaseFourRecognizer$$ExternalSyntheticLambda1 -> vi:
         self.inventory.pop(BRIDGE)
         with self.assertRaisesRegex(RuntimeError, "Root bridge"):
             choose_targets(self.mapping, self.strings, self.inventory)
+
+
+class ApplicationProtectionTests(unittest.TestCase):
+    def setUp(self):
+        self.root = "Lcom/abrar/voyahiran/core/bridge/AppInventory;"
+        self.mapping = "# pg_map_id: test\n" + "\n".join([
+            "com.abrar.voyahiran.core.bridge.BridgeServer -> com.abrar.voyahiran.core.bridge.BridgeServer:",
+            "com.abrar.voyahiran.core.bridge.AppInventory -> com.abrar.voyahiran.core.bridge.AppInventory:",
+            "com.abrar.voyahiran.ui.MainActivity -> ui:",
+            "com.abrar.voyahiran.feature.subscription.SubscriptionRepository -> repo:",
+            "com.abrar.raha.speech.SpeechLab -> speech:",
+            "com.abrar.voyahiran.core.bridge.Shared -> shared:",
+            "third.party.Helper -> lib:",
+            "com.abrar.voyahiran.feature.navigation.Data -> data:",
+            "com.abrar.raha.Generated$$ExternalSyntheticLambda1 -> lambda:",
+        ])
+        self.graph = {k:set() for k in [BRIDGE,self.root,"Lui;","Lrepo;","Lspeech;","Lshared;","Llib;","Ldata;","Llambda;"]}
+        self.graph[BRIDGE] = {"Lshared;"}
+        self.graph["Lshared;"] = {"Llib;"}
+        self.graph["Llib;"] = {"Ldata;"}
+        self.inventory = dict.fromkeys(self.graph, [])
+        self.strings = ['~~R8{"pg-map-id":"test"}']
+    def select(self, native=()):
+        return choose_app_targets(self.mapping,self.strings,self.inventory,self.graph,native)
+    def test_expands_beyond_raha_and_preserves_transitive_shared_code(self):
+        targets,_,excluded,_ = self.select()
+        self.assertEqual(set(targets), {"Lui;","Lrepo;","Lspeech;","Llambda;"})
+        self.assertIn("Ldata;",excluded)
+    def test_root_shared_synthetic_is_not_protected(self):
+        self.graph['Llib;'].add('Llambda;')
+        self.assertNotIn('Llambda;',self.select()[0])
+    def test_native_binding_and_dependencies_stay_plain(self):
+        self.graph['Lspeech;'] = {'Lrepo;'}
+        targets=self.select({'Lspeech;'})[0]
+        self.assertNotIn('Lspeech;',targets);self.assertNotIn('Lrepo;',targets)
+    def test_root_method_merged_into_app_class_is_preserved(self):
+        self.mapping += "\ncom.abrar.raha.Generated$$ExternalSyntheticLambda1 -> lambda:\n    1:2:void com.abrar.voyahiran.core.bridge.Other.run():1 -> a"
+        self.assertNotIn('Llambda;',self.select()[0])
+    def test_third_party_merge_is_excluded(self):
+        self.mapping += "\nthird.party.Merged -> speech:"
+        self.assertNotIn('Lspeech;',self.select()[0])
+    def test_graph_must_cover_entire_apk(self):
+        self.graph.pop('Lui;')
+        with self.assertRaisesRegex(RuntimeError,'inventory'):self.select()
+    def test_unresolved_edges_fail_closed(self):
+        self.graph['Lui;'].add('Lmissing;')
+        with self.assertRaisesRegex(RuntimeError,'Unresolved'):self.select()
+    def test_missing_app_process_entry_fails(self):
+        self.inventory.pop(self.root);self.graph.pop(self.root)
+        with self.assertRaisesRegex(RuntimeError,'entry point'):self.select()
+    def test_stale_mapping_fails(self):
+        self.strings=['~~R8{"pg-map-id":"wrong"}']
+        with self.assertRaisesRegex(RuntimeError,'do not match'):self.select()
 
 
 if __name__ == "__main__":

@@ -33,8 +33,8 @@ internal object ApolloBundle {
     private fun dispatch(requested: Int, feature: com.abrar.voyahiran.feature.apollo.domain.ApolloFeature?, reconcile: Boolean = false): CommandResult {
       return try {
         require(requested in 1..2)
-        check(feature == null || BridgeSubscriptionSession.active) { "Voyah Iran subscription inactive" }
-        val subscriptionActive = BridgeSubscriptionSession.active
+        check(feature == null || BridgeSubscriptionSession.vipActive) { "Voyah Iran subscription inactive" }
+        val subscriptionActive = BridgeSubscriptionSession.vipActive
         val value = if (feature == null) ApolloPolicy.value(subscriptionActive, requested == 2) else requested
         if (reconcile) AppLog.info("Apollo", "reconcile begin requested=$requested subscriptionActive=$subscriptionActive expectedSet=$value expectedRaw=${value - 1}")
         val loader = sdkLoader
@@ -75,7 +75,8 @@ internal object ApolloBundle {
         }
         val result = if (feature == null) method.invoke(remote, null, bundle) else method.invoke(remote, state, value)
         check(result !is Number || result.toInt() >= 0) { "OEM rejected Apollo bundle: $result" }
-        if (feature != null) {
+        if (feature != null && feature != com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.EMERGENCY_LANE &&
+            feature != com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.EMERGENCY_STEERING) {
             val getter = api.getMethod("getVehicleState", stateType)
             val deadline = android.os.SystemClock.elapsedRealtime() + 2000
             var actual = getter.invoke(remote, state) as Int

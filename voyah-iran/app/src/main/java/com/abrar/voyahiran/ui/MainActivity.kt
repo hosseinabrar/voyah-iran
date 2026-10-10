@@ -79,10 +79,10 @@ class MainActivity : ComponentActivity() {
                 val result = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
                     com.abrar.voyahiran.core.shell.ProcessCommandRunner().run(listOf("su", "0", "apollo-capability"), 5)
                 }
-                val sdb = if (result.exitCode == 0 && !result.timedOut)
-                    Regex("APOLLO_CAPABILITY sdb=(\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull() else null
-                if (sdb != null) {
-                    apolloAvailable = sdb == 1
+                val available = if (result.exitCode == 0 && !result.timedOut)
+                    Regex("APOLLO_CAPABILITY available=(\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull() else null
+                if (available != null) {
+                    apolloAvailable = available == 1
                     binding.apolloTab.visibility = if (apolloAvailable) View.VISIBLE else View.GONE
                     binding.comfortPage.avmTurnCard.visibility = if (apolloAvailable) View.VISIBLE else View.GONE
                     if (apolloAvailable) updateAvmTurn("read")
@@ -172,18 +172,20 @@ class MainActivity : ComponentActivity() {
         }
         updateLogging("status")
         binding.settingsPage.localProfileCard.visibility = if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) View.VISIBLE else View.GONE
-        binding.settingsPage.localProfileRead.setOnClickListener { localProfile.run("status") }
-        binding.settingsPage.localProfileApply.setOnClickListener { localProfile.run("apply") }
-        binding.settingsPage.localProfileRestore.setOnClickListener { localProfile.run("restore") }
+        binding.settingsPage.localProfileApply.setOnClickListener {
+            localProfile.run(if (localProfile.state.value.enabled == null) "status"
+                else if (binding.settingsPage.localProfileApply.isChecked) "apply" else "restore")
+        }
+        if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) localProfile.run("status")
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 localProfile.state.collect { state ->
                     with(binding.settingsPage) {
                         localProfileApply.isEnabled = !state.busy
-                        localProfileRead.isEnabled = !state.busy
-                        localProfileRestore.isEnabled = !state.busy
+                        localProfileApply.isChecked = state.enabled == true
                         localProfileProgress.visibility = if (state.busy) View.VISIBLE else View.GONE
                         localProfileStatus.text = state.text
+                        localProfileStatus.visibility = if (state.text.isBlank()) View.GONE else View.VISIBLE
                     }
                 }
             }
@@ -204,13 +206,17 @@ class MainActivity : ComponentActivity() {
         binding.apolloTab.visibility = View.GONE
         binding.apolloTab.setOnClickListener { if (apolloAvailable) { selectTab(Tab.APOLLO); apollo.refresh() } }
         with(binding.apolloPage) {
-            listOf(laneChange, emergencyLane, trafficLight, lightChange, signs, emergencySteering)
+            listOf(laneChange, trafficLight, lightChange, signs)
                 .zip(com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.displayed).forEach { (box, feature) ->
                     box.setOnClickListener { apollo.setFeature(feature, box.isChecked) }
                 }
         }
         binding.apolloPage.subscription.setOnClickListener { apollo.setEnabled(binding.apolloPage.subscription.isChecked) }
         binding.apolloPage.refresh.setOnClickListener { apollo.refresh() }
+        binding.apolloPage.speedWarningEnabled.setOnClickListener {
+            val enabled = binding.apolloPage.speedWarningEnabled.isChecked
+            apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_WARNING, if (enabled) 2 else 1)
+        }
         binding.apolloPage.speedWarningExact.setOnClickListener {
             apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_OFFSET, 1)
         }
@@ -322,6 +328,13 @@ class MainActivity : ComponentActivity() {
         selectTab(Tab.entries.firstOrNull { it != Tab.DIAGNOSTICS && it.name == savedInstanceState?.getString(TAB_KEY) } ?: Tab.SETTINGS)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    (application as VoyahIranApplication).subscriptions.vipState.collect {
+                        renderApollo(apollo.state.value)
+                        renderDrive(drive.state.value)
+                        if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) localProfile.run("status")
+                    }
+                }
                 // Opening the UI and an in-place subscription unlock share this path.
                 launch {
                     (application as VoyahIranApplication).subscriptions.state
@@ -402,8 +415,10 @@ class MainActivity : ComponentActivity() {
         if ((application as VoyahIranApplication).starBackup.let { it.desired || it.read() != null }) {
             StarBackService.request(this, StarBackService.RESUME)
         } else lifecycleScope.launch { steering.refresh() }
-        if (drive.state.value.anyEnabled) DriveMemoryService.request(this, DriveMemoryService.RESUME)
-        else lifecycleScope.launch { drive.start() }
+        if ((application as VoyahIranApplication).subscriptions.vipAllowed) {
+            if (drive.state.value.anyEnabled) DriveMemoryService.request(this, DriveMemoryService.RESUME)
+            else lifecycleScope.launch { drive.start() }
+        }
     }
 
     override fun onStop() {
@@ -585,7 +600,7 @@ class MainActivity : ComponentActivity() {
         subscription.isEnabled = !state.busy
         state.error?.let { android.widget.Toast.makeText(this@MainActivity, it, android.widget.Toast.LENGTH_LONG).show() }
         val features = com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.displayed
-        val boxes = listOf(laneChange, emergencyLane, trafficLight, lightChange, signs, emergencySteering)
+        val boxes = listOf(laneChange, trafficLight, lightChange, signs)
         val titles = listOf(R.string.apollo_lane_change, R.string.apollo_emergency_lane, R.string.apollo_traffic_light,
             R.string.apollo_light_change, R.string.apollo_signs, R.string.apollo_emergency_steering)
         features.forEachIndexed { index, feature ->
@@ -594,11 +609,17 @@ class MainActivity : ComponentActivity() {
             boxes[index].alpha = if (subscription.isChecked) 1f else 0.45f
         }
         experiments.visibility = View.GONE
+        val warningState = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_WARNING]
+        val warningEnabled = warningState == 2
+        show(speedWarningEnabled, R.string.apollo_speed_warning, when (warningState) { 1 -> false; 2 -> true; else -> null })
+        speedWarningEnabled.isEnabled = subscription.isChecked && !state.busy && warningState in 1..2
+        speedWarningEnabled.alpha = if (subscription.isChecked && warningState in 1..2) 1f else 0.45f
+        speedWarningModes.visibility = if (warningEnabled) View.VISIBLE else View.GONE
         val speedStyle = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_OFFSET]
         speedWarningExact.isChecked = speedStyle == 1
         speedWarningPercent.isChecked = speedStyle == 2
         listOf(speedWarningExact, speedWarningPercent).forEach {
-            it.isEnabled = subscription.isChecked && !state.busy && speedStyle in 1..2
+            it.isEnabled = subscription.isChecked && warningEnabled && !state.busy && speedStyle in 1..2
             it.alpha = if (subscription.isChecked && speedStyle in 1..2) 1f else 0.45f
         }
         progress.visibility = if (state.busy) View.VISIBLE else View.GONE

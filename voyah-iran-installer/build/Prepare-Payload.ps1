@@ -23,7 +23,8 @@ if (-not $Apk) {
     $signReport = Get-Content -LiteralPath $signed.FullName -Raw | ConvertFrom-Json
     $protection = Get-Content -LiteralPath (Join-Path $run 'report.json') -Raw | ConvertFrom-Json
     $Apk = Join-Path $run 'raha-protected.apk'
-    if ($protection.static_checks -ne 'passed' -or $protection.r8_boundaries_checked -ne $true) {
+    if ($protection.static_checks -ne 'passed' -or $protection.r8_boundaries_checked -ne $true -or
+        $protection.protection_scope -ne 'application-v2' -or $protection.root_dependency_closure_checked -ne $true) {
         throw 'Protected APK checks have not passed.'
     }
     if ((Get-FileHash -LiteralPath $Apk -Algorithm SHA256).Hash.ToLowerInvariant() -ne $signReport.sha256) {
@@ -109,12 +110,24 @@ Get-ChildItem (Join-Path $patchTools 'display/legacy-global-density') -File -Fil
 Get-ChildItem (Join-Path $patchTools 'display/legacy-before-user-density') -File -Filter '*.smali' | ForEach-Object {
     $files['patch/display/legacy-before-user-density/' + $_.Name] = $_.FullName
 }
+Get-ChildItem (Join-Path $patchTools 'display/legacy-welcome') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/legacy-welcome/' + $_.Name] = $_.FullName
+}
+Get-ChildItem (Join-Path $patchTools 'display/legacy-welcome-variant') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/legacy-welcome-variant/' + $_.Name] = $_.FullName
+}
+Get-ChildItem (Join-Path $patchTools 'display/legacy-merge-virtual') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/legacy-merge-virtual/' + $_.Name] = $_.FullName
+}
+Get-ChildItem (Join-Path $patchTools 'display/legacy-merge-production') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/legacy-merge-production/' + $_.Name] = $_.FullName
+}
 $runtimePath = (Resolve-Path -LiteralPath $JavaRuntime).Path.TrimEnd('\','/')
 $legacyPatch = (Resolve-Path -LiteralPath (Join-Path $patchTools 'android9')).Path
 Get-ChildItem $legacyPatch -File | Where-Object {
     $_.Name -eq 'Android9Patch.java' -or $_.Extension -in @('.smali', '.jar', '.json') -or $_.Name -like '*LICENSE.txt'
 } | ForEach-Object { $files['patch/android9/' + $_.Name] = $_.FullName }
-Get-ChildItem (Join-Path $legacyPatch 'helpers'), (Join-Path $legacyPatch 'previous-v1'), (Join-Path $legacyPatch 'previous-v2'), (Join-Path $legacyPatch 'previous-v3'), (Join-Path $legacyPatch 'previous-v4'), (Join-Path $legacyPatch 'previous-v5'), (Join-Path $legacyPatch 'previous-v6') -Recurse -File -Filter '*.smali' | ForEach-Object {
+Get-ChildItem (Join-Path $legacyPatch 'helpers'), (Join-Path $legacyPatch 'previous-v1'), (Join-Path $legacyPatch 'previous-v2'), (Join-Path $legacyPatch 'previous-v3'), (Join-Path $legacyPatch 'previous-v4'), (Join-Path $legacyPatch 'previous-v5'), (Join-Path $legacyPatch 'previous-v6'), (Join-Path $legacyPatch 'previous-welcome'), (Join-Path $legacyPatch 'previous-welcome-variant'), (Join-Path $legacyPatch 'previous-merge-virtual'), (Join-Path $legacyPatch 'previous-merge-production') -Recurse -File -Filter '*.smali' | ForEach-Object {
     $relative = $_.FullName.Substring($legacyPatch.Length + 1).Replace('\','/')
     $files['patch/android9/' + $relative] = $_.FullName
 }

@@ -4,6 +4,15 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class RahaContactsTest {
+    @Test fun largePhonebookExactAndPartialLookup() {
+        val names=(0 until 2698).map { "مخاطب آزمایشی $it" } + listOf("میلاد نادری", "میلاد محمدی")
+        val start=System.nanoTime()
+        repeat(100) {
+            assertEquals(listOf(2698), RahaContacts.matching("میلاد نادری", names))
+            assertEquals(listOf(2698,2699), RahaContacts.matching("میلاد", names))
+        }
+        println("2700 contacts: average lookup ms="+(System.nanoTime()-start)/200.0/1_000_000)
+    }
     @Test fun colloquialCallCountIsNotPartOfContactName() {
         for(text in listOf("یه زنگ بزن به ناهید", "رها یه زنگ بزن به ناهید", "به ناهید یه زنگ بزن",
             "لطفا یه زنگ بزن به ناهید", "با ناهید یه تماس بگیر", "یک تماس برقرار کنید با ناهید")) {

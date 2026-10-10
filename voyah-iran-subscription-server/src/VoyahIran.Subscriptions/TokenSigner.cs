@@ -18,7 +18,7 @@ public sealed class TokenSigner : IDisposable {
  }
  public string Sign(SubscriptionGrant grant, DateTimeOffset now) {
   var header=Encode(JsonSerializer.SerializeToUtf8Bytes(new {alg="RS256",typ="JWT",kid=KeyId}));
-  var payload=Encode(JsonSerializer.SerializeToUtf8Bytes(new {v=1,iss=options.Issuer,aud=options.Audience,sub=grant.Vin,iat=now.ToUnixTimeSeconds(),exp=grant.ExpiresAt}));
+  var payload=Encode(JsonSerializer.SerializeToUtf8Bytes(new {v=1,iss=options.Issuer,aud=options.Audience,sub=grant.Vin,iat=now.ToUnixTimeSeconds(),exp=grant.ExpiresAt,vip_user=grant.VipUser}));
   var input=header+"."+payload;
   byte[] signature;lock(gate) signature=rsa.SignData(Encoding.ASCII.GetBytes(input),HashAlgorithmName.SHA256,RSASignaturePadding.Pkcs1);
   return input+"."+Encode(signature);

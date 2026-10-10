@@ -14,7 +14,7 @@ internal object ApolloExperimentBridge {
     fun execute(name: String? = null, value: Int? = null): CommandResult = try {
         val setting = name?.let { ApolloExperiment.valueOf(it) }
         if (setting != null) {
-            check(BridgeSubscriptionSession.active) { "Subscription inactive" }
+            check(BridgeSubscriptionSession.vipActive) { "Subscription inactive" }
             require(value != null && setting.accepts(value))
         }
         val apk = File("/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk")

@@ -5,6 +5,26 @@ import com.abrar.voyahiran.core.shell.CommandResult
 /** Starts closed on each bridge boot. Only the authenticated app updates this after verifying its token. */
 object BridgeSubscriptionSession {
     private val lease=SubscriptionRuntimeLease(SystemClock::elapsedRealtime)
+    private val vipLease=SubscriptionRuntimeLease(SystemClock::elapsedRealtime)
+    val vipActive: Boolean get()=active && vipLease.active
+    @Volatile private var vipReceived = false
+    private val loginExpiry = java.io.File("/data/local/voyahiran-login-vip-expiry")
+    // Only the persistent login component needs entitlement before the app connects at boot.
+    // All live automation continues to require the short monotonic lease.
+    val loginVipActive: Boolean get() = if (vipReceived) vipActive else runCatching {
+        val values = loginExpiry.readText().split(':').map(String::toLong)
+        val now = System.currentTimeMillis() / 1000
+        now >= values[0] && now < values[1]
+    }.getOrDefault(false)
+    fun updateVip(seconds: Int, remaining: Int): CommandResult {
+        val now = System.currentTimeMillis() / 1000
+        val temp = java.io.File(loginExpiry.path + ".new")
+        temp.writeText("$now:${now + remaining}")
+        check(temp.renameTo(loginExpiry))
+        vipLease.update(seconds); vipReceived = true
+        LocalProfileTest.reconcile()
+        return CommandResult(0,"VIP runtime session updated")
+    }
     val active: Boolean get()=lease.active
     fun update(seconds: Int): CommandResult {
         lease.update(seconds)

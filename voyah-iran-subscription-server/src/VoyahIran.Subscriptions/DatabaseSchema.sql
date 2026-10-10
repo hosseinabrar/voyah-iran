@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   expires_at TIMESTAMPTZ NOT NULL,
   renewed_at TIMESTAMPTZ NOT NULL
 );
+-- Existing subscriptions become VIP; later restarts preserve explicit false values.
+ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS vip_user BOOLEAN NOT NULL DEFAULT TRUE;
 CREATE TABLE IF NOT EXISTS renewal_events (
   id BIGSERIAL PRIMARY KEY,
   vin TEXT NOT NULL,

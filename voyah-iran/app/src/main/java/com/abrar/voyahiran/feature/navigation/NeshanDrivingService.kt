@@ -20,7 +20,7 @@ class NeshanDrivingService : AccessibilityService() {
     private var tickPending = false
     private val tick = Runnable { tickPending = false; inspect() }
     private val preferences get() = NavigationPreferences(this)
-    private val enabled get() = (application as VoyahIranApplication).subscriptions.allowed &&
+    private val enabled get() = (application as VoyahIranApplication).subscriptions.vipAllowed &&
         (preferences.autoDriving || preferences.voiceNavigationEnabled)
 
     override fun onServiceConnected() {
@@ -65,7 +65,13 @@ class NeshanDrivingService : AccessibilityService() {
                 if (route != null) {
                     session.consume(); verifyUntil = 0L // A voice destination never starts free driving in this visit.
                     route.entered = true
-                    if (preferences.voiceNavigationEnabled) enterRoute(root, route, now)
+                    if (!route.destinationSent) {
+                        // No free-driving or route clicks while the normal entry initializes.
+                        val profile = NeshanConfigStore.profile
+                        val ids = if (profile != null) profile.labels("moreScopeIds") + profile.labels("activeIds") + profile.labels("routeIds")
+                            else listOf("bottomNavigationViewMain", "closeMaterialCardViewDrivingControl", "address_panel_upcoming_step_frame")
+                        route.startup.observe(ids.any { visible(root, it) }, now)
+                    } else if (preferences.voiceNavigationEnabled) enterRoute(root, route, now)
                 } else if (preferences.autoDriving && (!session.consumed || verifyUntil != 0L)) enterDriving(root, now)
             }
         } catch (e: RuntimeException) {

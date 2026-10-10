@@ -13,6 +13,7 @@ $keyPath = (Resolve-Path -LiteralPath $Keystore).Path
 $report = Get-Content -LiteralPath (Join-Path $runPath 'report.json') -Raw | ConvertFrom-Json
 if ($report.static_checks -ne 'passed') { throw 'Static protection checks have not passed.' }
 if ($report.r8_boundaries_checked -ne $true) { throw 'Rebuild and protect again: this old trial did not check R8 inlining boundaries.' }
+if ($report.protection_scope -ne 'application-v2' -or $report.root_dependency_closure_checked -ne $true) { throw 'Rebuild protection: application-wide dependency checks are required.' }
 $unsigned = Join-Path $runPath 'raha-protected-unsigned.apk'
 $inputApk = Join-Path $runPath 'input.apk'
 if ((Get-FileHash -LiteralPath $unsigned).Hash.ToLowerInvariant() -ne $report.unsigned_sha256) { throw 'Protected APK hash mismatch.' }

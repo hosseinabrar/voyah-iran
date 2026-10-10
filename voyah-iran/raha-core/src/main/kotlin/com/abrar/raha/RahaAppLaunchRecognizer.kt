@@ -15,7 +15,7 @@ internal object RahaAppLaunchRecognizer {
         val player = if (!map) scan.take("موزیک پلیر|موزیکپلیر|پلیر|پخش") else false
         val music = if (!map) scan.take("موسیقی|موزیک|آهنگ") else false
         if (!radio && !map && !player && !music) return null
-        if (!scan.take(verbs)) return null
+        if (!scan.take(if (map) "$verbs|نشون بده|نشان بده|نمایش بده" else verbs)) return null
         // Preserve “موسیقی رو اجرا کن” as playback unless opening an app is explicit.
         if (!radio && !map && !app && !player && scan.last == "اجرا") return null
         while (scan.take("کن|کنید|کنین|کردن|شود|بشه|بکن|بکنید|لطفا|برام|برای من|رو|را|و|یه|یک")) { }

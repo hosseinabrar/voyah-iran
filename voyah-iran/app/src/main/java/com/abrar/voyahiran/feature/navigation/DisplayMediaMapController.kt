@@ -170,6 +170,10 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
             }
         }
         renderNeshan()
+        // StateFlow emits immediately on Main.immediate: create all controls first.
+        activity.lifecycleScope.launch {
+            (activity.application as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipState.collect { renderMusic(); renderNeshan() }
+        }
     }
 
     private fun refreshApps() = activity.lifecycleScope.launch {

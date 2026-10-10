@@ -30,6 +30,8 @@ object BridgePolicy {
             (request[2] == "inherit" || request[2] in listOf("120", "140", "160", "180", "200"))) return request
         if (request.size == 2 && request[0] == "app-density" && request[1] in listOf("120", "140", "160", "180", "200")) return request
         if (request.size == 2 && request[0] == "app-theme" && request[1] in listOf("dark", "light", "vehicle")) return request
+        if (request.size == 2 && request[0] == "music-startup-hide" &&
+            request[1].matches(Regex("[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_]+)+"))) return request
         if (request == listOf("raha-phone", "device")) return request
         if (request.size == 4 && request[0] == "raha-phone" && request[2].matches(Regex("[0-9A-F]{2}(?::[0-9A-F]{2}){5}")) &&
             ((request[1] == "read" && request[3].toLongOrNull()?.let { it >= 0 } == true) ||
@@ -81,6 +83,7 @@ esac
         if (request.size == 2 && request[0] == "screen-swap" && request[1] in listOf("enable", "disable"))
             return listOf("/system/bin/settings", "put", "global", "voyah_iran_screen_swap", if (request[1] == "enable") "1" else "0")
         if (request.size == 2 && request[0] == "app-display" && request[1] in listOf("enable", "disable")) return request
+        if(request.size==3 && request[0]=="subscription-vip-session" && request[1].toIntOrNull() in 0..90 && request[2].toIntOrNull() in 0..34560000) return request
         if(request==listOf("subscription-vin","read")) return request
         if(request.size==2 && request[0]=="subscription-session" && request[1].toIntOrNull() in 0..90) return request
         if(request==listOf("subscription-ui","open")) return listOf("/system/bin/am","start","--user","0","--display","0","-n","com.abrar.voyahiran/.feature.subscription.SubscriptionActivity","--activity-new-task","--activity-clear-top")
