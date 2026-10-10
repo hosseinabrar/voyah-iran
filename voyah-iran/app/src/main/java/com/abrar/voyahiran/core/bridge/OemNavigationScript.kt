@@ -73,6 +73,7 @@ Java.perform(function () {
             const nativeRelease = passengerBarType.release.overload();
             let releasing = 0;
             nativeRelease.implementation = function () {
+                if(typeof globalThis.VI_RELEASE_BAR_BACKGROUND === 'function') globalThis.VI_RELEASE_BAR_BACKGROUND(this);
                 releasing++;
                 try { return nativeRelease.call(this); } finally { releasing--; }
             };
@@ -92,7 +93,14 @@ Java.perform(function () {
                 return nativeDismiss.call(this);
             };
         } catch (e) { console.log('VI_NAV_PASSENGER_GUARD_UNAVAILABLE ' + e); }
+        function syncBars(ctx, component, display, enabled) {
+            if(typeof globalThis.VI_SYNC_BAR_BACKGROUND !== 'function')return;
+            let show=false;
+            try {show=enabled && eligible(ctx,component);}catch(e){}
+            globalThis.VI_SYNC_BAR_BACKGROUND(ctx,display,show);
+        }
         function refreshPassenger(ctx, component, enabled) {
+            syncBars(ctx,component,1,enabled);
             if (passengerModel === null || passengerHandler === null) return;
             const signature = enabled + ':' + component;
             if (signature === passengerState) {
@@ -180,6 +188,7 @@ Java.perform(function () {
             console.log('VI_NAV_SHOW ' + component);
         }
         function apply(ctx, component) {
+            syncBars(ctx,component,0,active(ctx));
             if (active(ctx) && eligible(ctx, component)) {
                 show(ctx, component);
                 return;
@@ -215,13 +224,15 @@ Java.perform(function () {
                 }
                 if (task.displayId.value !== 0 || centerSeen) continue;
                 centerSeen = true;
+                syncBars(service,component,0,enabled);
                 if (centerChanged) {
                     apply(service, component);
                     previousPolicy = enabled;
                     console.log('VI_NAV_POLICY enabled=' + enabled);
                 }
             }
-            if (!passengerSeen) passengerState = null;
+            if (!passengerSeen) {passengerState = null;syncBars(service,'',1,false);}
+            if (!centerSeen) syncBars(service,'',0,false);
         }
         Java.choose('com.qinggan.launcher.base.drag.DragService', {
             onMatch: function (instance) { remember(instance); return 'stop'; },

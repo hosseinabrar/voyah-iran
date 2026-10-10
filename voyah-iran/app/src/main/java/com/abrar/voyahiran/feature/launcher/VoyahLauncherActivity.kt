@@ -50,7 +50,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     private val artwork by lazy { LauncherArtwork(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor=Color.BLACK;window.navigationBarColor=Color.BLACK
+        LauncherWindowTheme.apply(window,LauncherTheme.isLight())
         container=FrameLayout(this).apply { setBackgroundColor(Color.BLACK); layoutDirection=View.LAYOUT_DIRECTION_LTR }
         dashboard=LauncherDashboard(this)
         vehiclePage=LauncherVehicleDashboard(this)
@@ -175,7 +175,8 @@ class VoyahLauncherActivity : ComponentActivity() {
         if(vehiclePage.lightTheme!=light) { drivePopup?.dismiss();drivePopup=null }
         dashboard.lightTheme=light
         vehiclePage.lightTheme=light
-        container.setBackgroundColor(if(light)0xffe5ebf3.toInt() else Color.BLACK)
+        LauncherWindowTheme.apply(window,light)
+        container.setBackgroundColor(LauncherWindowTheme.background(light))
     }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
