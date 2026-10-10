@@ -18,6 +18,12 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     private var attachedWindows: WindowManager? = null
     private var attachedType = 0
     private var interactionStarted = 0L
+    private var heartbeatStartedAt: Long? = null
+    private fun playReady() {
+        sounds.play(RahaSounds.Cue.READY)
+        heartbeatStartedAt = SystemClock.uptimeMillis()
+        orb?.heartbeatStartedAt = heartbeatStartedAt
+    }
     private inline fun onMain(crossinline action: () -> Unit) {
         if (Looper.myLooper() == Looper.getMainLooper()) action() else main.post { action() }
     }
@@ -92,7 +98,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         this.confirmation=confirmation
         promptText=text; promptChoices=choices; promptSelect=selected
         renderPrompt(); refresh()
-        if(showing) sounds.play(RahaSounds.Cue.READY)
+        if(showing) playReady()
     }
     private fun renderPrompt() {
         val panel=root?.findViewById<android.widget.LinearLayout>(R.id.rahaPrompt) ?: return
@@ -153,7 +159,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
                 Log.w("RahaFeedback", "overlay watchdog expired")
                 dismiss(); cancel(); return
             }
-            if (policy.tick(SystemClock.elapsedRealtime())) sounds.play(RahaSounds.Cue.READY)
+            if (policy.tick(SystemClock.elapsedRealtime())) playReady()
             render()
             if (policy.state != FeedbackState.HIDDEN) main.postDelayed(this,60)
         }
@@ -164,11 +170,12 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         // A new activation always replaces our previous window, including a stale one.
         if (!detach()) { Log.w("RahaFeedback", "new overlay postponed until old window is removed") }
         interactionStarted = SystemClock.elapsedRealtime()
+        heartbeatStartedAt = null
         light=lightTheme(); themeCheckedAt=interactionStarted
         confirmation=false
         promptText=""; promptChoices=emptyList(); promptSelect=null; transcript=""; voiceActive=false; sounds.stop(); policy.cancel(); policy.begin(interactionStarted, !manual && !tentative)
         Log.i("RahaFeedback", "new interaction; remaining overlay owners=${visibleOwners.size}")
-        if(manual && !tentative) sounds.play(RahaSounds.Cue.READY)
+        if(manual && !tentative) playReady()
         refresh()
     }
     fun text(value: String): Unit = onMain {
@@ -249,6 +256,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
             val updated=lightTheme()
             if(updated!=light) { light=updated;applyTheme();renderPrompt() }
         }
+        orb?.heartbeatStartedAt = heartbeatStartedAt
         orb?.phase = if(receiving) { if(voiceActive) FeedbackState.LISTENING else FeedbackState.WAITING } else policy.state
         root?.findViewById<android.widget.LinearLayout>(R.id.rahaPrompt)?.let { panel ->
             fun enableButtons(group: ViewGroup) {

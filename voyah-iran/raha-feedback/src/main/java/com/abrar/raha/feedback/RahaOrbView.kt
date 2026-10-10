@@ -13,6 +13,8 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         set(value) { if (field != value) { field=value; started=SystemClock.uptimeMillis(); updateShaders(); invalidate() } }
     var light = false
         set(value) { if (field != value) { field=value; updateShaders(); invalidate() } }
+    // Null keeps the initial waiting orb still until the READY cue is played.
+    var heartbeatStartedAt: Long? = null
     var level = 0f
     private var energy = 0f
     private var previousFrame = 0L
@@ -53,7 +55,7 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         previousFrame=now
         val target=if(phase==FeedbackState.LISTENING)sqrt(level.coerceIn(0f,1f)) else 0f
         energy+=(target-energy)*(1-exp(-dt/if(target>energy).045f else .18f))
-        val beat=RahaMotion.heartbeat(age)
+        val beat=heartbeatStartedAt?.let { RahaMotion.heartbeat((now-it).coerceAtLeast(0L)/1000f) } ?: 0f
         val pulse=if(phase==FeedbackState.WAITING).94f+.10f*beat else 1.04f
         val unit=min(width,height)/256f
         val shake=if(phase==FeedbackState.FAILURE)sin(age*26)*exp(-age*4)*7 else 0f
