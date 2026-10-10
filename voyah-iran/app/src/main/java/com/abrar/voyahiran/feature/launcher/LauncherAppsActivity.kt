@@ -1,5 +1,8 @@
 package com.abrar.voyahiran.feature.launcher
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.view.DragEvent
 import android.app.ActivityOptions
 import android.content.*
 import android.content.pm.ApplicationInfo
@@ -34,6 +37,22 @@ class LauncherAppsActivity : ComponentActivity() {
     private var refreshJob: Job? = null
     private var guard: Job? = null
     private var opening = false
+    private var editing = false
+    private var draggedId: String? = null
+    private var dropIndex = -1
+    private var edgeDirection = 0
+    private var deferredEntries: List<Entry>? = null
+    private val wobblers = mutableListOf<ObjectAnimator>()
+    private lateinit var done: TextView
+    private val orderPrefs by lazy { getSharedPreferences("launcher_app_order", MODE_PRIVATE) }
+    private val edgeTurn = object : Runnable {
+        override fun run() {
+            if (draggedId == null || edgeDirection == 0) return
+            pager.show(pager.page + edgeDirection)
+            highlightDrop((pager.page*27+if(edgeDirection<0)8 else 0).coerceAtMost(entries.lastIndex))
+            pager.postDelayed(this, 850)
+        }
+    }
     private val pending = mutableMapOf<String, CompletableDeferred<JSONObject>>()
     private val reply = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -61,6 +80,14 @@ class LauncherAppsActivity : ComponentActivity() {
         content.addView(pager, FrameLayout.LayoutParams(-1,-1).apply { bottomMargin=28 })
         content.addView(dots, FrameLayout.LayoutParams(-1,28,Gravity.BOTTOM))
         content.addView(status,FrameLayout.LayoutParams(-1,-1))
+        done = TextView(this).apply {
+            text="Done"; gravity=Gravity.CENTER; visibility=View.GONE
+            setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,24f); isClickable=true; isFocusable=true
+            setTextColor(0xff429bff.toInt()); setOnClickListener { finishEditing() }
+        }
+        content.addView(done, FrameLayout.LayoutParams(136,48,Gravity.RIGHT or Gravity.BOTTOM).apply {rightMargin=20;bottomMargin=8})
+        pager.setOnDragListener { _, event -> handleDrag(event) }
+        content.setOnClickListener { if(editing)finishEditing() }
         root.addView(content)
         root.addOnLayoutChangeListener { _,_,_,_,_,_,_,_,_ -> layoutSafeArea() }
         setContentView(root)
@@ -69,7 +96,7 @@ class LauncherAppsActivity : ComponentActivity() {
         else registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT").apply {addAction("theme_loaded")})
         pager.onPage={ updateDots() }
         onBackPressedDispatcher.addCallback(this, object:OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() { if(pager.page>0)pager.show(pager.page-1) }
+            override fun handleOnBackPressed() { if(editing)finishEditing() else if(pager.page>0)pager.show(pager.page-1) }
         })
         applyTheme()
     }
@@ -91,16 +118,22 @@ class LauncherAppsActivity : ComponentActivity() {
             while(isActive) {
                 delay(1000)
                 if(!allowed()){finish();break}
-                if(light!=LauncherTheme.isLight()){applyTheme();render();refresh()}
+                if(draggedId==null && light!=LauncherTheme.isLight()){applyTheme();render();refresh()}
             }
         }
     }
-    override fun onPause(){guard?.cancel();guard=null;super.onPause()}
+    override fun onPause(){finishEditing();guard?.cancel();guard=null;super.onPause()}
     private fun applyTheme() {
         light=LauncherTheme.isLight()
         LauncherWindowTheme.apply(window,light)
         root.setBackgroundColor(LauncherWindowTheme.background(light))
         status.setTextColor(if(light)0xff303947.toInt() else 0xffeef3fb.toInt())
+        val shape=android.graphics.drawable.GradientDrawable(
+            android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM,
+            if(light)intArrayOf(0xfff5f8ff.toInt(),0xffd6e2f2.toInt()) else intArrayOf(0xff465777.toInt(),0xff283650.toInt())
+        ).apply {cornerRadius=14f;setStroke(1,if(light)0xffc2d2e8.toInt() else 0xff5a6c90.toInt())}
+        done.background=android.graphics.drawable.RippleDrawable(android.content.res.ColorStateList.valueOf(0x33429bff),shape,null)
+        done.setTextColor(if(light)0xff303947.toInt() else 0xffeef3fb.toInt())
         updateDots()
     }
     private suspend fun request(action:String,subtype:String):JSONObject {
@@ -137,7 +170,8 @@ class LauncherAppsActivity : ComponentActivity() {
                     rows+installed
                 }
                 if(!allowed())return@launch
-                entries=fresh;status.visibility=View.GONE;render()
+                if(draggedId!=null)deferredEntries=fresh else { entries=ordered(fresh);render() }
+                status.visibility=View.GONE
                 AppLog.info("LauncherApps","loaded total=${entries.size} pages=${LauncherAppsPolicy.pages(entries.size)} light=$light")
             } catch(e:CancellationException){throw e}
             catch(e:Exception){
@@ -148,6 +182,7 @@ class LauncherAppsActivity : ComponentActivity() {
     }
     private fun render() {
         val selected=pager.page
+        stopWobble()
         pager.removeAllViews()
         for(pageIndex in 0 until LauncherAppsPolicy.pages(entries.size)) {
             val page=object:FrameLayout(this@LauncherAppsActivity) {
@@ -163,6 +198,7 @@ class LauncherAppsActivity : ComponentActivity() {
                     for(i in 0 until childCount)getChildAt(i).measure(View.MeasureSpec.makeMeasureSpec(measuredWidth/9,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(measuredHeight/3,View.MeasureSpec.EXACTLY))
                 }
             }
+            page.setOnClickListener {if(editing)finishEditing()}
             entries.drop(pageIndex*27).take(27).forEach { entry ->
                 val tile=LinearLayout(this).apply {
                     orientation=LinearLayout.VERTICAL;gravity=Gravity.CENTER;isFocusable=true;isClickable=true
@@ -179,11 +215,109 @@ class LauncherAppsActivity : ComponentActivity() {
                     maxLines=2;ellipsize=android.text.TextUtils.TruncateAt.END;gravity=Gravity.CENTER
                     setPadding(5,14,5,0)
                 },LinearLayout.LayoutParams(-1,-2))
-                tile.setOnClickListener { open(entry) };page.addView(tile)
+                tile.tag=entry.id
+                var touchedContent=false
+                tile.setOnTouchListener { _, event ->
+                    if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN) {
+                        touchedContent=(0 until tile.childCount).any { index ->
+                            val child=tile.getChildAt(index)
+                            val halfWidth=if(child is TextView)child.paint.measureText(entry.label).coerceAtMost(child.width.toFloat())/2+8 else child.width/2f
+                            event.x>=tile.width/2f-halfWidth && event.x<=tile.width/2f+halfWidth && event.y>=child.top && event.y<=child.bottom
+                        }
+                    }
+                    false
+                }
+                tile.setOnClickListener { if(!editing)open(entry) else if(!touchedContent)finishEditing() }
+                tile.setOnLongClickListener {
+                    if(!allowed())return@setOnLongClickListener true
+                    editing=true;done.visibility=View.VISIBLE;updateEditSpacing();startWobble()
+                    draggedId=entry.id
+                    if(!tile.startDragAndDrop(ClipData.newPlainText("app",entry.id),View.DragShadowBuilder(tile),entry.id,0))draggedId=null
+                    true
+                }
+                page.addView(tile)
             }
             pager.addView(page,FrameLayout.LayoutParams(-1,-1))
         }
-        pager.show(selected,false);updateDots()
+        pager.show(selected,false);updateDots();if(editing)startWobble()
+    }
+    private fun ordered(fresh:List<Entry>):List<Entry> {
+        val saved=runCatching { org.json.JSONArray(orderPrefs.getString("ids","[]")) }.getOrDefault(org.json.JSONArray())
+        val ids=(0 until saved.length()).map {saved.getString(it)}
+        val byId=fresh.associateBy {it.id}
+        return LauncherAppsOrder.merge(ids,fresh.map {it.id}).mapNotNull {byId[it]}
+    }
+    private fun stopWobble() {
+        wobblers.forEach {it.cancel()};wobblers.clear()
+        for(p in 0 until pager.childCount) {
+            val group=pager.getChildAt(p) as FrameLayout
+            for(i in 0 until group.childCount)group.getChildAt(i).rotation=0f
+        }
+    }
+    private fun startWobble() {
+        stopWobble()
+        for(p in 0 until pager.childCount) {
+            val group=pager.getChildAt(p) as FrameLayout
+            for(i in 0 until group.childCount) {
+                val tile=group.getChildAt(i)
+                wobblers+=ObjectAnimator.ofFloat(tile,"rotation",-1.5f,1.5f).apply {
+                    duration=170L+(i%3)*25;repeatCount=ValueAnimator.INFINITE
+                    repeatMode=ValueAnimator.REVERSE;startDelay=(i%4)*30L;start()
+                }
+            }
+        }
+    }
+    private fun highlightDrop(index:Int) {
+        dropIndex=index
+        for(p in 0 until pager.childCount) {
+            val group=pager.getChildAt(p) as FrameLayout
+            for(i in 0 until group.childCount) {
+                val tile=group.getChildAt(i)
+                tile.alpha=if(tile.tag==draggedId)0.35f else 1f
+                tile.scaleX=if(p*27+i==index)1.06f else 1f
+                tile.scaleY=tile.scaleX
+            }
+        }
+    }
+    private fun handleDrag(event:DragEvent):Boolean {
+        if(event.action==DragEvent.ACTION_DRAG_STARTED)return draggedId!=null && event.localState==draggedId
+        if(draggedId==null)return false
+        when(event.action) {
+            DragEvent.ACTION_DRAG_LOCATION -> {
+                val direction=when {event.x<pager.width*.06f -> -1;event.x>pager.width*.94f -> 1;else -> 0}
+                if(direction!=edgeDirection) {
+                    pager.removeCallbacks(edgeTurn);edgeDirection=direction
+                    if(direction!=0)pager.postDelayed(edgeTurn,650)
+                }
+                val col=(event.x/(pager.width/9f)).toInt().coerceIn(0,8)
+                val row=(event.y/(pager.height/3f)).toInt().coerceIn(0,2)
+                highlightDrop((pager.page*27+row*9+col).coerceAtMost(entries.lastIndex))
+            }
+            DragEvent.ACTION_DRAG_EXITED -> {pager.removeCallbacks(edgeTurn);edgeDirection=0;highlightDrop(-1)}
+            DragEvent.ACTION_DROP -> {
+                if(dropIndex<0)return false
+                val ids=LauncherAppsOrder.move(entries.map {it.id},draggedId!!,dropIndex)
+                val byId=entries.associateBy {it.id};entries=ids.mapNotNull {byId[it]}
+                orderPrefs.edit().putString("ids",org.json.JSONArray(ids).toString()).apply()
+            }
+            DragEvent.ACTION_DRAG_ENDED -> {
+                pager.removeCallbacks(edgeTurn);edgeDirection=0;draggedId=null;dropIndex=-1
+                deferredEntries?.let {entries=ordered(it)};deferredEntries=null
+                render()
+            }
+        }
+        return true
+    }
+    private fun updateEditSpacing() {
+        (pager.layoutParams as FrameLayout.LayoutParams).let {it.bottomMargin=if(editing)64 else 28;pager.layoutParams=it}
+    }
+    private fun finishEditing() {
+        if(!::pager.isInitialized)return
+        if(draggedId!=null)pager.cancelDragAndDrop()
+        pager.removeCallbacks(edgeTurn);edgeDirection=0;draggedId=null
+        editing=false;done.visibility=View.GONE;updateEditSpacing();stopWobble()
+        deferredEntries?.let {entries=ordered(it);deferredEntries=null;render()}
+        highlightDrop(-1)
     }
     private fun updateDots() {
         if(!::dots.isInitialized)return
@@ -216,5 +350,5 @@ class LauncherAppsActivity : ComponentActivity() {
             finally {opening=false}
         }
     }
-    override fun onDestroy(){unregisterReceiver(reply);pending.values.forEach {it.cancel()};pending.clear();super.onDestroy()}
+    override fun onDestroy(){finishEditing();unregisterReceiver(reply);pending.values.forEach {it.cancel()};pending.clear();super.onDestroy()}
 }
