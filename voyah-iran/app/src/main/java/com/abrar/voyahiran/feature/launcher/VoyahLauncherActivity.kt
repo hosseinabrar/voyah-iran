@@ -15,6 +15,7 @@ import com.abrar.voyahiran.feature.navigation.NavigationPreferences
 import kotlinx.coroutines.*
 
 class VoyahLauncherActivity : ComponentActivity() {
+    companion object { @Volatile internal var mapPageVisible=false; private set }
     private lateinit var dashboard: LauncherDashboard
     private lateinit var container: FrameLayout
     private lateinit var pager: LauncherPager
@@ -149,8 +150,10 @@ class VoyahLauncherActivity : ComponentActivity() {
     }
     // Android 9 may pause the host when the map resumes on its virtual display; it is still visible.
     private fun updatePageWork() {
+        mapPageVisible=visible && pager.page==0
         if(visible && pager.page==1) {
-            preview?.stopMonitoring()
+            // Keep the map surface alive offscreen: the pager can expose it during either swipe.
+            // Only leaving the Activity releases it; ownership monitoring stays current on page two.
             compass.start();vehiclePage.artwork.start(lifecycleScope)
             if(vehicleTicker?.isActive==true)return
             vehicleTicker=lifecycleScope.launch {

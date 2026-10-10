@@ -87,6 +87,8 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     fun open(done: () -> Unit) { if(packageName.isNotBlank())move(0,false,done) }
     fun startMonitoring() {
         if(closed)return
+        // A page change must not reattach/resize an already live virtual display.
+        if(active && !fullscreen && monitor?.isActive==true)return
         active=true
         fullscreen=false
         view.visibility=View.VISIBLE

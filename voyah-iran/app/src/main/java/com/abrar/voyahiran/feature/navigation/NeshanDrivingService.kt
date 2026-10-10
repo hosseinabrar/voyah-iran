@@ -24,6 +24,7 @@ class NeshanDrivingService : AccessibilityService() {
         (preferences.autoDriving || preferences.voiceNavigationEnabled)
 
     override fun onServiceConnected() {
+        instance = this
         NeshanVoiceNavigation.serviceConnected = true
         AppLog.info(TAG, "accessibility connected; menu entry + visible navigation reader")
         inspectFocus()
@@ -197,13 +198,16 @@ class NeshanDrivingService : AccessibilityService() {
     /** Click nodes in the app itself, never inject a gesture through the launcher card. */
     private fun automationRoot(): AccessibilityNodeInfo? {
         val cardDisplay = com.abrar.voyahiran.feature.launcher.LauncherEmbeddedMapSurface.automationDisplayId
+            .takeIf { com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible }
+        val target = NeshanVoiceNavigation.pending?.displayId
         val candidates = if (android.os.Build.VERSION.SDK_INT >= 30) {
             val all = windowsOnAllDisplays
             buildList {
                 all[0]?.let { addAll(it) }
-                if (cardDisplay != null && cardDisplay != 0) all[cardDisplay]?.let { addAll(it) }
+                all[1]?.let { addAll(it) }
+                if (cardDisplay != null && cardDisplay > 1) all[cardDisplay]?.let { addAll(it) }
                 // Recycle windows from unrelated displays as well, without inspecting their content.
-                for (i in 0 until all.size()) if (all.keyAt(i) != 0 && all.keyAt(i) != cardDisplay)
+                for (i in 0 until all.size()) if (all.keyAt(i) != 0 && all.keyAt(i) != 1 && all.keyAt(i) != cardDisplay)
                     all.valueAt(i).forEach { it.recycle() }
             }
         } else windows // Android 9 does not expose windowsOnAllDisplays.
@@ -212,11 +216,14 @@ class NeshanDrivingService : AccessibilityService() {
                 if (window.type != AccessibilityWindowInfo.TYPE_APPLICATION) continue
                 // Central background windows must not keep an old Neshan visit alive.
                 val card = android.os.Build.VERSION.SDK_INT >= 30 && window.displayId == cardDisplay
-                if (!card && !window.isActive && !window.isFocused) continue
+                if (android.os.Build.VERSION.SDK_INT >= 30 && target != null && window.displayId != target) continue
+                val passenger = android.os.Build.VERSION.SDK_INT >= 30 && window.displayId == 1
+                if (!card && !passenger && !window.isActive && !window.isFocused) continue
                 val root = window.root ?: continue
-                if (root.packageName?.toString() == NavigationPreferences.NESHAN) return root
+                if (root.packageName?.toString() == NavigationPreferences.NESHAN && root.isVisibleToUser) return root
                 root.recycle()
             }
+            if (android.os.Build.VERSION.SDK_INT >= 30 && target != null && target != 0) return null
             val root = rootInActiveWindow ?: return null
             if (candidates.any { it.id == root.windowId && it.type == AccessibilityWindowInfo.TYPE_APPLICATION }) return root
             root.recycle()
@@ -228,9 +235,14 @@ class NeshanDrivingService : AccessibilityService() {
     }
     override fun onInterrupt() { NeshanVoiceNavigation.pending?.failure = "Accessibility interrupted"; reset() }
     override fun onDestroy() {
+        if (instance === this) instance = null
         NeshanVoiceNavigation.serviceConnected = false
         NeshanVoiceNavigation.pending?.failure = "Accessibility disconnected"
         reset(); super.onDestroy()
     }
-    companion object { private const val TAG = "NeshanDriving" }
+    companion object {
+        private const val TAG = "NeshanDriving"
+        private var instance: NeshanDrivingService? = null
+        internal fun inspectForRoute() { instance?.let { it.inspectFocus(); it.schedule() } }
+    }
 }

@@ -6,6 +6,16 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun mapRouteIsRestrictedToNeshanAndValidCoordinates() {
+        val valid=listOf("launcher-map-route","org.rajman.neshan.traffic.tehran.navigator","7","35.7361246","51.4933056")
+        assertEquals(valid,BridgePolicy.resolve(valid))
+        for ((index,value) in listOf(1 to "other.app",2 to "0",2 to "10001",3 to "NaN",3 to "91",4 to "Infinity",4 to "181",4 to "1;reboot")) {
+            val invalid=valid.toMutableList().apply { this[index]=value }
+            assertNull(BridgePolicy.resolve(invalid))
+        }
+        assertNull(BridgePolicy.resolve(valid+"extra"))
+    }
+
     @Test fun launcherWatchOnlyAcceptsBoundedNumericCursor() {
         for(cursor in listOf("-1","0","1000")) {
             val request=listOf("launcher-vehicle","watch",cursor)

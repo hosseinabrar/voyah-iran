@@ -18,6 +18,7 @@ internal object NeshanVoiceNavigation {
     )
     class Request(val destination: Destination, var progress: NeshanRouteProgress) {
         val startup = NeshanStartupGate()
+        var displayId: Int? = null
         var destinationSent = false
         var entered = false
         var completed = false
@@ -57,10 +58,22 @@ internal object NeshanVoiceNavigation {
                 check(NavigationPreferences(app).voiceNavigationEnabled &&
                     (app as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) { "Navigation disabled" }
                 check(serviceConnected) { "Neshan accessibility disconnected" }
-                val options = android.app.ActivityOptions.makeBasic().apply { launchDisplayId = 0 }.toBundle()
-                app.startActivity(launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), options)
+                val status = bridgeRetry(listOf("launcher-map-status", NavigationPreferences.NESHAN, "0"), 4)
+                check(status.exitCode == 0 && !status.timedOut) { "Cannot verify map display: ${status.output}" }
+                AppLog.info("NeshanRoute", "map status ${status.output.trim()}")
+                val visibleDisplay = if (status.exitCode == 0 && !status.timedOut)
+                    Regex("MAP_DISPLAY=(\\d+) MAP_VISIBLE=1").find(status.output)?.groupValues?.get(1)?.toIntOrNull()
+                    else null
+                val card = com.abrar.voyahiran.feature.launcher.LauncherEmbeddedMapSurface.automationDisplayId
+                val reuse = visibleDisplay?.takeIf { it == 0 || it == 1 ||
+                    (it == card && com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible) }
+                active.displayId = reuse ?: 0
+                val options = android.app.ActivityOptions.makeBasic().apply { launchDisplayId = active.displayId!! }.toBundle()
+                if (reuse == null) app.startActivity(launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), options)
+                NeshanDrivingService.inspectForRoute()
+                AppLog.info("NeshanRoute", "target display=${active.displayId} reuseVisible=${reuse != null}")
                 val startupAt = SystemClock.elapsedRealtime()
-                AppLog.info("NeshanRoute", "opening normal entry; waiting for map UI destination=$id")
+                AppLog.info("NeshanRoute", "waiting for map UI destination=$id display=${active.displayId}")
                 while (!active.startup.ready(SystemClock.elapsedRealtime())) {
                     check(serviceConnected && NavigationPreferences(app).voiceNavigationEnabled && app.subscriptions.vipAllowed) { "Navigation disabled during startup" }
                     active.failure?.let { error(it) }
@@ -69,7 +82,15 @@ internal object NeshanVoiceNavigation {
                 }
                 active.failure?.let { error(it) }
                 active.progress = NeshanRouteProgress(SystemClock.elapsedRealtime())
-                app.startActivity(intent, options)
+                if (active.displayId!! > 1) {
+                    check(com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible) { "Map card is no longer visible" }
+                    val dispatched = bridgeRetry(listOf("launcher-map-route", NavigationPreferences.NESHAN,
+                        active.displayId.toString(), destination.latitude.toString(), destination.longitude.toString()), 8)
+                    check(dispatched.exitCode == 0 && !dispatched.timedOut &&
+                        !dispatched.output.contains("Error:") && !dispatched.output.contains("Exception")) {
+                        "Map destination dispatch failed: ${dispatched.output}"
+                    }
+                } else app.startActivity(intent, options)
                 active.destinationSent = true
                 AppLog.info("NeshanRoute", "map ready after ${SystemClock.elapsedRealtime()-startupAt}ms; destination dispatched=$id")
                 while (SystemClock.elapsedRealtime() - active.progress.startedAt < 45_000) {
@@ -93,4 +114,15 @@ internal object NeshanVoiceNavigation {
         }
         return CommandResult(0, "Neshan navigation accepted: $id")
     }
+    private suspend fun bridgeRetry(args: List<String>, timeout: Long): CommandResult {
+        val until = SystemClock.elapsedRealtime() + 4000
+        while (true) {
+            val result = withContext(Dispatchers.IO) {
+                com.abrar.voyahiran.core.shell.ProcessCommandRunner().run(listOf("su", "0") + args, timeout)
+            }
+            if (result.exitCode != 75 || SystemClock.elapsedRealtime() >= until) return result
+            delay(150)
+        }
+    }
+
 }

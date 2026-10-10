@@ -34,10 +34,29 @@ internal object LauncherMapBridge {
         val stack = candidates.firstOrNull { it.javaClass.getField("displayId").getInt(it)==1 } ?: candidates.firstOrNull()
         if (release && (stack == null || stack.javaClass.getField("displayId").getInt(stack) != sourceDisplay))
             return CommandResult(0, "Map already outside preview")
+        if(args[0]=="launcher-map-route") {
+            check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
+            check(candidates.any {
+                it.javaClass.getField("displayId").getInt(it)==destination &&
+                    (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.packageName==pkg &&
+                    it.javaClass.getField("visible").getBoolean(it)
+            }) { "Map no longer visible on requested display" }
+            // The host app cannot launch a foreign activity on this virtual display.
+            // Use the same privileged transport as embedding, without moving its stack.
+            return ProcessCommandRunner(useBridge=false).run(listOf(
+                "/system/bin/am", "start", "--user", "0", "--display", destination.toString(),
+                "-a", "android.intent.action.VIEW", "-d", "geo:${args[3].toDouble()},${args[4].toDouble()}",
+                "-p", pkg, "-f", "0x10000000"), 8)
+        }
         if(args[0]=="launcher-map-status") {
-            val current=stack?.let { it.javaClass.getField("displayId").getInt(it) } ?: -1
-            val top=stack?.let { (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.packageName==pkg } == true
-            val visible=stack?.let { runCatching { it.javaClass.getField("visible").getBoolean(it) }.getOrDefault(top) } == true
+            // Status queries prefer an actually visible map over a background copy.
+            val visibleStack=candidates.firstOrNull {
+                (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.packageName==pkg &&
+                    runCatching { it.javaClass.getField("visible").getBoolean(it) }.getOrDefault(false)
+            } ?: stack
+            val current=visibleStack?.let { it.javaClass.getField("displayId").getInt(it) } ?: -1
+            val top=visibleStack?.let { (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.packageName==pkg } == true
+            val visible=visibleStack?.let { runCatching { it.javaClass.getField("visible").getBoolean(it) }.getOrDefault(top) } == true
             CommandResult(0,"MAP_DISPLAY=$current MAP_VISIBLE=${if(top && visible) 1 else 0}")
         } else {
         if (stack != null) {
