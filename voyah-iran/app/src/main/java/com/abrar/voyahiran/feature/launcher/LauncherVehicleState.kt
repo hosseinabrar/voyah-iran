@@ -11,6 +11,9 @@ data class LauncherVehicleState(
     val manual: Int? = null, val fresh: Boolean = false,
     val supportsSuspension: Boolean = false, val supportsOuting: Boolean = false
 ) {
+    val driveMenuVisible get() = manual != 2 && drive in standardDriveModes
+    val driveMenuEnabled get() = fresh && driveMenuVisible && maintain != 2
+    val displayedDrive get() = if(manual == 2) "Easy exit" else driveNames[drive] ?: "—"
     val suspensionEnabled get() = fresh && supportsSuspension && height in 1..9 && maintain in 0..1 && suspended in listOf(0,2)
     val heightIndex get() = when(height) { 9 -> 0; 7,8 -> 1; 3,4,5,6 -> 2; 1,2 -> 3; else -> -1 }
     val heightLabel get() = if(height in listOf(2,4,6,8) && adjusting in 1..2)
@@ -20,6 +23,7 @@ data class LauncherVehicleState(
     val bodyFrame get() = when(height) {9 -> 20;7,8 -> 40;3,4,5,6 -> 60;1,2 -> 80;else -> null}
     val groundMm get() = when(height) {9 -> 113;7 -> 133;5 -> 163;1 -> 213;else -> null}
     companion object {
+        val standardDriveModes = listOf(1,2,6,5)
         val driveNames = linkedMapOf(1 to "Eco", 2 to "Comfort", 3 to "Sport", 4 to "Outing", 6 to "Snow", 5 to "Individual")
         val energyNames = mapOf("smart" to "Smart", "electric" to "EV first", "fuel" to "Fuel first", "hybrid" to "Hybrid", "save" to "Save")
         fun parse(json: JSONObject): LauncherVehicleState {

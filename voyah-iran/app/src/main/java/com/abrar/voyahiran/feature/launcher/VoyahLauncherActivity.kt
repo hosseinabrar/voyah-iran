@@ -28,6 +28,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     private val vehicleCache=LauncherVehicleCache()
     private var lastVehicleRead=0L
     private val compass by lazy { LauncherCompass(this) {vehiclePage.compass=it} }
+    private var drivePopup: android.widget.PopupWindow? = null
     private var preview: LauncherMapPreview? = null
     private var mapView: SurfaceView? = null
     private var activeNavigator = ""
@@ -66,13 +67,12 @@ class VoyahLauncherActivity : ComponentActivity() {
         pager.addView(vehiclePage,FrameLayout.LayoutParams(-1,-1))
         pager.onPage={updatePageWork()}
         vehiclePage.onCommand=::vehicleCommand
+        vehiclePage.onDriveStateChanged={ drivePopup?.dismiss();drivePopup=null }
         vehiclePage.onDrive={
-            val options=LauncherVehicleState.driveNames.entries.filter {it.key!=4 || vehiclePage.state.supportsOuting}
-            android.app.AlertDialog.Builder(this)
-                .setTitle("Driving mode")
-                .setSingleChoiceItems(options.map{it.value}.toTypedArray(),options.indexOfFirst{it.key==vehiclePage.state.drive}) { dialog,index ->
-                    dialog.dismiss();vehicleCommand("drive",options[index].key.toString())
-                }.setNegativeButton(android.R.string.cancel,null).show()
+            if(vehiclePage.state.driveMenuEnabled) {
+                drivePopup?.dismiss()
+                drivePopup=LauncherDrivePopup.show(vehiclePage,vehiclePage.state) { mode -> vehicleCommand("drive",mode.toString()) }
+            }
         }
         setContentView(container)
         dashboard.onMap = { preview?.open { preview?.stopMonitoring() } }

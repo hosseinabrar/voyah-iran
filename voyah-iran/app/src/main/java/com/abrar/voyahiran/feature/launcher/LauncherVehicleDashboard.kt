@@ -28,6 +28,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
                     }
                 }
             }
+            if(field.drive != v.drive || field.manual != v.manual || field.maintain != v.maintain || field.fresh != v.fresh) onDriveStateChanged()
             field=v;artwork.state=v;invalidate()
         }
     var compass=LauncherCompassState()
@@ -49,10 +50,11 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         set(v){field=v;invalidate()}
     var onCommand:(String,String)->Unit={_,_->}
     var onDrive:()->Unit={}
+    var onDriveStateChanged:()->Unit={}
     val artwork=LauncherSuspensionArtwork(context){invalidate()}
     private val p=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val energy by lazy {context.assets.open("launcher/ccc/energy_car.png").use {BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{inSampleSize=2})!!}}
-    private val driveIcons by lazy {mapOf(1 to "eco_normal",2 to "comfort_normal",3 to "sport_img",4 to "outing_img",5 to "person_normal",6 to "snow_normal").mapValues {(_,name)->
+    private val driveIcons by lazy {mapOf(1 to "eco_normal",2 to "comfort_normal",3 to "sport_img",4 to "outing_img",5 to "person_normal",6 to "snow_normal",10 to "get_off").mapValues {(_,name)->
         runCatching {context.assets.open("launcher/ccc/$name.png").use(BitmapFactory::decodeStream)}.getOrNull()
     }}
     private val fg get()=if(lightTheme)0xff263651.toInt() else Color.WHITE
@@ -149,13 +151,16 @@ class LauncherVehicleDashboard(context:Context):View(context) {
             p.style=Paint.Style.FILL;c.drawCircle(1558f,380f,2.5f,p)
         }
         text(c,ground?.let{String.format(Locale.US,"%.0f mm",it)} ?: "— mm",1630f,446f,23f)
-        driveIcons[state.drive]?.let {
+        driveIcons[if(state.manual==2)10 else state.drive]?.let {
             p.colorFilter=if(lightTheme)PorterDuffColorFilter(fg,PorterDuff.Mode.SRC_IN) else null
             c.drawBitmap(it,null,RectF(1214f,486f,1248f,520f),p);p.colorFilter=null
         }
-        text(c,LauncherVehicleState.driveNames[state.drive] ?: "—",1264f,516f,30f)
-        p.color=fg;p.strokeWidth=3f;c.drawLine(1705f,494f,1715f,504f,p);c.drawLine(1715f,504f,1705f,514f,p)
-        hits+=Hit(RectF(1208f,473f,1725f,543f),"drive-menu","",state.fresh && state.drive in 1..6 && !busy)
+        text(c,state.displayedDrive,1264f,516f,30f)
+        val arrowX=1264f+p.measureText(state.displayedDrive)+16f
+        if(state.driveMenuVisible) {
+            p.color=fg;p.strokeWidth=3f;c.drawLine(arrowX,494f,arrowX+10f,504f,p);c.drawLine(arrowX+10f,504f,arrowX,514f,p)
+        }
+        hits+=Hit(RectF(1208f,473f,1725f,543f),"drive-menu","",state.driveMenuEnabled && !busy)
         selector(c,1214f,560f,511f,listOf("0" to "Lowest","1" to "Low","2" to "Medium","3" to "Highest"),state.heightIndex.takeIf{it>=0}?.toString(),"height",state.suspensionEnabled)
         c.restore()
     }
