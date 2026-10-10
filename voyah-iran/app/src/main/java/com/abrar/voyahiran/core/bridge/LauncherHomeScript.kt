@@ -40,6 +40,33 @@ Java.perform(function () {
         };
         console.log('VI_HOME_READY listener=NavigationBarMain.onClick');
     } catch(e) { console.log('VI_HOME_UNAVAILABLE ' + e); }
+    // OEM updateSelectedApp clears the radio groups for unknown packages. Treat only
+    // our central HOME activity as Home, using the OEM RadioButtons/slider artwork.
+    try {
+        const Bar = Java.use('com.qinggan.launcher.navigation.NavigationBarMain');
+        const Apps = Java.use('com.qinggan.launcher.base.utils.AppUtils');
+        const selected = Bar.updateSelectedApp.overload('java.lang.String', 'java.lang.String');
+        selected.implementation = function (pkg, activity) {
+            let home = false;
+            try {
+                if (Number(this.mScreenId.value) === 0 && String(pkg) === 'com.abrar.voyahiran' && allowed(this.getContext())) {
+                    const name = activity === null ? String(Apps.getTopAppInfo(this.getContext(), 0, 4)) : String(activity);
+                    home = name === 'com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity' ||
+                        name === '.feature.launcher.VoyahLauncherActivity' ||
+                        name.indexOf('/com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity') >= 0 ||
+                        name.indexOf('/.feature.launcher.VoyahLauncherActivity') >= 0;
+                }
+                if (home) {
+                    this.mScreenUpHomeView.value.setChecked(true);
+                    const down = this.mScreenDownHomeView.value;
+                    if (down !== null) down.setChecked(true);
+                    return;
+                }
+            } catch(e) { console.log('VI_HOME_SELECTION fallback ' + e); }
+            return selected.call(this, pkg, activity);
+        };
+        console.log('VI_HOME_SELECTION_READY');
+    } catch(e) { console.log('VI_HOME_SELECTION_UNAVAILABLE ' + e); }
     // Same factory MediaManager consumed by the CCC card. No notification parsing.
     try {
         const Manager = Java.use('com.qinggan.app.mediaCentre.MediaManager');
