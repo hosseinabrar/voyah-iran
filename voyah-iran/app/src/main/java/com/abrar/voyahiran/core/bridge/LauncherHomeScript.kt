@@ -27,6 +27,15 @@ Java.perform(function () {
                 const activity = top.indexOf('/') >= 0 ? top.substring(top.indexOf('/') + 1) : top;
                 if (activity !== 'com.qinggan.app.launcher.activity.MainActivity' &&
                     !(top.indexOf('com.qinggan.app.launcher/') === 0 && activity === '.activity.MainActivity')) return;
+                // MainActivity hosts BOTH Home and the app drawer. The OEM updates this
+                // state before startActivity, earlier than onNewIntent/showAllApp.
+                // Never replace an explicitly selected drawer with our Home.
+                try {
+                    if (Number(Java.use('com.qinggan.launcher.base.BaseApplication').getMainPagePosition()) !== 0) return;
+                } catch(e) {
+                    // Unknown OEM layout: leave the foreground alone; explicit Home still works.
+                    return;
+                }
                 if (Date.now() - lastAutoOpen < 2000) return;
                 const intent = Intent.${'$'}new();
                 intent.setClassName('com.abrar.voyahiran', 'com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity');
