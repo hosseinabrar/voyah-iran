@@ -105,21 +105,27 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         text(c,"Slope ${degrees(compass.slope)}",622f,54f,23f)
         text(c,"Inclination ${degrees(compass.inclination)}",928f,54f,23f)
         val cx=878.5f;val cy=329f
-        c.save();c.rotate(-compassAngle,cx,cy)
+        // Draw in final coordinates. Avoid hundreds of rotated thin-line draw calls on
+        // the OEM GPU, including while the parent pager itself is translating.
+        val rotation=compassAngle*PI/180.0
+        p.color=muted
         for(i in 0 until 180) {
-            c.save();c.rotate(i*2f,cx,cy);p.color=muted;p.strokeWidth=if(i%15==0)2.3f else 1f
-            c.drawLine(cx,cy-166,cx,cy-if(i%15==0)141 else 154,p);c.restore()
+            val a=i*PI/90-PI/2-rotation
+            val dx=cos(a).toFloat();val dy=sin(a).toFloat()
+            val inner=if(i%15==0)141f else 154f
+            p.strokeWidth=if(i%15==0)2.3f else 1f
+            c.drawLine(cx+dx*166f,cy+dy*166f,cx+dx*inner,cy+dy*inner,p)
         }
         for(i in 0..11) {
-            val a=i*PI/6-PI/2
+            val a=i*PI/6-PI/2-rotation
             val x=cx+cos(a).toFloat()*199;val y=cy+sin(a).toFloat()*199
-            c.save();c.rotate(compassAngle,x,y);text(c,(i*30).toString(),x,y+8,21f,true);c.restore()
+            text(c,(i*30).toString(),x,y+8,21f,true)
         }
         listOf("N","E","S","W").forEachIndexed {i,s->
-            val a=i*PI/2-PI/2;val x=cx+cos(a).toFloat()*126;val y=cy+sin(a).toFloat()*126
-            c.save();c.rotate(compassAngle,x,y);text(c,s,x,y+9,25f,true,bold=true);c.restore()
+            val a=i*PI/2-PI/2-rotation
+            val x=cx+cos(a).toFloat()*126;val y=cy+sin(a).toFloat()*126
+            text(c,s,x,y+9,25f,true,bold=true)
         }
-        c.restore()
         p.color=0xffff3c58.toInt();c.drawPath(Path().apply{moveTo(cx,117f);lineTo(cx-9,137f);lineTo(cx,132f);lineTo(cx+9,137f);close()},p)
         p.color=fg;p.strokeWidth=2f;c.drawLine(cx,138f,cx,177f,p)
         val bearing=compass.bearing
