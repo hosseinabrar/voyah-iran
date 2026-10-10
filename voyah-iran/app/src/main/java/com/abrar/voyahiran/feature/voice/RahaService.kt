@@ -68,7 +68,7 @@ class RahaService : Service() {
         startForeground(43, Notification.Builder(this, CHANNEL).setSmallIcon(R.drawable.ic_app)
             .setContentTitle(getString(R.string.raha_notification)).setContentIntent(open).setOngoing(true).build())
         speech = SpeechLab(this)
-        feedback = RahaFeedback(this, ::cancelInteraction, showTranscript = { prefs.showTranscript })
+        feedback = RahaFeedback(this, ::cancelInteraction, showTranscript = { prefs.showTranscript }, lightTheme = { com.abrar.voyahiran.feature.launcher.LauncherTheme.isLight() })
         scope.launch {
             while (isActive) {
                 if (!prefs.enabled || !(application as VoyahIranApplication).subscriptions.vipAllowed) { stopSelf(); break }
@@ -166,9 +166,10 @@ class RahaService : Service() {
             val epoch=++captureEpoch
             val confirming=calls.step is com.abrar.raha.RahaCallDialog.Step.Confirm
             speech.start(false, object:SpeechLab.Listener {
+                override fun onSpeech(active:Boolean) { if(epoch==captureEpoch) feedback.speech(active) }
                 override fun onLevel(percent:Int) { if(epoch==captureEpoch) feedback.level(percent) }
                 override fun onPartial(text:String) {} // Keep the question visible until a final answer.
-                override fun onDecoding() {}
+                override fun onDecoding() { if(epoch==captureEpoch) feedback.processing() }
                 override fun onComplete(result:SpeechResult?) {
                     recording=false; manual=false
                     if(epoch==captureEpoch) advanceCall(if(result==null) calls.cancel() else calls.speak(result.text))
@@ -181,6 +182,7 @@ class RahaService : Service() {
             val epoch = ++captureEpoch
             feedback.begin(manual = true)
             speech.start(false, object : SpeechLab.Listener {
+                override fun onSpeech(active:Boolean) { if(epoch==captureEpoch) feedback.speech(active) }
                 override fun onLevel(percent: Int) { if(epoch == captureEpoch) feedback.level(percent) }
                 override fun onPartial(text: String) { if(epoch == captureEpoch) feedback.text(text) }
                 override fun onDecoding() { if(epoch == captureEpoch) feedback.processing() }
@@ -327,7 +329,7 @@ class RahaService : Service() {
                     val suffix=if(choices.count { it.name==candidate.name }>1) callSnapshot.firstOrNull { it.id==candidate.id }?.number?.takeLast(4)?.let { " ($it)" }.orEmpty() else ""
                     "تماس با ${candidate.name}$suffix"
                 }
-                feedback.prompt(question,labels) { index ->
+                feedback.prompt(question,labels, confirmation = step is com.abrar.raha.RahaCallDialog.Step.Confirm) { index ->
                     choices.getOrNull(index)?.let { advanceCall(calls.select(it.id)) }
                 }
                 if(!feedback.showing) { cancelInteraction(); return }

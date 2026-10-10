@@ -13,7 +13,8 @@ import android.util.Log
 
 /** Full-display transparent touch surface, with the orb centered at 25% screen height. */
 class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
-    private val showTranscript: () -> Boolean = { false }, private val host: ViewGroup? = null) : AutoCloseable {
+    private val showTranscript: () -> Boolean = { false }, private val host: ViewGroup? = null,
+    private val lightTheme: () -> Boolean = { false }) : AutoCloseable {
     private var attachedWindows: WindowManager? = null
     private var attachedType = 0
     private var interactionStarted = 0L
@@ -69,10 +70,26 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     private var transcriptView: TextView? = null
     private var transcript = ""
     private var promptText = ""
+    private var confirmation = false
+    private var light = false
+    private var themeCheckedAt = 0L
+    private fun dp(n: Int) = (n * context.resources.displayMetrics.density).toInt()
+    private fun panelBackground(color: Int, stroke: Int = 0) = android.graphics.drawable.GradientDrawable().apply {
+        setColor(color); cornerRadius=dp(20).toFloat(); if(stroke!=0) setStroke(dp(1).coerceAtLeast(1),stroke)
+    }
+    private val textColor get() = if(light) 0xff243551.toInt() else 0xfff4f7ff.toInt()
+    private fun applyTheme() {
+        val bg=if(light) 0xfff8fbff.toInt() else 0xff253857.toInt()
+        val border=if(light) 0xffe0ecfa.toInt() else 0xff466083.toInt()
+        transcriptView?.apply { setTextColor(textColor); background=panelBackground(bg,border); typeface=context.resources.getFont(R.font.iransansx_bold) }
+        root?.findViewById<View>(R.id.rahaPrompt)?.background=panelBackground(bg,border)
+        orb?.light=light
+    }
     private var promptChoices = emptyList<String>()
     private var promptSelect: ((Int)->Unit)? = null
-    fun prompt(text: String, choices: List<String>, selected: (Int)->Unit): Unit = onMain {
+    fun prompt(text: String, choices: List<String>, confirmation: Boolean = false, selected: (Int)->Unit): Unit = onMain {
         begin(tentative=true)
+        this.confirmation=confirmation
         promptText=text; promptChoices=choices; promptSelect=selected
         renderPrompt(); refresh()
         if(showing) sounds.play(RahaSounds.Cue.READY)
@@ -80,10 +97,29 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     private fun renderPrompt() {
         val panel=root?.findViewById<android.widget.LinearLayout>(R.id.rahaPrompt) ?: return
         panel.removeAllViews()
+        panel.orientation=android.widget.LinearLayout.VERTICAL
         panel.visibility=if(promptText.isBlank()) View.GONE else View.VISIBLE
         if(promptText.isBlank()) return
         fun dp(n:Int)=(n*context.resources.displayMetrics.density).toInt()
-        val question=TextView(context).apply { typeface=context.resources.getFont(R.font.iransansx); text=promptText; textSize=22f; setTextColor(android.graphics.Color.WHITE); gravity=Gravity.CENTER; setPadding(dp(8),dp(8),dp(8),dp(8)) }
+        val question=TextView(context).apply { typeface=context.resources.getFont(R.font.iransansx); text=promptText; textSize=22f; setTextColor(textColor); gravity=Gravity.CENTER; setPadding(dp(8),dp(8),dp(8),dp(8)) }
+        if(confirmation && promptChoices.isNotEmpty()) {
+            // Explicit LTR row places controls on the left and the RTL question on the right.
+            val row=android.widget.LinearLayout(context).apply { orientation=android.widget.LinearLayout.HORIZONTAL; layoutDirection=View.LAYOUT_DIRECTION_LTR; gravity=Gravity.CENTER_VERTICAL }
+            fun answer(label:String, positive:Boolean, action:()->Unit) = android.widget.Button(context).apply {
+                text=label; textSize=22f; typeface=context.resources.getFont(R.font.iransansx_bold)
+                setTextColor(if(positive) android.graphics.Color.WHITE else textColor)
+                background=panelBackground(if(positive) { if(light) 0xff4d85ee.toInt() else 0xff5283d9.toInt() } else if(light) 0xffe2eaf6.toInt() else 0xff3b5072.toInt())
+                minWidth=0; minimumWidth=0; setPadding(dp(8),0,dp(8),0)
+                isEnabled=receiving
+                setOnClickListener { if(receiving) action() }
+            }
+            row.addView(answer("خیر",false) { dismiss(); cancel() },android.widget.LinearLayout.LayoutParams(dp(80),dp(64)))
+            row.addView(answer("بله",true) { promptSelect?.invoke(0) },android.widget.LinearLayout.LayoutParams(dp(88),dp(64)).apply { leftMargin=dp(10); rightMargin=dp(14) })
+            question.gravity=Gravity.RIGHT or Gravity.CENTER_VERTICAL;question.textDirection=View.TEXT_DIRECTION_RTL
+            row.addView(question,android.widget.LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT,1f))
+            panel.addView(row)
+            return
+        }
         panel.addView(question)
         if(promptChoices.isNotEmpty()) {
             // Wait for actual window/panel bounds, including the orb and wrapped question.
@@ -99,8 +135,8 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
                 panel.addView(android.widget.Button(context).apply {
                     typeface=context.resources.getFont(R.font.iransansx)
                     text=label; textSize=22f; maxLines=2; ellipsize=android.text.TextUtils.TruncateAt.END
-                    setTextColor(android.graphics.Color.WHITE); backgroundTintList=android.content.res.ColorStateList.valueOf(0xff34344c.toInt())
-                    setOnClickListener { promptSelect?.invoke(index) }
+                    setTextColor(textColor); background=panelBackground(if(light) 0xffe2eaf6.toInt() else 0xff3b5072.toInt())
+                    setOnClickListener { if(receiving) promptSelect?.invoke(index) }
                 },android.widget.LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,dp(72)).apply { bottomMargin=dp(8) })
             }
         }
@@ -128,6 +164,8 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         // A new activation always replaces our previous window, including a stale one.
         if (!detach()) { Log.w("RahaFeedback", "new overlay postponed until old window is removed") }
         interactionStarted = SystemClock.elapsedRealtime()
+        light=lightTheme(); themeCheckedAt=interactionStarted
+        confirmation=false
         promptText=""; promptChoices=emptyList(); promptSelect=null; transcript=""; voiceActive=false; sounds.stop(); policy.cancel(); policy.begin(interactionStarted, !manual && !tentative)
         Log.i("RahaFeedback", "new interaction; remaining overlay owners=${visibleOwners.size}")
         if(manual && !tentative) sounds.play(RahaSounds.Cue.READY)
@@ -202,10 +240,26 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
                 view.findViewById<View>(R.id.rahaPrompt).addOnLayoutChangeListener { _,l,t,r,_,oldL,oldT,oldR,_ ->
                     if(t!=oldT || r-l!=oldR-oldL) renderPrompt()
                 }
-                renderPrompt()
+                applyTheme(); renderPrompt()
             } catch(e:Exception) { Log.e("RahaFeedback","overlay failed",e) }
         }
-        orb?.phase = if(policy.state == FeedbackState.WAITING && voiceActive) FeedbackState.LISTENING else policy.state
+        val now=SystemClock.elapsedRealtime()
+        if(now-themeCheckedAt>=1000) {
+            themeCheckedAt=now
+            val updated=lightTheme()
+            if(updated!=light) { light=updated;applyTheme();renderPrompt() }
+        }
+        orb?.phase = if(receiving) { if(voiceActive) FeedbackState.LISTENING else FeedbackState.WAITING } else policy.state
+        root?.findViewById<android.widget.LinearLayout>(R.id.rahaPrompt)?.let { panel ->
+            fun enableButtons(group: ViewGroup) {
+                for(i in 0 until group.childCount) {
+                    val child=group.getChildAt(i)
+                    if(child is android.widget.Button) { child.isEnabled=receiving;child.alpha=if(receiving)1f else .45f }
+                    else if(child is ViewGroup) enableButtons(child)
+                }
+            }
+            enableButtons(panel)
+        }
         transcriptView?.apply {
             val visible=promptText.isBlank() && showTranscript() && transcript.isNotBlank()
             visibility=if(visible) View.VISIBLE else View.GONE

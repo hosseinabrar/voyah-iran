@@ -22,6 +22,7 @@ data class SpeechResult(val text: String, val audioMs: Long, val decodeMs: Long,
 /** Shared input and endpoint detection make backend comparisons use the same recording path. */
 class SpeechLab(context: Context) : AutoCloseable {
     interface Listener {
+        fun onSpeech(active: Boolean) { }
         fun onLevel(percent: Int)
         fun onPartial(text: String)
         fun onDecoding()
@@ -295,10 +296,11 @@ class SpeechLab(context: Context) : AutoCloseable {
                 frame.copyInto(all, total); total += count
                 onAudio(frame)
                 detector.acceptWaveform(frame)
-                speech = speech || detector.isSpeechDetected()
+                val voiceActive = detector.isSpeechDetected()
+                speech = speech || voiceActive
                 if (++frames % 4 == 0) {
                     val level = (sqrt(energy / count) * 400).toInt().coerceIn(0, 100)
-                    post { if (!cancelled.get()) listener.onLevel(level) }
+                    post { if (!cancelled.get()) { listener.onLevel(level); listener.onSpeech(voiceActive) } }
                 }
                 if (!detector.empty()) break
                 if (!speech && total >= RATE * initialSilenceMs / 1000) break

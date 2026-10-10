@@ -7,107 +7,101 @@ import android.util.AttributeSet
 import android.view.View
 import kotlin.math.*
 
-/** Luminous, audio-reactive halo. Shared unchanged by phone preview and vehicle. */
+/** Approved single-rim design. Shaders are cached; animation uses the display frame clock. */
 class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     var phase = FeedbackState.WAITING
+        set(value) { if (field != value) { field=value; started=SystemClock.uptimeMillis(); updateShaders(); invalidate() } }
+    var light = false
+        set(value) { if (field != value) { field=value; updateShaders(); invalidate() } }
     var level = 0f
     private var energy = 0f
     private var previousFrame = 0L
-    private var rotation = 0f
-    private var motion = 0f
+    private var started = SystemClock.uptimeMillis()
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val ribbon = Path()
-    private val matrix = Matrix()
-    private val cyan = context.getColor(R.color.raha_cyan)
-    private val violet = context.getColor(R.color.raha_violet)
-    private val green = context.getColor(R.color.raha_success)
-    private val red = context.getColor(R.color.raha_failure)
-    private var radius = 1f
-    private lateinit var activeGradient: Shader
-    private lateinit var successGradient: Shader
-    private lateinit var failureGradient: Shader
-    private lateinit var coreShade: Shader
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        val x=w/2f; val y=h/2f
-        radius=min(w,h)*.30f
-        activeGradient=SweepGradient(x,y,intArrayOf(cyan,violet,cyan,violet,cyan),null)
-        successGradient=SweepGradient(x,y,intArrayOf(green,0xFFADFFE1.toInt(),green),null)
-        failureGradient=SweepGradient(x,y,intArrayOf(red,0xFFFFB3C2.toInt(),red),null)
-        coreShade=RadialGradient(x,y,radius*1.3f,
-            intArrayOf(0xEB070D20.toInt(),0xC9091026.toInt(),0x00091026),
-            floatArrayOf(0f,.63f,1f),Shader.TileMode.CLAMP)
+    private val glyph = Path()
+    private val clip = Path().apply { addCircle(0f, 0f, 87f, Path.Direction.CW) }
+    private val arc = RectF(-87f,-87f,87f,87f)
+    private var accent = 0
+    private lateinit var face: Shader
+    private lateinit var glow: Shader
+    private lateinit var inward: Shader
+    private lateinit var bottom: Shader
+    private lateinit var wave: Shader
+    init { updateShaders() }
+    private fun color(hex: String) = Color.parseColor(hex)
+    private fun alpha(value: Int, a: Int) = (value and 0x00ffffff) or (a shl 24)
+    private fun updateShaders() {
+        val success=phase==FeedbackState.SUCCESS; val failure=phase==FeedbackState.FAILURE
+        accent=color(if(success) { if(light) "#1ab58d" else "#72dec2" }
+            else if(failure) { if(light) "#c84f52" else "#f79798" }
+            else if(light) "#3983fa" else "#73caff")
+        val tones=if(success) { if(light) arrayOf("#f1faf6","#e3f5ed","#d2efe3") else arrayOf("#173834","#174039","#20594d") }
+            else if(failure) { if(light) arrayOf("#fff7f5","#fbe8e6","#f7dddb") else arrayOf("#352530","#422b36","#5c3540") }
+            else if(light) arrayOf("#f8fbff","#f0f6ff","#e1edff") else arrayOf("#17263e","#182941","#243c60")
+        face=LinearGradient(0f,-87f,0f,87f,tones.map(::color).toIntArray(),floatArrayOf(0f,.65f,1f),Shader.TileMode.CLAMP)
+        glow=RadialGradient(0f,0f,121f,intArrayOf(alpha(accent,0),alpha(accent,if(light)64 else 96),alpha(accent,0)),floatArrayOf(0f,86f/121f,1f),Shader.TileMode.CLAMP)
+        inward=RadialGradient(0f,0f,87f,intArrayOf(alpha(accent,0),alpha(accent,0),alpha(accent,12),alpha(accent,if(light)101 else 133)),floatArrayOf(0f,65f/87f,77.1f/87f,1f),Shader.TileMode.CLAMP)
+        bottom=RadialGradient(0f,95f,110f,intArrayOf(alpha(accent,if(light)50 else 69),alpha(accent,0)),null,Shader.TileMode.CLAMP)
+        wave=LinearGradient(-20f,-30f,20f,30f,(if(light) arrayOf("#1055ff","#358bff","#83d4ff") else arrayOf("#2997ee","#54baff","#9ce5ff")).map(::color).toIntArray(),floatArrayOf(0f,.48f,1f),Shader.TileMode.CLAMP)
     }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if(width==0 || height==0)return
+        if(width==0 || height==0 || phase==FeedbackState.HIDDEN)return
         val now=SystemClock.uptimeMillis()
+        val age=(now-started)/1000f
         val dt=if(previousFrame==0L)1f/60 else ((now-previousFrame)/1000f).coerceIn(0f,.05f)
         previousFrame=now
         val target=if(phase==FeedbackState.LISTENING)sqrt(level.coerceIn(0f,1f)) else 0f
         energy+=(target-energy)*(1-exp(-dt/if(target>energy).045f else .18f))
-        rotation=(rotation+dt*12f)%360f
-        motion=(motion+dt*(.65f+energy*3.2f))%(2*PI.toFloat())
-        val cx=width/2f; val cy=height/2f
-        val r=radius*(1f+energy*.12f)
-        val gradient=when(phase) {
-            FeedbackState.SUCCESS->successGradient
-            FeedbackState.FAILURE->failureGradient
-            else->activeGradient
-        }
-        matrix.setRotate(rotation,cx,cy);gradient.setLocalMatrix(matrix)
-        paint.style=Paint.Style.FILL;paint.shader=coreShade;paint.alpha=255
-        canvas.drawCircle(cx,cy,radius*1.3f,paint)
-
-        paint.style=Paint.Style.STROKE;paint.strokeCap=Paint.Cap.ROUND
-        paint.shader=gradient
-        // Layered translucent strokes supply glow without software blur or bitmap allocations.
-        for(layer in 0..6) {
-            paint.strokeWidth=r*(.23f-layer*.03f)
-            paint.alpha=12+layer*4
-            canvas.drawCircle(cx,cy,r,paint)
-        }
-        // Idle ripple reduced by 20%; listening amplitude and base ring size are unchanged.
-        // Keep the outermost stroke within the view at full microphone level.
-        val rippleAmplitude = when (phase) {
-            FeedbackState.WAITING -> .0712f
-            FeedbackState.LISTENING -> .089f + energy * .344f
-            else -> .04f
-        }
-        for(line in 0..8) {
-            ribbon.reset()
-            for(step in 0..160) {
-                val a=step*2*PI.toFloat()/160
-                val ripple=sin(a*3+motion+line*.36f)*.65f+
-                    sin(a*7-motion*2+line*.19f)*.35f
-                val rr=r*(1+(line-4)*.009f+ripple*rippleAmplitude)
-                val x=cx+cos(a)*rr;val y=cy+sin(a)*rr
-                if(step==0)ribbon.moveTo(x,y) else ribbon.lineTo(x,y)
+        val beat=RahaMotion.heartbeat(age)
+        val pulse=if(phase==FeedbackState.WAITING).94f+.10f*beat else 1.04f
+        val unit=min(width,height)/256f
+        val shake=if(phase==FeedbackState.FAILURE)sin(age*26)*exp(-age*4)*7 else 0f
+        canvas.save();canvas.translate(width/2f+shake*unit,height/2f);canvas.scale(unit*pulse,unit*pulse)
+        paint.style=Paint.Style.FILL;paint.alpha=255;paint.shader=glow;canvas.drawCircle(0f,0f,121f,paint)
+        paint.shader=face;canvas.drawCircle(0f,0f,87f,paint)
+        canvas.save();canvas.clipPath(clip)
+        paint.shader=bottom;canvas.drawRect(-88f,-88f,88f,88f,paint)
+        paint.shader=inward;canvas.drawCircle(0f,0f,87f,paint);canvas.restore()
+        paint.shader=null;paint.color=accent;paint.style=Paint.Style.STROKE;paint.strokeWidth=4f
+        paint.alpha=if(phase==FeedbackState.WAITING)((.72f+.23f*beat)*255).toInt() else 242
+        canvas.drawCircle(0f,0f,87f,paint);paint.alpha=255
+        paint.strokeCap=Paint.Cap.ROUND;paint.strokeJoin=Paint.Join.ROUND
+        when(phase) {
+            FeedbackState.PROCESSING -> {
+                // Animated accent shares the single rim instead of adding another ring.
+                paint.color=if(light)0xffa4dcff.toInt() else 0xffd0f2ff.toInt()
+                for(i in 0 until 40) { paint.alpha=(255*(i+1)/40);canvas.drawArc(arc,age*342f+i*2.3f,2.5f,false,paint) }
+                paint.alpha=255;paint.shader=wave
+                if(age<.32f) {
+                    val p=RahaMotion.ease(age/.32f)
+                    for(i in 0..6) { val h=(8f+52f*(1-abs(i-3)/3f))*(1-p)+10*p;val w=8+6*p
+                        paint.style=Paint.Style.FILL;canvas.drawRoundRect((i-3)*13-w/2,-h/2,(i-3)*13+w/2,h/2,4f,4f,paint) }
+                } else {
+                    paint.style=Paint.Style.STROKE;paint.strokeWidth=10f
+                    val a=RahaMotion.lineStart(age);val b=RahaMotion.lineEnd(age)
+                    canvas.drawLine(a,0f,max(a+.01f,b),0f,paint)
+                }
             }
-            ribbon.close()
-            paint.strokeWidth=r*(if(line==4).026f else .012f)
-            paint.alpha=if(line==4)240 else 65+line*12
-            canvas.drawPath(ribbon,paint)
+            FeedbackState.SUCCESS -> {
+                paint.strokeWidth=9f;glyph.reset();glyph.moveTo(-25f,0f);glyph.lineTo(-7f,18f);glyph.lineTo(29f,-22f)
+                val scale=.9f+.1f*(age*3).coerceAtMost(1f);canvas.save();canvas.scale(scale,scale);canvas.drawPath(glyph,paint);canvas.restore()
+            }
+            FeedbackState.FAILURE -> {
+                paint.strokeWidth=9f;canvas.drawLine(0f,-25f,0f,9f,paint);paint.style=Paint.Style.FILL;canvas.drawCircle(0f,28f,5f,paint)
+            }
+            else -> {
+                paint.style=Paint.Style.FILL;paint.shader=wave
+                for(i in 0..6) { val h=if(phase==FeedbackState.LISTENING)RahaMotion.barHeight(i,age,energy) else 8f
+                    val x=(i-3)*13f;canvas.drawRoundRect(x-4,-h/2,x+4,h/2,4f,4f,paint) }
+            }
         }
-        // Scale around the icon center using the same attack/release-smoothed audio energy.
-        canvas.save()
-        val microphoneScale=1f+energy*.45f
-        canvas.scale(microphoneScale,microphoneScale,cx,cy)
-        paint.shader=null
-        paint.color=when(phase) { FeedbackState.SUCCESS->green;FeedbackState.FAILURE->red;else->cyan }
-        paint.alpha=235;paint.style=Paint.Style.FILL
-        canvas.drawRoundRect(cx-r*.105f,cy-r*.23f,cx+r*.105f,cy+r*.10f,r*.105f,r*.105f,paint)
-        paint.style=Paint.Style.STROKE;paint.strokeWidth=r*.027f
-        canvas.drawArc(cx-r*.17f,cy-r*.12f,cx+r*.17f,cy+r*.20f,0f,180f,false,paint)
-        canvas.drawLine(cx-r*.17f,cy-r*.12f,cx-r*.17f,cy+r*.04f,paint)
-        canvas.drawLine(cx+r*.17f,cy-r*.12f,cx+r*.17f,cy+r*.04f,paint)
-        canvas.drawLine(cx,cy+r*.20f,cx,cy+r*.31f,paint)
-        canvas.restore()
-        if(isAttachedToWindow && visibility==VISIBLE)postInvalidateOnAnimation()
+        paint.shader=null;canvas.restore()
+        if(isAttachedToWindow && isShown)postInvalidateOnAnimation()
     }
-    override fun onDetachedFromWindow() {
-        previousFrame=0
-        super.onDetachedFromWindow()
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView,visibility)
+        if(visibility==VISIBLE) { previousFrame=0;invalidate() }
     }
+    override fun onDetachedFromWindow() { previousFrame=0;super.onDetachedFromWindow() }
 }
