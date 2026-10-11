@@ -10,6 +10,26 @@ import java.util.Locale
 
 /** Layout coordinates match the approved 1775-pixel OEM safe area; no OEM bars are drawn. */
 class LauncherDashboard(context: Context) : View(context) {
+    private val buttonPress = FloatArray(3)
+    private val buttonAnimations = arrayOfNulls<android.animation.ValueAnimator>(3)
+    private var touchedButton = -1
+    private fun mediaButton(x:Float,y:Float):Int = if(y !in 536f..616f) -1 else when(x) {
+        in 947f..1027f -> 0
+        in 1061f..1141f -> 1
+        in 1175f..1255f -> 2
+        else -> -1
+    }
+    private fun pressButton(index:Int,pressed:Boolean) {
+        if(index<0)return
+        buttonAnimations[index]?.cancel()
+        if(pressed) {buttonPress[index]=1f;invalidate();return}
+        buttonAnimations[index]=android.animation.ValueAnimator.ofFloat(buttonPress[index],0f).apply {
+            duration=160
+            interpolator=android.view.animation.DecelerateInterpolator()
+            addUpdateListener {buttonPress[index]=it.animatedValue as Float;invalidate()}
+            start()
+        }
+    }
     var lightTheme = false
         set(value) { if(field!=value) {field=value;invalidate()} }
     private val foreground get() = if(lightTheme) 0xff252f3c.toInt() else Color.WHITE
@@ -151,11 +171,18 @@ class LauncherDashboard(context: Context) : View(context) {
             fun time(ms:Long)=String.format(Locale.US,"%d:%02d",ms/60000,ms/1000%60)
             text(time(media.position),911f,522f,17f);text(time(media.duration),1250f,522f,17f)
         }
-        paint.shader=LinearGradient(1060f,549f,1140f,629f,accentTop,accentBottom,Shader.TileMode.CLAMP)
-        c.drawCircle(1101f,580f,38f,paint);paint.shader=null
-        listOf(987f to icons[0],1101f to icons[if(media.playing)2 else 1],1215f to icons[3]).forEach { (x,b)->
+        listOf(987f to icons[0],1101f to icons[if(media.playing)2 else 1],1215f to icons[3]).forEachIndexed { index,(x,b)->
+            c.save()
+            val scale=1f-.12f*buttonPress[index]
+            c.scale(scale,scale,x,580f)
+            paint.alpha=(255*(1f-.28f*buttonPress[index])).toInt()
+            if(index==1) {
+                paint.shader=LinearGradient(1060f,549f,1140f,629f,accentTop,accentBottom,Shader.TileMode.CLAMP)
+                c.drawCircle(1101f,580f,38f,paint);paint.shader=null
+            }
             paint.colorFilter=if(lightTheme && x!=1101f)darkIconFilter else null
             c.drawBitmap(b,null,RectF(x-18,562f,x+18,598f),paint)
+            paint.alpha=255;c.restore()
         }
         paint.colorFilter=null
         val now=Calendar.getInstance();val cx=1545f;val cy=177f
@@ -195,17 +222,30 @@ class LauncherDashboard(context: Context) : View(context) {
         c.restore()
     }
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        if(e.action==MotionEvent.ACTION_UP) {
-            val x=e.x*1775/width;val y=e.y*660/height
+        val x=e.x*1775/width;val y=e.y*660/height
+        when(e.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {touchedButton=mediaButton(x,y);pressButton(touchedButton,true)}
+            MotionEvent.ACTION_MOVE -> if(touchedButton>=0) {
+                if(mediaButton(x,y)==touchedButton) {
+                    if(buttonPress[touchedButton]!=1f)pressButton(touchedButton,true)
+                } else if(buttonPress[touchedButton]==1f)pressButton(touchedButton,false)
+            }
+            MotionEvent.ACTION_CANCEL -> {pressButton(touchedButton,false);touchedButton=-1;return true}
+        }
+        if(e.actionMasked==MotionEvent.ACTION_UP) {
+            val button=touchedButton
+            pressButton(button,false);touchedButton=-1
+            if(button>=0) {
+                if(mediaButton(x,y)==button){onMedia(button);performClick()}
+                return true
+            }
             when {
                 x<871 -> {
                     if(mapMessage.isEmpty())onMap()
                     else if(mapMessage != LauncherMapPreview.LOADING) onShowMap()
                 }
                 x in 887f..1315f -> when {
-                    y in 536f..616f && x in 947f..1027f -> onMedia(0)
-                    y in 536f..616f && x in 1061f..1141f -> onMedia(1)
-                    y in 536f..616f && x in 1175f..1255f -> onMedia(2)
+                    mediaButton(x,y)>=0 -> Unit
                     !media.radio && x in 911f..1291f && y in 478f..540f -> { if(media.canSeek) onSeek(((x-911f)/380f*media.duration).toLong()) }
                     else -> onOpenMusic()
                 }
@@ -215,4 +255,9 @@ class LauncherDashboard(context: Context) : View(context) {
         return true
     }
     override fun performClick():Boolean {super.performClick();return true}
+    override fun onDetachedFromWindow() {
+        buttonAnimations.forEach {it?.cancel()}
+        buttonPress.fill(0f);touchedButton=-1
+        super.onDetachedFromWindow()
+    }
 }
