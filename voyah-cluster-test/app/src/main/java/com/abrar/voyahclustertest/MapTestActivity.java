@@ -8,12 +8,14 @@ import java.io.*;
 
 /** Animated synthetic map: visible boundaries and animation, no location or network required. */
 public final class MapTestActivity extends Activity {
- private final Handler handler=new Handler(); private String session,mode;private MapView map;
+ private final Handler handler=new Handler(); private String session,mode;private MapView map;private LiveMapView live;
  private final Runnable check=new Runnable(){public void run(){
   try(BufferedReader r=new BufferedReader(new FileReader(new File(getFilesDir(),"map-lease")))){
-   if(!session.equals(r.readLine())||SystemClock.elapsedRealtime()>=Long.parseLong(r.readLine())){finishAndRemoveTask();return;}
+   // Let the helper move Neshan back before this display is released at lease expiry.
+   if(!session.equals(r.readLine())||SystemClock.elapsedRealtime()>=Long.parseLong(r.readLine())+10000){finishAndRemoveTask();return;}
   }catch(Exception e){finishAndRemoveTask();return;}
-  handler.postDelayed(this,250);
+  if(live!=null)live.refreshTuning();
+  handler.postDelayed(this,100);
  }};
  @Override public void onCreate(Bundle b){super.onCreate(b);session=getIntent().getStringExtra("session");mode=getIntent().getStringExtra("mode");
   if(session==null){finish();return;}
@@ -22,9 +24,10 @@ public final class MapTestActivity extends Activity {
   if(display==0){android.util.Log.e("VoyahClusterTest","REFUSED_RENDER_ON_DEFAULT_DISPLAY");finish();return;}
   getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
   getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-  map=new MapView();setContentView(map);handler.post(check);
+  if("MEDIA".equals(mode)){live=new LiveMapView(this,session);setContentView(live);}
+  else {map=new MapView();setContentView(map);}handler.post(check);
  }
- @Override protected void onDestroy(){handler.removeCallbacksAndMessages(null);super.onDestroy();}
+ @Override protected void onDestroy(){handler.removeCallbacksAndMessages(null);if(live!=null)live.close();super.onDestroy();}
  private final class MapView extends View {
   final Paint p=new Paint(3);final long start=SystemClock.elapsedRealtime();long lastReport;int oldW,oldH;
   MapView(){super(MapTestActivity.this);}

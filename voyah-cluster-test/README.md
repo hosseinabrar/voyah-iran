@@ -1,5 +1,45 @@
 # Voyah Cluster Test
 
+## Live media map probe — 0.4.0
+
+Work is on `cluster-map-test`; the production launcher is unchanged. Install
+`app/build/outputs/apk/debug/app-debug.apk`, then rerun `Start-ClusterTest.ps1`
+to replace the root helper as well as the APK. Disable the custom launcher and
+cluster music/navigation publishing in Voyah Iran during this isolated test.
+
+The media button now renders **live Neshan**, using a separate 871×660, 160 dpi
+virtual display matching the launcher's map design. The existing Neshan task is
+moved with `moveStackToDisplay`, or launched if absent. A TextureView composites
+its live output into the OEM media presentation; there is no screenshot loop.
+Small/full navigation buttons retain the previous synthetic renderer. Arrow,
+road-name and remaining-distance controls are preserved.
+
+Seven sliders are available above the original tests:
+
+- X/Y: −100% to +100% of output half-width/half-height. Positive values move right/down.
+- Scale: 25–300%. This scales the rendered image, not the map application's camera zoom.
+- Render width/height: pixel values from 160 (or the display dimension if smaller)
+  up to the central display's actual width/height. Defaults remain 871×660.
+  Changing these resizes the existing virtual display and its buffer live, keeping
+  the same display ID. It changes the map app's rendering viewport independently
+  of the output scale slider. The renderer also clamps values to display 0 bounds.
+- Fade start/end: 0–99% and 1–100%, constrained to start < end. The output-centred
+  elliptical radius is 100% at the midpoint of its edges. At 50/85, alpha is fully
+  opaque inside 50%, falls linearly to zero at 85%, and stays zero beyond it.
+  The alpha-masked texture is composited over black, matching the media slot.
+
+Tuning values persist and apply live, with a short debounce. `TUNING`,
+`SOURCE_CREATED`, `LIVE_MAP_STARTED`, `RENDER` and restoration failures are logged
+under `VoyahClusterTest`. A rendered frame is not proof of physical visibility.
+Each presentation retains the 60-second expiry. Stop/connection loss attempts to
+return only the test-owned Neshan task to its original display before releasing
+the source display. If another owner already moved it, it is left alone.
+An unavailable original display falls back to display 0. Previous cluster page
+restoration is not guaranteed. No vehicle configuration is changed.
+
+This version needs an on-car test of live texture composition, OEM presentation
+and alpha appearance. It is not yet integrated into the launcher or VIP settings.
+
 اپ مستقل برای آزمایش شناسهٔ خام فلش کلاستر. پروژه را در Android Studio باز و APK آزمایشی را روی خودرو نصب کنید. نیازی به تغییر واسط وویا ایران یا اینستالر ندارد. چون SELinux خودرو اجرای مستقیم su از اپ را منع می‌کند، واسط موقت از لپ‌تاپ با ADB اجرا می‌شود.
 
 پس از نصب، این دستور را در پوشهٔ پروژه اجرا کنید؛ مسیر adb.exe را مطابق سیستم خود بدهید:

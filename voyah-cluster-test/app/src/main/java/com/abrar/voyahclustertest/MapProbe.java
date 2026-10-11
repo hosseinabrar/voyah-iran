@@ -14,6 +14,7 @@ final class MapProbe {
  private final ConcurrentLinkedQueue<String> events=new ConcurrentLinkedQueue<>();
  private String active,session; private boolean frameReady; private volatile String requested;
  private long expires,started; private String lastFrame="";
+ private MapSourceTask source;private boolean liveMode,sourceStarted;
  MapProbe(Object remote,Class<?> service,ClassLoader loader)throws Exception {
   this.remote=remote;this.service=service;
   callbackType=loader.loadClass("com.qinggan.cluster.IInstrumentClusterManagerCallback");
@@ -42,12 +43,20 @@ final class MapProbe {
  private void call(String name,String category,int state)throws Exception{service.getMethod(name,String.class,int.class).invoke(remote,category,state);}
  private void ready(String category)throws Exception{service.getMethod("notifyReadyToShow",String.class).invoke(remote,category);events.add("READY_SENT "+category);}
  void command(String command)throws Exception {
+  if(command.startsWith("MAP TUNE ")){
+   MapTuning tuning=MapTuning.parse(command.substring(9));
+   File f=new File(folder,"map-tuning");try(FileWriter w=new FileWriter(f)){w.write(tuning.toString());}
+   int uid=android.system.Os.stat(folder.getPath()).st_uid;android.system.Os.chown(f.getPath(),uid,uid);android.system.Os.chmod(f.getPath(),0600);
+   MapSourceTask.shell("/system/bin/restorecon",f.getPath());
+   events.add("TUNING "+tuning);return;
+  }
   if(command.equals("MAP STOP")){stop();return;}
   if(command.equals("MAP INFO")){events.add("CLUSTER_CONNECTED "+service.getMethod("getClusterConnect").invoke(remote));events.add("BUILD "+Build.MODEL+" SDK="+Build.VERSION.SDK_INT+"; callbacks report OEM bounds; BINDER success is not visual success");return;}
   if(command.equals("MAP READY")){if(active==null)throw new IllegalStateException("Start a map mode first");ready(active);return;}
   String mode=command.substring(4);
   if(!mode.equals("SMALL")&&!mode.equals("FULL")&&!mode.equals("MEDIA"))throw new IllegalArgumentException("Unknown map mode");
   stop();active=PREFIX+(mode.equals("MEDIA")?"MEDIA_SMALL":"NAVI_"+mode);session=java.util.UUID.randomUUID().toString();
+  liveMode=mode.equals("MEDIA");sourceStarted=false;
   expires=SystemClock.elapsedRealtime()+60000;started=SystemClock.elapsedRealtime();frameReady=false;requested=null;lastFrame="";
   writeLease();
   String base=PREFIX+(mode.equals("MEDIA")?"MEDIA":"NAVI");
@@ -69,19 +78,29 @@ final class MapProbe {
   if(active!=null){
    if(SystemClock.elapsedRealtime()>=expires){stop();events.add("MAP_TIMEOUT");}
    else {
+    if(liveMode&&!sourceStarted){
+     File sourceFile=new File(folder,"map-source");
+     if(sourceFile.isFile())try(BufferedReader r=new BufferedReader(new FileReader(sourceFile))){
+      String line=r.readLine();if(line!=null&&line.startsWith(session+" ")){
+       source=new MapSourceTask();source.start(Integer.parseInt(line.substring(session.length()+1)),session);sourceStarted=true;
+       events.add("LIVE_MAP_STARTED; source dimensions in RENDER log");
+      }
+     }
+    }
     File f=new File(folder,"map-frame");String line="";
     if(f.isFile())try(BufferedReader r=new BufferedReader(new FileReader(f))){line=r.readLine();}
     if(line!=null&&line.startsWith(session+" ")&&!line.equals(lastFrame)){
      lastFrame=line;events.add("RENDER "+line);
      if(!frameReady){frameReady=true;events.add("FIRST_FRAME");}
     }
-    if(frameReady&&requested!=null){String p=requested;requested=null;if(p.equals(active))ready(p);}
+    if(frameReady&&(!liveMode||sourceStarted)&&requested!=null){String p=requested;requested=null;if(p.equals(active))ready(p);}
     if(!frameReady&&SystemClock.elapsedRealtime()-started>10000 && started!=0){events.add("NO_FRAME: no drawn frame yet; try explicit Ready once to test hidden-surface handshake. Auto-stop remains 60s.");started=0;}
    }
   }
   String event;while((event=events.poll())!=null){out.println(event);android.util.Log.i("VoyahClusterTest",event);}
  }
  void stop()throws Exception{
+  if(source!=null){try{source.close();events.add("LIVE_MAP_RELEASED");}catch(Exception e){events.add("LIVE_MAP_RELEASE_FAILED "+e);}finally{source=null;}}
   String old=active;active=null;requested=null;new File(folder,"map-lease").delete();
   if(old!=null){call("requestPresentation",old,2);events.add("MAP_CLOSE_REQUEST "+old+"; persistent settings unchanged");}
  }

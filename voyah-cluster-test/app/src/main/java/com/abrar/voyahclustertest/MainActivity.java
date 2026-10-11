@@ -14,11 +14,48 @@ public final class MainActivity extends Activity {
  private EditText roadText; private Spinner textMode; private EditText number; private TextView status,logs; private Spinner directions,types;
  private final ExecutorService worker=Executors.newSingleThreadExecutor();
  private java.net.Socket process;private BufferedWriter input; private volatile boolean visible;
+ private final Handler tuningHandler=new Handler();private final SeekBar[] sliders=new SeekBar[7];
+ private final int[] tuning={0,0,100,50,85,871,660};private boolean updatingSliders;
+ private final Runnable sendTuning=()->mapCommand("MAP TUNE "+tuningString());
+ private String tuningString(){return new MapTuning(tuning[0],tuning[1],tuning[2],tuning[3],tuning[4],tuning[5],tuning[6]).toString();}
+ private void tuningControls(LinearLayout box){
+  String saved=getPreferences(0).getString("mapTuning","0 0 100 50 85");
+  try{MapTuning t=MapTuning.parse(saved);int[] v={t.x,t.y,t.zoom,t.start,t.end,t.width,t.height};System.arraycopy(v,0,tuning,0,7);}catch(Exception ignored){}
+  android.graphics.Point screen=new android.graphics.Point();
+  android.view.Display central=getSystemService(android.hardware.display.DisplayManager.class).getDisplay(0);
+  if(central==null)central=getWindowManager().getDefaultDisplay();central.getRealSize(screen);
+  tuning[5]=Math.max(Math.min(160,screen.x),Math.min(screen.x,tuning[5]));tuning[6]=Math.max(Math.min(160,screen.y),Math.min(screen.y,tuning[6]));
+  label(box,"نشان زنده در مدیای کلاستر — حداکثر رندر "+screen.x+"×"+screen.y);
+  label(box,"آفست درصد نیم‌عرض/نیم‌ارتفاع خروجی؛ زوم مقیاس تصویر است. فید از مرکز خروجی تا لبه‌ها اندازه‌گیری می‌شود.");
+  String[] titles={"آفست افقی X","آفست عمودی Y","بزرگنمایی تصویر","شروع فید شعاعی","پایان فید شعاعی","عرض رندر","ارتفاع رندر"};
+  int[] minimum={-100,-100,25,0,1,Math.min(160,screen.x),Math.min(160,screen.y)},maximum={100,100,300,99,100,screen.x,screen.y};
+  TextView[] labels=new TextView[7];
+  for(int i=0;i<7;i++){
+   final int index=i;TextView label=new TextView(this);labels[i]=label;label.setTextColor(Color.WHITE);label.setTextSize(18);box.addView(label);
+   SeekBar slider=new SeekBar(this);sliders[i]=slider;slider.setMax(maximum[i]-minimum[i]);slider.setProgress(tuning[i]-minimum[i]);box.addView(slider);
+   label.setText(titles[i]+": "+tuning[i]+(i<5?"%":" px"));
+   slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+    public void onStartTrackingTouch(SeekBar s){}
+    public void onStopTrackingTouch(SeekBar s){tuningHandler.removeCallbacks(sendTuning);tuningHandler.post(sendTuning);}
+    public void onProgressChanged(SeekBar s,int progress,boolean user){
+     if(updatingSliders)return;tuning[index]=progress+minimum[index];
+     if(tuning[3]>=tuning[4]){if(index==3)tuning[4]=tuning[3]+1;else tuning[3]=tuning[4]-1;}
+     updatingSliders=true;for(int j=0;j<7;j++){sliders[j].setProgress(tuning[j]-minimum[j]);labels[j].setText(titles[j]+": "+tuning[j]+(j<5?"%":" px"));}updatingSliders=false;
+     getPreferences(0).edit().putString("mapTuning",tuningString()).apply();
+     tuningHandler.removeCallbacks(sendTuning);tuningHandler.postDelayed(sendTuning,index>=5?300:120);
+    }
+   });
+  }
+  LinearLayout row=new LinearLayout(this);box.addView(row);
+  mapButton(row,"نمایش نشان در مدیا","MAP MEDIA");mapButton(row,"توقف تصویر","MAP STOP");
+  label(box,"تست تصویر پس از ۶۰ ثانیه متوقف می‌شود؛ برای شروع دوباره نمایش نشان را بزنید. هنگام تست، لانچر اختصاصی و ارسال موسیقی به کلاستر را خاموش کنید تا مالکیت نقشه و مدیا تداخل نکند.");
+ }
  private int dp(int n){return Math.round(n*getResources().getDisplayMetrics().density);}
  private void label(LinearLayout box,String s){TextView t=new TextView(this);t.setText(s);t.setTextSize(18);t.setTextColor(Color.WHITE);box.addView(t);}
  @Override public void onCreate(Bundle b){super.onCreate(b);getFilesDir().mkdirs();
   ScrollView scroll=new ScrollView(this);LinearLayout box=new LinearLayout(this);box.setOrientation(1);box.setPadding(dp(24),dp(16),dp(24),dp(16));box.setBackgroundColor(0xff172238);scroll.addView(box);setContentView(scroll);
-  label(box,"تست نقشه، متن و فلش کلاستر — 0.3.0");
+  label(box,"تست نقشه، متن و فلش کلاستر — 0.4.0");
+  tuningControls(box);
   label(box,"ابتدا نمایش ناوبری نشان در کلاستر را در وویا ایران خاموش کنید. تست را در حالت توقف خودرو انجام دهید.");
   label(box,"جهت نشان — همهٔ مقادیر enum");directions=new Spinner(this);directions.setBackgroundColor(Color.WHITE);
   ArrayAdapter<NeshanEnums.Direction> da=new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,NeshanEnums.Direction.values());directions.setAdapter(da);box.addView(directions);
@@ -39,7 +76,7 @@ public final class MainActivity extends Activity {
   Button apply=new Button(this);apply.setText("اعمال");buttons.addView(apply);apply.setOnClickListener(v->apply());
   Button end=new Button(this);end.setText("توقف و پاک‌کردن");buttons.addView(end);end.setOnClickListener(v->worker.execute(()->stopProbe()));
   label(box,"آزمایش تصویر نقشه — مستقل از فلش و متن بالا");
-  label(box,"نقشهٔ متحرک آزمایشی است؛ بدون اینترنت. هر حالت ۶۰ ثانیه فعال می‌ماند. پس از اعمال، با دکمهٔ فرمان صفحات کلاستر را هم بررسی کنید.");
+  label(box,"کوچک و بزرگ تصویر آزمایشی هستند؛ ناحیه موسیقی نشان زنده را نمایش می‌دهد. هر حالت ۶۰ ثانیه فعال می‌ماند.");
   LinearLayout mapRow=new LinearLayout(this);box.addView(mapRow);
   mapButton(mapRow,"وضعیت و شنود","MAP INFO");mapButton(mapRow,"نقشه کوچک","MAP SMALL");mapButton(mapRow,"نقشه بزرگ","MAP FULL");
   LinearLayout mapRow2=new LinearLayout(this);box.addView(mapRow2);
@@ -74,7 +111,7 @@ public final class MainActivity extends Activity {
     Thread reader=new Thread(()->{try(BufferedReader stream=new BufferedReader(new InputStreamReader(current.getInputStream(),java.nio.charset.StandardCharsets.UTF_8))){String line;while((line=stream.readLine())!=null)report(line);}catch(Exception e){report("CONNECTION "+e);}finally{try{current.close();}catch(Exception ignored){}}},"ClusterLog");reader.setDaemon(true);reader.start();
    }
  }
- private void mapCommand(String command){worker.execute(()->{try{if(!visible)return;connectProbe();input.write(command);input.newLine();input.flush();report("SEND "+command);}catch(Exception e){report("ERROR "+Log.getStackTraceString(e));stopProbe();}});}
+ private void mapCommand(String command){final String values=tuningString();worker.execute(()->{try{if(!visible)return;connectProbe();if(command.equals("MAP MEDIA")){input.write("MAP TUNE "+values);input.newLine();}input.write(command);input.newLine();input.flush();report("SEND "+command);}catch(Exception e){report("ERROR "+Log.getStackTraceString(e));stopProbe();}});}
  private void mapButton(LinearLayout row,String title,String command){Button b=new Button(this);b.setText(title);row.addView(b,new LinearLayout.LayoutParams(0,dp(64),1));b.setOnClickListener(v->mapCommand(command));}
  private void stopProbe(){
   try{if(input!=null){input.write("STOP\n");input.flush();input.close();}}catch(Exception e){report("STOP_INPUT "+e);}
@@ -84,5 +121,5 @@ public final class MainActivity extends Activity {
  @Override protected void onResume(){super.onResume();visible=true;}
  @Override protected void onPause(){super.onPause();}
  @Override protected void onStop(){visible=false;worker.execute(this::stopProbe);super.onStop();}
- @Override protected void onDestroy(){worker.shutdown();super.onDestroy();}
+ @Override protected void onDestroy(){tuningHandler.removeCallbacksAndMessages(null);worker.shutdown();super.onDestroy();}
 }
