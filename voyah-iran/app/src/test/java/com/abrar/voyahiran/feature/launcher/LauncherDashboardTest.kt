@@ -18,6 +18,46 @@ import java.util.TimeZone
 @Config(sdk=[30], application=Application::class, qualifiers="fa-rIR-w1775dp-h660dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class LauncherDashboardTest {
+    @Test fun renderWeatherCardPreview() {
+        val view=LauncherDashboard(RuntimeEnvironment.getApplication())
+        view.layout(0,0,1775,660)
+        view.weather=LauncherWeatherState("Tehran",26.0,15.0,28.0,2,true,"")
+        for(light in listOf(false,true)) {
+            view.lightTheme=light
+            val bitmap=Bitmap.createBitmap(856,436,Bitmap.Config.ARGB_8888)
+            val canvas=Canvas(bitmap)
+            canvas.scale(2f,2f)
+            canvas.translate(-1331f,-442f)
+            view.draw(canvas)
+            val output=File("build/reports/launcher/weather-card-${if(light) "light" else "dark"}.png")
+            output.parentFile!!.mkdirs()
+            output.outputStream().use {bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
+        }
+    }
+    @Test fun artworkChangesOnlyWhenTitleOrArtistChanges() {
+        val view=LauncherDashboard(RuntimeEnvironment.getApplication())
+        val cover=Bitmap.createBitmap(64,64,Bitmap.Config.ARGB_8888).apply {eraseColor(android.graphics.Color.BLUE)}
+        view.media=LauncherMediaState(title="Track",cover=cover)
+        val animation=LauncherDashboard::class.java.getDeclaredField("coverAnimation").apply {isAccessible=true}
+        val shown=LauncherDashboard::class.java.getDeclaredField("shownCover").apply {isAccessible=true}
+        val originalAnimation=animation.get(view)
+        val duplicate=cover.copy(Bitmap.Config.ARGB_8888,true)
+        view.media=view.media.copy(cover=duplicate,position=5000,playing=true)
+        assertSame(originalAnimation,animation.get(view))
+        assertSame(cover,shown.get(view))
+        val changed=cover.copy(Bitmap.Config.ARGB_8888,true).apply {setPixel(32,32,android.graphics.Color.RED)}
+        view.media=view.media.copy(cover=changed,position=10000)
+        assertSame(originalAnimation,animation.get(view))
+        assertSame(cover,shown.get(view))
+        view.media=view.media.copy(title="Next track")
+        assertNotSame(originalAnimation,animation.get(view))
+        assertSame(changed,shown.get(view))
+        view.media=view.media.copy(artist="Other artist",cover=null,coverPending=true)
+        view.media=view.media.copy(cover=duplicate,coverPending=false)
+        assertSame(duplicate,shown.get(view))
+        view.media=view.media.copy(cover=null)
+        assertSame(duplicate,shown.get(view))
+    }
     @Test fun persianLeapDayAndNewYearUseIcu() {
         val old=TimeZone.getDefault()
         try {
@@ -80,7 +120,7 @@ class LauncherDashboardTest {
             assertNotNull(android.graphics.BitmapFactory.decodeResource(resources,LauncherWeatherCode.icon(code)))
         }
         assertEquals("Unknown",LauncherWeatherCode.description(999))
-        assertEquals(com.abrar.voyahiran.R.drawable.launcher_weather_unknown,LauncherWeatherCode.icon(999))
+        assertEquals(com.abrar.voyahiran.R.drawable.launcher_weather_hd_unavailable,LauncherWeatherCode.icon(999))
         val data=org.json.JSONObject("""{"saved":1000000,"city":"Gorgan","current":{"temperature_2m":16.9,"weather_code":80,"is_day":1},"daily":{"temperature_2m_min":[16.5],"temperature_2m_max":[19.4]}}""")
         assertEquals("",LauncherWeather.parse(data,1000000,false).notice)
         assertTrue(LauncherWeather.parse(data,3000000,false).notice.startsWith("Saved"))
@@ -123,22 +163,11 @@ class LauncherDashboardTest {
         memory.remember(LauncherMediaState("USB","New track",oemSource="USB_MUSIC",playing=true))
         assertEquals("USB",memory.paused(null,false).source)
     }
-    @Test fun neshanCityUsesStructuredCityAndRejectsErrors() {
-        assertEquals("Gorgan",LauncherCity.cityName(org.json.JSONObject("""{"status":"OK","city":"گرگان","state":"گلستان"}""")))
-        assertEquals("Tehran",LauncherCity.cityName(org.json.JSONObject("""{"status":"OK","city":"تهران"}""")))
-        assertNull(LauncherCity.cityName(org.json.JSONObject("""{"status":"ERROR","code":484}""")))
-        assertNull(LauncherCity.cityName(org.json.JSONObject("""{"status":"OK","city":null}""")))
-    }
-    @Test fun cityLookupFallsBackInOrderAndNeverDisplaysCoordinates() {
-        var calls=0
-        assertEquals("Tehran",LauncherCity.resolveUsing({"Tehran"},{calls++;"Gorgan"}))
-        assertEquals(0,calls)
-        assertEquals("Gorgan",LauncherCity.resolveUsing({null},{calls++;"Gorgan"}))
-        assertEquals(1,calls)
-        assertEquals("Gorgan",LauncherCity.resolveUsing({error("No backend")},{"Gorgan"}))
-        assertEquals("Unknown",LauncherCity.resolveUsing({" "},{null}))
-        assertEquals("Unknown",LauncherCity.resolveUsing({null},{error("Offline")}))
-        assertNull(LauncherCity.cityName(org.json.JSONObject("""{"status":"OK","state":"گلستان"}""")))
+    @Test fun bigDataCloudCityUsesCityOrLocalityAndRejectsIpFallback() {
+        assertEquals("Gorgan",LauncherCity.cityName(org.json.JSONObject("""{"lookupSource":"reverse geocoding","city":"Gorgan","locality":"District"}""")))
+        assertEquals("Tehran",LauncherCity.cityName(org.json.JSONObject("""{"city":"","locality":"Tehran"}""")))
+        assertNull(LauncherCity.cityName(org.json.JSONObject("""{"error":"Denied","city":"London"}""")))
+        assertNull(LauncherCity.cityName(org.json.JSONObject("""{"lookupSource":"ip geolocation","city":"London"}""")))
     }
     @Test fun bridgeNeverAcceptsPassengerOrShellInjectionForMap() {
         val policy=com.abrar.voyahiran.core.bridge.BridgePolicy

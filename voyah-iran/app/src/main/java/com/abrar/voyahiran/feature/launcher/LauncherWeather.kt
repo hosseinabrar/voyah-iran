@@ -113,7 +113,7 @@ internal class LauncherWeather(private val context: Context, private val scope: 
                 check(it.getJSONObject("daily").getJSONArray("temperature_2m_min").getDouble(0).isFinite())
             }
         } finally {connection.disconnect()}
-        val city=LauncherCity.resolve(context,fix.latitude,fix.longitude)
+        val city=LauncherCity.resolve(fix.latitude,fix.longitude)
         return data.put("city",city).put("lat",fix.latitude).put("lon",fix.longitude).put("saved",System.currentTimeMillis())
     }
     companion object {

@@ -13,7 +13,7 @@ class LauncherDashboard(context: Context) : View(context) {
     private val buttonPress = FloatArray(3)
     private val buttonAnimations = arrayOfNulls<android.animation.ValueAnimator>(3)
     private var touchedButton = -1
-    private fun mediaButton(x:Float,y:Float):Int = if(y !in 536f..616f) -1 else when(x) {
+    private fun mediaButton(x:Float,y:Float):Int = if(y !in 551f..631f) -1 else when(x) {
         in 947f..1027f -> 0
         in 1061f..1141f -> 1
         in 1175f..1255f -> 2
@@ -40,11 +40,18 @@ class LauncherDashboard(context: Context) : View(context) {
     var media = LauncherMediaState()
         set(value) {
             if(field==value)return
+            val trackChanged=field.title!=value.title || field.artist!=value.artist || field.radio!=value.radio
+            if(trackChanged)coverReceivedForTrack=false
             field=value
             if(value.radio) {coverAnimation?.cancel();oldCover=null;shownCover=null;coverFade=1f}
-            else if(!value.coverPending)changeCover(value.cover)
+            else if(!value.coverPending && !coverReceivedForTrack) {
+                changeCover(value.cover)
+                // Allow the first asynchronous cover, then retain it until title/artist changes.
+                coverReceivedForTrack=value.cover!=null
+            }
             invalidate()
         }
+    private var coverReceivedForTrack=false
     private var shownCover:Bitmap?=null
     private var oldCover:Bitmap?=null
     private var coverFade=1f
@@ -173,7 +180,7 @@ class LauncherDashboard(context: Context) : View(context) {
             val image=if(coverFade<.5f)oldCover else shownCover
             val opacity=if(coverFade<.5f)1f-coverFade*2 else coverFade*2-1f
             val cover = image ?: defaultCover
-            val rect=RectF(936f,78f,1266f,408f)
+            val rect=RectF(931f,78f,1271f,418f)
             c.save();c.clipPath(Path().apply{addRoundRect(rect,12f,12f,Path.Direction.CW)})
             paint.color=Color.WHITE
             val layer=c.saveLayerAlpha(rect,(opacity*255).toInt())
@@ -191,31 +198,31 @@ class LauncherDashboard(context: Context) : View(context) {
         if(mediaTextKey!=textKey) {
             val picture=Picture()
             val labels=picture.beginRecording(1775,660)
-            text(media.title,1101f,if(media.radio)255f else 447f,if(media.radio)48f else 32f,center=true,bold=true,target=labels)
-            text(media.artist,1101f,if(media.radio)310f else 475f,if(media.radio)26f else 23f,secondary,center=true,target=labels)
+            text(media.title,1101f,if(media.radio)255f else 467f,if(media.radio)48f else 32f,center=true,bold=true,target=labels)
+            text(media.artist,1101f,if(media.radio)310f else 495f,if(media.radio)26f else 23f,secondary,center=true,target=labels)
             picture.endRecording()
             mediaTextPicture=picture;mediaTextKey=textKey
         }
         mediaTextPicture?.let {c.drawPicture(it)}
         if(!media.radio) {
-            paint.color=if(lightTheme) 0xffcdd9e8.toInt() else if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,494f,1291f,494f,paint)
-            if(media.duration>0) { paint.color=if(lightTheme) 0xff668cce.toInt() else if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,494f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),494f,paint) }
+            paint.color=if(lightTheme) 0xffcdd9e8.toInt() else if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,514f,1291f,514f,paint)
+            if(media.duration>0) { paint.color=if(lightTheme) 0xff668cce.toInt() else if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,514f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),514f,paint) }
             fun time(ms:Long)=String.format(Locale.US,"%d:%02d",ms/60000,ms/1000%60)
-            text(time(media.position),911f,522f,17f);text(time(media.duration),1250f,522f,17f)
+            text(time(media.position),911f,542f,17f);text(time(media.duration),1250f,542f,17f)
         }
         listOf(987f to icons[0],1101f to icons[if(media.playing)2 else 1],1215f to icons[3]).forEachIndexed { index,(x,b)->
             c.save()
             val scale=1f-.12f*buttonPress[index]
-            c.scale(scale,scale,x,580f)
+            c.scale(scale,scale,x,595f)
             paint.alpha=(255*(1f-.28f*buttonPress[index])).toInt()
             if(index==1) {
                 // The previous icon's light-theme tint must not recolor the blue button.
                 paint.colorFilter=null
-                paint.shader=LinearGradient(1060f,549f,1140f,629f,accentTop,accentBottom,Shader.TileMode.CLAMP)
-                c.drawCircle(1101f,580f,38f,paint);paint.shader=null
+                paint.shader=LinearGradient(1060f,564f,1140f,644f,accentTop,accentBottom,Shader.TileMode.CLAMP)
+                c.drawCircle(1101f,595f,38f,paint);paint.shader=null
             }
             paint.colorFilter=if(lightTheme && x!=1101f)darkIconFilter else null
-            c.drawBitmap(b,null,RectF(x-18,562f,x+18,598f),paint)
+            c.drawBitmap(b,null,RectF(x-18,577f,x+18,613f),paint)
             paint.alpha=255;c.restore()
         }
         paint.colorFilter=null
@@ -235,7 +242,7 @@ class LauncherDashboard(context: Context) : View(context) {
         text(LauncherClock.gregorianDate(now.timeInMillis),cx,387f,17f,secondary,center=true)
         fun degree(value: Double?) = value?.let { String.format(Locale.US,"%.0f°",it) } ?: "—"
         c.save();c.clipRect(1355f,455f,1588f,640f)
-        text(weather.city,1387f,494f,23f)
+        text(weather.city,1387f,499f,23f)
         text(degree(weather.temperature),1387f,548f,51f)
         text(if(weather.temperature==null) weather.notice else LauncherWeatherCode.description(weather.code),1387f,580f,19f,secondary)
         if(weather.temperature!=null) text(degree(weather.high)+" / "+degree(weather.low),1387f,608f,18f,secondary)
@@ -283,7 +290,7 @@ class LauncherDashboard(context: Context) : View(context) {
                 }
                 x in 887f..1315f -> when {
                     mediaButton(x,y)>=0 -> Unit
-                    !media.radio && x in 911f..1291f && y in 478f..540f -> { if(media.canSeek) onSeek(((x-911f)/380f*media.duration).toLong()) }
+                    !media.radio && x in 911f..1291f && y in 498f..560f -> { if(media.canSeek) onSeek(((x-911f)/380f*media.duration).toLong()) }
                     else -> onOpenMusic()
                 }
             }

@@ -126,7 +126,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         val top=(50f*real.y/720-location[1]).toInt().coerceAtLeast(0)
         val width=container.width-left
         // Card gutters are 16 design pixels; leave half that beneath both HOME pages.
-        val bottomGap=kotlin.math.round(8f*width/1775f).toInt()
+        val bottomGap=kotlin.math.round(16f*width/1775f).toInt()
         val height=(container.height-top-bottomGap).coerceAtLeast(1)
         val lp=FrameLayout.LayoutParams(width,height).apply{leftMargin=left;topMargin=top}
         if(pager.parent==null)container.addView(pager,lp) else pager.layoutParams=lp
