@@ -109,7 +109,7 @@ foreach (var unexpected in new[] { "patch/android9/previous-v1/unknown.smali", "
 try { using var invalid = Fixture(true); PayloadBundle.Extract(invalid, Path.Combine(root, "invalid")); throw new Exception("Corruption accepted"); }
 catch (InvalidDataException) { Check(true, "Corrupt embedded APK rejected"); }
 
-foreach (var failure in new[] { "root", "remount", "remount-empty", "firmware", "patch", "apk", "bridge", "framework", "framework-transfer", "missing-marker", "timeout" })
+foreach (var failure in new[] { "root", "remount", "remount-empty", "firmware", "patch", "apk", "apk-timeout", "bridge", "framework", "framework-transfer", "missing-marker", "timeout" })
 {
     using var log = new SessionLog(Path.Combine(root, "engine-logs"));
     var fake = new FakeAdb(failure, bundle);
@@ -119,6 +119,19 @@ foreach (var failure in new[] { "root", "remount", "remount-empty", "firmware", 
     Check(failed && !fake.Calls.Any(c => c.SequenceEqual(new[] { "reboot" })), $"{failure} failure never reboots");
     if (failure is "root" or "remount" or "remount-reboot" or "remount-empty" or "firmware" or "patch") Check(!fake.Calls.Any(c => c[0] == "install"), $"{failure} rejected before APK changes");
     if (failure == "timeout") Check(!fake.Calls.Any(c => c.Contains("rm")), "Uncertain remote write keeps staging");
+    if (failure is "apk" or "apk-timeout") Check(fake.Calls.Count(c => c[0] == "install") == 1, "Do not retry ambiguous or unrelated APK failure");
+}
+foreach (var failure in new[] { "apk-storage-transient", "apk-storage-persistent" })
+{
+    using var log = new SessionLog(Path.Combine(root, "storage-retry-logs"));
+    var fake = new FakeAdb(failure, bundle);
+    var engine = new InstallEngine(fake, bundle, log, Path.Combine(root, "backups"), new FakePatcher("none"));
+    var failed = false;
+    try { await engine.RunAsync("CAR"); } catch { failed = true; }
+    Check(failed == (failure == "apk-storage-persistent"), "OEM storage exception recovers only after successful install");
+    Check(fake.Calls.Count(c => c[0] == "install") == 3, "OEM storage retry limited to three total attempts");
+    Check(!fake.Calls.Any(c => c.Contains("uninstall") || c.Contains("clear")), "Storage recovery preserves app data");
+    Check(fake.Calls.Count(c => c.SequenceEqual(new[] { "reboot" })) == (failed ? 0 : 1), "No reboot after persistent APK failure");
 }
 using (var log = new SessionLog(Path.Combine(root, "success-logs")))
 {
@@ -301,6 +314,11 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
         else if (args.Contains("pm")) text = "package:/data/app/com.abrar.voyahiran/base.apk";
         else if (args[0] == "install") {
             text = "Success"; if (failure == "apk") exit = 1;
+            if (failure == "apk-timeout") throw new TimeoutException("Uncertain package write");
+            if (failure == "apk-storage-persistent" || (failure == "apk-storage-transient" && Calls.Count(c => c[0] == "install") < 3)) {
+                exit = 255;
+                text = "java.lang.NullPointerException: Attempt to invoke virtual method 'void android.content.pm.PackageManagerInternal.freeStorage(java.lang.String, long, int)' on a null object reference\n at com.android.server.StorageManagerService.allocateBytes(StorageManagerService.java:4013)\n at com.android.server.pm.PackageInstallerSession.doWriteInternal(PackageInstallerSession.java:1006)";
+            }
             if (failure == "h97a" && !args.Contains("--streaming")) {
                 exit = 255;
                 text = "System server has no access to read file context u:object_r:shell_data_file:s0; Error: Can't open file: /data/local/tmp/app.apk";

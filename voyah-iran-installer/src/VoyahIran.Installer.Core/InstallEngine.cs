@@ -11,6 +11,13 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
     public event Action<PhaseUpdate>? Progress;
     private InstallPhase phase;
     private string serial = "";
+    private static bool IsStorageAllocationFailure(CommandResult result) =>
+        result.ExitCode != 0 &&
+        !result.Output.Split('\n').Any(line => line.Trim() == "Success") &&
+        result.Output.Contains("java.lang.NullPointerException", StringComparison.Ordinal) &&
+        result.Output.Contains("PackageManagerInternal.freeStorage(", StringComparison.Ordinal) &&
+        result.Output.Contains("StorageManagerService.allocateBytes(", StringComparison.Ordinal) &&
+        result.Output.Contains("PackageInstallerSession.doWriteInternal(", StringComparison.Ordinal);
     private void Begin(InstallPhase next) { phase = next; log.Write($"PHASE {phase}: running"); Progress?.Invoke(new(phase, PhaseState.Running)); }
     private void Done() { log.Write($"PHASE {phase}: succeeded"); Progress?.Invoke(new(phase, PhaseState.Succeeded)); }
     private async Task<string> Command(int timeout, params string[] args)
@@ -152,13 +159,26 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             // Expire only the live Home-hook lease; keep the user's saved launcher preference.
             await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
             // Newer units require push installation; H97A cannot open shell-labelled staging files.
-            // Select the transport before installation, without retrying ambiguous package writes.
+            // Select the transport before installation; never retry timeouts or ambiguous commits.
             var apkTransport = platform.StreamApk ? "--streaming" : "--no-streaming";
             log.Write(platform.StreamApk
                 ? "Installing APK with streaming for H97A: bypassing shell_data_file staging via PackageManager stdin. Keep USB connected."
                 : "Installing APK without streaming; transfer and package installation are separate. Keep USB connected.");
             var apkResult = await adb.RunAsync(serial,
                 ["install", apkTransport, "-r", "--user", "0", bundle.File("app.apk")], 600);
+            for (var retry = 1; retry <= 2 && IsStorageAllocationFailure(apkResult); retry++)
+            {
+                // This exact OEM exception occurs in session.write, before install commit.
+                // ADB has returned a failure, so a bounded replacement retry is unambiguous.
+                log.Write($"OEM storage allocation failed before APK commit; retry={retry}/2. {apkResult.Output}");
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                if (await Command(15, "shell", "getprop", "ro.build.fingerprint") != fingerprint ||
+                    await Command(15, "shell", "cat", "/proc/sys/kernel/random/boot_id") != bootId ||
+                    await Command(15, "shell", "id", "-u") != "0")
+                    throw new IOException("وضعیت اتصال خودرو تغییر کرده است؛ نصب مجدد خودکار متوقف شد.");
+                apkResult = await adb.RunAsync(serial,
+                    ["install", apkTransport, "-r", "--user", "0", bundle.File("app.apk")], 600);
+            }
             if (apkResult.ExitCode != 0 || !apkResult.Output.Split('\n').Any(l => l.Trim() == "Success"))
             {
                 log.Write($"APK install failed: exit={apkResult.ExitCode}; output={apkResult.Output}");
