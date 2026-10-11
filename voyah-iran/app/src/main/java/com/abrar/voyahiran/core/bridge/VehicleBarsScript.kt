@@ -13,6 +13,10 @@ Java.perform(function () {
         const JString=Java.use('java.lang.String');
         const LP=Java.use('android.view.WindowManager'+String.fromCharCode(36)+'LayoutParams');
         const WM=Java.use('android.view.WindowManager');
+        // addView is declared by ViewManager, not WindowManager. Frida does not
+        // reliably expose methods inherited from another interface on this ROM.
+        const addView=Java.use('android.view.ViewManager').addView.overload('android.view.View','android.view.ViewGroup'+String.fromCharCode(36)+'LayoutParams');
+        const removeView=WM.removeViewImmediate.overload('android.view.View');
         const DM=Java.use('android.hardware.display.DisplayManager');
         const Point=Java.use('android.graphics.Point');
         const Props=Java.use('android.os.SystemProperties');
@@ -34,7 +38,7 @@ Java.perform(function () {
             b.view=null;b.original=null;b.paint=null;
         }
         function removeTop(s) {
-            if(s.view!==null) {try{s.wm.removeViewImmediate(s.view);}catch(e){} s.view=null;}
+            if(s.view!==null) {try{removeView.call(s.wm,s.view);}catch(e){console.log('VI_BAR_REMOVE_ERROR '+e);} s.view=null;}
             s.key='';
         }
         function sync(ctx,display,enabled) {
@@ -91,7 +95,7 @@ Java.perform(function () {
                 lp.gravity.value=51;lp.x.value=left;lp.y.value=0;
                 lp.setTitle(JString.__DOLLAR__new('VoyahIran.BarBackground.'+display));
                 stage='window-add';
-                s.wm.addView(v,lp);s.view=v;s.key=key;
+                addView.call(s.wm,v,lp);s.view=v;s.key=key;
                 console.log('VI_BAR_THEME display='+display+' light='+light);
             } catch(e) {if(b)restore(b);removeTop(s);console.log('VI_BAR_THEME_ERROR stage='+stage+' '+e+' stack='+e.stack);}
         }

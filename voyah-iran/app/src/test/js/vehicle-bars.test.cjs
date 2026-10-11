@@ -4,7 +4,8 @@ let theme='simple',lift=2,fail=false;const overlays=[],removed=[],logs=[];
 const drawable=color=>({getColor:()=>color,equals(other){return other===this}});
 const original=drawable(123), nav={bg:original,getBackground(){return this.bg},setBackground(v){this.bg=v},equals(v){return this===v}};
 const bar={mScreenId:{value:0},mNavigationBar:{value:{}},equals(b){return b===this}};
-const wm={addView(v,p){if(fail)throw Error('denied');overlays.push({v,p})},removeViewImmediate(v){removed.push(v)}};
+// Match interface-only Frida wrappers: no inherited addView on the handle.
+const wm={};
 const dc={getSystemService:()=>wm};const ctx={getSystemService:()=>({getDisplay:()=>({getRealSize(p){p.x.value=1920}})}),createDisplayContext:()=>dc};
 const classes={
 'com.qinggan.launcher.navigation.NavigationBarController':{show:{overload:()=>({call(){}})}},
@@ -13,7 +14,8 @@ const classes={
 'android.view.View':{$new:()=>({setBackgroundColor(c){this.color=c}})},
 'android.view.WindowManager$LayoutParams':{$new:(w,h,t,f,fmt)=>({w,h,t,f,fmt,gravity:{},x:{},y:{},setTitle(value){assert.equal(value.javaString,true,'Window title must be a Java CharSequence');this.title=value.text}})},
 'java.lang.String':{$new:text=>({javaString:true,text})},
-'OEMNavigation':{},'android.view.WindowManager':{},'android.hardware.display.DisplayManager':{},
+'android.view.ViewManager':{addView:{overload:(...args)=>{assert.deepEqual(args,['android.view.View','android.view.ViewGroup$LayoutParams']);return {call(receiver,v,p){assert.equal(receiver,wm);if(fail)throw Error('denied');overlays.push({v,p})}}}}},
+'android.view.WindowManager':{removeViewImmediate:{overload:()=>({call(receiver,v){assert.equal(receiver,wm);removed.push(v)}})}},'android.hardware.display.DisplayManager':{},
 'android.graphics.Point':{$new:()=>({x:{value:0}})},
 'android.os.SystemProperties':{get:()=>theme},'com.qinggan.utils.ScreenLiftUtils':{getScreenLiftState:()=>lift}};
 const sandbox={console:{log:s=>logs.push(s)},Java:{perform:f=>f(),use:n=>{assert.ok(classes[n],n);return classes[n]},cast:x=>x,retain:x=>x,choose(n,c){c.onMatch(bar);c.onComplete()}}};
