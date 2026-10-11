@@ -27,3 +27,25 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Start-ClusterTest.ps1 
 نمایش ناوبری نشان در وویا ایران خاموش باشد. عدد فلش ۱ کافی است. نمونه‌های همت، مدیریت، حروف اختصاصی فارسی، العربية و Hemmat 123 را با روش ۱ تست کنید. اگر فارسی خالی یا جدا/برعکس بود، روش‌های ۲ و ۳ را هم امتحان کنید. همین مراحل را با زبان عربی خودرو تکرار کنید. روش‌های ۲ و ۳ آزمایش Presentation Forms هستند؛ حروف اصلی تغییر شکل یونیکد می‌دهند و نتیجه به فونت کلاستر وابسته است.
 
 برای هر نتیجه، زبان خودرو، متن نمونه و شمارهٔ روش را همراه عکس کلاستر و لاگ ارسال کنید. در لاگ BINDER_RETURNED، codepoints همان رشتهٔ ارسال‌شده به سرویس کارخانه است. رشته‌ها روی ارتباط محلی به صورت UTF-8/Base64 جابه‌جا می‌شوند تا تنظیم زبان پردازش آن‌ها را به علامت سؤال تبدیل نکند. برنامه زبان خودرو را تغییر نمی‌دهد.
+
+
+## Map presentation probe — 0.3.0
+
+Existing arrow IDs, Persian/Arabic text tests and the 100 m TBT stream are preserved. The additional renderer is an **animated synthetic map**, not Neshan or a live GPS map. This isolates cluster layout/transport from routing-app behavior.
+
+Install the new APK and rerun `Start-ClusterTest.ps1` (the helper must also be updated). Keep the test control screen visible; pausing due to focus on another display is allowed, leaving the screen stops the session. Disable other cluster navigation senders first and test while parked.
+
+1. Tap **وضعیت و شنود** to connect and log cluster callbacks.
+2. Optionally use the original **اعمال** button to start the arrow/text/100 m stream.
+3. Test **نقشه کوچک**, then **نقشه بزرگ**, then **نقشه در ناحیه موسیقی** separately. Each closes the previous presentation request. The last option temporarily places the synthetic map in the OEM music virtual display.
+4. Cycle the cluster pages with the steering-wheel control. Record whether the cluster layout changes, which corner labels appear, the reported pixel dimensions, and whether the yellow dot/time counter move.
+5. If the image stays blank, try **اعلام آمادگی تصویر — تست دستی** once. This explicitly tests firmware that hides the surface until the presentation-ready handshake; it does not claim a frame was already visible.
+6. **توقف تصویر (حفظ فلش)** closes only the image test. The original stop button closes both tests. Every map session expires independently after 60 seconds; another arrow update does not extend it.
+
+The renderer is launched via the installed OEM `startClusterActivity` API with NAVI or MEDIA category, never a guessed display number. `requestPresentation` uses NAVI_SMALL / NAVI_FULL / MEDIA_SMALL. Automatic `notifyReadyToShow` follows the matching OEM presentation callback and a rendered frame. The manual Ready button is separately logged.
+
+Diagnostics (`VoyahClusterTest` logcat tag): `PRESENTATION_REQUEST` means a request was sent, `PRESENTATION_CALLBACK` is an OEM response, `ACTIVITY_STATE` contains OEM visibility/bounds, and `RENDER` reports the Android display ID, dimensions, density and frame timestamp. None alone proves the cluster panel displays the image; compare with a photo/video. A missing frame is reported after 10 seconds. App rendering on display 0 is refused.
+
+No persistent navigation-card settings, vehicle configuration, firmware, or raw bus packets are changed. Stop requests close the selected presentation and remove the test activity via a short-lived lease. It does not restore the exact previous cluster page or claim to reconstruct unknown OEM readiness state. If a service call fails, the failure is logged; returning to the original cluster page with the steering wheel may be necessary.
+
+This first image probe targets the `qg.cluster.service` API verified in the available H97X/H97C dumps. It does not implement H97A's separate legacy Presentation backend. Missing APIs fail explicitly; it never guesses that another physical display is the cluster. The existing root helper/TBT backend already requires this service.

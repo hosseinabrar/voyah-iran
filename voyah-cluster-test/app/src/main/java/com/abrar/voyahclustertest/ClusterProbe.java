@@ -37,32 +37,34 @@ public final class ClusterProbe {
   }catch(Throwable e){log("SERVER_ERROR "+Log.getStackTraceString(e));}
  }
  private static void runSession(BufferedReader reader,PrintWriter output) {
-  Api api=null;
+  Api api=null; MapProbe map=null;
   try {
    api=new Api();output.println("READY protocol=text-v2 root cluster connection");
    String road="Hemmat";Integer icon=null;long next=0,last=SystemClock.elapsedRealtime();
    while(SystemClock.elapsedRealtime()-last<60000) {
     String line=null;
     try{line=reader.readLine();if(line==null||line.equals("STOP"))break;}catch(java.net.SocketTimeoutException timeout){}
+    if(line!=null && line.startsWith("MAP ")){try{if(map==null)map=new MapProbe(api.remote,api.service,api.loader);map.command(line);last=SystemClock.elapsedRealtime();}catch(Exception e){output.println("MAP_ERROR "+Log.getStackTraceString(e));}line=null;}
+    if(map!=null)try{map.poll(output);}catch(Exception e){output.println("MAP_POLL_ERROR "+Log.getStackTraceString(e));map.close();map=null;}
     if(line!=null){try{String[] parts=line.split("\\t",-1);if(parts.length!=2)throw new IllegalArgumentException("Expected icon and base64 text; update helper");int value=Integer.parseInt(parts[0]);String nextRoad=TextProbe.decode(parts[1]);if(value<0||value>65535)throw new IllegalArgumentException("0..65535");icon=value;road=nextRoad;next=0;last=SystemClock.elapsedRealtime();}catch(Exception e){output.println("INVALID "+line);}}
     long now=SystemClock.elapsedRealtime();
     if(icon!=null&&now>=next){api.send(icon,road);String message="BINDER_RETURNED icon="+icon+" meters=100 road="+road+" codepoints="+TextProbe.codepoints(road)+" state=GUIDING (verify visually)";log(message);output.println(message);if(output.checkError())break;next=now+1000;}
    }
   }catch(Throwable e){String message="ERROR "+Log.getStackTraceString(e);log(message);output.println(message);}
-  finally {if(api!=null)try{api.send(null,"");output.println("STOPPED MAN_STOP");log("STOPPED MAN_STOP");}catch(Throwable e){log("CLEAR_FAILED "+Log.getStackTraceString(e));output.println("CLEAR_FAILED "+e);}}
+  finally {if(map!=null)map.close();if(api!=null)try{api.send(null,"");output.println("STOPPED MAN_STOP");log("STOPPED MAN_STOP");}catch(Throwable e){log("CLEAR_FAILED "+Log.getStackTraceString(e));output.println("CLEAR_FAILED "+e);}}
  }
  private static final class Api {
-  final Object remote;final Class<?> info,guide;final Method update;
+  final Object remote;final Class<?> info,guide,service;final ClassLoader loader;final Method update;
   Api() throws Exception {
    String path="/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk";
    if(!new File(path).isFile())throw new FileNotFoundException(path);
-   ClassLoader loader=new PathClassLoader(path,"/system/lib64:/system/lib",ClusterProbe.class.getClassLoader()) {
+   loader=new PathClassLoader(path,"/system/lib64:/system/lib",ClusterProbe.class.getClassLoader()) {
     @Override protected Class<?> loadClass(String name,boolean resolve)throws ClassNotFoundException {
      if(!name.startsWith("com.qinggan.cluster."))return super.loadClass(name,resolve);
      synchronized(this){Class<?> c=findLoadedClass(name);if(c==null)c=findClass(name);if(resolve)resolveClass(c);return c;}
     }
    };
-   Class<?> service=loader.loadClass("com.qinggan.cluster.IInstrumentClusterManagerService");
+   service=loader.loadClass("com.qinggan.cluster.IInstrumentClusterManagerService");
    IBinder binder=(IBinder)Class.forName("android.os.ServiceManager").getMethod("getService",String.class).invoke(null,"qg.cluster.service");
    if(binder==null||!service.getName().equals(binder.getInterfaceDescriptor()))throw new IllegalStateException("Cluster service missing/mismatch");
    remote=loader.loadClass("com.qinggan.cluster.IInstrumentClusterManagerService$Stub").getMethod("asInterface",IBinder.class).invoke(null,binder);
