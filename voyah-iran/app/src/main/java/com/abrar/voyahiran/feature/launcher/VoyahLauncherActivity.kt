@@ -35,15 +35,20 @@ class VoyahLauncherActivity : ComponentActivity() {
     private var ticker: Job? = null
     private var defaultPlayJob: Job? = null
     private var coverJob: Job? = null
+    private var coverKey = emptyList<String>()
     private var mediaAt=0L
     private var mediaSnapshot=LauncherMediaState()
     private val mediaObserver by lazy { LauncherMediaObserver(this,lifecycleScope) { state ->
         mediaSnapshot=state;mediaAt=android.os.SystemClock.elapsedRealtime()
-        dashboard.media=state
-        coverJob?.cancel()
-        if(state.cover==null && state.coverUri.isNotBlank()) coverJob=lifecycleScope.launch {
+        val key=listOf(state.sourcePackage,state.oemSource,state.source,state.title,state.artist,state.coverUri)
+        val sameCover=key==coverKey
+        if(!sameCover){coverJob?.cancel();coverKey=key}
+        // Playback/position callbacks must never briefly replace the decoded cover with the placeholder.
+        val retained=if(sameCover)dashboard.media.cover else null
+        dashboard.media=state.copy(cover=state.cover ?: retained)
+        if(dashboard.media.cover==null && state.coverUri.isNotBlank() && coverJob?.isActive!=true) coverJob=lifecycleScope.launch {
             val cover=withContext(Dispatchers.IO) { artwork.load(state.coverUri) }
-            dashboard.media=dashboard.media.copy(cover=cover)
+            if(coverKey==key && cover!=null)dashboard.media=dashboard.media.copy(cover=cover)
         }
     } }
     private val weather by lazy { LauncherWeather(this,lifecycleScope) { dashboard.weather=it } }

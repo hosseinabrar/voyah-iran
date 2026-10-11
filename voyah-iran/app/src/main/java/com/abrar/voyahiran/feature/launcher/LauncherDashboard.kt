@@ -18,7 +18,10 @@ class LauncherDashboard(context: Context) : View(context) {
     private val accentBottom get() = if(lightTheme) 0xff3868e5.toInt() else 0xff354b86.toInt()
     private val darkIconFilter = PorterDuffColorFilter(0xff293543.toInt(),PorterDuff.Mode.SRC_IN)
     var media = LauncherMediaState()
-        set(value) { field = value; invalidate() }
+        set(value) { if(field==value)return;field = value; invalidate() }
+    private data class MediaTextKey(val title:String,val artist:String,val radio:Boolean,val light:Boolean)
+    private var mediaTextKey:MediaTextKey?=null
+    private var mediaTextPicture:Picture?=null
     var weather = LauncherWeatherState()
         set(value) { field=value; invalidate() }
     private val moonBitmap by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_weather_moon,BitmapFactory.Options().apply {inSampleSize=4}) }
@@ -74,7 +77,7 @@ class LauncherDashboard(context: Context) : View(context) {
         c.save();c.clipRect(0f,0f,871f,660f)
         paint.shader=RadialGradient(435f,667f,435f,intArrayOf(if(lightTheme) 0x449ec5fc else 0x556278b6,Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
         c.scale(1f,.13f,435f,660f);c.drawCircle(435f,660f,450f,paint);paint.shader=null;c.restore()
-        fun text(t: String,x:Float,y:Float,size:Float,color:Int=foreground,center:Boolean=false,bold:Boolean=false,fa:Boolean=false) {
+        fun text(t: String,x:Float,y:Float,size:Float,color:Int=foreground,center:Boolean=false,bold:Boolean=false,fa:Boolean=false,target:Canvas=c) {
             paint.color=color;paint.textSize=size
             val usePersian=fa || t.any { it in '\u0600'..'\u06ff' || it in '\u0750'..'\u077f' || it in '\u08a0'..'\u08ff' || it in '\ufb50'..'\ufdff' || it in '\ufe70'..'\ufeff' }
             paint.typeface=if(usePersian) {if(bold)persianBold else persian} else {if(bold)latinBold else latin}
@@ -83,7 +86,7 @@ class LauncherDashboard(context: Context) : View(context) {
             var value=t
             while(value.length>1 && paint.measureText(value)>max) value=value.dropLast(1)
             if(value != t) value=value.dropLast(1)+"…"
-            c.drawText(value,x,y,paint)
+            target.drawText(value,x,y,paint)
         }
         if(mapMessage == LauncherMapPreview.LOADING) {
             // Large, thick comet ring: a rounded bright head and a fading navy tail.
@@ -118,10 +121,7 @@ class LauncherDashboard(context: Context) : View(context) {
         paint.color = foreground; paint.strokeWidth = 2.5f
         c.drawLine(1280f, 27f, 1288f, 35f, paint)
         c.drawLine(1288f, 35f, 1280f, 43f, paint)
-        if(media.radio) {
-            text(media.title,1101f,255f,48f,center=true,bold=true)
-            text(media.artist,1101f,310f,26f,secondary,center=true)
-        } else {
+        if(!media.radio) {
             val cover = media.cover ?: defaultCover
             val rect=RectF(941f,78f,1261f,398f)
             c.save();c.clipPath(Path().apply{addRoundRect(rect,12f,12f,Path.Direction.CW)})
@@ -132,9 +132,19 @@ class LauncherDashboard(context: Context) : View(context) {
                 paint.color=0xffd3e2f3.toInt();c.drawCircle(1101f,238f,38f,paint)
             } else c.drawBitmap(cover,null,rect,paint)
             c.restore()
-            text(media.title,1101f,437f,32f,center=true,bold=true)
-            text(media.artist,1101f,465f,23f,secondary,center=true)
         }
+        // Replay retained text drawing commands on progress/clock frames. Re-measure and
+        // record only when the labels or their presentation actually change.
+        val textKey=MediaTextKey(media.title,media.artist,media.radio,lightTheme)
+        if(mediaTextKey!=textKey) {
+            val picture=Picture()
+            val labels=picture.beginRecording(1775,660)
+            text(media.title,1101f,if(media.radio)255f else 437f,if(media.radio)48f else 32f,center=true,bold=true,target=labels)
+            text(media.artist,1101f,if(media.radio)310f else 465f,if(media.radio)26f else 23f,secondary,center=true,target=labels)
+            picture.endRecording()
+            mediaTextPicture=picture;mediaTextKey=textKey
+        }
+        mediaTextPicture?.let {c.drawPicture(it)}
         if(!media.radio) {
             paint.color=if(lightTheme) 0xffcdd9e8.toInt() else if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,494f,1291f,494f,paint)
             if(media.duration>0) { paint.color=if(lightTheme) 0xff668cce.toInt() else if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,494f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),494f,paint) }

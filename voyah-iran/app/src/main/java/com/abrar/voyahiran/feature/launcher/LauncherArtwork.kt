@@ -11,8 +11,12 @@ import java.net.URL
 class LauncherArtwork(private val context: Context) {
     private var key = ""
     private var bitmap: Bitmap? = null
+    private var attemptedAt = 0L
+    @Synchronized
     fun load(uri: String): Bitmap? {
-        if(uri == key) return bitmap
+        val now=android.os.SystemClock.elapsedRealtime()
+        if(uri == key && (bitmap!=null || now-attemptedAt<5000)) return bitmap
+        attemptedAt=now
         key=uri; bitmap=null
         if(uri.isBlank())return null
         bitmap=runCatching {
