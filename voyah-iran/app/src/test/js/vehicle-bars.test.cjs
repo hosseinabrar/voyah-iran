@@ -3,11 +3,12 @@ const source=fs.readFileSync(path.join(__dirname,'../../main/java/com/abrar/voya
 let theme='simple',lift=2,fail=false;const overlays=[],removed=[],logs=[];
 const drawable=color=>({getColor:()=>color,equals(other){return other===this}});
 const original=drawable(123), nav={bg:original,getBackground(){return this.bg},setBackground(v){this.bg=v},equals(v){return this===v}};
-const bar={mScreenId:{value:0},mNavigationBar:{value:{getClass:()=>({getName:()=> 'OEMNavigation'})}},equals(b){return b===this}};
+const bar={mScreenId:{value:0},mNavigationBar:{value:{}},equals(b){return b===this}};
 const wm={addView(v,p){if(fail)throw Error('denied');overlays.push({v,p})},removeViewImmediate(v){removed.push(v)}};
 const dc={getSystemService:()=>wm};const ctx={getSystemService:()=>({getDisplay:()=>({getRealSize(p){p.x.value=1920}})}),createDisplayContext:()=>dc};
 const classes={
 'com.qinggan.launcher.navigation.NavigationBarController':{show:{overload:()=>({call(){}})}},
+'com.qinggan.launcher.navigation.INavigationBar':{getScreenUpView:{overload:()=>({call(raw){assert.equal(raw,bar.mNavigationBar.value);return nav}})}},
 'android.graphics.drawable.ColorDrawable':{$new:drawable},
 'android.view.View':{$new:()=>({setBackgroundColor(c){this.color=c}})},
 'android.view.WindowManager$LayoutParams':{$new:(w,h,t,f,fmt)=>({w,h,t,f,fmt,gravity:{},x:{},y:{},setTitle(value){assert.equal(value.javaString,true,'Window title must be a Java CharSequence');this.title=value.text}})},
@@ -15,7 +16,7 @@ const classes={
 'OEMNavigation':{},'android.view.WindowManager':{},'android.hardware.display.DisplayManager':{},
 'android.graphics.Point':{$new:()=>({x:{value:0}})},
 'android.os.SystemProperties':{get:()=>theme},'com.qinggan.utils.ScreenLiftUtils':{getScreenLiftState:()=>lift}};
-const sandbox={console:{log:s=>logs.push(s)},Java:{perform:f=>f(),use:n=>{assert.ok(classes[n],n);return classes[n]},cast:(x,type)=>type===classes.OEMNavigation?{getScreenUpView:()=>nav}:x,retain:x=>x,choose(n,c){c.onMatch(bar);c.onComplete()}}};
+const sandbox={console:{log:s=>logs.push(s)},Java:{perform:f=>f(),use:n=>{assert.ok(classes[n],n);return classes[n]},cast:x=>x,retain:x=>x,choose(n,c){c.onMatch(bar);c.onComplete()}}};
 vm.runInNewContext(source,sandbox);const sync=sandbox.VI_SYNC_BAR_BACKGROUND;
 sync(ctx,0,true);assert.equal(nav.bg.getColor(),0xffe5ebf3|0);assert.equal(overlays.length,1);
 const lp=overlays[0].p;assert.equal(lp.x.value,145);assert.equal(lp.h,50);assert.equal(lp.w,1775);assert.equal(lp.t,2038);assert.equal(lp.f&24,24);

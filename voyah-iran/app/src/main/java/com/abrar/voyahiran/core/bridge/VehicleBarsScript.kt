@@ -6,6 +6,8 @@ internal object VehicleBarsScript {
 Java.perform(function () {
     try {
         const Controller=Java.use('com.qinggan.launcher.navigation.NavigationBarController');
+        const Navigation=Java.use('com.qinggan.launcher.navigation.INavigationBar');
+        const screenUp=Navigation.getScreenUpView.overload();
         const Color=Java.use('android.graphics.drawable.ColorDrawable');
         const View=Java.use('android.view.View');
         const JString=Java.use('java.lang.String');
@@ -52,9 +54,10 @@ Java.perform(function () {
                 if(b) {
                     stage='navigation-view';
                     const raw=b.bar.mNavigationBar.value;
-                    // Frida wrappers declared as OEM interfaces may omit concrete methods.
-                    const navigation=Java.cast(raw,Java.use(String(raw.getClass().getName())));
-                    const rawView=navigation.getScreenUpView();
+                    // Interface-typed Frida handles need not expose Object.getClass().
+                    // Invoke the declared OEM method explicitly, without runtime introspection.
+                    stage='navigation-screen-up';
+                    const rawView=raw===null?null:screenUp.call(raw);
                     const v=rawView===null?null:Java.cast(rawView,View);
                     if(v!==null) {
                         stage='navigation-background';
