@@ -128,6 +128,22 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
             }
         }
         renderMusic()
+        view.clusterMusic.isChecked = com.abrar.voyahiran.feature.media.ClusterMusicPreferences.enabled(activity)
+        view.clusterMusic.setOnClickListener {
+            val requested = view.clusterMusic.isChecked
+            com.abrar.voyahiran.feature.media.ClusterMusicPreferences.save(activity, requested)
+            view.clusterMusic.isEnabled = false
+            activity.lifecycleScope.launch {
+                try { com.abrar.voyahiran.feature.media.MediaControl.provision(activity) }
+                catch (e: Exception) {
+                    if (e is CancellationException) throw e
+                    com.abrar.voyahiran.feature.media.ClusterMusicPreferences.save(activity, !requested)
+                    view.clusterMusic.isChecked = !requested
+                    view.mediaControlsError.visibility = View.VISIBLE
+                    AppLog.error("ClusterMusic", "configuration failed", e)
+                } finally { view.clusterMusic.isEnabled = true }
+            }
+        }
         view.musicAutoPlay.setOnClickListener { saveMusicOption(true, view.musicAutoPlay.isChecked) }
         view.musicPauseOnDoor.setOnClickListener { saveMusicOption(false, view.musicPauseOnDoor.isChecked) }
         view.neshanCluster.setOnClickListener {

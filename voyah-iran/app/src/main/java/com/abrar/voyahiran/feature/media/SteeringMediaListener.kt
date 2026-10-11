@@ -25,10 +25,12 @@ class SteeringMediaListener : NotificationListenerService() {
     @Volatile private var usable = false
     private var last: MediaSession.Token? = null
     private var monitor: Job? = null
+    private val clusterMusic by lazy { ClusterMusicPublisher(this, scope) }
     private val automation by lazy { MusicAutomation(this, scope) }
     override fun onListenerConnected() {
         super.onListenerConnected()
         connected = true
+        clusterMusic.start()
         com.abrar.voyahiran.feature.subscription.SubscriptionService.start(this)
         monitor?.cancel()
         monitor = scope.launch {
@@ -89,6 +91,7 @@ class SteeringMediaListener : NotificationListenerService() {
         return route.consumed
     }
     private fun detach(destroy: Boolean) {
+        clusterMusic.stop()
         automation.close()
         connected = false; usable = false; target = null
         monitor?.cancel(); presses.reset(); handler.removeCallbacksAndMessages(null)

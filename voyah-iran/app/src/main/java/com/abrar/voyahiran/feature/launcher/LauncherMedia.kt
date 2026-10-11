@@ -31,7 +31,7 @@ object LauncherMedia {
         }
         return icon
     }
-    fun read(context: Context, sessions: List<MediaController> = runCatching {
+    @Synchronized fun read(context: Context, sessions: List<MediaController> = runCatching {
         context.getSystemService(MediaSessionManager::class.java).getActiveSessions(MediaControl.component(context))
     }.getOrDefault(emptyList())): LauncherMediaState {
         val oem = runCatching { JSONObject(Settings.Global.getString(context.contentResolver, "voyah_iran_launcher_media")) }.getOrNull()

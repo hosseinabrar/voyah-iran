@@ -21,7 +21,7 @@ object MediaControl {
     fun accessNeeded(context: Context): Boolean {
         val prefs = com.abrar.voyahiran.feature.navigation.NavigationPreferences(context)
         val app = context.applicationContext as com.abrar.voyahiran.VoyahIranApplication
-        return app.subscriptions.vipAllowed && (com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(context) ||
+        return (app.subscriptions.allowed && ClusterMusicPreferences.enabled(context)) || app.subscriptions.vipAllowed && (com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(context) ||
             enabled(context) || prefs.musicAutoPlay || prefs.musicPauseOnDoor)
     }
     suspend fun provision(context: Context) {

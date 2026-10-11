@@ -60,6 +60,7 @@ object BridgeServer {
                 // has a separate lock and cannot change a task's display or global focus.
                 else if (command == listOf("steering-back", "center")) LegacySteeringBack.press()
                 else if(command.first()=="launcher-vehicle" && command[1] in listOf("read","watch")) LauncherVehicleBridge.execute(command[1],command.getOrElse(2){""})
+                else if (command.first() == "cluster-music") ClusterMusicBridge.command(command[1])
                 else if (!execution.tryLock()) CommandResult(75, "Bridge busy; no command executed")
                 else try {
                     AppLog.info("BridgeServer", "request=$request operation=${command.first()} accepted")
