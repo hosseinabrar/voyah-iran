@@ -2,6 +2,14 @@ package com.abrar.voyahiran.feature.media
 
 /** OEM codes from Qinggan AndroidSink, not Android KeyEvent codes. */
 object MediaRoutingPolicy {
+    // These sessions expose factory playback but OEM hardware keys must follow
+    // the native route; accepting a media-button Binder call does not mean it acted.
+    fun factorySource(pkg:String) = pkg in setOf(
+        "com.android.bluetooth", "com.qinggan.media", "com.qinggan.app.music",
+        "com.qinggan.app.radio", "com.pateo.rdsapp", "com.qinggan.app.dab",
+        "com.qinggan.usbvideo", "com.tencent.wecarflow", "com.qinggan.app.netease",
+        "com.reachauto.clouddesk"
+    )
     val keys = listOf(3, 4, 6, 8, 9)
     fun androidKey(oem: Int): Int? = when (oem) {
         3 -> 87; 4 -> 88; 6 -> 85; 8 -> 126; 9 -> 127; else -> null

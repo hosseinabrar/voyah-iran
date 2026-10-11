@@ -4,6 +4,18 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class MediaRoutingPolicyTest {
+    @Test fun factoryPlaybackLeavesWholePressToOemEvenWithPausedDefaultApp() {
+        for(factory in listOf("com.android.bluetooth","com.qinggan.media","com.qinggan.app.radio","com.pateo.rdsapp","com.qinggan.app.dab")) {
+            val sessions=listOf(MediaRoutingPolicy.Session("com.apple.android.music",false,true),MediaRoutingPolicy.Session(factory,true,false))
+            val selected=MediaRoutingPolicy.choose(sessions,"com.apple.android.music")
+            assertEquals(factory,selected)
+            val target=selected?.takeUnless(MediaRoutingPolicy::factorySource)
+            val press=MediaPressPolicy<String>()
+            for(action in listOf(4096,8192,65536))assertFalse(press.route(6,action,target,-1).consumed)
+            assertEquals(factory,MediaRoutingPolicy.choose(sessions.map {it.copy(playing=false,resumable=true)},selected))
+        }
+        assertFalse(MediaRoutingPolicy.factorySource("com.apple.android.music"))
+    }
     @Test fun recordedSteeringEventsWithoutDisplayReachAppleMusicOnce() {
         val policy=MediaPressPolicy<String>()
         // Exact key/action/display sequence from the tester's 2026-09-20 log.

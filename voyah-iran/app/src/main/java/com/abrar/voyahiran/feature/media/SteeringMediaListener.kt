@@ -48,9 +48,12 @@ class SteeringMediaListener : NotificationListenerService() {
                                 state == PlaybackState.STATE_PAUSED || state == PlaybackState.STATE_STOPPED)
                         }
                         val chosen = MediaRoutingPolicy.choose(choices, last)
-                        target = sessions.firstOrNull { it.sessionToken == chosen }
+                        val selected = sessions.firstOrNull { it.sessionToken == chosen }
+                        // Select among ALL sources first, then leave factory sources to OEM.
+                        // Filtering them before selection would incorrectly resume a paused user app.
+                        target = selected?.takeUnless { MediaRoutingPolicy.factorySource(it.packageName) }
                         if (chosen != null) last = chosen
-                        AppLog.changed("SteeringMedia", "target=${target?.packageName} state=${target?.playbackState?.state}")
+                        AppLog.changed("SteeringMedia", "target=${target?.packageName} selected=${selected?.packageName} native=${selected!=null && target==null} state=${selected?.playbackState?.state}")
                         app.steeringKeys.setMediaListener(::onKey)
                     } else {
                         target = null
