@@ -23,7 +23,7 @@ for(const legacy of [false,true]) {
  'android.app.ActivityOptions':{makeBasic:()=>({setLaunchDisplayId(){},toBundle:()=>({})})}
  };
  if(legacy)classes['com.qinggan.mainlauncher.navigation.NavigationBar']={onClick:{overload:()=>legacyClick},updateSelectedApp:{overloads:[]}};
- const sandbox={Java:{perform:f=>f(),scheduleOnMainThread:f=>f(),use:n=>{if(!classes[n])throw Error(n);return classes[n]},cast:v=>v,retain:v=>v,registerClass:d=>({$new:()=>({onChange:d.methods.onChange[0].implementation})})},Date:{now:()=>now},console};
+ const sandbox={Java:{perform:f=>f(),scheduleOnMainThread:f=>f(),use:n=>{if(!classes[n])throw Error(n);return classes[n]},cast:v=>v,retain:v=>v,registerClass:d=>({$new:(handler)=>{const init=d.methods.$init?.find(x=>x.argumentTypes.join(',')==='android.os.Handler');if(!init)throw Error('ContentObserver requires an explicit Handler constructor');let called=false;const obj={$super:{$init(h){assert.equal(h,handler);called=true}},onChange:d.methods.onChange[0].implementation};init.implementation.call(obj,handler);assert.equal(called,true,'super constructor called');return obj}})},Date:{now:()=>now},console};
  vm.runInNewContext(source,sandbox);
  assert.equal(sandbox.VI_OPEN_DRAWER(ctx),true);assert.equal(opens,1);
  if(legacy) {

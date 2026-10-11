@@ -52,17 +52,20 @@ Java.perform(function () {
         const Observer = Java.registerClass({
             name: 'com.abrar.voyahiran.bridge.LauncherReadyObserver',
             superClass: Java.use('android.database.ContentObserver'),
-            methods: { onChange: [{returnType:'void', argumentTypes:['boolean'], implementation:function () {checkFactoryHome('settings');}}] }
+            methods: {
+                ${'$'}init: [{returnType:'void', argumentTypes:['android.os.Handler'], implementation:function (handler) {this.${'$'}super.${'$'}init(handler);}}],
+                onChange: [{returnType:'void', argumentTypes:['boolean'], implementation:function () {checkFactoryHome('settings');}}] }
         });
         const ctx = Java.use('android.app.ActivityThread').currentApplication();
         const handler = Java.use('android.os.Handler').${'$'}new(Java.use('android.os.Looper').getMainLooper());
-        const observer = Observer.${'$'}new(handler);
-        ['voyah_iran_launcher_lease', 'voyah_iran_launcher_home'].forEach(function(key) {
+        const observer = Java.retain(Observer.${'$'}new(handler));
+        ['voyah_iran_launcher_lease', 'voyah_iran_launcher_vip_lease', 'voyah_iran_launcher_home'].forEach(function(key) {
             ctx.getContentResolver().registerContentObserver(Global.getUriFor(key), false, observer);
         });
-        checkFactoryHome('attach');
         console.log('VI_HOME_AUTO_READY');
     } catch(e) { console.log('VI_HOME_AUTO_UNAVAILABLE ' + e); }
+    // An observer failure must not suppress the initial readiness check.
+    checkFactoryHome('attach');
     // Hook the actual OEM listener; framework performClick can be bypassed by ART compiled callers.
     try {
         const Bar = Java.use('com.qinggan.launcher.navigation.NavigationBarMain');

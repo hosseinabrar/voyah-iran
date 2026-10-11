@@ -1,10 +1,11 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert/strict');
 const src=fs.readFileSync(path.join(__dirname,'../../main/java/com/abrar/voyahiran/core/bridge/LauncherHomeScript.kt'),'utf8').split('"""')[1].replaceAll("${'$'}",'$');
 let page=0,now=10000,opens=0,top='com.qinggan.app.launcher/com.qinggan.app.launcher.activity.MainActivity',supported=true;
-const queued=[],observers=[];const method=()=>({call(){},implementation:null});const click=method(),selected=method();
-const ctx={getContentResolver:()=>({registerContentObserver(u,b,o){observers.push(o)}}),startActivity(){opens++}};
+let vipReady=true;
+const queued=[],observers=[],observedKeys=[];const method=()=>({call(){},implementation:null});const click=method(),selected=method();
+const ctx={getContentResolver:()=>({registerContentObserver(u,b,o){observers.push(o);observedKeys.push(u)}}),startActivity(){opens++}};
 const classes={
-'android.provider.Settings$Global':{getString:()=>String(now+30000),getInt:()=>1,getUriFor:k=>k},
+'android.provider.Settings$Global':{getString:(r,k)=>String(k==='voyah_iran_launcher_vip_lease'&&!vipReady?0:now+30000),getInt:()=>1,getUriFor:k=>k},
 'android.content.Intent':{$new:()=>({setClassName(){},addFlags(){}})},
 'android.app.ActivityOptions':{makeBasic:()=>({setLaunchDisplayId(){},toBundle(){return {}}})},
 'android.app.ActivityThread':{currentApplication:()=>ctx},
@@ -13,7 +14,7 @@ const classes={
 'android.database.ContentObserver':{},'android.os.Handler':{$new:()=>({})},'android.os.Looper':{getMainLooper:()=>({})},
 'com.qinggan.launcher.navigation.NavigationBarMain':{onClick:{overload:()=>click},updateSelectedApp:{overload:()=>selected}}
 };
-vm.runInNewContext(src,{Java:{perform:f=>f(),use:n=>{if(!classes[n])throw Error(n);return classes[n]},scheduleOnMainThread:f=>queued.push(f),registerClass:d=>({$new:()=>({onChange:d.methods.onChange[0].implementation})})},Date:{now:()=>now},console:{log(){}},setInterval(){},setTimeout(){}});
+vm.runInNewContext(src,{Java:{perform:f=>f(),retain:v=>v,use:n=>{if(!classes[n])throw Error(n);return classes[n]},scheduleOnMainThread:f=>queued.push(f),registerClass:d=>({$new:(handler)=>{const init=d.methods.$init?.find(x=>x.argumentTypes.join(',')==='android.os.Handler');if(!init)throw Error('ContentObserver requires an explicit Handler constructor');let called=false;const obj={$super:{$init(h){assert.equal(h,handler);called=true}},onChange:d.methods.onChange[0].implementation};init.implementation.call(obj,handler);assert.equal(called,true,'super constructor called');return obj}})},Date:{now:()=>now},console:{log(){}},setInterval(){},setTimeout(){}});
 const flush=()=>{while(queued.length)queued.shift()()};flush();assert.equal(opens,1,'boot Home opens custom launcher');
 const bar={mScreenId:{value:0},getContext:()=>ctx};
 now+=3000;selected.implementation.call(bar,'com.qinggan.app.launcher','.activity.MainActivity');
@@ -25,3 +26,7 @@ page=0;now+=3000;observers[0].onChange();flush();assert.equal(opens,3,'actual OE
 top='third.party/Activity';now+=3000;observers[0].onChange();flush();assert.equal(opens,3);
 top='com.qinggan.app.launcher/.activity.MainActivity';supported=false;now+=3000;observers[0].onChange();flush();assert.equal(opens,3,'unknown OEM page state does not steal foreground');
 console.log('Home/drawer race, repeated lease updates, boot, explicit Home and unknown-layout checks passed');
+
+supported=true;page=0;vipReady=false;now+=3000;observers[0].onChange();flush();assert.equal(opens,3,'boot waits for VIP readiness');
+assert.ok(observedKeys.includes('voyah_iran_launcher_vip_lease'),'VIP readiness is observed independently');
+vipReady=true;observers[observedKeys.indexOf('voyah_iran_launcher_vip_lease')].onChange();flush();assert.equal(opens,4,'late VIP readiness opens existing OEM Home without a tap');

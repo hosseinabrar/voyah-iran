@@ -89,7 +89,7 @@ Java.perform(function () {
         }
         const Observer=Java.registerClass({name:'com.abrar.voyahiran.bridge.DrawerRequestObserver',
             superClass:Java.use('android.database.ContentObserver'),
-            methods:{onChange:[{returnType:'void',argumentTypes:['boolean'],implementation:function(){request();}}]}});
+            methods:{__DOLLAR__init:[{returnType:'void',argumentTypes:['android.os.Handler'],implementation:function(handler){this.__DOLLAR__super.__DOLLAR__init(handler);}}],onChange:[{returnType:'void',argumentTypes:['boolean'],implementation:function(){request();}}]}});
         const observer=Java.retain(Observer.__DOLLAR__new(Java.use('android.os.Handler').__DOLLAR__new(Java.use('android.os.Looper').getMainLooper())));
         ctx.getContentResolver().registerContentObserver(Global.getUriFor('voyah_iran_drawer_request'),false,observer);
         globalThis.VI_OPEN_DRAWER=function (context) {

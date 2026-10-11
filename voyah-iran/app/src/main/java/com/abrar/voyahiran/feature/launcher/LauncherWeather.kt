@@ -1,6 +1,7 @@
 package com.abrar.voyahiran.feature.launcher
 
 import android.annotation.SuppressLint
+import com.abrar.voyahiran.core.logging.AppLog
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
@@ -27,20 +28,27 @@ internal class LauncherWeather(private val context: Context, private val scope: 
     private var attempted = -300_000L
     private var startupPending = true
     private var failed = false
+    private var lastStatus = ""
     private var cached = runCatching { JSONObject(prefs.getString("response", "")!!) }.getOrNull()
 
     @SuppressLint("MissingPermission")
     fun start() {
         stop()
-        for (provider in listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER)) {
+        AppLog.info("LauncherWeather", "start cachedSaved=${cached?.optLong("saved") ?: 0}")
+        for (provider in listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER, LocationManager.PASSIVE_PROVIDER)) {
             runCatching {
+                if(provider !in manager.allProviders) return@runCatching
                 manager.getLastKnownLocation(provider)?.let(::onLocationChanged)
-                if (manager.isProviderEnabled(provider)) manager.requestLocationUpdates(provider, 60_000L, 0f, this, Looper.getMainLooper())
-            }
+                // Keep the subscription when GPS is disabled during boot; delivery resumes when enabled.
+                manager.requestLocationUpdates(provider, 60_000L, 0f, this, Looper.getMainLooper())
+                AppLog.info("LauncherWeather", "subscribed provider=$provider enabled=${manager.isProviderEnabled(provider)}")
+            }.onFailure { AppLog.info("LauncherWeather", "location subscription failed provider=$provider ${it.javaClass.simpleName}: ${it.message}") }
         }
         job = scope.launch {
             while (isActive) {
                 val fix = location?.takeIf { (SystemClock.elapsedRealtimeNanos() - it.elapsedRealtimeNanos) in 0..3_600_000_000_000L }
+                val status=if(fix!=null) "location ready provider=${fix.provider}" else if(location==null) "waiting for location; no forecast request" else "waiting for fresh location; no forecast request"
+                if(status!=lastStatus){lastStatus=status;AppLog.info("LauncherWeather",status)}
                 val now = System.currentTimeMillis()
                 val old = cached
                 // Publish the saved response before waiting for GPS/network, including on cold start.
@@ -50,12 +58,20 @@ internal class LauncherWeather(private val context: Context, private val scope: 
                 if (fix != null && (urgent || now-(old?.optLong("saved") ?: 0) >= REFRESH_INTERVAL_MS) &&
                     SystemClock.elapsedRealtime()-attempted >= retryInterval(urgent)) {
                     attempted = SystemClock.elapsedRealtime()
-                    val result = withContext(Dispatchers.IO) { runCatching { fetch(fix) }.getOrNull() }
+                    AppLog.info("LauncherWeather", "fetch start urgent=$urgent")
+                    val result = withContext(Dispatchers.IO) {
+                        try { fetch(fix) } catch(e: Exception) {
+                            if(e is CancellationException) throw e
+                            AppLog.info("LauncherWeather", "fetch failed ${e.javaClass.simpleName}: ${e.message}; retry in 10s")
+                            null
+                        }
+                    }
                     ensureActive()
                     // Retry delays start after completion, so slow failures never produce a tight loop.
                     attempted = SystemClock.elapsedRealtime()
                     failed = result == null
                     if (result != null) {
+                        AppLog.info("LauncherWeather", "fetch success saved=${result.optLong("saved")} city=${result.optString("city")}")
                         cached=result
                         startupPending=false
                         prefs.edit().putString("response", result.toString()).apply()
@@ -71,8 +87,8 @@ internal class LauncherWeather(private val context: Context, private val scope: 
         if(value.latitude.isFinite() && value.longitude.isFinite() && value.latitude in -90.0..90.0 && value.longitude in -180.0..180.0 &&
             (location == null || value.elapsedRealtimeNanos > location!!.elapsedRealtimeNanos)) location=value
     }
-    override fun onProviderEnabled(provider: String) {}
-    override fun onProviderDisabled(provider: String) {}
+    override fun onProviderEnabled(provider: String) { AppLog.info("LauncherWeather", "provider enabled=$provider") }
+    override fun onProviderDisabled(provider: String) { AppLog.info("LauncherWeather", "provider disabled=$provider") }
     @Deprecated("Legacy Android location callback")
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
 
@@ -83,7 +99,7 @@ internal class LauncherWeather(private val context: Context, private val scope: 
         val connection=URL(url).openConnection() as HttpURLConnection
         val data=try {
             connection.connectTimeout=8000; connection.readTimeout=8000
-            check(connection.responseCode == 200)
+            check(connection.responseCode == 200) { "Open-Meteo HTTP ${connection.responseCode}" }
             val raw=connection.inputStream.use { input ->
                 val output=java.io.ByteArrayOutputStream()
                 val buffer=ByteArray(4096)
