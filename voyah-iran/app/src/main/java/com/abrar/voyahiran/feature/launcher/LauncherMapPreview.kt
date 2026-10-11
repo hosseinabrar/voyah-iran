@@ -45,7 +45,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     private var handoff:Job?=null
     var fullscreen = false
         private set
-    fun packageName(value: String) { packageName = value }
+    fun packageName(value: String) { packageName = value; currentPreview=java.lang.ref.WeakReference(this) }
     override fun surfaceCreated(h:SurfaceHolder) {
         holder=h
         surfaceWidth=view.width;surfaceHeight=view.height
@@ -248,12 +248,26 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         // Losing a window surface is not loss of the map task. Preserve card state.
     }
     fun close() {
+        if(currentPreview?.get() === this) currentPreview=null
         context.contentResolver.unregisterContentObserver(transferObserver)
         closed=true;hostStopped()
         view.holder.removeCallback(this)
         holder=null
     }
     companion object {
+        private var currentPreview: java.lang.ref.WeakReference<LauncherMapPreview>? = null
+        /** Drawer launches of the hosted map must use the same handoff as tapping its card. */
+        internal fun openHostedMap(pkg: String): Boolean {
+            val preview=currentPreview?.get() ?: return false
+            if(preview.closed || pkg.isBlank() || preview.packageName!=pkg) return false
+            if(!preview.busy) {
+                com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "drawer uses card transfer pkg=$pkg")
+                preview.open { preview.stopMonitoring() }
+            }
+            // Do not issue a competing normal startActivity while an existing handoff is busy.
+            return true
+        }
+
         internal const val LOADING = "در حال نمایش نقشه…"
         internal fun isVisibleHere(output: String, displayId: Int): Boolean =
             Regex("(?:^|\\s)MAP_DISPLAY=$displayId MAP_VISIBLE=1(?:$|\\s)").containsMatchIn(output)

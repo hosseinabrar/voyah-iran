@@ -400,7 +400,9 @@ class LauncherAppsActivity : ComponentActivity() {
         lifecycleScope.launch {
             try {
                 if(entry.component==null)request("open",entry.id)
-                else {
+                else if(LauncherMapPreview.openHostedMap(entry.component.packageName)) {
+                    // The retained HOME preview owns masking, task transfer and return-to-card state.
+                } else {
                     val intent=Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(entry.component)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
                     if(entry.component.packageName==packageName)intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
