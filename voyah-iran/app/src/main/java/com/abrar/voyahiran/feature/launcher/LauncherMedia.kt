@@ -53,6 +53,7 @@ object LauncherMedia {
                 m?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART) ?: m?.getBitmap(MediaMetadata.METADATA_KEY_ART) ?: m?.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON),
                 true, ((state?.position ?: 0) + elapsed).coerceAtLeast(0).let { if(duration > 0) it.coerceAtMost(duration) else it }, duration, active,
                 sourcePackage = active.packageName, sourceIcon = appIcon(context, active.packageName),
+                oemSource = if(active.packageName in setOf("com.qinggan.media", "com.qinggan.app.music", "com.qinggan.app.radio") && currentOemSource!="NO") currentOemSource else "",
                 coverUri = m?.getString(MediaMetadata.METADATA_KEY_ALBUM_ART_URI) ?: m?.getString(MediaMetadata.METADATA_KEY_ART_URI) ?: m?.getString(MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI).orEmpty()))
         }
         if (oem != null && oemActive) {

@@ -12,16 +12,35 @@ internal object LauncherSourceLaunch {
             DefaultAppLaunch.execute(context, "OPEN_DEFAULT_MUSIC", null)
             return
         }
-        val intent = sourceIntent(state) ?: context.packageManager.getLaunchIntentForPackage(state.sourcePackage)
+        val oemPackage=sourcePackage(state.oemSource)
+        val intent = sourceIntent(state) ?: context.packageManager.getLaunchIntentForPackage(oemPackage ?: state.sourcePackage)?.apply {
+            if(oemPackage!=null)putExtra("ASGARD_EXT_DATA",Bundle().apply {
+                putBoolean("AUTO_PLAY",false)
+                if(state.oemSource in setOf("RDS","DAB"))putInt("PAGE_INDEX",-1)
+            })
+        }
             ?: error("Music source has no launchable activity")
         check(context.packageManager.resolveActivity(intent, 0) != null) { "Music source is not installed" }
         context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             ActivityOptions.makeBasic().apply { launchDisplayId = 0 }.toBundle())
     }
 
+    internal fun sourcePackage(source:String):String? = when(source) {
+        "WECAR_FLOW" -> "com.tencent.wecarflow"
+        "RDS" -> "com.pateo.rdsapp"
+        "DAB" -> "com.qinggan.app.dab"
+        "WANGYI_CLOUD" -> "com.qinggan.app.netease"
+        "CLOUD_DESK" -> "com.reachauto.clouddesk"
+        "LOCAL_VIDEO" -> "com.qinggan.usbvideo"
+        else -> null
+    }
+
     // Same explicit page bundle used by OEM MediaJumpUtils; opening does not start playback.
     internal fun sourceIntent(state: LauncherMediaState): Intent? {
-        val source = state.oemSource
+        // Android's Bluetooth media session is a service, not a launchable player.
+        // Both Bluetooth session variants belong to the OEM music page.
+        val source = if(state.sourcePackage=="com.android.bluetooth" || state.oemSource=="SYSTEM_BT_MUSIC")
+            "BT_MUSIC" else state.oemSource
         val component = when(source) {
             "LOCAL_RADIO", "XMLA_MUSIC", "RADIO_YUNTING" -> "com.qinggan.app.radio" to "com.qinggan.app.radio.view.RadioMainActivity"
             "BT_MUSIC", "USB_MUSIC", "KW_MUSIC" -> "com.qinggan.app.music" to "com.qinggan.app.music.activity.MusicActivity"
