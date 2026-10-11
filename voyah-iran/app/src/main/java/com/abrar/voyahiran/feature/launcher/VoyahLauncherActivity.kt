@@ -83,7 +83,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         dashboard.onMap = { preview?.open { preview?.stopMonitoring() } }
         dashboard.onShowMap = { preview?.showInCard() }
         dashboard.onMedia = media@{ button ->
-            if (!dashboard.media.playing && dashboard.media.controller == null) {
+            if (!dashboard.media.playing && (dashboard.media.controller == null || dashboard.media.title=="no music")) {
                 if(defaultPlayJob?.isActive!=true) defaultPlayJob=lifecycleScope.launch {
                     try { com.abrar.voyahiran.feature.media.RahaMediaControl.playDefault(this@VoyahLauncherActivity) }
                     catch(e:CancellationException) { throw e }

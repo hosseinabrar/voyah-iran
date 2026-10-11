@@ -2,6 +2,7 @@ package com.abrar.voyahiran.feature.media
 
 /** OEM codes from Qinggan AndroidSink, not Android KeyEvent codes. */
 object MediaRoutingPolicy {
+    fun resumable(paused:Boolean, factory:Boolean, wasLast:Boolean) = paused && (!factory || wasLast)
     // These sessions expose factory playback but OEM hardware keys must follow
     // the native route; accepting a media-button Binder call does not mean it acted.
     fun factorySource(pkg:String) = pkg in setOf(

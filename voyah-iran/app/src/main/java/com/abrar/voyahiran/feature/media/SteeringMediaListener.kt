@@ -19,7 +19,10 @@ class SteeringMediaListener : NotificationListenerService() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val handler = Handler(Looper.getMainLooper())
     private val app get() = application as VoyahIranApplication
-    private val presses = MediaPressPolicy<MediaController>()
+    private data class Destination(val controller:MediaController? = null)
+    private val presses = MediaPressPolicy<Destination>()
+    @Volatile private var defaultNeeded = false
+    private var defaultPlay:Job?=null
     @Volatile private var target: MediaController? = null
     @Volatile private var connected = false
     @Volatile private var usable = false
@@ -45,13 +48,15 @@ class SteeringMediaListener : NotificationListenerService() {
                             val state = c.playbackState?.state
                             MediaRoutingPolicy.Session(c.sessionToken,
                                 state in listOf(PlaybackState.STATE_PLAYING, PlaybackState.STATE_BUFFERING, PlaybackState.STATE_CONNECTING),
-                                state == PlaybackState.STATE_PAUSED || state == PlaybackState.STATE_STOPPED)
+                                MediaRoutingPolicy.resumable(state == PlaybackState.STATE_PAUSED,
+                                    MediaRoutingPolicy.factorySource(c.packageName),c.sessionToken==last))
                         }
                         val chosen = MediaRoutingPolicy.choose(choices, last)
                         val selected = sessions.firstOrNull { it.sessionToken == chosen }
                         // Select among ALL sources first, then leave factory sources to OEM.
                         // Filtering them before selection would incorrectly resume a paused user app.
                         target = selected?.takeUnless { MediaRoutingPolicy.factorySource(it.packageName) }
+                        defaultNeeded = selected==null
                         if (chosen != null) last = chosen
                         AppLog.changed("SteeringMedia", "target=${target?.packageName} selected=${selected?.packageName} native=${selected!=null && target==null} state=${selected?.playbackState?.state}")
                         app.steeringKeys.setMediaListener(::onKey)
@@ -77,12 +82,22 @@ class SteeringMediaListener : NotificationListenerService() {
             AppLog.info("SteeringMedia", "ignored key=$key action=$action display=$display connected=$connected usable=$usable enabled=${MediaControl.interceptEnabled(this)} subscription=${app.subscriptions.vipAllowed}")
             return false
         }
-        val route = presses.route(key, action, target, display)
-        AppLog.info("SteeringMedia", "key=$key action=$action display=$display consumed=${route.consumed} target=${route.target?.packageName}")
-        route.target?.let { controller ->
+        val destination=target?.let {Destination(it)} ?: if(defaultNeeded && key!=9)Destination() else null
+        val route = presses.route(key, action, destination, display)
+        AppLog.info("SteeringMedia", "key=$key action=$action display=$display consumed=${route.consumed} target=${route.target?.controller?.packageName} default=${route.target!=null && route.target.controller==null}")
+        route.target?.let { destination ->
             // Never call another Binder synchronously while replying to the OEM key engine.
             handler.post {
                 if (!connected || !usable || !MediaControl.interceptEnabled(this) || !app.subscriptions.vipAllowed) return@post
+                val controller=destination.controller
+                if(controller==null) {
+                    if(defaultPlay?.isActive!=true)defaultPlay=scope.launch {
+                        try {RahaMediaControl.playDefault(this@SteeringMediaListener)}
+                        catch(e:CancellationException){throw e}
+                        catch(e:Exception){AppLog.error("SteeringMedia","default play failed",e)}
+                    }
+                    return@post
+                }
                 try {
                     val now = SystemClock.uptimeMillis()
                     val down = controller.dispatchMediaButtonEvent(KeyEvent(now, now, KeyEvent.ACTION_DOWN, code, 0))
@@ -97,6 +112,7 @@ class SteeringMediaListener : NotificationListenerService() {
         clusterMusic.stop()
         automation.close()
         connected = false; usable = false; target = null
+        defaultNeeded=false;defaultPlay?.cancel()
         monitor?.cancel(); presses.reset(); handler.removeCallbacksAndMessages(null)
         scope.launch {
             try { app.steeringKeys.setMediaListener(null) }

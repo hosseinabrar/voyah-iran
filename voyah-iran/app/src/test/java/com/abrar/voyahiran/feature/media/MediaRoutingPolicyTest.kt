@@ -4,6 +4,19 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class MediaRoutingPolicyTest {
+    @Test fun staleFactorySessionDoesNotPreventDefaultStartup() {
+        assertFalse(MediaRoutingPolicy.resumable(paused=true,factory=true,wasLast=false))
+        assertFalse(MediaRoutingPolicy.resumable(paused=false,factory=true,wasLast=true))
+        assertTrue(MediaRoutingPolicy.resumable(paused=true,factory=true,wasLast=true))
+        assertTrue(MediaRoutingPolicy.resumable(paused=true,factory=false,wasLast=false))
+        val press=MediaPressPolicy<String>()
+        for(key in listOf(3,4,6,8)) {
+            assertTrue(press.route(key,4096,"default",-1).consumed)
+            assertEquals("default",press.route(key,8192,"other",-1).target)
+            assertNull(press.route(key,8192,"other",-1).target)
+            assertNull(press.route(key,65536,"other",-1).target)
+        }
+    }
     @Test fun factoryPlaybackLeavesWholePressToOemEvenWithPausedDefaultApp() {
         for(factory in listOf("com.android.bluetooth","com.qinggan.media","com.qinggan.app.radio","com.pateo.rdsapp","com.qinggan.app.dab")) {
             val sessions=listOf(MediaRoutingPolicy.Session("com.apple.android.music",false,true),MediaRoutingPolicy.Session(factory,true,false))
