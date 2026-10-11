@@ -35,6 +35,16 @@ class LauncherAppsActivity : ComponentActivity() {
     private var light = false
     private var entries = emptyList<Entry>()
     private var refreshJob: Job? = null
+    private var catalogDirty = true
+    private var resumed = false
+    private val packageChanges = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if(intent?.action==Intent.ACTION_PACKAGE_REMOVED && intent.getBooleanExtra(Intent.EXTRA_REPLACING,false))return
+            catalogDirty=true
+            AppLog.info("LauncherApps","catalog invalidated action=${intent?.action}")
+            if(resumed && allowed())refresh()
+        }
+    }
     private var guard: Job? = null
     private var opening = false
     private var actions: LauncherAppActions? = null
@@ -60,7 +70,8 @@ class LauncherAppsActivity : ComponentActivity() {
     private val reply = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if(intent?.action=="theme_loaded") {
-                if(hasWindowFocus() && allowed()){applyTheme();refresh()}
+                catalogDirty=true
+                if(resumed && allowed()){applyTheme();refresh()}
                 return
             }
             val nonce = intent?.getStringExtra("nonce") ?: return
@@ -97,6 +108,13 @@ class LauncherAppsActivity : ComponentActivity() {
         @Suppress("DEPRECATION")
         if(android.os.Build.VERSION.SDK_INT>=33) registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT").apply {addAction("theme_loaded")},Context.RECEIVER_EXPORTED)
         else registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT").apply {addAction("theme_loaded")})
+        val packageFilter=IntentFilter().apply {
+            addAction(Intent.ACTION_PACKAGE_ADDED);addAction(Intent.ACTION_PACKAGE_REMOVED)
+            addAction(Intent.ACTION_PACKAGE_CHANGED);addAction(Intent.ACTION_PACKAGE_REPLACED)
+            addDataScheme("package")
+        }
+        if(android.os.Build.VERSION.SDK_INT>=33) registerReceiver(packageChanges,packageFilter,Context.RECEIVER_EXPORTED)
+        else registerReceiver(packageChanges,packageFilter)
         pager.onPage={ updateDots() }
         onBackPressedDispatcher.addCallback(this, object:OnBackPressedCallback(true) {
             override fun handleOnBackPressed() { if(editing)finishEditing() else if(pager.page>0)pager.show(pager.page-1) }
@@ -116,16 +134,19 @@ class LauncherAppsActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         if(!allowed()){finish();return}
-        applyTheme();refresh()
+        resumed=true
+        if(light!=LauncherTheme.isLight()){catalogDirty=true;applyTheme()}
+        if(catalogDirty && refreshJob?.isActive!=true)refresh()
+        else AppLog.info("LauncherApps","reuse cached layout total=${entries.size} page=${pager.page}")
         guard=lifecycleScope.launch {
             while(isActive) {
                 delay(1000)
                 if(!allowed()){finish();break}
-                if(draggedId==null && light!=LauncherTheme.isLight()){applyTheme();render();refresh()}
+                if(draggedId==null && light!=LauncherTheme.isLight()){catalogDirty=true;applyTheme();refresh()}
             }
         }
     }
-    override fun onPause(){finishEditing();guard?.cancel();guard=null;super.onPause()}
+    override fun onPause(){resumed=false;finishEditing();guard?.cancel();guard=null;super.onPause()}
     private fun applyTheme() {
         actions?.dismiss()
         light=LauncherTheme.isLight()
@@ -152,6 +173,7 @@ class LauncherAppsActivity : ComponentActivity() {
     }
     private fun refresh() {
         refreshJob?.cancel()
+        catalogDirty=false
         refreshJob=lifecycleScope.launch {
             try {
                 val catalog=request("catalog","all")
@@ -173,12 +195,13 @@ class LauncherAppsActivity : ComponentActivity() {
                         .sortedBy { it.label.lowercase() }
                     rows+installed
                 }
-                if(!allowed())return@launch
+                if(!allowed()){catalogDirty=true;return@launch}
                 if(draggedId!=null)deferredEntries=fresh else { entries=ordered(fresh);render() }
                 status.visibility=View.GONE
                 AppLog.info("LauncherApps","loaded total=${entries.size} pages=${LauncherAppsPolicy.pages(entries.size)} light=$light")
             } catch(e:CancellationException){throw e}
             catch(e:Exception){
+                catalogDirty=true
                 AppLog.error("LauncherApps","catalog failed",e)
                 if(entries.isEmpty()){status.text="دریافت برنامه‌ها انجام نشد؛ برای تلاش مجدد لمس کنید";status.visibility=View.VISIBLE}
             }
@@ -332,6 +355,7 @@ class LauncherAppsActivity : ComponentActivity() {
     }
     private fun finishEditing() {
         if(!::pager.isInitialized)return
+        if(!editing && draggedId==null && deferredEntries==null){actions?.dismiss();return}
         if(draggedId!=null)pager.cancelDragAndDrop()
         pager.removeCallbacks(edgeTurn);edgeDirection=0;draggedId=null
         actions?.dismiss();badges.forEach {it.visibility=View.GONE}
@@ -413,5 +437,5 @@ class LauncherAppsActivity : ComponentActivity() {
             finally {opening=false}
         }
     }
-    override fun onDestroy(){finishEditing();unregisterReceiver(reply);pending.values.forEach {it.cancel()};pending.clear();super.onDestroy()}
+    override fun onDestroy(){finishEditing();unregisterReceiver(reply);unregisterReceiver(packageChanges);pending.values.forEach {it.cancel()};pending.clear();super.onDestroy()}
 }
