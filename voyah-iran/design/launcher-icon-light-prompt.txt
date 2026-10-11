@@ -1,0 +1,5 @@
+Tool: built-in image_gen (edit).
+References: design/voyah-iran-icon.png and user screenshot voyah-screen11.png.
+Output: app/src/main/res/drawable-nodpi/launcher_voyah_icon_light.png
+
+Create one square production app icon asset, not a mockup or contact sheet. Edit first reference Voyah Iran icon preserving EXACT white Voyah logo geometry and IRAN wordmark, same size positions and proportions. Change ONLY dark navy background to soft light sky blue gradient matching Phone icon in second screenshot (#a7d8f2 top left to #80b9e6 bottom right). White logo and IRAN remain crisp white, with soft blue cast shadow offset slightly down-right, a gentle molded depth like the white telephone glyph. No extra text, no phone symbol. Full bleed square background all the way to image edges, NO outside padding, NO outer shadow, NO rounded corner cutouts (Android will clip corners). Output a single square icon.

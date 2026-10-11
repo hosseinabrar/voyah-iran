@@ -100,7 +100,8 @@ Java.perform(function () {
                 const dest=dm.getDisplay(1);
                 if(dest===null)return launch.call(this,ctx,intent,display);
                 const dc=ctx.createDisplayContext(dest), wm=Java.cast(dc.getSystemService('window'),WM);
-                const view=View.${'$'}new(dc); view.setBackgroundColor(-16777216);
+                const light=String(Java.use('android.os.SystemProperties').get('persist.sys.qg.currenttheme','default'))==='simple';
+                const view=View.${'$'}new(dc); view.setBackgroundColor(light ? -1709069 : -16777216);
                 const size=Point.${'$'}new();dest.getRealSize(size);
                 const resolver=ctx.getContentResolver();
                 const raw=Global.getString(resolver,'voyah_iran_display_policy');

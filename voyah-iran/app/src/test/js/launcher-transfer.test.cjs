@@ -1,16 +1,17 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert/strict');
 const src=fs.readFileSync(path.join(__dirname,'../../main/java/com/abrar/voyahiran/core/bridge/LauncherTransferScript.kt'),'utf8').split('"""')[1].replaceAll("${'$'}",'$');
-for(const safe of [true,false]) {
+for(const safe of [true,false]) for(const light of [true,false]) {
  let now=1000,launched=0,removed=0,draw,params,duration,source=true;const timers=[],logs=[];
  const pkg='map.app';const bounds={left:{value:safe?145:0},top:{value:safe?50:0},isEmpty:()=>false,width:()=>safe?1775:1920,height:()=>safe?670:720};
  const stack={displayId:{get value(){return source?7:1}},topActivity:{value:{getPackageName:()=>pkg}},taskNames:{value:[]},visible:{value:true},bounds:{value:bounds}};
  const launch={call(){assert.ok(params,'mask installed before launch');launched++;source=false},implementation:null};
  const anim={alpha(){return this},setDuration(n){duration=n;return this},start(){}};
- const view={setBackgroundColor(){},getViewTreeObserver:()=>({addOnDrawListener(v){draw=v},removeOnDrawListener(){}}),animate:()=>anim};
+ const view={setBackgroundColor(c){assert.equal(c,light?-1709069:-16777216)},getViewTreeObserver:()=>({addOnDrawListener(v){draw=v},removeOnDrawListener(){}}),animate:()=>anim};
  const wm={addView(v,lp){params=lp;draw.onDraw()},removeView(){removed++}};
  const disp=id=>({getName:()=>id===7?'VoyahIran.MapPreview':'physical',getRealSize(p){p.x.value=1920;p.y.value=720}});
  const ctx={getContentResolver:()=>({}),getSystemService:()=>({getDisplay:disp}),createDisplayContext:()=>({getSystemService:()=>wm}),getPackageManager:()=>({getApplicationInfo:()=>({flags:{value:0},uid:{value:10100}})})};
  const classes={
+ 'android.os.SystemProperties':{get:()=>light?'simple':'default'},
  'android.provider.Settings$Global':{getString(r,k){return k.endsWith('lease')?'80000':k.endsWith('_ack')?(safe?'1:default':'0'):k.endsWith('_policy')?(safe?null:'0'):null},getInt:()=>1,putString(){}},
  'android.app.ActivityTaskManager':{getService:()=>({getAllStackInfos:()=>({size:()=>1,get:()=>stack})})},
  'android.app.ActivityManager$StackInfo':{},'android.hardware.display.DisplayManager':{},'android.view.WindowManager':{},

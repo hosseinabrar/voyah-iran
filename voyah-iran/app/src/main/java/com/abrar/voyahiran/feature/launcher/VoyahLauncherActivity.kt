@@ -45,10 +45,10 @@ class VoyahLauncherActivity : ComponentActivity() {
         if(!sameCover){coverJob?.cancel();coverKey=key}
         // Playback/position callbacks must never briefly replace the decoded cover with the placeholder.
         val retained=if(sameCover)dashboard.media.cover else null
-        dashboard.media=state.copy(cover=state.cover ?: retained)
+        dashboard.media=state.copy(cover=state.cover ?: retained,coverPending=state.cover==null && retained==null && state.coverUri.isNotBlank())
         if(dashboard.media.cover==null && state.coverUri.isNotBlank() && coverJob?.isActive!=true) coverJob=lifecycleScope.launch {
             val cover=withContext(Dispatchers.IO) { artwork.load(state.coverUri) }
-            if(coverKey==key && cover!=null)dashboard.media=dashboard.media.copy(cover=cover)
+            if(coverKey==key)dashboard.media=dashboard.media.copy(cover=cover,coverPending=false)
         }
     } }
     private val weather by lazy { LauncherWeather(this,lifecycleScope) { dashboard.weather=it } }
@@ -124,7 +124,10 @@ class VoyahLauncherActivity : ComponentActivity() {
         val location=IntArray(2);container.getLocationOnScreen(location)
         val left=(145f*real.x/1920-location[0]).toInt().coerceAtLeast(0)
         val top=(50f*real.y/720-location[1]).toInt().coerceAtLeast(0)
-        val width=container.width-left;val height=container.height-top
+        val width=container.width-left
+        // Card gutters are 16 design pixels; leave half that beneath both HOME pages.
+        val bottomGap=kotlin.math.round(8f*width/1775f).toInt()
+        val height=(container.height-top-bottomGap).coerceAtLeast(1)
         val lp=FrameLayout.LayoutParams(width,height).apply{leftMargin=left;topMargin=top}
         if(pager.parent==null)container.addView(pager,lp) else pager.layoutParams=lp
         if(preview==null) {

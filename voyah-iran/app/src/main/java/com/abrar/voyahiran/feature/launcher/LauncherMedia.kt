@@ -14,7 +14,8 @@ import org.json.JSONObject
 data class LauncherMediaState(val source: String = "Music", val title: String = "no music", val artist: String = "",
     val cover: Bitmap? = null, val playing: Boolean = false, val position: Long = 0, val duration: Long = 0,
     val controller: MediaController? = null, val radio: Boolean = false, val coverUri: String = "",
-    val sourcePackage: String = "", val oemSource: String = "", val sourceIcon: android.graphics.drawable.Drawable? = null) {
+    val sourcePackage: String = "", val oemSource: String = "", val sourceIcon: android.graphics.drawable.Drawable? = null,
+    val coverPending:Boolean = false) {
     val canSeek: Boolean get() = !radio && duration > 0 &&
         ((controller?.playbackState?.actions ?: 0L) and PlaybackState.ACTION_SEEK_TO != 0L)
 }

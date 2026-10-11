@@ -38,14 +38,42 @@ class LauncherDashboard(context: Context) : View(context) {
     private val accentBottom get() = if(lightTheme) 0xff3868e5.toInt() else 0xff354b86.toInt()
     private val darkIconFilter = PorterDuffColorFilter(0xff293543.toInt(),PorterDuff.Mode.SRC_IN)
     var media = LauncherMediaState()
-        set(value) { if(field==value)return;field = value; invalidate() }
+        set(value) {
+            if(field==value)return
+            field=value
+            if(value.radio) {coverAnimation?.cancel();oldCover=null;shownCover=null;coverFade=1f}
+            else if(!value.coverPending)changeCover(value.cover)
+            invalidate()
+        }
+    private var shownCover:Bitmap?=null
+    private var oldCover:Bitmap?=null
+    private var coverFade=1f
+    private var coverAnimation:android.animation.ValueAnimator?=null
+    private fun changeCover(next:Bitmap?) {
+        if(next===shownCover)return
+        coverAnimation?.cancel()
+        oldCover=if(coverFade<.5f)oldCover else shownCover
+        shownCover=next
+        coverFade=0f
+        coverAnimation=android.animation.ValueAnimator.ofFloat(0f,1f).apply {
+            duration=360
+            interpolator=android.view.animation.LinearInterpolator()
+            addUpdateListener {
+                coverFade=it.animatedValue as Float
+                if(coverFade>=1f)oldCover=null
+                invalidate()
+            }
+            start()
+        }
+    }
     private data class MediaTextKey(val title:String,val artist:String,val radio:Boolean,val light:Boolean)
     private var mediaTextKey:MediaTextKey?=null
     private var mediaTextPicture:Picture?=null
     var weather = LauncherWeatherState()
         set(value) { field=value; invalidate() }
     private val moonBitmap by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_weather_moon,BitmapFactory.Options().apply {inSampleSize=4}) }
-    private val nightCloudBitmap by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_weather_overcast) }
+    private val nightCloudBitmap by lazy { LauncherWeatherArtwork.decode(resources,R.drawable.launcher_weather_hd_overcast) }
+    private val unknownWeatherBitmap by lazy { LauncherWeatherArtwork.decode(resources,R.drawable.launcher_weather_hd_unavailable) }
     private var weatherIconId = 0
     private var weatherBitmap: Bitmap? = null
     var mapMessage = LauncherMapPreview.LOADING
@@ -142,15 +170,19 @@ class LauncherDashboard(context: Context) : View(context) {
         c.drawLine(1280f, 27f, 1288f, 35f, paint)
         c.drawLine(1288f, 35f, 1280f, 43f, paint)
         if(!media.radio) {
-            val cover = media.cover ?: defaultCover
-            val rect=RectF(941f,78f,1261f,398f)
+            val image=if(coverFade<.5f)oldCover else shownCover
+            val opacity=if(coverFade<.5f)1f-coverFade*2 else coverFade*2-1f
+            val cover = image ?: defaultCover
+            val rect=RectF(936f,78f,1266f,408f)
             c.save();c.clipPath(Path().apply{addRoundRect(rect,12f,12f,Path.Direction.CW)})
             paint.color=Color.WHITE
-            if(lightTheme && media.cover==null) {
+            val layer=c.saveLayerAlpha(rect,(opacity*255).toInt())
+            if(lightTheme && image==null) {
                 paint.color=0xffdce8f7.toInt();c.drawRect(rect,paint)
-                paint.color=0xffeaf1fa.toInt();c.drawCircle(1101f,238f,113f,paint)
-                paint.color=0xffd3e2f3.toInt();c.drawCircle(1101f,238f,38f,paint)
+                paint.color=0xffeaf1fa.toInt();c.drawCircle(1101f,243f,116.53125f,paint)
+                paint.color=0xffd3e2f3.toInt();c.drawCircle(1101f,243f,39.1875f,paint)
             } else c.drawBitmap(cover,null,rect,paint)
+            c.restoreToCount(layer)
             c.restore()
         }
         // Replay retained text drawing commands on progress/clock frames. Re-measure and
@@ -159,8 +191,8 @@ class LauncherDashboard(context: Context) : View(context) {
         if(mediaTextKey!=textKey) {
             val picture=Picture()
             val labels=picture.beginRecording(1775,660)
-            text(media.title,1101f,if(media.radio)255f else 437f,if(media.radio)48f else 32f,center=true,bold=true,target=labels)
-            text(media.artist,1101f,if(media.radio)310f else 465f,if(media.radio)26f else 23f,secondary,center=true,target=labels)
+            text(media.title,1101f,if(media.radio)255f else 447f,if(media.radio)48f else 32f,center=true,bold=true,target=labels)
+            text(media.artist,1101f,if(media.radio)310f else 475f,if(media.radio)26f else 23f,secondary,center=true,target=labels)
             picture.endRecording()
             mediaTextPicture=picture;mediaTextKey=textKey
         }
@@ -177,6 +209,8 @@ class LauncherDashboard(context: Context) : View(context) {
             c.scale(scale,scale,x,580f)
             paint.alpha=(255*(1f-.28f*buttonPress[index])).toInt()
             if(index==1) {
+                // The previous icon's light-theme tint must not recolor the blue button.
+                paint.colorFilter=null
                 paint.shader=LinearGradient(1060f,549f,1140f,629f,accentTop,accentBottom,Shader.TileMode.CLAMP)
                 c.drawCircle(1101f,580f,38f,paint);paint.shader=null
             }
@@ -206,16 +240,19 @@ class LauncherDashboard(context: Context) : View(context) {
         text(if(weather.temperature==null) weather.notice else LauncherWeatherCode.description(weather.code),1387f,580f,19f,secondary)
         if(weather.temperature!=null) text(degree(weather.high)+" / "+degree(weather.low),1387f,608f,18f,secondary)
         c.restore()
-        if(weather.temperature != null) {
+        if(weather.temperature == null) {
+            paint.color=Color.WHITE
+            c.drawBitmap(unknownWeatherBitmap,null,RectF(1569f,462f,1749f,642f),paint)
+        } else {
             if (!weather.day && weather.code in 0..2) {
                 paint.color=Color.WHITE
-                val bounds=if(weather.code==2) RectF(1549f,459f,1699f,609f) else RectF(1550f,462f,1730f,642f)
+                val bounds=if(weather.code==2) RectF(1541f,459f,1691f,609f) else RectF(1542f,462f,1722f,642f)
                 c.drawBitmap(moonBitmap,null,bounds,paint)
-                if(weather.code==2) c.drawBitmap(nightCloudBitmap,null,RectF(1573f,519f,1718f,647f),paint)
+                if(weather.code==2) c.drawBitmap(nightCloudBitmap,null,RectF(1565f,519f,1710f,647f),paint)
             } else {
                 val id=LauncherWeatherCode.icon(if(!weather.day && weather.code in 80..82) 63 else weather.code)
-                if(id!=weatherIconId) { weatherIconId=id;weatherBitmap=BitmapFactory.decodeResource(resources,id) }
-                weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1577f,462f,1757f,642f),paint) }
+                if(id!=weatherIconId) { weatherIconId=id;weatherBitmap=LauncherWeatherArtwork.decode(resources,id) }
+                weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1569f,462f,1749f,642f),paint) }
             }
         }
         text("Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",1355f,646f,12f,secondary)
@@ -256,6 +293,7 @@ class LauncherDashboard(context: Context) : View(context) {
     }
     override fun performClick():Boolean {super.performClick();return true}
     override fun onDetachedFromWindow() {
+        coverAnimation?.cancel();oldCover=null;coverFade=1f
         buttonAnimations.forEach {it?.cancel()}
         buttonPress.fill(0f);touchedButton=-1
         super.onDetachedFromWindow()

@@ -32,6 +32,7 @@ class LauncherAppsActivity : ComponentActivity() {
     private lateinit var pager: LauncherPager
     private lateinit var dots: LinearLayout
     private lateinit var status: TextView
+    private lateinit var loading: LauncherLoadingView
     private var light = false
     private var entries = emptyList<Entry>()
     private var refreshJob: Job? = null
@@ -90,10 +91,12 @@ class LauncherAppsActivity : ComponentActivity() {
         content = FrameLayout(this)
         pager = LauncherPager(this)
         dots = LinearLayout(this).apply { gravity=Gravity.CENTER }
-        status = TextView(this).apply { gravity=Gravity.CENTER; textSize=20f; typeface=resources.getFont(com.abrar.raha.feedback.R.font.iransansx_regular); text="در حال دریافت برنامه‌ها…"; setOnClickListener { refresh() } }
+        status = TextView(this).apply { gravity=Gravity.CENTER; textSize=20f; typeface=resources.getFont(com.abrar.raha.feedback.R.font.iransansx_regular); visibility=View.GONE; setOnClickListener { refresh() } }
+        loading=LauncherLoadingView(this)
         content.addView(pager, FrameLayout.LayoutParams(-1,-1).apply { bottomMargin=28 })
         content.addView(dots, FrameLayout.LayoutParams(-1,28,Gravity.BOTTOM))
         content.addView(status,FrameLayout.LayoutParams(-1,-1))
+        content.addView(loading,FrameLayout.LayoutParams(-1,-1))
         done = TextView(this).apply {
             text="Done"; gravity=Gravity.CENTER; visibility=View.GONE
             setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,24f); isClickable=true; isFocusable=true
@@ -152,6 +155,7 @@ class LauncherAppsActivity : ComponentActivity() {
         light=LauncherTheme.isLight()
         LauncherWindowTheme.apply(window,light)
         root.setBackgroundColor(LauncherWindowTheme.background(light))
+        loading.light=light
         status.setTextColor(if(light)0xff303947.toInt() else 0xffeef3fb.toInt())
         val shape=android.graphics.drawable.GradientDrawable(
             android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM,
@@ -173,6 +177,7 @@ class LauncherAppsActivity : ComponentActivity() {
     }
     private fun refresh() {
         refreshJob?.cancel()
+        if(entries.isEmpty()){status.visibility=View.GONE;loading.visibility=View.VISIBLE}
         catalogDirty=false
         refreshJob=lifecycleScope.launch {
             try {
@@ -185,22 +190,28 @@ class LauncherAppsActivity : ComponentActivity() {
                         if(!LauncherAppsPolicy.visible(id))continue
                         val bytes=android.util.Base64.decode(item.optString("icon"),android.util.Base64.DEFAULT)
                         val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-                        rows+=Entry(id,item.getString("label"),bitmap?.let {BitmapDrawable(resources,it)})
+                        rows+=Entry(id,item.getString("label"),LauncherAppIcon.create(resources,bitmap?.let {BitmapDrawable(resources,it)}))
                     }
                     val installed=packageManager.queryIntentActivities(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER),0)
                         .filter { it.activityInfo.enabled && it.activityInfo.exported && it.activityInfo.applicationInfo.enabled &&
                             (it.activityInfo.applicationInfo.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP))==0 }
                         .distinctBy { ComponentName(it.activityInfo.packageName,it.activityInfo.name) }
-                        .map { Entry(it.activityInfo.packageName+"/"+it.activityInfo.name,it.loadLabel(packageManager).toString(),it.loadIcon(packageManager),ComponentName(it.activityInfo.packageName,it.activityInfo.name)) }
+                        .map {
+                            val own=it.activityInfo.packageName==packageName
+                            val icon=if(own && light)resources.getDrawable(com.abrar.voyahiran.R.drawable.launcher_voyah_icon_light,null) else it.loadIcon(packageManager)
+                            Entry(it.activityInfo.packageName+"/"+it.activityInfo.name,it.loadLabel(packageManager).toString(),LauncherAppIcon.create(resources,icon,rounded=own),ComponentName(it.activityInfo.packageName,it.activityInfo.name))
+                        }
                         .sortedBy { it.label.lowercase() }
                     rows+installed
                 }
                 if(!allowed()){catalogDirty=true;return@launch}
                 if(draggedId!=null)deferredEntries=fresh else { entries=ordered(fresh);render() }
                 status.visibility=View.GONE
+                loading.visibility=View.GONE
                 AppLog.info("LauncherApps","loaded total=${entries.size} pages=${LauncherAppsPolicy.pages(entries.size)} light=$light")
             } catch(e:CancellationException){throw e}
             catch(e:Exception){
+                loading.visibility=View.GONE
                 catalogDirty=true
                 AppLog.error("LauncherApps","catalog failed",e)
                 if(entries.isEmpty()){status.text="دریافت برنامه‌ها انجام نشد؛ برای تلاش مجدد لمس کنید";status.visibility=View.VISIBLE}
@@ -254,7 +265,7 @@ class LauncherAppsActivity : ComponentActivity() {
                     if(entry.label.any {it in '\u0600'..'\u06ff'})typeface=resources.getFont(com.abrar.raha.feedback.R.font.iransansx_regular)
                     setTextColor(if(light)0xff303947.toInt() else 0xffeef3fb.toInt())
                     setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,(25f*resources.displayMetrics.widthPixels/1920).coerceAtLeast(14f))
-                    maxLines=2;ellipsize=android.text.TextUtils.TruncateAt.END;gravity=Gravity.CENTER
+                    setSingleLine(true);ellipsize=android.text.TextUtils.TruncateAt.END;gravity=Gravity.CENTER
                     setPadding(5,14,5,0)
                 },LinearLayout.LayoutParams(-1,-2))
                 tile.tag=entry.id

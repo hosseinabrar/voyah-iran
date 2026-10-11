@@ -37,6 +37,7 @@ import java.util.TimeZone
 
 class MainActivity : ComponentActivity() {
     private var projectNotice: ProjectNoticeDialog? = null
+    private var permissionsEntry = false
     private var apolloAvailable = false
     private var avmTurnBusy = false
 
@@ -102,7 +103,7 @@ class MainActivity : ComponentActivity() {
             startActivity(Intent(this,com.abrar.voyahiran.feature.subscription.SubscriptionActivity::class.java).putExtra("userLaunch",true))
             return
         }
-        if (projectNotice?.isShowing != true) {
+        if (!permissionsEntry && projectNotice?.isShowing != true) {
             projectNotice = ProjectNoticeDialog(this).also { it.show() }
         }
     }
@@ -143,6 +144,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        permissionsEntry = savedInstanceState?.getBoolean("permissionsEntry") == true ||
+            intent.hasExtra("com.abrar.voyahiran.OPEN_PERMISSIONS_PACKAGE")
         com.abrar.voyahiran.core.logging.AppLog.info("App", "start version=${BuildConfig.VERSION_NAME} sdk=${android.os.Build.VERSION.SDK_INT} uid=${android.os.Process.myUid()} display=${window.decorView.display?.displayId}")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -398,6 +401,7 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
+        permissionsEntry = intent.hasExtra("com.abrar.voyahiran.OPEN_PERMISSIONS_PACKAGE")
         openRequestedPermissions()
     }
 
@@ -406,6 +410,9 @@ class MainActivity : ComponentActivity() {
         val pkg=intent?.getStringExtra(key) ?: return
         intent.removeExtra(key)
         if(!Regex("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+").matches(pkg))return
+        permissionsEntry = true
+        projectNotice?.dismiss()
+        projectNotice = null
         selectTab(Tab.PERMISSIONS)
         permissions.openApp(pkg)
     }
@@ -444,6 +451,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("permissionsEntry", permissionsEntry)
         outState.putString(TAB_KEY, selectedTab.name)
         super.onSaveInstanceState(outState)
     }
@@ -644,6 +652,7 @@ class MainActivity : ComponentActivity() {
 
     private var permissionApps: List<com.abrar.voyahiran.feature.permissions.InstalledApp> = emptyList()
     private fun renderPermissions(state: com.abrar.voyahiran.feature.permissions.PermissionsState) = with(binding.permissionsPage) {
+        apps.isEnabled = !state.busy
         if (permissionApps != state.apps) {
             permissionApps = state.apps
             apps.adapter = com.abrar.voyahiran.feature.permissions.InstalledAppAdapter(this@MainActivity, state.apps)

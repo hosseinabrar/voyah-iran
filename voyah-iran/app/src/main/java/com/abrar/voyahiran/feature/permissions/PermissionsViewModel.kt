@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.delay
 import com.abrar.voyahiran.core.logging.AppLog
 import com.abrar.voyahiran.core.bridge.AppDensityPreferences
 import com.abrar.voyahiran.core.shell.ProcessCommandRunner
@@ -28,7 +29,26 @@ class PermissionsViewModel(app: Application) : AndroidViewModel(app) {
     fun refresh(preferred:String?=null) = runOperation {
         val apps = repository.apps()
         val selected = (preferred ?: mutable.value.selected)?.takeIf { p -> apps.any { it.packageName == p } } ?: apps.firstOrNull()?.packageName
-        mutable.value.copy(apps = apps, selected = selected, permissions = selected?.let(repository::permissions).orEmpty())
+        // Publish navigation immediately: a cold appops/root service must not hide the app list.
+        withContext(Dispatchers.Main.immediate) {
+            mutable.value = mutable.value.copy(apps = apps, selected = selected,
+                permissions = if (selected == mutable.value.selected) mutable.value.permissions else emptyList())
+        }
+        val loaded = if (selected == null) emptyList() else {
+            var result: List<AppPermission>? = null
+            for (attempt in 0 until 3) {
+                try {
+                    result = repository.permissions(selected)
+                    break
+                } catch (e: Exception) {
+                    if (e is kotlinx.coroutines.CancellationException || attempt == 2) throw e
+                    AppLog.error("Permissions", "read retry=${attempt + 1} package=$selected", e)
+                    delay(1000)
+                }
+            }
+            result.orEmpty()
+        }
+        mutable.value.copy(permissions = loaded)
     }
     fun uninstall(pkg: String) = runOperation {
         repository.uninstall(pkg)
@@ -71,7 +91,7 @@ class PermissionsViewModel(app: Application) : AndroidViewModel(app) {
             mutable.value.copy(permissions = repository.permissions(pkg))
         }
     }
-    private fun runOperation(block: () -> PermissionsState) {
+    private fun runOperation(block: suspend () -> PermissionsState) {
         if (mutable.value.busy) return
         mutable.value = mutable.value.copy(busy = true, error = false, stoppedApp = null)
         viewModelScope.launch {

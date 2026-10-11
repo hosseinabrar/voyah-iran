@@ -1,0 +1,39 @@
+Weather artwork recreation — 2026-10-11
+Tool: built-in image_gen, one call per distinct source image.
+Original OEM resources retained. Moon unchanged.
+Mostly sunny shares clear artwork; snow flurry shares snow shower, as in OEM originals.
+Runtime normalizes alpha>=128 visible bounds to 300px inside a 360px transparent canvas, preserving aspect and soft outer glows.
+
+Group 1: clearly, cloudy, light_rain, overcast
+Prompt:
+Recreate the supplied OEM car weather icon faithfully as a premium high-resolution transparent PNG icon. Preserve exactly its silhouette, components, positions, colors and minimal soft 3D style. Smooth continuous gradients, no banding, no compression artifacts, no grain. Do not add details, rays, text, backgrounds or a ground plane. Genuine transparent alpha background. Square 1024 canvas. Keep the existing composition and relative margins; object including soft glow within central 90% of canvas. This is an individual production weather icon, not a sheet. Reference image is the exact icon to recreate.
+
+clearly: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-7e3f9ebc-2bd1-4db1-ad62-8de0a354b7e9.png
+cloudy: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-8b03b19e-ecdb-417c-a256-f80af536f6d6.png
+light_rain: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-32c20c7f-445b-4656-bbfa-25137fddfcd3.png
+overcast: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-149d0fee-ef2d-4a60-a3e6-c1d649c0b906.png
+Group 2: foggy, ice_foggy, ice_rain, moderate_rain, heavy_rain, light_snow, moderate_snow, heavy_snow
+Prompt:
+Faithfully recreate the reference car weather icon as a high-resolution 1024 square transparent PNG. Preserve exact silhouette, number of rain/snow/fog marks, positions, original colors, and soft minimal 3D appearance. Smooth gradients without banding or compression, clean antialiased edges. No new elements, text or ground plane. Real transparent alpha background. Preserve original relative margins, whole symbol within central 90%. One individual icon, not a sheet.
+
+foggy: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-59e0fa2a-056b-4372-ba54-a315baaf12ea.png
+ice_foggy: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-91a211be-a8e1-440a-affc-733f446120a5.png
+ice_rain: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-fb04cb97-2bfa-4920-b818-01a66c800bef.png
+moderate_rain: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-9edde472-122d-44d6-a9a8-b67b827160d1.png
+heavy_rain: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-8d1411b9-2289-4666-8f7e-0343cf32bbd7.png
+light_snow: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-e718d1b0-a82d-4f04-a23e-23b27a301b66.png
+moderate_snow: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-10226423-e0fd-429e-b24c-d28a40ff48d8.png
+heavy_snow: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-b758f047-46a7-4a7a-a85a-25620c5ee6af.png
+Group 3: needle_ice, light_shower, shower, heavy_shower, light_snow_shower, thunderstorm, thunder_shower_with_hail, unavailable
+Prompt:
+Faithfully recreate the reference car weather icon as a high-resolution 1024 square transparent PNG. Preserve exact silhouette, number and shapes of precipitation marks, positions, original colors, and soft minimal 3D appearance. Smooth gradients without banding or compression, clean antialiased edges. No new elements, text (except existing question mark if any) or ground plane. Real transparent alpha background. Preserve original relative margins, whole symbol within central 90%. One individual icon, not a sheet.
+
+needle_ice: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-b3b477de-7cfe-453d-ac7f-6288cbce5147.png
+light_shower: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-db3c37c9-81e7-43a8-b29c-894f81c51485.png
+shower: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-4790bb49-c4ab-48fb-8b40-0ba969da7037.png
+heavy_shower: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-07a7c498-73b7-429c-ab4a-2ded0aa0dee2.png
+light_snow_shower: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-20dab771-6926-499a-b793-e8d01b48c33a.png
+thunderstorm: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-66596efc-c875-4fea-8fe5-b2dfe1baadb7.png
+thunder_shower_with_hail: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-ef3db2e0-4f23-4afd-b088-104ddc019246.png
+unavailable: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-bf1bb56e-8816-4c46-90a3-9b154160668c.png
+

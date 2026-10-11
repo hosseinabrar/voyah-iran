@@ -14,11 +14,12 @@ import kotlinx.coroutines.withTimeoutOrNull
 /** Uses an application overlay so stopping HOME does not uncover an unfinished resize. */
 internal class LauncherTransferMask(private val context: Context, private val packageName: String) {
     private val wm = context.applicationContext.getSystemService(WindowManager::class.java)
-    private val view = View(context.applicationContext).apply { setBackgroundColor(Color.BLACK) }
+    private val view = View(context.applicationContext)
     private val handler = Handler(Looper.getMainLooper())
     private var attached = false
     private val timeout = Runnable { remove() }
     suspend fun show(): Boolean {
+        view.setBackgroundColor(LauncherWindowTheme.background(LauncherTheme.isLight()))
         val drawn = CompletableDeferred<Unit>()
         val listener = object : ViewTreeObserver.OnDrawListener {
             override fun onDraw() {

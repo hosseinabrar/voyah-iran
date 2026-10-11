@@ -1,0 +1,37 @@
+Weather artwork revision — 2026-10-11
+Tool: built-in image_gen, localized edits.
+Standalone clouds (overcast, foggy, unavailable) and moon resources untouched. Cloud regions in edited composite icons requested locked.
+
+clearly
+Edit only the sun: DELETE THE ENTIRE OUTER HALO/RING. The result must be one single plain circular disc, with a clean outer edge directly touching full transparency. Zero pixels of yellow outside the disc. NO GLOW at all. NO RIM at all. NO outline or inner circle. A simple smooth gradient from pale golden yellow at top to warm yellow orange at bottom, not red. Keep circle size and center. Genuine transparent background.
+clearly: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-f66e53d3-7313-4357-9999-3b28d36854f2.png
+
+cloudy, light_shower, shower, heavy_shower, light_snow_shower
+Precise edit. Yellow sun ONLY: remove its outer yellow band COMPLETELY, including ALL GLOW. Leave one simple flat circle with clean antialiased edge directly against transparency, NO outline, NO concentric shapes, NO halo, NO rim. Use a smooth restrained yellow-to-orange gradient. Absolutely no yellow pixels outside the single circle. Cyan rain/snow symbols: flat solid pale cyan #76deef, without any highlights, shadows or bevels. Preserve exact shapes/count/positions. All white/grey cloud artwork is LOCKED, must remain identical, not redrawn or shifted. Canvas and alpha transparency unchanged.
+cloudy: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-bc5e5ae6-cf3c-46f4-a8b9-36bb55c6571c.png
+light_shower: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-f72508db-bbcc-4e67-932e-a4f39ae736fb.png
+shower: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-40375622-54a2-4e2c-b3b5-9ee2e2d996f6.png
+heavy_shower: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-c9514b16-474b-46be-8e9b-2071316c37f3.png
+light_snow_shower: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-88513725-fc23-4a41-9730-21bd72fd4b75.png
+
+light_rain, moderate_rain
+Precise localized edit of this transparent weather icon. Change ONLY yellow sun and cyan precipitation symbols. Sun: ONE simple smooth yellow-orange disc, subtle vertical gradient; absolutely NO second disc, ring, border, rim, bevel or egg-yolk appearance. Only very faint diffuse glow. Rain/snow: flat cyan minimal silhouettes, no extrusion, bevel, specular highlights, gloss or shadow. Retain exact count, shapes and placement. ALL CLOUDS MUST REMAIN UNCHANGED including silhouette, shading, size and location. Preserve canvas and composition, genuine transparent alpha, no background.
+light_rain: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-0ced1429-89e3-4b98-ad92-32e9c355f422.png
+moderate_rain: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-5d2112cd-d5a2-4a86-ace3-39678abad0e9.png
+
+heavy_rain, ice_rain, light_snow, moderate_snow
+Localized edit: flatten ONLY cyan rain/snow symbols beneath the cloud to solid cyan #76deef flat silhouettes, no white highlights, no bevel, extrusion, shadow or plastic gloss. Preserve exact count, shapes, size and placement. Do NOT change the cloud in any way: preserve all its pixels, gradients, geometry and position. Preserve image dimensions and genuine transparent alpha background. No other edits.
+heavy_rain: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-18303ee5-e543-427e-8075-25b77a0f6070.png
+ice_rain: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-290d1e09-db52-4e04-867f-25a7a679dd88.png
+light_snow: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-c312bc63-a4e1-4a5f-be62-ef2169b32ca4.png
+moderate_snow: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-e32f1f5f-f2aa-49d9-959d-dbde172d1fb4.png
+
+heavy_snow, needle_ice, ice_foggy, thunderstorm, thunder_shower_with_hail
+Localized edit: flatten ONLY cyan precipitation/snow symbols to solid cyan #76deef flat silhouettes, no white highlights, no bevel, extrusion, shadow or plastic gloss. Preserve exact count, shapes, size and placement. Do NOT change ANY other parts: all clouds, grey fog lines, orange lightning must remain unchanged, same gradients, geometry and position. Preserve image dimensions and genuine transparent alpha background. No other edits.
+heavy_snow: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-6278f5eb-6583-4315-a28e-755341f339dd.png
+needle_ice: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-76d02908-4904-4729-bada-bfc65550e02b.png
+ice_foggy: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-4401d4eb-d0cb-4f81-9413-583fc580068d.png
+thunderstorm: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-77ebe172-132f-4570-a095-401d206eb61f.png
+thunder_shower_with_hail: C:\Users\Nahid\.codex\generated_images\01a07dc7-0ca9-7612-a0be-6c1ccb4d4ea8\exec-35e14e0d-64b2-4246-abad-521d5ffc934c.png
+
+
