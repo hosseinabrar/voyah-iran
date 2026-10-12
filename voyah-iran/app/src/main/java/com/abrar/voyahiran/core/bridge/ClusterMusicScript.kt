@@ -23,7 +23,8 @@ function find(view, name) {
 }
 function text(view, name, value) {
     const target = find(view, name);
-    if (target) Java.cast(target, TextView).setText(Java.use('java.lang.String').${'$'}new(String(value)));
+    if (target) TextView.setText.overload('java.lang.CharSequence').call(
+        Java.cast(target, TextView), Java.use('java.lang.String').${'$'}new(String(value || '')));
 }
 function time(value) {
     const seconds = Math.floor(Math.max(0, value) / 1000);
@@ -67,7 +68,9 @@ function render() {
     const position = Math.min(duration, Math.max(0, data.position + delta));
     const progress = find(view, 'music_progress');
     if (progress) {
-        if (progress.getClass().getName().toString() === 'com.qinggan.cardview.panel.CircleProgressView')
+        // The ROM's simple layout uses CircleProgressView; all other supported
+        // layouts use ProgressBar (including Golden's PathProgressView subclass).
+        if (theme === 1)
             Java.cast(progress, Java.use('com.qinggan.cardview.panel.CircleProgressView')).setPercent(duration > 0 ? position / duration : 0);
         else { const bar = Java.cast(progress, ProgressBar); bar.setMax(duration); bar.setProgress(position); }
     }
@@ -87,7 +90,7 @@ function render() {
 }
 function update() {
     Java.scheduleOnMainThread(function() {
-        try { render(); } catch(e) { latest=null; restore(); console.log('VI_CLUSTER_MUSIC_ERROR ' + e); }
+        try { render(); } catch(e) { latest=null; restore(); console.log('VI_CLUSTER_MUSIC_ERROR ' + (e.stack || e)); }
     });
 }
 rpc.exports = {
@@ -109,7 +112,7 @@ Java.perform(function() {
         themeHook=Panel.onThemeChanged.overload('int','boolean');
         themeHook.implementation=function(theme, force) {
             restore(); const result=themeHook.call(this,theme,force);
-            try { render(); } catch(e) { latest=null; restore(); console.log('VI_CLUSTER_MUSIC_ERROR ' + e); }
+            try { render(); } catch(e) { latest=null; restore(); console.log('VI_CLUSTER_MUSIC_ERROR ' + (e.stack || e)); }
             return result;
         };
         console.log('VI_CLUSTER_MUSIC_READY');

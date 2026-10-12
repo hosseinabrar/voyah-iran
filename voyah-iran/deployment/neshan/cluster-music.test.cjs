@@ -9,7 +9,7 @@ let now=10000, intervals=[], layouts=[];
 const widget=()=>({visibility:0,setVisibility(n){this.visibility=n},getVisibility(){return this.visibility},$dispose(){},
  setText(t){this.text=t},setImageBitmap(b){this.bitmap=b},setImageDrawable(d){this.drawable=d},
  setMax(n){this.max=n},setProgress(n){this.progress=n},setPercent(n){this.percent=n},
- getClass(){return {getName:()=>this.circle?'com.qinggan.cardview.panel.CircleProgressView':'android.widget.ProgressBar'}}});
+ getClass:undefined});
 const context={getPackageName:()=> 'com.qinggan.instrumentcard',getResources:()=>({getIdentifier:n=>n}),
  getPackageManager:()=>({getApplicationIcon:p=>p})};
 const original=widget(); original.visibility=4;
@@ -28,6 +28,7 @@ const classes={
    fields.music_progress.circle=panel.mThemeId.value===1;
    return {...widget(),fields,getContext:()=>context,findViewById:n=>fields[n],getParent(){return this.parent}};
  }})},
+ 'android.widget.TextView':{setText:{overload(type){assert.equal(type,'java.lang.CharSequence');return {call(target,value){target.setText(value)}}}}},
  'java.lang.String':{$new:s=>s},'android.util.Base64':{decode:s=>[1,2,3]},
  'android.graphics.BitmapFactory':{decodeByteArray:()=> 'cover'},'android.os.SystemClock':{elapsedRealtime:()=>now}
 };
