@@ -14,54 +14,65 @@ final class LiveMapView extends FrameLayout implements TextureView.SurfaceTextur
  private final String session;
  private final TextureView texture;
  private VirtualDisplay display;private Surface surface;
- private MapTuning tuning=new MapTuning(0,0,100,50,85);
+ private MapTuning tuning=new MapTuning(0,0);
  private int sourceWidth=871,sourceHeight=660;
  private final Paint mask=new Paint(Paint.ANTI_ALIAS_FLAG);
+ private static final int[] MASKS={R.drawable.cluster_mask_01,R.drawable.cluster_mask_02,R.drawable.cluster_mask_03,R.drawable.cluster_mask_04,R.drawable.cluster_mask_05,R.drawable.cluster_mask_06,R.drawable.cluster_mask_07,R.drawable.cluster_mask_08,R.drawable.cluster_mask_09,R.drawable.cluster_mask_10,R.drawable.cluster_mask_11,R.drawable.cluster_mask_12};
+ private final Bitmap[] maskCache=new Bitmap[MapTuning.MASK_COUNT];
+ private Bitmap boxMask; private final RectF panel=new RectF(90,154,580,660);
+ private final RectF maskBounds=new RectF();
  private long lastReport;private boolean hasFrame;private String lastTuning="";
  LiveMapView(Context context,String session){super(context);this.session=session;
-  setBackgroundColor(Color.BLACK);setClipChildren(true);
+  setBackgroundColor(Color.TRANSPARENT);setClipChildren(true);
   texture=new TextureView(context);texture.setOpaque(false);texture.setSurfaceTextureListener(this);
   addView(texture,new FrameLayout.LayoutParams(871,660,Gravity.CENTER));
   mask.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-  refreshTuning();
+  loadMask();refreshTuning();
  }
  void refreshTuning(){
   try(BufferedReader r=new BufferedReader(new FileReader(new File(getContext().getFilesDir(),"map-tuning")))){
-   String value=r.readLine();if(value!=null&&!value.equals(lastTuning)){tuning=MapTuning.parse(value);resizeSource();lastTuning=value;transform();invalidate();}
+   String value=r.readLine();if(value!=null&&!value.equals(lastTuning)){tuning=MapTuning.parse(value);loadMask();lastTuning=value;transform();invalidate();}
   }catch(FileNotFoundException ignored){}catch(Exception e){Log.e("VoyahClusterTest","TUNING_APPLY_FAILED",e);}
- }
- private void resizeSource(){
-  Display central=getContext().getSystemService(DisplayManager.class).getDisplay(0);
-  if(central==null)throw new IllegalStateException("Central display unavailable");
-  Point maximum=new Point();central.getRealSize(maximum);
-  int w=Math.min(tuning.width,maximum.x),h=Math.min(tuning.height,maximum.y);
-  if(w==sourceWidth&&h==sourceHeight)return;
-  SurfaceTexture st=texture.getSurfaceTexture();if(st!=null)st.setDefaultBufferSize(w,h);
-  if(display!=null)display.resize(w,h,160);
-  sourceWidth=w;sourceHeight=h;
-  texture.setLayoutParams(new FrameLayout.LayoutParams(w,h,Gravity.CENTER));
-  Log.i("VoyahClusterTest","SOURCE_RESIZED size="+w+"x"+h+" max="+maximum.x+"x"+maximum.y);
  }
  @Override protected void onSizeChanged(int w,int h,int ow,int oh){super.onSizeChanged(w,h,ow,oh);transform();}
  private void transform(){
-  float scale=Math.min(getWidth()/(float)sourceWidth,getHeight()/(float)sourceHeight)*tuning.zoom/100f;
-  texture.setScaleX(scale);texture.setScaleY(scale);
-  texture.setTranslationX(getWidth()*.5f*tuning.x/100f);texture.setTranslationY(getHeight()*.5f*tuning.y/100f);
-  // Elliptical radius: 0 at output centre, 100 at the middle of each output edge.
-  RadialGradient gradient=new RadialGradient(0,0,1,new int[]{Color.WHITE,Color.WHITE,Color.TRANSPARENT,Color.TRANSPARENT},
-   new float[]{0,tuning.start/100f,tuning.end/100f,1},Shader.TileMode.CLAMP);
-  Matrix matrix=new Matrix();matrix.setScale(Math.max(1,getWidth()/2f),Math.max(1,getHeight()/2f));matrix.postTranslate(getWidth()/2f,getHeight()/2f);
-  gradient.setLocalMatrix(matrix);mask.setShader(gradient);
+  // Zoom around source center; output offsets and OEM mask remain independent.
+  float halfW=panel.width()*tuning.maskScale/200f,halfH=panel.height()*tuning.maskScale/200f;
+  float cx=panel.centerX()+tuning.maskX,cy=panel.centerY()+tuning.maskY;
+  maskBounds.set(cx-halfW,cy-halfH,cx+halfW,cy+halfH);
+  Log.i("VoyahClusterTest","MAP_GEOMETRY mapOffset="+tuning.x+","+tuning.y+" zoom="+tuning.zoom+" maskOffset="+tuning.maskX+","+tuning.maskY+" maskScale="+tuning.maskScale+" enabled="+tuning.maskEnabled+" maskBounds="+maskBounds);
+  texture.setScaleX(tuning.zoom/100f);texture.setScaleY(tuning.zoom/100f);
+  texture.setTranslationX(panel.centerX()-getWidth()/2f+tuning.x);
+  texture.setTranslationY(panel.centerY()-getHeight()/2f+tuning.y);
+ }
+ private void loadMask(){
+  if(maskCache[tuning.maskId]!=null){boxMask=maskCache[tuning.maskId];return;}
+  BitmapFactory.Options options=new BitmapFactory.Options();options.inScaled=false;
+  Bitmap original=BitmapFactory.decodeResource(getResources(),MASKS[tuning.maskId],options);
+  int w=original.getWidth(),h=original.getHeight();int[] pixels=new int[w*h];
+  original.getPixels(pixels,0,w,0,0,w,h);
+  for(int i=0;i<pixels.length;i++){
+   int c=pixels[i];int a=Math.round((Color.red(c)+Color.green(c)+Color.blue(c))/3f);
+   pixels[i]=(a<<24)|0xffffff;
+  }
+  boxMask=Bitmap.createBitmap(pixels,w,h,Bitmap.Config.ARGB_8888);original.recycle();maskCache[tuning.maskId]=boxMask;
+  mask.setFilterBitmap(true);
+  Log.i("VoyahClusterTest","FIXED_MASK id="+tuning.maskId+" panel="+panel+" source="+sourceWidth+"x"+sourceHeight);
  }
  @Override protected void dispatchDraw(Canvas canvas){
-  int layer=canvas.saveLayer(0,0,getWidth(),getHeight(),null);
-  super.dispatchDraw(canvas);canvas.drawRect(0,0,getWidth(),getHeight(),mask);canvas.restoreToCount(layer);
+  if(!tuning.maskEnabled){super.dispatchDraw(canvas);return;}
+  int clip=canvas.save();canvas.clipRect(maskBounds);
+  int layer=canvas.saveLayer(maskBounds,null);
+  super.dispatchDraw(canvas);
+  canvas.drawBitmap(boxMask,null,maskBounds,mask);
+  canvas.restoreToCount(layer);canvas.restoreToCount(clip);
  }
  @Override public void onSurfaceTextureAvailable(SurfaceTexture st,int w,int h){
   try {
    st.setDefaultBufferSize(sourceWidth,sourceHeight);surface=new Surface(st);
+   int destroyContent=DisplayManager.class.getField("VIRTUAL_DISPLAY_FLAG_DESTROY_CONTENT_ON_REMOVAL").getInt(null);
    display=getContext().getSystemService(DisplayManager.class).createVirtualDisplay("VoyahClusterTest.MapSource."+session,sourceWidth,sourceHeight,160,surface,
-    DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC|DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY);
+    DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC|DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY|destroyContent);
    if(display==null)throw new IOException("No virtual display");
    File target=new File(getContext().getFilesDir(),"map-source"),temp=new File(target+".new");
    try(FileWriter f=new FileWriter(temp)){f.write(session+" "+display.getDisplay().getDisplayId());}

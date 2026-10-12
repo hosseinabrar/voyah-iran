@@ -13,7 +13,7 @@ final class MapProbe {
  private final File folder=new File("/data/user/0/com.abrar.voyahclustertest/files");
  private final ConcurrentLinkedQueue<String> events=new ConcurrentLinkedQueue<>();
  private String active,session; private boolean frameReady; private volatile String requested;
- private long expires,started; private String lastFrame="";
+ private long started; private String lastFrame="";
  private MapSourceTask source;private boolean liveMode,sourceStarted;
  MapProbe(Object remote,Class<?> service,ClassLoader loader)throws Exception {
   this.remote=remote;this.service=service;
@@ -57,7 +57,7 @@ final class MapProbe {
   if(!mode.equals("SMALL")&&!mode.equals("FULL")&&!mode.equals("MEDIA"))throw new IllegalArgumentException("Unknown map mode");
   stop();active=PREFIX+(mode.equals("MEDIA")?"MEDIA_SMALL":"NAVI_"+mode);session=java.util.UUID.randomUUID().toString();
   liveMode=mode.equals("MEDIA");sourceStarted=false;
-  expires=SystemClock.elapsedRealtime()+60000;started=SystemClock.elapsedRealtime();frameReady=false;requested=null;lastFrame="";
+  started=SystemClock.elapsedRealtime();frameReady=false;requested=null;lastFrame="";
   writeLease();
   String base=PREFIX+(mode.equals("MEDIA")?"MEDIA":"NAVI");
   call("syncReadyState",base,1);
@@ -65,10 +65,10 @@ final class MapProbe {
   intent.putExtra("session",session).putExtra("mode",mode);
   service.getMethod("startClusterActivity",Intent.class).invoke(remote,intent);
   call("requestPresentation",active,1);events.add("PRESENTATION_REQUEST "+active);
-  events.add("START_REQUEST "+active+" session="+session+" expires=60s; waiting for first frame");
+  events.add("START_REQUEST "+active+" session="+session+" manual-stop; waiting for first frame");
  }
  private void writeLease()throws Exception{
-  File f=new File(folder,"map-lease");try(FileWriter w=new FileWriter(f)){w.write(session+"\n"+expires+"\n");}
+  File f=new File(folder,"map-lease");try(FileWriter w=new FileWriter(f)){w.write(session+"\n");}
   int uid=android.system.Os.stat(folder.getPath()).st_uid;android.system.Os.chown(f.getPath(),uid,uid);android.system.Os.chmod(f.getPath(),0600);
   java.lang.Process relabel=new ProcessBuilder("/system/bin/restorecon",f.getPath()).redirectErrorStream(true).start();
   if(!relabel.waitFor(3,java.util.concurrent.TimeUnit.SECONDS)){relabel.destroy();throw new IOException("Lease restorecon timed out");}
@@ -76,8 +76,8 @@ final class MapProbe {
  }
  void poll(PrintWriter out)throws Exception {
   if(active!=null){
-   if(SystemClock.elapsedRealtime()>=expires){stop();events.add("MAP_TIMEOUT");}
-   else {
+
+   {
     if(liveMode&&!sourceStarted){
      File sourceFile=new File(folder,"map-source");
      if(sourceFile.isFile())try(BufferedReader r=new BufferedReader(new FileReader(sourceFile))){
@@ -94,7 +94,7 @@ final class MapProbe {
      if(!frameReady){frameReady=true;events.add("FIRST_FRAME");}
     }
     if(frameReady&&(!liveMode||sourceStarted)&&requested!=null){String p=requested;requested=null;if(p.equals(active))ready(p);}
-    if(!frameReady&&SystemClock.elapsedRealtime()-started>10000 && started!=0){events.add("NO_FRAME: no drawn frame yet; try explicit Ready once to test hidden-surface handshake. Auto-stop remains 60s.");started=0;}
+    if(!frameReady&&SystemClock.elapsedRealtime()-started>10000 && started!=0){events.add("NO_FRAME: no drawn frame yet; try explicit Ready once to test hidden-surface handshake.");started=0;}
    }
   }
   String event;while((event=events.poll())!=null){out.println(event);android.util.Log.i("VoyahClusterTest",event);}

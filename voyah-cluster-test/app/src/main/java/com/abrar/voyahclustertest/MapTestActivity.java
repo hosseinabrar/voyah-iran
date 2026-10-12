@@ -11,8 +11,8 @@ public final class MapTestActivity extends Activity {
  private final Handler handler=new Handler(); private String session,mode;private MapView map;private LiveMapView live;
  private final Runnable check=new Runnable(){public void run(){
   try(BufferedReader r=new BufferedReader(new FileReader(new File(getFilesDir(),"map-lease")))){
-   // Let the helper move Neshan back before this display is released at lease expiry.
-   if(!session.equals(r.readLine())||SystemClock.elapsedRealtime()>=Long.parseLong(r.readLine())+10000){finishAndRemoveTask();return;}
+   // The helper removes the session file after returning Neshan on stop.
+   if(!session.equals(r.readLine())){finishAndRemoveTask();return;}
   }catch(Exception e){finishAndRemoveTask();return;}
   if(live!=null)live.refreshTuning();
   handler.postDelayed(this,100);
@@ -23,6 +23,9 @@ public final class MapTestActivity extends Activity {
   int display=getWindowManager().getDefaultDisplay().getDisplayId();
   if(display==0){android.util.Log.e("VoyahClusterTest","REFUSED_RENDER_ON_DEFAULT_DISPLAY");finish();return;}
   getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+  getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+  getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.TRANSPARENT));
+  getWindow().setFormat(PixelFormat.TRANSLUCENT);
   getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
   if("MEDIA".equals(mode)){live=new LiveMapView(this,session);setContentView(live);}
   else {map=new MapView();setContentView(map);}handler.post(check);

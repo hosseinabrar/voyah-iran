@@ -1,6 +1,55 @@
+## Independent mask calibration (current)
+
+Six sliders independently control map X/Y/zoom and mask X/Y/scale. Mask offsets are output pixels relative to the base 490 x 506 panel at (90,154); scale is 25–300% around its center. Positive X/Y moves right/down. Map rendering stays 871 x 660.
+The no-mask toggle bypasses both alpha masking and panel clipping so the full transformed map can be inspected. All values and the enabled state persist; MAP_GEOMETRY logs mask bounds and independent transforms.
+Current protocol: `v2 mapX mapY mapZoom maskId maskX maskY maskScale enabled` (enabled 0/1). Reinstall the APK and restart Start-ClusterTest.ps1. Legacy two/three/four-value settings remain readable.
+
+## User mask collection
+
+The ZIP includes 12 independent 490 x 506 PNGs plus a preview sheet. All 12 originals are included without image edits:
+Organic = cluster_mask_01; Flashlight = cluster_mask_02; Mask 01–10 = cluster_mask_03–12.
+Buttons switch the alpha mask live without restarting the map or virtual display.
+Mask selection, pixel offsets, and zoom are saved together. Decoded alpha masks are cached lazily (about 1 MB each); there is no per-frame conversion.
+Mask IDs are zero-based 0–11.
+These notes supersede the single-mask description below.
+## Fixed image mask (superseded)
+
+- The approved grayscale PNG is bundled as drawable-nodpi/cluster_map_mask.png, unchanged from the approved source.
+- It is decoded once and luminance is converted to alpha once. Each frame uses GPU DST_IN; no procedural fade or per-frame bitmap processing.
+- Source render is fixed at the launcher reference card size, 871 x 660, density 160, with adjustable 25–300% image scale (100% is 1:1).
+- This Speedy Dash test uses the 490 x 506 media panel at (90,154) on the 1920 x 720 output, matching the reviewed concept.
+- X/Y offsets (pixels) and zoom (25–300%) remain. They move the source under the stationary mask and persist under a new preference key. Old shape/zoom/size settings are ignored.
+- All output outside the panel is transparent. Offsets large enough to move the source away from the panel intentionally reveal transparency.
+- Earlier adjustable-mask notes below describe superseded experiments.
+- Install the new APK and restart Start-ClusterTest.ps1 so the helper uses the new three-value tuning protocol (X Y zoom). Existing two-value offsets retain their values with zoom 100%.
+## Output-frame fade coordinates
+
+Fade boundaries now use the actual output view dimensions reported by the OEM cluster display, not source render width/height. A 300x700 output remains a rectangular mask even with an 800x800 map source. Map zoom/offset no longer scale or move the mask. Circle keeps the smaller-output-dimension radius convention; ellipse and box use output width/height percentages. This supersedes source-coordinate descriptions below.
+
+## Independent fade boundaries
+
+Start and end each select Circle, Box or Ellipse. Ellipse percentages scale both render dimensions (1000x500 at 50% gives 500x250). Circle keeps the existing radius convention. Alpha interpolates along each ray between the two boundaries; if they intersect, the end boundary takes priority and that direction can have a hard edge. Choose percentages that nest the start inside the end for a smooth fade. Settings now serialize nine values; old five/seven/eight-value settings remain readable. Cached masks rebuild only on shape, percentage or source-dimension changes, not per frame or zoom/offset change.
+
+## Fade shapes
+
+Select Circular or Box. Both use source-render dimensions and follow output zoom/offset. Box 50/100 keeps the central 50%-width by 50%-height rectangle opaque and fades to zero at the full rectangle. Circular 100% radius equals min(render width, render height), per the requested 1000x500 -> radius 500 example; it is never elliptical. Shape is saved with tuning (eighth protocol value); rerun the helper after installing. The box alpha mask is cached, not generated per video frame. Native cluster background visibility still requires end-to-end alpha verification on the car.
+
+## Manual-stop sessions
+
+The current build has no 60-second map or connected-session expiry. Stop buttons, closing the control session, or connection loss still clean up the test. Earlier version notes below describe the old timeout policy. Install the updated APK and rerun Start-ClusterTest.ps1 to update the helper.
+
 # Voyah Cluster Test
 
 ## Live media map probe — 0.4.0
+
+Source displays now use `VIRTUAL_DISPLAY_FLAG_DESTROY_CONTENT_ON_REMOVAL`.
+The H97X test log showed a system_server crash at the 60-second timeout when
+the OEM default removal path migrated leftover activities to display 0.
+Normal cleanup still returns Neshan first; remaining source activities are
+destroyed rather than automatically migrated. If the flag is unavailable,
+source creation fails instead of using the unsafe removal policy. Unexpected
+teardown can finish a map task still on that display; it does not force-stop
+the map package or clear its data. This fix needs an on-car timeout/stop test.
 
 Work is on `cluster-map-test`; the production launcher is unchanged. Install
 `app/build/outputs/apk/debug/app-debug.apk`, then rerun `Start-ClusterTest.ps1`
@@ -24,9 +73,9 @@ Seven sliders are available above the original tests:
   the same display ID. It changes the map app's rendering viewport independently
   of the output scale slider. The renderer also clamps values to display 0 bounds.
 - Fade start/end: 0–99% and 1–100%, constrained to start < end. The output-centred
-  elliptical radius is 100% at the midpoint of its edges. At 50/85, alpha is fully
+  circular radius is 100% at the smaller source dimension. At 50/85, alpha is fully
   opaque inside 50%, falls linearly to zero at 85%, and stays zero beyond it.
-  The alpha-masked texture is composited over black, matching the media slot.
+  The alpha-masked texture and activity window now have transparent backgrounds. The OEM media SurfaceView and physical transport may still flatten alpha; true blending with the cluster background requires on-car verification. This change does not patch the OEM service or draw a simulated cluster background.
 
 Tuning values persist and apply live, with a short debounce. `TUNING`,
 `SOURCE_CREATED`, `LIVE_MAP_STARTED`, `RENDER` and restoration failures are logged

@@ -1,15 +1,17 @@
 package com.abrar.voyahclustertest;
 public final class MapTuningCheck {
  public static void main(String[] args){
-  MapTuning t=MapTuning.parse("-30 20 125 50 85");
-  if(t.x!=-30||t.y!=20||t.zoom!=125||t.start!=50||t.end!=85)throw new AssertionError();
-  if(!t.toString().equals("-30 20 125 50 85 871 660"))throw new AssertionError();
-  MapTuning size=MapTuning.parse("0 0 100 50 85 1920 720");
-  if(size.width!=1920||size.height!=720)throw new AssertionError();
-  for(String invalid:new String[]{"0 0 100 85 50","0 0 100 50 50","101 0 100 50 85","0 0 0 50 85","0 0 100 0 101","0 0 100","0 0 100 50 85 0 720","0 0 100 50 85 1920 9000"}){
-   try{MapTuning.parse(invalid);throw new AssertionError(invalid);}catch(IllegalArgumentException expected){}
+  MapTuning t=MapTuning.parse("-123 45");
+  if(t.x!=-123||t.y!=45||!t.toString().equals("v2 -123 45 100 0 0 0 100 1"))throw new AssertionError("round trip");
+  if(MapTuning.parse("-100 20 100 50 85 800 800 1 2").x!=0)throw new AssertionError("legacy reset");
+  if(MapTuning.WIDTH!=871||MapTuning.HEIGHT!=660)throw new AssertionError("card size");
+  if(MapTuning.parse("12 -34 50").zoom!=50||MapTuning.parse("12 -34").zoom!=100)throw new AssertionError("zoom migration");
+  for(int id=0;id<MapTuning.MASK_COUNT;id++){MapTuning m=MapTuning.parse("12 -34 50 "+id);if(m.maskId!=id||m.x!=12||m.y!=-34||m.zoom!=50)throw new AssertionError("mask round trip");}
+  MapTuning full=MapTuning.parse(new MapTuning(2,-10,95,7,120,-40,75,false).toString());
+  if(full.maskX!=120||full.maskY!=-40||full.maskScale!=75||full.maskEnabled||full.x!=2||full.zoom!=95)throw new AssertionError("independent mask transform");
+  for(String bad:new String[]{"0 0 100 -1","0 0 100 12","v2 0 0 100 0 1921 0 100 1","v2 0 0 100 0 0 0 24 1","v2 0 0 100 0 0 0 100 2","0 0 24","0 0 301","872 0","0 -661","2147483647 0","-2147483648 0","0","a b"}){
+   try{MapTuning.parse(bad);throw new AssertionError(bad);}catch(IllegalArgumentException expected){}
   }
-  MapTuning.parse("-100 100 25 0 1");MapTuning.parse("100 -100 300 99 100");
-  System.out.println("Map tuning bounds and round-trip passed");
+  System.out.println("MapTuningCheck passed");
  }
 }

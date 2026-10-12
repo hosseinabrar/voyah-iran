@@ -14,41 +14,55 @@ public final class MainActivity extends Activity {
  private EditText roadText; private Spinner textMode; private EditText number; private TextView status,logs; private Spinner directions,types;
  private final ExecutorService worker=Executors.newSingleThreadExecutor();
  private java.net.Socket process;private BufferedWriter input; private volatile boolean visible;
- private final Handler tuningHandler=new Handler();private final SeekBar[] sliders=new SeekBar[7];
- private final int[] tuning={0,0,100,50,85,871,660};private boolean updatingSliders;
+ private final Handler tuningHandler=new Handler();
+ private final int[] offsets={0,0,100,0,0,100};private int selectedMask;private boolean maskEnabled=true;
  private final Runnable sendTuning=()->mapCommand("MAP TUNE "+tuningString());
- private String tuningString(){return new MapTuning(tuning[0],tuning[1],tuning[2],tuning[3],tuning[4],tuning[5],tuning[6]).toString();}
+ private String tuningString(){return new MapTuning(offsets[0],offsets[1],offsets[2],selectedMask,offsets[3],offsets[4],offsets[5],maskEnabled).toString();}
  private void tuningControls(LinearLayout box){
-  String saved=getPreferences(0).getString("mapTuning","0 0 100 50 85");
-  try{MapTuning t=MapTuning.parse(saved);int[] v={t.x,t.y,t.zoom,t.start,t.end,t.width,t.height};System.arraycopy(v,0,tuning,0,7);}catch(Exception ignored){}
-  android.graphics.Point screen=new android.graphics.Point();
-  android.view.Display central=getSystemService(android.hardware.display.DisplayManager.class).getDisplay(0);
-  if(central==null)central=getWindowManager().getDefaultDisplay();central.getRealSize(screen);
-  tuning[5]=Math.max(Math.min(160,screen.x),Math.min(screen.x,tuning[5]));tuning[6]=Math.max(Math.min(160,screen.y),Math.min(screen.y,tuning[6]));
-  label(box,"نشان زنده در مدیای کلاستر — حداکثر رندر "+screen.x+"×"+screen.y);
-  label(box,"آفست درصد نیم‌عرض/نیم‌ارتفاع خروجی؛ زوم مقیاس تصویر است. فید از مرکز خروجی تا لبه‌ها اندازه‌گیری می‌شود.");
-  String[] titles={"آفست افقی X","آفست عمودی Y","بزرگنمایی تصویر","شروع فید شعاعی","پایان فید شعاعی","عرض رندر","ارتفاع رندر"};
-  int[] minimum={-100,-100,25,0,1,Math.min(160,screen.x),Math.min(160,screen.y)},maximum={100,100,300,99,100,screen.x,screen.y};
-  TextView[] labels=new TextView[7];
-  for(int i=0;i<7;i++){
-   final int index=i;TextView label=new TextView(this);labels[i]=label;label.setTextColor(Color.WHITE);label.setTextSize(18);box.addView(label);
-   SeekBar slider=new SeekBar(this);sliders[i]=slider;slider.setMax(maximum[i]-minimum[i]);slider.setProgress(tuning[i]-minimum[i]);box.addView(slider);
-   label.setText(titles[i]+": "+tuning[i]+(i<5?"%":" px"));
+  try{MapTuning t=MapTuning.parse(getPreferences(0).getString("fixedMaskOffsets","0 0"));offsets[0]=t.x;offsets[1]=t.y;offsets[2]=t.zoom;selectedMask=t.maskId;offsets[3]=t.maskX;offsets[4]=t.maskY;offsets[5]=t.maskScale;maskEnabled=t.maskEnabled;}catch(Exception ignored){}
+  label(box,"رندر ثابت کارت نقشه: 871 × 660 — ماسک تصویری ثابت");
+  String[] maskNames={"Organic","Flashlight","Mask 01","Mask 02","Mask 03","Mask 04","Mask 05","Mask 06","Mask 07","Mask 08","Mask 09","Mask 10"};
+  TextView chosen=new TextView(this);chosen.setTextColor(Color.WHITE);chosen.setTextSize(18);chosen.setText("Mask: "+maskNames[selectedMask]);box.addView(chosen);
+  Button[] maskButtons=new Button[MapTuning.MASK_COUNT];
+  for(int rowIndex=0;rowIndex<4;rowIndex++){
+   LinearLayout maskRow=new LinearLayout(this);box.addView(maskRow);
+   for(int column=0;column<3;column++){
+    final int id=rowIndex*3+column;Button button=new Button(this);maskButtons[id]=button;button.setText(maskNames[id]);
+    button.setAlpha(id==selectedMask?1f:.55f);maskRow.addView(button,new LinearLayout.LayoutParams(0,dp(52),1));
+    button.setOnClickListener(v->{
+     selectedMask=id;chosen.setText("Mask: "+maskNames[id]);
+     for(int k=0;k<maskButtons.length;k++)maskButtons[k].setAlpha(k==id?1f:.55f);
+     getPreferences(0).edit().putString("fixedMaskOffsets",tuningString()).apply();
+     tuningHandler.removeCallbacks(sendTuning);tuningHandler.post(sendTuning);
+    });
+   }
+  }
+  String[] titles={"آفست نقشه X","آفست نقشه Y","زوم نقشه","آفست ماسک X","آفست ماسک Y","مقیاس ماسک"};
+  int[] minimum={-MapTuning.WIDTH,-MapTuning.HEIGHT,25,-1920,-720,25},maximum={MapTuning.WIDTH,MapTuning.HEIGHT,300,1920,720,300};
+  for(int i=0;i<6;i++){
+   final int index=i;
+   TextView value=new TextView(this);value.setTextColor(Color.WHITE);value.setTextSize(18);box.addView(value);
+   value.setText(titles[i]+": "+offsets[i]+(i%3==2?"%":" px"));
+   SeekBar slider=new SeekBar(this);slider.setMax(maximum[i]-minimum[i]);slider.setProgress(offsets[i]-minimum[i]);box.addView(slider);
    slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
     public void onStartTrackingTouch(SeekBar s){}
     public void onStopTrackingTouch(SeekBar s){tuningHandler.removeCallbacks(sendTuning);tuningHandler.post(sendTuning);}
-    public void onProgressChanged(SeekBar s,int progress,boolean user){
-     if(updatingSliders)return;tuning[index]=progress+minimum[index];
-     if(tuning[3]>=tuning[4]){if(index==3)tuning[4]=tuning[3]+1;else tuning[3]=tuning[4]-1;}
-     updatingSliders=true;for(int j=0;j<7;j++){sliders[j].setProgress(tuning[j]-minimum[j]);labels[j].setText(titles[j]+": "+tuning[j]+(j<5?"%":" px"));}updatingSliders=false;
-     getPreferences(0).edit().putString("mapTuning",tuningString()).apply();
-     tuningHandler.removeCallbacks(sendTuning);tuningHandler.postDelayed(sendTuning,index>=5?300:120);
+    public void onProgressChanged(SeekBar s,int n,boolean user){
+     if(!user)return;offsets[index]=n+minimum[index];value.setText(titles[index]+": "+offsets[index]+(index%3==2?"%":" px"));
+     getPreferences(0).edit().putString("fixedMaskOffsets",tuningString()).apply();
+     tuningHandler.removeCallbacks(sendTuning);tuningHandler.postDelayed(sendTuning,120);
     }
    });
   }
+  Button toggleMask=new Button(this);toggleMask.setText(maskEnabled?"نمایش بدون ماسک":"فعال کردن ماسک");box.addView(toggleMask);
+  toggleMask.setOnClickListener(v->{
+   maskEnabled=!maskEnabled;toggleMask.setText(maskEnabled?"نمایش بدون ماسک":"فعال کردن ماسک");
+   getPreferences(0).edit().putString("fixedMaskOffsets",tuningString()).apply();
+   tuningHandler.removeCallbacks(sendTuning);tuningHandler.post(sendTuning);
+  });
   LinearLayout row=new LinearLayout(this);box.addView(row);
   mapButton(row,"نمایش نشان در مدیا","MAP MEDIA");mapButton(row,"توقف تصویر","MAP STOP");
-  label(box,"تست تصویر پس از ۶۰ ثانیه متوقف می‌شود؛ برای شروع دوباره نمایش نشان را بزنید. هنگام تست، لانچر اختصاصی و ارسال موسیقی به کلاستر را خاموش کنید تا مالکیت نقشه و مدیا تداخل نکند.");
+  label(box,"تنظیمات نقشه و ماسک مستقل‌اند. آفست ماسک نسبت به محل اولیه و مقیاس حول مرکز آن است. تست تا زدن توقف ادامه دارد.");
  }
  private int dp(int n){return Math.round(n*getResources().getDisplayMetrics().density);}
  private void label(LinearLayout box,String s){TextView t=new TextView(this);t.setText(s);t.setTextSize(18);t.setTextColor(Color.WHITE);box.addView(t);}
@@ -71,12 +85,12 @@ public final class MainActivity extends Activity {
   samples.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){public void onNothingSelected(AdapterView<?> p){}public void onItemSelected(AdapterView<?> p,View v,int pos,long id){roadText.setText(sampleText[pos]);}});
   label(box,"روش ارسال متن (ابتدا گزینهٔ اول را تست کنید)");textMode=new Spinner(this);textMode.setBackgroundColor(Color.WHITE);
   textMode.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,new String[]{"۱. متن اصلی Unicode", "۲. حروف متصل آماده — ترتیب منطقی", "۳. حروف متصل آماده — ترتیب دیداری"}));box.addView(textMode);
-  label(box,"در زبان فعلی و زبان عربی خودرو تست کنید. فاصله ۱۰۰ متر؛ ارسال هر ثانیه و حداکثر ۶۰ ثانیه.");
+  label(box,"در زبان فعلی و زبان عربی خودرو تست کنید. فاصله ۱۰۰ متر؛ ارسال هر ثانیه تا توقف تست.");
   LinearLayout buttons=new LinearLayout(this);box.addView(buttons);
   Button apply=new Button(this);apply.setText("اعمال");buttons.addView(apply);apply.setOnClickListener(v->apply());
   Button end=new Button(this);end.setText("توقف و پاک‌کردن");buttons.addView(end);end.setOnClickListener(v->worker.execute(()->stopProbe()));
   label(box,"آزمایش تصویر نقشه — مستقل از فلش و متن بالا");
-  label(box,"کوچک و بزرگ تصویر آزمایشی هستند؛ ناحیه موسیقی نشان زنده را نمایش می‌دهد. هر حالت ۶۰ ثانیه فعال می‌ماند.");
+  label(box,"کوچک و بزرگ تصویر آزمایشی هستند؛ ناحیه موسیقی نشان زنده را نمایش می‌دهد. نمایش تا توقف تست ادامه دارد.");
   LinearLayout mapRow=new LinearLayout(this);box.addView(mapRow);
   mapButton(mapRow,"وضعیت و شنود","MAP INFO");mapButton(mapRow,"نقشه کوچک","MAP SMALL");mapButton(mapRow,"نقشه بزرگ","MAP FULL");
   LinearLayout mapRow2=new LinearLayout(this);box.addView(mapRow2);
