@@ -16,7 +16,7 @@ internal object LauncherClusterMap {
     @Volatile private var ready = false
     @Volatile private var output: Surface? = null
     private var retryAt=0L
-    fun allowed(c: Context) = LauncherPreferences.enabled(c) && LauncherPreferences.clusterMap(c) &&
+    fun allowed(c: Context) = LauncherPreferences.enabled(c) && LauncherPreferences.clusterMap(c) && LauncherPreferences.clusterMapVisible(c) &&
         (c.applicationContext as VoyahIranApplication).subscriptions.vipAllowed
     fun show(c: Context, relay: MapFrameRelay) {
         if (!allowed(c)) { hide(relay); return }

@@ -12,6 +12,7 @@ import kotlinx.coroutines.sync.withLock
 /** Read-only monitoring; passenger ownership changes only on an explicit button press. */
 class LauncherMapPreview(private val context: Context, private val scope: CoroutineScope, private val onMessage: (String) -> Unit, private val view:SurfaceView) : SurfaceHolder.Callback {
     private var mapInCard=false
+    fun refreshCluster() { embedded.cluster(mapInCard) }
     private var clusterMonitor: Job?=null
     private fun error(message: String) {
         mapInCard=message.isEmpty() && !fullscreen && !closed

@@ -6,6 +6,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 object LauncherPreferences {
+    fun clusterMapVisible(c: Context) = c.getSharedPreferences("launcher",0).getBoolean("cluster_map_visible",true)
+    fun setClusterMapVisible(c: Context, value: Boolean) {
+        check((c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed)
+        c.getSharedPreferences("launcher",0).edit().putBoolean("cluster_map_visible",value).apply()
+    }
     fun clusterMap(c: Context) = c.getSharedPreferences("launcher",0).getBoolean("cluster_map",false)
     fun setClusterMap(c: Context, value: Boolean) {
         check(!value || (c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed)

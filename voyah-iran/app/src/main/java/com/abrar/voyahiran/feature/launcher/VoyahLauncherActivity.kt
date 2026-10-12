@@ -21,6 +21,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     private lateinit var container: FrameLayout
     private lateinit var pager: LauncherPager
     private lateinit var firstPage: FrameLayout
+    private lateinit var clusterButton: ClusterMapButton
     private lateinit var vehiclePage: LauncherVehicleDashboard
     private var vehicleTicker: Job? = null
     private var visible=false
@@ -68,6 +69,16 @@ class VoyahLauncherActivity : ComponentActivity() {
         })
         firstPage=FrameLayout(this)
         firstPage.addView(dashboard,FrameLayout.LayoutParams(-1,-1))
+        clusterButton=ClusterMapButton(this).apply {
+            visibility=View.GONE
+            setOnClickListener {
+                if(!(application as VoyahIranApplication).subscriptions.vipAllowed)return@setOnClickListener
+                LauncherPreferences.setClusterMapVisible(this@VoyahLauncherActivity,!LauncherPreferences.clusterMapVisible(this@VoyahLauncherActivity))
+                preview?.refreshCluster()
+                updateClusterButton()
+            }
+        }
+        firstPage.addView(clusterButton)
         pager.addView(firstPage,FrameLayout.LayoutParams(-1,-1))
         pager.addView(vehiclePage,FrameLayout.LayoutParams(-1,-1))
         pager.onPage={updatePageWork()}
@@ -137,11 +148,23 @@ class VoyahLauncherActivity : ComponentActivity() {
             map.outlineProvider=object:android.view.ViewOutlineProvider(){override fun getOutline(v:View,o:android.graphics.Outline){o.setRoundRect(0,0,v.width,v.height,16f)}}
             val navigator=NavigationPreferences(this).navigator
             activeNavigator=navigator
-            preview=LauncherMapPreview(this,lifecycleScope,{ dashboard.mapMessage=it },map).also {it.packageName(navigator)}
+            preview=LauncherMapPreview(this,lifecycleScope,{ dashboard.mapMessage=it;updateClusterButton() },map).also {it.packageName(navigator)}
             map.holder.addCallback(preview!!)
             preview?.startMonitoring()
             firstPage.addView(map,0,FrameLayout.LayoutParams((width*871f/1775).toInt(),height))
         } else mapView?.layoutParams=FrameLayout.LayoutParams((width*871f/1775).toInt(),height)
+        val buttonSize=(64f*width/1775f).toInt().coerceAtLeast(1)
+        clusterButton.layoutParams=FrameLayout.LayoutParams(buttonSize,buttonSize).apply {
+            leftMargin=(18f*width/1775f).toInt()
+            topMargin=(height*.75f-buttonSize/2f).toInt()
+        }
+        updateClusterButton()
+    }
+    private fun updateClusterButton() {
+        clusterButton.visibility=if(dashboard.mapMessage.isEmpty() && LauncherPreferences.clusterMap(this) &&
+            (application as VoyahIranApplication).subscriptions.vipAllowed) View.VISIBLE else View.GONE
+        clusterButton.active=LauncherPreferences.clusterMapVisible(this)
+        clusterButton.light=LauncherTheme.isLight()
     }
     override fun onResume() {
         super.onResume()
@@ -166,6 +189,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         ticker=lifecycleScope.launch {
             while(isActive) {
                 updateTheme()
+                updateClusterButton()
                 // Animate elapsed time locally; playback changes arrive through callbacks.
                 val state=mediaSnapshot
                 if(state.playing && state.duration>0) {
