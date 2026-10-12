@@ -6,6 +6,17 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun clusterMapAcceptsOnlySessionScopedPresentationCommands() {
+        val session="12345678-1234-1234-1234-123456789abc"
+        for(action in listOf("show","ready","stop")) {
+            val request=listOf("cluster-map",action,session)
+            assertEquals(request,BridgePolicy.resolve(request))
+        }
+        assertNull(BridgePolicy.resolve(listOf("cluster-map","show","../other")))
+        assertNull(BridgePolicy.resolve(listOf("cluster-map","show",session,"extra")))
+        assertNull(BridgePolicy.resolve(listOf("cluster-map","launch",session)))
+        assertNull(BridgePolicy.resolve(listOf("cluster-map","stop")))
+    }
     @Test fun drawerOnlyAcceptsBoundedRequests() {
         val nonce="a".repeat(32)
         for(request in listOf(listOf("launcher-drawer","catalog",nonce,"all"),listOf("launcher-drawer","open",nonce,"AC"))) {

@@ -24,6 +24,14 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
     private fun screenSwapEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_screen_swap", 1) == 1
     private fun passengerAppsEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_passenger_apps", 1) == 1
     fun bind() {
+        fun updateClusterOptions() {
+            view.launcherClusterOptions.visibility = if(com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(activity)) View.VISIBLE else View.GONE
+            view.launcherClusterMap.isChecked = com.abrar.voyahiran.feature.launcher.LauncherPreferences.clusterMap(activity)
+        }
+        updateClusterOptions()
+        view.launcherClusterMap.setOnClickListener {
+            com.abrar.voyahiran.feature.launcher.LauncherPreferences.setClusterMap(activity,view.launcherClusterMap.isChecked)
+        }
         view.customLauncher.isChecked = com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(activity)
         view.customLauncher.setOnClickListener {
             val desired = view.customLauncher.isChecked
@@ -36,7 +44,7 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
                     view.customLauncher.isChecked = com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(activity)
                     view.customLauncherError.text = e.message
                     view.customLauncherError.visibility = View.VISIBLE
-                } finally { view.customLauncher.isEnabled = true }
+                } finally { view.customLauncher.isEnabled = true; updateClusterOptions() }
             }
         }
         AppThemeController.bind(activity, view)

@@ -10,7 +10,29 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 /** Read-only monitoring; passenger ownership changes only on an explicit button press. */
-class LauncherMapPreview(private val context: Context, private val scope: CoroutineScope, private val error: (String) -> Unit, private val view:SurfaceView) : SurfaceHolder.Callback {
+class LauncherMapPreview(private val context: Context, private val scope: CoroutineScope, private val onMessage: (String) -> Unit, private val view:SurfaceView) : SurfaceHolder.Callback {
+    private var mapInCard=false
+    private var clusterMonitor: Job?=null
+    private fun error(message: String) {
+        mapInCard=message.isEmpty() && !fullscreen && !closed
+        embedded.cluster(mapInCard)
+        if(mapInCard && LauncherPreferences.clusterMap(context) && clusterMonitor?.isActive!=true) clusterMonitor=scope.launch {
+            while(isActive && !closed && mapInCard) {
+                delay(750)
+                if(active || busy)continue
+                val id=embedded.displayId ?: break
+                val status=withContext(Dispatchers.IO) {
+                    ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,id.toString()),4)
+                }
+                if(!mapInCard || closed)break
+                if(status.exitCode==0 && !status.timedOut) {
+                    mapInCard=isVisibleHere(status.output,id)
+                    embedded.cluster(mapInCard)
+                } else if(status.exitCode!=75) {mapInCard=false;embedded.cluster(false)}
+            }
+        }
+        onMessage(message)
+    }
     private var departingUntil = 0L
     private val transferObserver = object : android.database.ContentObserver(android.os.Handler(android.os.Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean) {
@@ -79,6 +101,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     private fun move(id: Int, claim: Boolean, done: (() -> Unit)? = null) {
         if(closed || busy)return
         busy=true
+        mapInCard=false;embedded.cluster(false)
         departingUntil=0L
         error(LOADING)
         job=scope.launch {
@@ -208,11 +231,12 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                     } } catch(e:CancellationException) {throw e}
                     catch(e:Exception) {error("نقشه در دسترس نیست")}
                 }
-                delay(2000)
+                delay(if(LauncherPreferences.clusterMap(context)) 750 else 2000)
             }
         }
     }
     fun stopMonitoring() {
+        if(fullscreen || closed) {mapInCard=false;embedded.cluster(false)}
         active=false;monitor?.cancel();monitor=null
         runCatching {embedded.active(false)}
         view.visibility=View.INVISIBLE
@@ -248,6 +272,8 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         // Losing a window surface is not loss of the map task. Preserve card state.
     }
     fun close() {
+        clusterMonitor?.cancel();clusterMonitor=null
+        embedded.cluster(false)
         if(currentPreview?.get() === this) currentPreview=null
         context.contentResolver.unregisterContentObserver(transferObserver)
         closed=true;hostStopped()

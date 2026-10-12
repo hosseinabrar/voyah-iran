@@ -42,7 +42,7 @@ internal object ClusterMusicBridge {
     }
     private fun tick() {
         try {
-            val value = frame?.takeIf { BridgeSubscriptionSession.active && SystemClock.elapsedRealtime() - received < 5000 }
+            val value = frame?.takeIf { !ClusterMapBridge.presenting && BridgeSubscriptionSession.active && SystemClock.elapsedRealtime() - received < 5000 }
             if (value == null) { close(); return }
             if (child?.isAlive != true) {
                 close()

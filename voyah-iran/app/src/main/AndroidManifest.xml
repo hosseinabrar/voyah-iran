@@ -65,6 +65,9 @@
         </receiver>
         <service android:name=".feature.subscription.SubscriptionService" android:exported="false" />
         <activity android:name=".feature.subscription.SubscriptionActivity" android:exported="false" android:launchMode="singleTop" android:theme="@style/Theme.VoyahIran.Subscription" />
+        <activity android:name=".feature.launcher.ClusterMapActivity" android:exported="true" android:resizeableActivity="true"
+            android:theme="@style/Theme.VoyahIran.ClusterMap" android:excludeFromRecents="true"
+            android:taskAffinity="com.abrar.voyahiran.cluster.map" android:configChanges="screenSize|smallestScreenSize|orientation|density|uiMode" />
         <activity android:name=".ui.MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

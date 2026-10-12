@@ -14,6 +14,13 @@
                 android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
                 android:text="لانچر اختصاصی وویا ایران" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" />
             <TextView android:id="@+id/customLauncherError" style="@style/Text.Secondary" android:visibility="gone" android:textColor="@color/error" />
+            <LinearLayout android:id="@+id/launcherClusterOptions" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginStart="24dp" android:orientation="vertical" android:visibility="gone">
+                <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/launcherClusterMap" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                    android:text="نمایش نقشه در کلاستر راننده" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" />
+                <TextView style="@style/Text.Secondary" android:text="نقشه در صفحه مولتی‌مدیا کلاستر نمایش داده می‌شود." />
+            </LinearLayout>
             <CheckBox
                 android:id="@+id/appDisplayCorrection"
                 android:layout_marginTop="@dimen/space_md"

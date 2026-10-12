@@ -15,22 +15,53 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
     private var background:android.media.ImageReader?=null
     private var bufferWidth=0
     private var bufferHeight=0
+    private var relay: MapFrameRelay?=null
+    private var relayFailed=false
+    private var cardHolder: SurfaceHolder?=null
     var attached=false;private set
     val displayId get()=display?.display?.displayId
     fun attach(holder:SurfaceHolder,width:Int,height:Int) {
         require(width>0 && height>0 && holder.surface.isValid)
+        cardHolder=holder
         val manager=context.getSystemService(DisplayManager::class.java)
         if(display==null) {
-            display=manager.createVirtualDisplay("VoyahIran.MapPreview",width,height,160,holder.surface,
+            display=manager.createVirtualDisplay("VoyahIran.MapPreview",width,height,160,relay?.source ?: holder.surface,
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC or DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY)
             checkNotNull(display) {"Virtual display creation failed"}
         } else {
-            display!!.surface=holder.surface
+            display!!.surface=relay?.source ?: holder.surface
             if(bufferWidth!=width || bufferHeight!=height) display!!.resize(width,height,160)
         }
         bufferWidth=width;bufferHeight=height
         background?.close();background=null
         attached=true
+        relay?.let {it.resize(width,height);it.card(holder.surface,width,height)}
+    }
+    fun cluster(inCard: Boolean) {
+        if(!inCard || !LauncherClusterMap.allowed(context)) {relay?.let {LauncherClusterMap.hide(it)};return}
+        if(relay==null && !relayFailed && attached && bufferWidth>0 && bufferHeight>0) {
+            try {
+                val output=MapFrameRelay(context,bufferWidth,bufferHeight) { failure ->
+                    android.os.Handler(android.os.Looper.getMainLooper()).post {
+                        relayFailed=true
+                        display?.surface=null
+                        relay?.let {LauncherClusterMap.hide(it);it.close()};relay=null
+                        display?.surface=cardHolder?.surface?.takeIf {it.isValid}
+                        com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay failed; restored direct card",failure)
+                    }
+                }
+                // Disconnect the original producer before EGL connects to the card Surface.
+                display?.surface=null
+                relay=output
+                output.card(cardHolder?.surface,bufferWidth,bufferHeight)
+                display?.surface=output.source
+            } catch(e:Exception) {
+                relayFailed=true;relay?.close();relay=null
+                display?.surface=cardHolder?.surface?.takeIf {it.isValid}
+                com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay unavailable",e)
+            }
+        }
+        relay?.let {LauncherClusterMap.show(context.applicationContext,it)}
     }
     fun active(value:Boolean) {
         if(value && attached) automationDisplayId=displayId
@@ -38,13 +69,17 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         // Keep rendering during task handoff; detaching the producer mid-move can strand it.
     }
     fun detach() {
+        cluster(false)
+        relay?.card(null,0,0);cardHolder=null
         attached=false
         active(false)
         display?.surface=null
     }
     fun park() {
+        cardHolder=null
         attached=false
         active(false)
+        if(relay!=null) {relay?.card(null,0,0);return}
         if(display==null || background!=null || bufferWidth<=0 || bufferHeight<=0)return
         // SurfaceView's surface dies when HOME is covered. Keep a draining output
         // on the SAME display so the map task keeps rendering without a transfer.
@@ -55,5 +90,5 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         try { display!!.surface=reader.surface;background=reader }
         catch(e:Exception) {reader.close();throw e}
     }
-    fun close() {detach();display?.release();display=null;background?.close();background=null}
+    fun close() {detach();display?.release();display=null;background?.close();background=null;relay?.close();relay=null}
 }
