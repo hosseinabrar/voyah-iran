@@ -61,6 +61,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
             var wasAllowed = false
             var previousVip: Boolean? = null
             while(isActive) {
+                var initializationFailed = false
                 val nowElapsed = android.os.SystemClock.elapsedRealtime()
                 try {
                     if(vin == null) {
@@ -78,7 +79,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                         else {
                             // Do not let DNS/HTTP renewal block retrying local startup.
                             // Recheck grant expiry and the runtime session on every retry.
-                            delay(3000)
+                            delay(100)
                             continue
                         }
                     }
@@ -120,6 +121,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                 } catch(e: Exception) {
                     if(e is CancellationException) throw e
                     mutable.value=SubscriptionStatus.VEHICLE_UNAVAILABLE
+                    initializationFailed = true
                     AppLog.error("Subscription", "VIN or runtime initialization failed", e)
                 }
                 syncApollo()
@@ -134,7 +136,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                     if(app.starBackup.read()!=null) StarBackService.request(app,StarBackService.RESUME)
                     announce()
                 }
-                val forced=withTimeoutOrNull(if(allowed && !wasAllowed) 3000L else if(vin==null) 10000L else 30000L) { wake.receive(); true } == true
+                val forced=withTimeoutOrNull(if(initializationFailed || vin==null || (allowed && !wasAllowed)) 100L else 30000L) { wake.receive(); true } == true
                 if(forced)nextRefresh=0
             }
         }

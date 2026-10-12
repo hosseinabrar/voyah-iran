@@ -135,14 +135,14 @@ internal object AvmTurnBridge {
                 AppLog.error("AvmTurn", "monitor failed; ownership discarded, retry in 5s", e)
                 runCatching { client?.close() }
                 client = null; pending=null; pending=null; policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN
-                Thread.sleep(5_000)
+                Thread.sleep(1_000)
             } catch (e: LinkageError) {
                 status = "unsupported"
                 AppLog.info("AvmTurn", "native linkage detail=${e.message.orEmpty().take(1800)}")
                 AppLog.error("AvmTurn", "OEM SDK unavailable", e)
                 runCatching { client?.close() }; client = null
                 pending=null; policy = AvmTurnPolicy(); visible = Visibility.UNKNOWN
-                Thread.sleep(5_000)
+                Thread.sleep(1_000)
             }
         }
     }

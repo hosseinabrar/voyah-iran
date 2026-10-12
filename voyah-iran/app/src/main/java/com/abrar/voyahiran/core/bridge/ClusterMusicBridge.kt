@@ -47,7 +47,7 @@ internal object ClusterMusicBridge {
             if (child?.isAlive != true) {
                 close()
                 if (SystemClock.elapsedRealtime() < retryAt) return
-                retryAt = SystemClock.elapsedRealtime() + 30000
+                retryAt = SystemClock.elapsedRealtime() + 5000
                 val modernInstalled = runner.run(listOf("/system/bin/pm", "path", PACKAGE), 3).output.lineSequence().any { it.startsWith("package:") }
                 val legacy = !modernInstalled && android.os.Build.VERSION.SDK_INT == 28
                 check(modernInstalled || legacy) { "No supported OEM cluster package" }
@@ -80,7 +80,7 @@ internal object ClusterMusicBridge {
             }
         } catch (e: Exception) {
             AppLog.changed("ClusterMusic", "adapter unavailable: ${e.message}")
-            close(); retryAt = SystemClock.elapsedRealtime() + 30000
+            close(); retryAt = SystemClock.elapsedRealtime() + 5000
         }
     }
     private var lastSent: String? = null

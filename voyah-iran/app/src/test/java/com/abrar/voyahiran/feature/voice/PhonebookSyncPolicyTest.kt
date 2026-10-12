@@ -5,11 +5,11 @@ import org.junit.Test
 
 class PhonebookSyncPolicyTest {
     @Test fun delayedOemPhonebookNeverExhaustsRetries() {
-        repeat(20) { assertEquals(30_000L,PhonebookSyncPolicy.delay(true,false)) }
+        repeat(20) { assertEquals(5_000L,PhonebookSyncPolicy.delay(true,false)) }
         assertEquals(300_000L,PhonebookSyncPolicy.delay(true,true))
     }
     @Test fun failureRetriesEvenWithOldContacts() {
-        assertEquals(30_000L,PhonebookSyncPolicy.delay(false,true))
-        assertEquals(30_000L,PhonebookSyncPolicy.delay(false,false))
+        assertEquals(5_000L,PhonebookSyncPolicy.delay(false,true))
+        assertEquals(5_000L,PhonebookSyncPolicy.delay(false,false))
     }
 }

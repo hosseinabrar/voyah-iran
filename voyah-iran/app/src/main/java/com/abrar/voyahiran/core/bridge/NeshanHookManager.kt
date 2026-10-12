@@ -54,7 +54,7 @@ internal class NeshanHookManager {
             while (true) {
                 val start = now()
                 try { synchronized(this) { tick() } }
-                catch (e: Exception) { failure = e.message; stop(); retryAt = now() + 30000; AppLog.error("NeshanDirect", "watch failed", e) }
+                catch (e: Exception) { failure = e.message; stop(); retryAt = now() + 5000; AppLog.error("NeshanDirect", "watch failed", e) }
                 Thread.sleep((200 - (now() - start)).coerceAtLeast(20))
             }
         }
@@ -165,7 +165,7 @@ internal class NeshanHookManager {
             if (profile == null) {
                 failure = "Waiting for signed config matching installed Neshan"
                 AppLog.changed("NeshanConfig", failure!!)
-                retryAt = now() + 30000
+                retryAt = now() + 5000
                 return
             }
             prepareFiles(); pid = target; ready = false; failure = null
@@ -179,7 +179,7 @@ internal class NeshanHookManager {
             }
             val deadline = now() + 10000
             while (process.isAlive && !ready && failure == null && now() < deadline) Thread.sleep(50)
-            if (!ready || failure != null) { val error = failure ?: "No hook-ready acknowledgement"; stop(); retryAt = now() + 30000; failure = error; return }
+            if (!ready || failure != null) { val error = failure ?: "No hook-ready acknowledgement"; stop(); retryAt = now() + 5000; failure = error; return }
             AppLog.info("NeshanDirect", "attached pid=$pid, direct route model; background updates require vehicle test")
         }
         if (now() >= pingAt) {

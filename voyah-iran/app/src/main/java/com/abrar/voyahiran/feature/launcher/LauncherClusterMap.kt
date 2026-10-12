@@ -40,7 +40,7 @@ internal object LauncherClusterMap {
                 }
             } catch (e: Exception) {
                 if (e !is CancellationException) {
-                    retryAt=android.os.SystemClock.elapsedRealtime()+15000
+                    retryAt=android.os.SystemClock.elapsedRealtime()+3000
                     AppLog.error("ClusterMap", "presentation failed", e)
                 }
             } finally {
