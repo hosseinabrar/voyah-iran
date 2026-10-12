@@ -7,21 +7,26 @@ object BridgeSubscriptionSession {
     private val lease=SubscriptionRuntimeLease(SystemClock::elapsedRealtime)
     private val vipLease=SubscriptionRuntimeLease(SystemClock::elapsedRealtime)
     val vipActive: Boolean get()=active && vipLease.active
-    @Volatile private var vipReceived = false
     private val loginExpiry = java.io.File("/data/local/voyahiran-login-vip-expiry")
-    // Only the persistent login component needs entitlement before the app connects at boot.
-    // All live automation continues to require the short monotonic lease.
-    val loginVipActive: Boolean get() = if (vipReceived) vipActive else runCatching {
-        val values = loginExpiry.readText().split(':').map(String::toLong)
-        val now = System.currentTimeMillis() / 1000
-        now >= values[0] && now < values[1]
-    }.getOrDefault(false)
+    private val loginBoot = java.io.File("/data/local/voyahiran-login-allowed-boot")
+    private val bootId by lazy {java.io.File("/proc/sys/kernel/random/boot_id").readText().trim()}
+    private val loginPolicy by lazy {
+        val sameBoot=runCatching {loginBoot.readText().trim()==bootId}.getOrDefault(false)
+        LoginBootPolicy(if(sameBoot) true else LoginBootPolicy.cached(runCatching {loginExpiry.readText()}.getOrNull()))
+    }
+    // Only login startup has boot-long grace. Live automation retains its short leases.
+    val loginVipActive: Boolean? get() = loginPolicy.allowed.also {
+        if(it==true) runCatching { if(!loginBoot.exists() || loginBoot.readText().trim()!=bootId) loginBoot.writeText(bootId) }
+    }
     fun updateVip(seconds: Int, remaining: Int): CommandResult {
+        // Load the previous decision BEFORE replacing its persisted record.
+        loginPolicy.update(remaining>0)
+        loginVipActive
         val now = System.currentTimeMillis() / 1000
         val temp = java.io.File(loginExpiry.path + ".new")
         temp.writeText("$now:${now + remaining}")
         check(temp.renameTo(loginExpiry))
-        vipLease.update(seconds); vipReceived = true
+        vipLease.update(seconds)
         com.abrar.voyahiran.core.shell.ProcessCommandRunner(useBridge=false).run(listOf(
             "/system/bin/settings", "put", "global", "voyah_iran_launcher_vip_lease",
             (System.currentTimeMillis()+seconds*1000L).toString()), 2)
