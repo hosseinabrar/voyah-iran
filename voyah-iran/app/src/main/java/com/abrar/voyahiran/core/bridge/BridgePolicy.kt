@@ -14,6 +14,7 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
+        if(request==listOf("launcher-startup"))return request
         if(request.size==3 && request[0]=="cluster-map" && request[1] in listOf("show","ready","stop") &&
             request[2].matches(Regex("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")))return request
         if (request.size == 2 && request[0] == "cluster-music" && request[1] in listOf("refresh", "clear")) return request

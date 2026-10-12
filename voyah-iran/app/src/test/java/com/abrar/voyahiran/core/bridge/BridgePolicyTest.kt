@@ -6,6 +6,11 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun startupHomeCannotSpecifyAnotherComponentOrDisplay() {
+        assertEquals(listOf("launcher-startup"),BridgePolicy.resolve(listOf("launcher-startup")))
+        assertNull(BridgePolicy.resolve(listOf("launcher-startup","1")))
+        assertNull(BridgePolicy.resolve(listOf("launcher-startup","com.example/.Other")))
+    }
     @Test fun clusterMapAcceptsOnlySessionScopedPresentationCommands() {
         val session="12345678-1234-1234-1234-123456789abc"
         for(action in listOf("show","ready","stop")) {

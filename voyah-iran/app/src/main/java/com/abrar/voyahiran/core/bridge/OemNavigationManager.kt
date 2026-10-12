@@ -49,10 +49,10 @@ object OemNavigationManager {
                 try { publishFallback(com.abrar.voyahiran.core.compat.VehiclePlatform.launcherDrawer); ensureDrawerAccess(); tick() }
                 catch (e: Exception) {
                     stop()
-                    retryAt = android.os.SystemClock.elapsedRealtime() + 30000
-                    AppLog.error("Navigation", "Launcher policy unavailable; retry in 30s", e)
+                    retryAt = android.os.SystemClock.elapsedRealtime() + 500
+                    AppLog.error("Navigation", "Launcher policy unavailable; retry in 500ms", e)
                 }
-                Thread.sleep(2000)
+                Thread.sleep(if(child?.isAlive == true && ready) 2000 else 250)
             }
         }
     }
@@ -66,7 +66,7 @@ object OemNavigationManager {
             runCatching { File(it, "cmdline").readText().substringBefore('\u0000') == "com.qinggan.app.launcher" }.getOrDefault(false)
         }?.name.orEmpty()
         if (child != null && (child?.isAlive != true || target != pid)) {
-            stop(); retryAt = android.os.SystemClock.elapsedRealtime() + 10000; return
+            stop(); retryAt = android.os.SystemClock.elapsedRealtime() + 250; return
         }
         if (child != null) return
         if (pid.isEmpty()) return
