@@ -25,8 +25,11 @@ object LocalProfileTest {
         if (!desiredFile.exists()) desiredFile.writeText(if (backupFile.exists()) "1" else "0")
         if (request == "apply" && !BridgeSubscriptionSession.vipActive) return CommandResult(126, "VIP required")
         val desired = when(request) { "apply" -> true; "restore" -> false; else -> desiredFile.readText().trim() == "1" }
+        val loginAllowed=BridgeSubscriptionSession.loginVipActive
+        if(request=="reconcile" && desired && loginAllowed==null)
+            return CommandResult(75,"Login entitlement unknown; preserving current component state")
         val operation = if(request == "reconcile") {
-            if(desired && BridgeSubscriptionSession.loginVipActive) "apply" else "restore"
+            if(desired && loginAllowed==true) "apply" else "restore"
         } else request
         if (operation !in listOf("status", "apply", "restore")) return CommandResult(126, "Operation denied")
         if (!com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest)
@@ -49,6 +52,7 @@ object LocalProfileTest {
             pm.getActivityInfo(login, android.content.pm.PackageManager.MATCH_DISABLED_COMPONENTS)
             if (request == "reconcile") {
                 val blocked = pm.getComponentEnabledSetting(login) == android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                if(operation=="apply" && blocked) dismissVisibleLogin(login,home,runner)
                 if ((operation == "apply" && blocked) || (operation == "restore" && !backup.exists()))
                     return CommandResult(0, "login_activity_blocked=$blocked login_desired=$desired")
                 if (operation == "restore" && pm.getComponentEnabledSetting(login) == backup.readText().trim().toInt())
@@ -65,6 +69,7 @@ object LocalProfileTest {
                 check(setHome.exitCode == 0) { "Cannot select OEM launcher: ${setHome.output}" }
                 pm.setComponentEnabledSetting(login, android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                     android.content.pm.PackageManager.DONT_KILL_APP)
+                dismissVisibleLogin(login,home,runner)
             } else if (operation == "restore" && backup.exists()) {
                 val original = backup.readText().trim().toInt()
                 check(original in 0..4)
@@ -93,19 +98,39 @@ object LocalProfileTest {
         }
     }
 
-    fun reconcile() {
-        if (com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest)
-            handler.post { runCatching { executeOnWorker("reconcile") } }
+    /** Disabling a component does not dismiss an Activity that won the boot race. */
+    private fun dismissVisibleLogin(login: android.content.ComponentName, home: android.content.ComponentName, runner: ProcessCommandRunner) {
+        val modern=android.os.Build.VERSION.SDK_INT>=29
+        val owner=Class.forName(if(modern)"android.app.ActivityTaskManager" else "android.app.ActivityManager")
+        val api=owner.getMethod("getService").invoke(null)
+        val type=Class.forName(if(modern)"android.app.IActivityTaskManager" else "android.app.IActivityManager")
+        val stacks=type.getMethod("getAllStackInfos").invoke(api) as List<*>
+        val foreground=stacks.filterNotNull().firstOrNull {
+            it.javaClass.getField("displayId").getInt(it)==0 && it.javaClass.getField("visible").getBoolean(it)
+        }
+        if(foreground?.javaClass?.getField("topActivity")?.get(foreground)!=login)return
+        val result=runner.run(listOf("/system/bin/am","start","--user","0","--display","0","--activity-new-task",
+            "-n",home.flattenToString()),5)
+        check(result.exitCode==0 && !result.timedOut && !result.output.contains("Error:")) {"Cannot leave visible login: ${result.output}"}
+        com.abrar.voyahiran.core.logging.AppLog.info("LocalProfile","Visible login replaced with HOME after boot race")
     }
-    fun startAtBoot() {
-        if (!com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest) return
-        handler.post(object : Runnable {
-            override fun run() {
-                runCatching { executeOnWorker("reconcile") }
-                handler.postDelayed(this, 10_000)
+    private val reconciliation=object:Runnable {
+        override fun run() {
+            val result=runCatching {executeOnWorker("reconcile")}.getOrElse {
+                com.abrar.voyahiran.core.logging.AppLog.error("LocalProfile","Boot reconciliation failed",it)
+                CommandResult(1,it.toString())
             }
-        })
+            if(result.exitCode!=0)com.abrar.voyahiran.core.logging.AppLog.changed("LocalProfile","Retry in 500ms: ${result.output}")
+            handler.postDelayed(this,if(result.exitCode==0)10_000L else 500L)
+        }
     }
+    fun reconcile() {
+        if(com.abrar.voyahiran.core.compat.VehiclePlatform.localProfileTest)handler.post {
+            handler.removeCallbacks(reconciliation)
+            handler.post(reconciliation)
+        }
+    }
+    fun startAtBoot() = reconcile()
 
     private val SCRIPT = """
 #!/system/bin/sh
