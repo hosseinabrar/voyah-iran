@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
     <TargetPlatformMoniker>Windows,Version=7.0</TargetPlatformMoniker>
-    <AssemblyName>VoyahIran.Installer</AssemblyName><Version>2.0.1</Version>
+    <AssemblyName>VoyahIran.Installer</AssemblyName><Version>2.0.2</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\voyah-iran.ico</ApplicationIcon>
     <DebugType>embedded</DebugType>
