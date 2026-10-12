@@ -117,7 +117,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
                 check(oemService == null) { "OEM playback service unavailable: $oemService" }
                 launchBehind(packageName)
             }
-            delay(3000)
+            delay(1000)
             var launched = service == null
             repeat(10) { attempt ->
                 kotlin.coroutines.coroutineContext.ensureActive()
@@ -142,11 +142,11 @@ internal class MusicAutomation(private val context: Context, private val scope: 
                     target.transportControls.play()
                     AppLog.info("MusicAutomation", "play package=$packageName attempt=$attempt")
                 } else {
-                    if (oemService != null) { delay(3000); return@repeat }
+                    if (oemService != null) { delay(1000); return@repeat }
                     if (!launched) { launchBehind(packageName); launched = true }
                     sendPlayButton(packageName)
                 }
-                delay(3000)
+                delay(1000)
             }
             AppLog.info("MusicAutomation", "playback not confirmed package=$packageName; app may need login or a saved queue")
         } catch (e: Exception) {

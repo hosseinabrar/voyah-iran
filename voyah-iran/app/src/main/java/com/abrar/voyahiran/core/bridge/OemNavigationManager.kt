@@ -22,11 +22,11 @@ object OemNavigationManager {
         if (fallback != true) return
         val now = android.os.SystemClock.elapsedRealtime()
         if (now < drawerAccessCheckAt) return
-        drawerAccessCheckAt = now + 30000
+        drawerAccessCheckAt = now + 1000
         val result = com.abrar.voyahiran.core.shell.ProcessCommandRunner(useBridge = false)
             .run(LauncherDrawerAccess.arguments, 5)
         val configured = result.exitCode == 0 && !result.timedOut && result.output.contains("LAUNCHER_DRAWER_CONFIGURED")
-        AppLog.changed("LauncherDrawerAccess", "configured=$configured; retry check in 30s")
+        AppLog.changed("LauncherDrawerAccess", "configured=$configured; retry check in 1s")
     }
 
     private fun publishFallback(enabled: Boolean) {
@@ -51,7 +51,7 @@ object OemNavigationManager {
                     retryAt = android.os.SystemClock.elapsedRealtime() + 30000
                     AppLog.error("Navigation", "Launcher policy unavailable; retry in 30s", e)
                 }
-                Thread.sleep(2000)
+                Thread.sleep(if(fallback == true) 1000 else 2000)
             }
         }
     }

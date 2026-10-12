@@ -32,8 +32,8 @@ class RoaHookManager {
         thread(name = "voyah-roa-watch", isDaemon = true) {
             while (true) {
                 try { synchronized(this) { tick() } }
-                catch (e: Exception) { failure = e.message; AppLog.error("ROAHook", "watch failed", e); retryAfter = now() + 30000 }
-                Thread.sleep(2000)
+                catch (e: Exception) { failure = e.message; AppLog.error("ROAHook", "watch failed", e); retryAfter = now() + 5000 }
+                Thread.sleep(1000)
             }
         }
     }
@@ -92,7 +92,7 @@ class RoaHookManager {
         verifyFiles()
         val current = pid()
         if (child != null && !child!!.isAlive) {
-            stop(); failure = "Injector exited; waiting before retry"; retryAfter = now() + 30000
+            stop(); failure = "Injector exited; waiting before retry"; retryAfter = now() + 5000
         } else if (child != null && current != target) stop()
         if (current.isEmpty()) return
         if (child == null && now() >= retryAfter) {
@@ -115,7 +115,7 @@ class RoaHookManager {
             while (process.isAlive && !ready && failure == null && now() < deadline) Thread.sleep(100)
             if (!ready || failure != null) {
                 val reason = failure ?: "Injector did not confirm hook readiness"
-                stop(); failure = reason; retryAfter = now() + 30000
+                stop(); failure = reason; retryAfter = now() + 5000
                 error(reason)
             }
             AppLog.info("ROAHook", "attached camera pid=$current")

@@ -35,7 +35,7 @@ object RahaPhonebook {
         started=true
         val app=context.applicationContext
         scope.launch {
-            delay(10_000)
+            delay(5_000)
             var nextSync=0L
             while(isActive) {
                 try {
@@ -56,7 +56,7 @@ object RahaPhonebook {
                     device=""; sync(app); nextSync=0L
                     AppLog.info("RahaContacts","automatic synchronization waiting type=${e.javaClass.simpleName}")
                 }
-                delay(30_000)
+                delay(5_000)
             }
         }
     }

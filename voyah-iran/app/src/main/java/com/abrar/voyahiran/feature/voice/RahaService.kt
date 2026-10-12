@@ -78,7 +78,7 @@ class RahaService : Service() {
                     // Model loading is asynchronous; do not serialize it behind bridge setup.
                     if (!ready && !preparing) prepare()
                     if ((!Settings.canDrawOverlays(this@RahaService) || !highOverlayConfigured()) && SystemClock.elapsedRealtime() >= overlayRetryAt) {
-                        overlayRetryAt = SystemClock.elapsedRealtime() + 10000
+                        overlayRetryAt = SystemClock.elapsedRealtime() + 1000
                         val grant = withContext(Dispatchers.IO) {
                             ProcessCommandRunner().run(listOf("su", "0", "raha-overlay", "enable"), 8)
                         }
