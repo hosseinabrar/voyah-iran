@@ -205,14 +205,19 @@ class MainActivity : ComponentActivity() {
         binding.comfortTab.setOnClickListener { selectTab(Tab.COMFORT) }
         binding.apolloTab.visibility = View.GONE
         binding.apolloTab.setOnClickListener { if (apolloAvailable) { selectTab(Tab.APOLLO); apollo.refresh() } }
-        with(binding.apolloPage) {
-            listOf(laneChange, trafficLight, lightChange, signs)
-                .zip(com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.displayed).forEach { (box, feature) ->
-                    box.setOnClickListener { apollo.setFeature(feature, box.isChecked) }
-                }
+        apolloControls().forEach { (box, feature, _) ->
+            box.setOnClickListener { apollo.setFeature(feature, box.isChecked) }
         }
         binding.apolloPage.subscription.setOnClickListener { apollo.setEnabled(binding.apolloPage.subscription.isChecked) }
         binding.apolloPage.refresh.setOnClickListener { apollo.refresh() }
+        binding.apolloPage.intelligentSpeed.setOnClickListener {
+            apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED, if (binding.apolloPage.intelligentSpeed.isChecked) 1 else 2)
+        }
+        with(binding.apolloPage) {
+            listOf(speedModeAuto to 2, speedModeManual to 3, speedModeDisplay to 4).forEach { (button, value) ->
+                button.setOnClickListener { apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_MODE, value) }
+            }
+        }
         binding.apolloPage.speedWarningEnabled.setOnClickListener {
             val enabled = binding.apolloPage.speedWarningEnabled.isChecked
             apollo.setExperiment(com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_WARNING, if (enabled) 2 else 1)
@@ -590,6 +595,18 @@ class MainActivity : ComponentActivity() {
         recoveryRetry.visibility = if (recovery.error && !busy) View.VISIBLE else View.GONE
     }
 
+    // One mapping for labels, readback and commands; hidden rows cannot shift labels.
+    private fun apolloControls() = with(binding.apolloPage) {
+        listOf(
+            Triple(laneChange, com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.LANE_CHANGE, R.string.apollo_lane_change),
+            Triple(emergencyLane, com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.EMERGENCY_LANE, R.string.apollo_emergency_lane),
+            Triple(trafficLight, com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.TRAFFIC_LIGHT, R.string.apollo_traffic_light),
+            Triple(lightChange, com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.LIGHT_CHANGE, R.string.apollo_light_change),
+            Triple(signs, com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.SIGNS, R.string.apollo_signs),
+            Triple(emergencySteering, com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.EMERGENCY_STEERING, R.string.apollo_emergency_steering)
+        )
+    }
+
     private fun renderApollo(state: com.abrar.voyahiran.feature.apollo.presentation.ApolloUiState) = with(binding.apolloPage) {
         fun show(box: android.widget.CheckBox, title: Int, value: Boolean?) {
             box.isChecked = value == true
@@ -599,16 +616,23 @@ class MainActivity : ComponentActivity() {
         subscription.isChecked = com.abrar.voyahiran.feature.apollo.data.ApolloControl.checked(this@MainActivity)
         subscription.isEnabled = !state.busy
         state.error?.let { android.widget.Toast.makeText(this@MainActivity, it, android.widget.Toast.LENGTH_LONG).show() }
-        val features = com.abrar.voyahiran.feature.apollo.domain.ApolloFeature.displayed
-        val boxes = listOf(laneChange, trafficLight, lightChange, signs)
-        val titles = listOf(R.string.apollo_lane_change, R.string.apollo_emergency_lane, R.string.apollo_traffic_light,
-            R.string.apollo_light_change, R.string.apollo_signs, R.string.apollo_emergency_steering)
-        features.forEachIndexed { index, feature ->
-            show(boxes[index], titles[index], state.report.features[feature])
-            boxes[index].isEnabled = subscription.isChecked && !state.busy && state.report.features[feature] != null
-            boxes[index].alpha = if (subscription.isChecked) 1f else 0.45f
+        apolloControls().forEach { (box, feature, title) ->
+            show(box, title, state.report.features[feature])
+            box.isEnabled = subscription.isChecked && !state.busy && state.report.features[feature] != null
+            box.alpha = if (subscription.isChecked) 1f else 0.45f
         }
         experiments.visibility = View.GONE
+        val speedState = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED]
+        show(intelligentSpeed, R.string.apollo_intelligent_speed, when (speedState) { 1 -> true; 2 -> false; else -> null })
+        intelligentSpeed.isEnabled = subscription.isChecked && !state.busy && speedState in 1..2
+        intelligentSpeed.alpha = if (subscription.isChecked && speedState in 1..2) 1f else 0.45f
+        intelligentSpeedModes.visibility = if (speedState == 1) View.VISIBLE else View.GONE
+        val speedMode = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_MODE]
+        listOf(speedModeAuto to 2, speedModeManual to 3, speedModeDisplay to 4).forEach { (button, value) ->
+            button.isChecked = speedMode == value
+            button.isEnabled = subscription.isChecked && !state.busy && speedState == 1 && speedMode in 2..4
+            button.alpha = if (button.isEnabled) 1f else 0.45f
+        }
         val warningState = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_WARNING]
         val warningEnabled = warningState == 2
         show(speedWarningEnabled, R.string.apollo_speed_warning, when (warningState) { 1 -> false; 2 -> true; else -> null })
