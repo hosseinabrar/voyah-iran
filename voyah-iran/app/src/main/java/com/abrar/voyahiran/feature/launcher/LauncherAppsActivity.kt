@@ -248,22 +248,34 @@ class LauncherAppsActivity : ComponentActivity() {
                 },LinearLayout.LayoutParams(-1,-2))
                 tile.tag=entry.id
                 var touchedContent=false
+                val beginDrag={
+                    if(allowed()) {
+                        editing=true;badges.forEach {it.visibility=View.VISIBLE};done.visibility=View.VISIBLE;updateEditSpacing();startWobble()
+                        draggedId=entry.id
+                        if(!tile.startDragAndDrop(ClipData.newPlainText("app",entry.id),View.DragShadowBuilder(tile),entry.id,0))draggedId=null
+                    }
+                }
+                val quickDrag=Runnable { if(editing && tile.isAttachedToWindow)beginDrag() }
+                var downX=0f;var downY=0f
+                val slop=android.view.ViewConfiguration.get(this).scaledTouchSlop
                 tile.setOnTouchListener { _, event ->
                     if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN) {
+                        downX=event.x;downY=event.y
+                        if(editing)tile.postDelayed(quickDrag,android.view.ViewConfiguration.getLongPressTimeout()/2L)
                         touchedContent=(0 until tile.childCount).any { index ->
                             val child=tile.getChildAt(index)
                             val halfWidth=if(child is TextView)child.paint.measureText(entry.label).coerceAtMost(child.width.toFloat())/2+8 else child.width/2f
                             event.x>=tile.width/2f-halfWidth && event.x<=tile.width/2f+halfWidth && event.y>=child.top && event.y<=child.bottom
                         }
                     }
+                    if(event.actionMasked==android.view.MotionEvent.ACTION_UP || event.actionMasked==android.view.MotionEvent.ACTION_CANCEL ||
+                        (event.actionMasked==android.view.MotionEvent.ACTION_MOVE && (kotlin.math.abs(event.x-downX)>slop || kotlin.math.abs(event.y-downY)>slop)))tile.removeCallbacks(quickDrag)
                     false
                 }
                 tile.setOnClickListener { if(!editing)open(entry) else if(!touchedContent)finishEditing() }
                 tile.setOnLongClickListener {
-                    if(!allowed())return@setOnLongClickListener true
-                    editing=true;badges.forEach {it.visibility=View.VISIBLE};done.visibility=View.VISIBLE;updateEditSpacing();startWobble()
-                    draggedId=entry.id
-                    if(!tile.startDragAndDrop(ClipData.newPlainText("app",entry.id),View.DragShadowBuilder(tile),entry.id,0))draggedId=null
+                    tile.removeCallbacks(quickDrag)
+                    if(draggedId==null)beginDrag()
                     true
                 }
                 page.addView(tile)
