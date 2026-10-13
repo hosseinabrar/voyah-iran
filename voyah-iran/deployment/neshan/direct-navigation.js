@@ -1,8 +1,68 @@
 'use strict';
-// VI_NESHAN_CONFIG_ENGINE_V1: read-only engine; NESHAN_PROFILE is validated signed data.
+// VI_NESHAN_CONFIG_ENGINE_V1: route observer and temporary ad UI suppression; NESHAN_PROFILE is validated signed data.
 const profile = NESHAN_PROFILE;
 const fields = profile.hook;
 let enabled = true;
+const routeEnabled = typeof NESHAN_ROUTE_ENABLED === 'undefined' || NESHAN_ROUTE_ENABLED;
+let restoreAds = function() {};
+function installAdSuppression() {
+    // The signed, APK-matched profile owns every Neshan-specific selector.
+    const ads = profile.adSuppression;
+    if (!ads || !ads.enabled) return;
+    const View = Java.use('android.view.View');
+    const Group = Java.use('android.view.ViewGroup');
+    const Integer = Java.use('java.lang.Integer');
+    const saved = Java.use('java.util.WeakHashMap').$new();
+    const visibility = View.setVisibility.overload('int');
+    const attach = View.onAttachedToWindow.overload();
+    function isAd(v) {
+        return ads.viewIds.indexOf(v.getId()) >= 0 || ads.viewClasses.indexOf(String(v.getClass().getName())) >= 0;
+    }
+    function hide(v, desired) {
+        saved.put(v, Integer.valueOf(desired));
+        visibility.call(v, 8);
+    }
+    function scan(v) {
+        if (isAd(v)) { if (!saved.containsKey(v)) hide(v, v.getVisibility()); return; }
+        if (Group.class.isInstance(v)) {
+            const group = Java.cast(v, Group);
+            for (let i = 0; i < group.getChildCount(); i++) scan(group.getChildAt(i));
+        }
+    }
+    visibility.implementation = function(value) {
+        if (enabled && isAd(this)) { hide(this, value); return; }
+        return visibility.call(this, value);
+    };
+    attach.implementation = function() {
+        const result = attach.call(this);
+        if (enabled && isAd(this) && !saved.containsKey(this)) hide(this, this.getVisibility());
+        return result;
+    };
+    restoreAds = function() {
+        visibility.implementation = null;
+        attach.implementation = null;
+        Java.scheduleOnMainThread(function() {
+            const entries = saved.entrySet().iterator();
+            while (entries.hasNext()) {
+                const entry = entries.next();
+                visibility.call(Java.cast(entry.getKey(), View), Java.cast(entry.getValue(), Integer).intValue());
+            }
+            saved.clear();
+        });
+    };
+    // One traversal at injection. Subsequent changes are event driven, no polling/heap scans.
+    Java.scheduleOnMainThread(function() {
+        if (!enabled) return;
+        try {
+            const wm = Java.use('android.view.WindowManagerGlobal').getInstance();
+            const f = wm.getClass().getDeclaredField('mViews');
+            f.setAccessible(true);
+            const roots = Java.cast(f.get(wm), Java.use('java.util.List'));
+            for (let i = 0; i < roots.size(); i++) scan(Java.cast(roots.get(i), View));
+            console.log('VI_NESHAN_ADS_READY');
+        } catch (e) { console.log('VI_NESHAN_ADS_SCAN_ERROR ' + e); }
+    });
+}
 let heartbeat = Date.now();
 let latest = null;
 let routeOwner = null, routeType = null;
@@ -23,6 +83,7 @@ function wireJson(value) {
 function clear(reason) { latest = null; sampleState = reason || 'route-reset'; }
 function disable() {
     enabled = false; clear();
+    restoreAds();
     if (hook) hook.implementation = null;
     if (resetHook) resetHook.implementation = null;
     console.log('VI_NESHAN_DISABLED');
@@ -37,6 +98,11 @@ rpc.exports = {
 };
 Java.perform(function() {
     try {
+        installAdSuppression();
+        if (!routeEnabled) {
+            console.log('VI_NESHAN_READY profile=' + profile.id + ' source=ad-ui-only');
+            return;
+        }
         const Step = Java.use(fields.stepClass);
         if (routeState) {
             routeOwner = Java.use(routeState.ownerClass);
@@ -85,6 +151,9 @@ Java.perform(function() {
     }
 });
 function publish() {
+    if (!enabled) return;
+    if (Date.now() - heartbeat > 15000) { disable(); return; }
+    if (!routeEnabled) return;
     let verified = false;
     if (routeState) {
         try {

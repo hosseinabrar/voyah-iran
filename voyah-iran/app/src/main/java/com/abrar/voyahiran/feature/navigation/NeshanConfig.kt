@@ -60,6 +60,20 @@ internal object NeshanConfig {
                 for (n in listOf("instanceField", "activeMethod", "engineMethod"))
                     require(state.getString(n).matches(Regex("[A-Za-z_$][A-Za-z0-9_$]{0,99}")))
             }
+            p.optJSONObject("adSuppression")?.let { ads ->
+                require(ads.get("enabled") is Boolean)
+                val ids = ads.getJSONArray("viewIds")
+                val classes = ads.getJSONArray("viewClasses")
+                require(ids.length() in 0..16 && classes.length() in 0..16)
+                require(!ads.getBoolean("enabled") || ids.length() + classes.length() > 0)
+                for (j in 0 until ids.length()) require(ids.getLong(j) in 0x7f000000L..0x7fffffffL)
+                for (j in 0 until classes.length()) require(classes.getString(j).matches(Regex("[A-Za-z_$][A-Za-z0-9_$.]{0,199}")))
+            }
+            p.optJSONObject("androidTheme")?.let { theme ->
+                require(theme.getString("preferences").matches(Regex("[A-Za-z0-9_]{1,80}")))
+                require(theme.getString("key").matches(Regex("[A-Za-z0-9_]{1,80}")))
+                require(theme.getInt("value") in 0..100)
+            }
             val d = p.getJSONObject("driving")
             for (n in listOf("activeIds", "routeIds", "moreScopeIds", "entryLabels")) {
                 val a = d.getJSONArray(n); require(a.length() in 1..16)

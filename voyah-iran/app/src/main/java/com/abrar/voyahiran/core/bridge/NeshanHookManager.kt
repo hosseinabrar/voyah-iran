@@ -12,7 +12,7 @@ import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
-/** Private injector pipe; no exported receiver/socket, no writes to Neshan state. */
+/** Private injector pipe; no exported receiver/socket, temporary ad UI suppression without preference writes. */
 internal class NeshanHookManager {
     private val directory = File("/data/local/tmp/voyahiran-bridge/neshan")
     private val executable = File(directory, "frida-inject")
@@ -24,6 +24,7 @@ internal class NeshanHookManager {
     @Volatile private var ready = false
     @Volatile private var failure: String? = null
     private var pid = ""
+    private var routeEnabled = false
     private var retryAt = 0L
     private var filesReady = false
     private var injectorPrefix: List<String>? = null
@@ -153,7 +154,9 @@ internal class NeshanHookManager {
     }
     private fun tick() {
         refreshConfig()
-        if (!BridgeSubscriptionSession.vipActive || !flag.exists()) { stop(); return }
+        if (!BridgeSubscriptionSession.vipActive) { stop(); return }
+        val wantsRoute = flag.exists()
+        if (child != null && routeEnabled != wantsRoute) { stop(); retryAt = 0 }
         if (now() >= pidCheckAt) {
             cachedPid = targetPid(); pidCheckAt = now() + 1000
         }
@@ -168,8 +171,8 @@ internal class NeshanHookManager {
                 retryAt = now() + 5000
                 return
             }
-            prepareFiles(); pid = target; ready = false; failure = null
-            NeshanConfig.save(script, "const NESHAN_PROFILE = " + profile.json.toString() + ";\n" + NeshanHookScript.source)
+            prepareFiles(); pid = target; ready = false; failure = null; routeEnabled = wantsRoute
+            NeshanConfig.save(script, "const NESHAN_ROUTE_ENABLED = $routeEnabled;\nconst NESHAN_PROFILE = " + profile.json.toString() + ";\n" + NeshanHookScript.source)
             val process = ProcessBuilder(injectorCommand() + listOf(executable.path, "-p", target, "-s", script.path, "-i")).redirectErrorStream(true).start()
             child = process
             thread(name = "voyah-neshan-output", isDaemon = true) {
@@ -186,7 +189,7 @@ internal class NeshanHookManager {
             child?.let { it.outputStream.write("ping\n".toByteArray()); it.outputStream.flush() }
             pingAt = now() + 1000
         }
-        val value = sample?.takeIf { ready && now() - it.at in 0..5000 }
+        val value = sample?.takeIf { routeEnabled && ready && now() - it.at in 0..5000 }
         if (value != null) {
             if (translatedSource != value.road) {
                 translatedRoad = ClusterLatinText.convert(value.road)

@@ -20,7 +20,7 @@ object LauncherPreferences {
     suspend fun set(c: Context, enabled: Boolean) {
         check(!enabled || (c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed)
         val previous=enabled(c)
-        if(enabled && com.abrar.voyahiran.feature.navigation.NavigationPreferences(c).navigator=="org.rajman.neshan") {
+        if(enabled && com.abrar.voyahiran.feature.navigation.NavigationPreferences(c).navigator==com.abrar.voyahiran.feature.navigation.NeshanConfig.PACKAGE) {
             val theme=withContext(Dispatchers.IO) {ProcessCommandRunner().run(listOf("su","0","neshan-theme-android"),15)}
             check(theme.exitCode==0 && !theme.timedOut) {"تنظیم تم نشان انجام نشد. ${theme.output}"}
         }

@@ -77,6 +77,27 @@ class NeshanConfigTest {
             assertEquals(good, cache.readText())
         } finally { server.stop(0); directory.deleteRecursively() }
     }
+    @Test fun publicationAndAdSelectorsAreValidated() {
+        val artifact=File("../../voyah-iran-subscription-server/deployment/configs/neshan.json")
+        val catalog=NeshanConfig.verify(artifact.readText())
+        assertEquals(6L,catalog.revision)
+        for (profile in catalog.profiles) {
+            assertTrue(profile.json.getJSONObject("adSuppression").getBoolean("enabled"))
+            assertEquals(3,profile.json.getJSONObject("androidTheme").getInt("value"))
+        }
+        val p=catalog.profiles.single {it.versionCode==70799L}
+        assertTrue(p.json.getJSONObject("adSuppression").getBoolean("enabled"))
+        assertEquals("Setting3",p.json.getJSONObject("androidTheme").getString("preferences"))
+        val doc=source().put("profiles",org.json.JSONArray().put(JSONObject(p.json.toString())))
+        val entry=doc.getJSONArray("profiles").getJSONObject(0)
+        entry.getJSONObject("adSuppression").put("viewIds",org.json.JSONArray().put(-1))
+        rejects {NeshanConfig.verify(sign(doc),publicKey)}
+        entry.remove("adSuppression")
+        entry.getJSONObject("androidTheme").put("preferences","../escape")
+        rejects {NeshanConfig.verify(sign(doc),publicKey)}
+        entry.remove("androidTheme")
+        assertEquals(1,NeshanConfig.verify(sign(doc),publicKey).profiles.size)
+    }
     @Test fun publishedCatalogSignatureAndTypedProfile() {
         // Optional standalone invocation supplies the actual publication artifact.
         val path = System.getProperty("neshan.published") ?: return

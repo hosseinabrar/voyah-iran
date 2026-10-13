@@ -3,13 +3,14 @@ const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const path=require('path');
 const source=fs.readFileSync(path.join(__dirname,'direct-navigation.js'),'utf8').replace(/^\uFEFF/,'');
 const embedded=fs.readFileSync(path.join(__dirname,'../../app/src/main/java/com/abrar/voyahiran/core/bridge/NeshanHookScript.kt'),'utf8');
-assert(embedded.replace(/\r/g, '').includes(source.replace(/\r/g, '').trim()), 'embedded script must match deployed source');
+assert(embedded.split("${'$'}").join('$').replace(/\r/g, '').includes(source.replace(/\r/g, '').trim()), 'embedded script must match deployed source');
 let now=100000, timer, calls=0, routeCalls=0, throws=false;
 const output=[];
 const update={implementation:null,call(){calls++;if(throws)throw Error('original error');return 42;}};
 const reset={implementation:null,call(){routeCalls++;return 9;}};
 const stepType={};for(const n of ['a','f','g','h','i','j'])stepType[n]={overload(){return {};}};
 const profile=JSON.parse(fs.readFileSync(path.join(__dirname,'../../../voyah-iran-subscription-server/configs/neshan.source.json'),'utf8')).profiles[0];
+delete profile.adSuppression; // UI hooks have a separate Android-view harness.
 const liveProfile=JSON.parse(JSON.stringify(profile));
 delete profile.hook.routeState; // Legacy profiles retain bounded source-age fallback.
 const context={NESHAN_PROFILE:profile,Date:{now:()=>now},console:{log:x=>output.push(x)},rpc:{exports:{}},setInterval:(f,ms)=>{assert.equal(ms,200);timer=f;},

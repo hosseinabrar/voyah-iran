@@ -1,7 +1,7 @@
 {
   "purpose": "voyah-iran-neshan-config",
   "schemaVersion": 1,
-  "revision": 4,
+  "revision": 6,
   "packageName": "org.rajman.neshan.traffic.tehran.navigator",
   "profiles": [
     {
@@ -48,6 +48,20 @@
           "ورود به حالت رانندگی",
           "حالت رانندگی آزاد"
         ]
+      },
+      "adSuppression": {
+        "enabled": true,
+        "viewIds": [
+          2131363695
+        ],
+        "viewClasses": [
+          "y11.p"
+        ]
+      },
+      "androidTheme": {
+        "preferences": "Setting3",
+        "key": "MapLightMode",
+        "value": 3
       }
     },
     {
@@ -93,6 +107,20 @@
         "entryLabels": [
           "ورود به حالت رانندگی",
           "حالت رانندگی آزاد"
+        ]
+      },
+      "androidTheme": {
+        "preferences": "Setting3",
+        "key": "MapLightMode",
+        "value": 3
+      },
+      "adSuppression": {
+        "enabled": true,
+        "viewIds": [
+          2131363709
+        ],
+        "viewClasses": [
+          "w91.p"
         ]
       }
     },
@@ -140,6 +168,20 @@
           "ورود به حالت رانندگی",
           "حالت رانندگی آزاد"
         ]
+      },
+      "adSuppression": {
+        "enabled": true,
+        "viewIds": [
+          2131363716
+        ],
+        "viewClasses": [
+          "bb1.p"
+        ]
+      },
+      "androidTheme": {
+        "preferences": "Setting3",
+        "key": "MapLightMode",
+        "value": 3
       }
     }
   ]

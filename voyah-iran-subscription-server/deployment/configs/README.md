@@ -34,3 +34,16 @@ works offline. Logcat tags: `NeshanConfig`, `NeshanDirect`, `NeshanDriving`.
 The engine supports the existing typed update/reset hook contract. Changes to identifiers,
 UI labels and resource IDs can be delivered as configuration. A genuinely different data
 contract still requires an engine update. Unknown APK hashes never fall back to a guessed profile.
+
+### Version-specific UI contracts (revision 6)
+
+The updated client consumes optional per-profile data:
+- adSuppression: enabled, viewIds (Android application resource IDs), viewClasses (exact class names).
+- androidTheme: preferences (basename without extension), key, value (integer).
+
+Only the SHA-256-matched profile is used. Omit a section to leave that behavior untouched;
+set adSuppression.enabled to false to stop ad suppression. The bridge reloads a newly
+accepted signed catalog and reattaches the hook. No executable code is accepted in these fields.
+70789, 70794 and 70799 have individually verified ad selectors and Android theme preferences.
+Older clients ignore these optional fields: install the updated client once before using them.
+Upload deployment/configs/neshan.json; the unsigned source and private key stay local.

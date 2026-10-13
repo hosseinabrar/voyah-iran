@@ -2,20 +2,76 @@ package com.abrar.voyahiran.core.bridge
 internal object NeshanHookScript {
  val source = """
 'use strict';
-// VI_NESHAN_CONFIG_ENGINE_V1: read-only engine; NESHAN_PROFILE is validated signed data.
+// VI_NESHAN_CONFIG_ENGINE_V1: route observer and temporary ad UI suppression; NESHAN_PROFILE is validated signed data.
 const profile = NESHAN_PROFILE;
 const fields = profile.hook;
 let enabled = true;
+const routeEnabled = typeof NESHAN_ROUTE_ENABLED === 'undefined' || NESHAN_ROUTE_ENABLED;
+let restoreAds = function() {};
+function installAdSuppression() {
+    // The signed, APK-matched profile owns every Neshan-specific selector.
+    const ads = profile.adSuppression;
+    if (!ads || !ads.enabled) return;
+    const View = Java.use('android.view.View');
+    const Group = Java.use('android.view.ViewGroup');
+    const Integer = Java.use('java.lang.Integer');
+    const saved = Java.use('java.util.WeakHashMap').${'$'}new();
+    const visibility = View.setVisibility.overload('int');
+    const attach = View.onAttachedToWindow.overload();
+    function isAd(v) {
+        return ads.viewIds.indexOf(v.getId()) >= 0 || ads.viewClasses.indexOf(String(v.getClass().getName())) >= 0;
+    }
+    function hide(v, desired) {
+        saved.put(v, Integer.valueOf(desired));
+        visibility.call(v, 8);
+    }
+    function scan(v) {
+        if (isAd(v)) { if (!saved.containsKey(v)) hide(v, v.getVisibility()); return; }
+        if (Group.class.isInstance(v)) {
+            const group = Java.cast(v, Group);
+            for (let i = 0; i < group.getChildCount(); i++) scan(group.getChildAt(i));
+        }
+    }
+    visibility.implementation = function(value) {
+        if (enabled && isAd(this)) { hide(this, value); return; }
+        return visibility.call(this, value);
+    };
+    attach.implementation = function() {
+        const result = attach.call(this);
+        if (enabled && isAd(this) && !saved.containsKey(this)) hide(this, this.getVisibility());
+        return result;
+    };
+    restoreAds = function() {
+        visibility.implementation = null;
+        attach.implementation = null;
+        Java.scheduleOnMainThread(function() {
+            const entries = saved.entrySet().iterator();
+            while (entries.hasNext()) {
+                const entry = entries.next();
+                visibility.call(Java.cast(entry.getKey(), View), Java.cast(entry.getValue(), Integer).intValue());
+            }
+            saved.clear();
+        });
+    };
+    // One traversal at injection. Subsequent changes are event driven, no polling/heap scans.
+    Java.scheduleOnMainThread(function() {
+        if (!enabled) return;
+        try {
+            const wm = Java.use('android.view.WindowManagerGlobal').getInstance();
+            const f = wm.getClass().getDeclaredField('mViews');
+            f.setAccessible(true);
+            const roots = Java.cast(f.get(wm), Java.use('java.util.List'));
+            for (let i = 0; i < roots.size(); i++) scan(Java.cast(roots.get(i), View));
+            console.log('VI_NESHAN_ADS_READY');
+        } catch (e) { console.log('VI_NESHAN_ADS_SCAN_ERROR ' + e); }
+    });
+}
 let heartbeat = Date.now();
 let latest = null;
-let routeOwner = null, routeType = null, routeField = null;
-let routeActiveGetter = null, routeEngineGetter = null;
-let lastStateError = 0, stateError = null;
+let routeOwner = null, routeType = null;
 const routeState = fields.routeState;
 let hook = null;
 let resetHook = null;
-let lifecycleStart = null, lifecycleStop = null, lifecycleDestroy = null;
-let appClosed = false;
 let emitted = false;
 let lastStatus = 0;
 let sampleState = 'waiting-for-route';
@@ -30,11 +86,9 @@ function wireJson(value) {
 function clear(reason) { latest = null; sampleState = reason || 'route-reset'; }
 function disable() {
     enabled = false; clear();
+    restoreAds();
     if (hook) hook.implementation = null;
     if (resetHook) resetHook.implementation = null;
-    if (lifecycleStart) lifecycleStart.implementation = null;
-    if (lifecycleStop) lifecycleStop.implementation = null;
-    if (lifecycleDestroy) lifecycleDestroy.implementation = null;
     console.log('VI_NESHAN_DISABLED');
 }
 rpc.exports = {
@@ -47,47 +101,18 @@ rpc.exports = {
 };
 Java.perform(function() {
     try {
-        const Step = Java.use(fields.stepClass);
-        // Lifecycle delivery is independent of obfuscated Neshan class/method names.
-        // Home/background and configuration changes are not explicit app exits.
-        const Instrumentation = Java.use('android.app.Instrumentation');
-        lifecycleStart = Instrumentation.callActivityOnStart.overload('android.app.Activity');
-        lifecycleStop = Instrumentation.callActivityOnStop.overload('android.app.Activity');
-        lifecycleDestroy = Instrumentation.callActivityOnDestroy.overload('android.app.Activity');
-        function closing(activity) {
-            if (activity.isTaskRoot() && activity.isFinishing() && !activity.isChangingConfigurations()) {
-                appClosed = true;
-                clear('app-closed');
-                if (emitted) { console.log('VI_NESHAN_CLEAR'); emitted = false; }
-                console.log('VI_NESHAN_APP_CLOSED');
-            }
+        installAdSuppression();
+        if (!routeEnabled) {
+            console.log('VI_NESHAN_READY profile=' + profile.id + ' source=ad-ui-only');
+            return;
         }
-        lifecycleStart.implementation = function (activity) {
-            try {
-                if (activity.isTaskRoot() && appClosed) {
-                    appClosed = false;
-                    clear('waiting-for-new-route');
-                    console.log('VI_NESHAN_APP_REOPENED');
-                }
-            } catch(e) { console.log('VI_NESHAN_LIFECYCLE_ERROR ' + String(e)); }
-            return lifecycleStart.call(this, activity);
-        };
-        lifecycleStop.implementation = function (activity) {
-            try { closing(activity); } catch(e) { console.log('VI_NESHAN_LIFECYCLE_ERROR ' + String(e)); }
-            return lifecycleStop.call(this, activity);
-        };
-        lifecycleDestroy.implementation = function (activity) {
-            try { closing(activity); } catch(e) { console.log('VI_NESHAN_LIFECYCLE_ERROR ' + String(e)); }
-            return lifecycleDestroy.call(this, activity);
-        };
+        const Step = Java.use(fields.stepClass);
         if (routeState) {
             routeOwner = Java.use(routeState.ownerClass);
             routeType = Java.use(routeState.stateClass);
-            // Reflection avoids Frida's field/method name collisions on obfuscated classes.
-            routeField = Java.retain(routeOwner.class.getDeclaredField(routeState.instanceField));
-            routeField.setAccessible(true);
-            routeActiveGetter = routeType[routeState.activeMethod].overload();
-            routeEngineGetter = routeType[routeState.engineMethod].overload();
+            if (routeOwner[routeState.instanceField] === undefined) throw Error('route state field missing');
+            routeType[routeState.activeMethod].overload();
+            routeType[routeState.engineMethod].overload();
         }
         // Verify the profile before installing either interception.
         ['distance','type','modifier','road','roadExtra','turnIndex'].forEach(function(name) { Step[fields[name]].overload(); });
@@ -99,7 +124,7 @@ Java.perform(function() {
         };
         hook.implementation = function(index, travelled, list) {
             const result = hook.call(this, index, travelled, list);
-            if (!enabled || appClosed) return result;
+            if (!enabled) return result;
             try {
                 if (list === null || index < 0 || index >= list.size()) { clear('invalid-step-index'); return result; }
                 const step = Java.cast(list.get(index), Step);
@@ -130,24 +155,17 @@ Java.perform(function() {
 });
 function publish() {
     if (!enabled) return;
+    if (Date.now() - heartbeat > 15000) { disable(); return; }
+    if (!routeEnabled) return;
     let verified = false;
-    if (appClosed) clear('app-closed');
-    if (routeState && !appClosed) {
+    if (routeState) {
         try {
-            const raw = routeField.get(null);
+            const raw = routeOwner[routeState.instanceField].value;
             const state = raw === null ? null : Java.cast(raw, routeType);
-            verified = state !== null && routeActiveGetter.call(state) === true && routeEngineGetter.call(state) !== null;
-            stateError = null;
+            verified = state !== null && state[routeState.activeMethod]() === true && state[routeState.engineMethod]() !== null;
             if (!verified) clear('navigation-inactive');
         } catch(e) {
-            // A failed status read is not an explicit navigation exit. Keep only fresh
-            // guidance (the existing 5s limit), never extend its lease on uncertainty.
-            stateError = String(e);
-            if (Date.now() - lastStateError >= 5000) {
-                lastStateError = Date.now();
-                console.log('VI_NESHAN_STATE_ERROR ' + wireJson({error: stateError,
-                    owner: routeState.ownerClass, field: routeState.instanceField}));
-            }
+            clear('navigation-state-error');
         }
     }
     if (!enabled) return;
@@ -155,7 +173,7 @@ function publish() {
     const age = latest ? Date.now() - latest.sourceAt : -1;
     if (Date.now() - lastStatus >= 5000) {
         lastStatus = Date.now();
-        console.log('VI_NESHAN_STATUS ' + wireJson({state: stateError ? 'navigation-state-error' : sampleState, error: stateError, ageMs: age,
+        console.log('VI_NESHAN_STATUS ' + wireJson({state: sampleState, ageMs: age,
             routeActive: verified, type: latest ? latest.type : null, meters: latest ? latest.meters : null,
             roadEmpty: latest ? latest.road.length === 0 : null}));
     }
