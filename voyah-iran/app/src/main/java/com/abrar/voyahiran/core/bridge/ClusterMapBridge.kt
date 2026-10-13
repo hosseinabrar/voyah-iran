@@ -62,6 +62,16 @@ internal object ClusterMapBridge {
         if(client!=null) {
             runCatching {client.call("requestPresentation",SMALL,2)}
                 .onFailure {AppLog.error("ClusterMap","release failed",it)}
+            // MEDIA is shared, not a map-only presentation. Closing it does not restore
+            // the OEM task displaced by startClusterActivity. Restore the stock owner;
+            // its onResume/callback supplies syncReadyState and notifyReadyToShow.
+            runCatching {
+                val intent=Intent().setClassName("com.qinggan.instrumentcard","com.qinggan.instrumentcard.ScreenActivity")
+                    .addCategory(MEDIA).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                client.type.getMethod("startClusterActivity",Intent::class.java).invoke(client.remote,intent)
+                client.call("requestPresentation",SMALL,1)
+                AppLog.info("ClusterMap","map released; OEM media presentation restored")
+            }.onFailure {AppLog.error("ClusterMap","OEM media restore failed",it)}
             runCatching {client.type.getMethod("unregisterCallback",client.callbackType).invoke(client.remote,client.callback)}
         }
     }
