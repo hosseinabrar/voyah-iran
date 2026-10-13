@@ -31,7 +31,6 @@ class ApolloViewModel(application: Application) : AndroidViewModel(application) 
                             listOf("su", "0", "apollo-feature", feature.name, if (enabled) "on" else "off"), 5)
                     }
                     check(result.exitCode == 0 && !result.timedOut) { result.output }
-                    com.abrar.voyahiran.feature.apollo.data.ApolloSelections.save(getApplication(), feature, enabled)
                 }
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {
