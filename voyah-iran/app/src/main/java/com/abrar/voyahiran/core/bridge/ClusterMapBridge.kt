@@ -44,7 +44,8 @@ internal object ClusterMapBridge {
                 Executors.newSingleThreadScheduledExecutor { r->Thread(r,"ClusterMapLease").apply {isDaemon=true} }
                     .scheduleWithFixedDelay(::tick,0,100,TimeUnit.MILLISECONDS)
             }
-            return CommandResult(0,"Map lease renewed")
+            val theme=runCatching {api?.theme()}.getOrNull()
+            return CommandResult(0,"Map lease renewed theme=${theme ?: -1}")
         } catch(e:Exception) {stop();return CommandResult(1,"Cluster map unavailable: ${e.cause ?: e}")}
     }
     @Synchronized private fun tick() {
@@ -112,5 +113,9 @@ internal object ClusterMapBridge {
             type.getMethod("registerCallback",callbackType).invoke(remote,callback)
         }
         fun call(name:String,category:String,value:Int) {type.getMethod(name,String::class.java,Int::class.javaPrimitiveType).invoke(remote,category,value)}
+        fun theme(): Int {
+            val state=type.classLoader!!.loadClass("com.qinggan.cluster.ClusterState")
+            return type.getMethod("getClusterState",state).invoke(remote,state.getField("THEM_MODE").get(null)) as Int
+        }
     }
 }

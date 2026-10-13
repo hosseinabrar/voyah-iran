@@ -36,6 +36,9 @@ internal object LauncherClusterMap {
                         ProcessCommandRunner().run(listOf("su", "0", "cluster-map", action, id), 3)
                     }
                     check(result.exitCode == 0 && !result.timedOut) { result.output }
+                    Regex("theme=(\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull()?.let {
+                        if(it in setOf(1,2,4)) ClusterMapCalibration.themeId=it
+                    }
                     delay(750)
                 }
             } catch (e: Exception) {

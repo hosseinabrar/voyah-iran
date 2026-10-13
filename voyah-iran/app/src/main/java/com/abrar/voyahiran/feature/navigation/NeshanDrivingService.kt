@@ -31,7 +31,7 @@ class NeshanDrivingService : AccessibilityService() {
     private val tick = Runnable { tickPending = false; inspect() }
     private val preferences get() = NavigationPreferences(this)
     private val enabled get() = (application as VoyahIranApplication).subscriptions.vipAllowed &&
-        (preferences.autoDriving || preferences.voiceNavigationEnabled)
+        (preferences.autoDriving || preferences.voiceNavigationEnabled || com.abrar.voyahiran.feature.launcher.LauncherPreferences.clusterMap(this))
 
     override fun onServiceConnected() {
         instance = this
@@ -75,6 +75,7 @@ class NeshanDrivingService : AccessibilityService() {
         val root = automationRoot()
         try {
             if (root != null && root.packageName?.toString() == NavigationPreferences.NESHAN) {
+                clusterRouting=NeshanConfigStore.profile?.labels("routeIds")?.any {visible(root,it)} == true
                 val route = NeshanVoiceNavigation.pending
                 if (route != null) {
                     session.consume(); verifyUntil = 0L // A voice destination never starts free driving in this visit.
@@ -291,6 +292,8 @@ class NeshanDrivingService : AccessibilityService() {
         reset(); super.onDestroy()
     }
     companion object {
+        @Volatile var clusterRouting=false
+            private set
         private const val TAG = "NeshanDriving"
         private var instance: NeshanDrivingService? = null
         internal fun inspectForRoute() { instance?.let { it.inspectFocus(); it.schedule() } }

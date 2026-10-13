@@ -108,6 +108,7 @@ final class MapFrameRelay {
             long now=android.os.SystemClock.elapsedRealtime();
             if(calibration==null||now-calibrationAt>1000){calibration=ClusterMapCalibration.Companion.current();calibrationAt=now;}
             ClusterMapCalibration t=calibration;
+            GLES20.glUniform1f(uniform("masked"),t.getMaskEnabled()?1:0);
             float mw=width*t.getMapScale(),mh=height*t.getMapScale();
             GLES20.glUniform4f(uniform("mapRect"),t.mapLeft(width),t.mapTop(height),mw,mh);
             float sw=t.getPanelWidth()*t.getMaskScale(),sh=t.getPanelHeight()*t.getMaskScale();

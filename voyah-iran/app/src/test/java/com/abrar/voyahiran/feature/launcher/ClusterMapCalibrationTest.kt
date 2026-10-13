@@ -4,6 +4,20 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ClusterMapCalibrationTest {
+    @Test fun vehiclePresetsMatchBothDrivingModes() {
+        val expected=listOf(
+            Triple(4,true,listOf(-229f,-31f,1f,-24f,0f,.99f)),
+            Triple(4,false,listOf(-20f,-21f,1f,-24f,0f,.99f)),
+            Triple(1,true,listOf(-159f,-29f,1.14f,0f,0f,1f)),
+            Triple(1,false,listOf(-17f,-6f,1f,0f,0f,1f)),
+            Triple(2,true,listOf(-194f,-19f,1.04f,0f,0f,1f)),
+            Triple(2,false,listOf(28f,-19f,1.02f,0f,0f,1f)))
+        expected.forEach { (theme,route,values) ->
+            val t=ClusterMapCalibration.select(theme,route)
+            assertEquals(values,listOf(t.mapX,t.mapY,t.mapScale,t.maskX,t.maskY,t.maskScale))
+            assertEquals(theme==4,t.maskEnabled)
+        }
+    }
     @Test fun usesMediaPanelRatherThanEntireDisplay() {
         val t=ClusterMapCalibration()
         assertEquals(90f,t.maskLeft,0f)
