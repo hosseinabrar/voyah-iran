@@ -155,8 +155,11 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             Done();
             Begin(InstallPhase.Apk);
             log.Write("Stopping Voyah Iran before APK replacement.");
+            // Disable interception before force-stop can reveal HOME and reopen our app.
+            await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
             await Root(15, "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran");
-            // Expire only the live Home-hook lease; keep the user's saved launcher preference.
+            // Clear again in case an in-flight heartbeat renewed it while stopping.
+            // Keep the user's saved launcher preference.
             await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
             // Newer units require push installation; H97A cannot open shell-labelled staging files.
             // Select the transport before installation; never retry timeouts or ambiguous commits.
@@ -166,30 +169,23 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
                 : "Installing APK without streaming; transfer and package installation are separate. Keep USB connected.");
             var apkResult = await adb.RunAsync(serial,
                 ["install", apkTransport, "-r", "--user", "0", bundle.File("app.apk")], 600);
-            for (var retry = 1; retry <= 2 && IsStorageAllocationFailure(apkResult); retry++)
-            {
-                // This exact OEM exception occurs in session.write, before install commit.
-                // ADB has returned a failure, so a bounded replacement retry is unambiguous.
-                log.Write($"OEM storage allocation failed before APK commit; retry={retry}/2. {apkResult.Output}");
-                await Task.Delay(TimeSpan.FromSeconds(2));
-                if (await Command(15, "shell", "getprop", "ro.build.fingerprint") != fingerprint ||
-                    await Command(15, "shell", "cat", "/proc/sys/kernel/random/boot_id") != bootId ||
-                    await Command(15, "shell", "id", "-u") != "0")
-                    throw new IOException("وضعیت اتصال خودرو تغییر کرده است؛ نصب مجدد خودکار متوقف شد.");
-                apkResult = await adb.RunAsync(serial,
-                    ["install", apkTransport, "-r", "--user", "0", bundle.File("app.apk")], 600);
-            }
             if (apkResult.ExitCode != 0 || !apkResult.Output.Split('\n').Any(l => l.Trim() == "Success"))
             {
                 log.Write($"APK install failed: exit={apkResult.ExitCode}; output={apkResult.Output}");
                 // Read-only diagnostics; never uninstall the previous app or clear its data.
-                try
+                foreach (var diagnostic in new string[][] {
+                    ["logcat", "-d", "-b", "crash", "-t", "2000", "-v", "threadtime"],
+                    ["logcat", "-d", "-b", "all", "-t", "10000", "-v", "threadtime"],
+                    ["devices", "-l"],
+                    ["shell", "df", "-h", "/data"],
+                    ["shell", "pidof", "system_server"],
+                    ["shell", "cat", "/proc/sys/kernel/random/boot_id"] })
                 {
-                    await adb.RunAsync(null, ["devices", "-l"], 15);
-                    await adb.RunAsync(serial, ["shell", "df", "-h", "/data"], 15);
-                    await adb.RunAsync(serial, ["logcat", "-d", "-b", "all", "-t", "300", "-v", "threadtime"], 20);
+                    try { await adb.RunAsync(diagnostic[0] == "devices" ? null : serial, diagnostic, 15); }
+                    catch (Exception diagnosticError) { log.Write($"APK diagnostic {string.Join(" ", diagnostic)} unavailable: {diagnosticError.Message}"); }
                 }
-                catch (Exception diagnosticError) { log.Write($"APK failure diagnostics unavailable: {diagnosticError.Message}"); }
+                if (IsStorageAllocationFailure(apkResult))
+                    throw new IOException("سرویس ذخیره‌سازی اندروید هنگام نصب خطای داخلی freeStorage داده است. نصب خودکار تکرار نشد؛ گزارش کامل را برای بررسی بفرستید.");
                 throw new IOException($"نصب APK ناموفق بود (کد {apkResult.ExitCode}). اتصال USB و گزارش نصب را بررسی کنید.\n{apkResult.Output.Trim()}");
             }
             Done();

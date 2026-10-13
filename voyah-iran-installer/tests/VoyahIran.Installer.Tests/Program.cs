@@ -128,8 +128,8 @@ foreach (var failure in new[] { "apk-storage-transient", "apk-storage-persistent
     var engine = new InstallEngine(fake, bundle, log, Path.Combine(root, "backups"), new FakePatcher("none"));
     var failed = false;
     try { await engine.RunAsync("CAR"); } catch { failed = true; }
-    Check(failed == (failure == "apk-storage-persistent"), "OEM storage exception recovers only after successful install");
-    Check(fake.Calls.Count(c => c[0] == "install") == 3, "OEM storage retry limited to three total attempts");
+    Check(failed, "Internal storage service failure stops installation");
+    Check(fake.Calls.Count(c => c[0] == "install") == 1, "Never repeat install into a broken storage service");
     Check(!fake.Calls.Any(c => c.Contains("uninstall") || c.Contains("clear")), "Storage recovery preserves app data");
     Check(fake.Calls.Count(c => c.SequenceEqual(new[] { "reboot" })) == (failed ? 0 : 1), "No reboot after persistent APK failure");
 }
@@ -146,7 +146,8 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     var installIndex = fake.Calls.FindIndex(c => c[0] == "install");
     var stopIndex = fake.Calls.FindIndex(c => c.SequenceEqual(new[] { "shell", "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran" }));
     var leaseIndex = fake.Calls.FindIndex(c => c.SequenceEqual(new[] { "shell", "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0" }));
-    Check(stopIndex >= 0 && leaseIndex > stopIndex && installIndex > leaseIndex, "Stop app and expire live Home hook before replacing APK");
+    var lastLeaseIndex = fake.Calls.FindLastIndex(c => c.SequenceEqual(new[] { "shell", "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0" }));
+    Check(leaseIndex >= 0 && stopIndex > leaseIndex && lastLeaseIndex > stopIndex && installIndex > lastLeaseIndex, "Expire Home hook before stop and after pending heartbeat, before APK replacement");
     var operations = fake.Calls.Select(c => c[0]).ToList();
     Check(operations.IndexOf("root") < operations.IndexOf("wait-for-device") &&
         operations.IndexOf("wait-for-device") < operations.IndexOf("remount") &&
