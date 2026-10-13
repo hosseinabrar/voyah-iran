@@ -47,8 +47,10 @@ internal class ClusterMusicPublisher(private val context: Context, private val s
                         SystemClock.elapsedRealtime() - oem.optLong("at", -10000) in 0..6500
                     val info = context.packageManager.getApplicationInfo(value.sourcePackage, 0)
                     !factoryPlaying && info.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0 &&
-                        value.sourcePackage != context.packageName && value.controller != null && value.oemSource.isEmpty() &&
-                        value.controller.playbackState?.state in setOf(android.media.session.PlaybackState.STATE_PLAYING, android.media.session.PlaybackState.STATE_PAUSED)
+                        // Use the same selected session as the launcher card. Buffering,
+                        // connecting, or temporarily missing playback state must not clear
+                        // metadata already available while waiting for the stream.
+                        value.sourcePackage != context.packageName && value.controller != null && value.oemSource.isEmpty()
                 }.getOrDefault(false) }
                 try {
                     if (allowed && userSource) {
