@@ -12,6 +12,17 @@ import kotlinx.coroutines.sync.withLock
 /** Read-only monitoring; passenger ownership changes only on an explicit button press. */
 class LauncherMapPreview(private val context: Context, private val scope: CoroutineScope, private val onMessage: (String) -> Unit, private val view:SurfaceView) : SurfaceHolder.Callback {
     private var mapInCard=false
+    private var appliedTheme:Pair<Int,Boolean>?=null
+    private suspend fun refreshTheme(id:Int) {
+        if(id<=1)return
+        val wanted=id to LauncherTheme.isLight()
+        if(appliedTheme==wanted)return
+        val result=withContext(Dispatchers.IO) {
+            ProcessCommandRunner().run(listOf("su","0","launcher-map-theme",packageName,id.toString()),4)
+        }
+        if(result.exitCode==0 && !result.timedOut)appliedTheme=wanted
+        com.abrar.voyahiran.core.logging.AppLog.changed("LauncherMapTheme","exit=${result.exitCode} ${result.output}")
+    }
     fun refreshCluster() { embedded.cluster(mapInCard) }
     private var clusterMonitor: Job?=null
     private fun error(message: String) {
@@ -22,6 +33,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 delay(750)
                 if(active || busy)continue
                 val id=embedded.displayId ?: break
+                refreshTheme(id)
                 val status=withContext(Dispatchers.IO) {
                     ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,id.toString()),4)
                 }
@@ -120,6 +132,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed &&
                         com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null
                     val generation = LauncherMapWakeSession.generation
+                    if(id>1)refreshTheme(id)
                     if (clean) LauncherMapWakeSession.restarting = true
                     val r=try { withContext(Dispatchers.IO + NonCancellable) {
                         if (clean) {
@@ -214,6 +227,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 if(id!=null && embedded.attached && !busy) {
                     try { moves.withLock {
                         if(busy || closed || fullscreen)return@withLock
+                        refreshTheme(id)
                         val r=withContext(Dispatchers.IO) {
                             ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,id.toString()),4)
                         }

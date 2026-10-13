@@ -6,6 +6,13 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun mapThemeCannotTargetPhysicalDisplaysOrOwnApplication() {
+        val command=listOf("launcher-map-theme","org.rajman.neshan","3")
+        assertEquals(command,BridgePolicy.resolve(command))
+        for(display in listOf("0","1","-1","10001"))assertNull(BridgePolicy.resolve(command.take(2)+display))
+        assertNull(BridgePolicy.resolve(listOf("launcher-map-theme","com.abrar.voyahiran","3")))
+        assertNull(BridgePolicy.resolve(command+"extra"))
+    }
     @Test fun startupHomeCannotSpecifyAnotherComponentOrDisplay() {
         assertEquals(listOf("launcher-startup"),BridgePolicy.resolve(listOf("launcher-startup")))
         assertNull(BridgePolicy.resolve(listOf("launcher-startup","1")))
