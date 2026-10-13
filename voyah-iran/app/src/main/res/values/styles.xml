@@ -56,7 +56,12 @@
     </style>
     <style name="NavigationTab" parent="android:style/Widget.Material.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/touch_target</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMinTextSize">8sp</item>
+        <item name="android:autoSizeMaxTextSize">@dimen/text_body</item>
+        <item name="android:autoSizeStepGranularity">1sp</item>
         <item name="android:minHeight">@dimen/touch_target</item>
         <item name="android:background">@drawable/bg_navigation</item>
         <item name="android:textColor">@color/navigation_text</item>
