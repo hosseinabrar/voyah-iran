@@ -26,13 +26,13 @@ const classes={
    layouts.push(id);const fields={};
    ['music_tv_title','music_tv_song_name','music_tv_artist_name','music_iv_cover','music_iv_type','music_iv_stop','music_progress','music_tv_play_time','music_tv_total_time'].forEach(k=>fields[k]=widget());
    fields.music_progress.circle=panel.mThemeId.value===1;
-   return {...widget(),fields,getContext:()=>context,findViewById:n=>fields[n],getParent(){return this.parent}};
+   return {...widget(),fields,getContext:()=>context,findViewById:n=>fields[n]?{erasedView:fields[n]}:null,getParent(){return this.parent}};
  }})},
  'android.widget.TextView':{setText:{overload(type){assert.equal(type,'java.lang.CharSequence');return {call(target,value){target.setText(value)}}}}},
  'java.lang.String':{$new:s=>s},'android.util.Base64':{decode:s=>[1,2,3]},
  'android.graphics.BitmapFactory':{decodeByteArray:()=> 'cover'},'android.os.SystemClock':{elapsedRealtime:()=>now}
 };
-const sandbox={Java:{use:n=>classes[n]||{},cast:v=>v,retain:v=>v,perform:f=>f(),scheduleOnMainThread:f=>f()},
+const sandbox={Java:{use:n=>classes[n]||{},cast:v=>v.erasedView||v,retain:v=>v,perform:f=>f(),scheduleOnMainThread:f=>f()},
  rpc:{exports:{}},console,Date:{now:()=>now},setInterval:f=>intervals.push(f)};
 vm.runInNewContext(source,sandbox);
 const send=data=>sandbox.rpc.exports.onFridaStdin(JSON.stringify(data));

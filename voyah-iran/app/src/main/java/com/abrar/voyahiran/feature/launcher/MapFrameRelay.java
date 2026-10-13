@@ -28,6 +28,7 @@ final class MapFrameRelay {
     private Runnable ready;
     private final java.util.Map<String,Integer> uniforms=new java.util.HashMap<>();
     private int position;
+    private int cardGeneration;
     private ClusterMapCalibration calibration;
     private long calibrationAt;
     private final float[] matrix = new float[16];
@@ -43,7 +44,26 @@ final class MapFrameRelay {
     }
     Surface getSource(){return source;}
     void resize(int w,int h){post(()->{width=w;height=h;input.setDefaultBufferSize(w,h);});}
-    void card(Surface s,int w,int h){post(()->{destroy(card);card=null;cardW=w;cardH=h;if(s!=null&&s.isValid())card=window(s);draw();});}
+    void card(Surface s,int w,int h){post(()->{
+        int generation=++cardGeneration;
+        destroy(card);card=null;cardW=w;cardH=h;
+        if(s!=null&&s.isValid())connectCard(s,generation,0);
+    });}
+    // VirtualDisplay.setSurface returns before SurfaceFlinger releases the old producer.
+    // Retry only this transient handoff; keep the GL thread free to consume map frames.
+    private void connectCard(Surface s,int generation,int attempt){
+        if(closed || generation!=cardGeneration || !s.isValid())return;
+        EGLSurface candidate=EGL14.eglCreateWindowSurface(egl,config,s,new int[]{EGL14.EGL_NONE},0);
+        if(candidate==EGL14.EGL_NO_SURFACE){
+            int error=EGL14.eglGetError();
+            if(error==EGL14.EGL_BAD_ALLOC && attempt<40){
+                handler.postDelayed(()->{if(!closed)try{connectCard(s,generation,attempt+1);}catch(Throwable e){failure.accept(e);}},50);
+                return;
+            }
+            throw new IllegalStateException("Card EGL connection failed error=0x"+Integer.toHexString(error)+" attempts="+(attempt+1));
+        }
+        card=candidate;draw();
+    }
     void cluster(Surface s,int w,int h,Runnable ready){post(()->{destroy(cluster);cluster=null;this.ready=ready;clusterW=w;clusterH=h;if(s!=null&&s.isValid())cluster=window(s);draw();});}
     private void post(Runnable r){if(!closed)handler.post(()->{if(!closed)try{r.run();}catch(Throwable e){failure.accept(e);}});}
     private void initialize(){

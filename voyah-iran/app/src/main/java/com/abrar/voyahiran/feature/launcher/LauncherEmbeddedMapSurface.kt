@@ -47,14 +47,14 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
                         display?.surface=null
                         relay?.let {LauncherClusterMap.hide(it);it.close()};relay=null
                         display?.surface=cardHolder?.surface?.takeIf {it.isValid}
-                        com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay failed; restored direct card",failure)
+                        com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay failed; restored direct card: ${failure.message}",failure)
                     }
                 }
                 // Disconnect the original producer before EGL connects to the card Surface.
                 display?.surface=null
                 relay=output
-                output.card(cardHolder?.surface,bufferWidth,bufferHeight)
                 display?.surface=output.source
+                output.card(cardHolder?.surface,bufferWidth,bufferHeight)
             } catch(e:Exception) {
                 relayFailed=true;relay?.close();relay=null
                 display?.surface=cardHolder?.surface?.takeIf {it.isValid}

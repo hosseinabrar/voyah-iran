@@ -6,7 +6,7 @@ val source = """
 // Inflate the installed ROM's own layouts in its own process/class loader. All factory
 // children continue receiving their normal data; only their visibility is temporarily masked.
 let latest = null, received = 0, mounted = null, themeHook = null, stopped = false;
-let Panel, Screen, ViewGroup, TextView, ImageView, ProgressBar, Inflater, Base64, BitmapFactory, Clock;
+let Panel, Screen, View, ViewGroup, TextView, ImageView, ProgressBar, Inflater, Base64, BitmapFactory, Clock;
 function restore() {
     if (!mounted) return;
     const old = mounted; mounted = null;
@@ -19,7 +19,8 @@ function restore() {
 function find(view, name) {
     const context = view.getContext();
     const id = context.getResources().getIdentifier(name, 'id', context.getPackageName());
-    return id ? view.findViewById(id) : null;
+    const found = id ? view.findViewById(id) : null;
+    return found ? Java.cast(found, View) : null;
 }
 function text(view, name, value) {
     const target = find(view, name);
@@ -105,7 +106,7 @@ Java.perform(function() {
     try {
         Panel=Java.use('com.qinggan.cardview.panel.media.PanelView');
         Screen=Java.use('com.qinggan.instrumentcard.ScreenActivity');
-        ViewGroup=Java.use('android.view.ViewGroup'); TextView=Java.use('android.widget.TextView');
+        View=Java.use('android.view.View'); ViewGroup=Java.use('android.view.ViewGroup'); TextView=Java.use('android.widget.TextView');
         ImageView=Java.use('android.widget.ImageView'); ProgressBar=Java.use('android.widget.ProgressBar');
         Inflater=Java.use('android.view.LayoutInflater'); Base64=Java.use('android.util.Base64');
         BitmapFactory=Java.use('android.graphics.BitmapFactory'); Clock=Java.use('android.os.SystemClock');
