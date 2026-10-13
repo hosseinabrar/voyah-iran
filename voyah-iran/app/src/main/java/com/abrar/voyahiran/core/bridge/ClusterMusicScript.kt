@@ -10,7 +10,10 @@ let mapMode = false, hiddenPanel = null;
 function restorePanel() {
     if (!hiddenPanel) return;
     const old=hiddenPanel; hiddenPanel=null;
-    old.view.setVisibility(old.visibility); old.view.${'$'}dispose();
+    old.view.setVisibility(old.visibility);
+    old.window.setBackgroundDrawable(old.background);
+    if (old.background) old.background.${'$'}dispose();
+    old.window.${'$'}dispose(); old.view.${'$'}dispose();
 }
 let Panel, Screen, View, ViewGroup, TextView, ImageView, ProgressBar, Inflater, Base64, BitmapFactory, Clock;
 function restore() {
@@ -50,7 +53,14 @@ function render() {
         const panel=activity && !activity.isDestroyed() ? activity.panelMusicView.value : null;
         if (hiddenPanel && (!panel || !hiddenPanel.view.equals(panel))) restorePanel();
         if (panel) {
-            if (!hiddenPanel) hiddenPanel={view:Java.retain(panel),visibility:panel.getVisibility()};
+            if (!hiddenPanel) {
+                const window=activity.getWindow(), background=window.getDecorView().getBackground();
+                hiddenPanel={view:Java.retain(panel),visibility:panel.getVisibility(),
+                    window:Java.retain(window),background:background ? Java.retain(background) : null};
+            }
+            // The OEM translucent activity inherits a light window background. Hiding
+            // only its media panel exposes that white layer through the map's alpha.
+            hiddenPanel.window.setBackgroundDrawableResource(17170445); // android.R.color.transparent
             panel.setVisibility(4); // Invisible: no placeholder, text or cover under map alpha.
         }
         return;
