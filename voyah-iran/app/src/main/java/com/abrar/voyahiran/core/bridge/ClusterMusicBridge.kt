@@ -33,17 +33,21 @@ internal object ClusterMusicBridge {
         require(SystemClock.elapsedRealtime() - json.getLong("at") in 0..5000) { "Expired music frame" }
         require(json.getString("package").matches(Regex("[A-Za-z0-9_.]{1,150}")))
         frame = text; received = SystemClock.elapsedRealtime()
+        start()
+        return CommandResult(0, "Cluster music queued")
+    }
+    @Synchronized fun start() {
         if (!started) {
             started = true
             Executors.newSingleThreadScheduledExecutor { r -> Thread(r, "ClusterMusicBridge").apply { isDaemon = true } }
                 .scheduleWithFixedDelay(::tick, 0, 200, TimeUnit.MILLISECONDS)
         }
-        return CommandResult(0, "Cluster music queued")
     }
     private fun tick() {
         try {
             val value = frame?.takeIf { BridgeSubscriptionSession.active && SystemClock.elapsedRealtime() - received < 5000 }
-            if (value == null) { close(); return }
+            val map = ClusterMapBridge.presenting && BridgeSubscriptionSession.active
+            if (value == null && !map) { close(); return }
             if (child?.isAlive != true) {
                 close()
                 if (SystemClock.elapsedRealtime() < retryAt) return
@@ -77,8 +81,8 @@ internal object ClusterMusicBridge {
             // Map ownership suppresses only the output, not the adapter. Re-injecting
             // on every toggle adds seconds and can hit the attachment retry delay.
             // Recheck ownership here since attachment itself may take some time.
-            val output = if (ClusterMapBridge.presenting) "clear" else value
-            if (ready && output != lastSent) {
+            val output = if (ClusterMapBridge.presenting) "map" else value ?: "clear"
+            if (ready && (output != lastSent || output == "map")) {
                 child!!.outputStream.apply { write((output + "\n").toByteArray()); flush() }
                 lastSent = output
             }

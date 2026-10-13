@@ -28,6 +28,7 @@ internal object ClusterMapBridge {
             if(session!=id) {
                 stop()
                 val client=Api();api=client;session=id;hasFrame=false;presenting=true
+                ClusterMusicBridge.start()
                 client.call("syncReadyState",MEDIA,1)
                 val intent=Intent().setClassName("com.abrar.voyahiran","com.abrar.voyahiran.feature.launcher.ClusterMapActivity")
                     .addCategory(MEDIA).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)

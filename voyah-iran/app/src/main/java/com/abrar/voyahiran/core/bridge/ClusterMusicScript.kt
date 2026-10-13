@@ -6,6 +6,12 @@ val source = """
 // Inflate the installed ROM's own layouts in its own process/class loader. All factory
 // children continue receiving their normal data; only their visibility is temporarily masked.
 let latest = null, received = 0, mounted = null, themeHook = null, stopped = false;
+let mapMode = false, hiddenPanel = null;
+function restorePanel() {
+    if (!hiddenPanel) return;
+    const old=hiddenPanel; hiddenPanel=null;
+    old.view.setVisibility(old.visibility); old.view.${'$'}dispose();
+}
 let Panel, Screen, View, ViewGroup, TextView, ImageView, ProgressBar, Inflater, Base64, BitmapFactory, Clock;
 function restore() {
     if (!mounted) return;
@@ -38,6 +44,18 @@ function time(value) {
     return Math.floor(seconds / 60) + ':' + ('0' + seconds % 60).slice(-2);
 }
 function render() {
+    if (mapMode && !stopped && Date.now()-received<=5000) {
+        restore();
+        const activity=Screen.screenActivity.value;
+        const panel=activity && !activity.isDestroyed() ? activity.panelMusicView.value : null;
+        if (hiddenPanel && (!panel || !hiddenPanel.view.equals(panel))) restorePanel();
+        if (panel) {
+            if (!hiddenPanel) hiddenPanel={view:Java.retain(panel),visibility:panel.getVisibility()};
+            panel.setVisibility(4); // Invisible: no placeholder, text or cover under map alpha.
+        }
+        return;
+    }
+    restorePanel();
     if (stopped || !latest || Date.now() - received > 5000) { restore(); return; }
     const activity = Screen.screenActivity.value;
     if (!activity || activity.isFinishing() || activity.isDestroyed()) { restore(); return; }
@@ -115,6 +133,8 @@ function update() {
 }
 rpc.exports = {
     onFridaStdin: function(line) {
+        mapMode = line.trim() === 'map';
+        if (mapMode) { latest=null; received=Date.now(); update(); return; }
         if (line.trim() === 'clear') latest = null;
         else { try { latest=JSON.parse(line);received=Date.now(); } catch(e) { latest=null; } }
         update();

@@ -17,6 +17,7 @@ const context={getPackageName:()=> 'com.qinggan.instrumentcard',getResources:()=
  getPackageManager:()=>({getApplicationIcon:p=>p})};
 const original=widget(); original.visibility=4;
 const panel={mThemeId:{value:4},mViewType:{value:0},children:[original],getContext:()=>context,
+ visibility:0,getVisibility(){return this.visibility},setVisibility(v){this.visibility=v},
  getChildCount(){return this.children.length},getChildAt(i){return this.children[i]},
  addView(v){this.children.push(v);v.parent=this},removeView(v){this.children=this.children.filter(c=>c!==v);v.parent=null},
  equals(p){return p===this},$dispose(){}};
@@ -67,6 +68,10 @@ assert.equal(current.fields.music_tv_song_name.text,'We Don’t Talk Anymore');
 assert.equal(current.fields.music_tv_song_name.textWrites,1,'New theme must populate fresh views');
 assert.equal(layouts.at(-1),'layout_panel_media_music_simple_view');
 sandbox.rpc.exports.onFridaStdin('clear');assert.equal(panel.children.length,1);assert.equal(original.visibility,4);
+sandbox.rpc.exports.onFridaStdin('map');assert.equal(panel.visibility,4,'Hide empty OEM placeholder without a music frame');
+now+=1000;sandbox.rpc.exports.onFridaStdin('map');assert.equal(panel.visibility,4);
+sandbox.rpc.exports.onFridaStdin('clear');assert.equal(panel.visibility,0,'Restore empty OEM state when map ends');
+sandbox.rpc.exports.onFridaStdin('map');now+=6000;intervals[0]();assert.equal(panel.visibility,0,'Expired map lease restores panel');
 // Map toggles keep this adapter loaded: clear and resume repeatedly without reinitializing.
 for(let toggle=0;toggle<5;toggle++) {
  send({...frame,at:now});
