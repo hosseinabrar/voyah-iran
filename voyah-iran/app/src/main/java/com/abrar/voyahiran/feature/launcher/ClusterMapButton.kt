@@ -23,10 +23,9 @@ internal class ClusterMapButton(context: Context) : View(context) {
         canvas.save();canvas.scale(width/100f,height/100f)
         if(isPressed)canvas.scale(.94f,.94f,50f,50f)
         paint.style=Paint.Style.FILL
-        paint.shader=if(active) LinearGradient(0f,0f,0f,100f,
-            if(light)0xff719eff.toInt() else 0xff617bbb.toInt(),
-            if(light)0xff3868e5.toInt() else 0xff354b86.toInt(),Shader.TileMode.CLAMP) else null
-        paint.color=if(light)0xffd1d8e2.toInt() else 0xff454d5c.toInt()
+        paint.shader=if(active && light) LinearGradient(0f,0f,0f,100f,
+            0xff719eff.toInt(),0xff3868e5.toInt(),Shader.TileMode.CLAMP) else null
+        paint.color=if(active && !light)0xff00aaff.toInt() else if(light)0xffd1d8e2.toInt() else 0xff454d5c.toInt()
         canvas.drawCircle(50f,50f,48f,paint);paint.shader=null
         paint.color=if(active || !light)Color.WHITE else 0xff5d6878.toInt()
         paint.strokeWidth=3.6f;paint.strokeCap=Paint.Cap.ROUND;paint.strokeJoin=Paint.Join.ROUND
