@@ -7,6 +7,7 @@ const source=readFileSync(resolve(__dirname,'../../app/src/main/java/com/abrar/v
  .split('"""')[1].replaceAll("${'$'}",'$');
 let now=10000, intervals=[], layouts=[];
 const widget=()=>({visibility:0,setVisibility(n){this.visibility=n},getVisibility(){return this.visibility},$dispose(){},
+ scaleX:1,scaleY:1,setScaleX(v){this.scaleX=v},setScaleY(v){this.scaleY=v},
  getTextSize(){return 30},setTextSize(unit,size){assert.equal(unit,0);this.textSize=size},
  setSingleLine(v){this.singleLine=v},setEllipsize(v){this.ellipsize=v},setSelected(v){this.selected=v},
  setText(t){this.text=t;this.textWrites=(this.textWrites||0)+1},setImageBitmap(b){this.bitmap=b},setImageDrawable(d){this.drawable=d},
@@ -43,6 +44,8 @@ const frame={source:'User Player',title:'Tamasha',artist:'Shadmehr',package:'use
 send(frame);
 assert.equal(original.visibility,8);assert.equal(panel.children.length,2);
 let current=panel.children[1];assert.equal(current.fields.music_tv_song_name.text,'Tamasha');
+assert.equal(current.fields.music_iv_type.scaleX,.4);
+assert.equal(current.fields.music_iv_type.scaleY,.4);
 assert.equal(current.fields.music_tv_title.textSize,24);
 assert.equal(current.fields.music_tv_title.singleLine,true);
 assert.equal(current.fields.music_tv_title.ellipsize,'end');
@@ -58,6 +61,8 @@ assert.equal(current.fields.music_tv_song_name.text,'We Don’t Talk Anymore');
 assert.equal(current.fields.music_tv_artist_name.textWrites,1);
 assert.equal(hook.implementation.call(panel,1,true),'original-result');
 current=panel.children[1];assert.equal(current.fields.music_progress.percent,.4);
+assert.equal(current.fields.music_iv_type.scaleX,1,'Other themes retain original icon size');
+assert.equal(current.fields.music_iv_type.scaleY,1);
 assert.equal(current.fields.music_tv_song_name.text,'We Don’t Talk Anymore');
 assert.equal(current.fields.music_tv_song_name.textWrites,1,'New theme must populate fresh views');
 assert.equal(layouts.at(-1),'layout_panel_media_music_simple_view');

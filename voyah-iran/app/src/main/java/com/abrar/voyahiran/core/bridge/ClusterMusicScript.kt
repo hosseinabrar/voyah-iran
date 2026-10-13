@@ -55,6 +55,11 @@ function render() {
         // Validate before hiding any OEM UI; unknown ROM layouts remain untouched.
         if (!find(view, 'music_tv_song_name') || !find(view, 'music_iv_cover')) throw new Error('OEM music fields unavailable');
         const sourceTitle = find(view, 'music_tv_title');
+        const sourceIcon = find(view, 'music_iv_type');
+        if (sourceIcon && theme === 4) {
+            sourceIcon.setScaleX(0.4);
+            sourceIcon.setScaleY(0.4);
+        }
         if (sourceTitle) {
             const title = Java.cast(sourceTitle, TextView);
             title.setTextSize(0, title.getTextSize() * 0.8); // PX: preserve the ROM's theme-specific scale.
