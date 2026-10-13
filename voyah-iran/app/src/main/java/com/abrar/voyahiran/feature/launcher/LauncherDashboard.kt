@@ -13,7 +13,7 @@ class LauncherDashboard(context: Context) : View(context) {
     private val buttonPress = FloatArray(3)
     private val buttonAnimations = arrayOfNulls<android.animation.ValueAnimator>(3)
     private var touchedButton = -1
-    private fun mediaButton(x:Float,y:Float):Int = if(y !in 551f..631f) -1 else when(x) {
+    private fun mediaButton(x:Float,y:Float):Int = if(y !in 561f..641f) -1 else when(x) {
         in 947f..1027f -> 0
         in 1061f..1141f -> 1
         in 1175f..1255f -> 2
@@ -180,7 +180,7 @@ class LauncherDashboard(context: Context) : View(context) {
             val image=if(coverFade<.5f)oldCover else shownCover
             val opacity=if(coverFade<.5f)1f-coverFade*2 else coverFade*2-1f
             val cover = image ?: defaultCover
-            val rect=RectF(931f,78f,1271f,418f)
+            val rect=RectF(923.5f,78f,1278.5f,433f)
             c.save();c.clipPath(Path().apply{addRoundRect(rect,12f,12f,Path.Direction.CW)})
             paint.color=Color.WHITE
             val layer=c.saveLayerAlpha(rect,(opacity*255).toInt())
@@ -203,6 +203,7 @@ class LauncherDashboard(context: Context) : View(context) {
             picture.endRecording()
             mediaTextPicture=picture;mediaTextKey=textKey
         }
+        c.save();c.translate(0f,10f)
         mediaTextPicture?.let {c.drawPicture(it)}
         if(!media.radio) {
             paint.color=if(lightTheme) 0xffcdd9e8.toInt() else if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,514f,1291f,514f,paint)
@@ -226,6 +227,7 @@ class LauncherDashboard(context: Context) : View(context) {
             paint.alpha=255;c.restore()
         }
         paint.colorFilter=null
+        c.restore()
         val now=Calendar.getInstance();val cx=1545f;val cy=177f
         if(lightTheme) {
             paint.shader=RadialGradient(cx,cy+4,135f,intArrayOf(0x00344358,0x00344358,0x22344358,Color.TRANSPARENT),floatArrayOf(0f,.86f,.93f,1f),Shader.TileMode.CLAMP)
@@ -290,7 +292,7 @@ class LauncherDashboard(context: Context) : View(context) {
                 }
                 x in 887f..1315f -> when {
                     mediaButton(x,y)>=0 -> Unit
-                    !media.radio && x in 911f..1291f && y in 498f..560f -> { if(media.canSeek) onSeek(((x-911f)/380f*media.duration).toLong()) }
+                    !media.radio && x in 911f..1291f && y in 508f..570f -> { if(media.canSeek) onSeek(((x-911f)/380f*media.duration).toLong()) }
                     else -> onOpenMusic()
                 }
             }
