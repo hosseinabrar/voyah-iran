@@ -26,7 +26,7 @@ class QingganStarMapping(context: Context) : StarMapping {
     private val voicePress = com.abrar.voyahiran.feature.voice.VoiceButtonPolicy()
     val voiceListening: Boolean get() = voice != null && registered && remote?.isBinderAlive == true
     private val events = Executors.newSingleThreadExecutor()
-    private var connection: ServiceConnection? = null
+    @Volatile private var connection: ServiceConnection? = null
     @Volatile private var remote: IBinder? = null
     @Volatile private var policy: StarEventPolicy? = null
     @Volatile private var registered = false
@@ -75,17 +75,17 @@ class QingganStarMapping(context: Context) : StarMapping {
         }
     }
 
-    override suspend fun read(): Int = operations.withLock {
+    override suspend fun read(): Int = offMain {
         connect()
-        return@withLock call(9, { writeInt(SteeringKeys.STAR); writeString(context.packageName) }) { readInt() }
+        return@offMain call(9, { writeInt(SteeringKeys.STAR); writeString(context.packageName) }) { readInt() }
     }
 
-    override suspend fun write(target: Int) = operations.withLock {
+    override suspend fun write(target: Int) = offMain {
         connect()
         call(8, { writeInt(SteeringKeys.STAR); writeInt(target); writeString(context.packageName) }) { Unit }
     }
 
-    override suspend fun intercept(previous: Int) = operations.withLock {
+    override suspend fun intercept(previous: Int) = offMain {
         connect()
         // Replaying a target that itself maps elsewhere could recurse or change the OEM action.
         for (target in StarBackTransport.replayTargets(android.os.Build.VERSION.SDK_INT, previous)) {
@@ -97,7 +97,7 @@ class QingganStarMapping(context: Context) : StarMapping {
         registerKeys()
     }
 
-    override suspend fun release() = operations.withLock {
+    override suspend fun release() = offMain {
         generation.incrementAndGet()
         policy = null
         if (voice != null || media != null || screenSwap != null) { connect(); registerKeys() }
@@ -105,8 +105,8 @@ class QingganStarMapping(context: Context) : StarMapping {
     }
 
     /** OEM indexes interceptors by package, so star and voice MUST share this registration. */
-    suspend fun setVoiceListener(listener: (() -> Unit)?) = operations.withLock {
-        if (listener != null && voiceListening) { voice = listener; return@withLock }
+    suspend fun setVoiceListener(listener: (() -> Unit)?) = offMain {
+        if (listener != null && voiceListening) { voice = listener; return@offMain }
         voice = listener
         voicePress.reset()
         if (listener != null || policy != null || media != null || screenSwap != null) {
@@ -115,24 +115,30 @@ class QingganStarMapping(context: Context) : StarMapping {
         } else { unregisterKeys(); disconnect() }
     }
 
-    suspend fun setMediaListener(listener: ((Int, Int, Int) -> Boolean)?) = operations.withLock {
+    suspend fun setMediaListener(listener: ((Int, Int, Int) -> Boolean)?) = offMain {
         if (listener != null && media != null && registered && remote?.isBinderAlive == true) {
-            media = listener; return@withLock
+            media = listener; return@offMain
         }
-        if (listener == null && media == null) return@withLock
+        if (listener == null && media == null) return@offMain
         media = listener
         if (listener != null || voice != null || policy != null || screenSwap != null) { connect(); registerKeys() }
         else { unregisterKeys(); disconnect() }
     }
 
-    suspend fun setScreenSwapListener(listener: ((Int, Int) -> Boolean)?) = operations.withLock {
+    suspend fun setScreenSwapListener(listener: ((Int, Int) -> Boolean)?) = offMain {
         if (listener != null && screenSwap != null && registered && remote?.isBinderAlive == true) {
-            screenSwap = listener; return@withLock
+            screenSwap = listener; return@offMain
         }
-        if (listener == null && screenSwap == null) return@withLock
+        if (listener == null && screenSwap == null) return@offMain
         screenSwap = listener
         if (listener != null || voice != null || media != null || policy != null) { connect(); registerKeys() }
         else { unregisterKeys(); disconnect() }
+    }
+
+    // Binder registration may wait for OEM startup. Never block activity creation/drawing.
+    // Keep the mutex held across suspension so listeners still share one registration.
+    private suspend fun <T> offMain(block: suspend () -> T): T = withContext(Dispatchers.IO) {
+        operations.withLock { block() }
     }
 
     private fun unregisterKeys() {

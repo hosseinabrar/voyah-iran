@@ -23,12 +23,28 @@ internal object LauncherAppsCache {
     private var work:Deferred<List<LauncherAppsEntry>>?=null
     private var cached:List<LauncherAppsEntry>?=null
     private val pending=mutableMapOf<String,CompletableDeferred<JSONObject>>()
+    private val chunks=mutableMapOf<String,Array<String?>>()
     private val receiver=object:BroadcastReceiver() {
         override fun onReceive(context:Context,intent:Intent) {
             if(intent.action=="com.abrar.voyahiran.DRAWER_RESULT") {
-                val waiting=pending.remove(intent.getStringExtra("nonce")) ?: return
-                val text=intent.getStringExtra("payload").orEmpty()
-                runCatching {check(text.length<=350000);JSONObject(text)}.fold(waiting::complete,waiting::completeExceptionally)
+                val nonce=intent.getStringExtra("nonce") ?: return
+                val waiting=pending[nonce] ?: return
+                runCatching {
+                    var text=intent.getStringExtra("payload").orEmpty()
+                    if(intent.hasExtra("parts")) {
+                        val count=intent.getIntExtra("parts",0)
+                        val index=intent.getIntExtra("part",-1)
+                        check(count in 1..44 && index in 0 until count && text.length<=8000)
+                        val parts=chunks.getOrPut(nonce) {arrayOfNulls(count)}
+                        check(parts.size==count)
+                        parts[index]=text
+                        if(parts.any {it==null})return
+                        text=parts.joinToString("") {it.orEmpty()}
+                    }
+                    check(text.length<=350000)
+                    JSONObject(text)
+                }.fold(waiting::complete,waiting::completeExceptionally)
+                chunks.remove(nonce);pending.remove(nonce)
             } else {
                 if(intent.action==Intent.ACTION_PACKAGE_REMOVED && intent.getBooleanExtra(Intent.EXTRA_REPLACING,false))return
                 invalidate()
@@ -101,7 +117,7 @@ internal object LauncherAppsCache {
             val sent=withContext(Dispatchers.IO) {ProcessCommandRunner().run(listOf("su","0","launcher-drawer","catalog",nonce,"all"),5)}
             check(sent.exitCode==0 && !sent.timedOut){sent.output}
             withTimeout(8000){response.await()}.also {check(!it.has("error")){it.optString("error")}}
-        } finally {pending.remove(nonce)}
+        } finally {pending.remove(nonce);chunks.remove(nonce)}
         return withContext(Dispatchers.IO) {
             val resources=context.resources
             val packageManager=context.packageManager

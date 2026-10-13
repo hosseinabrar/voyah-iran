@@ -36,10 +36,31 @@ Java.perform(function () {
             return result;
         }
         function send(nonce, value) {
+            const text=JSON.stringify(value);
+            if(text.length>350000)throw new Error('OEM icon catalog exceeds size limit');
+            // Binder's buffer is shared with other in-flight calls, especially during boot.
+            // Pace small chunks instead of broadcasting the entire base64 icon catalog.
+            if(value.items) {
+                const count=Math.ceil(text.length/8000);
+                let index=0;
+                function next() {
+                    Java.perform(function() {
+                        const reply=Intent.__DOLLAR__new('com.abrar.voyahiran.DRAWER_RESULT');
+                        reply.setPackage('com.abrar.voyahiran');
+                        reply.putExtra.overload('java.lang.String','java.lang.String').call(reply,'nonce',nonce);
+                        reply.putExtra.overload('java.lang.String','java.lang.String').call(reply,'payload',text.slice(index*8000,(index+1)*8000));
+                        reply.putExtra.overload('java.lang.String','int').call(reply,'part',index);
+                        reply.putExtra.overload('java.lang.String','int').call(reply,'parts',count);
+                        ctx.sendBroadcast(reply);
+                        if(++index<count)setTimeout(next,40);
+                    });
+                }
+                next();return;
+            }
             const reply=Intent.__DOLLAR__new('com.abrar.voyahiran.DRAWER_RESULT');
             reply.setPackage('com.abrar.voyahiran');
             reply.putExtra.overload('java.lang.String','java.lang.String').call(reply,'nonce',nonce);
-            reply.putExtra.overload('java.lang.String','java.lang.String').call(reply,'payload',JSON.stringify(value));
+            reply.putExtra.overload('java.lang.String','java.lang.String').call(reply,'payload',text);
             ctx.sendBroadcast(reply);
         }
         function icon(drawable) {
