@@ -134,7 +134,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         text(c,if(bearing==null)"—" else listOf("N","NE","E","SE","S","SW","W","NW")[((bearing+22.5f)/45).toInt()%8],cx,316f,30f,true)
         text(c,if(bearing==null)"—°" else String.format(Locale.US,"%.0f°",bearing),cx,360f,27f,true)
         text(c,"Altitude ${compass.altitude?.let {String.format(Locale.US,"%.0f",it)} ?: "—"} m",622f,621f,23f)
-        text(c,"Air Pressure ${state.pressure?.takeIf{it>0}?.let{String.format(Locale.US,"%.0f",it/10.0)} ?: "—"} kPa",911f,621f,23f)
+        text(c,"Air Pressure ${state.pressure?.takeIf{it>0}?.let{it.toString()} ?: "—"} hPa",911f,621f,23f)
         text(c,"Suspension height",1214f,54f)
         p.color=cyan;c.drawRoundRect(1214f,70f,1223f,120f,4f,4f,p)
         text(c,state.heightLabel,1240f,108f,32f,bold=true)
