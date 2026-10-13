@@ -23,9 +23,15 @@ function find(view, name) {
     return found ? Java.cast(found, View) : null;
 }
 function text(view, name, value) {
+    const next = String(value || '');
+    // Keep marquee state across heartbeat frames; reset the cache with each layout.
+    if (mounted.texts[name] === next) return;
     const target = find(view, name);
-    if (target) TextView.setText.overload('java.lang.CharSequence').call(
-        Java.cast(target, TextView), Java.use('java.lang.String').${'$'}new(String(value || '')));
+    if (target) {
+        TextView.setText.overload('java.lang.CharSequence').call(
+            Java.cast(target, TextView), Java.use('java.lang.String').${'$'}new(next));
+        mounted.texts[name] = next;
+    }
 }
 function time(value) {
     const seconds = Math.floor(Math.max(0, value) / 1000);
@@ -48,13 +54,21 @@ function render() {
         const view = Inflater.from(context).inflate(id, Java.cast(panel, ViewGroup), false);
         // Validate before hiding any OEM UI; unknown ROM layouts remain untouched.
         if (!find(view, 'music_tv_song_name') || !find(view, 'music_iv_cover')) throw new Error('OEM music fields unavailable');
+        const sourceTitle = find(view, 'music_tv_title');
+        if (sourceTitle) {
+            const title = Java.cast(sourceTitle, TextView);
+            title.setTextSize(0, title.getTextSize() * 0.8); // PX: preserve the ROM's theme-specific scale.
+            title.setSingleLine(true);
+            title.setEllipsize(Java.use('android.text.TextUtils${'$'}TruncateAt').END.value);
+            title.setSelected(false);
+        }
         const children = [];
         for (let i=0; i<panel.getChildCount(); i++) {
             const child = panel.getChildAt(i);
             children.push({view:Java.retain(child), visibility:child.getVisibility()});
         }
         panel.addView(view);
-        mounted = {panel:Java.retain(panel),view:Java.retain(view),children:children,theme:theme,cover:null,pkg:null};
+        mounted = {panel:Java.retain(panel),view:Java.retain(view),children:children,theme:theme,cover:null,pkg:null,texts:Object.create(null)};
         children.forEach(function(item) { item.view.setVisibility(8); });
         console.log('VI_CLUSTER_MUSIC_MOUNTED theme=' + theme);
     }

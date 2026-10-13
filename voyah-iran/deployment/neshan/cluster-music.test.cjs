@@ -7,7 +7,9 @@ const source=readFileSync(resolve(__dirname,'../../app/src/main/java/com/abrar/v
  .split('"""')[1].replaceAll("${'$'}",'$');
 let now=10000, intervals=[], layouts=[];
 const widget=()=>({visibility:0,setVisibility(n){this.visibility=n},getVisibility(){return this.visibility},$dispose(){},
- setText(t){this.text=t},setImageBitmap(b){this.bitmap=b},setImageDrawable(d){this.drawable=d},
+ getTextSize(){return 30},setTextSize(unit,size){assert.equal(unit,0);this.textSize=size},
+ setSingleLine(v){this.singleLine=v},setEllipsize(v){this.ellipsize=v},setSelected(v){this.selected=v},
+ setText(t){this.text=t;this.textWrites=(this.textWrites||0)+1},setImageBitmap(b){this.bitmap=b},setImageDrawable(d){this.drawable=d},
  setMax(n){this.max=n},setProgress(n){this.progress=n},setPercent(n){this.percent=n},
  getClass:undefined});
 const context={getPackageName:()=> 'com.qinggan.instrumentcard',getResources:()=>({getIdentifier:n=>n}),
@@ -20,6 +22,7 @@ const panel={mThemeId:{value:4},mViewType:{value:0},children:[original],getConte
 const activity={panelMusicView:{value:panel},isFinishing:()=>false,isDestroyed:()=>false};
 const hook={call(self,theme){self.mThemeId.value=theme;return 'original-result'}};
 const classes={
+ 'android.text.TextUtils$TruncateAt':{END:{value:'end'}},
  'com.qinggan.cardview.panel.media.PanelView':{onThemeChanged:{overload:()=>hook}},
  'com.qinggan.instrumentcard.ScreenActivity':{screenActivity:{value:activity}},
  'android.view.LayoutInflater':{from:()=>({inflate(id){
@@ -40,10 +43,23 @@ const frame={source:'User Player',title:'Tamasha',artist:'Shadmehr',package:'use
 send(frame);
 assert.equal(original.visibility,8);assert.equal(panel.children.length,2);
 let current=panel.children[1];assert.equal(current.fields.music_tv_song_name.text,'Tamasha');
+assert.equal(current.fields.music_tv_title.textSize,24);
+assert.equal(current.fields.music_tv_title.singleLine,true);
+assert.equal(current.fields.music_tv_title.ellipsize,'end');
+assert.equal(current.fields.music_tv_title.selected,false);
 assert.equal(current.fields.music_progress.progress,3000);assert.equal(current.fields.music_iv_cover.bitmap,'cover');
 now+=1000;intervals[0]();assert.equal(current.fields.music_progress.progress,4000);
+send({...frame,at:now,position:4000});
+for(const name of ['music_tv_title','music_tv_song_name','music_tv_artist_name'])
+ assert.equal(current.fields[name].textWrites,1,'Repeated heartbeat must preserve marquee: '+name);
+send({...frame,title:'We Don’t Talk Anymore',at:now,position:4000});
+assert.equal(current.fields.music_tv_song_name.textWrites,2);
+assert.equal(current.fields.music_tv_song_name.text,'We Don’t Talk Anymore');
+assert.equal(current.fields.music_tv_artist_name.textWrites,1);
 assert.equal(hook.implementation.call(panel,1,true),'original-result');
 current=panel.children[1];assert.equal(current.fields.music_progress.percent,.4);
+assert.equal(current.fields.music_tv_song_name.text,'We Don’t Talk Anymore');
+assert.equal(current.fields.music_tv_song_name.textWrites,1,'New theme must populate fresh views');
 assert.equal(layouts.at(-1),'layout_panel_media_music_simple_view');
 sandbox.rpc.exports.onFridaStdin('clear');assert.equal(panel.children.length,1);assert.equal(original.visibility,4);
 send({...frame,playing:false,cover:'',at:now});current=panel.children[1];now+=2000;intervals[0]();
