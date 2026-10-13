@@ -98,6 +98,7 @@ object BridgeServer {
                         "apollo-state" -> ApolloBundle.apply(command[1].toInt())
                         "system-logging" -> SystemLoggingControl.command(command[1])
                         "neshan-direct" -> neshan.command(command[1])
+                        "neshan-theme-android" -> NeshanThemeBridge.execute()
                         "cluster-navigation" -> OemClusterNavigation.command(command)
                         "subscription-vin" -> VehicleIdentity.read()
                         "subscription-vip-session" -> BridgeSubscriptionSession.updateVip(command[1].toInt(), command[2].toInt())
