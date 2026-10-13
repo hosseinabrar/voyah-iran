@@ -42,7 +42,7 @@ internal object ClusterMusicBridge {
     }
     private fun tick() {
         try {
-            val value = frame?.takeIf { !ClusterMapBridge.presenting && BridgeSubscriptionSession.active && SystemClock.elapsedRealtime() - received < 5000 }
+            val value = frame?.takeIf { BridgeSubscriptionSession.active && SystemClock.elapsedRealtime() - received < 5000 }
             if (value == null) { close(); return }
             if (child?.isAlive != true) {
                 close()
@@ -74,9 +74,13 @@ internal object ClusterMusicBridge {
             }
             check(ready || SystemClock.elapsedRealtime() - attachingAt < 10000) { "OEM adapter initialization timed out" }
             if (ready) retryAt = 0L
-            if (ready && value != lastSent) {
-                child!!.outputStream.apply { write((value + "\n").toByteArray()); flush() }
-                lastSent = value
+            // Map ownership suppresses only the output, not the adapter. Re-injecting
+            // on every toggle adds seconds and can hit the attachment retry delay.
+            // Recheck ownership here since attachment itself may take some time.
+            val output = if (ClusterMapBridge.presenting) "clear" else value
+            if (ready && output != lastSent) {
+                child!!.outputStream.apply { write((output + "\n").toByteArray()); flush() }
+                lastSent = output
             }
         } catch (e: Exception) {
             AppLog.changed("ClusterMusic", "adapter unavailable: ${e.message}")

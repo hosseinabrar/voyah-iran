@@ -67,6 +67,15 @@ assert.equal(current.fields.music_tv_song_name.text,'We Don’t Talk Anymore');
 assert.equal(current.fields.music_tv_song_name.textWrites,1,'New theme must populate fresh views');
 assert.equal(layouts.at(-1),'layout_panel_media_music_simple_view');
 sandbox.rpc.exports.onFridaStdin('clear');assert.equal(panel.children.length,1);assert.equal(original.visibility,4);
+// Map toggles keep this adapter loaded: clear and resume repeatedly without reinitializing.
+for(let toggle=0;toggle<5;toggle++) {
+ send({...frame,at:now});
+ assert.equal(panel.children.length,2);
+ assert.equal(panel.children[1].fields.music_tv_song_name.text,frame.title);
+ sandbox.rpc.exports.onFridaStdin('clear');
+ assert.equal(panel.children.length,1);
+ assert.equal(original.visibility,4);
+}
 send({...frame,playing:false,cover:'',at:now});current=panel.children[1];now+=2000;intervals[0]();
 assert.equal(current.fields.music_progress.percent,.3);assert.equal(current.fields.music_iv_cover.bitmap,null);
 now+=4000;intervals[0]();assert.equal(panel.children.length,1);assert.equal(original.visibility,4);
