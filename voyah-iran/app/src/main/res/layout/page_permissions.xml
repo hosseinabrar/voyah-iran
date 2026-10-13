@@ -1,8 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:visibility="gone" android:layoutDirection="rtl" tools:visibility="visible" tools:background="@color/background" tools:context=".ui.MainActivity">
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="@dimen/page_padding">
 <TextView style="@style/Text.Heading" android:text="@string/permissions_tab"/>
-<TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/permissions_description"/>
-<TextView style="@style/Text.Body" android:layout_marginTop="@dimen/space_lg" android:text="@string/permissions_choose_app" android:labelFor="@id/apps"/>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/touch_target"
@@ -40,18 +38,6 @@
 </LinearLayout>
 <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:indeterminate="true" android:visibility="gone"/>
 <TextView android:id="@+id/feedback" style="@style/Text.Caption" android:textColor="@color/error" android:accessibilityLiveRegion="polite" android:visibility="gone" android:text="@string/permissions_error"/>
-<Button android:id="@+id/refresh" style="@style/Oem.Button" android:layout_marginTop="@dimen/space_md" android:layout_marginBottom="@dimen/space_md" android:text="@string/permissions_refresh"/>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-<TextView style="@style/Text.Title" android:text="@string/package_size_title" android:layout_marginTop="@dimen/space_md"/>
-<CheckBox android:id="@+id/packageSizeInherit" android:layout_width="match_parent" android:layout_height="wrap_content" android:checked="true" android:text="@string/package_size_inherit"/>
-<RadioGroup android:id="@+id/packageSizeChoices" style="@style/Oem.Segments" android:layout_width="match_parent" android:layout_height="wrap_content" android:checkedButton="@id/packageSizeNormal" android:visibility="gone">
-<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeTiny" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_tiny"/>
-<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeSmall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_small"/>
-<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeNormal" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_normal"/>
-<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeLarge" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_large"/>
-<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeHuge" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_huge"/>
-</RadioGroup>
-<TextView style="@style/Text.Secondary" android:text="@string/package_size_description" android:layout_marginBottom="@dimen/space_lg"/>
 
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
 <CheckBox android:id="@+id/permissionMicrophone" style="@style/PermissionTile" android:text="@string/perm_microphone" tools:enabled="true"/>
@@ -63,4 +49,16 @@
 <CheckBox android:id="@+id/permissionBackground" style="@style/PermissionTile" android:text="@string/perm_background" tools:enabled="true"/>
 <CheckBox android:id="@+id/permissionAll" style="@style/PermissionTile" android:text="@string/perm_all" tools:enabled="true"/>
 </LinearLayout>
-</LinearLayout></LinearLayout></LinearLayout></ScrollView>
+
+<TextView style="@style/Text.Title" android:text="@string/package_size_title" android:layout_marginTop="@dimen/space_md"/>
+<CheckBox android:id="@+id/packageSizeInherit" android:layout_width="match_parent" android:layout_height="wrap_content" android:checked="true" android:text="@string/package_size_inherit"/>
+<RadioGroup android:id="@+id/packageSizeChoices" style="@style/Oem.Segments" android:layout_width="match_parent" android:layout_height="wrap_content" android:checkedButton="@id/packageSizeNormal" android:visibility="gone">
+<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeTiny" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_tiny"/>
+<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeSmall" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_small"/>
+<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeNormal" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_normal"/>
+<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeLarge" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_large"/>
+<RadioButton style="@style/Oem.Segment" android:id="@+id/packageSizeHuge" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/app_size_huge"/>
+</RadioGroup>
+
+
+<Button android:id="@+id/refresh" style="@style/Oem.Button" android:layout_marginTop="@dimen/space_md" android:layout_marginBottom="@dimen/space_md" android:text="@string/permissions_refresh"/></LinearLayout></ScrollView>

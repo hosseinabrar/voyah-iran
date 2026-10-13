@@ -414,6 +414,8 @@ class MainActivity : ComponentActivity() {
         projectNotice?.dismiss()
         projectNotice = null
         selectTab(Tab.PERMISSIONS)
+        // App selector and permission switches are now the first section of this page.
+        binding.permissionsPage.root.post { binding.permissionsPage.root.scrollTo(0,0) }
         permissions.openApp(pkg)
     }
 
