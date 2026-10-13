@@ -127,6 +127,8 @@ class VoyahLauncherActivity : ComponentActivity() {
         }
         container.addOnLayoutChangeListener { _,l,t,r,b,ol,ot,or,ob -> if(r-l != or-ol || b-t != ob-ot) layoutContent() }
         layoutContent()
+        // Start after HOME's first frame; catalog and icon decoding run off the UI thread.
+        container.post { container.post { LauncherAppsCache.warm(this) } }
     }
     @Suppress("DEPRECATION") private fun layoutContent() {
         if(container.width==0)return

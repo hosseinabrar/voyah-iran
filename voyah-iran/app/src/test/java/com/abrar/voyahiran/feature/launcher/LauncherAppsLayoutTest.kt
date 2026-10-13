@@ -18,9 +18,7 @@ class LauncherAppsLayoutTest {
     @Test fun twentySevenTilesPerPageAndIndependentPages() {
         val controller=Robolectric.buildActivity(LauncherAppsActivity::class.java).create()
         val activity=controller.get()
-        val entry=Class.forName("com.abrar.voyahiran.feature.launcher.LauncherAppsActivity\$Entry")
-        val constructor=entry.declaredConstructors.single {it.parameterTypes.size==4}.apply {isAccessible=true}
-        val rows=(1..55).map {constructor.newInstance("app$it","App $it",ColorDrawable(Color.BLUE),null)}
+        val rows=(1..55).map {LauncherAppsEntry("app$it","App $it",ColorDrawable(Color.BLUE),null)}
         LauncherAppsActivity::class.java.getDeclaredField("entries").apply {isAccessible=true}.set(activity,rows)
         LauncherAppsActivity::class.java.getDeclaredMethod("render").apply {isAccessible=true}.invoke(activity)
         val pager=LauncherAppsActivity::class.java.getDeclaredField("pager").apply {isAccessible=true}.get(activity) as LauncherPager

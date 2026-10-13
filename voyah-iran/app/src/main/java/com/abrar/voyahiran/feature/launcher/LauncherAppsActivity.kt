@@ -26,7 +26,7 @@ import java.util.UUID
 
 /** Independent OEM + installed-app pages. No Home page participates in this pager. */
 class LauncherAppsActivity : ComponentActivity() {
-    private data class Entry(val id: String, val label: String, val icon: Drawable?, val component: ComponentName? = null)
+
     private lateinit var root: FrameLayout
     private lateinit var content: FrameLayout
     private lateinit var pager: LauncherPager
@@ -34,7 +34,7 @@ class LauncherAppsActivity : ComponentActivity() {
     private lateinit var status: TextView
     private lateinit var loading: LauncherLoadingView
     private var light = false
-    private var entries = emptyList<Entry>()
+    private var entries = emptyList<LauncherAppsEntry>()
     private var refreshJob: Job? = null
     private var catalogDirty = true
     private var resumed = false
@@ -43,7 +43,7 @@ class LauncherAppsActivity : ComponentActivity() {
             if(intent?.action==Intent.ACTION_PACKAGE_REMOVED && intent.getBooleanExtra(Intent.EXTRA_REPLACING,false))return
             catalogDirty=true
             AppLog.info("LauncherApps","catalog invalidated action=${intent?.action}")
-            if(resumed && allowed())refresh()
+            root.post { if(allowed())refresh() }
         }
     }
     private var guard: Job? = null
@@ -55,7 +55,7 @@ class LauncherAppsActivity : ComponentActivity() {
     private var draggedId: String? = null
     private var dropIndex = -1
     private var edgeDirection = 0
-    private var deferredEntries: List<Entry>? = null
+    private var deferredEntries: List<LauncherAppsEntry>? = null
     private val wobblers = mutableListOf<ObjectAnimator>()
     private lateinit var done: TextView
     private val orderPrefs by lazy { getSharedPreferences("launcher_app_order", MODE_PRIVATE) }
@@ -72,7 +72,7 @@ class LauncherAppsActivity : ComponentActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if(intent?.action=="theme_loaded") {
                 catalogDirty=true
-                if(resumed && allowed()){applyTheme();refresh()}
+                root.post { if(allowed()){applyTheme();refresh()} }
                 return
             }
             val nonce = intent?.getStringExtra("nonce") ?: return
@@ -181,29 +181,7 @@ class LauncherAppsActivity : ComponentActivity() {
         catalogDirty=false
         refreshJob=lifecycleScope.launch {
             try {
-                val catalog=request("catalog","all")
-                val fresh=withContext(Dispatchers.IO) {
-                    val oem=catalog.getJSONArray("items")
-                    val rows=mutableListOf<Entry>()
-                    for(i in 0 until oem.length()) {
-                        val item=oem.getJSONObject(i);val id=item.getString("subtype")
-                        if(!LauncherAppsPolicy.visible(id))continue
-                        val bytes=android.util.Base64.decode(item.optString("icon"),android.util.Base64.DEFAULT)
-                        val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-                        rows+=Entry(id,item.getString("label"),LauncherAppIcon.create(resources,bitmap?.let {BitmapDrawable(resources,it)}))
-                    }
-                    val installed=packageManager.queryIntentActivities(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER),0)
-                        .filter { it.activityInfo.enabled && it.activityInfo.exported && it.activityInfo.applicationInfo.enabled &&
-                            (it.activityInfo.applicationInfo.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP))==0 }
-                        .distinctBy { ComponentName(it.activityInfo.packageName,it.activityInfo.name) }
-                        .map {
-                            val own=it.activityInfo.packageName==packageName
-                            val icon=if(own && light)resources.getDrawable(com.abrar.voyahiran.R.drawable.launcher_voyah_icon_light,null) else it.loadIcon(packageManager)
-                            Entry(it.activityInfo.packageName+"/"+it.activityInfo.name,it.loadLabel(packageManager).toString(),LauncherAppIcon.create(resources,icon,rounded=own),ComponentName(it.activityInfo.packageName,it.activityInfo.name))
-                        }
-                        .sortedBy { it.label.lowercase() }
-                    rows+installed
-                }
+                val fresh=LauncherAppsCache.get(this@LauncherAppsActivity)
                 if(!allowed()){catalogDirty=true;return@launch}
                 if(draggedId!=null)deferredEntries=fresh else { entries=ordered(fresh);render() }
                 status.visibility=View.GONE
@@ -294,7 +272,7 @@ class LauncherAppsActivity : ComponentActivity() {
         }
         pager.show(selected,false);updateDots();if(editing)startWobble()
     }
-    private fun ordered(fresh:List<Entry>):List<Entry> {
+    private fun ordered(fresh:List<LauncherAppsEntry>):List<LauncherAppsEntry> {
         val saved=runCatching { org.json.JSONArray(orderPrefs.getString("ids","[]")) }.getOrDefault(org.json.JSONArray())
         val ids=(0 until saved.length()).map {saved.getString(it)}
         val byId=fresh.associateBy {it.id}
@@ -388,7 +366,7 @@ class LauncherAppsActivity : ComponentActivity() {
             },LinearLayout.LayoutParams(if(index==pager.page)28 else 8,5).apply {setMargins(7,0,7,0)})
         }
     }
-    private fun showActions(entry:Entry,anchor:View) {
+    private fun showActions(entry:LauncherAppsEntry,anchor:View) {
         if(!editing || actionBusy || !allowed() || entry.component==null || entry.component.packageName==packageName)return
         actions?.dismiss()
         actions=LauncherAppActions(content,light).also { ui ->
@@ -402,7 +380,7 @@ class LauncherAppsActivity : ComponentActivity() {
             })
         }
     }
-    private fun performAppAction(entry:Entry,remove:Boolean) {
+    private fun performAppAction(entry:LauncherAppsEntry,remove:Boolean) {
         val pkg=entry.component?.packageName ?: return
         if(actionBusy || !allowed() || pkg==packageName)return
         actionBusy=true
@@ -418,7 +396,7 @@ class LauncherAppsActivity : ComponentActivity() {
                     refreshJob?.cancel();deferredEntries=null
                     entries=entries.filter {it.component?.packageName!=pkg}
                     orderPrefs.edit().putString("ids",org.json.JSONArray(entries.map {it.id}).toString()).apply()
-                    render();refresh()
+                    render();LauncherAppsCache.invalidate();refresh()
                 }
                 Toast.makeText(this@LauncherAppsActivity,if(remove)"App removed" else "App stopped",Toast.LENGTH_SHORT).show()
             } catch(e:CancellationException){throw e}
@@ -429,7 +407,7 @@ class LauncherAppsActivity : ComponentActivity() {
             } finally {actionBusy=false}
         }
     }
-    private fun open(entry:Entry) {
+    private fun open(entry:LauncherAppsEntry) {
         if(opening || !allowed())return
         opening=true
         lifecycleScope.launch {
