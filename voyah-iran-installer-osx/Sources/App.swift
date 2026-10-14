@@ -12,6 +12,7 @@ struct VehicleApp: Identifiable {
     var id: String { package }
     let package: String
     let label: String
+    let icon: NSImage?
 }
 @MainActor final class InstallerModel: ObservableObject {
     @Published var ready = false
@@ -131,7 +132,8 @@ struct VehicleApp: Identifiable {
             case "apps":
                 apps = (event["apps"] as? [[String: Any]] ?? []).compactMap { a in
                     guard let package = a["Package"] as? String else { return nil }
-                    return VehicleApp(package: package, label: a["Label"] as? String ?? package)
+                    let icon = (a["Icon"] as? String).flatMap { Data(base64Encoded: $0) }.flatMap { NSImage(data: $0) }
+                    return VehicleApp(package: package, label: a["Label"] as? String ?? package, icon: icon)
                 }; showApps = true
                 present("apps", title: "حذف APK", size: NSSize(width: 720, height: 330)) { UninstallView(model: self) }
             default: break
@@ -487,10 +489,23 @@ struct UninstallView: View {
         VStack(alignment: .leading, spacing: 20) {
             Text("انتخاب برنامه برای حذف").font(.system(size: 24))
             HStack(spacing: 12) {
-                Picker("", selection: $selection) {
-                    Text("انتخاب برنامه").tag("")
-                    ForEach(model.apps) { app in Text(app.label).tag(app.package) }
-                }.labelsHidden().frame(maxWidth: .infinity, minHeight: 56).disabled(!model.canOperate)
+                Menu {
+                    ForEach(model.apps) { app in
+                        Button { selection = app.package } label: {
+                            if let icon = app.icon { Image(nsImage: icon) }
+                            Text(app.label)
+                        }
+                    }
+                } label: {
+                    HStack {
+                        if let app = model.apps.first(where: { $0.package == selection }) {
+                            if let icon = app.icon { Image(nsImage: icon).resizable().frame(width: 40, height: 40) }
+                            Text(app.label)
+                        } else { Text("انتخاب برنامه") }
+                        Spacer()
+                    }.padding(8).frame(maxWidth: .infinity, minHeight: 56)
+                }.menuStyle(.borderlessButton).foregroundStyle(.black).background(.white)
+                    .environment(\.colorScheme, .light).disabled(!model.canOperate)
                 Button("حذف برنامه") { model.confirm("حذف برنامه", text: "برنامه و داده‌های آن حذف می‌شوند.", command: "remove", extra: ["package": selection]) }
                     .foregroundStyle(InstallerTheme.color(0xFF8B8B)).disabled(selection.isEmpty || !model.canOperate)
             }
@@ -501,6 +516,8 @@ struct UninstallView: View {
                 Button("کپی گزارش") { model.copyLogs() }
             }
         }.padding(24)
+            .onAppear { selection = model.apps.first?.package ?? "" }
+            .onChange(of: model.apps.map(\.package)) { _ in selection = model.apps.first?.package ?? "" }
     }
 }
 struct ConnectionHelpView: View {
