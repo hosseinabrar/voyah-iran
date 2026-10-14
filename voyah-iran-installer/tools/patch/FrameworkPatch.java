@@ -94,7 +94,8 @@ class FrameworkPatch {
         require(args.length == 4, "Usage: FrameworkPatch.java apktool.jar templates input.jar work-directory");
         apktool = Path.of(args[0]).toAbsolutePath(); Path templates = Path.of(args[1]).toAbsolutePath();
         Path input = Path.of(args[2]).toAbsolutePath(), job = Path.of(args[3]).toAbsolutePath();
-        java = Path.of(System.getProperty("java.home"), "bin", "java.exe").toString();
+        java = Path.of(System.getProperty("java.home"), "bin",
+                System.getProperty("os.name").startsWith("Windows") ? "java.exe" : "java").toString();
         require(!Files.exists(job), "Work directory must be new"); Files.createDirectories(job);
         String originalHash = hash(input); Map<String,byte[]> originalEntries = entries(input);
         Path source = job.resolve("source"); tool("d", "-r", "-o", source.toString(), input.toString());

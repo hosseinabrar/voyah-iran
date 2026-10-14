@@ -13,7 +13,7 @@ public sealed class JavaFrameworkPatcher(PayloadBundle bundle, SessionLog log, s
 {
     public async Task<FrameworkPatchResult> PatchAsync(string input, string workDirectory)
     {
-        var info = new ProcessStartInfo(bundle.File("java/bin/java.exe")) {
+        var info = new ProcessStartInfo(bundle.JavaExecutable) {
             UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true,
             RedirectStandardError = true, StandardOutputEncoding = Encoding.UTF8, StandardErrorEncoding = Encoding.UTF8
         };

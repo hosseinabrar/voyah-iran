@@ -3,7 +3,8 @@ internal static class LogcatCaptureTests
 {
     public static async Task Run(string root)
     {
-        var executable = Path.Combine(AppContext.BaseDirectory, "VoyahIran.Installer.Tests.exe");
+        var executable = Path.Combine(AppContext.BaseDirectory,
+            OperatingSystem.IsWindows() ? "VoyahIran.Installer.Tests.exe" : "VoyahIran.Installer.Tests");
         var marker = Path.Combine(root, "marker with spaces.txt");
         var file = Path.Combine(root, "capture.txt");
         using (var capture = await LogcatCapture.StartAsync(executable, marker, file, new MarkerAdb())) {
