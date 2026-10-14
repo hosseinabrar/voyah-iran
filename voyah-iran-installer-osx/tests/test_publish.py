@@ -12,6 +12,24 @@ spec.loader.exec_module(p)
 
 
 class PublishTests(unittest.TestCase):
+    def test_mac_icon_preserves_windows_png_frames(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            resources = Path(tmp)
+            icon = (resources / p.install_icon(resources)).read_bytes()
+            self.assertEqual(icon[:4], b"icns")
+            self.assertEqual(p.struct.unpack_from(">I", icon, 4)[0], len(icon))
+            source = (p.WINDOWS / "src/VoyahIran.Installer/Assets/voyah-iran.ico").read_bytes()
+            offset, types = 8, []
+            while offset < len(icon):
+                kind, length = p.struct.unpack_from(">4sI", icon, offset)
+                png = icon[offset + 8:offset + length]
+                self.assertTrue(png.startswith(b"\x89PNG\r\n\x1a\n"))
+                self.assertIn(png, source)
+                types.append(kind)
+                offset += length
+            self.assertEqual(offset, len(icon))
+            self.assertIn(b"ic08", types)
+
     def test_output_names_match_windows(self):
         self.assertEqual(p.output_stem("launcher"), "voyah-iran-installer_launcher")
         self.assertEqual(p.output_stem("2.0.3"), "voyah-iran-installer_2.0.3")
