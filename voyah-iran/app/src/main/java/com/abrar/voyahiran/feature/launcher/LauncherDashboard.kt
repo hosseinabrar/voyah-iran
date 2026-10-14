@@ -12,7 +12,6 @@ import java.util.Locale
 class LauncherDashboard(context: Context) : View(context) {
     private val bitmaps=LauncherBitmapLoader(resources){invalidate()}
     override fun onAttachedToWindow() {super.onAttachedToWindow();bitmaps.start();invalidate()}
-    override fun onDetachedFromWindow() {bitmaps.stop();super.onDetachedFromWindow()}
     private val buttonPress = FloatArray(3)
     private val buttonAnimations = arrayOfNulls<android.animation.ValueAnimator>(3)
     private var touchedButton = -1
@@ -303,6 +302,7 @@ class LauncherDashboard(context: Context) : View(context) {
     }
     override fun performClick():Boolean {super.performClick();return true}
     override fun onDetachedFromWindow() {
+        bitmaps.stop()
         coverAnimation?.cancel();oldCover=null;coverFade=1f
         buttonAnimations.forEach {it?.cancel()}
         buttonPress.fill(0f);touchedButton=-1
