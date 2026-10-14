@@ -13,12 +13,22 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 enum class SubscriptionStatus { CHECKING, ACTIVE, OFFLINE, BLOCKED, VEHICLE_UNAVAILABLE }
 class SubscriptionManager(private val app: VoyahIranApplication) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val repository = SubscriptionRepository(app)
     private val wake = Channel<Unit>(Channel.CONFLATED)
+    private val runtimeWake = Channel<Unit>(Channel.CONFLATED)
+    private val runtimeLock = Mutex()
+    /** Wake renewals use the already verified grant, never DNS/HTTP or feature provisioning. */
+    fun screenAwake() {
+        start()
+        AppLog.info("LauncherWake", "Immediate local runtime renewal requested")
+        runtimeWake.trySend(Unit)
+    }
     private var started = false
     @Volatile private var grant: SubscriptionGrant? = null
     @Volatile private var denied = false
@@ -37,6 +47,17 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
     @Synchronized fun start() {
         if(started) return
         started = true
+        scope.launch {
+            while (isActive) {
+                var retry=30_000L
+                try {
+                    // Initial VIN/token validation belongs to the initialization loop below.
+                    if (grant != null || denied) updateRuntimeSession()
+                } catch (e: CancellationException) { throw e }
+                catch (e: Exception) { retry=1000L;AppLog.error("Subscription", "Runtime heartbeat failed; retry in 1s", e) }
+                withTimeoutOrNull(retry) { runtimeWake.receive() }
+            }
+        }
         // Independent of network renewal/VIN calls; one serialized bundle-only check per 10 s.
         scope.launch(Dispatchers.IO) {
             while (isActive) {
@@ -154,7 +175,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
         val result=withContext(Dispatchers.IO) { ProcessCommandRunner().run(listOf("su","0","subscription-ui","open"),5) }
         announced=result.exitCode==0
     }
-    private suspend fun updateRuntimeSession() {
+    private suspend fun updateRuntimeSession() = runtimeLock.withLock {
         val seconds=if(allowed) (grant!!.expiresAt-repository.now()).coerceIn(0,90).toInt() else 0
         val result=withContext(Dispatchers.IO) { ProcessCommandRunner().run(listOf("su","0","subscription-session",seconds.toString()),3) }
         check(!result.timedOut && result.exitCode == 0) {

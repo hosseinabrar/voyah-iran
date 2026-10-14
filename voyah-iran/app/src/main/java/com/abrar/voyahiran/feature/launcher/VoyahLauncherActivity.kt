@@ -23,12 +23,16 @@ class VoyahLauncherActivity : ComponentActivity() {
     private lateinit var firstPage: FrameLayout
     private lateinit var clusterButton: ClusterMapButton
     private lateinit var vehiclePage: LauncherVehicleDashboard
+    private var contentReady=false
+    private var contentFrameReady=false
+    private lateinit var startupCover: View
     private var vehicleTicker: Job? = null
     private var visible=false
     private val commandJobs=mutableMapOf<String,Job>()
     private val vehicleCache=LauncherVehicleCache()
     private var lastVehicleRead=0L
-    private val compass by lazy { LauncherCompass(this) {vehiclePage.compass=it} }
+    private val compassDelegate=lazy { LauncherCompass(this) {vehiclePage.compass=it} }
+    private val compass by compassDelegate
     private var drivePopup: android.widget.PopupWindow? = null
     private var preview: LauncherMapPreview? = null
     private var mapView: SurfaceView? = null
@@ -57,7 +61,19 @@ class VoyahLauncherActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LauncherWindowTheme.apply(window,LauncherTheme.isLight())
-        container=FrameLayout(this).apply { setBackgroundColor(Color.BLACK); layoutDirection=View.LAYOUT_DIRECTION_LTR }
+        val color=if(LauncherTheme.isLight()) Color.WHITE else Color.BLACK
+        window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(color))
+        container=FrameLayout(this).apply { setBackgroundColor(color); layoutDirection=View.LAYOUT_DIRECTION_LTR }
+        startupCover=View(this).apply { setBackgroundColor(color); isClickable=true }
+        container.addView(startupCover,FrameLayout.LayoutParams(-1,-1))
+        setContentView(container)
+        // Post from an actual draw, not two arbitrary queue posts: the cheap cover gets a frame first.
+        container.afterFrame {
+            com.abrar.voyahiran.core.logging.AppLog.info("LauncherWake", "Startup cover frame drawn")
+            if(!isFinishing && !isDestroyed) buildContent()
+        }
+    }
+    private fun buildContent() {
         dashboard=LauncherDashboard(this)
         vehiclePage=LauncherVehicleDashboard(this)
         pager=LauncherPager(this)
@@ -90,7 +106,6 @@ class VoyahLauncherActivity : ComponentActivity() {
                 drivePopup=LauncherDrivePopup.show(vehiclePage,vehiclePage.state,vehiclePage.lightTheme) { mode -> vehicleCommand("drive",mode.toString()) }
             }
         }
-        setContentView(container)
         dashboard.onMap = { preview?.open { preview?.stopMonitoring() } }
         dashboard.onShowMap = { preview?.showInCard() }
         dashboard.onMedia = media@{ button ->
@@ -126,9 +141,39 @@ class VoyahLauncherActivity : ComponentActivity() {
             }.onFailure { com.abrar.voyahiran.core.logging.AppLog.error("LauncherMedia", "seek failed", it) }
         }
         container.addOnLayoutChangeListener { _,l,t,r,b,ol,ot,or,ob -> if(r-l != or-ol || b-t != ob-ot) layoutContent() }
+        contentReady=true
+        updateTheme()
         layoutContent()
-        // Start after HOME's first frame; catalog and icon decoding run off the UI thread.
-        container.post { container.post { LauncherAppsCache.warm(this) } }
+        startupCover.bringToFront()
+        pager.afterFrame {
+            if(isFinishing || isDestroyed)return@afterFrame
+            contentFrameReady=true
+            com.abrar.voyahiran.core.logging.AppLog.info("LauncherWake", "Dashboard frame drawn; starting reveal")
+            layoutContent()
+            fadeStartupCover()
+            if(visible)startVisibleWork()
+            LauncherAppsCache.warm(this)
+        }
+    }
+    private fun fadeStartupCover() {
+        startupCover.animate().alpha(0f).setDuration(320)
+            .setInterpolator(android.view.animation.AccelerateDecelerateInterpolator())
+            .withEndAction { container.removeView(startupCover) }.start()
+    }
+    private fun View.afterFrame(action:()->Unit) {
+        val listener=object:android.view.ViewTreeObserver.OnDrawListener {
+            var posted=false
+            override fun onDraw() {
+                if(posted)return
+                posted=true
+                post {
+                    if(viewTreeObserver.isAlive)viewTreeObserver.removeOnDrawListener(this)
+                    action()
+                }
+            }
+        }
+        viewTreeObserver.addOnDrawListener(listener)
+        invalidate()
     }
     @Suppress("DEPRECATION") private fun layoutContent() {
         if(container.width==0)return
@@ -143,7 +188,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         val height=(container.height-top-bottomGap).coerceAtLeast(1)
         val lp=FrameLayout.LayoutParams(width,height).apply{leftMargin=left;topMargin=top}
         if(pager.parent==null)container.addView(pager,lp) else pager.layoutParams=lp
-        if(preview==null) {
+        if(preview==null && contentFrameReady) {
             val map=SurfaceView(this)
             mapView=map
             map.clipToOutline=true
@@ -175,6 +220,21 @@ class VoyahLauncherActivity : ComponentActivity() {
         val screen=window.decorView.display?.displayId ?:0
         com.abrar.voyahiran.core.logging.AppLog.info("LauncherHome","resume enabled=$enabled subscription=$subscribed display=$screen")
         if(!enabled || !subscribed || screen!=0) {finish();return}
+        val returning=!visible
+        visible=true
+        if(contentFrameReady) {
+            if(returning) {
+                startupCover.animate().cancel()
+                startupCover.alpha=1f
+                startupCover.setBackgroundColor(if(LauncherTheme.isLight())Color.WHITE else Color.BLACK)
+                if(startupCover.parent==null)container.addView(startupCover,FrameLayout.LayoutParams(-1,-1))
+                startupCover.bringToFront()
+                container.afterFrame { if(visible && !isFinishing && !isDestroyed)fadeStartupCover() }
+            }
+            startVisibleWork()
+        }
+    }
+    private fun startVisibleWork() {
         if(preview!=null && activeNavigator!=NavigationPreferences(this).navigator) {
             preview?.close();preview=null
             mapView?.let(firstPage::removeView);mapView=null
@@ -182,7 +242,6 @@ class VoyahLauncherActivity : ComponentActivity() {
             layoutContent()
         }
         preview?.startMonitoring()
-        visible=true
         updatePageWork()
         updateTheme()
         weather.start()
@@ -214,10 +273,11 @@ class VoyahLauncherActivity : ComponentActivity() {
     }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
-        updateTheme()
+        if(contentReady)updateTheme()
     }
     // Android 9 may pause the host when the map resumes on its virtual display; it is still visible.
     private fun updatePageWork() {
+        if(!contentReady)return
         mapPageVisible=visible && pager.page==0
         if(visible && pager.page==1) {
             // Keep the map surface alive offscreen: the pager can expose it during either swipe.
@@ -238,7 +298,7 @@ class VoyahLauncherActivity : ComponentActivity() {
                 }
             }
         } else {
-            vehicleTicker?.cancel();vehicleTicker=null;compass.stop();vehiclePage.artwork.stop();vehiclePage.stopAnimations()
+            vehicleTicker?.cancel();vehicleTicker=null;if(compassDelegate.isInitialized())compass.stop();vehiclePage.artwork.stop();vehiclePage.stopAnimations()
             if(android.os.SystemClock.elapsedRealtime()-lastVehicleRead>15000)vehiclePage.state=vehiclePage.state.copy(fresh=false)
             if(visible)preview?.startMonitoring()
         }
@@ -267,7 +327,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             } finally {vehicleCache.finish(request);vehiclePage.state=vehicleCache.display}
         }
     }
-    override fun onNewIntent(intent:Intent){super.onNewIntent(intent);pager.show(0)}
-    override fun onStop(){visible=false;updatePageWork();preview?.hostStopped();weather.stop();mediaObserver.stop();coverJob?.cancel();ticker?.cancel();super.onStop()}
-    override fun onDestroy(){vehiclePage.artwork.close();compass.stop();preview?.close();preview=null;super.onDestroy()}
+    override fun onNewIntent(intent:Intent){super.onNewIntent(intent);if(contentReady)pager.show(0)}
+    override fun onStop(){visible=false;updatePageWork();preview?.hostStopped();if(contentReady){weather.stop();mediaObserver.stop()};coverJob?.cancel();ticker?.cancel();super.onStop()}
+    override fun onDestroy(){startupCover.animate().cancel();if(contentReady)vehiclePage.artwork.close();if(compassDelegate.isInitialized())compass.stop();preview?.close();preview=null;super.onDestroy()}
 }

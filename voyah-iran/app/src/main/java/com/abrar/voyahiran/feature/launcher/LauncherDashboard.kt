@@ -10,6 +10,9 @@ import java.util.Locale
 
 /** Layout coordinates match the approved 1775-pixel OEM safe area; no OEM bars are drawn. */
 class LauncherDashboard(context: Context) : View(context) {
+    private val bitmaps=LauncherBitmapLoader(resources){invalidate()}
+    override fun onAttachedToWindow() {super.onAttachedToWindow();bitmaps.start();invalidate()}
+    override fun onDetachedFromWindow() {bitmaps.stop();super.onDetachedFromWindow()}
     private val buttonPress = FloatArray(3)
     private val buttonAnimations = arrayOfNulls<android.animation.ValueAnimator>(3)
     private var touchedButton = -1
@@ -78,17 +81,15 @@ class LauncherDashboard(context: Context) : View(context) {
     private var mediaTextPicture:Picture?=null
     var weather = LauncherWeatherState()
         set(value) { field=value; invalidate() }
-    private val moonBitmap by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_weather_moon,BitmapFactory.Options().apply {inSampleSize=4}) }
-    private val nightCloudBitmap by lazy { LauncherWeatherArtwork.decode(resources,R.drawable.launcher_weather_hd_overcast) }
-    private val unknownWeatherBitmap by lazy { LauncherWeatherArtwork.decode(resources,R.drawable.launcher_weather_hd_unavailable) }
-    private var weatherIconId = 0
-    private var weatherBitmap: Bitmap? = null
+    private val moonBitmap get() = bitmaps.get(R.drawable.launcher_weather_moon,sample=4)
+    private val nightCloudBitmap get() = bitmaps.get(R.drawable.launcher_weather_hd_overcast,weather=true)
+    private val unknownWeatherBitmap get() = bitmaps.get(R.drawable.launcher_weather_hd_unavailable,weather=true)
     var mapMessage = LauncherMapPreview.LOADING
         set(value) { field = value; invalidate() }
     var onMap: () -> Unit = {}
     var onShowMap: () -> Unit = {}
-    private val mapLight by lazy { BitmapFactory.decodeResource(resources,R.drawable.launcher_map_default_light) }
-    private val mapDefault=BitmapFactory.decodeResource(resources,R.drawable.launcher_map_default)
+    private val mapLight get() = bitmaps.get(R.drawable.launcher_map_default_light)
+    private val mapDefault get() = bitmaps.get(R.drawable.launcher_map_default)
     var onMedia: (Int) -> Unit = {}
     var onOpenMusic: () -> Unit = {}
     var onSeek: (Long) -> Unit = {}
@@ -99,14 +100,14 @@ class LauncherDashboard(context: Context) : View(context) {
         intArrayOf(0x00243860,0xff47628f.toInt(),0xff304b79.toInt(),0xff203656.toInt(),0x00203656),
         floatArrayOf(0f,.28f,.60f,.8333f,1f))
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val defaultCover = BitmapFactory.decodeResource(resources, R.drawable.launcher_album_default)
-    private val icons = listOf(R.drawable.launcher_previous, R.drawable.launcher_play, R.drawable.launcher_pause, R.drawable.launcher_next).map { BitmapFactory.decodeResource(resources, it) }
-    private val sourceIcons = mapOf(
+    private val defaultCover get() = bitmaps.get(R.drawable.launcher_album_default)
+    private val icons get() = listOf(R.drawable.launcher_previous, R.drawable.launcher_play, R.drawable.launcher_pause, R.drawable.launcher_next).map { bitmaps.get(it) }
+    private val sourceIcons get() = mapOf(
         "LOCAL_RADIO" to R.drawable.launcher_source_radio,
         "BT_MUSIC" to R.drawable.launcher_source_bluetooth,
         "SYSTEM_BT_MUSIC" to R.drawable.launcher_source_bluetooth,
         "USB_MUSIC" to R.drawable.launcher_source_usb
-    ).mapValues { BitmapFactory.decodeResource(resources, it.value) }
+    ).mapValues { bitmaps.get(it.value) }
     private val persian = resources.getFont(com.abrar.raha.feedback.R.font.iransansx_regular)
     private val persianBold = resources.getFont(com.abrar.raha.feedback.R.font.iransansx_bold)
     private val latin = Typeface.create("sans-serif",Typeface.NORMAL)
@@ -260,7 +261,7 @@ class LauncherDashboard(context: Context) : View(context) {
                 if(weather.code==2) c.drawBitmap(nightCloudBitmap,null,RectF(1565f,519f,1710f,647f),paint)
             } else {
                 val id=LauncherWeatherCode.icon(if(!weather.day && weather.code in 80..82) 63 else weather.code)
-                if(id!=weatherIconId) { weatherIconId=id;weatherBitmap=LauncherWeatherArtwork.decode(resources,id) }
+                val weatherBitmap=bitmaps.get(id,weather=true)
                 weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1569f,462f,1749f,642f),paint) }
             }
         }

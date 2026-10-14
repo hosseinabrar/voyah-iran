@@ -2,7 +2,7 @@ package com.abrar.voyahiran.core.bridge
 
 /** Only consumes the OEM central Home view. Passenger controls and factory bars are untouched. */
 internal object LauncherHomeScript {
-    val source = """
+    val source = LauncherWakeCoverScript.source + "\n" + """
 Java.perform(function () {
     const Global = Java.use('android.provider.Settings' + String.fromCharCode(36) + 'Global');
     const Intent = Java.use('android.content.Intent');
@@ -32,12 +32,16 @@ Java.perform(function () {
                 // state before startActivity, earlier than onNewIntent/showAllApp.
                 // Never replace an explicitly selected drawer with our Home.
                 try {
-                    if (Number(Java.use('com.qinggan.launcher.base.BaseApplication').getMainPagePosition()) !== 0) return;
+                    if (Number(Java.use('com.qinggan.launcher.base.BaseApplication').getMainPagePosition()) !== 0) {
+                        if (typeof globalThis.VI_HOME_UNCOVER === 'function') globalThis.VI_HOME_UNCOVER();
+                        return;
+                    }
                 } catch(e) {
                     // Unknown OEM layout: leave the foreground alone; explicit Home still works.
                     return;
                 }
                 if (Date.now() - lastAutoOpen < 2000) return;
+                if (typeof globalThis.VI_HOME_COVER === 'function') globalThis.VI_HOME_COVER();
                 const intent = Intent.${'$'}new();
                 intent.setClassName('com.abrar.voyahiran', 'com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity');
                 intent.addFlags(0x10000000 | 0x04000000);
@@ -48,6 +52,7 @@ Java.perform(function () {
             } catch(e) { console.log('VI_HOME_AUTO fallback ' + e); }
         });
     }
+    globalThis.VI_HOME_WAKE_CHECK = function () { checkFactoryHome('wake'); };
     try {
         const Observer = Java.registerClass({
             name: 'com.abrar.voyahiran.bridge.LauncherReadyObserver',
@@ -73,6 +78,8 @@ Java.perform(function () {
         click.implementation = function (view) {
             try {
                 const name = view.getId() === -1 ? '' : String(view.getResources().getResourceEntryName(view.getId()));
+                if ((name === 'screen_up_all_app_icon' || name === 'screen_down_all_app_icon') &&
+                    Number(this.mScreenId.value) === 0 && typeof globalThis.VI_HOME_UNCOVER === 'function') globalThis.VI_HOME_UNCOVER();
                 if ((name === 'screen_up_all_app_icon' || name === 'screen_down_all_app_icon') &&
                     Number(this.mScreenId.value) === 0 && typeof globalThis.VI_OPEN_DRAWER === 'function' &&
                     globalThis.VI_OPEN_DRAWER(this.getContext())) return;

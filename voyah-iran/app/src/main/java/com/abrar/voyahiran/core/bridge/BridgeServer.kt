@@ -63,6 +63,10 @@ object BridgeServer {
                 else if (command.first() == "cluster-music") ClusterMusicBridge.command(command[1])
                 else if (command.first() == "launcher-startup") LauncherStartupBridge.open()
                 else if (command.first() == "cluster-map") ClusterMapBridge.command(command[1],command[2])
+                // Renewals must not be rejected while a map/vehicle operation owns the mutation lock.
+                // Subscription session writes have their own serialization, and do not move tasks.
+                else if (command.first() == "subscription-session") BridgeSubscriptionSession.update(command[1].toInt())
+                else if (command.first() == "subscription-vip-session") BridgeSubscriptionSession.updateVip(command[1].toInt(), command[2].toInt())
                 else if (!execution.tryLock()) CommandResult(75, "Bridge busy; no command executed")
                 else try {
                     AppLog.info("BridgeServer", "request=$request operation=${command.first()} accepted")
@@ -101,8 +105,6 @@ object BridgeServer {
                         "neshan-theme-android" -> NeshanThemeBridge.execute()
                         "cluster-navigation" -> OemClusterNavigation.command(command)
                         "subscription-vin" -> VehicleIdentity.read()
-                        "subscription-vip-session" -> BridgeSubscriptionSession.updateVip(command[1].toInt(), command[2].toInt())
-                        "subscription-session" -> BridgeSubscriptionSession.update(command[1].toInt())
                         "raha-command" -> RahaVehicleBridge.execute(command[1], command[2])
                         "raha-seat-ui" -> OemSeatPopup.show()
                         "screen-swap-runtime" -> OemScreenSwapManager.command(command[1])

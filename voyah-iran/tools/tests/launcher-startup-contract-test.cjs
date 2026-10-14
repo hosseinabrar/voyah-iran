@@ -1,0 +1,22 @@
+// Source contracts, not a replacement for Android compilation or vehicle timing.
+const fs=require('fs'),path=require('path'),assert=require('assert/strict');
+const root=path.join(__dirname,'../../app/src/main/java/com/abrar/voyahiran');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const service=read('feature/subscription/SubscriptionService.kt');
+assert(service.includes('Intent.ACTION_SCREEN_ON'));assert(service.includes('subscriptions.screenAwake()'));
+const manager=read('feature/subscription/SubscriptionManager.kt');
+assert(manager.includes('runtimeWake.trySend(Unit)'));
+assert(manager.includes('runtimeLock.withLock'));
+const heartbeat=manager.split('var retry=30_000L')[1].split('// Independent of network')[0];
+assert(heartbeat.includes('updateRuntimeSession()'));assert(!heartbeat.includes('repository.renew('));
+assert(heartbeat.includes('retry=1000L'));
+const bridge=read('core/bridge/BridgeServer.kt');
+assert(bridge.indexOf('command.first() == "subscription-session"')<bridge.indexOf('execution.tryLock()'));
+const home=read('feature/launcher/VoyahLauncherActivity.kt');
+assert(home.indexOf('setContentView(container)')<home.indexOf('dashboard=LauncherDashboard(this)'));
+assert(home.includes('container.afterFrame'));assert(home.includes('pager.afterFrame'));
+assert(home.includes('preview==null && contentFrameReady'));
+assert(home.includes('if(compassDelegate.isInitialized())compass.stop()'));
+assert(!read('feature/launcher/LauncherDashboard.kt').includes('BitmapFactory.decode'));
+assert(read('feature/launcher/LauncherBitmapLoader.kt').includes('withContext(Dispatchers.IO)'));
+console.log('PASS: wake signal, network-independent serialized renewal, bridge fast path, first-frame staging and background bitmap decode source contracts');

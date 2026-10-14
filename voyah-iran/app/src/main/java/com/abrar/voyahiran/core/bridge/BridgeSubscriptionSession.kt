@@ -18,7 +18,7 @@ object BridgeSubscriptionSession {
     val loginVipActive: Boolean? get() = loginPolicy.allowed.also {
         if(it==true) runCatching { if(!loginBoot.exists() || loginBoot.readText().trim()!=bootId) loginBoot.writeText(bootId) }
     }
-    fun updateVip(seconds: Int, remaining: Int): CommandResult {
+    @Synchronized fun updateVip(seconds: Int, remaining: Int): CommandResult {
         // Load the previous decision BEFORE replacing its persisted record.
         loginPolicy.update(remaining>0)
         loginVipActive
@@ -34,7 +34,7 @@ object BridgeSubscriptionSession {
         return CommandResult(0,"VIP runtime session updated")
     }
     val active: Boolean get()=lease.active
-    fun update(seconds: Int): CommandResult {
+    @Synchronized fun update(seconds: Int): CommandResult {
         lease.update(seconds)
         // Bounded wall-clock lease for the OEM Home hook, which lives in another process.
         com.abrar.voyahiran.core.shell.ProcessCommandRunner(useBridge=false).run(listOf(
