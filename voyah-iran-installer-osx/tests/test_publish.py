@@ -12,6 +12,58 @@ spec.loader.exec_module(p)
 
 
 class PublishTests(unittest.TestCase):
+    def test_output_names_match_windows(self):
+        self.assertEqual(p.output_stem("launcher"), "voyah-iran-installer_launcher")
+        self.assertEqual(p.output_stem("2.0.3"), "voyah-iran-installer_2.0.3")
+        self.assertEqual(p.output_stem("2.0.3", True), "voyah-iran-installer_2.0.3-development")
+        with self.assertRaises(RuntimeError): p.output_stem("../outside")
+
+    def test_repeated_publish_replaces_same_outputs_and_removes_stale_app_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            dist = root / "dist"
+            names = ["installer.app", "installer.zip", "installer.build-report.json"]
+            for version in ("old", "new"):
+                staged = root / version
+                (staged / names[0]).mkdir(parents=True)
+                (staged / names[0] / version).write_text(version)
+                for name in names[1:]: (staged / name).write_text(version)
+                p.replace_outputs(staged, dist, names)
+            self.assertEqual(sorted(x.name for x in dist.iterdir()), sorted(names))
+            self.assertFalse((dist / names[0] / "old").exists())
+            self.assertEqual((dist / names[0] / "new").read_text(), "new")
+            self.assertEqual((dist / names[1]).read_text(), "new")
+
+    def test_failed_promotion_restores_previous_outputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            staged, dist = root / "staged", root / "dist"
+            staged.mkdir(); dist.mkdir()
+            names = ["installer.zip", "installer.build-report.json"]
+            for name in names:
+                (staged / name).write_text("new")
+                (dist / name).write_text("old")
+            original = Path.replace
+            def fail_report(source, target):
+                if source == staged / names[1]: raise OSError("disk error")
+                return original(source, target)
+            with patch.object(Path, "replace", fail_report):
+                with self.assertRaisesRegex(OSError, "disk error"):
+                    p.replace_outputs(staged, dist, names)
+            for name in names: self.assertEqual((dist / name).read_text(), "old")
+
+    def test_output_symlink_is_not_followed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            staged, dist = root / "staged", root / "dist"
+            staged.mkdir(); dist.mkdir()
+            outside = root / "unrelated"
+            outside.write_text("preserve")
+            (staged / "installer.zip").write_text("new")
+            (dist / "installer.zip").symlink_to(outside)
+            with self.assertRaises(RuntimeError): p.replace_outputs(staged, dist, ["installer.zip"])
+            self.assertEqual(outside.read_text(), "preserve")
+
     def test_payload_normalizes_scripts_and_hashes_actual_bytes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
