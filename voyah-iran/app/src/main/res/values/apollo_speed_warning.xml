@@ -1,5 +1,5 @@
 <resources>
-    <string name="apollo_speed_warning">فعال‌سازی هشدار سرعت (ISA/ISLC)</string>
-    <string name="apollo_intelligent_speed">محدودیت سرعت هوشمند (ISA/ISLC)</string>
-    <string name="apollo_intelligent_speed_mode">حالت محدودیت سرعت هوشمند (ISA/ISLC)</string>
+    <string name="apollo_speed_warning">هشدار سرعت غیر مجاز</string>
+    <string name="apollo_intelligent_speed">تشخیص تابلوهای محدودیت سرعت</string>
+    <string name="apollo_intelligent_speed_mode">حالت محدودیت سرعت هوشمند</string>
 </resources>

@@ -11,26 +11,17 @@
             android:background="@drawable/bg_card" android:orientation="vertical">
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/subscription" android:enabled="true" android:clickable="true" android:focusable="true" style="@style/ReportCheckBox" android:text="@string/apollo_subscription" />
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/laneChange" android:layout_marginStart="24dp" android:alpha="0.45" android:clickable="true" android:focusable="true" style="@style/ReportCheckBox" android:text="@string/apollo_lane_change" />
-            <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/emergencyLane" android:layout_marginStart="24dp" android:alpha="0.45" android:clickable="true" android:focusable="true" style="@style/ReportCheckBox" android:text="@string/apollo_emergency_lane" />
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/trafficLight" android:layout_marginStart="24dp" android:alpha="0.45" android:clickable="true" android:focusable="true" style="@style/ReportCheckBox" android:text="@string/apollo_traffic_light" />
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/lightChange" android:layout_marginStart="24dp" android:alpha="0.45" android:clickable="true" android:focusable="true" style="@style/ReportCheckBox" android:text="@string/apollo_light_change" />
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/signs" android:layout_marginStart="24dp" android:alpha="0.45" android:clickable="true" android:focusable="true" style="@style/ReportCheckBox" android:text="@string/apollo_signs" />
-            <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/emergencySteering" android:layout_marginStart="24dp" android:alpha="0.45" android:clickable="true" android:focusable="true" style="@style/ReportCheckBox" android:text="@string/apollo_emergency_steering" />
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/intelligentSpeed" android:layout_marginStart="24dp" style="@style/ReportCheckBox" android:text="@string/apollo_intelligent_speed" />
-            <LinearLayout android:id="@+id/intelligentSpeedModes" android:visibility="gone" android:layout_marginStart="24dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-                <TextView style="@style/Text.Body" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/apollo_intelligent_speed_mode" />
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                    <ToggleButton android:id="@+id/speedModeAuto" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textOn="خودکار" android:textOff="خودکار" />
-                    <ToggleButton android:id="@+id/speedModeManual" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textOn="تأیید دستی" android:textOff="تأیید دستی" />
-                    <ToggleButton android:id="@+id/speedModeDisplay" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textOn="فقط نمایش" android:textOff="فقط نمایش" />
-                </LinearLayout>
-            </LinearLayout>
+
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginStart="24dp" android:orientation="vertical">
                 <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/speedWarningEnabled" style="@style/ReportCheckBox" android:text="@string/apollo_speed_warning" />
                 <LinearLayout android:background="@drawable/bg_segment_track" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:id="@+id/speedWarningModes" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <ToggleButton style="@style/Oem.Toggle" android:id="@+id/speedWarningExact" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textOn="دقیق" android:textOff="دقیق" />
-                    <ToggleButton style="@style/Oem.Toggle" android:id="@+id/speedWarningPercent" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:textOn="درصدی" android:textOff="درصدی" />
+                    <ToggleButton style="@style/Oem.Toggle" android:id="@+id/speedWarningPercent" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:textOn="حدودی" android:textOff="حدودی" />
                 </LinearLayout>
             </LinearLayout>
             <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal"

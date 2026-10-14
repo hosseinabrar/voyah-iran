@@ -52,7 +52,14 @@ class ApolloViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             var failure: String? = null
             try {
-                withContext(Dispatchers.IO) { com.abrar.voyahiran.feature.apollo.data.ApolloExperimentPort.set(setting, value) }
+                withContext(Dispatchers.IO) {
+                    // Confirm display-only mode before enabling recognition; never enable automatic speed adjustment here.
+                    if (setting == com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED && value == 1) {
+                        com.abrar.voyahiran.feature.apollo.data.ApolloExperimentPort.set(
+                            com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_MODE, 4)
+                    }
+                    com.abrar.voyahiran.feature.apollo.data.ApolloExperimentPort.set(setting, value)
+                }
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {
                 com.abrar.voyahiran.core.logging.AppLog.error("ApolloTest", "Write failed: $setting=$value", e)
