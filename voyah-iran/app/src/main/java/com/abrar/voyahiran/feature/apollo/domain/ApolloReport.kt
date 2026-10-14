@@ -10,7 +10,7 @@ enum class ApolloFeature(val field: String, val ordinalId: Int, val stateId: Int
     EMERGENCY_LANE("ELK_SWITCH", 0x323, 0x3fc, 1, 2);
 
     companion object {
-        val displayed = listOf(LANE_CHANGE, EMERGENCY_LANE, TRAFFIC_LIGHT, LIGHT_CHANGE, SIGNS, EMERGENCY_STEERING)
+        val displayed = listOf(LANE_CHANGE, TRAFFIC_LIGHT, LIGHT_CHANGE, SIGNS)
     }
     fun checked(value: Int?): Boolean? = when(value) { on -> true; off -> false; else -> null }
 }
