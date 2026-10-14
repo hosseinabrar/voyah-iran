@@ -14,6 +14,49 @@ spec.loader.exec_module(p)
 
 
 class PublishTests(unittest.TestCase):
+    def test_split_shares_only_identical_named_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            a, b, c = (root / name for name in ("a", "b", "c"))
+            a.write_bytes(b"same"); b.write_bytes(b"same"); c.write_bytes(b"different")
+            common, specific = p.split_payload_sources({
+                "osx-arm64": {"app.apk": a, "java/lib/native": a, "only-arm": a},
+                "osx-x64": {"app.apk": b, "java/lib/native": c}})
+            self.assertEqual(set(common), {"app.apk"})
+            self.assertEqual(set(specific["osx-arm64"]), {"java/lib/native", "only-arm"})
+            self.assertEqual(set(specific["osx-x64"]), {"java/lib/native"})
+
+    def test_split_architecture_manifest_covers_shared_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            script, java = root / "script", root / "java"
+            script.write_bytes(b"line\r\n"); java.write_bytes(b"java")
+            common = root / "common.zip"
+            hashes = p.make_payload(common, {"install-bridge.sh": script}, "2.0.3", "osx-universal", manifest=False)
+            target = root / "osx-x64.zip"
+            p.make_payload(target, {"java/bin/java": java}, "2.0.3", "osx-x64", shared_hashes=hashes)
+            with zipfile.ZipFile(common) as shared, zipfile.ZipFile(target) as arch:
+                self.assertNotIn("manifest.json", shared.namelist())
+                self.assertNotIn("install-bridge.sh", arch.namelist())
+                manifest = json.loads(arch.read("manifest.json"))
+                self.assertEqual(manifest["TargetRuntime"], "osx-x64")
+                for name, digest in manifest["Files"].items():
+                    archive = arch if name in arch.namelist() else shared
+                    self.assertEqual(p.hashlib.sha256(archive.read(name)).hexdigest(), digest)
+            with self.assertRaisesRegex(RuntimeError, "Overlapping"):
+                p.make_payload(root / "bad.zip", {"install-bridge.sh": script}, "2", "osx-x64", shared_hashes=hashes)
+
+    def test_java_sources_excluded_but_runtime_and_licenses_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); home = root / "jdk"; target = root / "runtime"
+            for name in ("bin/java", "bin/javac", "lib/src.zip", "lib/modules", "lib/ct.sym", "conf/security", "legal/LICENSE"):
+                file = home / name
+                file.parent.mkdir(parents=True, exist_ok=True); file.write_bytes(b"fixture")
+            p.copy_java_runtime(home, target)
+            self.assertFalse((target / "lib/src.zip").exists())
+            for name in ("bin/java", "bin/javac", "lib/modules", "lib/ct.sym", "conf/security", "legal/LICENSE"):
+                self.assertTrue((target / name).is_file())
+
     def test_mac_icon_preserves_windows_png_frames(self):
         with tempfile.TemporaryDirectory() as tmp:
             resources = Path(tmp)

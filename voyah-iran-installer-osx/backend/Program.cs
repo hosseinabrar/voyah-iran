@@ -8,10 +8,11 @@ if (args.Length > 0 && args[0] == "required-files") {
 }
 if (args.Length > 0 && args[0] == "verify-payload") {
     using var input = File.OpenRead(args[1]);
-    var verified = PayloadBundle.Extract(input, args[2]);
+    using var common = args.Length == 4 ? File.OpenRead(args[3]) : null;
+    var verified = PayloadBundle.Extract(input, args[2], common);
     Console.WriteLine(JsonSerializer.Serialize(verified.Manifest)); return;
 }
-if (args.Length != 3 || args[0] != "serve") throw new ArgumentException("serve PAYLOAD_ZIP DATA_DIRECTORY");
+if (args.Length is not (3 or 4) || args[0] != "serve") throw new ArgumentException("serve PAYLOAD_ZIP DATA_DIRECTORY [COMMON_ZIP]");
 Console.InputEncoding = System.Text.Encoding.UTF8;
 Console.OutputEncoding = new System.Text.UTF8Encoding(false);
 var outputGate = new object();
@@ -24,7 +25,8 @@ log.LineAdded += text => Emit(new { type = "log", text });
 PayloadBundle? bundle = null;
 try {
     using var input = File.OpenRead(args[1]);
-    bundle = PayloadBundle.Extract(input, Path.Combine(dataRoot, "Cache", Guid.NewGuid().ToString("N")));
+    using var common = args.Length == 4 ? File.OpenRead(args[3]) : null;
+    bundle = PayloadBundle.Extract(input, Path.Combine(dataRoot, "Cache", Guid.NewGuid().ToString("N")), common);
     var runtime = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "osx-arm64" : "osx-x64";
     if (!OperatingSystem.IsMacOS() || bundle.Manifest.TargetRuntime != runtime) throw new InvalidDataException("معماری باندل با این نسخهٔ نصاب مطابقت ندارد.");
     Emit(new { type = "ready", version = bundle.Manifest.AppVersion, log = log.FilePath, dataRoot });

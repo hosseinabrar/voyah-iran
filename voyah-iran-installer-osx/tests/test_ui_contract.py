@@ -14,6 +14,8 @@ class WindowsVisualContractTests(unittest.TestCase):
         self.assertIn(".macOS(.v12)", (ROOT / "Package.swift").read_text())
         self.assertNotIn("struct ButtonWrap: Layout", SOURCE)
         self.assertNotIn(".defaultSize(", SOURCE)
+        # CommandsBuilder.buildIf is macOS 13+, unlike ViewBuilder.buildIf.
+        self.assertRegex(SOURCE, r'CommandMenu\("پیش‌نمایش توسعه"\)\s*\{\s*if model\.uiPreview')
         self.assertIn("#if arch(arm64)", SOURCE)
         self.assertIn("#elseif arch(x86_64)", SOURCE)
         self.assertIn('backend/\\(Self.runtime)/VoyahIran.Installer.Mac', SOURCE)

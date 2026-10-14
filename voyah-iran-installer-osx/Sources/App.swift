@@ -74,7 +74,8 @@ struct VehicleApp: Identifiable {
         }
         let child = Process(), stdin = Pipe(), stdout = Pipe(), stderr = Pipe()
         child.executableURL = backend
-        child.arguments = ["serve", payload.path, dataURL.path]
+        child.arguments = ["serve", payload.path, dataURL.path,
+                           resources.appendingPathComponent("payloads/common.zip").path]
         child.standardInput = stdin; child.standardOutput = stdout; child.standardError = stderr
         stdout.fileHandleForReading.readabilityHandler = { [weak self] handle in
             let bytes = handle.availableData
@@ -291,8 +292,10 @@ struct InstallerSurface<Content: View>: View {
                     .disabled(model.busy || !model.ready || (model.capture != "can" && !model.canOperate))
                 Button("علامت در گزارش CAN") { model.send("mark-can") }.disabled(model.capture != "can" || model.busy)
             }
-            if model.uiPreview {
-                CommandMenu("پیش‌نمایش توسعه") {
+            // Conditional Commands require macOS 13; conditional menu content
+            // uses ViewBuilder and remains compatible with macOS 12.
+            CommandMenu("پیش‌نمایش توسعه") {
+                if model.uiPreview {
                     Button("مراحل نصب") {
                         model.progressPage = true
                         model.phases = ["Succeeded", "Succeeded", "Running", "", "", "", "", ""]

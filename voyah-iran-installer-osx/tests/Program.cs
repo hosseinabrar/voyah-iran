@@ -33,6 +33,35 @@ void Reject(MemoryStream payload, string name) {
     }
 }
 try {
+    // Reuse complete legacy manifests while distributing bytes across layers.
+    foreach (var runtime in new[] { "osx-arm64", "osx-x64" }) {
+        foreach (var scenario in new[] { "valid", "tamper", "missing", "duplicate", "unexpected" }) {
+            using var original = Payload(runtime);
+            using var originalZip = new ZipArchive(original, ZipArchiveMode.Read);
+            using var specific = new MemoryStream();
+            using var shared = new MemoryStream();
+            using (var archZip = new ZipArchive(specific, ZipArchiveMode.Create, true))
+            using (var commonZip = new ZipArchive(shared, ZipArchiveMode.Create, true)) {
+                foreach (var entry in originalZip.Entries) {
+                    if (entry.FullName == "app.apk" && scenario == "missing") continue;
+                    var destination = entry.FullName == "app.apk" ? commonZip : archZip;
+                    using var output = destination.CreateEntry(entry.FullName).Open();
+                    if (entry.FullName == "app.apk" && scenario == "tamper")
+                        output.Write(Encoding.UTF8.GetBytes("bad"));
+                    else { using var input = entry.Open(); input.CopyTo(output); }
+                }
+                if (scenario == "duplicate") commonZip.CreateEntry("adb");
+                if (scenario == "unexpected") commonZip.CreateEntry("../escape");
+            }
+            specific.Position = 0; shared.Position = 0;
+            bool rejected = false;
+            try {
+                var bundle = PayloadBundle.Extract(specific, Path.Combine(root, Guid.NewGuid().ToString("N")), shared);
+                Check(File.ReadAllText(bundle.File("app.apk")) == "fixture", "Shared APK extracted " + runtime);
+            } catch (InvalidDataException) { rejected = true; }
+            Check(rejected == (scenario != "valid"), "Split payload " + runtime + " " + scenario);
+        }
+    }
     foreach (var runtime in new[] { "osx-arm64", "osx-x64", "win-x64" }) {
         using var input = Payload(runtime);
         var bundle = PayloadBundle.Extract(input, Path.Combine(root, runtime));

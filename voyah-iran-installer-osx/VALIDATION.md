@@ -20,7 +20,7 @@ These local patch artifacts are validation fixtures under `voyah/work/macos-vali
 - Windows UI parity pass: fixed XAML palette, RTL home actions, separate progress screen, independent APK/removal/permission/help windows. Four visual-contract checks pass against the Windows XAML, in addition to the five Publish tests.
 - Native desktop inspection now available: home, help, progress and permissions inspected using a payload-free development build. Corrected double-mirrored action ordering and log alignment during inspection. This is not a Windows-versus-Mac pixel comparison; OS window chrome and font rendering differ.
 
-## Universal / macOS 12 source changes (not built)
+## Universal / macOS 12 initial source-only changes
 
 - User requested no builds without explicit permission. No Swift/.NET/Android compilation or Publish was run for these changes; existing dist artifacts remain single-architecture.
 - Pipeline now plans both .NET RIDs and Swift slices, one Android build, two matching payloads and one stable-named app/ZIP. Python mocked-process tests exercise this plan without invoking build tools.
@@ -29,6 +29,22 @@ These local patch artifacts are validation fixtures under `voyah/work/macos-vali
 - Read-only Mach-O architecture and minimum-OS checks pass for both installed JDK trees against macOS 12. Existing universal ADB has minimum targets 10.14 (x64) and 11.0 (arm64). These headers do not prove runtime compatibility on an older OS.
 - Current .NET support policy excludes OS releases past vendor support, including macOS 12: https://github.com/dotnet/core/blob/main/release-notes/8.0/supported-os.md. Compatibility targeting is distinct from vendor security support.
 
-Pending: first universal build, both-architecture launch and full install tests, macOS 12 runtime/UI testing; Apple notarization; actual vehicle installation/boot verification, including protected APK runtime behavior, on each supported variant.
+## Universal build fix and verification — 2026-10-14
+
+- User explicitly authorized a full build to diagnose the universal failure.
+- Reproduced Swift compilation failure: conditional CommandsBuilder uses buildIf/Optional Commands, available only from macOS 13. Moved the preview condition inside CommandMenu's ViewBuilder content, compatible with macOS 12. Added a source regression assertion.
+- Full Android-first Publish now succeeds on launcher and version-2.0.3, including both Swift slices, both .NET backends, both payloads, native dependency deployment-target checks, host-native Java/ADB smoke checks, ad-hoc signature verification and ZIP packaging.
+- Both branches pass all 18 Python tests. Existing per-branch settings preserved: launcher R8/protection enabled; 2.0.3 R8 enabled/protection disabled.
+- Stable dist app/ZIP/report files have been replaced with universal outputs; previous source-only statements above describe the earlier stage.
+
+Pending: both-architecture UI launch and full install tests, macOS 12 runtime/UI testing; Apple notarization; actual vehicle installation/boot verification, including protected APK runtime behavior, on each supported variant.
+
+## Size optimization (source only, after universal build)
+
+- Identical named bytes across architectures are stored once in common.zip; each architecture retains a complete hash manifest. Extraction rejects overlap, missing/corrupt data and unexpected shared entries. Existing single-archive callers (including Windows) retain their original behavior.
+- Removed only JDK lib/src.zip (development sources); preserved executable modules, javac, libraries, configuration and licenses. Deflate level raised from 1 to 9.
+- 21 Python tests pass per branch, including split manifests, deduplication and runtime-file retention. Added .NET layered-extraction regression cases; these have not been compiled/run yet.
+- Read-only analysis of the existing launcher bundles estimates about 450 MiB savings before stronger compression (app approximately 648 MiB). This is not a measured new artifact.
+- No new compilation or Publish performed for this optimization; existing dist artifacts still use the previous, larger packaging. Next authorized Publish must validate both extracted layers and host tools before promotion.
 
 No vehicle was connected or modified, no remote deployment was performed, and no release was pushed.
