@@ -1,0 +1,7 @@
+.build/
+dist/
+payload/
+**/bin/
+**/obj/
+.swiftpm/
+*.local.json
