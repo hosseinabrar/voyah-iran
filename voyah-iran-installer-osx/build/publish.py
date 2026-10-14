@@ -10,6 +10,7 @@ from pathlib import Path
 import plistlib
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import tempfile
@@ -48,6 +49,29 @@ def sha(path):
 def output_stem(label, development=False):
     require(bool(re.fullmatch(r"[A-Za-z0-9._-]+", label)), "Invalid release label")
     return f"voyah-iran-installer_{label}" + ("-development" if development else "")
+
+
+def install_icon(resources):
+    """Repackage the original Windows PNG icon frames as ICNS, without redrawing."""
+    source = (WINDOWS / "src/VoyahIran.Installer/Assets/voyah-iran.ico").read_bytes()
+    require(len(source) >= 6, "Invalid installer icon")
+    reserved, kind, count = struct.unpack_from("<HHH", source)
+    require(reserved == 0 and kind == 1 and len(source) >= 6 + count * 16, "Invalid ICO directory")
+    types = {16: b"icp4", 32: b"icp5", 64: b"icp6", 128: b"ic07", 256: b"ic08"}
+    frames = {}
+    for index in range(count):
+        width, height, _, _, _, _, size, offset = struct.unpack_from("<BBBBHHII", source, 6 + index * 16)
+        width, height = width or 256, height or 256
+        require(offset >= 6 + count * 16 and offset + size <= len(source), "Invalid ICO image offset")
+        png = source[offset:offset + size]
+        if width == height and width in types and png.startswith(b"\x89PNG\r\n\x1a\n"):
+            require(len(png) >= 24 and struct.unpack_from(">II", png, 16) == (width, height), "ICO PNG dimensions mismatch")
+            frames[width] = types[width] + struct.pack(">I", len(png) + 8) + png
+    require(256 in frames, "Installer icon must contain a 256px PNG frame")
+    body = b"".join(frames[size] for size in sorted(frames))
+    name = "voyah-iran.icns"
+    (resources / name).write_bytes(b"icns" + struct.pack(">I", len(body) + 8) + body)
+    return name
 
 
 def replace_outputs(staged, dist, names):
@@ -317,9 +341,11 @@ def publish(args, toolchain, version, code, label, prefs, runtime, arch, cache):
     run(["/usr/bin/xcrun", "swiftc", "-parse-as-library", "-O", "-target", f"{arch}-apple-macosx13.0",
          "-module-cache-path", cache / "clang", ROOT / "Sources/App.swift", "-o", macos / "VoyahIranInstaller"], env=env)
     shutil.copytree(backend, resources / "backend")
+    icon_name = install_icon(resources)
     if not args.development: shutil.copy2(bundle, resources / "bundle.zip")
     info = {"CFBundleExecutable": "VoyahIranInstaller", "CFBundleIdentifier": "com.abrar.voyahiran.installer.osx",
             "CFBundleName": "Voyah Iran Installer", "CFBundleDisplayName": "نصاب وویا ایران", "CFBundlePackageType": "APPL",
+            "CFBundleIconFile": icon_name,
             "CFBundleShortVersionString": version, "CFBundleVersion": str(code), "LSMinimumSystemVersion": "13.0",
             "NSHighResolutionCapable": True, "NSPrincipalClass": "NSApplication", "LSMultipleInstancesProhibited": True}
     (app / "Contents/Info.plist").write_bytes(plistlib.dumps(info))
