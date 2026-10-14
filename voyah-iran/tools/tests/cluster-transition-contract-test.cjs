@@ -1,0 +1,20 @@
+// Source contracts only: actual GPU/surface lifecycle requires a vehicle test.
+const fs=require('fs'), path=require('path'), assert=require('assert/strict');
+const root=path.join(__dirname,'../../app/src/main/java/com/abrar/voyahiran');
+const read=name=>fs.readFileSync(path.join(root,name),'utf8');
+const relay=read('feature/launcher/MapFrameRelay.java');
+assert(relay.includes('uniform float opacity;'));
+assert(relay.includes('a*=opacity;gl_FragColor=vec4(c.rgb*a,c.a*a)'));
+assert(relay.includes('uniform("opacity"),masked?clusterOpacity:1f'),'Card is unaffected by cluster fade');
+assert(relay.includes('handler.postDelayed(this,16)'),'Fade continues even when map frames are stationary');
+assert(relay.includes('generation!=fadeGeneration'),'Stale animation callbacks are cancelled');
+const owner=read('feature/launcher/LauncherClusterMap.kt');
+assert(owner.includes('result.output.contains("reveal=1")'));
+assert(owner.includes('current.fadeCluster(0f,240'));
+assert(owner.includes('relay.fadeCluster(1f,360'));
+const valid=owner.split('fun valid(')[1].split('fun surface(')[0];
+assert(!valid.includes('allowed(c)'),'OFF must not destroy the Activity mid-fade');
+const bridge=read('core/bridge/ClusterMapBridge.kt');
+assert(bridge.includes('hasFrame && client.requested && ClusterMusicBridge.mapHidden'));
+assert(bridge.includes('if(session==id)stop()'),'Old cleanup cannot stop a new session');
+console.log('PASS: transition source contracts (GPU opacity, fixed-card output, stale callbacks, ready/hidden handshake, deferred Activity exit)');

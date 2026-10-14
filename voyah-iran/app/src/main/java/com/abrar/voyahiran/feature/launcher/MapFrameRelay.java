@@ -26,6 +26,8 @@ final class MapFrameRelay {
     private boolean frame;
     private volatile boolean closed;
     private Runnable ready;
+    private float clusterOpacity;
+    private int fadeGeneration;
     private final java.util.Map<String,Integer> uniforms=new java.util.HashMap<>();
     private int position;
     private int cardGeneration;
@@ -64,7 +66,26 @@ final class MapFrameRelay {
         }
         card=candidate;draw();
     }
-    void cluster(Surface s,int w,int h,Runnable ready){post(()->{destroy(cluster);cluster=null;this.ready=ready;clusterW=w;clusterH=h;if(s!=null&&s.isValid())cluster=window(s);draw();});}
+    void cluster(Surface s,int w,int h,Runnable ready){post(()->{++fadeGeneration;clusterOpacity=0;destroy(cluster);cluster=null;this.ready=ready;clusterW=w;clusterH=h;if(s!=null&&s.isValid())cluster=window(s);draw();});}
+    // Animate the actual premultiplied GPU output, not SurfaceView.alpha (unreliable
+    // for on-top surfaces on older Android). The launcher card is never faded.
+    void fadeCluster(float target,long duration,Runnable complete){post(()->{
+        int generation=++fadeGeneration;
+        float from=clusterOpacity;
+        long start=android.os.SystemClock.elapsedRealtime();
+        Runnable tick=new Runnable(){public void run(){
+            if(closed || generation!=fadeGeneration)return;
+            try {
+                float t=Math.min(1f,(android.os.SystemClock.elapsedRealtime()-start)/(float)Math.max(1,duration));
+                float ease=t*t*(3f-2f*t);
+                clusterOpacity=from+(target-from)*ease;
+                if(frame && cluster!=null){render(cluster,clusterW,clusterH,true);current(scratch);}
+                if(t<1f)handler.postDelayed(this,16);
+                else if(complete!=null)complete.run();
+            }catch(Throwable e){failure.accept(e);}
+        }};
+        tick.run();
+    });}
     private void post(Runnable r){if(!closed)handler.post(()->{if(!closed)try{r.run();}catch(Throwable e){failure.accept(e);}});}
     private void initialize(){
         egl=EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);int[] out=new int[2];
@@ -76,11 +97,11 @@ final class MapFrameRelay {
         EGL14.eglSwapInterval(egl,0);
         int vs=shader(GLES20.GL_VERTEX_SHADER,"attribute vec2 pos; varying vec2 uv; void main(){gl_Position=vec4(pos,0.,1.);uv=vec2((pos.x+1.)*.5,(1.-pos.y)*.5);}");
         int fs=shader(GLES20.GL_FRAGMENT_SHADER,
-            "#extension GL_OES_EGL_image_external : require\nprecision highp float; varying vec2 uv; uniform samplerExternalOES image; uniform sampler2D maskImage; uniform mat4 texMatrix; uniform vec2 outputSize; uniform vec4 mapRect; uniform vec4 maskRect; uniform float masked; void main(){vec2 p=uv*outputSize;vec2 q=(p-mapRect.xy)/mapRect.zw;if(any(lessThan(q,vec2(0.)))||any(greaterThan(q,vec2(1.)))){gl_FragColor=vec4(0.);return;} vec4 c=texture2D(image,(texMatrix*vec4(q.x,1.-q.y,0.,1.)).xy);float a=1.;if(masked>.5){vec2 m=(p-maskRect.xy)/maskRect.zw;if(any(lessThan(m,vec2(0.)))||any(greaterThan(m,vec2(1.))))a=0.;else a=texture2D(maskImage,m).r;}gl_FragColor=vec4(c.rgb*a,c.a*a);}");
+            "#extension GL_OES_EGL_image_external : require\nprecision highp float; varying vec2 uv; uniform samplerExternalOES image; uniform sampler2D maskImage; uniform mat4 texMatrix; uniform vec2 outputSize; uniform vec4 mapRect; uniform vec4 maskRect; uniform float masked; uniform float opacity; void main(){vec2 p=uv*outputSize;vec2 q=(p-mapRect.xy)/mapRect.zw;if(any(lessThan(q,vec2(0.)))||any(greaterThan(q,vec2(1.)))){gl_FragColor=vec4(0.);return;} vec4 c=texture2D(image,(texMatrix*vec4(q.x,1.-q.y,0.,1.)).xy);float a=1.;if(masked>.5){vec2 m=(p-maskRect.xy)/maskRect.zw;if(any(lessThan(m,vec2(0.)))||any(greaterThan(m,vec2(1.))))a=0.;else a=texture2D(maskImage,m).r;}a*=opacity;gl_FragColor=vec4(c.rgb*a,c.a*a);}");
         program=GLES20.glCreateProgram();GLES20.glAttachShader(program,vs);GLES20.glAttachShader(program,fs);GLES20.glLinkProgram(program);
         int[] ok=new int[1];GLES20.glGetProgramiv(program,GLES20.GL_LINK_STATUS,ok,0);require(ok[0]!=0,GLES20.glGetProgramInfoLog(program));GLES20.glDeleteShader(vs);GLES20.glDeleteShader(fs);
         position=GLES20.glGetAttribLocation(program,"pos");
-        for(String name:new String[]{"image","maskImage","texMatrix","masked","outputSize","mapRect","maskRect"})uniforms.put(name,GLES20.glGetUniformLocation(program,name));
+        for(String name:new String[]{"image","maskImage","texMatrix","masked","opacity","outputSize","mapRect","maskRect"})uniforms.put(name,GLES20.glGetUniformLocation(program,name));
         int[] names=new int[2];GLES20.glGenTextures(2,names,0);texture=names[0];mask=names[1];
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,texture);parameters(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
         input=new SurfaceTexture(texture);input.setDefaultBufferSize(width,height);source=new Surface(input);
@@ -102,6 +123,7 @@ final class MapFrameRelay {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,texture);GLES20.glUniform1i(uniform("image"),0);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE1);GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,mask);GLES20.glUniform1i(uniform("maskImage"),1);
         GLES20.glUniformMatrix4fv(uniform("texMatrix"),1,false,matrix,0);GLES20.glUniform1f(uniform("masked"),masked?1:0);
+        GLES20.glUniform1f(uniform("opacity"),masked?clusterOpacity:1f);
         // OEM output uses a 1920x720 coordinate space; card output fills its own surface.
         GLES20.glUniform2f(uniform("outputSize"),masked?1920:w,masked?720:h);
         if(masked){

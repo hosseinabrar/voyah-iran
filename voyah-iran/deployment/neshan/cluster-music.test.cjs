@@ -5,7 +5,14 @@ const vm=require('node:vm');
 const assert=require('node:assert/strict');
 const source=readFileSync(resolve(__dirname,'../../app/src/main/java/com/abrar/voyahiran/core/bridge/ClusterMusicScript.kt'),'utf8')
  .split('"""')[1].replaceAll("${'$'}",'$');
-let now=10000, intervals=[], layouts=[];
+let now=10000, intervals=[], layouts=[], timers=[];
+function advance(ms) {
+ const end=now+ms;
+ while(timers.some(t=>t.at<=end)) {
+  timers.sort((a,b)=>a.at-b.at);const next=timers.shift();now=next.at;next.fn();
+ }
+ now=end;
+}
 const widget=()=>({visibility:0,setVisibility(n){this.visibility=n},getVisibility(){return this.visibility},$dispose(){},
  scaleX:1,scaleY:1,setScaleX(v){this.scaleX=v},setScaleY(v){this.scaleY=v},
  getTextSize(){return 30},setTextSize(unit,size){assert.equal(unit,0);this.textSize=size},
@@ -43,7 +50,7 @@ const classes={
  'android.graphics.BitmapFactory':{decodeByteArray:()=> 'cover'},'android.os.SystemClock':{elapsedRealtime:()=>now}
 };
 const sandbox={Java:{use:n=>classes[n]||{},cast:v=>v.erasedView||v,retain:v=>v,perform:f=>f(),scheduleOnMainThread:f=>f()},
- rpc:{exports:{}},console,Date:{now:()=>now},setInterval:f=>intervals.push(f)};
+ rpc:{exports:{}},console,Date:{now:()=>now},setInterval:f=>intervals.push(f),setTimeout:(fn,ms)=>timers.push({fn,at:now+ms})};
 vm.runInNewContext(source,sandbox);
 const send=data=>sandbox.rpc.exports.onFridaStdin(JSON.stringify(data));
 const frame={source:'User Player',title:'Tamasha',artist:'Shadmehr',package:'user.player',playing:true,duration:10000,position:3000,at:now,cover:'image'};
@@ -73,7 +80,10 @@ assert.equal(current.fields.music_tv_song_name.text,'We Don’t Talk Anymore');
 assert.equal(current.fields.music_tv_song_name.textWrites,1,'New theme must populate fresh views');
 assert.equal(layouts.at(-1),'layout_panel_media_music_simple_view');
 sandbox.rpc.exports.onFridaStdin('clear');assert.equal(panel.children.length,1);assert.equal(original.visibility,4);
-sandbox.rpc.exports.onFridaStdin('map');assert.equal(window.attrs.alpha.value,0,'Hide the whole OEM window without a music frame');
+sandbox.rpc.exports.onFridaStdin('map');
+assert.equal(window.attrs.alpha.value,.85,'Fade starts at current OEM opacity');
+advance(120);assert(window.attrs.alpha.value>0 && window.attrs.alpha.value<.85,'Music fades smoothly, not a hard cut');
+advance(120);assert.equal(window.attrs.alpha.value,0,'Hide the whole OEM window without a music frame');
 assert.equal(window.background,windowBackground,'Do not mutate OEM backgrounds');
 const writes=window.writes;
 now+=1000;sandbox.rpc.exports.onFridaStdin('map');assert.equal(window.attrs.alpha.value,0);
@@ -92,8 +102,35 @@ classes['com.qinggan.instrumentcard.ScreenActivity'].screenActivity.value=activi
 sandbox.rpc.exports.onFridaStdin('map');
 assert.equal(replacementWindow.attrs.alpha.value,1,'Replacement restored when released');
 sandbox.rpc.exports.onFridaStdin('clear');assert.equal(panel.visibility,0,'Restore empty OEM state when map ends');
+advance(180);assert(window.attrs.alpha.value>0 && window.attrs.alpha.value<.85,'OEM music fades back in');
+advance(188);
 assert.equal(window.attrs.alpha.value,.85,'Restore exact prior window opacity after map');
 assert.equal(window.background.sourceChanged,true,'Preserve the latest OEM source background');
+// Reverse mid-animation and repeat heartbeats: no jump, restart or late callback.
+sandbox.rpc.exports.onFridaStdin('map');advance(80);
+const partial=window.attrs.alpha.value;
+sandbox.rpc.exports.onFridaStdin('clear');assert.equal(window.attrs.alpha.value,partial);
+advance(80);assert(window.attrs.alpha.value>partial);
+const reversing=window.attrs.alpha.value;
+sandbox.rpc.exports.onFridaStdin('map');assert.equal(window.attrs.alpha.value,reversing);
+advance(80);const continuing=window.attrs.alpha.value;
+sandbox.rpc.exports.onFridaStdin('map');assert.equal(window.attrs.alpha.value,continuing);
+advance(160);assert.equal(window.attrs.alpha.value,0);
+sandbox.rpc.exports.onFridaStdin('clear');advance(368);assert.equal(window.attrs.alpha.value,.85);
+// A replacement created during the return starts transparent, not at full brightness.
+sandbox.rpc.exports.onFridaStdin('map');advance(240);
+sandbox.rpc.exports.onFridaStdin('clear');advance(80);
+createHook.implementation.call(replacementActivity,null);
+assert.equal(replacementWindow.attrs.alpha.value,0);
+advance(180);assert(replacementWindow.attrs.alpha.value>0 && replacementWindow.attrs.alpha.value<1);
+advance(188);assert.equal(replacementWindow.attrs.alpha.value,1);
+classes['com.qinggan.instrumentcard.ScreenActivity'].screenActivity.value=null;
+sandbox.rpc.exports.onFridaStdin('map');
+createHook.implementation.call(activity,null);
+assert.equal(window.attrs.alpha.value,0,'A late OEM window cannot flash behind a revealed map');
+advance(240);
+sandbox.rpc.exports.onFridaStdin('clear');advance(368);
+assert.equal(window.attrs.alpha.value,.85);
 sandbox.rpc.exports.onFridaStdin('map');now+=6000;intervals[0]();assert.equal(panel.visibility,0,'Expired map lease restores panel');
 assert.equal(window.attrs.alpha.value,.85,'Expired lease restores window opacity');
 hook.implementation.call(panel,1,true);
@@ -109,5 +146,8 @@ for(let toggle=0;toggle<5;toggle++) {
 send({...frame,playing:false,cover:'',at:now});current=panel.children[1];now+=2000;intervals[0]();
 assert.equal(current.fields.music_progress.percent,.3);assert.equal(current.fields.music_iv_cover.bitmap,null);
 now+=4000;intervals[0]();assert.equal(panel.children.length,1);assert.equal(original.visibility,4);
-send({...frame,at:now});sandbox.rpc.exports.dispose();assert.equal(panel.children.length,1);assert.equal(hook.implementation,null);assert.equal(createHook.implementation,null);
+send({...frame,at:now});sandbox.rpc.exports.onFridaStdin('map');advance(80);
+sandbox.rpc.exports.dispose();assert.equal(window.attrs.alpha.value,.85,'Disposal restores opacity immediately');
+advance(1000);assert.equal(window.attrs.alpha.value,.85,'Old fade callbacks cannot hide restored OEM window');
+assert.equal(panel.children.length,1);assert.equal(hook.implementation,null);assert.equal(createHook.implementation,null);
 console.log('Cluster music: OEM layouts, themes, pause, missing cover, release, lease expiry and disposal passed');

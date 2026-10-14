@@ -21,7 +21,11 @@ internal object ClusterMusicBridge {
     private var pid = ""
     private var retryAt = 0L
     private var attachingAt = 0L
+    private var keepAliveUntil = 0L
     @Volatile private var ready = false
+    @Volatile var mapHidden = false
+        private set
+    fun beginMapTransition() { mapHidden=false }
     private val runner = ProcessCommandRunner(useBridge = false)
     @Synchronized fun command(action: String): CommandResult {
         if (action == "clear") { frame = null; return CommandResult(0, "Cluster music released") }
@@ -47,7 +51,12 @@ internal object ClusterMusicBridge {
         try {
             val value = frame?.takeIf { BridgeSubscriptionSession.active && SystemClock.elapsedRealtime() - received < 5000 }
             val map = ClusterMapBridge.presenting && BridgeSubscriptionSession.active
-            if (value == null && !map) { close(); return }
+            if (map) keepAliveUntil=SystemClock.elapsedRealtime()+10_000
+            if (value == null && !map) {
+                if (!BridgeSubscriptionSession.active || SystemClock.elapsedRealtime() >= keepAliveUntil) { close(); return }
+                // Brief OFF periods must not require a new injection on the next ON.
+                if (child?.isAlive != true) return
+            }
             if (child?.isAlive != true) {
                 close()
                 if (SystemClock.elapsedRealtime() < retryAt) return
@@ -70,6 +79,7 @@ internal object ClusterMusicBridge {
                     runCatching { process.inputStream.bufferedReader().useLines { lines -> lines.forEach {
                         if (child === process) {
                             if (it == "VI_CLUSTER_MUSIC_READY") ready = true
+                            if (it == "VI_CLUSTER_MUSIC_HIDDEN") mapHidden = true
                             AppLog.changed("ClusterMusic", it.take(400))
                         }
                     } } }
@@ -82,6 +92,7 @@ internal object ClusterMusicBridge {
             // on every toggle adds seconds and can hit the attachment retry delay.
             // Recheck ownership here since attachment itself may take some time.
             val output = if (ClusterMapBridge.presenting) "map" else value ?: "clear"
+            if (output != "map") mapHidden=false
             if (ready && (output != lastSent || output == "map")) {
                 child!!.outputStream.apply { write((output + "\n").toByteArray()); flush() }
                 lastSent = output
@@ -93,11 +104,11 @@ internal object ClusterMusicBridge {
     }
     private var lastSent: String? = null
     private fun close() {
-        val old = child; child = null; ready = false; lastSent = null
+        val old = child; child = null; ready = false; lastSent = null;mapHidden=false
         if (old != null) {
             runCatching { old.outputStream.apply { write("clear\n".toByteArray()); flush() } }
             // Give the main-thread restoration a chance to finish before unloading the hooks.
-            Thread.sleep(150)
+            Thread.sleep(500)
             old.destroy()
             if (!old.waitFor(1, TimeUnit.SECONDS)) old.destroyForcibly()
         }

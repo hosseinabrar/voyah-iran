@@ -6,9 +6,11 @@ val source = """
 // Inflate the installed ROM's own layouts in its own process/class loader. All factory
 // children continue receiving their normal data; only the OEM window is temporarily hidden while the map owns the output.
 let latest = null, received = 0, mounted = null, themeHook = null, createHook = null, stopped = false;
-let mapMode = false, hiddenWindow = null;
-function restoreWindow() {
+let mapMode = false, mapSettled = false, hiddenWindow = null, fadeSerial = 0, returningUntil = 0;
+function restoreWindow(animated) {
     if (!hiddenWindow) return;
+    if (animated) { fadeWindow(hiddenWindow.alpha, 360); return; }
+    ++fadeSerial;
     const old=hiddenWindow; hiddenWindow=null;
     try {
         const attrs=old.window.getAttributes();
@@ -16,6 +18,43 @@ function restoreWindow() {
         old.window.setAttributes(attrs);
         console.log('VI_CLUSTER_MUSIC_WINDOW restored');
     } finally { old.window.${'$'}dispose(); }
+}
+function fadeWindow(target, duration) {
+    const item=hiddenWindow;
+    if (!item) return;
+    if (item.target === target) {
+        // Theme/source callbacks must not reset a finished hidden window.
+        if (target === 0 && item.done) {
+            const attrs=item.window.getAttributes();
+            if(attrs.alpha.value !== 0) { attrs.alpha.value=0;item.window.setAttributes(attrs); }
+            console.log('VI_CLUSTER_MUSIC_HIDDEN');
+        }
+        return;
+    }
+    item.target=target;item.done=false;
+    const serial=++fadeSerial, start=Date.now(), from=Number(item.window.getAttributes().alpha.value);
+    function frame() {
+        Java.scheduleOnMainThread(function() {
+            if (hiddenWindow !== item || serial !== fadeSerial) return;
+            try {
+                const t=Math.max(0,Math.min(1,(Date.now()-start)/duration)), ease=t*t*(3-2*t);
+                const attrs=item.window.getAttributes();
+                attrs.alpha.value=from+(target-from)*ease;
+                item.window.setAttributes(attrs);
+                if(t<1) setTimeout(frame,16);
+                else if(target===0) {
+                    item.done=true;mapSettled=true;restore();console.log('VI_CLUSTER_MUSIC_HIDDEN');
+                } else {
+                    hiddenWindow=null;item.window.${'$'}dispose();
+                    console.log('VI_CLUSTER_MUSIC_WINDOW restored');
+                }
+            } catch(e) {
+                restoreWindow(false);
+                console.log('VI_CLUSTER_MUSIC_FADE_ERROR '+e);
+            }
+        });
+    }
+    frame();
 }
 let Panel, Screen, View, ViewGroup, TextView, ImageView, ProgressBar, Inflater, Base64, BitmapFactory, Clock;
 function restore() {
@@ -50,28 +89,27 @@ function time(value) {
 }
 function render() {
     if (mapMode && !stopped && Date.now()-received<=5000) {
-        restore();
         const activity=Screen.screenActivity.value;
         const window=activity && !activity.isDestroyed() ? activity.getWindow() : null;
-        if (hiddenWindow && (!window || !hiddenWindow.window.equals(window))) restoreWindow();
+        const replacement=hiddenWindow && (!window || !hiddenWindow.window.equals(window));
+        if (replacement) restoreWindow(false);
         if (window) {
             const attrs=window.getAttributes();
             if (!hiddenWindow) {
                 hiddenWindow={window:Java.retain(window),alpha:attrs.alpha.value};
+                // A replacement window must not flash underneath an already visible map.
+                if(replacement || mapSettled) {attrs.alpha.value=0;window.setAttributes(attrs);}
                 console.log('VI_CLUSTER_MUSIC_WINDOW suppressed for map');
             }
             // Suppress the entire OEM layer, including its decor background. Hiding
             // PanelView alone leaves other window pixels underneath our alpha mask.
             // Do not replace backgrounds on every heartbeat: OEM theme/source changes
             // may rebuild their views, but none can escape a zero-alpha window.
-            if (attrs.alpha.value !== 0) {
-                attrs.alpha.value=0;
-                window.setAttributes(attrs);
-            }
-        }
+            fadeWindow(0,240);
+        } else { restore();mapSettled=true;console.log('VI_CLUSTER_MUSIC_HIDDEN'); }
         return;
     }
-    restoreWindow();
+    restoreWindow(!stopped && Date.now()-received<=5000);
     if (stopped || !latest || Date.now() - received > 5000) { restore(); return; }
     const activity = Screen.screenActivity.value;
     if (!activity || activity.isFinishing() || activity.isDestroyed()) { restore(); return; }
@@ -149,6 +187,8 @@ function update() {
 }
 rpc.exports = {
     onFridaStdin: function(line) {
+        if(mapMode && line.trim() !== 'map') returningUntil=Date.now()+650;
+        if(mapMode !== (line.trim() === 'map')) mapSettled=false;
         mapMode = line.trim() === 'map';
         if (mapMode) { latest=null; received=Date.now(); update(); return; }
         if (line.trim() === 'clear') latest = null;
@@ -174,6 +214,12 @@ Java.perform(function() {
         createHook=Screen.onCreate.overload('android.os.Bundle');
         createHook.implementation=function(state) {
             const result=createHook.call(this,state);
+            if(!mapMode && Date.now()<returningUntil) {
+                restoreWindow(false);
+                const window=this.getWindow(), attrs=window.getAttributes();
+                hiddenWindow={window:Java.retain(window),alpha:attrs.alpha.value};
+                attrs.alpha.value=0;window.setAttributes(attrs);
+            }
             // A replacement OEM activity must be hidden before its first frame.
             try { render(); } catch(e) { console.log('VI_CLUSTER_MUSIC_ERROR ' + (e.stack || e)); }
             return result;

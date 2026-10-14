@@ -20,6 +20,7 @@ internal object ClusterMapBridge {
     private var session: String?=null
     private var renewed=0L
     private var hasFrame=false
+    private var revealed=false
     private var timer=false
     @Synchronized fun command(action: String,id: String): CommandResult {
         if(action=="stop") { if(session==id)stop();return CommandResult(0,"Map released") }
@@ -27,7 +28,9 @@ internal object ClusterMapBridge {
         try {
             if(session!=id) {
                 stop()
-                val client=Api();api=client;session=id;hasFrame=false;presenting=true
+                val client=Api();api=client;session=id;hasFrame=false;revealed=false
+                ClusterMusicBridge.beginMapTransition()
+                presenting=true
                 ClusterMusicBridge.start()
                 client.call("syncReadyState",MEDIA,1)
                 val intent=Intent().setClassName("com.abrar.voyahiran","com.abrar.voyahiran.feature.launcher.ClusterMapActivity")
@@ -45,7 +48,7 @@ internal object ClusterMapBridge {
                     .scheduleWithFixedDelay(::tick,0,100,TimeUnit.MILLISECONDS)
             }
             val theme=runCatching {api?.theme()}.getOrNull()
-            return CommandResult(0,"Map lease renewed theme=${theme ?: -1}")
+            return CommandResult(0,"Map lease renewed theme=${theme ?: -1} reveal=${if(revealed) 1 else 0}")
         } catch(e:Exception) {stop();return CommandResult(1,"Cluster map unavailable: ${e.cause ?: e}")}
     }
     @Synchronized private fun tick() {
@@ -53,14 +56,15 @@ internal object ClusterMapBridge {
         if(!BridgeSubscriptionSession.vipActive || SystemClock.elapsedRealtime()-renewed>3500) {stop();return}
         try {
             val client=api ?: return
-            if(hasFrame && client.requested) {
+            if(hasFrame && client.requested && ClusterMusicBridge.mapHidden) {
                 client.requested=false
                 client.type.getMethod("notifyReadyToShow",String::class.java).invoke(client.remote,SMALL)
+                revealed=true
             }
         } catch(e:Exception) {AppLog.error("ClusterMap","ready failed",e);stop()}
     }
     private fun stop() {
-        val client=api;api=null;session=null;hasFrame=false;presenting=false
+        val client=api;api=null;session=null;hasFrame=false;revealed=false;presenting=false
         if(client!=null) {
             runCatching {client.call("requestPresentation",SMALL,2)}
                 .onFailure {AppLog.error("ClusterMap","release failed",it)}
