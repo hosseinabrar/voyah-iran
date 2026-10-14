@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """macOS: build signed Android -> optional DPT -> verified payload -> native .app."""
 import argparse
+import fcntl
 import getpass
 import hashlib
 import json
@@ -12,7 +13,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import uuid
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -43,6 +43,45 @@ def sha(path):
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def output_stem(label, development=False):
+    require(bool(re.fullmatch(r"[A-Za-z0-9._-]+", label)), "Invalid release label")
+    return f"voyah-iran-installer_{label}" + ("-development" if development else "")
+
+
+def replace_outputs(staged, dist, names):
+    """Promote only completed artifacts; roll back an ordinary promotion failure."""
+    dist.mkdir(exist_ok=True)
+    backup = staged / "previous-output"
+    backup.mkdir()
+    saved, installed = [], []
+    for name in names:
+        require(Path(name).name == name and name not in (".", ".."), "Invalid output name")
+        source, target = staged / name, dist / name
+        require(source.exists() and not source.is_symlink(), "Missing staged output: " + name)
+        require(not target.is_symlink(), "Refusing to replace symlink: " + str(target))
+        require(not target.exists() or source.is_dir() == target.is_dir(), "Unexpected output type: " + str(target))
+    try:
+        for name in names:
+            target = dist / name
+            if target.exists():
+                target.replace(backup / name)
+                saved.append(name)
+            (staged / name).replace(target)
+            installed.append(name)
+    except OSError:
+        for name in reversed(installed):
+            (dist / name).replace(staged / name)
+        for name in reversed(saved):
+            (backup / name).replace(dist / name)
+        raise
+    # Only the exact previous artifacts moved above are removed, never dist itself.
+    for name in saved:
+        previous = backup / name
+        if previous.is_dir(): shutil.rmtree(previous)
+        else: previous.unlink()
+    backup.rmdir()
 
 
 def preferences(path=SETTINGS):
@@ -227,6 +266,15 @@ def main():
     # Build all caches within this project; no changes to global SDK/JDK configuration.
     cache = ROOT / ".build"
     cache.mkdir(exist_ok=True)
+    with (cache / "publish.lock").open("a") as publish_lock:
+        try:
+            fcntl.flock(publish_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise RuntimeError("Another Publish is running in this checkout; wait for it to finish.")
+        publish(args, toolchain, version, code, label, prefs, runtime, arch, cache)
+
+
+def publish(args, toolchain, version, code, label, prefs, runtime, arch, cache):
     work = Path(tempfile.mkdtemp(prefix="publish-", dir=cache))
     for name in ("tmp", "cli", "nuget", "gradle", "clang"):
         (cache / name).mkdir(exist_ok=True)
@@ -262,7 +310,8 @@ def main():
         run([work / "payload-check/java/bin/java", "--list-modules"], env=env, capture=True)
         run([work / "payload-check/adb", "version"], env=env, capture=True)
     print("3/4 Building the native macOS application…", flush=True)
-    app = work / "Voyah Iran Installer.app"
+    stem = output_stem(label, args.development)
+    app = work / (stem + ".app")
     macos, resources = app / "Contents/MacOS", app / "Contents/Resources"
     macos.mkdir(parents=True); resources.mkdir(parents=True)
     run(["/usr/bin/xcrun", "swiftc", "-parse-as-library", "-O", "-target", f"{arch}-apple-macosx13.0",
@@ -281,18 +330,17 @@ def main():
     run(["/usr/bin/codesign", "--force", "--sign", args.identity, app], env=env)
     run(["/usr/bin/codesign", "--verify", "--deep", "--strict", app], env=env)
     print("4/4 Packaging…", flush=True)
-    dist = ROOT / "dist"; dist.mkdir(exist_ok=True)
-    suffix = "-development" if args.development else ""
-    destination = dist / f"voyah-iran-installer-osx_{label}_{runtime}{suffix}-{uuid.uuid4().hex[:8]}"
-    destination.mkdir()
-    shutil.move(str(app), destination / app.name)
-    archive = destination / f"voyah-iran-installer-osx_{label}_{runtime}{suffix}.zip"
-    run(["/usr/bin/ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", destination / app.name, archive], env=env)
-    (destination / "build-report.json").write_text(json.dumps({"version": version, "versionCode": code, "label": label,
+    archive = work / (stem + ".zip")
+    run(["/usr/bin/ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", app, archive], env=env)
+    report = work / (stem + ".build-report.json")
+    report.write_text(json.dumps({"version": version, "versionCode": code, "label": label,
         "runtime": runtime, "developmentOnly": args.development, "protection": prefs["ProtectionEnabled"], "minify": prefs["MinifyEnabled"],
         "apkSha256": None if args.development else sha(apk), "certificate": None if args.development else cert,
         "zipSha256": sha(archive), "vehicleTested": False, "notarized": False}, indent=2))
-    print("Output: " + str(destination), flush=True)
+    dist = ROOT / "dist"
+    replace_outputs(work, dist, [app.name, archive.name, report.name])
+    print("App: " + str(dist / app.name), flush=True)
+    print("ZIP: " + str(dist / archive.name), flush=True)
     print("Local/ad-hoc build; public distribution needs Apple signing/notarization and vehicle testing.")
 
 
