@@ -96,10 +96,20 @@ try {
                         break;
                     }
                     case "permissions":
+                    case "set-all-permissions":
                     case "set-permission": {
                         if (permissionApk == null || permissionSerial != serial) throw new InvalidOperationException("ابتدا یک APK روی همین خودرو نصب کنید.");
                         var info = ApkInfo.Read(permissionApk);
                         var installer = new ApkInstaller(adb, log, serial);
+                        if (command == "set-all-permissions") {
+                            var known = new List<PermissionChoice>();
+                            foreach (var choice in ApkInstaller.Choices.Where(c => ApkInstaller.Available(info, c))) {
+                                try { await installer.ReadAsync(info, choice); known.Add(choice); }
+                                catch (Exception e) { log.Write(e.Message); }
+                            }
+                            if (known.Count == 0) throw new InvalidOperationException("وضعیت دسترسی‌ها مشخص نیست؛ تازه‌سازی کنید.");
+                            await installer.SetAsync(info, known.ToArray(), request.GetProperty("enabled").GetBoolean());
+                        }
                         if (command == "set-permission") {
                             var index = request.GetProperty("index").GetInt32();
                             if (index < 0 || index >= ApkInstaller.Choices.Length || !ApkInstaller.Available(info, ApkInstaller.Choices[index]))

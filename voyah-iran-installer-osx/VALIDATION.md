@@ -17,6 +17,9 @@ Host: Apple Silicon macOS, Swift 6.0.2, .NET SDK 8.0.426, Temurin JDK 25.
 
 These local patch artifacts are validation fixtures under `voyah/work/macos-validation`; they are **not** files to flash manually. Production still pulls and validates the connected car's files.
 
-Pending: visual UI inspection where desktop permissions are available; Intel-host build; Apple notarization; actual vehicle installation/boot verification, including protected APK runtime behavior, on each supported variant.
+- Windows UI parity pass: fixed XAML palette, RTL home actions, separate progress screen, independent APK/removal/permission/help windows. Four visual-contract checks pass against the Windows XAML, in addition to the five Publish tests.
+- Native desktop inspection now available: home, help, progress and permissions inspected using a payload-free development build. Corrected double-mirrored action ordering and log alignment during inspection. This is not a Windows-versus-Mac pixel comparison; OS window chrome and font rendering differ.
+
+Pending: Intel-host build; Apple notarization; actual vehicle installation/boot verification, including protected APK runtime behavior, on each supported variant.
 
 No vehicle was connected or modified, no remote deployment was performed, and no release was pushed.
