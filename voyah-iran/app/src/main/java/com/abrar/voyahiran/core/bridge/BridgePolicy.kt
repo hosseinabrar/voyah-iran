@@ -15,7 +15,7 @@ object BridgePolicy {
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
         if(request==listOf("neshan-theme-android"))return request
-        if(request.size==3 && request[0]=="launcher-map-theme" && AppDensityPreferences.validPackage(request[1]) && request[1]!="com.abrar.voyahiran" && request[2].toIntOrNull()?.let {it in 2..10000}==true)return request
+        if(request.size==4 && request[0]=="launcher-map-theme" && AppDensityPreferences.validPackage(request[1]) && request[1]!="com.abrar.voyahiran" && request[2].toIntOrNull()?.let {it in 2..10000}==true && request[3] in listOf("light","dark"))return request
         if(request==listOf("launcher-startup"))return request
         if(request.size==3 && request[0]=="cluster-map" && request[1] in listOf("show","ready","stop") &&
             request[2].matches(Regex("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")))return request

@@ -1,0 +1,26 @@
+// Source contracts only; Binder/display timing must also be tested on the car.
+const fs=require('fs'), path=require('path'), assert=require('assert/strict');
+const root=path.join(__dirname,'../../app/src/main/java/com/abrar/voyahiran');
+const read=name=>fs.readFileSync(path.join(root,name),'utf8');
+const bridge=read('core/bridge/ClusterMapBridge.kt');
+const command=bridge.split('@Synchronized fun command')[1].split('@Synchronized private fun tick')[0];
+assert(!command.includes('"startClusterActivity"'),'Session creation must not launch before MEDIA readiness');
+assert(command.includes('if(action=="ready" && !hasFrame)'),'Music fade begins only after a frame exists');
+assert(bridge.includes('!client.mediaReady && client.requested && !bootstrapped'),'Cold MEDIA bootstraps without waiting for a map frame');
+assert(bridge.includes('client.mediaReady && !hasFrame'),'Launch requires vendor display callback');
+assert(bridge.includes('TRANSACTION_setClusterActivityState'));
+assert(bridge.includes('mediaReady=state!=null'),'Invisible but registered MEDIA is usable');
+assert(!bridge.includes('client.call("requestPresentation",SMALL,2)'),'Do not tear down shared MEDIA before OEM restoration');
+assert(!bridge.includes('media presentation started'),'Void vendor call is not success confirmation');
+assert(bridge.includes('now-startedAt>12_000'),'Startup is bounded');
+const preview=read('feature/launcher/LauncherMapPreview.kt');
+assert(preview.includes('id to LauncherTheme.isLight()'));
+assert(preview.includes('if(wanted.second) "light" else "dark"'));
+assert(preview.includes('now<themeRetryAt'),'Failed theme updates are rate limited');
+const map=read('core/bridge/LauncherMapBridge.kt').split('if(args[0]=="launcher-map-theme")')[1].split('val stacks')[0];
+assert(!map.includes('getConfiguration'));
+assert(!map.includes('SystemProperties'));
+assert(map.includes('UI_MODE_NIGHT_NO') && map.includes('UI_MODE_NIGHT_YES'));
+const policy=read('core/bridge/BridgePolicy.kt').split('\n').find(line=>line.includes('request[0]=="launcher-map-theme"'));
+assert(policy.includes('request.size==4') && policy.includes('request[3] in listOf("light","dark")'));
+console.log('PASS: MEDIA readiness/bootstrap, bounded launch, safe restore, launcher-owned map theme');

@@ -14,17 +14,24 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     private var mapInCard=false
     private var appliedTheme:Pair<Int,Boolean>?=null
     private var themeAppliedAt=0L
+    private var attemptedTheme:Pair<Int,Boolean>?=null
+    private var themeRetryAt=0L
     private suspend fun refreshTheme(id:Int,force:Boolean=false) {
         if(id<=1)return
         val wanted=id to LauncherTheme.isLight()
+        val now=android.os.SystemClock.elapsedRealtime()
+        if(!force && attemptedTheme==wanted && now<themeRetryAt)return
         // OEM display reconfiguration can replace a previously accepted override.
         if(!force && appliedTheme==wanted && android.os.SystemClock.elapsedRealtime()-themeAppliedAt<2000)return
+        attemptedTheme=wanted
+        themeRetryAt=now+3000
         val result=withContext(Dispatchers.IO) {
-            ProcessCommandRunner().run(listOf("su","0","launcher-map-theme",packageName,id.toString()),4)
+            ProcessCommandRunner().run(listOf("su","0","launcher-map-theme",packageName,id.toString(),if(wanted.second) "light" else "dark"),4)
         }
         if(result.exitCode==0 && !result.timedOut) {
             appliedTheme=wanted
             themeAppliedAt=android.os.SystemClock.elapsedRealtime()
+            themeRetryAt=0L
         }
         com.abrar.voyahiran.core.logging.AppLog.changed("LauncherMapTheme","exit=${result.exitCode} ${result.output}")
     }

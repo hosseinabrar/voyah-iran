@@ -21,6 +21,10 @@ internal object ClusterMapBridge {
     private var renewed=0L
     private var hasFrame=false
     private var revealed=false
+    private var bootstrapped=false
+    private var launchAt=0L
+    private var launchRequested=false
+    private var startedAt=0L
     private var timer=false
     @Synchronized fun command(action: String,id: String): CommandResult {
         if(action=="stop") { if(session==id)stop();return CommandResult(0,"Map released") }
@@ -29,19 +33,19 @@ internal object ClusterMapBridge {
             if(session!=id) {
                 stop()
                 val client=Api();api=client;session=id;hasFrame=false;revealed=false
+                bootstrapped=false;launchAt=0L;launchRequested=false;startedAt=SystemClock.elapsedRealtime()
                 ClusterMusicBridge.beginMapTransition()
-                presenting=true
                 ClusterMusicBridge.start()
                 client.call("syncReadyState",MEDIA,1)
-                val intent=Intent().setClassName("com.abrar.voyahiran","com.abrar.voyahiran.feature.launcher.ClusterMapActivity")
-                    .addCategory(MEDIA).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-                    .putExtra("session",id)
-                client.type.getMethod("startClusterActivity",Intent::class.java).invoke(client.remote,intent)
                 client.call("requestPresentation",SMALL,1)
-                AppLog.info("ClusterMap","media presentation started session=$id")
+                AppLog.info("ClusterMap","waiting for media display session=$id")
             }
             renewed=SystemClock.elapsedRealtime()
-            hasFrame=hasFrame || action=="ready"
+            if(action=="ready" && !hasFrame) {
+                hasFrame=true
+                presenting=true
+                AppLog.info("ClusterMap","map frame confirmed session=$id")
+            }
             if(!timer) {
                 timer=true
                 Executors.newSingleThreadScheduledExecutor { r->Thread(r,"ClusterMapLease").apply {isDaemon=true} }
@@ -56,6 +60,28 @@ internal object ClusterMapBridge {
         if(!BridgeSubscriptionSession.vipActive || SystemClock.elapsedRealtime()-renewed>3500) {stop();return}
         try {
             val client=api ?: return
+            val now=SystemClock.elapsedRealtime()
+            if(!hasFrame && now-startedAt>12_000) {
+                AppLog.info("ClusterMap","map startup timed out mediaReady=${client.mediaReady} launchRequested=$launchRequested")
+                stop();return
+            }
+            // OEM creates the MEDIA virtual display from notifyReadyToShow, not
+            // startClusterActivity. Bootstrap with music still visible; waiting
+            // for a map frame here would deadlock when MEDIA does not exist yet.
+            if(!client.mediaReady && client.requested && !bootstrapped) {
+                bootstrapped=true
+                client.type.getMethod("notifyReadyToShow",String::class.java).invoke(client.remote,SMALL)
+            }
+            if(client.mediaReady && !hasFrame && (!launchRequested || now-launchAt>=1000)) {
+                val intent=Intent().setClassName("com.abrar.voyahiran","com.abrar.voyahiran.feature.launcher.ClusterMapActivity")
+                    .addCategory(MEDIA).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                    .putExtra("session",session)
+                client.type.getMethod("startClusterActivity",Intent::class.java).invoke(client.remote,intent)
+                launchRequested=true;launchAt=now
+                // The vendor API returns void even on rejection. Only ready from
+                // the actual rendered surface is confirmation, never this call.
+                AppLog.info("ClusterMap","map launch requested session=$session")
+            }
             if(hasFrame && client.requested && ClusterMusicBridge.mapHidden) {
                 client.requested=false
                 client.type.getMethod("notifyReadyToShow",String::class.java).invoke(client.remote,SMALL)
@@ -64,19 +90,20 @@ internal object ClusterMapBridge {
         } catch(e:Exception) {AppLog.error("ClusterMap","ready failed",e);stop()}
     }
     private fun stop() {
-        val client=api;api=null;session=null;hasFrame=false;revealed=false;presenting=false
+        val client=api;val restore=launchRequested
+        api=null;session=null;hasFrame=false;revealed=false;presenting=false
         if(client!=null) {
-            runCatching {client.call("requestPresentation",SMALL,2)}
-                .onFailure {AppLog.error("ClusterMap","release failed",it)}
             // MEDIA is shared, not a map-only presentation. Closing it does not restore
             // the OEM task displaced by startClusterActivity. Restore the stock owner;
             // its onResume/callback supplies syncReadyState and notifyReadyToShow.
-            runCatching {
+            // Do not close the shared MEDIA display before restoring its owner:
+            // that can invalidate the very category needed by the restore call.
+            if(restore && client.mediaReady) runCatching {
                 val intent=Intent().setClassName("com.qinggan.instrumentcard","com.qinggan.instrumentcard.ScreenActivity")
                     .addCategory(MEDIA).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 client.type.getMethod("startClusterActivity",Intent::class.java).invoke(client.remote,intent)
                 client.call("requestPresentation",SMALL,1)
-                AppLog.info("ClusterMap","map released; OEM media presentation restored")
+                AppLog.info("ClusterMap","map released; OEM media restore requested")
             }.onFailure {AppLog.error("ClusterMap","OEM media restore failed",it)}
             runCatching {client.type.getMethod("unregisterCallback",client.callbackType).invoke(client.remote,client.callback)}
         }
@@ -87,6 +114,7 @@ internal object ClusterMapBridge {
         val callbackType: Class<*>
         val callback: Any
         @Volatile var requested=false
+        @Volatile var mediaReady=false
         init {
             val path="/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk"
             check(File(path).isFile) {"Vehicle SDK missing"}
@@ -103,11 +131,19 @@ internal object ClusterMapBridge {
             callbackType=loader.loadClass("com.qinggan.cluster.IInstrumentClusterManagerCallback")
             val stub=loader.loadClass(callbackType.name+"\$Stub")
             val presentation=stub.getDeclaredField("TRANSACTION_setPresentationState").apply {isAccessible=true}.getInt(null)
+            val activityState=stub.getDeclaredField("TRANSACTION_setClusterActivityState").apply {isAccessible=true}.getInt(null)
             val receiver=object:Binder() {
                 override fun onTransact(code:Int,data:Parcel,reply:Parcel?,flags:Int):Boolean {
                     if(code==INTERFACE_TRANSACTION){reply?.writeString(callbackType.name);return true}
                     data.enforceInterface(callbackType.name)
                     if(code==presentation) {data.readString();val category=data.readString();val state=data.readInt();if(category==SMALL)requested=state==1}
+                    if(code==activityState) {
+                        data.readString();val category=data.readString()
+                        val state=if(data.readInt()!=0) Bundle.CREATOR.createFromParcel(data) else null
+                        // visible=false still means launch options exist: OEM
+                        // publishes this callback after registering the display.
+                        if(category==MEDIA) mediaReady=state!=null
+                    }
                     return true
                 }
             }

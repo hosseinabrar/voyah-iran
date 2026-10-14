@@ -25,14 +25,15 @@ internal object LauncherMapBridge {
         if(args[0]=="launcher-map-theme") {
             check(BridgeSubscriptionSession.vipActive) {"VIP subscription inactive"}
             check(destination>1)
-            val vehicle=Class.forName("android.os.SystemProperties").getMethod("get",String::class.java,String::class.java)
-                .invoke(null,"persist.sys.qg.currenttheme","") as String
-            val current=apiClass.getMethod("getConfiguration").invoke(api) as android.content.res.Configuration
+            check(args.size==4 && args[3] in listOf("light","dark"))
+            val light=args[3]=="light"
             // A sparse display override updates uiMode only: no resizing, task move, or process restart.
-            val config=android.content.res.Configuration().apply { uiMode=(current.uiMode and 0x30.inv()) or if(vehicle=="simple")0x10 else 0x20 }
+            val config=android.content.res.Configuration().apply {
+                uiMode=if(light) android.content.res.Configuration.UI_MODE_NIGHT_NO else android.content.res.Configuration.UI_MODE_NIGHT_YES
+            }
             apiClass.getMethod("updateDisplayOverrideConfiguration",android.content.res.Configuration::class.java,Int::class.javaPrimitiveType)
                 .invoke(api,config,destination)
-            return CommandResult(0,"MAP_THEME display=$destination light=${vehicle=="simple"}")
+            return CommandResult(0,"MAP_THEME display=$destination light=$light")
         }
         val stacks = apiClass.getMethod("getAllStackInfos").invoke(api) as List<*>
         fun containsMap(stack: Any): Boolean {
