@@ -22,6 +22,10 @@ Directory.CreateDirectory(root);
 await LogcatCaptureTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);
 var passed = 0;
+Check(Android9Firmware.IsSupportedVdex("a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06"), "Original H97A firmware remains supported");
+Check(Android9Firmware.IsSupportedVdex("664c053504beb67f977132419b2a8080b207965f958530b9366d84758ead7299"), "Reviewed H97A OTA7 firmware accepted");
+Check(!Android9Firmware.IsSupportedVdex(new string('0',64)), "Unknown VDEX rejected");
+Check(!Android9Firmware.IsSupportedVdex(""), "Missing VDEX hash rejected");
 Check(VehicleInstallProfile.Detect("28", "qti/f0506h:9", "jenkins-PRJ_H97a_8155_OTA_1010-9").LegacyFramework, "H97A selects verified Android 9 reconstruction, not Android 11 patch");
 Check(VehicleInstallProfile.Detect("30", "h97x", "").PatchFramework, "Android 11 retains exact patch verification");
 foreach (var sdk in new[] { "", "27", "29", "31", "28" }) {
