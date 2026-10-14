@@ -1,4 +1,6 @@
 import importlib.util
+import contextlib
+import io
 import json
 import tempfile
 import unittest
@@ -111,12 +113,72 @@ class PublishTests(unittest.TestCase):
             with patch.object(p, "ROOT", Path(tmp)), patch.object(p, "version_info", return_value=("2.0.3", 18, "2.0.3")), \
                  patch.object(p, "preferences", return_value={"ProtectionEnabled": False, "MinifyEnabled": True}), \
                  patch.object(p, "run", return_value="8.0.426"), \
+                 patch.object(p, "java_homes", return_value={}), patch.object(p, "check_native"), \
                  patch.object(p, "build_android", side_effect=RuntimeError("Gradle failed")), \
                  patch.object(p, "make_payload") as package, \
                  patch.object(p.sys, "platform", "darwin"), \
                  patch.object(p.sys, "argv", ["publish.py", "--java-home", "/unused/jdk"]):
                 with self.assertRaisesRegex(RuntimeError, "Gradle failed"): p.main()
                 package.assert_not_called()
+
+    def test_native_checks_reject_wrong_arch_and_newer_macos(self):
+        with patch.object(p, "run", side_effect=["arm64", "cmd LC_BUILD_VERSION\n minos 11.0\n"]):
+            p.check_native(Path("java"), "arm64")
+        with patch.object(p, "run", return_value="arm64"):
+            with self.assertRaisesRegex(RuntimeError, "Missing x86_64"):
+                p.check_native(Path("java"), "x86_64")
+        with patch.object(p, "run", side_effect=["x86_64", "cmd LC_BUILD_VERSION\n minos 13.0\n"]):
+            with self.assertRaisesRegex(RuntimeError, "above 12.0"):
+                p.check_native(Path("java"), "x86_64")
+        with patch.object(p, "run", side_effect=["x86_64", "cmd LC_VERSION_MIN_MACOSX\n cmdsize 16\n version 10.15\n"]):
+            p.check_native(Path("java"), "x86_64")
+
+    def test_universal_requires_both_java_architectures(self):
+        from types import SimpleNamespace
+        args = SimpleNamespace(java_home="/unused", java_home_arm64="", java_home_x64="")
+        with patch.object(Path, "is_file", return_value=True), \
+             patch.object(Path, "read_text", return_value='JAVA_VERSION="25.0.4.1"\nOS_NAME="Darwin"'), \
+             patch.object(p, "check_native"):
+            with self.assertRaisesRegex(RuntimeError, "JavaHomeX64"):
+                p.java_homes(args, "osx-arm64")
+
+    def test_universal_build_plan_without_running_any_build(self):
+        from types import SimpleNamespace
+        args = SimpleNamespace(dotnet="dotnet", java_home="/host", sdk="/sdk", development=False, identity="-")
+        prefs = {"ProtectionEnabled": False, "MinifyEnabled": True}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            def fake_run(argv, **kwargs):
+                argv = list(map(str, argv))
+                if "--version" in argv: return "8.0.426"
+                if "required-files" in argv: return "[]"
+                return ""
+            # All compilers/processes and packaging writes are mocked: no build is performed.
+            with patch.object(p, "ROOT", root), patch.object(p, "run", side_effect=fake_run) as commands, \
+                 patch.object(p, "java_homes", return_value={r: root / r for r in p.TARGETS}), \
+                 patch.object(p, "build_android", return_value=(root / "app.apk", root, "certificate")) as android, \
+                 patch.object(p, "check_native"), patch.object(p, "check_native_tree"), \
+                 patch.object(p, "copy_java_runtime"), patch.object(p, "payload_sources", return_value={}), \
+                 patch.object(p, "make_payload"), patch.object(p.shutil, "copytree"), patch.object(p.shutil, "copy2"), \
+                 patch.object(p, "install_icon", return_value="icon.icns"), patch.object(p, "sha", return_value="hash"), \
+                 patch.object(p, "replace_outputs") as promote:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    p.publish(args, {}, "2.0.3", 18, "2.0.3", prefs, "osx-arm64", root)
+            android.assert_called_once()
+            calls = [list(map(str, c.args[0])) for c in commands.call_args_list]
+            publishes = [c for c in calls if "publish" in c]
+            self.assertEqual({c[c.index("-r") + 1] for c in publishes}, set(p.TARGETS))
+            compiles = [c for c in calls if "swiftc" in c]
+            self.assertEqual({c[c.index("-target") + 1] for c in compiles}, {"arm64-apple-macosx12.0", "x86_64-apple-macosx12.0"})
+            self.assertTrue(any(c[:2] == ["/usr/bin/lipo", "-create"] for c in calls))
+            verifications = [c for c in calls if "verify-payload" in c]
+            self.assertEqual(len(verifications), 2)
+            self.assertTrue(all("osx-arm64" in c[0] for c in verifications))
+            promote.assert_called_once()
+            staged = promote.call_args.args[0]
+            report = json.loads((staged / "voyah-iran-installer_2.0.3.build-report.json").read_text())
+            self.assertEqual(report["runtime"], "osx-universal")
+            self.assertFalse(report["macOS12Tested"])
 
     def test_certificate_rejects_multiple_signers(self):
         line = "Signer #1: certificate SHA-256 digest: " + "a" * 64

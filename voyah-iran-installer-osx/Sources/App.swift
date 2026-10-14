@@ -36,10 +36,19 @@ struct VehicleApp: Identifiable {
     @Published var apkPath = ""
     @Published var apkTitle = "نصب APK"
     @Published var windows: [String: InstallerWindow] = [:]
+    static var runtime: String {
+        #if arch(arm64)
+        return "osx-arm64"
+        #elseif arch(x86_64)
+        return "osx-x64"
+        #else
+        #error("Unsupported macOS architecture")
+        #endif
+    }
     // Fixture navigation is opt-in and only available in payload-free development builds.
     var uiPreview: Bool {
         ProcessInfo.processInfo.environment["VI_MAC_UI_PREVIEW"] == "1" &&
-        !FileManager.default.fileExists(atPath: Bundle.main.resourceURL!.appendingPathComponent("bundle.zip").path)
+        !FileManager.default.fileExists(atPath: Bundle.main.resourceURL!.appendingPathComponent("payloads").path)
     }
     let phaseTitles = ["شناسایی خودرو", "روت، آماده‌سازی سیستم و بکاپ", "ساخت و بررسی پچ نمایش و کیبورد (ممکن است چند دقیقه طول بکشد)", "نصب برنامه", "نصب واسط دسترسی", "اصلاح services.jar", "راه‌اندازی مجدد خودرو", "بررسی نهایی نصب"]
     var process: Process?
@@ -56,8 +65,8 @@ struct VehicleApp: Identifiable {
     func start() {
         guard process == nil else { return }
         guard let resources = Bundle.main.resourceURL else { fail("فایل‌های برنامه پیدا نشد."); return }
-        let backend = resources.appendingPathComponent("backend/VoyahIran.Installer.Mac")
-        let payload = resources.appendingPathComponent("bundle.zip")
+        let backend = resources.appendingPathComponent("backend/\(Self.runtime)/VoyahIran.Installer.Mac")
+        let payload = resources.appendingPathComponent("payloads/\(Self.runtime).zip")
         guard FileManager.default.fileExists(atPath: backend.path), FileManager.default.fileExists(atPath: payload.path) else {
             connection = "نسخهٔ توسعه — باندل نصب هنوز ساخته نشده"
             logs = "برای ساخت نسخهٔ قابل نصب، Publish.command را اجرا کنید. این نسخه فرمانی به خودرو نمی‌فرستد.\n"
@@ -267,9 +276,14 @@ struct InstallerSurface<Content: View>: View {
                 .frame(minWidth: 900, minHeight: 612)
                 .onAppear {
                     delegate.model = model; model.start()
-                    DispatchQueue.main.async { NSApplication.shared.windows.first?.delegate = delegate }
+                    DispatchQueue.main.async {
+                        if let window = NSApplication.shared.windows.first {
+                            window.delegate = delegate
+                            window.setContentSize(NSSize(width: 1120, height: 732))
+                        }
+                    }
                 }
-        }.defaultSize(width: 1120, height: 732)
+        }
         .commands {
             CommandGroup(replacing: .newItem) {}
             CommandMenu("ابزارهای تکمیلی") {
@@ -295,27 +309,48 @@ struct InstallerSurface<Content: View>: View {
         }
     }
 }
-// Equivalent of WPF WrapPanel, retaining source order in a right-to-left container.
-struct ButtonWrap: Layout {
-    var spacing: CGFloat = 12
-    func positions(_ views: Subviews, width: CGFloat) -> ([(CGPoint, CGSize)], CGFloat) {
+// Measured flow layout using macOS 12 APIs (SwiftUI.Layout requires macOS 13).
+@resultBuilder struct ButtonListBuilder {
+    static func buildExpression<V: View>(_ view: V) -> AnyView { AnyView(view) }
+    static func buildBlock(_ views: AnyView...) -> [AnyView] { views }
+}
+struct ButtonSizes: PreferenceKey {
+    static var defaultValue: [Int: CGSize] = [:]
+    static func reduce(value: inout [Int: CGSize], nextValue: () -> [Int: CGSize]) {
+        value.merge(nextValue(), uniquingKeysWith: { _, new in new })
+    }
+}
+struct ButtonWrap: View {
+    let buttons: [AnyView]
+    @State private var sizes: [Int: CGSize] = [:]
+    @State private var availableWidth: CGFloat = 1000
+    init(@ButtonListBuilder content: () -> [AnyView]) { buttons = content() }
+    func positions(width: CGFloat) -> ([(CGPoint, CGSize)], CGFloat) {
         var result: [(CGPoint, CGSize)] = []; var x: CGFloat = 0; var y: CGFloat = 0; var row: CGFloat = 0
-        for view in views {
-            let size = view.sizeThatFits(.unspecified)
-            if x > 0 && x + size.width > width { x = 0; y += row + spacing; row = 0 }
-            result.append((CGPoint(x: x, y: y), size)); x += size.width + spacing; row = max(row, size.height)
+        for index in buttons.indices {
+            let size = sizes[index] ?? CGSize(width: 150, height: 44)
+            if x > 0 && x + size.width > width { x = 0; y += row + 12; row = 0 }
+            result.append((CGPoint(x: x, y: y), size)); x += size.width + 12; row = max(row, size.height)
         }
         return (result, y + row)
     }
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        let width = proposal.width ?? 1000
-        return CGSize(width: width, height: positions(subviews, width: width).1)
-    }
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        for (view, item) in zip(subviews, positions(subviews, width: bounds.width).0) {
-            // SwiftUI mirrors placement for RTL; mirroring here too reverses the buttons twice.
-            view.place(at: CGPoint(x: bounds.minX + item.0.x, y: bounds.minY + item.0.y), anchor: .topLeading, proposal: ProposedViewSize(item.1))
-        }
+    var body: some View {
+        GeometryReader { geometry in
+            let items = positions(width: geometry.size.width).0
+            ZStack(alignment: .topLeading) {
+                ForEach(buttons.indices, id: \.self) { index in
+                    buttons[index].environment(\.layoutDirection, .rightToLeft).fixedSize()
+                        .background(GeometryReader { child in
+                            Color.clear.preference(key: ButtonSizes.self, value: [index: child.size])
+                        })
+                        .position(x: geometry.size.width - items[index].0.x - items[index].1.width / 2,
+                                  y: items[index].0.y + items[index].1.height / 2)
+                }
+            }.environment(\.layoutDirection, .leftToRight)
+                .onAppear { availableWidth = geometry.size.width }
+                .onChange(of: geometry.size.width) { availableWidth = $0 }
+                .onPreferenceChange(ButtonSizes.self) { sizes = $0 }
+        }.frame(height: positions(width: availableWidth).1)
     }
 }
 struct InstallerView: View {
