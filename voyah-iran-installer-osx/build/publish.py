@@ -79,7 +79,10 @@ def copy_java_runtime(home, destination):
     destination.mkdir()
     for name in ("bin", "lib", "conf", "legal"):
         require((home / name).is_dir(), "Incomplete JDK runtime: " + str(home / name))
-        shutil.copytree(home / name, destination / name, symlinks=False)
+        # Source code is for JDK development, not execution or javac. Keep
+        # modules, compiler, native libraries, configuration and legal notices.
+        shutil.copytree(home / name, destination / name, symlinks=False,
+                        ignore=lambda folder, names: {"src.zip"} if Path(folder) == home / "lib" else set())
     for name in ("release", "NOTICE", "LICENSE"):
         if (home / name).is_file(): shutil.copy2(home / name, destination / name)
 
@@ -300,9 +303,10 @@ def payload_sources(required, apk, java_runtime, adb_dir):
     return files
 
 
-def make_payload(destination, files, version, runtime):
-    hashes = {}
-    with zipfile.ZipFile(destination, "x", compression=zipfile.ZIP_DEFLATED, compresslevel=1) as archive:
+def make_payload(destination, files, version, runtime, shared_hashes=None, manifest=True):
+    hashes = dict(shared_hashes or {})
+    require(not hashes.keys() & files.keys(), "Overlapping shared payload files")
+    with zipfile.ZipFile(destination, "x", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, source in files.items():
             if name.endswith(".sha256"):
                 data = sha(source).encode("ascii")
@@ -315,7 +319,20 @@ def make_payload(destination, files, version, runtime):
                 continue
             hashes[name] = hashlib.sha256(data).hexdigest()
             archive.writestr(name, data)
-        archive.writestr("manifest.json", json.dumps({"AppVersion": version, "PatchSchema": 1, "Files": hashes, "TargetRuntime": runtime}))
+        if manifest:
+            archive.writestr("manifest.json", json.dumps({"AppVersion": version, "PatchSchema": 1, "Files": hashes, "TargetRuntime": runtime}))
+    return hashes
+
+
+def split_payload_sources(sources):
+    """Share only identical named bytes, never assume architectures match."""
+    common = {}
+    first = next(iter(sources.values()))
+    for name, path in first.items():
+        if all(name in files and sha(files[name]) == sha(path) for files in sources.values()):
+            common[name] = path
+    return common, {runtime: {n: p for n, p in files.items() if n not in common}
+                    for runtime, files in sources.items()}
 
 
 def main():
@@ -383,15 +400,22 @@ def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
     bundles = {}
     if not args.development:
         print("2/4 Preparing and verifying both offline payloads…", flush=True)
+        sources = {}
         for runtime, arch in TARGETS.items():
             java_runtime = work / ("java-" + runtime)
             copy_java_runtime(homes[runtime], java_runtime)
             check_native_tree(java_runtime, arch)
             required = json.loads(run([verifier, "required-files", runtime], env=env, capture=True))
+            sources[runtime] = payload_sources(required, apk, java_runtime, adb_dir)
+        common, specific = split_payload_sources(sources)
+        shared_bundle = work / "common.zip"
+        shared_hashes = make_payload(shared_bundle, common, version, "osx-universal", manifest=False)
+        bundles["common"] = shared_bundle
+        for runtime in TARGETS:
             bundle = work / (runtime + ".zip")
-            make_payload(bundle, payload_sources(required, apk, java_runtime, adb_dir), version, runtime)
+            make_payload(bundle, specific[runtime], version, runtime, shared_hashes=shared_hashes)
             extracted = work / ("payload-check-" + runtime)
-            run([verifier, "verify-payload", bundle, extracted], env=env, capture=True)
+            run([verifier, "verify-payload", bundle, extracted, shared_bundle], env=env, capture=True)
             # Check both architectures statically; execute only the host-native tools.
             # No Rosetta installation or emulation is needed on the build machine.
             if runtime == host_runtime:

@@ -32,10 +32,12 @@ public sealed class PayloadBundle
         if (targetRuntime != "win-x64") throw new InvalidDataException("Unsupported payload runtime");
         return required;
     }
-    public static PayloadBundle Extract(Stream stream, string root)
+    public static PayloadBundle Extract(Stream stream, string root, Stream? commonStream = null)
     {
         using var zip = new ZipArchive(stream, ZipArchiveMode.Read);
-        if (zip.Entries.GroupBy(e => e.FullName, StringComparer.OrdinalIgnoreCase).Any(g => g.Count() != 1))
+        using var common = commonStream == null ? null : new ZipArchive(commonStream, ZipArchiveMode.Read);
+        var entries = zip.Entries.Concat(common?.Entries.AsEnumerable() ?? Enumerable.Empty<ZipArchiveEntry>()).ToArray();
+        if (entries.GroupBy(e => e.FullName, StringComparer.OrdinalIgnoreCase).Any(g => g.Count() != 1))
             throw new InvalidDataException("Duplicate payload entry");
         using var manifestStream = (zip.GetEntry("manifest.json") ?? throw new InvalidDataException("Payload manifest missing")).Open();
         var manifest = JsonSerializer.Deserialize<BundleManifest>(manifestStream) ?? throw new InvalidDataException("Invalid manifest");
@@ -46,10 +48,15 @@ public sealed class PayloadBundle
             if (!names.Add(name) || name.Contains('\\') || name.Contains(':') || name.StartsWith('/') || name.Split('/').Any(p => p is ".." or "." or "") ||
                 (!required.Contains(name) && !name.StartsWith("java/", StringComparison.Ordinal))) throw new InvalidDataException($"Unsafe payload path: {name}");
         }
+        // Split Mac bundles retain a complete per-architecture manifest. Every
+        // common byte is checked against it; layers may never shadow each other.
+        if (common != null && (!manifest.TargetRuntime.StartsWith("osx-", StringComparison.Ordinal) ||
+            entries.Any(e => e.FullName != "manifest.json" && !manifest.Files.ContainsKey(e.FullName))))
+            throw new InvalidDataException("Unexpected shared payload entry");
         Directory.CreateDirectory(root);
         foreach (var name in manifest.Files.Keys)
         {
-            var entry = zip.GetEntry(name) ?? throw new InvalidDataException($"Missing {name}");
+            var entry = zip.GetEntry(name) ?? common?.GetEntry(name) ?? throw new InvalidDataException($"Missing {name}");
             // The application includes offline speech models and OEM launcher animation assets.
             long maxBytes = name == "app.apk" ? 512L * 1024 * 1024 : 256L * 1024 * 1024;
             if (entry.Length > maxBytes) throw new InvalidDataException($"Oversized payload: {name} ({entry.Length} bytes; limit {maxBytes} bytes)");
