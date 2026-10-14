@@ -118,9 +118,20 @@ try {
                     case "reboot": await new DeviceRebooter(adb, log).RebootAsync(serial); break;
                     case "start-log":
                         capture = await LogcatCapture.StartAsync(adbPath, serial, ReportPath("logcat"), adb);
+                        var logSession = capture;
+                        _ = Task.Run(async () => {
+                            var ended = await logSession.Completion;
+                            if (!ended.RequestedStop) Emit(new { type = "capture-exited", text = "گزارش‌گیری Logcat قطع شد؛ فایل ناقص حفظ شده است. برای ذخیره و آزادکردن عملیات، پایان گزارش‌گیری را بزنید." });
+                        });
                         Emit(new { type = "capture", kind = "log", active = true }); break;
                     case "start-can":
                         can = await CanTraceCapture.StartAsync(adb, adbPath, serial, bundle.File("roa/frida-inject"), ReportPath("can"));
+                        var canSession = can;
+                        _ = Task.Run(async () => {
+                            try { await canSession.Completion; }
+                            catch (Exception e) { log.Write(e.Message); }
+                            if (ReferenceEquals(can, canSession)) Emit(new { type = "capture-exited", text = "شنود CAN پایان یافت. برای ذخیرهٔ گزارش و آزادکردن عملیات، پایان شنود را بزنید." });
+                        });
                         Emit(new { type = "capture", kind = "can", active = true }); break;
                     default: throw new ArgumentException("Unknown command");
                 }

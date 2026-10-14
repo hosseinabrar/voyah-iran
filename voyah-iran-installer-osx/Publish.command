@@ -1,4 +1,4 @@
 #!/bin/bash
 set -euo pipefail
 cd -- "$(dirname -- "$0")"
-exec python3 build/publish.py "$@"
+exec "${VI_PYTHON:-python3}" build/launch.py "$@"

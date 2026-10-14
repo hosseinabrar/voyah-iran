@@ -206,8 +206,8 @@ def main():
     toolchain = json.loads(toolchain_path.read_text()) if toolchain_path.exists() else {}
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--development", action="store_true", help="Build UI/backend only; cannot install on a vehicle")
-    parser.add_argument("--java-home", default=os.environ.get("JAVA_HOME", toolchain.get("JavaHome", "")))
-    parser.add_argument("--sdk", default=os.environ.get("ANDROID_HOME", toolchain.get("AndroidSdk", str(Path.home() / "Library/Android/sdk"))))
+    parser.add_argument("--java-home", default=toolchain.get("JavaHome") or os.environ.get("JAVA_HOME", ""))
+    parser.add_argument("--sdk", default=toolchain.get("AndroidSdk") or os.environ.get("ANDROID_HOME", str(Path.home() / "Library/Android/sdk")))
     parser.add_argument("--dotnet", default=os.environ.get("VI_DOTNET", toolchain.get("Dotnet", "dotnet")))
     parser.add_argument("--keystore", default=str(ANDROID / "Keystore/voyahiran"))
     parser.add_argument("--alias", default="voyahiran")
@@ -233,7 +233,7 @@ def main():
     env = os.environ.copy()
     env.update(DOTNET_CLI_HOME=str(cache / "cli"), DOTNET_CLI_TELEMETRY_OPTOUT="1", DOTNET_SKIP_FIRST_TIME_EXPERIENCE="1",
                DOTNET_GENERATE_ASPNET_CERTIFICATE="false",
-               NUGET_PACKAGES=str(cache / "nuget"), GRADLE_USER_HOME=str(cache / "gradle"), TMPDIR=str(cache / "tmp"),
+               NUGET_PACKAGES=str(cache / "nuget"), GRADLE_USER_HOME=str(toolchain.get("GradleUserHome", cache / "gradle")), TMPDIR=str(cache / "tmp"),
                CLANG_MODULE_CACHE_PATH=str(cache / "clang"))
     require(run([args.dotnet, "--version"], env=env, capture=True).startswith("8."), ".NET SDK 8 is required; set VI_DOTNET")
     if not args.development:
