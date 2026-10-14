@@ -52,6 +52,14 @@ PasswordCase("2026-09-12T19:29:59+03:30", "2938");
 PasswordCase("2026-09-12T19:30:00+03:30", "2939");
 PasswordCase("2026-12-31T19:30:00+03:30", "2128");
 void Check(bool value, string name) { if (!value) throw new Exception("FAIL: " + name); Console.WriteLine("PASS: " + name); passed++; }
+var previewIds = LauncherInstallPreparation.PreviewDisplays("mBaseDisplayInfo=DisplayInfo{\"VoyahIran.MapPreview\", displayId 7, owner com.abrar.voyahiran (uid 10055)}");
+Check(previewIds.SetEquals(new[] { 7 }), "Only owned preview display selected");
+var previewPackages = LauncherInstallPreparation.PreviewPackages("Stack id=1 bounds=[0,0][1920,720] displayId=0 userId=0\n taskId=2: user.central/.Main\nStack id=3 bounds=[0,0][800,600] displayId=7 userId=0\n taskId=4: org.rajman.neshan/.Main\nStack id=5 bounds=[0,0][1920,720] displayId=1 userId=0\n taskId=6: user.passenger/.Main", previewIds);
+Check(previewPackages.SetEquals(new[] { "org.rajman.neshan" }), "Cleanup excludes central and passenger applications");
+var badDisplayRejected = false;
+try { LauncherInstallPreparation.PreviewDisplays("DisplayInfo{\"VoyahIran.MapPreview\", displayId 0, owner other.app}"); }
+catch (IOException) { badDisplayRejected = true; }
+Check(badDisplayRejected, "Unverified display cannot trigger application shutdown");
 Check(DeviceParser.SingleReady(DeviceParser.Parse("List of devices attached\nabc device usb:1 product:x\n"))?.Serial == "abc", "USB ready");
 Check(DeviceParser.SingleReady(DeviceParser.Parse("abc unauthorized\n")) == null, "Unauthorized blocked");
 Check(DeviceParser.SingleReady(DeviceParser.Parse("abc offline\n")) == null, "Offline blocked");
@@ -120,6 +128,17 @@ foreach (var failure in new[] { "root", "remount", "remount-empty", "firmware", 
     if (failure is "root" or "remount" or "remount-reboot" or "remount-empty" or "firmware" or "patch") Check(!fake.Calls.Any(c => c[0] == "install"), $"{failure} rejected before APK changes");
     if (failure == "timeout") Check(!fake.Calls.Any(c => c.Contains("rm")), "Uncertain remote write keeps staging");
     if (failure is "apk" or "apk-timeout") Check(fake.Calls.Count(c => c[0] == "install") == 1, "Do not retry ambiguous or unrelated APK failure");
+}
+foreach (var mode in new[] { "preview", "preview-stuck" }) {
+    using var prepLog = new SessionLog(Path.Combine(root, mode));
+    var fake = new FakeAdb(mode, bundle);
+    var failed = false;
+    try { await new InstallEngine(fake, bundle, prepLog, Path.Combine(root, mode+"-backup"), new FakePatcher("none")).RunAsync("CAR"); } catch { failed = true; }
+    var mapStop = fake.Calls.FindIndex(c => c.Contains("force-stop") && c.Contains("org.rajman.neshan"));
+    var appStop = fake.Calls.FindIndex(c => c.Contains("force-stop") && c.Contains("com.abrar.voyahiran"));
+    Check(mapStop >= 0, "Embedded map stopped before display owner: " + mode);
+    Check(mode == "preview" ? !failed && appStop > mapStop : failed && appStop == -1 && !fake.Calls.Any(c=>c[0]=="install"), "Preview cleanup verified before owner termination: " + mode);
+    Check(fake.Calls.Any(c=>c.Any(a=>a.Contains("kill -CONT"))), "Suspension always cleaned up: " + mode);
 }
 foreach (var failure in new[] { "apk-storage-transient", "apk-storage-persistent" })
 {
@@ -292,6 +311,11 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
         if (args.Contains("ro.vendor.build.fingerprint")) return Task.FromResult(new CommandResult(0, failure == "h97a" ? "jenkins-PRJ_H97a_8155_OTA_1010-9" : "test"));
         if (args.Contains("ro.build.fingerprint"))
             return Task.FromResult(new CommandResult(0, WaitEntered && failure == "reconnect-firmware" ? "changed" : "test-firmware"));
+        if (failure.StartsWith("preview")) {
+            if (args.Contains("dumpsys") && args.Contains("display")) return Task.FromResult(new CommandResult(0, "DisplayInfo{\"VoyahIran.MapPreview\", displayId 7, owner com.abrar.voyahiran (uid 10055)}"));
+            if (args.Contains("pidof")) return Task.FromResult(new CommandResult(0, "2749"));
+            if (args.Contains("stack") && args.Contains("list")) return Task.FromResult(new CommandResult(0, failure == "preview-stuck" || !Calls.Any(c=>c.Contains("force-stop") && c.Contains("org.rajman.neshan")) ? "Stack id=3 bounds=[0,0][800,600] displayId=7 userId=0\n taskId=4: org.rajman.neshan/.Main" : "Stack id=1 bounds=[0,0][1920,720] displayId=0 userId=0"));
+        }
         string text = ""; var exit = 0;
         if (args[0] == "devices") text = "CAR device";
         else if (args[0] == "remount") {

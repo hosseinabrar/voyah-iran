@@ -18,6 +18,42 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         result.Output.Contains("PackageManagerInternal.freeStorage(", StringComparison.Ordinal) &&
         result.Output.Contains("StorageManagerService.allocateBytes(", StringComparison.Ordinal) &&
         result.Output.Contains("PackageInstallerSession.doWriteInternal(", StringComparison.Ordinal);
+    private async Task StopLauncherForInstall()
+    {
+        var displays = LauncherInstallPreparation.PreviewDisplays(await Root(15, "dumpsys", "display"));
+        if (displays.Count == 0)
+        {
+            await Root(15, "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran");
+            return;
+        }
+        // Keep the display owner alive, but stop its watchdog from reopening map tasks.
+        var result = await adb.RunAsync(serial, ["shell", "pidof", "com.abrar.voyahiran"], 15);
+        var pids = result.Output.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (result.ExitCode != 0 || pids.Length == 0 || pids.Any(p => !int.TryParse(p, out var id) || id <= 1))
+            throw new IOException("Cannot identify launcher before display cleanup.");
+        var suspended = new List<string>();
+        try
+        {
+            foreach (var pid in pids) { await Root(15, "kill", "-STOP", pid); suspended.Add(pid); }
+            var packages = LauncherInstallPreparation.PreviewPackages(await Root(15, "/system/bin/am", "stack", "list"), displays);
+            foreach (var package in packages)
+            {
+                log.Write($"Stopping embedded map before launcher display removal: {package}");
+                await Root(15, "/system/bin/am", "force-stop", "--user", "0", package);
+            }
+            if (LauncherInstallPreparation.PreviewPackages(await Root(15, "/system/bin/am", "stack", "list"), displays).Count != 0)
+                throw new IOException("Map tasks remain on preview; installation stopped before APK replacement.");
+            await Root(15, "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran");
+        }
+        finally
+        {
+            foreach (var pid in suspended)
+            {
+                try { await Root(15, "/system/bin/sh", "-c", $"for p in $(pidof com.abrar.voyahiran); do if [ \"$p\" = \"{pid}\" ]; then kill -CONT {pid}; fi; done"); }
+                catch (Exception e) { log.Write($"Launcher resume check failed: {e.Message}"); }
+            }
+        }
+    }
     private void Begin(InstallPhase next) { phase = next; log.Write($"PHASE {phase}: running"); Progress?.Invoke(new(phase, PhaseState.Running)); }
     private void Done() { log.Write($"PHASE {phase}: succeeded"); Progress?.Invoke(new(phase, PhaseState.Succeeded)); }
     private async Task<string> Command(int timeout, params string[] args)
@@ -157,7 +193,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             log.Write("Stopping Voyah Iran before APK replacement.");
             // Disable interception before force-stop can reveal HOME and reopen our app.
             await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
-            await Root(15, "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran");
+            await StopLauncherForInstall();
             // Clear again in case an in-flight heartbeat renewed it while stopping.
             // Keep the user's saved launcher preference.
             await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
