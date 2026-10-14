@@ -23,11 +23,65 @@ ANDROID = REPO / "voyah-iran"
 WINDOWS = REPO / "voyah-iran-installer"
 BACKEND = ROOT / "backend/VoyahIran.Installer.Mac.csproj"
 SETTINGS = ROOT / "build/BuildSettings.local.json"
+MIN_MACOS = "12.0"
+TARGETS = {"osx-arm64": "arm64", "osx-x64": "x86_64"}
 
 
 def require(condition, message):
     if not condition:
         raise RuntimeError(message)
+
+
+def check_native(path, arch):
+    """Read target Mach-O metadata without executing the other architecture."""
+    architectures = run(["/usr/bin/lipo", "-archs", path], capture=True).split()
+    require(arch in architectures, f"Missing {arch} slice: {path}")
+    commands = run(["/usr/bin/otool", "-arch", arch, "-l", path], capture=True)
+    minimums = re.findall(r"\bminos\s+(\d+(?:\.\d+){1,2})", commands)
+    minimums += re.findall(r"cmd LC_VERSION_MIN_MACOSX\s+cmdsize \d+\s+version (\d+(?:\.\d+){1,2})", commands)
+    require(bool(minimums), f"macOS deployment target missing: {path}")
+    def version(value): return tuple((list(map(int, value.split("."))) + [0, 0])[:3])
+    require(all(version(v) <= version(MIN_MACOS) for v in minimums), f"{path} requires macOS {max(minimums)}, above {MIN_MACOS}")
+
+
+def check_native_tree(root, arch):
+    magic = {b"\xcf\xfa\xed\xfe", b"\xfe\xed\xfa\xcf", b"\xca\xfe\xba\xbe", b"\xca\xfe\xba\xbf"}
+    count = 0
+    for path in sorted(root.rglob("*")):
+        if not path.is_file(): continue
+        with path.open("rb") as stream: header = stream.read(4)
+        if header in magic:
+            check_native(path, arch)
+            count += 1
+    require(count > 0, "No native runtime binaries found: " + str(root))
+
+
+def java_homes(args, host_runtime):
+    result = {}
+    for runtime, configured in (("osx-arm64", args.java_home_arm64), ("osx-x64", args.java_home_x64)):
+        value = configured or (args.java_home if runtime == host_runtime else "")
+        require(bool(value), f"Set {'JavaHomeArm64' if runtime == 'osx-arm64' else 'JavaHomeX64'} in Toolchain.local.json for universal publishing")
+        home = Path(value).resolve()
+        require((home / "release").is_file(), "Missing JDK release metadata: " + str(home))
+        release = (home / "release").read_text()
+        require(re.search(r'^JAVA_VERSION="25(?:\.|\")', release, re.M) is not None, "Bundled JDK must be version 25: " + str(home))
+        require('OS_NAME="Darwin"' in release, "Bundled JDK must target macOS: " + str(home))
+        for relative in ("bin/java", "bin/javac", "lib/modules"):
+            require((home / relative).is_file(), "Incomplete bundled JDK: " + str(home / relative))
+        check_native(home / "bin/java", TARGETS[runtime])
+        result[runtime] = home
+    return result
+
+
+def copy_java_runtime(home, destination):
+    # JDK 25 Temurin omits jmods. Copy each target's runtime instead of executing
+    # its jlink through Rosetta or accidentally packaging the host architecture.
+    destination.mkdir()
+    for name in ("bin", "lib", "conf", "legal"):
+        require((home / name).is_dir(), "Incomplete JDK runtime: " + str(home / name))
+        shutil.copytree(home / name, destination / name, symlinks=False)
+    for name in ("release", "NOTICE", "LICENSE"):
+        if (home / name).is_file(): shutil.copy2(home / name, destination / name)
 
 
 def run(argv, *, env=None, cwd=ROOT, capture=False):
@@ -180,7 +234,7 @@ def build_android(args, work, env, version, code, prefs):
     java = java_home / "bin/java"
     sdk = Path(args.sdk).resolve()
     tools = sdk / "build-tools/37.0.0"
-    for path in [java, java_home / "bin/javac", java_home / "bin/jlink", tools / "lib/apksigner.jar", tools / "zipalign", tools / "aapt2", sdk / "platforms/android-36/android.jar"]:
+    for path in [java, java_home / "bin/javac", tools / "lib/apksigner.jar", tools / "zipalign", tools / "aapt2", sdk / "platforms/android-36/android.jar"]:
         require(path.is_file(), "Build prerequisite missing: " + str(path))
     probe = subprocess.run([str(java), "-version"], capture_output=True, text=True, check=True)
     require(re.search(r'version "25[.\"]', probe.stderr + probe.stdout), "Use JDK 25 to match the Gradle daemon toolchain")
@@ -270,6 +324,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--development", action="store_true", help="Build UI/backend only; cannot install on a vehicle")
     parser.add_argument("--java-home", default=toolchain.get("JavaHome") or os.environ.get("JAVA_HOME", ""))
+    parser.add_argument("--java-home-arm64", default=toolchain.get("JavaHomeArm64", ""))
+    parser.add_argument("--java-home-x64", default=toolchain.get("JavaHomeX64", ""))
     parser.add_argument("--sdk", default=toolchain.get("AndroidSdk") or os.environ.get("ANDROID_HOME", str(Path.home() / "Library/Android/sdk")))
     parser.add_argument("--dotnet", default=os.environ.get("VI_DOTNET", toolchain.get("Dotnet", "dotnet")))
     parser.add_argument("--keystore", default=str(ANDROID / "Keystore/voyahiran"))
@@ -286,7 +342,6 @@ def main():
     require(not prefs["ProtectionEnabled"] or prefs["MinifyEnabled"], "Protection requires R8")
     require(not prefs["ProtectionEnabled"] or sys.version_info >= (3, 10), "DPT protection requires Python 3.10+")
     runtime = "osx-arm64" if os.uname().machine == "arm64" else "osx-x64"
-    arch = "arm64" if runtime == "osx-arm64" else "x86_64"
     # Build all caches within this project; no changes to global SDK/JDK configuration.
     cache = ROOT / ".build"
     cache.mkdir(exist_ok=True)
@@ -295,10 +350,10 @@ def main():
             fcntl.flock(publish_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             raise RuntimeError("Another Publish is running in this checkout; wait for it to finish.")
-        publish(args, toolchain, version, code, label, prefs, runtime, arch, cache)
+        publish(args, toolchain, version, code, label, prefs, runtime, cache)
 
 
-def publish(args, toolchain, version, code, label, prefs, runtime, arch, cache):
+def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
     work = Path(tempfile.mkdtemp(prefix="publish-", dir=cache))
     for name in ("tmp", "cli", "nuget", "gradle", "clang"):
         (cache / name).mkdir(exist_ok=True)
@@ -310,43 +365,65 @@ def publish(args, toolchain, version, code, label, prefs, runtime, arch, cache):
     require(run([args.dotnet, "--version"], env=env, capture=True).startswith("8."), ".NET SDK 8 is required; set VI_DOTNET")
     if not args.development:
         require(bool(args.java_home), "Set JAVA_HOME to JDK 25 (or use --java-home)")
-        apk, java_home, cert = build_android(args, work, env, version, code, prefs)
-    print("Building the shared installer backend…", flush=True)
-    backend = work / "backend"
-    run([args.dotnet, "publish", BACKEND, "-c", "Release", "-r", runtime, "--self-contained", "true",
-         "-p:PublishSingleFile=false", "--nologo", "-o", backend], env=env)
-    executable = backend / "VoyahIran.Installer.Mac"
-    if not args.development:
-        print("2/4 Preparing and verifying the offline payload…", flush=True)
-        java_runtime = work / "java"
-        run([java_home / "bin/jlink", "--add-modules", "java.base,java.desktop,java.logging,java.xml,java.compiler,jdk.compiler,jdk.zipfs,jdk.unsupported",
-             "--strip-debug", "--no-header-files", "--no-man-pages", "--compress=2", "--output", java_runtime], env=env)
-        for name in ("NOTICE", "LICENSE"):
-            if (java_home / name).is_file(): shutil.copy2(java_home / name, java_runtime / name)
-        require(arch in run(["/usr/bin/file", java_runtime / "bin/java"], capture=True), "Bundled Java architecture differs from the app")
+        homes = java_homes(args, host_runtime)
         adb_dir = Path(args.sdk).resolve() / "platform-tools"
-        require(arch in run(["/usr/bin/file", adb_dir / "adb"], capture=True), "ADB must support the target Mac architecture")
-        required = json.loads(run([executable, "required-files", runtime], env=env, capture=True))
-        bundle = work / "bundle.zip"
-        make_payload(bundle, payload_sources(required, apk, java_runtime, adb_dir), version, runtime)
-        run([executable, "verify-payload", bundle, work / "payload-check"], env=env, capture=True)
-        # Execute the extracted runtime too: validates source launcher, compiler and dylib permissions.
-        run([work / "payload-check/java/bin/java", "--list-modules"], env=env, capture=True)
-        run([work / "payload-check/adb", "version"], env=env, capture=True)
-    print("3/4 Building the native macOS application…", flush=True)
+        for arch in TARGETS.values(): check_native(adb_dir / "adb", arch)
+        # Build/sign/protect the Android APK exactly once; both Mac payloads use it.
+        apk, _, cert = build_android(args, work, env, version, code, prefs)
+    print("Building both native installer backends…", flush=True)
+    backends = {}
+    for runtime, arch in TARGETS.items():
+        backend = work / "backend" / runtime
+        run([args.dotnet, "publish", BACKEND, "-c", "Release", "-r", runtime, "--self-contained", "true",
+             "-p:PublishSingleFile=false", "--nologo", "-o", backend], env=env)
+        check_native(backend / "VoyahIran.Installer.Mac", arch)
+        check_native_tree(backend, arch)
+        backends[runtime] = backend
+    verifier = backends[host_runtime] / "VoyahIran.Installer.Mac"
+    bundles = {}
+    if not args.development:
+        print("2/4 Preparing and verifying both offline payloads…", flush=True)
+        for runtime, arch in TARGETS.items():
+            java_runtime = work / ("java-" + runtime)
+            copy_java_runtime(homes[runtime], java_runtime)
+            check_native_tree(java_runtime, arch)
+            required = json.loads(run([verifier, "required-files", runtime], env=env, capture=True))
+            bundle = work / (runtime + ".zip")
+            make_payload(bundle, payload_sources(required, apk, java_runtime, adb_dir), version, runtime)
+            extracted = work / ("payload-check-" + runtime)
+            run([verifier, "verify-payload", bundle, extracted], env=env, capture=True)
+            # Check both architectures statically; execute only the host-native tools.
+            # No Rosetta installation or emulation is needed on the build machine.
+            if runtime == host_runtime:
+                run([extracted / "java/bin/java", "--list-modules"], env=env, capture=True)
+                run([extracted / "adb", "version"], env=env, capture=True)
+            bundles[runtime] = bundle
+    print("3/4 Building the universal macOS application…", flush=True)
     stem = output_stem(label, args.development)
     app = work / (stem + ".app")
     macos, resources = app / "Contents/MacOS", app / "Contents/Resources"
     macos.mkdir(parents=True); resources.mkdir(parents=True)
-    run(["/usr/bin/xcrun", "swiftc", "-parse-as-library", "-O", "-target", f"{arch}-apple-macosx13.0",
-         "-module-cache-path", cache / "clang", ROOT / "Sources/App.swift", "-o", macos / "VoyahIranInstaller"], env=env)
-    shutil.copytree(backend, resources / "backend")
+    slices = []
+    for arch in TARGETS.values():
+        executable = work / ("VoyahIranInstaller-" + arch)
+        run(["/usr/bin/xcrun", "swiftc", "-parse-as-library", "-O", "-target", f"{arch}-apple-macosx{MIN_MACOS}",
+             "-module-cache-path", cache / "clang", ROOT / "Sources/App.swift", "-o", executable], env=env)
+        check_native(executable, arch)
+        slices.append(executable)
+    run(["/usr/bin/lipo", "-create", *slices, "-output", macos / "VoyahIranInstaller"], env=env)
+    for arch in TARGETS.values(): check_native(macos / "VoyahIranInstaller", arch)
+    for runtime, backend in backends.items():
+        shutil.copytree(backend, resources / "backend" / runtime)
     icon_name = install_icon(resources)
-    if not args.development: shutil.copy2(bundle, resources / "bundle.zip")
+    if not args.development:
+        (resources / "payloads").mkdir()
+        for runtime, bundle in bundles.items():
+            shutil.copy2(bundle, resources / "payloads" / (runtime + ".zip"))
     info = {"CFBundleExecutable": "VoyahIranInstaller", "CFBundleIdentifier": "com.abrar.voyahiran.installer.osx",
             "CFBundleName": "Voyah Iran Installer", "CFBundleDisplayName": "نصاب وویا ایران", "CFBundlePackageType": "APPL",
             "CFBundleIconFile": icon_name,
-            "CFBundleShortVersionString": version, "CFBundleVersion": str(code), "LSMinimumSystemVersion": "13.0",
+            "CFBundleShortVersionString": version, "CFBundleVersion": str(code), "LSMinimumSystemVersion": MIN_MACOS,
+            "LSArchitecturePriority": ["arm64", "x86_64"],
             "NSHighResolutionCapable": True, "NSPrincipalClass": "NSApplication", "LSMultipleInstancesProhibited": True}
     (app / "Contents/Info.plist").write_bytes(plistlib.dumps(info))
     # Sign nested .NET code before the outer bundle. No sandbox: ADB needs USB/process access.
@@ -360,7 +437,9 @@ def publish(args, toolchain, version, code, label, prefs, runtime, arch, cache):
     run(["/usr/bin/ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", app, archive], env=env)
     report = work / (stem + ".build-report.json")
     report.write_text(json.dumps({"version": version, "versionCode": code, "label": label,
-        "runtime": runtime, "developmentOnly": args.development, "protection": prefs["ProtectionEnabled"], "minify": prefs["MinifyEnabled"],
+        "runtime": "osx-universal", "architectures": list(TARGETS.values()), "minimumMacOS": MIN_MACOS,
+        "nativeToolsSmokeTested": [] if args.development else [host_runtime], "macOS12Tested": False,
+        "developmentOnly": args.development, "protection": prefs["ProtectionEnabled"], "minify": prefs["MinifyEnabled"],
         "apkSha256": None if args.development else sha(apk), "certificate": None if args.development else cert,
         "zipSha256": sha(archive), "vehicleTested": False, "notarized": False}, indent=2))
     dist = ROOT / "dist"

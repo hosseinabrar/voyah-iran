@@ -10,6 +10,15 @@ NS = {"w": "http://schemas.microsoft.com/winfx/2006/xaml/presentation"}
 
 
 class WindowsVisualContractTests(unittest.TestCase):
+    def test_macos12_and_runtime_selection_contract(self):
+        self.assertIn(".macOS(.v12)", (ROOT / "Package.swift").read_text())
+        self.assertNotIn("struct ButtonWrap: Layout", SOURCE)
+        self.assertNotIn(".defaultSize(", SOURCE)
+        self.assertIn("#if arch(arm64)", SOURCE)
+        self.assertIn("#elseif arch(x86_64)", SOURCE)
+        self.assertIn('backend/\\(Self.runtime)/VoyahIran.Installer.Mac', SOURCE)
+        self.assertIn('payloads/\\(Self.runtime).zip', SOURCE)
+
     def test_shared_palette(self):
         app = ET.parse(WINDOWS / "App.xaml")
         for brush in app.findall(".//w:SolidColorBrush", NS):
