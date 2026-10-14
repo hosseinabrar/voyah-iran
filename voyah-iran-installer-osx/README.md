@@ -34,11 +34,12 @@
 {
   "JavaHome": "/absolute/path/to/jdk/Contents/Home",
   "AndroidSdk": "/absolute/path/to/android-sdk",
-  "Dotnet": "/absolute/path/to/dotnet"
+  "Dotnet": "/absolute/path/to/dotnet",
+  "Python": "/absolute/path/to/python3"
 }
 ```
 
-محل فایل: `build/Toolchain.local.json`. مسیرهای این فایل نباید وارد Git شوند. تمام cacheهای Publish داخل `.build/` پروژه نگهداری می‌شوند. ابزارهای جدید را می‌توان در پوشهٔ اصلی `voyah/work/` نگه داشت؛ تغییر تنظیمات سراسری سیستم لازم نیست.
+محل فایل: `build/Toolchain.local.json`. مسیرهای این فایل نباید وارد Git شوند. cacheهای Publish به‌صورت پیش‌فرض داخل `.build/` پروژه نگهداری می‌شوند؛ گزینهٔ اختیاری `GradleUserHome` امکان اشتراک cache بین دو برنچ در `voyah/work/` را می‌دهد. `VI_PYTHON` هم می‌تواند مسیر Python را تعیین کند. ابزارهای جدید را می‌توان در پوشهٔ اصلی `voyah/work/` نگه داشت؛ تغییر تنظیمات سراسری سیستم لازم نیست.
 
 ## تنظیمات امضا و حفاظت
 

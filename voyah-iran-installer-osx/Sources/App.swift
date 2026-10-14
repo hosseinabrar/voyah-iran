@@ -98,7 +98,7 @@ struct VehicleApp: Identifiable {
                     if command == "remove" { send("apps") }
                 }
             case "fatal": ready = false; connection = event["text"] as? String ?? ""; fail(connection)
-            case "error", "message": fail(event["text"] as? String ?? "")
+            case "error", "message", "capture-exited": fail(event["text"] as? String ?? "")
             case "capture": capture = event["kind"] as? String ?? ""
             case "file":
                 if let path = event["path"] as? String { NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: path)]) }
