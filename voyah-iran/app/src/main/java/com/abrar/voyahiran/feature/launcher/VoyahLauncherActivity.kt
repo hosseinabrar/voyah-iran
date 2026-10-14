@@ -73,7 +73,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             visibility=View.GONE
             setOnClickListener {
                 if(!(application as VoyahIranApplication).subscriptions.vipAllowed)return@setOnClickListener
-                LauncherPreferences.setClusterMapVisible(this@VoyahLauncherActivity,!LauncherPreferences.clusterMapVisible(this@VoyahLauncherActivity))
+                LauncherPreferences.cycleClusterMap(this@VoyahLauncherActivity)
                 preview?.refreshCluster()
                 updateClusterButton()
             }
@@ -165,7 +165,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     private fun updateClusterButton() {
         clusterButton.visibility=if(dashboard.mapMessage.isEmpty() && LauncherPreferences.clusterMap(this) &&
             (application as VoyahIranApplication).subscriptions.vipAllowed) View.VISIBLE else View.GONE
-        clusterButton.active=LauncherPreferences.clusterMapVisible(this)
+        clusterButton.mode=LauncherPreferences.clusterMapMode(this)
         clusterButton.light=LauncherTheme.isLight()
     }
     override fun onResume() {

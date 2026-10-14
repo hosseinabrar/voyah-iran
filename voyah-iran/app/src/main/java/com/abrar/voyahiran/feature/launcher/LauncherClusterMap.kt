@@ -16,7 +16,13 @@ internal object LauncherClusterMap {
     @Volatile private var ready = false
     @Volatile private var output: Surface? = null
     private var retryAt=0L
-    fun allowed(c: Context) = LauncherPreferences.enabled(c) && LauncherPreferences.clusterMap(c) && LauncherPreferences.clusterMapVisible(c) &&
+    val autoPolicy = ClusterMapAutoPolicy()
+    fun allowed(c: Context) = LauncherPreferences.enabled(c) && LauncherPreferences.clusterMap(c) &&
+        when (LauncherPreferences.clusterMapMode(c)) {
+            ClusterMapMode.OFF -> false
+            ClusterMapMode.ON -> true
+            ClusterMapMode.AUTO -> autoPolicy.show(android.os.SystemClock.elapsedRealtime())
+        } &&
         (c.applicationContext as VoyahIranApplication).subscriptions.vipAllowed
     fun show(c: Context, relay: MapFrameRelay) {
         if (!allowed(c)) { hide(relay); return }

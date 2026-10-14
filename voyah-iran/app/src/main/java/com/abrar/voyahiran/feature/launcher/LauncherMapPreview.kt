@@ -28,11 +28,47 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         }
         com.abrar.voyahiran.core.logging.AppLog.changed("LauncherMapTheme","exit=${result.exitCode} ${result.output}")
     }
-    fun refreshCluster() { embedded.cluster(mapInCard) }
+    private var autoMonitor: Job? = null
+    private fun wantsAuto() = !closed && mapInCard &&
+        packageName == com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN &&
+        LauncherPreferences.autoClusterRequested(context)
+    fun refreshCluster() {
+        if (!wantsAuto()) {
+            autoMonitor?.cancel(); autoMonitor = null
+            LauncherClusterMap.autoPolicy.reset()
+        } else if (autoMonitor?.isActive != true) {
+            LauncherClusterMap.autoPolicy.reset()
+            autoMonitor = scope.launch {
+                while (isActive && wantsAuto()) {
+                    try {
+                        val result = withContext(Dispatchers.IO) {
+                            ProcessCommandRunner().run(listOf("su", "0", "neshan-direct", "auto-state"), 3)
+                        }
+                        // An in-flight response must not override a new button/map/subscription state.
+                        if (!wantsAuto()) break
+                        val json = result.output.lineSequence().firstOrNull { it.startsWith("NESHAN_AUTO=") }
+                        val data = if (result.exitCode == 0 && !result.timedOut && json != null)
+                            org.json.JSONObject(json.removePrefix("NESHAN_AUTO=")) else null
+                        if (data?.optBoolean("valid") == true) {
+                            LauncherClusterMap.autoPolicy.update(data.getString("step"), data.getInt("meters"),
+                                data.getLong("sampledAt"), android.os.SystemClock.elapsedRealtime())
+                        } else LauncherClusterMap.autoPolicy.reset()
+                    } catch (e: CancellationException) { throw e }
+                    catch (e: Exception) {
+                        LauncherClusterMap.autoPolicy.reset()
+                        com.abrar.voyahiran.core.logging.AppLog.changed("ClusterMapAuto", "navigation unavailable: ${e.message}")
+                    }
+                    embedded.cluster(mapInCard)
+                    delay(500)
+                }
+            }
+        }
+        embedded.cluster(mapInCard)
+    }
     private var clusterMonitor: Job?=null
     private fun error(message: String) {
         mapInCard=message.isEmpty() && !fullscreen && !closed
-        embedded.cluster(mapInCard)
+        refreshCluster()
         if(mapInCard && LauncherPreferences.clusterMap(context) && clusterMonitor?.isActive!=true) clusterMonitor=scope.launch {
             while(isActive && !closed && mapInCard) {
                 delay(750)
@@ -45,8 +81,8 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 if(!mapInCard || closed)break
                 if(status.exitCode==0 && !status.timedOut) {
                     mapInCard=isVisibleHere(status.output,id)
-                    embedded.cluster(mapInCard)
-                } else if(status.exitCode!=75) {mapInCard=false;embedded.cluster(false)}
+                    refreshCluster()
+                } else if(status.exitCode!=75) {mapInCard=false;refreshCluster()}
             }
         }
         onMessage(message)
@@ -258,7 +294,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         }
     }
     fun stopMonitoring() {
-        if(fullscreen || closed) {mapInCard=false;embedded.cluster(false)}
+        if(fullscreen || closed) {mapInCard=false;refreshCluster()}
         active=false;monitor?.cancel();monitor=null
         runCatching {embedded.active(false)}
         view.visibility=View.INVISIBLE
@@ -294,6 +330,8 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         // Losing a window surface is not loss of the map task. Preserve card state.
     }
     fun close() {
+        autoMonitor?.cancel();autoMonitor=null
+        LauncherClusterMap.autoPolicy.reset()
         clusterMonitor?.cancel();clusterMonitor=null
         embedded.cluster(false)
         if(currentPreview?.get() === this) currentPreview=null

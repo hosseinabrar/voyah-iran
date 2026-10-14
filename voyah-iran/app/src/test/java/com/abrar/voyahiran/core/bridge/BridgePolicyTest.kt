@@ -6,6 +6,12 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun autoNavigationRequestHasNoCallerControlledArguments() {
+        val command = listOf("neshan-direct", "auto-state")
+        assertEquals(command, BridgePolicy.resolve(command))
+        assertNull(BridgePolicy.resolve(command + "enable"))
+        assertNull(BridgePolicy.resolve(listOf("neshan-direct", "auto-state;reboot")))
+    }
     @Test fun mapThemeCannotTargetPhysicalDisplaysOrOwnApplication() {
         val command=listOf("launcher-map-theme","org.rajman.neshan","3")
         assertEquals(command,BridgePolicy.resolve(command))

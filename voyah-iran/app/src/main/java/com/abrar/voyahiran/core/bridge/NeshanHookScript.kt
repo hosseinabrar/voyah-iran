@@ -68,6 +68,7 @@ function installAdSuppression() {
 }
 let heartbeat = Date.now();
 let latest = null;
+let routeEpoch = 0;
 let routeOwner = null, routeType = null;
 const routeState = fields.routeState;
 let hook = null;
@@ -83,7 +84,7 @@ function wireJson(value) {
         return '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0');
     });
 }
-function clear(reason) { latest = null; sampleState = reason || 'route-reset'; }
+function clear(reason) { if (latest !== null) routeEpoch++; latest = null; sampleState = reason || 'route-reset'; }
 function disable() {
     enabled = false; clear();
     restoreAds();
@@ -179,7 +180,7 @@ function publish() {
     }
     if (latest && age >= 0 && (verified || age <= 5000)) {
         console.log('VI_NESHAN_DATA ' + wireJson({road: latest.road, meters: latest.meters,
-            type: latest.type, modifier: latest.modifier, turnIndex: latest.turnIndex, step: latest.step, ageMs: verified ? 0 : age, sourceAgeMs: age, routeActive: verified}));
+            type: latest.type, modifier: latest.modifier, turnIndex: latest.turnIndex, step: latest.step, epoch: routeEpoch, ageMs: verified ? 0 : age, sourceAgeMs: age, routeActive: verified}));
         emitted = true;
     } else if (emitted) { console.log('VI_NESHAN_CLEAR'); emitted = false; }
 }

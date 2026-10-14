@@ -25,6 +25,7 @@ internal class NeshanHookManager {
     @Volatile private var failure: String? = null
     private var pid = ""
     private var routeEnabled = false
+    private var autoUntil = 0L
     private var retryAt = 0L
     private var filesReady = false
     private var injectorPrefix: List<String>? = null
@@ -42,7 +43,7 @@ internal class NeshanHookManager {
     private var pingAt = 0L
     private var translatedSource: String? = null
     private var translatedRoad = ""
-    private data class Sample(val road: String, val meters: Int, val icon: Int, val at: Long)
+    private data class Sample(val road: String, val meters: Int, val icon: Int, val at: Long, val stepKey: String?)
     private fun now() = SystemClock.elapsedRealtime()
 
     fun start() {
@@ -60,7 +61,7 @@ internal class NeshanHookManager {
             }
         }
     }
-    @Synchronized fun command(action: String): CommandResult = try {
+    @Synchronized fun command(action: String): CommandResult { return try {
         when (action) {
             "enable" -> {
                 prepareFiles()
@@ -68,7 +69,16 @@ internal class NeshanHookManager {
                 check(File(directory, "enabled.new").renameTo(flag))
                 retryAt = 0; failure = null
             }
-            "disable" -> { check(!flag.exists() || flag.delete()); stop(); failure = null }
+            "disable" -> { check(!flag.exists() || flag.delete()); clearDisplay(); if(now() >= autoUntil) stop(); failure = null }
+            "auto-state" -> {
+                check(BridgeSubscriptionSession.vipActive) { "VIP session required" }
+                // Lease requests route data only, never OEM guidance display or saved settings.
+                autoUntil = now() + 20_000
+                val value = sample?.takeIf { routeEnabled && ready && now() - it.at in 0..5000 && it.stepKey != null }
+                val data = JSONObject().put("valid", value != null)
+                if (value != null) data.put("step", value.stepKey).put("meters", value.meters).put("sampledAt", value.at)
+                return CommandResult(0, "NESHAN_AUTO=" + data.toString())
+            }
             "status" -> Unit
             else -> error("Unsupported Neshan command")
         }
@@ -78,7 +88,7 @@ internal class NeshanHookManager {
             ready && child?.isAlive == true -> "ATTACHED"
             else -> "WAITING"
         })
-    } catch (e: Exception) { CommandResult(1, "Neshan direct setup failed: ${e.message}") }
+    } catch (e: Exception) { CommandResult(1, "Neshan direct setup failed: ${e.message}") } }
     private fun prepareFiles() {
         if (filesReady) return
         val source = File("/data/local/tmp/voyahiran-bridge/roa/frida-inject")
@@ -154,8 +164,8 @@ internal class NeshanHookManager {
     }
     private fun tick() {
         refreshConfig()
-        if (!BridgeSubscriptionSession.vipActive) { stop(); return }
-        val wantsRoute = flag.exists()
+        if (!BridgeSubscriptionSession.vipActive) { autoUntil = 0; stop(); return }
+        val wantsRoute = flag.exists() || now() < autoUntil
         if (child != null && routeEnabled != wantsRoute) { stop(); retryAt = 0 }
         if (now() >= pidCheckAt) {
             cachedPid = targetPid(); pidCheckAt = now() + 1000
@@ -190,7 +200,7 @@ internal class NeshanHookManager {
             pingAt = now() + 1000
         }
         val value = sample?.takeIf { routeEnabled && ready && now() - it.at in 0..5000 }
-        if (value != null) {
+        if (value != null && flag.exists()) {
             if (translatedSource != value.road) {
                 translatedRoad = ClusterLatinText.convert(value.road)
                 translatedSource = value.road
@@ -222,7 +232,10 @@ internal class NeshanHookManager {
                 val road = NeshanManeuver.roadLabel(type, rawRoad)
                 val turnIndex = (data.opt("turnIndex") as? Number)?.toInt()
                 val icon = NeshanManeuver.availableIcon(type, modifier, turnIndex)
-                sample = Sample(road, meters, icon, now() - age)
+                val step = (data.opt("step") as? Number)?.toInt()?.takeIf { it >= 0 }
+                val epoch = (data.opt("epoch") as? Number)?.toLong()
+                val key = if (step == null || epoch == null) null else "$pid:$epoch:$step:$type:$modifier:$turnIndex"
+                sample = Sample(road, meters, icon, now() - age, key)
                 AppLog.changed("NeshanDirectData", "step=${data.optInt("step")} type=$type modifier=$modifier meters=$meters road=$road turnIndex=$turnIndex clusterIcon=$icon")
             } catch (e: Exception) { sample = null; AppLog.changed("NeshanDirect", "invalid sample: ${e.message}") }
             else -> AppLog.changed("NeshanDirectRuntime", line.take(500))

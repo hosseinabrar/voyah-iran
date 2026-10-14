@@ -68,7 +68,7 @@ object BridgePolicy {
         if (request.size == 2 && request[0] in listOf("apollo-state", "apollo-reconcile") && request[1] in listOf("1", "2")) return request
         if (request.size == 2 && request[0] == "system-logging" && request[1] in listOf("enable", "disable", "status")) return request
         if (request == listOf("steering-back", "center")) return request
-        if (request.size == 2 && request[0] == "neshan-direct" && request[1] in listOf("enable", "disable", "status")) return request
+        if (request.size == 2 && request[0] == "neshan-direct" && request[1] in listOf("enable", "disable", "status", "auto-state")) return request
         if (request == listOf("cluster-navigation", "clear")) return request
         if (request.size == 5 && request[0] == "cluster-navigation" && request[1] == "show" &&
             request[2].isNotBlank() && request[2].toByteArray(Charsets.UTF_8).size <= 180 &&

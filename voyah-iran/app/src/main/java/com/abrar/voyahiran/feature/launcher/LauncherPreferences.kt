@@ -6,17 +6,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 object LauncherPreferences {
-    fun clusterMapVisible(c: Context) = c.getSharedPreferences("launcher",0).getBoolean("cluster_map_visible",true)
-    fun setClusterMapVisible(c: Context, value: Boolean) {
+    fun clusterMapMode(c: Context): ClusterMapMode {
+        val prefs = c.getSharedPreferences("launcher", 0)
+        val saved = prefs.getString("cluster_map_mode", null)
+        val mode = ClusterMapMode.entries.firstOrNull { it.name == saved }
+            ?: if (prefs.getBoolean("cluster_map_visible", true)) ClusterMapMode.ON else ClusterMapMode.OFF
+        return mode.effective(com.abrar.voyahiran.feature.navigation.NavigationPreferences(c).navigator ==
+            com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN)
+    }
+    fun autoClusterRequested(c: Context) = enabled(c) && clusterMap(c) && clusterMapMode(c) == ClusterMapMode.AUTO &&
+        (c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed
+    fun cycleClusterMap(c: Context) {
         check((c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed)
-        c.getSharedPreferences("launcher",0).edit().putBoolean("cluster_map_visible",value).apply()
+        val neshan = com.abrar.voyahiran.feature.navigation.NavigationPreferences(c).navigator ==
+            com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN
+        c.getSharedPreferences("launcher",0).edit().putString("cluster_map_mode",clusterMapMode(c).next(neshan).name).apply()
     }
     fun clusterMap(c: Context) = c.getSharedPreferences("launcher",0).getBoolean("cluster_map",false)
     fun setClusterMap(c: Context, value: Boolean) {
         check(!value || (c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed)
         c.getSharedPreferences("launcher",0).edit().apply {
             putBoolean("cluster_map",value)
-            if(value) putBoolean("cluster_map_visible",true)
         }.apply()
     }
     fun enabled(c: Context) = c.getSharedPreferences("launcher", 0).getBoolean("enabled", false)
