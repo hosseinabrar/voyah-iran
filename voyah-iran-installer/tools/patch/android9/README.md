@@ -9,9 +9,20 @@ This is a separate port, not an Android 11 signature bypass. Supported source:
 
 The installer pulls and verifies VDEX, reconstructs its single compact DEX, restores
 quick field/method references and removed check-casts, then writes an ordinary DEX.
-Only this reviewed VDEX is accepted. The converted DEX hash is checked as well.
+Only reviewed VDEX/DEX pairs are accepted. The converted DEX hash is checked as well.
 1,569 optimized opcodes and 1,068 quickening indices were processed. All 4,713
 original classes passed a complete disassemble/assemble/disassemble comparison.
+
+Additional reviewed H97A source (2026-10-14): OTA7.0_1030-37, SDK 28,
+supplied dump `voyah h97a 20260106`. The stripped JAR is unchanged. VDEX SHA-256:
+`664c053504beb67f977132419b2a8080b207965f958530b9366d84758ead7299`;
+reconstructed DEX SHA-256:
+`d0b537189af5389b272bebbb444f85af8d7105ff9929f923d5415979e893b931`.
+This revision has 4,714 original classes (4,718 with the four helpers). All seven
+patched original methods match the preceding source. Full output comparison retains
+the OTA's added audio class and changed activity/input/audio/transition methods.
+The old 4,713/4,717 source and reinstall paths remain accepted. This is host-side
+verification; vehicle boot and interaction testing is still required.
 
 ## Hooks
 

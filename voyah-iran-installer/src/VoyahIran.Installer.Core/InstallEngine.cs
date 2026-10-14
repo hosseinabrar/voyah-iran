@@ -124,7 +124,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             {
                 const string vdexRemote = "/system/framework/oat/arm64/services.vdex";
                 legacyVdexHash = FirstWord(await Root(30, "sha256sum", vdexRemote));
-                if (legacyVdexHash != "a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06")
+                if (!Android9Firmware.IsSupportedVdex(legacyVdexHash))
                     throw new InvalidDataException("فریم‌ور اندروید ۹ با نسخهٔ بررسی‌شده متفاوت است. فایل‌های خودرو تغییر نکردند؛ گزارش را برای پشتیبانی بفرستید.");
                 legacyVdex = Path.Combine(directory, "services.vdex");
                 await Command(90, "pull", vdexRemote, legacyVdex);

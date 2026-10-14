@@ -13,6 +13,10 @@ import com.android.tools.smali.smali.*;
 
 /** Local-only Android 9 reconstruction and exact-method patch verification. */
 class Android9Patch {
+    // Reviewed source pairs: never accept a converted DEX merely because its class count matches.
+    static final Map<String,String> REVIEWED_DEX = Map.of(
+        "a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06", "90d3c5c8fb3d7ee0e0ac11ac0fc6b996351e0fc3d02b24f2f1a12e79ae3f6138",
+        "664c053504beb67f977132419b2a8080b207965f958530b9366d84758ead7299", "d0b537189af5389b272bebbb444f85af8d7105ff9929f923d5415979e893b931");
     static final Pattern METHOD = Pattern.compile("(?ms)^\\.method ([^\\n]+)\\n.*?^\\.end method");
     static final String AM = "Lcom/android/server/am/ActivityRecord;";
     static final String DISPLAY = "Lcom/android/server/am/VoyahIranLegacyDisplay;";
@@ -106,13 +110,14 @@ class Android9Patch {
         boolean reconstructed=!entries.containsKey("classes.dex");
         if(reconstructed) {
             check(originalHash.equals("1c16f5976318fadcf7add92c518a93896f99e2a78f742b7347d8539103264882"),"Unsupported stripped JAR");
-            check(hash(vdex).equals("a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06"),"Unsupported Android 9 VDEX; no vehicle changes made");
+            String expectedDex=REVIEWED_DEX.get(hash(vdex));
+            check(expectedDex!=null,"Unsupported Android 9 VDEX; no vehicle changes made");
             H97Unquicken.main(new String[]{vdex.toString(),dex.toString()});
-            check(hash(dex).equals("90d3c5c8fb3d7ee0e0ac11ac0fc6b996351e0fc3d02b24f2f1a12e79ae3f6138"),"Reconstructed DEX differs from verified firmware");
+            check(hash(dex).equals(expectedDex),"Reconstructed DEX differs from verified firmware");
         }else Files.write(dex,entries.get("classes.dex"));
         System.out.println("ANDROID9 decoding verified framework...");
         Path source=job.resolve("source");decode(dex,source);
-        var before=classes(source);check(before.size()==4713||before.size()==4717,"Unexpected class count");
+        var before=classes(source);check(Set.of(4713,4714,4717,4718).contains(before.size()),"Unexpected class count");
         boolean already=before.containsKey("com/android/server/am/VoyahIranLegacyDisplay.smali");
         Path accepted=templates;
         if(already) for(String version:List.of("previous-v1","previous-v2","previous-welcome","previous-welcome-variant")) {
@@ -145,7 +150,7 @@ class Android9Patch {
         if(already)Files.copy(input,output);
         else {
             for(var e:expected.entrySet()){Path p=source.resolve(e.getKey());Files.createDirectories(p.getParent());Files.writeString(p,e.getValue());}
-            System.out.println("ANDROID9 assembling 4717 classes...");
+            System.out.println("ANDROID9 assembling "+expected.size()+" classes...");
             Path patchedDex=job.resolve("patched.dex");var so=new SmaliOptions();so.apiLevel=28;so.jobs=4;so.outputDexFile=patchedDex.toString();
             check(Smali.assemble(so,source.toString()),"assembly failed");
             Path verify=job.resolve("verify");decode(patchedDex,verify);var after=classes(verify);
