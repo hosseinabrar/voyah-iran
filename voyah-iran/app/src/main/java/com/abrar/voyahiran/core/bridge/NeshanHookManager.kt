@@ -77,6 +77,7 @@ internal class NeshanHookManager {
                 val value = sample?.takeIf { routeEnabled && ready && now() - it.at in 0..5000 && it.stepKey != null }
                 val data = JSONObject().put("valid", value != null)
                 if (value != null) data.put("step", value.stepKey).put("meters", value.meters).put("sampledAt", value.at)
+                    .put("speedKmh", LauncherVehicleBridge.autoMapSpeed() ?: JSONObject.NULL)
                 return CommandResult(0, "NESHAN_AUTO=" + data.toString())
             }
             "status" -> Unit

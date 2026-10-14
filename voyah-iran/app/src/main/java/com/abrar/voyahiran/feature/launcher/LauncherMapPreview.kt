@@ -51,7 +51,8 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                             org.json.JSONObject(json.removePrefix("NESHAN_AUTO=")) else null
                         if (data?.optBoolean("valid") == true) {
                             LauncherClusterMap.autoPolicy.update(data.getString("step"), data.getInt("meters"),
-                                data.getLong("sampledAt"), android.os.SystemClock.elapsedRealtime())
+                                data.getLong("sampledAt"), android.os.SystemClock.elapsedRealtime(),
+                                (data.opt("speedKmh") as? Number)?.toInt())
                         } else LauncherClusterMap.autoPolicy.reset()
                     } catch (e: CancellationException) { throw e }
                     catch (e: Exception) {

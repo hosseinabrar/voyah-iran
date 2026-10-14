@@ -12,6 +12,12 @@ enum class ClusterMapMode {
 
 /** Monotonic-clock policy; no UI, preference writes or vehicle commands. */
 internal class ClusterMapAutoPolicy {
+    companion object {
+        // Fifteen seconds of travel, bounded for slow traffic and fast roads.
+        // Missing/invalid CAN speed preserves the previous 200 m behavior.
+        internal fun triggerMeters(speedKmh: Int?): Double =
+            speedKmh?.takeIf { it in 0..300 }?.let { (it / 3.6 * 15).coerceIn(100.0, 500.0) } ?: 200.0
+    }
     private var step: String? = null
     private var visible = false
     private var near = false
@@ -20,7 +26,7 @@ internal class ClusterMapAutoPolicy {
 
     fun reset() { step = null; visible = false; near = false; hideAt = null; freshUntil = 0 }
 
-    fun update(key: String?, meters: Int, sampledAt: Long, now: Long) {
+    fun update(key: String?, meters: Int, sampledAt: Long, now: Long, speedKmh: Int? = null) {
         if (key.isNullOrBlank() || meters !in 0..1_000_000 || now - sampledAt !in 0..5000) {
             reset(); return
         }
@@ -29,7 +35,7 @@ internal class ClusterMapAutoPolicy {
         if (step != null && step != key && visible) hideAt = now + 4000
         step = key
         freshUntil = sampledAt + 5000
-        near = meters < 200
+        near = meters < triggerMeters(speedKmh)
         if (!visible && near) visible = true
         // Once triggered, distance jitter must not hide the same maneuver.
         show(now)

@@ -4,6 +4,32 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ClusterMapAutoPolicyTest {
+    @Test fun speedThresholdIsFifteenSecondsClampedTo100And500Meters() {
+        for ((speed, meters) in listOf(0 to 100.0, 20 to 100.0, 30 to 125.0, 60 to 250.0,
+            100 to (100 / 3.6 * 15), 120 to 500.0, 160 to 500.0)) {
+            assertEquals("speed=$speed", meters, ClusterMapAutoPolicy.triggerMeters(speed), 0.001)
+        }
+        for(speed in listOf(null,-1,301,Int.MAX_VALUE))
+            assertEquals(200.0,ClusterMapAutoPolicy.triggerMeters(speed),0.001)
+    }
+    @Test fun accelerationCanTriggerButDecelerationCannotHideSameTurn() {
+        val policy=ClusterMapAutoPolicy()
+        policy.update("turn",240,1000,1000,30);assertFalse(policy.show(1000))
+        policy.update("turn",240,1100,1100,60);assertTrue(policy.show(1100))
+        policy.update("turn",230,1200,1200,0);assertTrue(policy.show(1200))
+    }
+    @Test fun nextManeuverUsesCurrentSpeedAfterFourSeconds() {
+        val policy=ClusterMapAutoPolicy()
+        policy.update("first",400,1000,1000,100)
+        policy.update("next",300,1500,1500,100)
+        policy.update("next",250,5000,5000,30)
+        assertTrue(policy.show(5499));assertFalse(policy.show(5500))
+    }
+    @Test fun speedBasedBoundaryRemainsStrict() {
+        val policy=ClusterMapAutoPolicy()
+        policy.update("turn",125,1000,1000,30);assertFalse(policy.show(1000))
+        policy.update("turn",124,1100,1100,30);assertTrue(policy.show(1100))
+    }
     @Test fun cyclesDependOnNavigatorWithoutChangingSavedAuto() {
         assertEquals(ClusterMapMode.AUTO, ClusterMapMode.OFF.next(true))
         assertEquals(ClusterMapMode.ON, ClusterMapMode.AUTO.next(true))

@@ -23,11 +23,20 @@ internal object LauncherVehicleBridge {
             cached?.takeIf {SystemClock.elapsedRealtime()-it.lastRead>10000}?.let {it.close();cached=null}
         }
     },5,5,java.util.concurrent.TimeUnit.SECONDS) }
-    fun execute(op: String, value: String = ""): CommandResult = try {
-        val s=synchronized(this) {cached?.takeIf { it.binder.isBinderAlive } ?: run {
+    private fun session(): Session = synchronized(this) {cached?.takeIf { it.binder.isBinderAlive } ?: run {
             cached?.close();cached=null
             Session().also { it.start();cached=it }
         }}
+    /** Share the existing CAN subscription; no second speed reader or full dashboard poll. */
+    internal fun autoMapSpeed(): Int? = try {
+        check(BridgeSubscriptionSession.vipActive) { "VIP session required" }
+        session().cachedSpeed()
+    } catch(e:Exception) {
+        AppLog.changed("ClusterMapAuto", "Speed unavailable: ${e.message}")
+        null
+    }
+    fun execute(op: String, value: String = ""): CommandResult = try {
+        val s=session()
         if(op == "read" || op == "watch") CommandResult(0,s.readAll(if(op=="watch")value.toLongOrNull() else null).toString()) else {
             check(BridgeSubscriptionSession.active) { "Subscription inactive" }
             when(op) {
@@ -155,6 +164,11 @@ internal object LauncherVehicleBridge {
             synchronized(lock){lock.notifyAll()}
             runCatching {binder.unlinkToDeath(death,0)}
             if(wasListening)runCatching {api.getMethod("removeCallback",callbackType).invoke(remote,callback)}
+        }
+        fun cachedSpeed():Int? = synchronized(lock) {
+            check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
+            lastRead=SystemClock.elapsedRealtime()
+            values["speed"]?.takeIf {it in 0..300}
         }
         fun readAll(after:Long?=null):JSONObject {
             check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
