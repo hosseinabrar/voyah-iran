@@ -22,14 +22,16 @@ const panel={mThemeId:{value:4},mViewType:{value:0},children:[original],getConte
  addView(v){this.children.push(v);v.parent=this},removeView(v){this.children=this.children.filter(c=>c!==v);v.parent=null},
  equals(p){return p===this},$dispose(){}};
 const windowBackground={$dispose(){}};
-const window={background:windowBackground,getDecorView(){return {getBackground:()=>this.background}},
+const window={attrs:{alpha:{value:.85}},writes:0,equals(w){return w===this},
+ getAttributes(){return this.attrs},setAttributes(a){this.attrs=a;this.writes++},background:windowBackground,getDecorView(){return {getBackground:()=>this.background}},
  setBackgroundDrawable(v){this.background=v},setBackgroundDrawableResource(id){assert.equal(id,17170445);this.background=null},$dispose(){}};
 const activity={panelMusicView:{value:panel},getWindow:()=>window,isFinishing:()=>false,isDestroyed:()=>false};
 const hook={call(self,theme){self.mThemeId.value=theme;return 'original-result'}};
+const createHook={call(self){classes['com.qinggan.instrumentcard.ScreenActivity'].screenActivity.value=self;return 'created'}};
 const classes={
  'android.text.TextUtils$TruncateAt':{END:{value:'end'}},
  'com.qinggan.cardview.panel.media.PanelView':{onThemeChanged:{overload:()=>hook}},
- 'com.qinggan.instrumentcard.ScreenActivity':{screenActivity:{value:activity}},
+ 'com.qinggan.instrumentcard.ScreenActivity':{screenActivity:{value:activity},onCreate:{overload:()=>createHook}},
  'android.view.LayoutInflater':{from:()=>({inflate(id){
    layouts.push(id);const fields={};
    ['music_tv_title','music_tv_song_name','music_tv_artist_name','music_iv_cover','music_iv_type','music_iv_stop','music_progress','music_tv_play_time','music_tv_total_time'].forEach(k=>fields[k]=widget());
@@ -71,13 +73,30 @@ assert.equal(current.fields.music_tv_song_name.text,'We Don’t Talk Anymore');
 assert.equal(current.fields.music_tv_song_name.textWrites,1,'New theme must populate fresh views');
 assert.equal(layouts.at(-1),'layout_panel_media_music_simple_view');
 sandbox.rpc.exports.onFridaStdin('clear');assert.equal(panel.children.length,1);assert.equal(original.visibility,4);
-sandbox.rpc.exports.onFridaStdin('map');assert.equal(panel.visibility,4,'Hide empty OEM placeholder without a music frame');
-assert.equal(window.background,null,'Map alpha must not reveal the OEM light window background');
-now+=1000;sandbox.rpc.exports.onFridaStdin('map');assert.equal(panel.visibility,4);
+sandbox.rpc.exports.onFridaStdin('map');assert.equal(window.attrs.alpha.value,0,'Hide the whole OEM window without a music frame');
+assert.equal(window.background,windowBackground,'Do not mutate OEM backgrounds');
+const writes=window.writes;
+now+=1000;sandbox.rpc.exports.onFridaStdin('map');assert.equal(window.attrs.alpha.value,0);
+assert.equal(window.writes,writes,'Heartbeats must not rewrite window properties');
+// OEM source/theme events can show a panel and replace its background while hidden.
+panel.setVisibility(0);window.background={sourceChanged:true};
+hook.implementation.call(panel,4,true);
+assert.equal(window.attrs.alpha.value,0,'Source/theme updates cannot show anything underneath the mask');
+assert.equal(panel.children.length,1,'No custom music layout behind map');
+const replacementWindow={...window,attrs:{alpha:{value:1}},writes:0};
+const replacementActivity={...activity,getWindow:()=>replacementWindow};
+assert.equal(createHook.implementation.call(replacementActivity,null),'created');
+assert.equal(window.attrs.alpha.value,.85,'Old window restored when activity replaced');
+assert.equal(replacementWindow.attrs.alpha.value,0,'New window hidden synchronously before first draw');
+classes['com.qinggan.instrumentcard.ScreenActivity'].screenActivity.value=activity;
+sandbox.rpc.exports.onFridaStdin('map');
+assert.equal(replacementWindow.attrs.alpha.value,1,'Replacement restored when released');
 sandbox.rpc.exports.onFridaStdin('clear');assert.equal(panel.visibility,0,'Restore empty OEM state when map ends');
-assert.equal(window.background,windowBackground,'Restore original window background after map');
+assert.equal(window.attrs.alpha.value,.85,'Restore exact prior window opacity after map');
+assert.equal(window.background.sourceChanged,true,'Preserve the latest OEM source background');
 sandbox.rpc.exports.onFridaStdin('map');now+=6000;intervals[0]();assert.equal(panel.visibility,0,'Expired map lease restores panel');
-assert.equal(window.background,windowBackground,'Expired lease restores window background');
+assert.equal(window.attrs.alpha.value,.85,'Expired lease restores window opacity');
+hook.implementation.call(panel,1,true);
 // Map toggles keep this adapter loaded: clear and resume repeatedly without reinitializing.
 for(let toggle=0;toggle<5;toggle++) {
  send({...frame,at:now});
@@ -90,5 +109,5 @@ for(let toggle=0;toggle<5;toggle++) {
 send({...frame,playing:false,cover:'',at:now});current=panel.children[1];now+=2000;intervals[0]();
 assert.equal(current.fields.music_progress.percent,.3);assert.equal(current.fields.music_iv_cover.bitmap,null);
 now+=4000;intervals[0]();assert.equal(panel.children.length,1);assert.equal(original.visibility,4);
-send({...frame,at:now});sandbox.rpc.exports.dispose();assert.equal(panel.children.length,1);assert.equal(hook.implementation,null);
+send({...frame,at:now});sandbox.rpc.exports.dispose();assert.equal(panel.children.length,1);assert.equal(hook.implementation,null);assert.equal(createHook.implementation,null);
 console.log('Cluster music: OEM layouts, themes, pause, missing cover, release, lease expiry and disposal passed');

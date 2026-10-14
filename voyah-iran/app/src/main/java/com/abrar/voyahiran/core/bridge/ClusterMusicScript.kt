@@ -4,16 +4,18 @@ internal object ClusterMusicScript {
 val source = """
 'use strict';
 // Inflate the installed ROM's own layouts in its own process/class loader. All factory
-// children continue receiving their normal data; only their visibility is temporarily masked.
-let latest = null, received = 0, mounted = null, themeHook = null, stopped = false;
-let mapMode = false, hiddenPanel = null;
-function restorePanel() {
-    if (!hiddenPanel) return;
-    const old=hiddenPanel; hiddenPanel=null;
-    old.view.setVisibility(old.visibility);
-    old.window.setBackgroundDrawable(old.background);
-    if (old.background) old.background.${'$'}dispose();
-    old.window.${'$'}dispose(); old.view.${'$'}dispose();
+// children continue receiving their normal data; only the OEM window is temporarily hidden while the map owns the output.
+let latest = null, received = 0, mounted = null, themeHook = null, createHook = null, stopped = false;
+let mapMode = false, hiddenWindow = null;
+function restoreWindow() {
+    if (!hiddenWindow) return;
+    const old=hiddenWindow; hiddenWindow=null;
+    try {
+        const attrs=old.window.getAttributes();
+        attrs.alpha.value=old.alpha;
+        old.window.setAttributes(attrs);
+        console.log('VI_CLUSTER_MUSIC_WINDOW restored');
+    } finally { old.window.${'$'}dispose(); }
 }
 let Panel, Screen, View, ViewGroup, TextView, ImageView, ProgressBar, Inflater, Base64, BitmapFactory, Clock;
 function restore() {
@@ -50,22 +52,26 @@ function render() {
     if (mapMode && !stopped && Date.now()-received<=5000) {
         restore();
         const activity=Screen.screenActivity.value;
-        const panel=activity && !activity.isDestroyed() ? activity.panelMusicView.value : null;
-        if (hiddenPanel && (!panel || !hiddenPanel.view.equals(panel))) restorePanel();
-        if (panel) {
-            if (!hiddenPanel) {
-                const window=activity.getWindow(), background=window.getDecorView().getBackground();
-                hiddenPanel={view:Java.retain(panel),visibility:panel.getVisibility(),
-                    window:Java.retain(window),background:background ? Java.retain(background) : null};
+        const window=activity && !activity.isDestroyed() ? activity.getWindow() : null;
+        if (hiddenWindow && (!window || !hiddenWindow.window.equals(window))) restoreWindow();
+        if (window) {
+            const attrs=window.getAttributes();
+            if (!hiddenWindow) {
+                hiddenWindow={window:Java.retain(window),alpha:attrs.alpha.value};
+                console.log('VI_CLUSTER_MUSIC_WINDOW suppressed for map');
             }
-            // The OEM translucent activity inherits a light window background. Hiding
-            // only its media panel exposes that white layer through the map's alpha.
-            hiddenPanel.window.setBackgroundDrawableResource(17170445); // android.R.color.transparent
-            panel.setVisibility(4); // Invisible: no placeholder, text or cover under map alpha.
+            // Suppress the entire OEM layer, including its decor background. Hiding
+            // PanelView alone leaves other window pixels underneath our alpha mask.
+            // Do not replace backgrounds on every heartbeat: OEM theme/source changes
+            // may rebuild their views, but none can escape a zero-alpha window.
+            if (attrs.alpha.value !== 0) {
+                attrs.alpha.value=0;
+                window.setAttributes(attrs);
+            }
         }
         return;
     }
-    restorePanel();
+    restoreWindow();
     if (stopped || !latest || Date.now() - received > 5000) { restore(); return; }
     const activity = Screen.screenActivity.value;
     if (!activity || activity.isFinishing() || activity.isDestroyed()) { restore(); return; }
@@ -149,7 +155,7 @@ rpc.exports = {
         else { try { latest=JSON.parse(line);received=Date.now(); } catch(e) { latest=null; } }
         update();
     },
-    dispose: function() { stopped=true; Java.perform(function() { if(themeHook) themeHook.implementation=null; update(); }); }
+    dispose: function() { stopped=true; Java.perform(function() { if(themeHook) themeHook.implementation=null; if(createHook) createHook.implementation=null; update(); }); }
 };
 Java.perform(function() {
     try {
@@ -163,6 +169,13 @@ Java.perform(function() {
         themeHook.implementation=function(theme, force) {
             restore(); const result=themeHook.call(this,theme,force);
             try { render(); } catch(e) { latest=null; restore(); console.log('VI_CLUSTER_MUSIC_ERROR ' + (e.stack || e)); }
+            return result;
+        };
+        createHook=Screen.onCreate.overload('android.os.Bundle');
+        createHook.implementation=function(state) {
+            const result=createHook.call(this,state);
+            // A replacement OEM activity must be hidden before its first frame.
+            try { render(); } catch(e) { console.log('VI_CLUSTER_MUSIC_ERROR ' + (e.stack || e)); }
             return result;
         };
         console.log('VI_CLUSTER_MUSIC_READY');
