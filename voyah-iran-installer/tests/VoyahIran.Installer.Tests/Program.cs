@@ -60,6 +60,13 @@ var previewIds = LauncherInstallPreparation.PreviewDisplays("mBaseDisplayInfo=Di
 Check(previewIds.SetEquals(new[] { 7 }), "Only owned preview display selected");
 var previewPackages = LauncherInstallPreparation.PreviewPackages("Stack id=1 bounds=[0,0][1920,720] displayId=0 userId=0\n taskId=2: user.central/.Main\nStack id=3 bounds=[0,0][800,600] displayId=7 userId=0\n taskId=4: org.rajman.neshan/.Main\nStack id=5 bounds=[0,0][1920,720] displayId=1 userId=0\n taskId=6: user.passenger/.Main", previewIds);
 Check(previewPackages.SetEquals(new[] { "org.rajman.neshan" }), "Cleanup excludes central and passenger applications");
+foreach (var anchor in new[] { "com.abrar.voyahiran.feature.launcher.LauncherMapAnchorActivity", ".feature.launcher.LauncherMapAnchorActivity" })
+    Check(LauncherInstallPreparation.PreviewPackages("Stack id=1634 displayId=7\n taskId=1634: com.abrar.voyahiran/" + anchor + " bounds=[0,0][871,654] visible=false", previewIds).Count == 0, "Owned anchor is retained until owner termination");
+foreach (var invalid in new[] { "com.abrar.voyahiran/.OtherActivity", "com.abrar.voyahiran/.feature.launcher.LauncherMapAnchorActivityExtra", "???" }) {
+    var rejected = false;
+    try { LauncherInstallPreparation.PreviewPackages("Stack id=8 displayId=7\n taskId=8: " + invalid, previewIds); } catch (IOException) { rejected = true; }
+    Check(rejected, "Unknown preview task remains fail-closed: " + invalid);
+}
 var badDisplayRejected = false;
 try { LauncherInstallPreparation.PreviewDisplays("DisplayInfo{\"VoyahIran.MapPreview\", displayId 0, owner other.app}"); }
 catch (IOException) { badDisplayRejected = true; }
@@ -78,6 +85,10 @@ string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread
 names = names.Concat(Android9FrameworkAssets.RequiredFiles).ToArray();
         names = names.Concat(new[] { "patch/display/legacy-merge-virtual/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-merge-virtual/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-merge-virtual/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-merge-virtual/VoyahIranDisplayPolicy.smali", "patch/display/legacy-merge-production/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-merge-production/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-merge-production/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-merge-production/VoyahIranDisplayPolicy.smali" }).ToArray();
 names = names.Concat(new[] { "legacy-welcome", "legacy-welcome-variant" }.SelectMany(dir => new[] { "VoyahIranDisplayPolicy.smali", "VoyahIranDisplayPolicy$1.smali", "VoyahIranDisplayPolicy$1$1.smali", "VoyahIranDisplayPolicy$2.smali" }.Select(file => "patch/display/" + dir + "/" + file))).Distinct().ToArray();
+names = names.Concat(names.Where(p => p.StartsWith("patch/display/legacy-merge-production/", StringComparison.Ordinal))
+    .Select(p => p.Replace("legacy-merge-production/", "legacy-before-passenger/")))
+    .Concat(Android9FrameworkAssets.RequiredFiles.Where(p => p.StartsWith("patch/android9/previous-merge-production/", StringComparison.Ordinal))
+    .Select(p => p.Replace("previous-merge-production/", "previous-before-passenger/"))).Distinct().ToArray();
 var sourceRoot = new DirectoryInfo(AppContext.BaseDirectory);
 while (sourceRoot != null && !Directory.Exists(Path.Combine(sourceRoot.FullName, "tools", "patch", "android9"))) sourceRoot = sourceRoot.Parent;
 if (sourceRoot != null)
@@ -142,7 +153,7 @@ foreach (var mode in new[] { "preview", "preview-stuck" }) {
     var appStop = fake.Calls.FindIndex(c => c.Contains("force-stop") && c.Contains("com.abrar.voyahiran"));
     Check(mapStop >= 0, "Embedded map stopped before display owner: " + mode);
     Check(mode == "preview" ? !failed && appStop > mapStop : failed && appStop == -1 && !fake.Calls.Any(c=>c[0]=="install"), "Preview cleanup verified before owner termination: " + mode);
-    Check(fake.Calls.Any(c=>c.Any(a=>a.Contains("kill -CONT"))), "Suspension always cleaned up: " + mode);
+    Check(fake.Calls.Any(c=>c.Count == 2 && c[0] == "shell" && c[1].StartsWith("for p in $(pidof com.abrar.voyahiran);") && c[1].Contains("kill -CONT 2749")), "Suspension cleaned up through one remote shell script: " + mode);
 }
 foreach (var failure in new[] { "apk-storage-transient", "apk-storage-persistent" })
 {
@@ -318,7 +329,9 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
         if (failure.StartsWith("preview")) {
             if (args.Contains("dumpsys") && args.Contains("display")) return Task.FromResult(new CommandResult(0, "DisplayInfo{\"VoyahIran.MapPreview\", displayId 7, owner com.abrar.voyahiran (uid 10055)}"));
             if (args.Contains("pidof")) return Task.FromResult(new CommandResult(0, "2749"));
-            if (args.Contains("stack") && args.Contains("list")) return Task.FromResult(new CommandResult(0, failure == "preview-stuck" || !Calls.Any(c=>c.Contains("force-stop") && c.Contains("org.rajman.neshan")) ? "Stack id=3 bounds=[0,0][800,600] displayId=7 userId=0\n taskId=4: org.rajman.neshan/.Main" : "Stack id=1 bounds=[0,0][1920,720] displayId=0 userId=0"));
+            if (args.Contains("stack") && args.Contains("list")) return Task.FromResult(new CommandResult(0,
+                "Stack id=8 bounds=[0,0][871,654] displayId=7 userId=0\n taskId=8: com.abrar.voyahiran/com.abrar.voyahiran.feature.launcher.LauncherMapAnchorActivity bounds=[0,0][871,654] userId=0 visible=false\n" +
+                (failure == "preview-stuck" || !Calls.Any(c=>c.Contains("force-stop") && c.Contains("org.rajman.neshan")) ? "Stack id=3 bounds=[0,0][800,600] displayId=7 userId=0\n taskId=4: org.rajman.neshan/.Main" : "Stack id=1 bounds=[0,0][1920,720] displayId=0 userId=0")));
         }
         string text = ""; var exit = 0;
         if (args[0] == "devices") text = "CAR device";

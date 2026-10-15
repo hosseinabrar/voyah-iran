@@ -31,8 +31,16 @@ public static class LauncherInstallPreparation
             else if (selected && line.Contains("taskId="))
             {
                 var task = Regex.Match(line, @"\btaskId=\d+:\s+([A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)+)(?:/|\s|$)");
-                if (!task.Success || task.Groups[1].Value == "com.abrar.voyahiran")
+                if (!task.Success)
                     throw new IOException("Cannot identify application on launcher preview display.");
+                if (task.Groups[1].Value == "com.abrar.voyahiran")
+                {
+                    // The anchor belongs to the display owner, not to the hosted map.
+                    // Keep it alive until external map tasks have been removed.
+                    if (!Regex.IsMatch(line, @"\btaskId=\d+:\s+com\.abrar\.voyahiran/(?:com\.abrar\.voyahiran)?\.feature\.launcher\.LauncherMapAnchorActivity(?:\s|$)"))
+                        throw new IOException("Unexpected launcher activity on preview display.");
+                    continue;
+                }
                 packages.Add(task.Groups[1].Value);
             }
         }

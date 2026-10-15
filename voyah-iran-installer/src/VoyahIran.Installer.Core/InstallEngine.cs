@@ -49,7 +49,9 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         {
             foreach (var pid in suspended)
             {
-                try { await Root(15, "/system/bin/sh", "-c", $"for p in $(pidof com.abrar.voyahiran); do if [ \"$p\" = \"{pid}\" ]; then kill -CONT {pid}; fi; done"); }
+                // adb shell already invokes the remote shell. A nested sh -c loses
+                // the script boundary when adb joins its arguments on the device.
+                try { await Root(15, $"for p in $(pidof com.abrar.voyahiran); do if [ \"$p\" = \"{pid}\" ]; then kill -CONT {pid}; fi; done"); }
                 catch (Exception e) { log.Write($"Launcher resume check failed: {e.Message}"); }
             }
         }
