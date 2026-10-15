@@ -27,6 +27,7 @@ internal class PassengerClimateView(context: Context) : View(context) {
     private fun color(hex:String)=Color.parseColor(hex)
     private val foreground get()=color(if(light)"#303b4a" else "#ffffff")
     private val secondary get()=color(if(light)"#71839e" else "#bec9e2")
+    private val lightBackground get()=color("#c7d7e6") // Silver-blue, deliberately distinct from white cards.
     private fun bitmap(name:String):Bitmap?=images[name] ?: PassengerArtworkCache.get(context,"passenger/oem-ac/$name.png",this)?.also{images[name]=it}
     private fun image(c:Canvas,name:String,rect:RectF,tint:Int?=null,cover:Boolean=false){
         val b=bitmap(name) ?: return;val s=if(cover)max(rect.width()/b.width,rect.height()/b.height) else minOf(rect.width()/b.width,rect.height()/b.height)
@@ -42,12 +43,12 @@ internal class PassengerClimateView(context: Context) : View(context) {
     override fun onDraw(c:Canvas){
         super.onDraw(c);c.save();c.scale(width/770f,height/370f)
         c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,770f,370f),16f,16f,Path.Direction.CW)})
-        c.drawColor(color(if(light)"#d6e1ed" else "#14191e"))
+        c.drawColor(if(light)lightBackground else color("#14191e"))
         // These are the approved, composed artworks. Do not replace a composed
         // light background with the raw OEM drawable of a different geometry.
         image(c,if(light)"cabin-day-fade-v2" else "air_bg_h97c",RectF(0f,0f,770f,370f),cover=true)
         if(light){
-            val base=color("#d6e1ed")
+            val base=lightBackground
             fun fade(x0:Float,y0:Float,x1:Float,y1:Float,alphas:IntArray,stops:FloatArray){
                 paint.shader=LinearGradient(x0,y0,x1,y1,alphas.map{(base and 0xffffff) or (it shl 24)}.toIntArray(),stops,Shader.TileMode.CLAMP)
                 c.drawRect(0f,0f,770f,370f,paint);paint.shader=null
@@ -62,11 +63,12 @@ internal class PassengerClimateView(context: Context) : View(context) {
         val syncRect=RectF(55f,240f,166f,273.5f)
         if(light)pill(c,syncRect,color(if(sync)"#cee3fb" else "#dce5f2"))
         else image(c,if(sync)"air_ic_sync_on_normal" else "air_ic_sync_off_normal",syncRect)
-        text(c,"SYNC",110.5f,263f,17.65f,if(sync)color("#389cff") else color(if(light)"#536780" else "#bfc9de"),true)
+        text(c,"Front Sync",110.5f,263f,17.65f,if(sync)color("#389cff") else color(if(light)"#536780" else "#bfc9de"),true)
         val fan=if(valid("getAirWindSpeed",0..7))value("getAirWindSpeed") else 0
         val inactive=if(light)color("#718096") else Color.WHITE
-        image(c,"air_ic_wind_min",RectF(191f,232f,249f,290f),if(light)inactive else null)
-        image(c,"air_ic_wind_max",RectF(501f,232f,559f,290f),if(light)inactive else null)
+        // Optical alignment with the fan bars (y=257), not the OEM PNG bounds.
+        image(c,"air_ic_wind_min",RectF(191f,228f,249f,286f),if(light)inactive else null)
+        image(c,"air_ic_wind_max",RectF(501f,228f,559f,286f),if(light)inactive else null)
         for(i in 0..6){paint.color=if(i<fan)color("#389cff") else inactive;c.drawRoundRect(RectF(267f+i*35.8f,249f,273f+i*35.8f,265f),3f,3f,paint)}
         for(group in 0..2){val r=RectF(51f+group*226f,301f,266f+group*226f,351f)
             if(light)pill(c,r,color("#dce5f2")) else image(c,"air_bg_operation",r)
@@ -84,11 +86,11 @@ internal class PassengerClimateView(context: Context) : View(context) {
         fun number(v:Int?,baseline:Float,size:Float,tint:Int){
             val whole=when(v){null->"—";305->"Hi";155->"Lo";else->(v/10).toString()}
             text(c,whole,x,baseline,size,tint)
-            if(v!=null&&v%10==5&&v!=305&&v!=155){val width=paint.measureText(whole);text(c,".5",x+width,baseline,size*.46f,tint)}
+            if(v!=null&&v!=305&&v!=155){val width=paint.measureText(whole);text(c,".${v%10}",x+width,baseline,size*.46f,tint)}
         }
         number(n?.plus(5)?.takeIf{it<=305},107f,32f,if(light)color("#929eae") else color("#74777a"))
         number(n,171f,48.3f,foreground)
-        val unitOffset=if(n!=null&&n%10==5&&n!=155&&n!=305)84f else 64f
+        val unitOffset=if(n!=null&&n!=155&&n!=305)84f else 64f
         text(c,"℃",x+unitOffset,162f,24.8f,if(light)color("#47566c") else color("#dddddd"))
         number(n?.minus(5)?.takeIf{it>=155},219f,32f,if(light)color("#718096") else color("#74777a"))
     }
@@ -117,7 +119,7 @@ internal class PassengerClimateView(context: Context) : View(context) {
                 }else if(abs(x-downX)<25&&abs(y-downY)<25){
                     when{
                         y in 235f..280f&&x in 55f..166f&&valid("getAirDUALStatus",0..1)->onCommand("sync",if(value("getAirDUALStatus")==0)"0" else "1")
-                        y in 232f..290f&&x in 191f..559f&&valid("getAirWindSpeed",0..7)->{
+                        y in 228f..286f&&x in 191f..559f&&valid("getAirWindSpeed",0..7)->{
                             val n=if(x<249)value("getAirWindSpeed")-1 else if(x>501)value("getAirWindSpeed")+1 else ((x-252)/250*7).roundToInt()
                             onCommand("fan",n.coerceIn(0,7).toString())
                         }
