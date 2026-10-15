@@ -29,6 +29,8 @@ class PassengerLauncherActivity : ComponentActivity() {
     private lateinit var web:WebView
     private lateinit var climate:PassengerClimateView
     private lateinit var fragrance:PassengerFragranceView
+    private lateinit var favoriteCard:PassengerFavoritesView
+    private var appPicker:android.app.Dialog?=null
     private lateinit var surface:android.widget.FrameLayout
     private var ready=false
     private var visible=false
@@ -62,6 +64,12 @@ class PassengerLauncherActivity : ComponentActivity() {
         web=WebView(this)
         climate=PassengerClimateView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         fragrance=PassengerFragranceView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
+        favoriteCard=PassengerFavoritesView(this).apply {
+            onOpen={if(allowed())command("open",it)}
+            onAllApps={if(allowed())command("allApps","")}
+            onSave={if(allowed())command("favorites",JSONArray(it).toString())}
+            onPick={if(allowed())showAppPicker(it)}
+        }
         web.settings.apply {javaScriptEnabled=true;allowFileAccess=false;allowContentAccess=false;domStorageEnabled=false;javaScriptCanOpenWindowsAutomatically=false;setSupportMultipleWindows(false);mixedContentMode=WebSettings.MIXED_CONTENT_NEVER_ALLOW}
         web.addJavascriptInterface(Commands(),"Passenger")
         web.webViewClient=object:WebViewClient() {
@@ -78,13 +86,14 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             override fun onPageFinished(v:WebView,url:String) {
                 if(url!="https://passenger.local/${if(light)"light" else "dark"}.html")return
-                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
+                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
             }
         }
         surface=android.widget.FrameLayout(this)
         surface.addView(web,android.widget.FrameLayout.LayoutParams(-1,-1))
         surface.addView(climate,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(fragrance,android.widget.FrameLayout.LayoutParams(1,1))
+        surface.addView(favoriteCard,android.widget.FrameLayout.LayoutParams(1,1))
         listOf(climate,fragrance).forEach {card->card.setOnTouchListener {_,event->
             if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN)web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)
             false
@@ -104,17 +113,46 @@ class PassengerLauncherActivity : ComponentActivity() {
             fragrance.layoutParams=android.widget.FrameLayout.LayoutParams((770*sx).toInt(),(280*sy).toInt()).apply {
                 leftMargin=(5*sx).toInt();topMargin=((432-top)*sy).toInt()
             }
+            favoriteCard.layoutParams=android.widget.FrameLayout.LayoutParams((546*sx).toInt(),(662*sy).toInt()).apply {
+                leftMargin=(793*sx).toInt();topMargin=((50-top)*sy).toInt()
+            }
         }
-        onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)}})
+        onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){favoriteCard.dismissEdit();web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)}})
         val filter=IntentFilter("theme_loaded").apply {addAction("android.media.VOLUME_CHANGED_ACTION")}
         if(android.os.Build.VERSION.SDK_INT>=33)registerReceiver(changes,filter,Context.RECEIVER_EXPORTED) else registerReceiver(changes,filter)
         applyTheme(true)
     }
     private fun emptyResponse()=WebResourceResponse("text/plain","UTF-8",ByteArrayInputStream(byteArrayOf()))
+    override fun dispatchTouchEvent(event:android.view.MotionEvent):Boolean {
+        if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN&&::favoriteCard.isInitialized){
+            val bounds=android.graphics.Rect();favoriteCard.getGlobalVisibleRect(bounds)
+            if(!bounds.contains(event.rawX.toInt(),event.rawY.toInt()))favoriteCard.dismissEdit()
+        }
+        return super.dispatchTouchEvent(event)
+    }
+    private fun showAppPicker(slot:Int){
+        appPicker?.dismiss()
+        val scale=web.width/1920f
+        val dialog=android.app.Dialog(this)
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.setContentView(PassengerAppPickerView(this,favoriteCard.availableApps(),light,scale){id->
+            if(allowed())favoriteCard.select(slot,id)
+            dialog.dismiss()
+        })
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setOnDismissListener{if(appPicker===dialog)appPicker=null}
+        appPicker=dialog;dialog.show()
+        dialog.window?.apply{
+            setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
+            setLayout((800*scale).toInt(),(540*scale).toInt())
+            addFlags(android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            attributes=attributes.apply{dimAmount=.45f;windowAnimations=android.R.style.Animation_Dialog}
+        }
+    }
     private fun applyTheme(force:Boolean=false) {
         val next=LauncherTheme.isLight();if(!force && next==light)return
         val fading=ready
-        light=next;climate.light=next;fragrance.light=next;ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
+        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;appPicker?.dismiss();ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
         web.animate().cancel()
         val load={if(!isDestroyed && light==next)web.loadUrl("https://passenger.local/${if(next)"light" else "dark"}.html")}
         if(fading)web.animate().alpha(0f).setDuration(160).withEndAction {load()}.start()
@@ -147,7 +185,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         }
         guard=lifecycleScope.launch {while(isActive){delay(1000);if(!allowed()){finish();break};applyTheme()}}
     }
-    override fun onStop(){visible=false;watch?.cancel();watch=null;guard?.cancel();guard=null;unobserve?.invoke();unobserve=null;weather.stop();mediaObserver.stop();web.evaluateJavascript("window.passenger&&passenger.visibility(false)",null);web.onPause();super.onStop()}
+    override fun onStop(){favoriteCard.dismissEdit();appPicker?.dismiss();visible=false;watch?.cancel();watch=null;guard?.cancel();guard=null;unobserve?.invoke();unobserve=null;weather.stop();mediaObserver.stop();web.evaluateJavascript("window.passenger&&passenger.visibility(false)",null);web.onPause();super.onStop()}
     override fun onDestroy(){ready=false;visible=false;unobserve?.invoke();unobserve=null;coverJob?.cancel();unregisterReceiver(changes);web.removeJavascriptInterface("Passenger");web.destroy();super.onDestroy()}
     override fun onConfigurationChanged(config:android.content.res.Configuration){super.onConfigurationChanged(config);applyTheme()}
     private inner class Commands {
@@ -193,10 +231,10 @@ class PassengerLauncherActivity : ComponentActivity() {
     }
     private var catalogJob:Job?=null
     private fun publishApps() {
-        if(catalog.isEmpty())return
         val saved=runCatching {JSONArray(favorites.getString("ids",null))}.getOrNull()
         val ids=if(saved!=null)(0..4).map {saved.optString(it).takeIf {id->catalog.any {e->e.id==id}}.orEmpty()} else catalog.take(5).map {it.id}.let {it+List(5-it.size){""}}
-        if(saved==null)favorites.edit().putString("ids",JSONArray(ids).toString()).apply()
+        if(saved==null&&catalog.isNotEmpty())favorites.edit().putString("ids",JSONArray(ids).toString()).apply()
+        favoriteCard.bind(catalog,ids);appPicker?.dismiss()
         catalogJob?.cancel();val items=catalog
         catalogJob=lifecycleScope.launch {val rows=withContext(Dispatchers.Default){JSONArray().also {a->items.forEach {e->
             val key="app-"+e.id.hashCode();e.icon?.constantState?.newDrawable(resources)?.let {d->val b=Bitmap.createBitmap(128,128,Bitmap.Config.ARGB_8888);d.setBounds(0,0,128,128);d.draw(Canvas(b));pictures[key]=png(b);b.recycle()}
