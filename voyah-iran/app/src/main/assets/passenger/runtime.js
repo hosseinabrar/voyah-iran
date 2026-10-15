@@ -66,7 +66,7 @@ new MutationObserver(()=>send('nativeOverlay',String(!!document.querySelector('.
 function mediaPaint(s){media=s;mediaAt=performance.now();$('.track-title').textContent=s.title||'Music';$('.track-artist').textContent=s.artist||'';image($('.album-cover'),s.cover||'');image($('.music-source'),s.source||'');pressed($('.play-pause'),s.playing);$('.play-pause i').className='transport '+(s.playing?'pause':'play');$('.song-progress input').disabled=!s.seek;progress();}
 function clock(ms){const n=Math.floor((ms||0)/1000);return Math.floor(n/60)+':'+String(n%60).padStart(2,'0');}
 function progress(){if(document.hidden)return;const n=Math.min(media.duration||0,(media.position||0)+(media.playing?performance.now()-mediaAt:0)),input=$('.song-progress input');input.max=media.duration||1;input.value=n;input.style.setProperty('--played',(100*n/(media.duration||1))+'%');$('.elapsed').textContent=clock(n);$('.song-times span:last-child').textContent=clock(media.duration);}
-function visibility(on){visible=on;clearInterval(progressTimer);progressTimer=null;clearTimeout(animationTimer);animationTimer=null;if(on){progressTimer=setInterval(progress,1000);animation();}else dismiss();}
+function visibility(on){visible=on;clearInterval(progressTimer);progressTimer=null;clearTimeout(animationTimer);animationTimer=null;if(on){if(!window.passengerNativeMusic)progressTimer=setInterval(progress,1000);animation();}else dismiss();}
 visibility(true);$('.song-progress input').onchange=e=>send('seek',e.target.value);
 all('.music-controls button').forEach((b,i)=>b.onclick=()=>send('media',['previous','play','next'][i]));$('.album-wrap').onclick=()=>send('source');$('.volume-mute').onclick=()=>send('mute');
 let volumeTimer=null,volumeDragging=false,requestedVolume=0;

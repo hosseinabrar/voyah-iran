@@ -32,6 +32,10 @@ class PassengerLauncherActivity : ComponentActivity() {
     private lateinit var favoriteCard:PassengerFavoritesView
     private lateinit var weatherCard:PassengerWeatherView
     private lateinit var seatsCard:PassengerSeatsView
+    private lateinit var musicCard:PassengerMusicView
+    private var musicCover:Bitmap?=null
+    private var mediaCoverReference:Bitmap?=null
+    private val musicArtwork by lazy {LauncherArtwork(this)}
     private var appPicker:android.app.Dialog?=null
     private lateinit var surface:android.widget.FrameLayout
     private var ready=false
@@ -64,6 +68,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         web=WebView(this)
         weatherCard=PassengerWeatherView(this)
+        musicCard=PassengerMusicView(this).apply {onCommand={kind,value->if(allowed())runCatching{command(kind,value)}.onFailure{error(it)}}}
         seatsCard=PassengerSeatsView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         climate=PassengerClimateView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         fragrance=PassengerFragranceView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
@@ -89,7 +94,7 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             override fun onPageFinished(v:WebView,url:String) {
                 if(url!="https://passenger.local/${if(light)"light" else "dark"}.html")return
-                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';document.querySelector('.weather-card').style.display='none';document.querySelector('.seat').style.display='none';window.passengerNativeSeats=true;passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
+                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';document.querySelector('.weather-card').style.display='none';document.querySelector('.seat').style.display='none';document.querySelector('.music-card').style.display='none';window.passengerNativeSeats=true;window.passengerNativeMusic=true;passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
             }
         }
         surface=android.widget.FrameLayout(this)
@@ -99,6 +104,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         surface.addView(favoriteCard,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(weatherCard,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(seatsCard,android.widget.FrameLayout.LayoutParams(1,1))
+        surface.addView(musicCard,android.widget.FrameLayout.LayoutParams(1,1))
         listOf(climate,fragrance).forEach {card->card.setOnTouchListener {_,event->
             if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN)web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)
             false
@@ -126,6 +132,9 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             seatsCard.layoutParams=android.widget.FrameLayout.LayoutParams((556*sx).toInt(),(228*sy).toInt()).apply {
                 leftMargin=(1356*sx).toInt();topMargin=((216-top)*sy).toInt()
+            }
+            musicCard.layoutParams=android.widget.FrameLayout.LayoutParams((556*sx).toInt(),(256*sy).toInt()).apply {
+                leftMargin=(1356*sx).toInt();topMargin=((456-top)*sy).toInt()
             }
         }
         onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){favoriteCard.dismissEdit();web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)}})
@@ -163,7 +172,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private fun applyTheme(force:Boolean=false) {
         val next=LauncherTheme.isLight();if(!force && next==light)return
         val fading=ready
-        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;weatherCard.light=next;seatsCard.light=next;appPicker?.dismiss();ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
+        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;weatherCard.light=next;seatsCard.light=next;musicCard.light=next;appPicker?.dismiss();ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
         web.animate().cancel()
         val load={if(!isDestroyed && light==next)web.loadUrl("https://passenger.local/${if(next)"light" else "dark"}.html")}
         if(fading)web.animate().alpha(0f).setDuration(160).withEndAction {load()}.start()
@@ -255,16 +264,19 @@ class PassengerLauncherActivity : ComponentActivity() {
     }
     private fun onMedia(state:LauncherMediaState) {
         media=state;val key=listOf(state.sourcePackage,state.title,state.artist,state.coverUri).joinToString("|")
-        if(key!=coverKey){coverKey=key;coverJob?.cancel();pictures.remove("cover");coverJob=lifecycleScope.launch {
-            val image=withContext(Dispatchers.IO){state.cover ?: state.coverUri.takeIf {it.isNotBlank()}?.let {LauncherArtwork(this@PassengerLauncherActivity).load(it)}}
-            if(coverKey==key && image!=null){pictures["cover"]=withContext(Dispatchers.Default){png(image)};mediaState()}
+        if(key!=coverKey||state.cover!==mediaCoverReference){coverKey=key;mediaCoverReference=state.cover;coverJob?.cancel()
+            // Keep the previous artwork until the replacement is decoded, then crossfade once.
+            musicCover=state.cover?:musicCover.takeIf{state.coverUri.isNotBlank()}
+            coverJob=lifecycleScope.launch {
+            val image=withContext(Dispatchers.IO){state.cover ?: state.coverUri.takeIf {it.isNotBlank()}?.let {musicArtwork.load(it)}}
+            if(coverKey==key){musicCover=image;mediaState()}
         }};mediaState()
     }
     private fun mediaState() {
-        val s=media;s.sourceIcon?.constantState?.newDrawable(resources)?.let {d->val b=Bitmap.createBitmap(64,64,Bitmap.Config.ARGB_8888);d.setBounds(0,0,64,64);d.draw(Canvas(b));pictures["source"]=png(b);b.recycle()}
-        publish("media",JSONObject().put("title",s.title).put("artist",s.artist).put("playing",s.playing).put("position",s.position).put("duration",s.duration).put("seek",s.canSeek).put("cover",if(pictures.containsKey("cover"))"image/cover?v=${coverKey.hashCode()}" else "").put("source",if(s.sourceIcon!=null)"image/source?v=${s.sourcePackage.hashCode()}" else ""))
+        val s=media
+        musicCard.update(PassengerMusicPresentation(if(s.title=="no music")"Music"else s.title,s.artist,musicCover,s.sourceIcon,s.playing,s.position,s.duration,s.canSeek))
     }
     private fun png(b:Bitmap)=ByteArrayOutputStream().use {b.compress(Bitmap.CompressFormat.PNG,100,it);it.toByteArray()}
-    private fun volume(){publish("volume",JSONObject().put("value",(audio.getStreamVolume(AudioManager.STREAM_MUSIC)*30f/audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)).toInt()))}
+    private fun volume(){musicCard.updateVolume((audio.getStreamVolume(AudioManager.STREAM_MUSIC)*30f/audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)).toInt())}
     private fun error(e:Throwable){AppLog.error("PassengerLauncher","Operation failed",e);if(visible)Toast.makeText(this,"عملیات انجام نشد؛ وضعیت خودرو را بررسی کنید",Toast.LENGTH_LONG).show()}
 }
