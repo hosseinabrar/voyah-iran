@@ -1,11 +1,19 @@
 {
   "purpose": "voyah-iran-neshan-config",
   "schemaVersion": 1,
-  "revision": 6,
+  "revision": 7,
   "packageName": "org.rajman.neshan.traffic.tehran.navigator",
   "profiles": [
     {
       "id": "14.12.0.3-70789",
+      "routeRestart": {
+        "startMethod": "Q", "stopMethod": "o", "routeClass": "rx.n",
+        "navigatorMethod": "b", "currentDestinationMethod": "x1",
+        "metadataMethod": "b", "destinationMethod": "b", "stopsMethod": "c",
+        "routingTypeMethod": "g", "latitudeMethod": "g", "longitudeMethod": "h",
+        "activityClass": "org.rajman.neshan.ui.activity.MainActivity",
+        "stopButtonId": "stop_navigation_button"
+      },
       "versionName": "14.12.0.3",
       "versionCode": 70789,
       "apkSha256": "a5e32beb3aaea641787fdfd4b0cf64a741d6c9237a53155f4c66331531a39061",
@@ -66,6 +74,14 @@
     },
     {
       "id": "14.13.0.6-70794",
+      "routeRestart": {
+        "startMethod": "e0", "stopMethod": "p", "routeClass": "h50.n",
+        "navigatorMethod": "d", "currentDestinationMethod": "y1",
+        "metadataMethod": "b", "destinationMethod": "b", "stopsMethod": "c",
+        "routingTypeMethod": "g", "latitudeMethod": "g", "longitudeMethod": "h",
+        "activityClass": "org.rajman.neshan.ui.activity.MainActivity",
+        "stopButtonId": "stop_navigation_button"
+      },
       "versionName": "14.13.0.6",
       "versionCode": 70794,
       "apkSha256": "02573f577f105cccf0f3b1d6453f9c1f8923a77c96351632c8bb97e98d430542",
@@ -126,6 +142,14 @@
     },
     {
       "id": "14.14.0.4-70799",
+      "routeRestart": {
+        "startMethod": "e0", "stopMethod": "p", "routeClass": "k50.n",
+        "navigatorMethod": "d", "currentDestinationMethod": "y1",
+        "metadataMethod": "b", "destinationMethod": "b", "stopsMethod": "c",
+        "routingTypeMethod": "g", "latitudeMethod": "g", "longitudeMethod": "h",
+        "activityClass": "org.rajman.neshan.ui.activity.MainActivity",
+        "stopButtonId": "stop_navigation_button"
+      },
       "versionName": "14.14.0.4",
       "versionCode": 70799,
       "apkSha256": "7e17451029594040eeccedfbeb4ae97ea29eb5f035a88fef3dc44e6ebb095330",

@@ -60,6 +60,14 @@ internal object NeshanConfig {
                 for (n in listOf("instanceField", "activeMethod", "engineMethod"))
                     require(state.getString(n).matches(Regex("[A-Za-z_$][A-Za-z0-9_$]{0,99}")))
             }
+            p.optJSONObject("routeRestart")?.let { restart ->
+                require(h.has("routeState"))
+                for(n in listOf("routeClass","activityClass"))
+                    require(restart.getString(n).matches(Regex("[A-Za-z_$][A-Za-z0-9_$.]{0,199}")))
+                for(n in listOf("startMethod","stopMethod","metadataMethod","destinationMethod","stopsMethod","routingTypeMethod","latitudeMethod","longitudeMethod","navigatorMethod","currentDestinationMethod"))
+                    require(restart.getString(n).matches(Regex("[A-Za-z_$][A-Za-z0-9_$]{0,99}")))
+                require(restart.getString("stopButtonId").matches(Regex("[A-Za-z0-9_]{1,100}")))
+            }
             p.optJSONObject("adSuppression")?.let { ads ->
                 require(ads.get("enabled") is Boolean)
                 val ids = ads.getJSONArray("viewIds")

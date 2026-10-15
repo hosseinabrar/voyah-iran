@@ -16,7 +16,7 @@ internal object NeshanVoiceNavigation {
         "soroush_central" to Destination("نمایندگی مرکزی سروش موتور", 35.59486389160156, 51.29362487792969),
         "shahpary" to Destination("نمایندگی شاهپری", 35.7361246, 51.4933056)
     )
-    class Request(val destination: Destination, var progress: NeshanRouteProgress) {
+    class Request(val destination: Destination, var progress: NeshanRouteProgress, val cardRepair:Boolean=false) {
         val startup = NeshanStartupGate()
         var displayId: Int? = null
         var destinationSent = false
@@ -25,6 +25,11 @@ internal object NeshanVoiceNavigation {
         var failure: String? = null
     }
     var pending: Request? = null; private set
+    internal fun reserveCardRepair(request:Request):Boolean {
+        if(pending!=null)return false
+        pending=request;return true
+    }
+    internal fun releaseCardRepair(request:Request) {if(pending===request)pending=null}
     var serviceConnected = false
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var routeJob: Job? = null

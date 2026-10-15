@@ -37,6 +37,8 @@ internal class NeshanHookManager {
     private var apkIdentity = ""
     private var apkHash = ""
     @Volatile private var sample: Sample? = null
+    @Volatile private var trip: String? = null
+    @Volatile private var tripAt=0L
     private var showing = false
     private var pidCheckAt = 0L
     private var cachedPid = ""
@@ -61,7 +63,7 @@ internal class NeshanHookManager {
             }
         }
     }
-    @Synchronized fun command(action: String): CommandResult { return try {
+    @Synchronized fun command(action: String, tripId:String?=null, display:Int?=null): CommandResult { return try {
         when (action) {
             "enable" -> {
                 prepareFiles()
@@ -81,6 +83,18 @@ internal class NeshanHookManager {
                 return CommandResult(0, "NESHAN_AUTO=" + data.toString())
             }
             "status" -> Unit
+            "trip-state" -> {
+                check(BridgeSubscriptionSession.vipActive)
+                return CommandResult(0,"NESHAN_TRIP="+(trip?.takeIf {ready && now()-tripAt in 0..1500} ?: "{\"valid\":false}"))
+            }
+            "trip-cancel" -> {
+                check(BridgeSubscriptionSession.vipActive && ready && now()-tripAt in 0..1500)
+                val current=JSONObject(checkNotNull(trip))
+                check(current.optBoolean("valid") && current.optString("id")==tripId && !current.optBoolean("attempted"))
+                check(display!=null && display in 2..10000)
+                child!!.outputStream.apply {write("trip-cancel $tripId $display\n".toByteArray());flush()}
+                return CommandResult(0,"Trip cancellation queued; confirmation required")
+            }
             else -> error("Unsupported Neshan command")
         }
         CommandResult(0, "NESHAN_DIRECT=" + when {
@@ -183,7 +197,7 @@ internal class NeshanHookManager {
                 return
             }
             prepareFiles(); pid = target; ready = false; failure = null; routeEnabled = wantsRoute
-            NeshanConfig.save(script, "const NESHAN_ROUTE_ENABLED = $routeEnabled;\nconst NESHAN_PROFILE = " + profile.json.toString() + ";\n" + NeshanHookScript.source)
+            NeshanConfig.save(script, "const NESHAN_ROUTE_ENABLED = $routeEnabled;\nconst NESHAN_PROFILE = " + profile.json.toString() + ";\n" + NeshanTripScript.source + "\n" + NeshanHookScript.source)
             val process = ProcessBuilder(injectorCommand() + listOf(executable.path, "-p", target, "-s", script.path, "-i")).redirectErrorStream(true).start()
             child = process
             thread(name = "voyah-neshan-output", isDaemon = true) {
@@ -216,6 +230,7 @@ internal class NeshanHookManager {
     private fun accept(process: Process, line: String) = synchronized(stateLock) {
         if (child !== process) return@synchronized
         when {
+            line.startsWith("VI_NESHAN_TRIP ") -> {trip=line.removePrefix("VI_NESHAN_TRIP ").take(2000);tripAt=now()}
             line.startsWith("VI_NESHAN_READY ") -> { ready = true; AppLog.info("NeshanDirect", line) }
             line == "VI_NESHAN_CLEAR" -> sample = null
             line == "VI_NESHAN_DISABLED" -> { ready = false; sample = null }
@@ -247,7 +262,7 @@ internal class NeshanHookManager {
     }
     private fun stop() {
         val process = child
-        synchronized(stateLock) { child = null; ready = false; sample = null; pid = "" }
+        synchronized(stateLock) { child = null; ready = false; sample = null; trip=null;tripAt=0;pid = "" }
         clearDisplay()
         if (process != null) {
             runCatching { process.outputStream.write("disable\n".toByteArray()); process.outputStream.flush() }

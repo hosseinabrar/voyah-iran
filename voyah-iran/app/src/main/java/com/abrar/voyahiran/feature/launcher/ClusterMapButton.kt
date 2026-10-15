@@ -47,6 +47,8 @@ internal class ClusterMapButton(context: Context) : View(context) {
         canvas.restore()
     }
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        if(event.actionMasked==MotionEvent.ACTION_DOWN)parent.requestDisallowInterceptTouchEvent(true)
+        if(event.actionMasked in listOf(MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL))parent.requestDisallowInterceptTouchEvent(false)
         val handled=super.onTouchEvent(event);invalidate();return handled
     }
 }

@@ -12,6 +12,20 @@ import com.sun.net.httpserver.HttpServer
 import java.net.InetSocketAddress
 
 class NeshanConfigTest {
+    @Test fun routeRestartSourceUsesValidatedDataOnlySelectors() {
+        val doc=JSONObject(File("../../voyah-iran-subscription-server/configs/neshan.source.json").readText())
+        val catalog=NeshanConfig.verify(sign(doc),publicKey)
+        assertEquals(7L,catalog.revision)
+        assertEquals(3,catalog.profiles.size)
+        for(profile in catalog.profiles) assertTrue(profile.json.has("routeRestart"))
+        val restart=doc.getJSONArray("profiles").getJSONObject(0).getJSONObject("routeRestart")
+        for(field in listOf("startMethod","stopMethod","navigatorMethod","currentDestinationMethod","routeClass","activityClass","stopButtonId")) {
+            val old=restart.getString(field)
+            restart.put(field,"bad;command")
+            rejects {NeshanConfig.verify(sign(doc),publicKey)}
+            restart.put(field,old)
+        }
+    }
     private val pair = KeyPairGenerator.getInstance("RSA").apply { initialize(2048) }.generateKeyPair()
     private val publicKey = Base64.getEncoder().encodeToString(pair.public.encoded)
     private fun source(revision: Int = 1) = JSONObject().put("purpose", "voyah-iran-neshan-config")
