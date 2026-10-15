@@ -51,7 +51,11 @@ internal class PassengerFavoritesView(context:Context):View(context) {
     override fun onWindowVisibilityChanged(visibility:Int){super.onWindowVisibilityChanged(visibility);if(visibility!=VISIBLE)dismissEdit() else updateWobble()}
     private fun cx(i:Int)=if(i%2==0)145f else 399f
     private fun cy(i:Int)=151f+(i/2)*191f
-    private fun hit(x:Float,y:Float)=(0..5).firstOrNull{abs(x-cx(it))<=100&&y in cy(it)-72..cy(it)+101}?:-1
+    private fun hit(x:Float,y:Float)=(0..5).firstOrNull{
+        if(editing&&it<5) (abs(x-cx(it))<=58&&abs(y-cy(it))<=58) ||
+            (ids[it].isNotEmpty()&&hypot(x-(cx(it)+57),y-(cy(it)-57))<=26)
+        else abs(x-cx(it))<=100&&y in cy(it)-72..cy(it)+101
+    }?:-1
     private fun label(c:Canvas,text:String,x:Float,y:Float,size:Float,max:Float){
         textPaint.typeface=if(text.any{it in '\u0600'..'\u06ff'})persian else font
         textPaint.textSize=size;textPaint.color=if(light)0xff293543.toInt() else 0xffe6edfa.toInt();textPaint.textAlign=Paint.Align.CENTER
@@ -91,7 +95,10 @@ internal class PassengerFavoritesView(context:Context):View(context) {
     override fun onTouchEvent(e:MotionEvent):Boolean{
         val x=e.x*546/width;val y=e.y*662/height
         when(e.actionMasked){
-            MotionEvent.ACTION_DOWN->{down=hit(x,y);downX=x;downY=y;dragX=x;dragY=y;held=false;dragging=false;if(down in 0..4)postDelayed(hold,550);return true}
+            MotionEvent.ACTION_DOWN->{down=hit(x,y);downX=x;downY=y;dragX=x;dragY=y;held=false;dragging=false
+                if(down<0){dismissEdit();return true}
+                if(down==5&&editing){dismissEdit();down=5}
+                if(down in 0..4)postDelayed(hold,550);return true}
             MotionEvent.ACTION_MOVE->{if(hypot(x-downX,y-downY)>12){removeCallbacks(hold);if(editing&&down in 0..4){dragging=true;dragX=x;dragY=y;invalidate()}};return true}
             MotionEvent.ACTION_CANCEL->{removeCallbacks(hold);down=-1;dragging=false;invalidate();return true}
             MotionEvent.ACTION_UP->{removeCallbacks(hold);val target=hit(x,y)

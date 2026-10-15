@@ -19,6 +19,22 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerFavoritesRenderTest {
+    @Test fun emptyDefaultsAndBlankCardTouchesExitEditing(){
+        val view=PassengerFavoritesView(context);view.layout(0,0,546,662)
+        view.bind(apps(),List(5){""})
+        assertEquals(List(5){""},view.selections())
+        var opened=0;var picked=0;var drawer=0
+        view.onOpen={opened++};view.onPick={picked++};view.onAllApps={drawer++}
+        fun tap(x:Float,y:Float){for(action in listOf(0,1)){
+            val event=MotionEvent.obtain(0,1,action,x,y,0);view.onTouchEvent(event);event.recycle()
+        }}
+        view.bind(apps(),apps().map{it.id})
+        for((x,y) in listOf(273f to 150f,30f to 50f,145f to 240f,220f to 151f,273f to 640f)){
+            view.beginEdit();tap(x,y);assertFalse("Blank point $x,$y must dismiss edit",view.editing)
+        }
+        assertEquals(0,opened);assertEquals(0,picked)
+        view.beginEdit();tap(399f,533f);assertFalse(view.editing);assertEquals(1,drawer)
+    }
     private val context get()=RuntimeEnvironment.getApplication()
     private fun apps()=listOf("Neshan" to "neshan.webp","Apple Music" to "apple-music.jpeg","Namava" to "namava.jpeg","Video" to "video.png","Music player" to "audio.png").mapIndexed{i,p->
         val icon=javaClass.getResourceAsStream("/passenger-app-icons/${p.second}")!!.use{Drawable.createFromStream(it,p.second)}

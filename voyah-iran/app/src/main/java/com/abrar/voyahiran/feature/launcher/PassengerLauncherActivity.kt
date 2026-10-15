@@ -212,6 +212,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         }
         guard=lifecycleScope.launch {while(isActive){delay(1000);if(!allowed()){finish();break};applyTheme()}}
     }
+    override fun onPause(){favoriteCard.dismissEdit();super.onPause()}
     override fun onStop(){favoriteCard.dismissEdit();appPicker?.dismiss();visible=false;watch?.cancel();watch=null;guard?.cancel();guard=null;unobserve?.invoke();unobserve=null;weather.stop();mediaObserver.stop();web.evaluateJavascript("window.passenger&&passenger.visibility(false)",null);web.onPause();super.onStop()}
     override fun onDestroy(){ready=false;visible=false;unobserve?.invoke();unobserve=null;coverJob?.cancel();unregisterReceiver(changes);web.removeJavascriptInterface("Passenger");web.destroy();super.onDestroy()}
     override fun onConfigurationChanged(config:android.content.res.Configuration){super.onConfigurationChanged(config);applyTheme()}
@@ -261,8 +262,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private var publishedFavorites:List<String>?=null
     private fun publishApps() {
         val saved=runCatching {JSONArray(favorites.getString("ids",null))}.getOrNull()
-        val ids=if(saved!=null)(0..4).map {saved.optString(it).takeIf {id->catalog.any {e->e.id==id}}.orEmpty()} else catalog.take(5).map {it.id}.let {it+List(5-it.size){""}}
-        if(saved==null&&catalog.isNotEmpty())favorites.edit().putString("ids",JSONArray(ids).toString()).apply()
+        val ids=if(saved!=null)(0..4).map {saved.optString(it).takeIf {id->catalog.any {e->e.id==id}}.orEmpty()} else List(5){""}
         if(publishedCatalog==catalog && publishedFavorites==ids)return
         publishedCatalog=catalog;publishedFavorites=ids
         favoriteCard.bind(catalog,ids);appPicker?.dismiss()
