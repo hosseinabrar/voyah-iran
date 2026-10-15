@@ -88,19 +88,21 @@ class LauncherDashboardTest {
         var opened=0; var control=-1; var seek=-1L
         view.onOpenMusic={opened++};view.onMedia={control=it};view.onSeek={seek=it}
         fun tap(x:Float,y:Float) {
-            val event=android.view.MotionEvent.obtain(0,0,android.view.MotionEvent.ACTION_UP,x,y,0)
-            view.onTouchEvent(event);event.recycle()
+            for(action in listOf(android.view.MotionEvent.ACTION_DOWN,android.view.MotionEvent.ACTION_UP)) {
+                val event=android.view.MotionEvent.obtain(0,1,action,x,y,0)
+                view.onTouchEvent(event);event.recycle()
+            }
         }
         tap(900f,640f);assertEquals(1,opened)
         tap(1101f,576f);assertEquals(1,control);assertEquals(1,opened)
-        tap(1101f,480f);assertEquals(-1L,seek);assertEquals(1,opened)
+        tap(1101f,539f);assertEquals(-1L,seek);assertEquals(1,opened)
         val session=android.media.session.MediaSession(RuntimeEnvironment.getApplication(),"seek-test")
         try {
             org.robolectric.Shadows.shadowOf(session.controller).setPlaybackState(android.media.session.PlaybackState.Builder()
                 .setState(android.media.session.PlaybackState.STATE_PAUSED,0,0f)
                 .setActions(android.media.session.PlaybackState.ACTION_SEEK_TO).build())
             view.media=view.media.copy(controller=session.controller)
-            tap(1101f,480f);assertEquals(50000L,seek);assertEquals(1,opened)
+            tap(1101f,539f);assertEquals(50000L,seek);assertEquals(1,opened)
         } finally {session.release()}
     }
     @Test fun oemSourcesOpenTheirOwnPageWithoutAutoplay() {
@@ -195,10 +197,14 @@ class LauncherDashboardTest {
         val view=LauncherDashboard(RuntimeEnvironment.getApplication())
         view.layout(0,0,1775,660)
         var claims=0;var opens=0
+        val mapActions=mutableListOf<Int>()
+        view.onMapTouch={event,_,_->mapActions.add(event.actionMasked)}
         view.onShowMap={claims++};view.onMap={opens++}
         fun tap(x:Float,y:Float) {
-            view.onTouchEvent(android.view.MotionEvent.obtain(0,0,android.view.MotionEvent.ACTION_DOWN,x,y,0))
-            view.onTouchEvent(android.view.MotionEvent.obtain(0,1,android.view.MotionEvent.ACTION_UP,x,y,0))
+            for(action in listOf(android.view.MotionEvent.ACTION_DOWN,android.view.MotionEvent.ACTION_UP)) {
+                val event=android.view.MotionEvent.obtain(0,1,action,x,y,0)
+                view.onTouchEvent(event);event.recycle()
+            }
         }
         view.mapMessage="نقشه روی نمایشگر شاگرد است"
         tap(300f,300f);assertEquals(1,claims);assertEquals(0,opens)
@@ -213,7 +219,8 @@ class LauncherDashboardTest {
         view.draw(Canvas(bitmap))
         File("build/reports/launcher/map-loading.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG,100,it) }
         view.mapMessage=""
-        tap(300f,300f);assertEquals(2,claims);assertEquals(1,opens)
+        tap(300f,300f);assertEquals(2,claims);assertEquals(0,opens)
+        assertEquals(listOf(android.view.MotionEvent.ACTION_DOWN,android.view.MotionEvent.ACTION_UP),mapActions)
     }
     @Test fun launcherThemeFollowsOnlyVehicle() {
         assertTrue(LauncherTheme.resolve("simple"))

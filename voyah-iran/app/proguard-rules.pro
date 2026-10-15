@@ -40,3 +40,8 @@
 -keep,allowshrinking,allowobfuscation class com.abrar.** { *; }
 # JNA resolves these custom native interfaces and their method names reflectively.
 -keep interface * extends com.sun.jna.Library { *; }
+
+# The offline passenger document calls this method by its literal JavaScript name.
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}

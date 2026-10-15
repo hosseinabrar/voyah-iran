@@ -1,0 +1,42 @@
+Passenger launcher implementation — 2026-10-15 (debug APK built; not installed)
+
+Entry points
+- PassengerLauncherActivity: display 1 only; independent passenger.home task.
+- PassengerAppsActivity: same drawer implementation as center, independent passenger.apps task.
+- Both use LauncherPreferences.enabled and the existing VIP entitlement. No new toggle.
+- PassengerHomeScript redirects explicit passenger Home and a verified factory SecondMainActivity only. It observes both existing leases and the existing checkbox. It never redirects another foreground app.
+- Passenger navigation uses native dismiss()/show() window animations, not root visibility masking. H97X policy permits HOME dismissal and suppresses recovery; H97C has its own NavigationBar fallback because it has no DragService/NavigationBarController. Other display bars remain unchanged.
+- Launcher checkbox and nested cluster options are shown only for Android 11 H97C/H97X. No saved preferences are cleared or migrated on H97A.
+- Direct initial boot launch covers displays 0 and 1 independently; a late display retries without reopening a completed screen or stealing a third-party foreground app. Completion is recorded only after both displays are handled.
+
+UI
+- Offline, packaged HTML presentation derived from approved v57 light and v56 dark; all concept scripts/demo state replaced by runtime.js.
+- No remote browsing, file/content access or arbitrary native command execution. Native interface rechecks display, visibility, checkbox and VIP for every action.
+- Five persistent favorites plus All apps; long-press enables all remove badges, drag swaps slots, Add excludes existing favorites, outside touch/page exit dismisses editing/picker.
+- Vehicle values are unknown/disabled until valid feedback. Missing OEM symbols stay unavailable, not fabricated.
+- Images prefer installed VehicleAir SkinResourceManager when available; bundled extracted/generated artwork is fallback. Cache invalidates on vehicle theme events.
+- OEM seat animation frames run only for active functions while visible; cover/fragrance changes fade. Music progress is local interpolation, not a repeated vehicle query.
+- Volume follows actual AudioManager values, mapped to 0..30; mute preserves/restores the last nonzero level.
+
+Data
+- One existing root CAN Session, extended with comfort fields and onAirConditionChanged. One initial snapshot, then cached revision watches; the central vehicle page and passenger do not create separate CAN subscriptions.
+- Comfort commands are bounded symbolic operations and reuse RahaVehicleBridge/OEM planners; runtime VIP enforced in bridge and UI. Actual UI values follow feedback, not successful dispatch alone.
+- Weather is reference-counted/shared across both activities. One Open-Meteo response includes current/daily and hourly temperature/weather_code/is_day; next five future hours, including midnight crossover. City text ellipsizes.
+- Shared LauncherAppsCache observers publish package removals to both drawers and favorites. Native OEM tile launch accepts only target 0/1. Center-hosted map shortcut handling is never used for passenger launches.
+
+Display policy / installation
+- Only PassengerLauncherActivity on display 1 with our exact package loses the 145px left gutter; 50px top reserved. Drawer and other apps retain the gutter.
+- Native viewport-origin reporting avoids counting that top inset twice.
+- Java helper sources AND distributed smali updated for Android 11 and Android 9. Known previous helpers/templates archived; both Windows/macOS payload-required files include upgrade archives.
+- A future full installer publish/install is required: replacing only app.apk cannot update the running root injection or installed services.jar display policy.
+
+Validation so far
+- Node/Chromium tests exercise actual offline UI in both themes, fail-closed controls, feedback without writes, favorites/add filtering, all-app action, city overflow and stale-state handling.
+- VM tests exercise actual passenger Home injection: leases, checkbox, display, no foreground stealing; route tests retain old central default and enforce passenger display.
+- Existing drawer/catalog/startup/map contract checks and trip-origin checks pass.
+- Existing neshan-state-test.cjs fails before execution because its Kotlin-string extraction leaves ${'$'} in JS. Neither that test nor NeshanHookScript was changed in this work.
+- At the user's subsequent build request, :app:assembleDebug succeeded with no Kotlin/Java compilation errors (warnings remain). app/build/outputs/apk/debug/app-debug.apk generated.
+- :app:testDebugUnitTest compiled and ran 466 tests: 461 passed, 5 failed (ApolloExperimentTest main section order; ClusterMapAutoPolicyTest strict speed boundary; LauncherDashboardTest music controls and fallback map; NeshanConfigTest publication/ad selectors). PassengerComfortPolicyTest and LauncherHourlyWeatherTest passed. The combined Gradle invocation exited nonzero because of tests, not APK compilation.
+- Installer, Java framework helper and smali build/assembly were not run. No commit or vehicle installation performed.
+- Follow-up test repair: :app:testDebugUnitTest now passes all 466 tests, zero failures/errors/skips. Updated stale Apollo menu, publication-revision and music/map touch expectations. Fixed floating-point strict AUTO distance boundary and null-parent touch interception. The previously generated debug APK predates these two runtime fixes; this follow-up recompiled/tested code but did not repackage the APK.
+- Hardware validation remains required: simultaneous visible activities (especially Android 9 focus), wake, actual CAN field ranges/feedback, OEM skin access, third-party app task movement, SystemUI bar restoration, and updated framework full-width bounds. Unknown variants fail closed.

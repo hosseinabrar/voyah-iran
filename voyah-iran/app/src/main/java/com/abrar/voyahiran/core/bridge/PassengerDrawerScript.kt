@@ -31,6 +31,7 @@ Java.perform(function () {
             methods: {onClick: function (view) {
                 try {
                     const ctx = view.getContext();
+                    if(typeof globalThis.VI_PASSENGER_OPEN==='function' && globalThis.VI_PASSENGER_OPEN(true))return;
                     if (Global.getInt(ctx.getContentResolver(), 'voyah_iran_passenger_apps', 1) !== 1) return;
                     const intent = Intent.__DOLLAR__new();
                     intent.setClassName('com.qinggan.app.launcher', 'com.qinggan.secondlauncher.activity.AllAppActivity');
@@ -136,7 +137,11 @@ Java.perform(function () {
                 walk(root,function(view) {
                     if(name(view)==='screen_up_home_icon' || String(view.getClass().getName()).indexOf('NavigationBarSecond')>=0) passenger=true;
                 },0);
-                if(passenger) status=update(root);
+                if(passenger) {
+                    // The OEM controller animates/removes the whole window on HOME.
+                    // Never mask the root: it must remain visible during animateDismiss.
+                    status=update(root);
+                }
             }
             if(status!==lastReport) {lastReport=status;console.log('VI_PASSENGER_APPS_UI '+status);}
         }

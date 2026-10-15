@@ -122,12 +122,15 @@ Get-ChildItem (Join-Path $patchTools 'display/legacy-merge-virtual') -File -Filt
 Get-ChildItem (Join-Path $patchTools 'display/legacy-merge-production') -File -Filter '*.smali' | ForEach-Object {
     $files['patch/display/legacy-merge-production/' + $_.Name] = $_.FullName
 }
+Get-ChildItem (Join-Path $patchTools 'display/legacy-before-passenger') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/legacy-before-passenger/' + $_.Name] = $_.FullName
+}
 $runtimePath = (Resolve-Path -LiteralPath $JavaRuntime).Path.TrimEnd('\','/')
 $legacyPatch = (Resolve-Path -LiteralPath (Join-Path $patchTools 'android9')).Path
 Get-ChildItem $legacyPatch -File | Where-Object {
     $_.Name -eq 'Android9Patch.java' -or $_.Extension -in @('.smali', '.jar', '.json') -or $_.Name -like '*LICENSE.txt'
 } | ForEach-Object { $files['patch/android9/' + $_.Name] = $_.FullName }
-Get-ChildItem (Join-Path $legacyPatch 'helpers'), (Join-Path $legacyPatch 'previous-v1'), (Join-Path $legacyPatch 'previous-v2'), (Join-Path $legacyPatch 'previous-v3'), (Join-Path $legacyPatch 'previous-v4'), (Join-Path $legacyPatch 'previous-v5'), (Join-Path $legacyPatch 'previous-v6'), (Join-Path $legacyPatch 'previous-welcome'), (Join-Path $legacyPatch 'previous-welcome-variant'), (Join-Path $legacyPatch 'previous-merge-virtual'), (Join-Path $legacyPatch 'previous-merge-production') -Recurse -File -Filter '*.smali' | ForEach-Object {
+Get-ChildItem (Join-Path $legacyPatch 'helpers'), (Join-Path $legacyPatch 'previous-v1'), (Join-Path $legacyPatch 'previous-v2'), (Join-Path $legacyPatch 'previous-v3'), (Join-Path $legacyPatch 'previous-v4'), (Join-Path $legacyPatch 'previous-v5'), (Join-Path $legacyPatch 'previous-v6'), (Join-Path $legacyPatch 'previous-welcome'), (Join-Path $legacyPatch 'previous-welcome-variant'), (Join-Path $legacyPatch 'previous-merge-virtual'), (Join-Path $legacyPatch 'previous-merge-production'), (Join-Path $legacyPatch 'previous-before-passenger') -Recurse -File -Filter '*.smali' | ForEach-Object {
     $relative = $_.FullName.Substring($legacyPatch.Length + 1).Replace('\','/')
     $files['patch/android9/' + $relative] = $_.FullName
 }

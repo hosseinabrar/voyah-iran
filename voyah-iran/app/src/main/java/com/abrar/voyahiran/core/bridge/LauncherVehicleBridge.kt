@@ -111,7 +111,25 @@ internal object LauncherVehicleBridge {
         }
         private val names=listOf("DRIVING_MODE_SET","ASC_MODE_SELECT","ASC_ADJUST_DIREACT","ASC_MAINTAIN_SWITCH","ASC_ADJUST_SUSTEMP",
             "HUM_ENERGY_PTREGEN_LEVL_FB","IVI_SOC_MODESET","AMBIENT_AIR_PRESSURE","ASC_SENSOR_ERROR_STS",
-            "ASC_RF_HEIGHT","ASC_LF_HEIGHT","ASC_LR_HEIGHT","ASC_RR_HEIGHT","MANUAL_EASY_ENTER_SET")
+            "ASC_RF_HEIGHT","ASC_LF_HEIGHT","ASC_LR_HEIGHT","ASC_RR_HEIGHT","MANUAL_EASY_ENTER_SET") +
+            listOf("FCM_SW_REQ_FB","IVI_FRAG_TASTE_FB","IVI_FRAG_CONCERNTION_FB","FCM_DURATION_CONTROL") +
+            listOf("LEFT","RIGHT").flatMap { side -> listOf("HEATING_COMMAND","VENTILATION_COMMAND","MASS_INTEN","MASS_COMMAND").map { "FRONT_SEAT_${it}_$side" } }
+        private val airGetters=listOf("getAirLeftTemperature","getAirRightTemperature","getAirWindSpeed","getAirSWStatus",
+            "getAirACStatus","getAirMode","getAirDUALStatus","getAirFrontWindowDefogger","getAirRearWindowDefogger","getAirCirculationMode","getAirSupplyStatus")
+        private fun acceptAir(air:Any?, initial:Boolean=false) {
+            if(air==null)return
+            val snapshot=HashMap<String,Int>()
+            for(name in airGetters) {
+                val value=runCatching {val n=air.javaClass.getMethod(name).invoke(air) as Number
+                    if(name.endsWith("Temperature"))(n.toDouble()*10).toInt() else n.toInt()}.getOrNull() ?: continue
+                snapshot[name]=value
+            }
+            synchronized(lock) {
+                var changed=false
+                for((name,value) in snapshot)if((!initial || !values.containsKey(name)) && values[name]!=value){values[name]=value;changed=true}
+                if(changed){revision++;lock.notifyAll()}
+            }
+        }
         private val values=HashMap<String,Int?>()
         private val lock=java.lang.Object()
         private var revision=0L
@@ -122,6 +140,8 @@ internal object LauncherVehicleBridge {
         private fun transaction(name:String)=callbackStub.getDeclaredField("TRANSACTION_$name").apply {isAccessible=true}.getInt(null)
         private val stateCode=transaction("onVehicleStateChanged")
         private val speedCode=transaction("onVehicleSpeedChanged")
+        private val airCode=runCatching {transaction("onAirConditionChanged")}.getOrDefault(-1)
+        private val airCreator=runCatching {loader.loadClass("com.qinggan.canbus.AirCondition").getField("CREATOR").get(null) as Parcelable.Creator<*>}.getOrNull()
         private val creator=type.getField("CREATOR").get(null) as Parcelable.Creator<*>
         private val watched by lazy {names.mapNotNull { n -> runCatching {field(n) to n}.getOrNull() }.toMap()}
         @Volatile private var listening=false
@@ -137,6 +157,7 @@ internal object LauncherVehicleBridge {
                         watched[state]?.let {name->update(name,value)}
                     }
                     speedCode -> {val value=data.readInt();update("speed",value)}
+                    airCode -> acceptAir(if(data.readInt()!=0)airCreator?.createFromParcel(data) else null)
                 }
                 // Other OEM callbacks are intentionally ignored; never query or write from Binder threads.
                 reply?.writeNoException()
@@ -155,6 +176,7 @@ internal object LauncherVehicleBridge {
                     // A callback received during the initial read wins over an older snapshot.
                     synchronized(lock){if(!values.containsKey(n))values[n]=value}
                 }
+                runCatching {acceptAir(api.getMethod("getAirCondition").invoke(remote),true)}
                 AppLog.info("LauncherVehicle","CAN listener attached; initial snapshot loaded")
             } catch(e:Exception) {close();throw e}
         }
@@ -177,7 +199,7 @@ internal object LauncherVehicleBridge {
                 synchronized(lock) {
                     if(after!=null && after==revision)lock.wait(2000)
                     check(listening && binder.isBinderAlive) {"CAN listener disconnected"}
-                    for(n in names+"speed")put(n,values[n] ?: JSONObject.NULL)
+                    for(n in names+airGetters+"speed")put(n,values[n] ?: JSONObject.NULL)
                     put("revision",revision)
                 }
                 put("modes",JSONObject(modes))

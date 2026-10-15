@@ -61,6 +61,10 @@ public class DisplayPolicyTest {
   VoyahIranDisplayPolicy.configuration(a,parent);
   check(out.bounds.toString().equals("145,50,1600,720"),"passenger uses own display width");
   check(out.app.toString().equals("145,50,1600,640"),"passenger content preserved");
+  a.info.packageName="com.abrar.voyahiran";a.info.name="com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity";
+  VoyahIranDisplayPolicy.configuration(a,parent);check(out.bounds.left==0 && out.bounds.top==50,"passenger HOME uses full width below status bar");
+  a.display=0;check(VoyahIranDisplayPolicy.leftInset(a)==145,"passenger component on center cannot remove center gutter");a.display=1;
+  a.info.name="com.abrar.voyahiran.feature.launcher.PassengerAppsActivity";check(VoyahIranDisplayPolicy.leftInset(a)==145,"drawer keeps navigation bar gutter");a.info.name=null;
   a.info.applicationInfo.packageName="system.camera";check(!VoyahIranDisplayPolicy.applies(a),"passenger OEM excluded");
   a.info.applicationInfo.packageName="com.abrar.voyahiran";
   state(false);check(VoyahIranDisplayPolicy.orientation(a,7)==7,"passenger disable restores orientation");state(true);

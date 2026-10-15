@@ -271,10 +271,10 @@ class LauncherDashboard(context: Context) : View(context) {
         val x=e.x*1775/width;val y=e.y*660/height
         if(e.actionMasked==MotionEvent.ACTION_DOWN)mapGesture=android.os.Build.VERSION.SDK_INT>=29 && x<871 && mapMessage.isEmpty()
         if(mapGesture) {
-            parent.requestDisallowInterceptTouchEvent(true)
+            parent?.requestDisallowInterceptTouchEvent(true)
             onMapTouch(e,(width*871f/1775f).toInt(),height)
             if(e.actionMasked==MotionEvent.ACTION_UP || e.actionMasked==MotionEvent.ACTION_CANCEL) {
-                mapGesture=false;parent.requestDisallowInterceptTouchEvent(false)
+                mapGesture=false;parent?.requestDisallowInterceptTouchEvent(false)
             }
             return true
         }

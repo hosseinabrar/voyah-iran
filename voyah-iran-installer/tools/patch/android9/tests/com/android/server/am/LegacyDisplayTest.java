@@ -20,6 +20,10 @@ public class LegacyDisplayTest {
   a.screen=new ActivityDisplay();a.screen.mDisplay=new android.view.Display();a.screen.config=a.parent.config;a.screen.bounds=wc.full; VoyahIranLegacyDisplay.bounds(a,out);check(out.toString().equals("145,50,1920,720"),"central safe area");
   a.display=1;a.screen.mDisplay.width=1600;wc.full=new Rect(0,0,1600,720);a.screen.bounds=wc.full;VoyahIranLegacyDisplay.bounds(a,out);
   check(out.toString().equals("145,50,1600,720"),"passenger uses its own dimensions");
+  a.info.packageName="com.abrar.voyahiran";a.info.name="com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity";
+  VoyahIranLegacyDisplay.bounds(a,out);check(out.left==0 && out.top==50,"passenger HOME full width");
+  a.display=0;check(VoyahIranLegacyDisplay.leftInset(a)==145,"center stays unchanged");a.display=1;
+  a.info.name="com.abrar.voyahiran.feature.launcher.PassengerAppsActivity";check(VoyahIranLegacyDisplay.leftInset(a)==145,"drawer retains gutter");a.info.name=null;
   a.display=0;a.screen.mDisplay.width=1920;wc.full=new Rect(0,0,1920,608);a.screen.bounds=new Rect(0,0,1920,608);
   VoyahIranLegacyDisplay.bounds(a,out);
   check(out.toString().equals("145,50,1920,720"),"112px OEM bottom decor must not shorten safe bounds");

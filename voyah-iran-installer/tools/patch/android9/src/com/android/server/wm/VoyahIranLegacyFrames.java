@@ -20,7 +20,7 @@ public final class VoyahIranLegacyFrames {
     private static Rect safe(WindowState w) {
         if (w.mAttrs.type < 1 || w.mAttrs.type >= 2000 || !applies(w.mAppToken)) return null;
         Rect b = w.mAppToken.getBounds();
-        return b.left >= 145 && b.top >= 50 && !b.isEmpty() ? b : null;
+        return b.left >= VoyahIranLegacyDisplay.leftInset(activity(w.mAppToken)) && b.top >= 50 && !b.isEmpty() ? b : null;
     }
     private static void clip(Rect frame, Rect bounds) {
         if (frame != null && !frame.isEmpty() && !frame.intersect(bounds)) frame.set(bounds);

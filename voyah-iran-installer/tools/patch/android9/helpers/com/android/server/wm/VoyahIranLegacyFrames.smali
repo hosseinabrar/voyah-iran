@@ -286,7 +286,7 @@
 .end method
 
 .method private static safe(Lcom/android/server/wm/WindowState;)Landroid/graphics/Rect;
-    .registers 4
+    .registers 5
 
     .line 21
     iget-object v0, p0, Lcom/android/server/wm/WindowState;->mAttrs:Landroid/view/WindowManager$LayoutParams;
@@ -321,6 +321,10 @@
     :cond_0
     iget-object p0, p0, Lcom/android/server/wm/WindowState;->mAppToken:Lcom/android/server/wm/AppWindowToken;
 
+    invoke-static {p0}, Lcom/android/server/wm/VoyahIranLegacyFrames;->activity(Lcom/android/server/wm/AppWindowToken;)Ljava/lang/Object;
+    move-result-object v3
+    invoke-static {v3}, Lcom/android/server/am/VoyahIranLegacyDisplay;->leftInset(Ljava/lang/Object;)I
+    move-result v3
     invoke-virtual {p0}, Lcom/android/server/wm/AppWindowToken;->getBounds()Landroid/graphics/Rect;
 
     move-result-object p0
@@ -328,7 +332,7 @@
     .line 23
     iget v0, p0, Landroid/graphics/Rect;->left:I
 
-    const/16 v1, 0x91
+    move v1, v3
 
     if-lt v0, v1, :cond_1
 

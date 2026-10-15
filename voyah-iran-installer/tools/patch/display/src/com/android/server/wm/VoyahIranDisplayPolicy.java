@@ -171,7 +171,7 @@ public final class VoyahIranDisplayPolicy {
         Rect full = parent.windowConfiguration.getBounds();
         if (full.width() <= LEFT + 320 || full.height() <= TOP + 200 || full.width() <= full.height()) return;
         Configuration result = a.getResolvedOverrideConfiguration();
-        Rect bounds = new Rect(full.left + LEFT, full.top + TOP, full.right, full.bottom);
+        Rect bounds = new Rect(full.left + leftInset(a), full.top + TOP, full.right, full.bottom);
         Rect content = new Rect(bounds);
         Rect parentContent = parent.windowConfiguration.getAppBounds();
         if (parentContent != null && !parentContent.isEmpty()) content.intersect(parentContent);
@@ -190,8 +190,13 @@ public final class VoyahIranDisplayPolicy {
         // App windows only: never touch IME, vehicle/system bars, accessibility overlays or camera.
         if (w.mAttrs.type < 1 || w.mAttrs.type >= 2000 || !applies(w.mActivityRecord)) return null;
         Rect bounds = w.mActivityRecord.getResolvedOverrideConfiguration().windowConfiguration.getBounds();
-        if (bounds.left < LEFT || bounds.top < TOP || bounds.isEmpty()) return null;
+        if (bounds.left < leftInset(w.mActivityRecord) || bounds.top < TOP || bounds.isEmpty()) return null;
         return bounds;
+    }
+
+    public static int leftInset(ActivityRecord a) {
+        return a != null && a.getDisplayId() == 1 && a.info != null && "com.abrar.voyahiran".equals(a.info.packageName) &&
+            "com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity".equals(a.info.name) ? 0 : LEFT;
     }
 
     private static void clip(Rect frame, Rect bounds) {

@@ -25,7 +25,8 @@ import org.json.JSONObject
 import java.util.UUID
 
 /** Independent OEM + installed-app pages. No Home page participates in this pager. */
-class LauncherAppsActivity : ComponentActivity() {
+open class LauncherAppsActivity : ComponentActivity() {
+    protected open val launcherDisplayId: Int = 0
 
     private lateinit var root: FrameLayout
     private lateinit var content: FrameLayout
@@ -38,6 +39,7 @@ class LauncherAppsActivity : ComponentActivity() {
     private var refreshJob: Job? = null
     private var catalogDirty = true
     private var resumed = false
+    private var unobserveCatalog:(()->Unit)?=null
     private val packageChanges = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if(intent?.action==Intent.ACTION_PACKAGE_REMOVED && intent.getBooleanExtra(Intent.EXTRA_REPLACING,false))return
@@ -82,8 +84,9 @@ class LauncherAppsActivity : ComponentActivity() {
             runCatching { JSONObject(text) }.fold(waiting::complete, waiting::completeExceptionally)
         }
     }
+    @Suppress("DEPRECATION")
     private fun allowed() = LauncherPreferences.enabled(this) &&
-        (application as VoyahIranApplication).subscriptions.vipAllowed && (window.decorView.display?.displayId ?: 0) == 0
+        (application as VoyahIranApplication).subscriptions.vipAllowed && (window.decorView.display?.displayId ?: windowManager.defaultDisplay.displayId) == launcherDisplayId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +126,14 @@ class LauncherAppsActivity : ComponentActivity() {
             override fun handleOnBackPressed() { if(editing)finishEditing() else if(pager.page>0)pager.show(pager.page-1) }
         })
         applyTheme()
+        unobserveCatalog=LauncherAppsCache.observe(this) { fresh ->
+            if(allowed()) {
+                if(draggedId!=null)deferredEntries=fresh else {entries=ordered(fresh);render()}
+                catalogDirty=false
+                loading.visibility=View.GONE
+                status.visibility=View.GONE
+            } else catalogDirty=true
+        }
     }
     @Suppress("DEPRECATION") private fun layoutSafeArea() {
         val real=Point();windowManager.defaultDisplay.getRealSize(real)
@@ -141,6 +152,7 @@ class LauncherAppsActivity : ComponentActivity() {
         if(light!=LauncherTheme.isLight()){catalogDirty=true;applyTheme()}
         if(catalogDirty && refreshJob?.isActive!=true)refresh()
         else AppLog.info("LauncherApps","reuse cached layout total=${entries.size} page=${pager.page}")
+        guard?.cancel()
         guard=lifecycleScope.launch {
             while(isActive) {
                 delay(1000)
@@ -149,7 +161,9 @@ class LauncherAppsActivity : ComponentActivity() {
             }
         }
     }
-    override fun onPause(){resumed=false;finishEditing();guard?.cancel();guard=null;super.onPause()}
+    override fun onPause(){resumed=false;finishEditing();super.onPause()}
+    // Android 9 pauses one display when the other gains focus; visible drawers still need the VIP guard.
+    override fun onStop(){guard?.cancel();guard=null;super.onStop()}
     private fun applyTheme() {
         actions?.dismiss()
         light=LauncherTheme.isLight()
@@ -170,7 +184,8 @@ class LauncherAppsActivity : ComponentActivity() {
         val nonce=UUID.randomUUID().toString().replace("-","")
         val result=CompletableDeferred<JSONObject>();pending[nonce]=result
         try {
-            val sent=withContext(Dispatchers.IO) { ProcessCommandRunner().run(listOf("su","0","launcher-drawer",action,nonce,subtype),5) }
+            val command=listOf("su","0","launcher-drawer",action,nonce,subtype)+if(launcherDisplayId==0)emptyList() else listOf(launcherDisplayId.toString())
+            val sent=withContext(Dispatchers.IO) { ProcessCommandRunner().run(command,5) }
             check(sent.exitCode==0 && !sent.timedOut){sent.output}
             return withTimeout(8000) { result.await() }.also { check(!it.has("error")){it.optString("error")} }
         } finally {pending.remove(nonce)}
@@ -387,7 +402,7 @@ class LauncherAppsActivity : ComponentActivity() {
                     val intent=Intent(this,com.abrar.voyahiran.ui.MainActivity::class.java)
                         .putExtra("com.abrar.voyahiran.OPEN_PERMISSIONS_PACKAGE",entry.component.packageName)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    startActivity(intent,ActivityOptions.makeBasic().apply {launchDisplayId=0}.toBundle())
+                    startActivity(intent,ActivityOptions.makeBasic().apply {launchDisplayId=launcherDisplayId}.toBundle())
                 }
             })
         }
@@ -425,18 +440,18 @@ class LauncherAppsActivity : ComponentActivity() {
         lifecycleScope.launch {
             try {
                 if(entry.component==null)request("open",entry.id)
-                else if(LauncherMapPreview.openHostedMap(entry.component.packageName)) {
+                else if(launcherDisplayId==0 && LauncherMapPreview.openHostedMap(entry.component.packageName)) {
                     // The retained HOME preview owns masking, task transfer and return-to-card state.
                 } else {
                     val intent=Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(entry.component)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
                     if(entry.component.packageName==packageName)intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    startActivity(intent,ActivityOptions.makeBasic().apply {launchDisplayId=0}.toBundle())
+                    startActivity(intent,ActivityOptions.makeBasic().apply {launchDisplayId=launcherDisplayId}.toBundle())
                 }
             } catch(e:CancellationException){throw e}
             catch(e:Exception){AppLog.error("LauncherApps","open ${entry.id} failed",e);Toast.makeText(this@LauncherAppsActivity,"اجرای برنامه انجام نشد",Toast.LENGTH_SHORT).show()}
             finally {opening=false}
         }
     }
-    override fun onDestroy(){finishEditing();unregisterReceiver(reply);unregisterReceiver(packageChanges);pending.values.forEach {it.cancel()};pending.clear();super.onDestroy()}
+    override fun onDestroy(){unobserveCatalog?.invoke();unobserveCatalog=null;finishEditing();unregisterReceiver(reply);unregisterReceiver(packageChanges);pending.values.forEach {it.cancel()};pending.clear();super.onDestroy()}
 }

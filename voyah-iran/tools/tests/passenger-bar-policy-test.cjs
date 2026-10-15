@@ -1,0 +1,42 @@
+const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert/strict');
+const root=path.resolve(__dirname,'../../app/src/main/java/com/abrar/voyahiran');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const raw=read('core/bridge/OemNavigationScript.kt').split('"""')[1].replaceAll('__DOLLAR__','$');
+let home=true,dismisses=0,shows=0,animating=false,attached=true;
+const bar={mMoveWindowAnimator:{value:{isStarted:()=>animating}},mRootView:{value:{getParent:()=>attached?{}:null}},mLp:{value:{x:{value:0}}},dismiss(){dismisses++;attached=false},show(){shows++;attached=true}};
+const model={mSecondScreenNavigationBar:{value:bar},mSecondNavigationBarLastShow:{value:true}};
+const calls=[];
+const env={VI_PASSENGER_HOME_VISIBLE:()=>home,passengerModel:model,passengerHandler:{call:(_,p,a,v)=>calls.push(v)},passengerBarType:{},passengerState:null,passengerApplied:null,passengerRequests:new Map(),passengerMoving:()=>false,Java:{cast:x=>x},eligible:()=>true,syncBars(){},console};
+vm.createContext(env);
+for(const [start,end] of [['function passengerHome(','function passengerTop('],['function recoverPassenger(','// OEM Android display'],['function refreshPassenger(','// Use the factory passenger drawer']])vm.runInContext(raw.slice(raw.indexOf(start),raw.indexOf(end)),env);
+const component='com.abrar.voyahiran/.feature.launcher.PassengerLauncherActivity';
+env.refreshPassenger({},component,true);assert.equal(dismisses,1);assert.equal(calls.at(-1),false);
+env.refreshPassenger({},component,true);assert.equal(dismisses,1,'no repeated animation on detached bar');
+attached=true;animating=true;env.refreshPassenger({},component,true);assert.equal(dismisses,1,'do not restart animation');
+animating=false;attached=false;home=false;env.refreshPassenger({},'music.app/.Main',true);assert.equal(shows,1);assert.equal(calls.at(-1),true);
+assert(!read('core/bridge/PassengerDrawerScript.kt').includes('root.setVisibility(4)'));
+// Execute H97C fallback (no DragService / NavigationBarController).
+let cHome=true,cDismiss=0,cShow=0,tick;
+const cBar={mScreenId:{value:1},mMoveWindowAnimator:{value:null},mRootView:{value:{getParent:()=>({})}},dismiss:()=>cDismiss++,show:()=>cShow++};
+const cModel={mMainScreenMoving:{value:false},mSecondScreenMoving:{value:false},mSecondScreenNavigationBar:{value:cBar}};
+const cShowMethod={call:()=>cShow++},cHandler={call:(_,p,a,v)=>calls.push(v)};
+const cEnv={console,VI_PASSENGER_HOME_VISIBLE:()=>cHome,setInterval:f=>tick=f,Java:{perform:f=>f(),scheduleOnMainThread:f=>f(),retain:x=>x,cast:x=>x,choose:(_,callbacks)=>{callbacks.onMatch(cModel);callbacks.onComplete()},use:n=>{
+ if(n.endsWith('NavigationBarController'))throw Error('not in C');
+ if(n.endsWith('NavigationBar'))return {show:{overload:()=>cShowMethod}};
+ if(n.endsWith('LauncherModel'))return {handleUpdateSecondNavigationBar:{overload:()=>cHandler}};
+ throw Error(n);
+}}};
+vm.runInNewContext(read('core/bridge/PassengerBarScript.kt').split('"""')[1],cEnv);
+assert.equal(cDismiss,1);cHome=false;tick();assert.equal(cShow,1);tick();assert.equal(cShow,1,'restore only once');
+cHome=true;cHandler.implementation.call(cModel,'com.abrar.voyahiran','Home',true);assert.equal(calls.at(-1),false);
+// Source-only startup/UI contracts: intentionally do not compile/build.
+const startup=read('core/bridge/LauncherStartupBridge.kt');
+assert(startup.includes('for(display in listOf(0,1))'));
+assert(startup.includes('if(display in handledDisplays)continue'));
+assert(startup.includes('"PassengerLauncherActivity"'));
+assert(startup.includes('handledDisplays.containsAll(listOf(0,1))'));
+const ui=read('feature/navigation/DisplayMediaMapController.kt');
+assert(ui.includes('view.customLauncher.visibility = if (launcherSupported) View.VISIBLE else View.GONE'));
+assert(ui.includes('if(launcherSupported &&'));
+assert(read('core/compat/VehiclePlatform.kt').includes('h97[cx]'));
+console.log('PASS: native passenger dismiss/show, no masking, no animation restart, H97C fallback, dual-display startup and model UI gate contracts');

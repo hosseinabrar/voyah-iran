@@ -14,7 +14,8 @@ object RahaMediaControl {
         PlaybackState.STATE_PLAYING, PlaybackState.STATE_BUFFERING, PlaybackState.STATE_CONNECTING)
 
     /** Shared empty-source startup; never addresses a stale global media recipient. */
-    suspend fun playDefault(context: Context) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main.immediate) {
+    suspend fun playDefault(context: Context, displayId:Int=0) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main.immediate) {
+        require(displayId in 0..1)
         if(!defaultPlayMutex.tryLock())return@withContext
         var browser: android.media.browse.MediaBrowser?=null
         try {
@@ -29,7 +30,7 @@ object RahaMediaControl {
             var target:MediaController?=if(factory)null else sessions().firstOrNull {it.packageName==pkg}
             if(target?.let(::playing)==true)return@withContext
             // Clear force-stop and initialize the application's playback queue.
-            if(!factory)com.abrar.voyahiran.feature.navigation.DefaultAppLaunch.execute(context,"OPEN_DEFAULT_MUSIC",null)
+            if(!factory)com.abrar.voyahiran.feature.navigation.DefaultAppLaunch.execute(context,"OPEN_DEFAULT_MUSIC",null,displayId)
             val serviceName=when(selection) {
                 com.abrar.voyahiran.feature.navigation.NavigationPreferences.OEM_RADIO -> "com.qinggan.media.radio.LocalRadioBrowserService"
                 com.abrar.voyahiran.feature.navigation.NavigationPreferences.OEM_MUSIC -> "com.qinggan.media.usbmusic.LocalMediaBrowserService"

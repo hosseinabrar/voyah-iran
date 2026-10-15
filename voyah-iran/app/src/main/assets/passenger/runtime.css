@@ -1,0 +1,26 @@
+html,body{width:100%;height:100%;overflow:hidden;user-select:none;-webkit-user-select:none}
+.viewport{width:100%;height:100%;aspect-ratio:auto}.screen{background:#000!important}
+.screen .panel{background:radial-gradient(ellipse 75% 12% at 50% 104%,#6278b670,transparent),linear-gradient(135deg,#3c4b77,#1b233a)}
+body.light .screen{background:#e4ebf4!important}body.light .screen .panel{background:radial-gradient(ellipse 75% 12% at 50% 104%,#9ec5fc55,transparent),linear-gradient(135deg,#fcfdff,#eef4fc)}
+body.light .screen .climate{background:#d6e1ed}
+.weather-city{max-width:180px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:25px!important}
+.track-title,.track-artist{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.album-cover,.fragrance-object,.fragrance-backdrop{transition:opacity .3s ease,filter .3s ease}
+.fragrance-object{animation:scent-breathe 5s ease-in-out infinite}.fragrance[data-off=true] .fragrance-object{animation:none}
+.fragrance[data-off=true]{filter:grayscale(1)}
+button:disabled{opacity:.4;pointer-events:none}.temp-wheel{touch-action:pan-y}.screen[data-stale=true] .temp-wheel{pointer-events:none}
+.app-grid .favorite-slot{position:relative;min-width:0;display:flex;justify-content:center;align-items:center}
+.favorite-slot>.app-tile{width:100%;height:100%;background:none}.favorite-slot .app-tile img{width:116px;height:116px;object-fit:contain}
+.favorite-slot .app-tile span{max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.remove-favorite{position:absolute;right:42px;top:10px;width:44px;height:44px;border-radius:50%;background:#26364f;border:1px solid #657995;font-size:28px;color:#eef3fb;z-index:3}
+body.light .remove-favorite{background:#f2f6fc;color:#303947}
+.app-grid.editing .favorite-slot:not(.all-slot){animation:favorite-wobble .19s ease-in-out infinite alternate}
+@keyframes favorite-wobble{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
+.add-symbol{width:116px;height:116px;border:2px dashed #71839e;border-radius:24px;display:grid;place-items:center;font-size:64px;color:#71839e}
+.picker-scrim{position:absolute;inset:50px 0 0;z-index:40;background:#07102188;display:grid;place-items:center;animation:picker-fade .2s ease}
+.picker-box{width:900px;max-height:540px;background:#26364f;border-radius:22px;padding:28px;color:#eef3fb}
+body.light .picker-box{background:#edf3fb;color:#252f3c}.picker-list{max-height:400px;overflow:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.picker-list button{min-height:150px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:inherit;font-size:20px}.picker-list img{width:90px;height:90px;object-fit:contain}
+@keyframes picker-fade{from{opacity:0}to{opacity:1}}
+[hidden]{display:none!important}.screen .volume-fill{background:#389cff!important;box-shadow:none!important}
+.screen .fragrance-shade{pointer-events:none}

@@ -94,7 +94,8 @@ class NeshanConfigTest {
     @Test fun publicationAndAdSelectorsAreValidated() {
         val artifact=File("../../voyah-iran-subscription-server/deployment/configs/neshan.json")
         val catalog=NeshanConfig.verify(artifact.readText())
-        assertEquals(6L,catalog.revision)
+        // Publication advances independently of this selector-validation test.
+        assertTrue("Expected current route-aware publication",catalog.revision >= 7L)
         for (profile in catalog.profiles) {
             assertTrue(profile.json.getJSONObject("adSuppression").getBoolean("enabled"))
             assertEquals(3,profile.json.getJSONObject("androidTheme").getInt("value"))

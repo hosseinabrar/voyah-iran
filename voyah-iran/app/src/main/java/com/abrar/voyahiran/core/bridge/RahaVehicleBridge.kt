@@ -17,6 +17,13 @@ import java.io.File
 
 /** Runs only inside the authenticated root bridge. Uses the installed OEM SDK's enums and parceling. */
 object RahaVehicleBridge {
+    internal fun setLauncherFan(level:Int):CommandResult = try {
+        require(level in 0..7);check(BridgeSubscriptionSession.vipActive)
+        val sdk=OemSession()
+        val writes=listOf(RahaWrite("air-state","AC_POWER_SWITCH",1),RahaWrite("air","AC_BLOWER",level+1))
+        writes.forEach(sdk::validate);writes.forEach(sdk::write)
+        CommandResult(0,"DISPATCHED")
+    } catch(e:Exception){CommandResult(1,(e.cause ?: e).toString())}
     fun execute(actionName: String, json: String): CommandResult { return try {
         val action = RahaAction.valueOf(actionName)
         val data = JSONObject(json)

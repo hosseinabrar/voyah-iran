@@ -74,6 +74,7 @@ object BridgeServer {
                     when (command.first()) {
                         "launcher-drawer" -> LauncherAppsBridge.execute(command)
                         "launcher-vehicle" -> LauncherVehicleBridge.execute(command[1],command.getOrElse(2){""})
+                        "passenger-comfort" -> PassengerComfortBridge.execute(command[1],command[2])
                         "uninstall-user-app", "force-stop-user-app" -> {
                             val inventory = runner.run(listOf("/system/bin/pm", "list", "packages", "-3", "--user", "0"), 15)
                             if (inventory.exitCode != 0 || inventory.timedOut ||

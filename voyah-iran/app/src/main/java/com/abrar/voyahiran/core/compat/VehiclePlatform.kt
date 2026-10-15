@@ -2,6 +2,10 @@ package com.abrar.voyahiran.core.compat
 
 /** Framework/launcher hooks are verified for Android 11. Vehicle options remain SDK-driven. */
 object VehiclePlatform {
+    val customLauncher: Boolean get() = android.os.Build.VERSION.SDK_INT == 30 &&
+        listOf(android.os.Build.DEVICE, android.os.Build.PRODUCT, android.os.Build.MODEL,
+            android.os.Build.BOARD, android.os.Build.FINGERPRINT)
+            .any { Regex("(?i)(?<![a-z0-9])h97[cx](?![a-z0-9])").containsMatchIn(it) }
     val isH97a: Boolean get() = listOf(android.os.Build.DEVICE, android.os.Build.PRODUCT,
         android.os.Build.MODEL, android.os.Build.BOARD, android.os.Build.FINGERPRINT)
         .any { it.contains("h97a", ignoreCase = true) }

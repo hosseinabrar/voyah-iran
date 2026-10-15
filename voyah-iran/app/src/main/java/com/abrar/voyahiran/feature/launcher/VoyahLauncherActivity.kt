@@ -57,7 +57,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             if(coverKey==key)dashboard.media=dashboard.media.copy(cover=cover,coverPending=false)
         }
     } }
-    private val weather by lazy { LauncherWeather(this,lifecycleScope) { dashboard.weather=it } }
+    private val weather by lazy { LauncherSharedWeather(this) { dashboard.weather=it } }
     private val artwork by lazy { LauncherArtwork(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

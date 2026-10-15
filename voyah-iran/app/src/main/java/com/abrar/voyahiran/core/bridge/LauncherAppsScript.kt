@@ -84,13 +84,14 @@ Java.perform(function () {
                 const raw=String(Global.getString(ctx.getContentResolver(),'voyah_iran_drawer_request')||'');
                 if(raw===previous)return;previous=raw;
                 const parts=raw.split(':'), action=parts[0],nonce=parts[1],subtype=parts[2];
-                if(parts.length!==3 || !/^[a-f0-9]{32}$/.test(nonce))return;
+                const screen=parts.length===4 ? Number(parts[3]) : 0;
+                if((parts.length!==3 && parts.length!==4) || (screen!==0 && screen!==1) || !/^[a-f0-9]{32}$/.test(nonce))return;
                 try {
                     if(!allowed())throw new Error('Drawer disabled or VIP expired');
                     const all=beans();
                     if(action==='open') {
                         if(!all.some(function(item){return item.subtype===subtype;}))throw new Error('OEM tile unavailable');
-                        Launch.startAppBySubType(ctx,subtype,0);
+                        Launch.startAppBySubType(ctx,subtype,screen);
                         send(nonce,{opened:true});
                         console.log('VI_DRAWER_OPEN '+subtype);
                     } else if(action==='catalog' && subtype==='all') {
@@ -127,6 +128,11 @@ Java.perform(function () {
             const click = Legacy.onClick.overload('android.view.View');
             click.implementation = function(view) {
                 try {
+                    if(Number(this.mScreenId.value)===1 && typeof globalThis.VI_PASSENGER_OPEN==='function') {
+                        const name=String(view.getResources().getResourceEntryName(view.getId()));
+                        if((name==='screen_up_home_icon'||name==='screen_down_home_icon')&&globalThis.VI_PASSENGER_OPEN(false))return;
+                        if((name==='screen_up_all_app_icon'||name==='screen_down_all_app_icon')&&globalThis.VI_PASSENGER_OPEN(true))return;
+                    }
                     if(Number(this.mScreenId.value)===0 && allowed()) {
                         const name=String(view.getResources().getResourceEntryName(view.getId()));
                         if(name==='screen_up_all_app_icon' && globalThis.VI_OPEN_DRAWER(this.mContext.value))return;

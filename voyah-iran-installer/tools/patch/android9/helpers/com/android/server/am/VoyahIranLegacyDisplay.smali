@@ -297,7 +297,9 @@
 .end method
 
 .method public static bounds(Lcom/android/server/am/ActivityRecord;Landroid/graphics/Rect;)V
-    .registers 5
+    .registers 6
+    invoke-static {p0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->leftInset(Ljava/lang/Object;)I
+    move-result v3
 
     .line 114
     invoke-static {p0}, Lcom/android/server/am/VoyahIranLegacyDisplay;->applies(Ljava/lang/Object;)Z
@@ -389,7 +391,7 @@
     :cond_2
     iget v0, p0, Landroid/graphics/Rect;->left:I
 
-    add-int/lit16 v0, v0, 0x91
+    add-int v0, v0, v3
 
     iget v1, p0, Landroid/graphics/Rect;->top:I
 
@@ -1557,4 +1559,33 @@
     :cond_4
     :goto_0
     return-void
+.end method
+
+.method public static leftInset(Ljava/lang/Object;)I
+    .locals 2
+    if-eqz p0, :normal
+    instance-of v0, p0, Lcom/android/server/am/ActivityRecord;
+    if-eqz v0, :normal
+    check-cast p0, Lcom/android/server/am/ActivityRecord;
+    invoke-virtual {p0}, Lcom/android/server/am/ActivityRecord;->getDisplayId()I
+    move-result v0
+    const/4 v1, 0x1
+    if-ne v0, v1, :normal
+    iget-object v0, p0, Lcom/android/server/am/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
+    if-eqz v0, :normal
+    iget-object v1, v0, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
+    const-string p0, "com.abrar.voyahiran"
+    invoke-virtual {p0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    move-result v1
+    if-eqz v1, :normal
+    iget-object v0, v0, Landroid/content/pm/ActivityInfo;->name:Ljava/lang/String;
+    const-string v1, "com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity"
+    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    move-result v0
+    if-eqz v0, :normal
+    const/4 v0, 0x0
+    return v0
+    :normal
+    const/16 v0, 0x91
+    return v0
 .end method

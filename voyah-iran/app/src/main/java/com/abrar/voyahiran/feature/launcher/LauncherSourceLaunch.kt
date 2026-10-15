@@ -7,9 +7,9 @@ import android.os.Bundle
 import com.abrar.voyahiran.feature.navigation.DefaultAppLaunch
 
 internal object LauncherSourceLaunch {
-    fun open(context: Context, state: LauncherMediaState) {
+    fun open(context: Context, state: LauncherMediaState, displayId:Int=0) {
         if (state.oemSource.isEmpty() && state.sourcePackage.isEmpty()) {
-            DefaultAppLaunch.execute(context, "OPEN_DEFAULT_MUSIC", null)
+            DefaultAppLaunch.execute(context, "OPEN_DEFAULT_MUSIC", null,displayId)
             return
         }
         val oemPackage=sourcePackage(state.oemSource)
@@ -22,7 +22,7 @@ internal object LauncherSourceLaunch {
             ?: error("Music source has no launchable activity")
         check(context.packageManager.resolveActivity(intent, 0) != null) { "Music source is not installed" }
         context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
-            ActivityOptions.makeBasic().apply { launchDisplayId = 0 }.toBundle())
+            ActivityOptions.makeBasic().apply { launchDisplayId = displayId }.toBundle())
     }
 
     internal fun sourcePackage(source:String):String? = when(source) {

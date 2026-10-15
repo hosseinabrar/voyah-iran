@@ -2,7 +2,7 @@ package com.abrar.voyahiran.core.bridge
 
 /** Only consumes the OEM central Home view. Passenger controls and factory bars are untouched. */
 internal object LauncherHomeScript {
-    val source = LauncherWakeCoverScript.source + "\n" + """
+    val source = PassengerHomeScript.source + "\n" + LauncherWakeCoverScript.source + "\n" + """
 Java.perform(function () {
     const Global = Java.use('android.provider.Settings' + String.fromCharCode(36) + 'Global');
     const Intent = Java.use('android.content.Intent');

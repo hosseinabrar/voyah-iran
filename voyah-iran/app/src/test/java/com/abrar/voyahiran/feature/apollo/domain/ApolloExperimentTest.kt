@@ -28,9 +28,9 @@ class ApolloExperimentTest {
             assertFalse(it.field.endsWith("STATUS"))
         }
     }
-    @Test fun `main section order remains unchanged`() {
-        assertEquals(listOf(ApolloFeature.LANE_CHANGE, ApolloFeature.EMERGENCY_LANE,
+    @Test fun `main section retains simplified order without emergency controls`() {
+        assertEquals(listOf(ApolloFeature.LANE_CHANGE,
             ApolloFeature.TRAFFIC_LIGHT, ApolloFeature.LIGHT_CHANGE,
-            ApolloFeature.SIGNS, ApolloFeature.EMERGENCY_STEERING), ApolloFeature.displayed)
+            ApolloFeature.SIGNS), ApolloFeature.displayed)
     }
 }

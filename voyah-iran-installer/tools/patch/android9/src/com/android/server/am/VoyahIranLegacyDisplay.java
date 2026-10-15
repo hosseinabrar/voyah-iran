@@ -121,7 +121,14 @@ public final class VoyahIranLegacyDisplay {
         a.getDisplay().mDisplay.getRealSize(size);
         Rect full = new Rect(0, 0, size.x, size.y);
         if (full.width() <= 465 || full.height() <= 250 || full.width() <= full.height()) return;
-        out.set(full.left + 145, full.top + 50, full.right, full.bottom);
+        out.set(full.left + leftInset(a), full.top + 50, full.right, full.bottom);
+    }
+
+    public static int leftInset(Object object) {
+        if (!(object instanceof ActivityRecord)) return 145;
+        ActivityRecord a = (ActivityRecord) object;
+        return a.getDisplayId() == 1 && a.info != null && "com.abrar.voyahiran".equals(a.info.packageName) &&
+            "com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity".equals(a.info.name) ? 0 : 145;
     }
 
     public static void configuration(ActivityRecord a, android.content.res.Configuration config) {

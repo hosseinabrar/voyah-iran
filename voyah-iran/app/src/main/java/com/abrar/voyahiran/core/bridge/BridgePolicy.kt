@@ -14,6 +14,7 @@ object BridgePolicy {
         "com.qinggan.camera/.activity.RecordVideoActivity", "--ei", "mInType", "0",
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
+        if(request.size==3 && request[0]=="passenger-comfort" && PassengerComfortBridge.valid(request[1],request[2]))return request
         if(request.size==4 && request[0]=="launcher-map-touch" && sdkInt>=29 && AppDensityPreferences.validPackage(request[1]) &&
             request[1]!="com.abrar.voyahiran" && request[2].toIntOrNull() in 2..10000 && MapTouchPacket.parse(request[3])!=null)return request
         if(request==listOf("neshan-theme-android"))return request
@@ -22,7 +23,7 @@ object BridgePolicy {
         if(request.size==3 && request[0]=="cluster-map" && request[1] in listOf("show","ready","stop") &&
             request[2].matches(Regex("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")))return request
         if (request.size == 2 && request[0] == "cluster-music" && request[1] in listOf("refresh", "clear")) return request
-        if (request.size == 4 && request[0] == "launcher-drawer" &&
+        if ((request.size == 4 || (request.size == 5 && request[4] in listOf("0","1"))) && request[0] == "launcher-drawer" &&
             request[2].matches(Regex("[a-f0-9]{32}")) &&
             ((request[1] == "catalog" && request[3] == "all") ||
              (request[1] == "open" && request[3].matches(Regex("[A-Za-z0-9_.]{1,120}")) &&

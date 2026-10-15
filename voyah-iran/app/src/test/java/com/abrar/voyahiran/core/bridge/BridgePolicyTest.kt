@@ -46,6 +46,10 @@ class BridgePolicyTest {
         for(request in listOf(listOf("launcher-drawer","open",nonce,"Navigation"),listOf("launcher-drawer","open",nonce,"AC;reboot"),listOf("launcher-drawer","open","bad","AC"))) {
             assertNull(BridgePolicy.resolve(request))
         }
+        val open=listOf("launcher-drawer","open",nonce,"AC")
+        for(display in listOf("0","1"))assertEquals(open+display,BridgePolicy.resolve(open+display))
+        for(display in listOf("-1","2","100","01","1;reboot"))assertNull(BridgePolicy.resolve(open+display))
+        assertNull(BridgePolicy.resolve(open+listOf("1","extra")))
     }
 
     @Test fun cleanMapAcceptsSelectedAppsOnlyOnVirtualDisplays() {

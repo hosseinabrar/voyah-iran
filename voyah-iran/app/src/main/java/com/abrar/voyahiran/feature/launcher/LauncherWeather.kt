@@ -15,9 +15,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.Locale
 
+data class LauncherWeatherHour(val time:Long,val temperature:Double,val code:Int,val day:Boolean)
 data class LauncherWeatherState(val city: String = "Weather", val temperature: Double? = null,
     val low: Double? = null, val high: Double? = null, val code: Int = -1,
-    val day: Boolean = true, val notice: String = "Unknown")
+    val day: Boolean = true, val notice: String = "Unknown",val hours:List<LauncherWeatherHour> = emptyList())
 
 internal class LauncherWeather(private val context: Context, private val scope: CoroutineScope,
     private val update: (LauncherWeatherState) -> Unit) : LocationListener {
@@ -95,7 +96,7 @@ internal class LauncherWeather(private val context: Context, private val scope: 
     @Suppress("DEPRECATION")
     private fun fetch(fix: Location): JSONObject {
         val url="https://api.open-meteo.com/v1/forecast?latitude=${fix.latitude}&longitude=${fix.longitude}"+
-            "&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1"
+            "&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m,weather_code,is_day&timeformat=unixtime&timezone=auto&forecast_days=2"
         val connection=URL(url).openConnection() as HttpURLConnection
         val data=try {
             connection.connectTimeout=8000; connection.readTimeout=8000
@@ -131,7 +132,17 @@ internal class LauncherWeather(private val context: Context, private val scope: 
             val notice=if(stale || noFix) "Saved · "+java.text.SimpleDateFormat("HH:mm",Locale.US).format(java.util.Date(data.optLong("saved"))) else ""
             return LauncherWeatherState(data.optString("city","Weather"),current.getDouble("temperature_2m"),
                 daily.getJSONArray("temperature_2m_min").getDouble(0), daily.getJSONArray("temperature_2m_max").getDouble(0),
-                current.optInt("weather_code",-1),current.optInt("is_day",1)==1,notice)
+                current.optInt("weather_code",-1),current.optInt("is_day",1)==1,notice,parseHours(data,now))
+        }
+        internal fun parseHours(data:JSONObject,now:Long):List<LauncherWeatherHour> {
+            val h=data.optJSONObject("hourly") ?: return emptyList()
+            val times=h.optJSONArray("time") ?: return emptyList()
+            return (0 until times.length()).mapNotNull {i->runCatching {
+                val time=times.getLong(i)*1000
+                if(time<=now)return@runCatching null
+                val t=h.getJSONArray("temperature_2m").getDouble(i);check(t.isFinite())
+                LauncherWeatherHour(time,t,h.getJSONArray("weather_code").getInt(i),h.getJSONArray("is_day").getInt(i)==1)
+            }.getOrNull()}.take(5)
         }
     }
 }

@@ -24,8 +24,10 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
     private fun screenSwapEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.screenSwap && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_screen_swap", 1) == 1
     private fun passengerAppsEnabled() = com.abrar.voyahiran.core.compat.VehiclePlatform.frameworkHooks && android.provider.Settings.Global.getInt(activity.contentResolver, "voyah_iran_passenger_apps", 1) == 1
     fun bind() {
+        val launcherSupported = com.abrar.voyahiran.core.compat.VehiclePlatform.customLauncher
+        view.customLauncher.visibility = if (launcherSupported) View.VISIBLE else View.GONE
         fun updateClusterOptions() {
-            view.launcherClusterOptions.visibility = if(com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(activity)) View.VISIBLE else View.GONE
+            view.launcherClusterOptions.visibility = if(launcherSupported && com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(activity)) View.VISIBLE else View.GONE
             view.launcherClusterMap.isChecked = com.abrar.voyahiran.feature.launcher.LauncherPreferences.clusterMap(activity)
         }
         updateClusterOptions()

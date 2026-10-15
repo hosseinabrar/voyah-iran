@@ -6,7 +6,8 @@ import android.content.Intent
 import com.abrar.voyahiran.core.shell.CommandResult
 
 internal object DefaultAppLaunch {
-    fun execute(context: Context, action: String, requiredApp: String?): CommandResult {
+    fun execute(context: Context, action: String, requiredApp: String?, displayId:Int=0): CommandResult {
+        require(displayId in 0..1)
         if (action == "OPEN_OEM_RADIO") {
             // Same explicit FM-page intent as the OEM MediaJumpUtils.toRadioPage.
             val intent = Intent().setClassName("com.qinggan.app.radio", "com.qinggan.app.radio.view.RadioMainActivity")
@@ -17,7 +18,7 @@ internal object DefaultAppLaunch {
                     putBoolean("AUTO_PLAY", false)
                 })
             check(context.packageManager.resolveActivity(intent, 0) != null) { "برنامهٔ رادیوی خودرو در دسترس نیست" }
-            context.startActivity(intent, ActivityOptions.makeBasic().apply { launchDisplayId = 0 }.toBundle())
+            context.startActivity(intent, ActivityOptions.makeBasic().apply { launchDisplayId = displayId }.toBundle())
             return CommandResult(0, "OEM radio launched")
         }
         val prefs = NavigationPreferences(context)
@@ -34,7 +35,7 @@ internal object DefaultAppLaunch {
         val intent = context.packageManager.getLaunchIntentForPackage(pkg)
             ?: error("برنامهٔ پیش‌فرض نصب نیست یا قابل اجرا نیست")
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(intent, ActivityOptions.makeBasic().apply { launchDisplayId = 0 }.toBundle())
+        context.startActivity(intent, ActivityOptions.makeBasic().apply { launchDisplayId = displayId }.toBundle())
         return CommandResult(0, "Default application launched: $pkg")
     }
 }

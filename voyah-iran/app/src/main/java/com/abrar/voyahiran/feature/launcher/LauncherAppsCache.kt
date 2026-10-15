@@ -22,6 +22,14 @@ internal object LauncherAppsCache {
     private var theme=false
     private var work:Deferred<List<LauncherAppsEntry>>?=null
     private var cached:List<LauncherAppsEntry>?=null
+    private val listeners=linkedSetOf<(List<LauncherAppsEntry>)->Unit>()
+    /** Main-thread observers share one catalog load across both displays and favorites. */
+    fun observe(context:Context,listener:(List<LauncherAppsEntry>)->Unit):()->Unit {
+        listeners+=listener
+        warm(context)
+        cached?.let(listener)
+        return { listeners-=listener }
+    }
     private val pending=mutableMapOf<String,CompletableDeferred<JSONObject>>()
     private val chunks=mutableMapOf<String,Array<String?>>()
     private val receiver=object:BroadcastReceiver() {
@@ -47,6 +55,12 @@ internal object LauncherAppsCache {
                 chunks.remove(nonce);pending.remove(nonce)
             } else {
                 if(intent.action==Intent.ACTION_PACKAGE_REMOVED && intent.getBooleanExtra(Intent.EXTRA_REPLACING,false))return
+                if(intent.action==Intent.ACTION_PACKAGE_REMOVED) {
+                    val pkg=intent.data?.schemeSpecificPart
+                    cached?.filter {it.component?.packageName!=pkg}?.let {remaining->
+                        listeners.toList().forEach { listener->runCatching {listener(remaining)} }
+                    }
+                }
                 invalidate()
                 warm(context)
             }
@@ -84,6 +98,7 @@ internal object LauncherAppsCache {
                 val result=load(c,selectedTheme)
                 check(revision==generation) {"Catalog invalidated"}
                 cached=result
+                listeners.toList().forEach {listener->runCatching {listener(result)}.onFailure {AppLog.error("LauncherApps","Catalog observer failed",it)}}
                 AppLog.info("LauncherApps","background catalog ready total="+result.size+" light="+selectedTheme)
                 result
             } catch(e:Exception) {

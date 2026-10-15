@@ -19,6 +19,12 @@ Java.perform(function () {
         const passengerRequests = new Map();
         let passengerApplied = null;
         let passengerTopApi = null, passengerBarType = null;
+        function passengerHome(component) {
+            const parts=String(component).split('/');
+            return parts[0]==='com.abrar.voyahiran' &&
+                (parts[1]==='com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity' || parts[1]==='.feature.launcher.PassengerLauncherActivity') &&
+                typeof globalThis.VI_PASSENGER_HOME_VISIBLE==='function' && globalThis.VI_PASSENGER_HOME_VISIBLE();
+        }
         function passengerTop(ctx) {
             if (passengerTopApi === null) return null;
             const value = passengerTopApi.getTopAppInfo(ctx, 1, 4);
@@ -28,6 +34,7 @@ Java.perform(function () {
             return passengerModel === null || passengerModel.mMainScreenMoving.value || passengerModel.mSecondScreenMoving.value;
         }
         function recoverPassenger(ctx, component) {
+            if (passengerHome(component)) return;
             if (passengerBarType === null || passengerMoving()) return;
             const raw = passengerModel.mSecondScreenNavigationBar.value;
             if (raw === null) return;
@@ -52,7 +59,9 @@ Java.perform(function () {
                     const component = String(pkg) + '/' + String(activity);
                     if (passengerRequests.size >= 64) passengerRequests.clear();
                     passengerRequests.set(component, visible);
-                    if (active(ctx) && eligible(ctx, component)) {
+                    if (passengerHome(component)) {
+                        result = false;
+                    } else if (active(ctx) && eligible(ctx, component)) {
                         result = true;
                         passengerApplied = {component: component, original: visible};
                     }
@@ -70,6 +79,15 @@ Java.perform(function () {
             passengerTopApi = Java.use('com.qinggan.launcher.base.utils.AppUtils');
             passengerBarType = Java.use('com.qinggan.launcher.navigation.NavigationBarController');
             const nativeDismiss = passengerBarType.dismiss.overload();
+            const nativeShow = passengerBarType.show.overload();
+            nativeShow.implementation = function () {
+                if (Number(this.mScreenId.value)===1 && passengerHome(passengerTop(Base.getInstance()))) {
+                    const animator=this.mMoveWindowAnimator.value;
+                    if(this.mRootView.value.getParent()!==null && (animator===null || !animator.isStarted()))nativeDismiss.call(this);
+                    return;
+                }
+                return nativeShow.call(this);
+            };
             const nativeRelease = passengerBarType.release.overload();
             let releasing = 0;
             nativeRelease.implementation = function () {
@@ -82,7 +100,7 @@ Java.perform(function () {
                     if (this.mScreenId.value === 1 && releasing === 0 && !passengerMoving()) {
                         const ctx = Java.cast(Base.getInstance(), Base);
                         const component = passengerTop(ctx);
-                        if (component && active(ctx) && eligible(ctx, component)) {
+                        if (component && !passengerHome(component) && active(ctx) && eligible(ctx, component)) {
                             // Keep native hide intent for restoring the unchecked policy.
                             passengerApplied = {component: component, original: false};
                             console.log('VI_NAV_PASSENGER_KEEP ' + component);
@@ -102,7 +120,24 @@ Java.perform(function () {
         function refreshPassenger(ctx, component, enabled) {
             syncBars(ctx,component,1,enabled);
             if (passengerModel === null || passengerHandler === null) return;
-            const signature = enabled + ':' + component;
+            const home=passengerHome(component);
+            const signature = enabled + ':' + home + ':' + component;
+            if (home) {
+                if(signature!==passengerState) {
+                    passengerHandler.call(passengerModel, 'com.abrar.voyahiran', '', false);
+                    passengerState=signature;
+                }
+                // Native dismiss calls animateDismiss and removes its touch window.
+                // Do not restart an animation already in flight.
+                if(passengerBarType!==null && !passengerMoving()) {
+                    const raw=passengerModel.mSecondScreenNavigationBar.value;
+                    if(raw!==null) {
+                        const bar=Java.cast(raw,passengerBarType), animator=bar.mMoveWindowAnimator.value;
+                        if(bar.mRootView.value.getParent()!==null && (animator===null || !animator.isStarted()))bar.dismiss();
+                    }
+                }
+                return;
+            }
             if (signature === passengerState) {
                 if (enabled && eligible(ctx, component)) recoverPassenger(ctx, component);
                 return;
