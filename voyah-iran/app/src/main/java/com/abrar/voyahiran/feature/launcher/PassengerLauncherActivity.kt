@@ -31,6 +31,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private lateinit var fragrance:PassengerFragranceView
     private lateinit var favoriteCard:PassengerFavoritesView
     private lateinit var weatherCard:PassengerWeatherView
+    private lateinit var seatsCard:PassengerSeatsView
     private var appPicker:android.app.Dialog?=null
     private lateinit var surface:android.widget.FrameLayout
     private var ready=false
@@ -63,6 +64,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         web=WebView(this)
         weatherCard=PassengerWeatherView(this)
+        seatsCard=PassengerSeatsView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         climate=PassengerClimateView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         fragrance=PassengerFragranceView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         favoriteCard=PassengerFavoritesView(this).apply {
@@ -87,7 +89,7 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             override fun onPageFinished(v:WebView,url:String) {
                 if(url!="https://passenger.local/${if(light)"light" else "dark"}.html")return
-                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';document.querySelector('.weather-card').style.display='none';passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
+                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';document.querySelector('.weather-card').style.display='none';document.querySelector('.seat').style.display='none';window.passengerNativeSeats=true;passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
             }
         }
         surface=android.widget.FrameLayout(this)
@@ -96,6 +98,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         surface.addView(fragrance,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(favoriteCard,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(weatherCard,android.widget.FrameLayout.LayoutParams(1,1))
+        surface.addView(seatsCard,android.widget.FrameLayout.LayoutParams(1,1))
         listOf(climate,fragrance).forEach {card->card.setOnTouchListener {_,event->
             if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN)web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)
             false
@@ -120,6 +123,9 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             weatherCard.layoutParams=android.widget.FrameLayout.LayoutParams((556*sx).toInt(),(154*sy).toInt()).apply {
                 leftMargin=(1356*sx).toInt();topMargin=((50-top)*sy).toInt()
+            }
+            seatsCard.layoutParams=android.widget.FrameLayout.LayoutParams((556*sx).toInt(),(228*sy).toInt()).apply {
+                leftMargin=(1356*sx).toInt();topMargin=((216-top)*sy).toInt()
             }
         }
         onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){favoriteCard.dismissEdit();web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)}})
@@ -157,7 +163,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private fun applyTheme(force:Boolean=false) {
         val next=LauncherTheme.isLight();if(!force && next==light)return
         val fading=ready
-        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;weatherCard.light=next;appPicker?.dismiss();ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
+        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;weatherCard.light=next;seatsCard.light=next;appPicker?.dismiss();ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
         web.animate().cancel()
         val load={if(!isDestroyed && light==next)web.loadUrl("https://passenger.local/${if(next)"light" else "dark"}.html")}
         if(fading)web.animate().alpha(0f).setDuration(160).withEndAction {load()}.start()
@@ -166,6 +172,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private fun publish(kind:String,value:JSONObject) {
         if(kind=="vehicle")climate.update(value)
         if(kind=="vehicle")fragrance.update(value)
+        if(kind=="vehicle")seatsCard.update(value)
         states[kind]=value
         if(ready){val json=value.toString();if(lastSent[kind]==json)return;lastSent[kind]=json;web.evaluateJavascript("window.passenger&&passenger.update(${JSONObject.quote(kind)},$json)",null)}
     }
