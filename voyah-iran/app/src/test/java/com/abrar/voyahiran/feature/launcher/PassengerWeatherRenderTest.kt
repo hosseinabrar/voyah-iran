@@ -18,6 +18,19 @@ import java.util.TimeZone
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerWeatherRenderTest {
+    @Test fun unavailableArtworkExistsOnFirstFrameAndAfterDataLoss(){
+        val view=PassengerWeatherView(RuntimeEnvironment.getApplication())
+        for(light in listOf(false,true)){
+            view.light=light
+            view.update(LauncherWeatherState())
+            val initial=render(view,"${if(light)"light"else "dark"}-initial-unavailable")
+            assertTrue(view.contentDescription.contains("unavailable"))
+            view.update(sample());view.update(LauncherWeatherState())
+            val returned=render(view,"${if(light)"light"else "dark"}-returned-unavailable")
+            assertTrue(initial.sameAs(returned))
+            initial.recycle();returned.recycle()
+        }
+    }
     private fun sample():LauncherWeatherState {
         val start=ZonedDateTime.parse("2026-10-15T19:00:00+03:30").toInstant().toEpochMilli()
         return LauncherWeatherState(city="Tehran",temperature=20.0,code=0,day=false,notice="",hours=(0..4).map{LauncherWeatherHour(start+it*3600000L,20.0-it,if(it in 1..2)3 else 0,false)})

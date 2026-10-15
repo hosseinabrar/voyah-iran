@@ -23,10 +23,15 @@ internal class PassengerWeatherView(context:Context):View(context) {
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val persian=Typeface.createFromAsset(context.assets,"passenger/fonts/iransansx_regular.ttf")
     private val icons=HashMap<Int,Bitmap>()
+    init {
+        val unavailable=LauncherWeatherCode.icon(-1)
+        icons[unavailable]=LauncherWeatherArtwork.decode(resources,unavailable)
+        contentDescription="Weather unavailable"
+    }
     private fun iconId(code:Int,day:Boolean)=if(!day&&code in 0..1)com.abrar.voyahiran.R.drawable.launcher_weather_moon else LauncherWeatherCode.icon(code)
     fun update(next:LauncherWeatherState){
         if(next==state)return
-        (listOf(next.code to next.day)+next.hours.take(5).map{it.code to it.day}).filter{it.first>=0}.forEach{(code,day)->
+        (listOf(next.code to next.day)+next.hours.take(5).map{it.code to it.day}).forEach{(code,day)->
             val id=iconId(code,day);icons.getOrPut(id){LauncherWeatherArtwork.decode(resources,id)}
         }
         fade?.cancel();previous=state;state=next
@@ -43,7 +48,6 @@ internal class PassengerWeatherView(context:Context):View(context) {
         textPaint.typeface=font;textPaint.textSize=size;textPaint.color=color;textPaint.textAlign=Paint.Align.CENTER;c.drawText(s,x,y,textPaint)
     }
     private fun artwork(c:Canvas,code:Int,day:Boolean,cx:Float,cy:Float,size:Float){
-        if(code<0)return
         val b=icons[iconId(code,day)]?:return
         paint.shader=null;paint.color=Color.WHITE;c.drawBitmap(b,null,RectF(cx-size/2,cy-size/2,cx+size/2,cy+size/2),paint)
     }
@@ -58,8 +62,12 @@ internal class PassengerWeatherView(context:Context):View(context) {
         c.restore()
     }
     private fun contents(c:Canvas,s:LauncherWeatherState){
+        if(s.code<0 && s.temperature?.isFinite()!=true && s.hours.isEmpty()){
+            artwork(c,-1,true,278f,60f,140f)
+            text(c,"Weather unknown",278f,140f,18f,secondary)
+            return
+        }
         artwork(c,s.code,s.day,87.5f,51f,76f)
-        if(s.code<0)text(c,"—",87.5f,65f,40f,secondary)
         city(c,s)
         if(s.notice.isNotBlank()){
             textPaint.typeface=font;textPaint.textSize=11f
