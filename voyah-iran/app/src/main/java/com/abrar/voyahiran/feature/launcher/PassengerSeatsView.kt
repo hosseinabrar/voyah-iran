@@ -27,11 +27,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
     private var frame=10
     private var downX=0f;private var downY=0f
     private val bright=ColorMatrixColorFilter(ColorMatrix(floatArrayOf(1.1712f,0f,0f,0f,5.1f,0f,1.1712f,0f,0f,5.1f,0f,0f,1.1712f,0f,5.1f,0f,0f,0f,1f,0f)))
-    private fun key(side:Int,feature:String)=when(feature){
-        "vent"->"FRONT_SEAT_VENTILATION_COMMAND_";"heat"->"FRONT_SEAT_HEATING_COMMAND_"
-        "massage"->"FRONT_SEAT_MASS_INTEN_";else->"FRONT_SEAT_MASS_COMMAND_"
-    }+if(side==0)"LEFT"else "RIGHT"
-    private fun level(side:Int,feature:String)=state.optInt(key(side,feature),-1)
+    private fun level(side:Int,feature:String)=PassengerSeatFeedback.level(state,side,feature)
     private fun valid(side:Int,feature:String)=state.optBoolean("fresh")&&level(side,feature) in if(feature=="mode")1..2 else 0..3
     private fun active(side:Int,feature:String)=valid(side,feature)&&level(side,feature)>0
     init {isClickable=true;contentDescription="Driver and passenger seat ventilation, heating and massage";load("seat_bg_high_level_97c")

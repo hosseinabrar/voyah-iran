@@ -14,8 +14,9 @@ function comfort(op,value){if(vehicle.fresh)send('comfort',{op,value:String(valu
 function image(el,url){if(!el)return;if(el.dataset.next===url)return;el.dataset.next=url;el.style.opacity='0';setTimeout(()=>{if(el.dataset.next!==url)return;if(url){el.src=url;el.hidden=false;el.onload=()=>el.style.opacity='1';if(el.complete)el.style.opacity='1';}else{el.removeAttribute('src');el.hidden=true;}},140);}
 function pressed(el,on){el.setAttribute('aria-pressed',String(on));}
 function setButton(el,known,on){el.disabled=!vehicle.fresh||!known;pressed(el,on);}
-function seatState(owner){const suffix=owner==='driver'?'LEFT':'RIGHT';return {
-vent:val(`FRONT_SEAT_VENTILATION_COMMAND_${suffix}`),heat:val(`FRONT_SEAT_HEATING_COMMAND_${suffix}`),massage:val(`FRONT_SEAT_MASS_INTEN_${suffix}`),mode:val(`FRONT_SEAT_MASS_COMMAND_${suffix}`)};}
+function seatState(owner){const suffix=owner==='driver'?'LEFT':'RIGHT';
+const level=type=>{if(!vehicle.fresh)return null;const sw=val(`FRONT_SEAT_${type}_SWITCH_${suffix}`);if(sw===1)return 0;if(sw!==2)return null;const n=val(`FRONT_SEAT_${type}_${type==='MASS'?'INTEN':'COMMAND'}_${suffix}`);return n!==null&&n>=0&&n<=3?n:null;};return {
+vent:level('VENTILATION'),heat:level('HEATING'),massage:level('MASS'),mode:val(`FRONT_SEAT_MASS_COMMAND_${suffix}`)};}
 function paintVehicle(s){vehicle=s;screen.dataset.stale=String(!s.fresh);
 all('[data-owner]').forEach(group=>{const owner=group.dataset.owner,v=seatState(owner),side=owner==='driver'?'left':'right';
 group.querySelectorAll('[data-feature]').forEach(b=>{const n=v[b.dataset.feature],known=n!==null&&n>=0&&n<=3;b.disabled=!s.fresh||!known;b.querySelectorAll('img').forEach(im=>im.src=`oem-x/seat_${side}_${b.dataset.feature}_${known?n:0}_normal.png`);});

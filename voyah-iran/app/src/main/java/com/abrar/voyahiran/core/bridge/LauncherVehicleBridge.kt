@@ -113,7 +113,8 @@ internal object LauncherVehicleBridge {
             "HUM_ENERGY_PTREGEN_LEVL_FB","IVI_SOC_MODESET","AMBIENT_AIR_PRESSURE","ASC_SENSOR_ERROR_STS",
             "ASC_RF_HEIGHT","ASC_LF_HEIGHT","ASC_LR_HEIGHT","ASC_RR_HEIGHT","MANUAL_EASY_ENTER_SET") +
             listOf("FCM_SW_REQ_FB","IVI_FRAG_TASTE_FB","IVI_FRAG_CONCERNTION_FB","FCM_DURATION_CONTROL") +
-            listOf("LEFT","RIGHT").flatMap { side -> listOf("HEATING_COMMAND","VENTILATION_COMMAND","MASS_INTEN","MASS_COMMAND").map { "FRONT_SEAT_${it}_$side" } }
+            listOf("LEFT","RIGHT").flatMap { side -> listOf("HEATING_COMMAND","VENTILATION_COMMAND","MASS_INTEN","MASS_COMMAND",
+                "HEATING_SWITCH","VENTILATION_SWITCH","MASS_SWITCH").map { "FRONT_SEAT_${it}_$side" } }
         private val airGetters=listOf("getAirLeftTemperature","getAirRightTemperature","getAirWindSpeed","getAirSWStatus",
             "getAirACStatus","getAirMode","getAirDUALStatus","getAirFrontWindowDefogger","getAirRearWindowDefogger","getAirCirculationMode","getAirSupplyStatus")
         private fun acceptAir(air:Any?, initial:Boolean=false) {

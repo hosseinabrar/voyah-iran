@@ -18,8 +18,40 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerSeatsRenderTest {
+    @Test fun rememberedLevelsCannotActivateAnOffOrUnknownSwitch(){
+        for(side in 0..1)for((feature,type) in listOf("vent" to "VENTILATION","heat" to "HEATING","massage" to "MASS")){
+            val suffix=if(side==0)"LEFT"else "RIGHT"
+            val switch="FRONT_SEAT_${type}_SWITCH_$suffix"
+            val command="FRONT_SEAT_${type}_${if(type=="MASS")"INTEN"else "COMMAND"}_$suffix"
+            val state=JSONObject().put("fresh",true).put(command,3)
+            assertEquals(-1,PassengerSeatFeedback.level(state,side,feature))
+            state.put(switch,1);assertEquals(0,PassengerSeatFeedback.level(state,side,feature))
+            state.put(switch,2);assertEquals(3,PassengerSeatFeedback.level(state,side,feature))
+            for(invalid in listOf(0,3,255,-1)){
+                state.put(switch,invalid);assertEquals(-1,PassengerSeatFeedback.level(state,side,feature))
+            }
+            state.put(switch,2).put(command,255);assertEquals(-1,PassengerSeatFeedback.level(state,side,feature))
+            state.put(command,3).put("fresh",false);assertEquals(-1,PassengerSeatFeedback.level(state,side,feature))
+        }
+    }
+    @Test fun offSeatsRenderIdenticallyEvenWithRememberedIntensities(){
+        val view=PassengerSeatsView(RuntimeEnvironment.getApplication());view.layout(0,0,556,228)
+        val off=sample(false,false)
+        view.update(off)
+        val baseline=Bitmap.createBitmap(556,228,Bitmap.Config.ARGB_8888);view.draw(Canvas(baseline))
+        val remembered=JSONObject(off.toString())
+        for(side in listOf("LEFT","RIGHT"))for(field in listOf("HEATING_COMMAND","VENTILATION_COMMAND","MASS_INTEN"))
+            remembered.put("FRONT_SEAT_${field}_$side",3)
+        view.update(remembered)
+        val result=Bitmap.createBitmap(556,228,Bitmap.Config.ARGB_8888);view.draw(Canvas(result))
+        assertTrue("Off switches must suppress levels, overlays and massage mode buttons",baseline.sameAs(result))
+        baseline.recycle();result.recycle()
+    }
     private fun sample(left:Boolean=false,right:Boolean=true,heat:Boolean=false)=JSONObject().put("fresh",true).apply {
         for(side in listOf("LEFT","RIGHT")){val active=if(side=="LEFT")left else right
+            put("FRONT_SEAT_VENTILATION_SWITCH_$side",if(active&&!heat)2 else 1)
+            put("FRONT_SEAT_HEATING_SWITCH_$side",if(active&&heat)2 else 1)
+            put("FRONT_SEAT_MASS_SWITCH_$side",if(active)2 else 1)
             put("FRONT_SEAT_VENTILATION_COMMAND_$side",if(active&&!heat)2 else 0)
             put("FRONT_SEAT_HEATING_COMMAND_$side",if(active&&heat)3 else 0)
             put("FRONT_SEAT_MASS_INTEN_$side",if(active)1 else 0)
