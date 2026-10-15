@@ -30,6 +30,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private lateinit var climate:PassengerClimateView
     private lateinit var fragrance:PassengerFragranceView
     private lateinit var favoriteCard:PassengerFavoritesView
+    private lateinit var weatherCard:PassengerWeatherView
     private var appPicker:android.app.Dialog?=null
     private lateinit var surface:android.widget.FrameLayout
     private var ready=false
@@ -52,8 +53,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private val favorites by lazy {getSharedPreferences("passenger_favorites",MODE_PRIVATE)}
     private val audio by lazy {getSystemService(AudioManager::class.java)}
     private val weather by lazy {LauncherSharedWeather(this) {s->
-        val hours=JSONArray();s.hours.forEach {h->hours.put(JSONObject().put("time",h.time).put("temperature",h.temperature).put("icon",weatherIcon(h.code,h.day)))}
-        publish("weather",JSONObject().put("city",s.city).put("temperature",s.temperature).put("icon",weatherIcon(s.code,s.day)).put("notice",s.notice).put("hours",hours))
+        weatherCard.update(s)
     }}
     private val mediaObserver by lazy {LauncherMediaObserver(this,lifecycleScope,::onMedia)}
     private val changes=object:BroadcastReceiver() {override fun onReceive(c:Context?,i:Intent?) {if(i?.action=="theme_loaded"){skin.clear();applyTheme(true)} else volume()}}
@@ -62,6 +62,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     @Suppress("SetJavaScriptEnabled") override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         web=WebView(this)
+        weatherCard=PassengerWeatherView(this)
         climate=PassengerClimateView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         fragrance=PassengerFragranceView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         favoriteCard=PassengerFavoritesView(this).apply {
@@ -86,7 +87,7 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             override fun onPageFinished(v:WebView,url:String) {
                 if(url!="https://passenger.local/${if(light)"light" else "dark"}.html")return
-                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
+                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';document.querySelector('.weather-card').style.display='none';passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
             }
         }
         surface=android.widget.FrameLayout(this)
@@ -94,6 +95,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         surface.addView(climate,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(fragrance,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(favoriteCard,android.widget.FrameLayout.LayoutParams(1,1))
+        surface.addView(weatherCard,android.widget.FrameLayout.LayoutParams(1,1))
         listOf(climate,fragrance).forEach {card->card.setOnTouchListener {_,event->
             if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN)web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)
             false
@@ -115,6 +117,9 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             favoriteCard.layoutParams=android.widget.FrameLayout.LayoutParams((546*sx).toInt(),(662*sy).toInt()).apply {
                 leftMargin=(793*sx).toInt();topMargin=((50-top)*sy).toInt()
+            }
+            weatherCard.layoutParams=android.widget.FrameLayout.LayoutParams((556*sx).toInt(),(154*sy).toInt()).apply {
+                leftMargin=(1356*sx).toInt();topMargin=((50-top)*sy).toInt()
             }
         }
         onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){favoriteCard.dismissEdit();web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)}})
@@ -152,7 +157,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private fun applyTheme(force:Boolean=false) {
         val next=LauncherTheme.isLight();if(!force && next==light)return
         val fading=ready
-        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;appPicker?.dismiss();ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
+        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;weatherCard.light=next;appPicker?.dismiss();ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
         web.animate().cancel()
         val load={if(!isDestroyed && light==next)web.loadUrl("https://passenger.local/${if(next)"light" else "dark"}.html")}
         if(fading)web.animate().alpha(0f).setDuration(160).withEndAction {load()}.start()
@@ -254,6 +259,5 @@ class PassengerLauncherActivity : ComponentActivity() {
     }
     private fun png(b:Bitmap)=ByteArrayOutputStream().use {b.compress(Bitmap.CompressFormat.PNG,100,it);it.toByteArray()}
     private fun volume(){publish("volume",JSONObject().put("value",(audio.getStreamVolume(AudioManager.STREAM_MUSIC)*30f/audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)).toInt()))}
-    private fun weatherIcon(code:Int,day:Boolean):String {val id=if(!day && code in 0..1)com.abrar.voyahiran.R.drawable.launcher_weather_moon else LauncherWeatherCode.icon(code);val key="weather-$id";if(!pictures.containsKey(key))pictures[key]=png(LauncherWeatherArtwork.decode(resources,id));return "image/$key"}
     private fun error(e:Throwable){AppLog.error("PassengerLauncher","Operation failed",e);if(visible)Toast.makeText(this,"عملیات انجام نشد؛ وضعیت خودرو را بررسی کنید",Toast.LENGTH_LONG).show()}
 }
