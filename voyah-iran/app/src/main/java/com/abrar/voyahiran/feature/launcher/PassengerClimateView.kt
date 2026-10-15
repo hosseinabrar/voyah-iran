@@ -90,8 +90,8 @@ internal class PassengerClimateView(context: Context) : View(context) {
         }
         number(n?.plus(5)?.takeIf{it<=305},107f,32f,if(light)color("#929eae") else color("#74777a"))
         number(n,171f,48.3f,foreground)
-        val unitOffset=if(n!=null&&n!=155&&n!=305)84f else 64f
-        text(c,"℃",x+unitOffset,162f,24.8f,if(light)color("#47566c") else color("#dddddd"))
+        val unitOffset=if(n!=null&&n!=155&&n!=305)76f else 64f
+        text(c,"℃",x+unitOffset,171f,24.8f,foreground)
         number(n?.minus(5)?.takeIf{it>=155},219f,32f,if(light)color("#718096") else color("#74777a"))
     }
     private fun active(key:String):Boolean=when(key){
