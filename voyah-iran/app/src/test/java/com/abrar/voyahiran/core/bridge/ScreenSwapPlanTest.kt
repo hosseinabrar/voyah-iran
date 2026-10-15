@@ -2,6 +2,29 @@ package com.abrar.voyahiran.core.bridge
 import org.junit.Test
 import org.junit.Assert.*
 class ScreenSwapPlanTest {
+    @Test fun ownLauncherSurfacesNeverTransferInEitherDirection() {
+        val surfaces = listOf("VoyahLauncherActivity", "PassengerLauncherActivity",
+            "LauncherAppsActivity", "PassengerAppsActivity", "LauncherDrawerActivity")
+        for (name in surfaces) for (display in 0..1) for (prefix in listOf("com.abrar.voyahiran", "")) {
+            val fixed = app(20, display, "com.abrar.voyahiran").copy(activity="$prefix.feature.launcher.$name")
+            val otherHome = home(1-display)
+            assertTrue(name, ScreenSwapPlan.moves(listOf(fixed, otherHome)).isEmpty())
+            assertTrue(name, ScreenSwapPlan.empty(listOf(fixed, otherHome)))
+            val music = app(30, 1-display)
+            assertEquals(name, listOf(music), ScreenSwapPlan.moves(listOf(fixed, music)))
+            assertEquals(name, name in listOf("VoyahLauncherActivity", "PassengerLauncherActivity"), ScreenSwapPlan.home(fixed))
+        }
+    }
+    @Test fun otherActivitiesInOurPackageRemainMovable() {
+        val settings = app(1, 0, "com.abrar.voyahiran").copy(activity="com.abrar.voyahiran.MainActivity")
+        assertEquals(listOf(settings), ScreenSwapPlan.moves(listOf(settings, home(1))))
+    }
+    @Test fun bothOwnHomesAndDrawersAreEmpty() {
+        val center = app(1,0,"com.abrar.voyahiran").copy(activity="com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity")
+        val passenger = app(2,1,"com.abrar.voyahiran").copy(activity="com.abrar.voyahiran.feature.launcher.PassengerAppsActivity")
+        assertTrue(ScreenSwapPlan.empty(listOf(center, passenger)))
+        assertTrue(ScreenSwapPlan.moves(listOf(center, passenger)).isEmpty())
+    }
     private fun app(id:Int, d:Int, pkg:String="music") = ScreenSwapPlan.Stack(id,d,pkg,"Main",1,1,true,true)
     private fun home(d:Int) = ScreenSwapPlan.Stack(100+d,d,"launcher","Home",2,1,true,false)
     @Test fun centerToPassengerHome() { val a=app(1,0); assertEquals(listOf(a),ScreenSwapPlan.moves(listOf(a,home(1)))) }
