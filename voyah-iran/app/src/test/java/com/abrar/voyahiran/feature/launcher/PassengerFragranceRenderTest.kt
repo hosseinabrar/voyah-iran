@@ -18,7 +18,7 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerFragranceRenderTest {
-    private fun sample(tone:Int=2,on:Boolean=true)=JSONObject().put("fresh",true).put("IVI_FRAG_TASTE_FB",tone)
+    private fun sample(tone:Int=2,on:Boolean=true)=JSONObject().put("fresh",true).put("IVI_FRAG_TASTE_FB",PassengerFragranceMapping.channel(tone))
         .put("FCM_SW_REQ_FB",if(on)2 else 1).put("IVI_FRAG_CONCERNTION_FB",2).put("FCM_DURATION_CONTROL",1)
     @Test fun renderAllScentsInBothThemesAndPowerStates(){
         preparePassengerArtwork("fragrance-wide")
@@ -37,7 +37,9 @@ class PassengerFragranceRenderTest {
         fun tap(x:Float,y:Float){for(a in listOf(0,1)){val e=MotionEvent.obtain(0,1,a,28.0464f+x*.927152f,y*.927152f,0);view.onTouchEvent(e);e.recycle()}}
         tap(500f,270f);assertTrue(commands.isEmpty())
         view.update(sample());tap(500f,270f);assertEquals("scent" to "0",commands.last())
-        tap(665f,270f);assertEquals("scent" to "1",commands.last())
+        tap(665f,270f);assertEquals("scent" to "3",commands.last())
+        tap(580f,270f);assertEquals("scent" to "2",commands.last())
+        view.update(sample(tone=1));tap(500f,270f);assertEquals("scent" to "1",commands.last())
         tap(310f,115f);assertEquals("intensity" to "3",commands.last())
         tap(310f,210f);assertEquals("duration" to "0",commands.last())
         view.update(sample(on=false));val count=commands.size;tap(310f,115f);assertEquals(count,commands.size)

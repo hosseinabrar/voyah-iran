@@ -31,8 +31,9 @@ internal class PassengerFragranceView(context:Context):View(context) {
     fun update(s:JSONObject){
         if(state.toString()==s.toString())return
         state=s
-        if(valid("IVI_FRAG_TASTE_FB",1..3)&&scent!=value("IVI_FRAG_TASTE_FB")){
-            fade?.cancel();oldScent=scent;scent=value("IVI_FRAG_TASTE_FB")
+        val artwork=PassengerFragranceMapping.artwork(value("IVI_FRAG_TASTE_FB"))
+        if(valid("IVI_FRAG_TASTE_FB",1..3)&&artwork!=null&&scent!=artwork){
+            fade?.cancel();oldScent=scent;scent=artwork
             if(isAttachedToWindow&&isShown&&ValueAnimator.areAnimatorsEnabled()){
                 fade=ValueAnimator.ofFloat(0f,1f).apply{duration=320;addUpdateListener{blend=it.animatedValue as Float;invalidate()};start()}
             }else blend=1f
@@ -117,7 +118,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
             MotionEvent.ACTION_UP->{
                 if(abs(x-downX)>24||abs(y-downY)>24)return true
                 if(y in 237f..302f&&x in 469f..697f&&valid("IVI_FRAG_TASTE_FB",1..3)&&valid("FCM_SW_REQ_FB",1..2)){
-                    val n=listOf(2,3,1)[((x-469)/82).toInt().coerceIn(0,2)];onCommand("scent",if(on&&scent==n)"0" else n.toString())
+                    val n=listOf(2,3,1)[((x-469)/82).toInt().coerceIn(0,2)];onCommand("scent",if(on&&scent==n)"0" else PassengerFragranceMapping.channel(n).toString())
                 }else if(on&&x in 71f..359f){val i=((x-71)/96).toInt().coerceIn(0,2)
                     if(y in 94f..142f&&valid("IVI_FRAG_CONCERNTION_FB",1..3))onCommand("intensity",(i+1).toString())
                     if(y in 193f..241f&&valid("FCM_DURATION_CONTROL",0..2))onCommand("duration",listOf(1,2,0)[i].toString())

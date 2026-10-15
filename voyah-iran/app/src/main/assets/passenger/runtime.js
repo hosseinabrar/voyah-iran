@@ -24,7 +24,7 @@ if(active)group.querySelector('.tint').src=`oem-x/seatfront_${v.vent>0?'vent':'h
 group.querySelector('.massage').hidden=!(s.fresh&&v.massage>0);const modes=group.querySelector('.massage-modes');modes.hidden=!(s.fresh&&v.massage>0);
 modes.querySelectorAll('button').forEach((b,i)=>setButton(b,v.mode===1||v.mode===2,v.mode===i+1));
 });
-const scent=val('IVI_FRAG_TASTE_FB'),on=val('FCM_SW_REQ_FB')===2,known=valid('IVI_FRAG_TASTE_FB',1,3)&&valid('FCM_SW_REQ_FB',1,2);
+const scent=({1:2,2:3,3:1})[val('IVI_FRAG_TASTE_FB')],on=val('FCM_SW_REQ_FB')===2,known=valid('IVI_FRAG_TASTE_FB',1,3)&&valid('FCM_SW_REQ_FB',1,2);
 const panel=$('.fragrance'),old=panel.dataset.tone;panel.dataset.off=String(!on||!s.fresh);
 if(known&&old!==String(scent)){panel.dataset.tone=String(scent);$('.fragrance-title').textContent=['','Watery mist','Fresh bamboo','Peony scarlet'][scent];image($('.fragrance-object'),`fragrance-wide/object-${scent}${light?(scent===2?'-day-v2':'-day-v1'):''}.png`);}
 all('[data-scent]').forEach(b=>{const n=Number(b.dataset.scent);setButton(b,known,on&&scent===n);b.querySelector('img').src=`fragrance-wide/fragrance_icon_${{1:'shuigan',2:'zhuzi',3:'mudan'}[n]}_${on&&scent===n?'on':'off'}.png`;});
@@ -40,7 +40,7 @@ setButton($('.ac-cycle'),valid('getAirCirculationMode',0,2),val('getAirCirculati
 animation();}
 all('[data-feature]').forEach(b=>b.onclick=()=>{const owner=b.closest('[data-owner]').dataset.owner;comfort(`${owner}-${b.dataset.feature}`,(seatState(owner)[b.dataset.feature]+1)%4);});
 all('.massage-modes button').forEach(b=>b.onclick=()=>comfort(`${b.closest('[data-owner]').dataset.owner}-mode`,b.dataset.mode==='rolling'?2:1));
-all('[data-scent]').forEach(b=>b.onclick=()=>comfort('scent',b.getAttribute('aria-pressed')==='true'?0:b.dataset.scent));
+all('[data-scent]').forEach(b=>b.onclick=()=>comfort('scent',b.getAttribute('aria-pressed')==='true'?0:({1:3,2:1,3:2})[b.dataset.scent]));
 all('[data-setting]').forEach(g=>g.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>comfort(g.dataset.setting,g.dataset.setting==='intensity'?i+1:[1,2,0][i])));
 function scaleWheel(w){w.querySelectorAll('.temp-row span').forEach((e,i)=>e.style.transform=`scale(${Math.max(0,1-Math.abs(i*60-w.scrollTop)/180)})`);}
 all('.temp-wheel').forEach(w=>{let timer,rollback;w.addEventListener('scroll',()=>{scaleWheel(w);if(w.program)return;w.scrolling=true;clearTimeout(timer);timer=setTimeout(()=>{w.scrolling=false;if(vehicle.fresh){w.pending=305-Math.round(w.scrollTop/60)*5;comfort(w.closest('[data-zone]').dataset.zone+'-temp',w.pending);clearTimeout(rollback);rollback=setTimeout(()=>{w.pending=null;paintVehicle(vehicle);},2500);}},220);});w.onpointerdown=()=>w.dragging=true;w.onpointerup=w.onpointercancel=()=>w.dragging=false;});
