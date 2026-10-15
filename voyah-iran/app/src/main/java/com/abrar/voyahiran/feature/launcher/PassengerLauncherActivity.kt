@@ -28,6 +28,7 @@ import java.util.concurrent.ConcurrentHashMap
 class PassengerLauncherActivity : ComponentActivity() {
     private lateinit var web:WebView
     private lateinit var climate:PassengerClimateView
+    private lateinit var fragrance:PassengerFragranceView
     private lateinit var surface:android.widget.FrameLayout
     private var ready=false
     private var visible=false
@@ -60,6 +61,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         web=WebView(this)
         climate=PassengerClimateView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
+        fragrance=PassengerFragranceView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
         web.settings.apply {javaScriptEnabled=true;allowFileAccess=false;allowContentAccess=false;domStorageEnabled=false;javaScriptCanOpenWindowsAutomatically=false;setSupportMultipleWindows(false);mixedContentMode=WebSettings.MIXED_CONTENT_NEVER_ALLOW}
         web.addJavascriptInterface(Commands(),"Passenger")
         web.webViewClient=object:WebViewClient() {
@@ -76,12 +78,17 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             override fun onPageFinished(v:WebView,url:String) {
                 if(url!="https://passenger.local/${if(light)"light" else "dark"}.html")return
-                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
+                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
             }
         }
         surface=android.widget.FrameLayout(this)
         surface.addView(web,android.widget.FrameLayout.LayoutParams(-1,-1))
         surface.addView(climate,android.widget.FrameLayout.LayoutParams(1,1))
+        surface.addView(fragrance,android.widget.FrameLayout.LayoutParams(1,1))
+        listOf(climate,fragrance).forEach {card->card.setOnTouchListener {_,event->
+            if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN)web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)
+            false
+        }}
         setContentView(surface)
         web.addOnLayoutChangeListener {_,_,_,_,_,_,_,_,_->
             val point=android.graphics.Point()
@@ -94,6 +101,9 @@ class PassengerLauncherActivity : ComponentActivity() {
             climate.layoutParams=android.widget.FrameLayout.LayoutParams((770*sx).toInt(),(370*sy).toInt()).apply {
                 leftMargin=(5*sx).toInt();topMargin=((50-top)*sy).toInt()
             }
+            fragrance.layoutParams=android.widget.FrameLayout.LayoutParams((770*sx).toInt(),(280*sy).toInt()).apply {
+                leftMargin=(5*sx).toInt();topMargin=((432-top)*sy).toInt()
+            }
         }
         onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)}})
         val filter=IntentFilter("theme_loaded").apply {addAction("android.media.VOLUME_CHANGED_ACTION")}
@@ -104,7 +114,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private fun applyTheme(force:Boolean=false) {
         val next=LauncherTheme.isLight();if(!force && next==light)return
         val fading=ready
-        light=next;climate.light=next;ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
+        light=next;climate.light=next;fragrance.light=next;ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
         web.animate().cancel()
         val load={if(!isDestroyed && light==next)web.loadUrl("https://passenger.local/${if(next)"light" else "dark"}.html")}
         if(fading)web.animate().alpha(0f).setDuration(160).withEndAction {load()}.start()
@@ -112,6 +122,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     }
     private fun publish(kind:String,value:JSONObject) {
         if(kind=="vehicle")climate.update(value)
+        if(kind=="vehicle")fragrance.update(value)
         states[kind]=value
         if(ready){val json=value.toString();if(lastSent[kind]==json)return;lastSent[kind]=json;web.evaluateJavascript("window.passenger&&passenger.update(${JSONObject.quote(kind)},$json)",null)}
     }
@@ -144,6 +155,10 @@ class PassengerLauncherActivity : ComponentActivity() {
     }
     private fun command(kind:String,value:String) {
         when(kind) {
+            "nativeOverlay" -> {
+                val visibility=if(value=="true")android.view.View.INVISIBLE else android.view.View.VISIBLE
+                climate.visibility=visibility;fragrance.visibility=visibility
+            }
             "comfort" -> {
                 val p=JSONObject(value);val op=p.getString("op");val v=p.getString("value")
                 if(commandBusy || SystemClock.elapsedRealtime()-vehicleAt>10000 || !PassengerComfortBridge.valid(op,v))return

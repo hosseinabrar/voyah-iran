@@ -1,0 +1,130 @@
+package com.abrar.voyahiran.feature.launcher
+
+import android.content.Context
+import android.graphics.*
+import android.view.MotionEvent
+import android.view.View
+import android.animation.ValueAnimator
+import org.json.JSONObject
+import kotlin.math.*
+
+/** Native rendering of the approved 770x280 fragrance card, using its original layered assets. */
+internal class PassengerFragranceView(context:Context):View(context) {
+    var light=false
+        set(v){if(field!=v){field=v;invalidate()}}
+    var onCommand:(String,String)->Unit={_,_->}
+    private var state=JSONObject()
+    private var scent=2
+    private var oldScent=2
+    private var blend=1f
+    private var fade:ValueAnimator?=null
+    private var breath:ValueAnimator?=null
+    private var pulse=0f
+    private val paint=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+    private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
+    private val images=HashMap<String,Bitmap>()
+    private var downX=0f;private var downY=0f
+    private fun value(k:String)=state.optInt(k,-1)
+    private fun valid(k:String,r:IntRange)=state.optBoolean("fresh")&&value(k) in r
+    private val on get()=state.optBoolean("fresh")&&value("FCM_SW_REQ_FB")==2
+    init {isClickable=true;contentDescription="Fragrance selection, intensity and duration"}
+    fun update(s:JSONObject){
+        if(state.toString()==s.toString())return
+        state=s
+        if(valid("IVI_FRAG_TASTE_FB",1..3)&&scent!=value("IVI_FRAG_TASTE_FB")){
+            fade?.cancel();oldScent=scent;scent=value("IVI_FRAG_TASTE_FB")
+            if(isAttachedToWindow&&isShown&&ValueAnimator.areAnimatorsEnabled()){
+                fade=ValueAnimator.ofFloat(0f,1f).apply{duration=320;addUpdateListener{blend=it.animatedValue as Float;invalidate()};start()}
+            }else blend=1f
+        }
+        invalidate()
+        animateObject()
+    }
+    private fun animateObject(){
+        if(isAttachedToWindow&&isShown&&windowVisibility==VISIBLE&&on&&ValueAnimator.areAnimatorsEnabled()){
+            if(breath==null)breath=ValueAnimator.ofFloat(0f,1f).apply{duration=2500;repeatCount=ValueAnimator.INFINITE;repeatMode=ValueAnimator.REVERSE;addUpdateListener{pulse=it.animatedValue as Float;invalidate()};start()}
+        }else{breath?.cancel();breath=null;pulse=0f}
+    }
+    override fun onAttachedToWindow(){super.onAttachedToWindow();animateObject()}
+    override fun onWindowVisibilityChanged(visibility:Int){super.onWindowVisibilityChanged(visibility);animateObject()}
+    override fun onVisibilityChanged(changedView:View,visibility:Int){super.onVisibilityChanged(changedView,visibility);animateObject()}
+    override fun onDetachedFromWindow(){fade?.cancel();breath?.cancel();breath=null;pulse=0f;blend=1f;super.onDetachedFromWindow()}
+    private fun color(s:String)=Color.parseColor(s)
+    private fun asset(n:String)=images.getOrPut(n){context.assets.open("passenger/fragrance-wide/$n.png").use{BitmapFactory.decodeStream(it)}}
+    private fun filter(degrees:Float,saturation:Float):ColorMatrix{
+        val c=cos(degrees*PI/180).toFloat();val s=sin(degrees*PI/180).toFloat()
+        return ColorMatrix(floatArrayOf(.213f+.787f*c-.213f*s,.715f-.715f*c-.715f*s,.072f-.072f*c+.928f*s,0f,0f,
+            .213f-.213f*c+.143f*s,.715f+.285f*c+.140f*s,.072f-.072f*c-.283f*s,0f,0f,
+            .213f-.213f*c-.787f*s,.715f-.715f*c+.715f*s,.072f+.928f*c+.072f*s,0f,0f,0f,0f,0f,1f,0f)).apply{
+            postConcat(ColorMatrix().apply{setSaturation(saturation)})
+        }
+    }
+    private fun image(c:Canvas,n:String,r:RectF,cover:Boolean=false,matrix:ColorMatrix?=null,alpha:Int=255){
+        val b=asset(n);val scale=if(cover)max(r.width()/b.width,r.height()/b.height) else min(r.width()/b.width,r.height()/b.height)
+        paint.shader=null;paint.color=Color.WHITE;paint.alpha=alpha;paint.colorFilter=matrix?.let{ColorMatrixColorFilter(it)}
+        c.drawBitmap(b,null,RectF(r.centerX()-b.width*scale/2,r.centerY()-b.height*scale/2,r.centerX()+b.width*scale/2,r.centerY()+b.height*scale/2),paint)
+        paint.colorFilter=null;paint.alpha=255
+    }
+    private fun text(c:Canvas,s:String,x:Float,y:Float,size:Float,tint:Int){
+        paint.shader=null;paint.color=tint;paint.typeface=font;paint.textSize=size;paint.textAlign=Paint.Align.CENTER;c.drawText(s,x,y,paint)
+    }
+    override fun onDraw(c:Canvas){
+        super.onDraw(c);c.save();c.scale(width/770f,height/280f)
+        c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,770f,280f),16f,16f,Path.Direction.CW)})
+        val offLayer=if(!on){paint.color=Color.WHITE;paint.colorFilter=ColorMatrixColorFilter(ColorMatrix().apply{setSaturation(0f)});c.saveLayer(0f,0f,770f,280f,paint).also{paint.colorFilter=null}}else -1
+        if(blend<1f)scene(c,oldScent)
+        val layer=c.saveLayerAlpha(0f,0f,770f,280f,(blend*255).toInt());scene(c,scent);c.restoreToCount(layer)
+        if(offLayer>=0)c.restoreToCount(offLayer)
+        c.restore()
+    }
+    private fun scene(c:Canvas,tone:Int){
+        val neutral=ColorMatrix().apply{setSaturation(0f)}
+        val hue=if(light)when(tone){1->18f;2->-52f;else->105f} else when(tone){1->25f;3->90f;else->0f}
+        c.save();c.translate(770f,0f);c.scale(-1f,1f)
+        image(c,if(light)"landscape-day-v1" else "landscape",RectF(0f,0f,770f,280f),true,
+            if(!on)neutral else filter(hue,if(light)when(tone){1->.7f;2->.85f;else->.65f} else 1f))
+        c.restore()
+        if(light&&tone!=1&&on)c.drawColor(0x29ffffff)
+        if(!light){paint.shader=LinearGradient(0f,280f,0f,210f,intArrayOf(0x8006101b.toInt(),0x0006101b),null,Shader.TileMode.CLAMP);c.drawRect(0f,0f,770f,280f,paint);paint.shader=null}
+        c.save();c.translate(28.0464f,0f);c.scale(.927152f,.927152f)
+        if(light){c.save();c.translate(586.5f,229f);c.scale(1f,30f/133f);paint.shader=RadialGradient(0f,0f,66.5f,intArrayOf(0x70253f57,0x00324e65),null,Shader.TileMode.CLAMP);c.drawCircle(0f,0f,66.5f,paint);paint.shader=null;c.restore()}
+        c.save();c.translate(0f,-2f*pulse);c.scale(1f+.012f*pulse,1f+.012f*pulse,587f,222f)
+        image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",RectF(467f,46f,707f,242f),matrix=if(on)null else neutral,alpha=if(on)255 else 191)
+        c.restore()
+        val label=if(light)color(when(tone){1->"#707985";2->"#747970";else->"#7c7182"}) else Color.WHITE
+        text(c,listOf("","Watery mist","Fresh bamboo","Peony scarlet")[tone],587f,37f,20f,label)
+        for(row in 0..1){
+            val y=if(row==0)94f else 193f
+            text(c,if(row==0)"Intensity" else "Duration",215f,y-12f,18f,label)
+            paint.color=if(light)color(when(tone){1->"#99335b78";2->"#99173d2c";else->"#99675478"}) else 0x66001629
+            c.drawRoundRect(RectF(71f,y,359f,y+48f),30f,30f,paint)
+            val selected=if(row==0)value("IVI_FRAG_CONCERNTION_FB")-1 else listOf(1,2,0).indexOf(value("FCM_DURATION_CONTROL"))
+            for(i in 0..2){if(i==selected){paint.color=if(on)color("#389cff") else color("#87939b");c.drawRoundRect(RectF(71f+i*96,y,167f+i*96,y+48),30f,30f,paint)}
+                text(c,(if(row==0)listOf("Low","Medium","High") else listOf("30 min","60 min","Unlimited"))[i],119f+i*96,y+30f,17f,if(on)Color.WHITE else 0xffc6cbd0.toInt())}
+        }
+        listOf(2,3,1).forEachIndexed{i,n->
+            val active=on&&tone==n
+            val name=when(n){1->"shuigan";2->"zhuzi";else->"mudan"}
+            val x=456f+i*82
+            image(c,"fragrance_icon_${name}_${if(active)"on" else "off"}",RectF(x,221f,x+90,311f),matrix=if(light&&!active)ColorMatrix().apply{setScale(.45f,.45f,.45f,1f)} else null)
+        }
+        c.restore()
+    }
+    override fun onTouchEvent(e:MotionEvent):Boolean{
+        val x=(e.x*770/width-28.0464f)/.927152f;val y=e.y*280/height/.927152f
+        when(e.actionMasked){
+            MotionEvent.ACTION_DOWN->{downX=x;downY=y;return true}
+            MotionEvent.ACTION_UP->{
+                if(abs(x-downX)>24||abs(y-downY)>24)return true
+                if(y in 237f..302f&&x in 469f..697f&&valid("IVI_FRAG_TASTE_FB",1..3)&&valid("FCM_SW_REQ_FB",1..2)){
+                    val n=listOf(2,3,1)[((x-469)/82).toInt().coerceIn(0,2)];onCommand("scent",if(on&&scent==n)"0" else n.toString())
+                }else if(on&&x in 71f..359f){val i=((x-71)/96).toInt().coerceIn(0,2)
+                    if(y in 94f..142f&&valid("IVI_FRAG_CONCERNTION_FB",1..3))onCommand("intensity",(i+1).toString())
+                    if(y in 193f..241f&&valid("FCM_DURATION_CONTROL",0..2))onCommand("duration",listOf(1,2,0)[i].toString())
+                }
+                performClick();return true
+            }
+        };return true
+    }
+    override fun performClick():Boolean{super.performClick();return true}
+}
