@@ -1723,26 +1723,26 @@
 
 .method public static leftInset(Lcom/android/server/wm/ActivityRecord;)I
     .locals 2
-    if-eqz p0, :normal
+    if-eqz p0, :cond_0
     invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getDisplayId()I
     move-result v0
     const/4 v1, 0x1
-    if-ne v0, v1, :normal
+    if-ne v0, v1, :cond_0
     iget-object v0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
-    if-eqz v0, :normal
+    if-eqz v0, :cond_0
     iget-object v1, v0, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
     const-string p0, "com.abrar.voyahiran"
     invoke-virtual {p0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
     move-result v1
-    if-eqz v1, :normal
+    if-eqz v1, :cond_0
     iget-object v0, v0, Landroid/content/pm/ActivityInfo;->name:Ljava/lang/String;
     const-string v1, "com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity"
     invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
     move-result v0
-    if-eqz v0, :normal
+    if-eqz v0, :cond_0
     const/4 v0, 0x0
     return v0
-    :normal
+    :cond_0
     const/16 v0, 0x91
     return v0
 .end method

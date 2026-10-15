@@ -186,9 +186,36 @@ class PublishTests(unittest.TestCase):
                 p.java_homes(args, "osx-arm64")
 
     def test_universal_build_plan_without_running_any_build(self):
+        self.check_build_plan(True)
+
+    def test_arm_only_build_plan_without_running_any_build(self):
+        self.check_build_plan(False)
+
+    def test_universal_preference_defaults_and_validation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "settings.json"
+            self.assertTrue(p.preferences(path)["UniversalEnabled"])
+            for value in (True, False, "false", 0):
+                path.write_text(json.dumps({"ProtectionEnabled": False, "MinifyEnabled": True, "UniversalEnabled": value}))
+                if type(value) is bool:
+                    self.assertEqual(p.preferences(path)["UniversalEnabled"], value)
+                else:
+                    with self.assertRaises(RuntimeError): p.preferences(path)
+        with self.assertRaises(RuntimeError): p.selected_targets({"UniversalEnabled": False}, "osx-x64")
+
+    def test_arm_only_does_not_require_intel_jdk(self):
+        from types import SimpleNamespace
+        args = SimpleNamespace(java_home="/unused", java_home_arm64="", java_home_x64="")
+        with patch.object(Path, "is_file", return_value=True), \
+             patch.object(Path, "read_text", return_value='JAVA_VERSION="25.0.4.1"\nOS_NAME="Darwin"'), \
+             patch.object(p, "check_native"):
+            self.assertEqual(set(p.java_homes(args, "osx-arm64", {"osx-arm64": "arm64"})), {"osx-arm64"})
+
+    def check_build_plan(self, universal):
         from types import SimpleNamespace
         args = SimpleNamespace(dotnet="dotnet", java_home="/host", sdk="/sdk", development=False, identity="-")
-        prefs = {"ProtectionEnabled": False, "MinifyEnabled": True}
+        prefs = {"ProtectionEnabled": False, "MinifyEnabled": True, "UniversalEnabled": universal}
+        targets = p.TARGETS if universal else {"osx-arm64": "arm64"}
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             def fake_run(argv, **kwargs):
@@ -210,17 +237,18 @@ class PublishTests(unittest.TestCase):
             android.assert_called_once()
             calls = [list(map(str, c.args[0])) for c in commands.call_args_list]
             publishes = [c for c in calls if "publish" in c]
-            self.assertEqual({c[c.index("-r") + 1] for c in publishes}, set(p.TARGETS))
+            self.assertEqual({c[c.index("-r") + 1] for c in publishes}, set(targets))
             compiles = [c for c in calls if "swiftc" in c]
-            self.assertEqual({c[c.index("-target") + 1] for c in compiles}, {"arm64-apple-macosx12.0", "x86_64-apple-macosx12.0"})
-            self.assertTrue(any(c[:2] == ["/usr/bin/lipo", "-create"] for c in calls))
+            self.assertEqual({c[c.index("-target") + 1] for c in compiles}, {arch + "-apple-macosx12.0" for arch in targets.values()})
+            self.assertEqual(any(c[:2] == ["/usr/bin/lipo", "-create"] for c in calls), universal)
             verifications = [c for c in calls if "verify-payload" in c]
-            self.assertEqual(len(verifications), 2)
+            self.assertEqual(len(verifications), len(targets))
             self.assertTrue(all("osx-arm64" in c[0] for c in verifications))
             promote.assert_called_once()
             staged = promote.call_args.args[0]
             report = json.loads((staged / "voyah-iran-installer_2.0.3.build-report.json").read_text())
-            self.assertEqual(report["runtime"], "osx-universal")
+            self.assertEqual(report["runtime"], "osx-universal" if universal else "osx-arm64")
+            self.assertEqual(report["architectures"], list(targets.values()))
             self.assertFalse(report["macOS12Tested"])
 
     def test_certificate_rejects_multiple_signers(self):

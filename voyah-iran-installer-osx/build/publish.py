@@ -56,9 +56,10 @@ def check_native_tree(root, arch):
     require(count > 0, "No native runtime binaries found: " + str(root))
 
 
-def java_homes(args, host_runtime):
+def java_homes(args, host_runtime, targets=TARGETS):
     result = {}
     for runtime, configured in (("osx-arm64", args.java_home_arm64), ("osx-x64", args.java_home_x64)):
+        if runtime not in targets: continue
         value = configured or (args.java_home if runtime == host_runtime else "")
         require(bool(value), f"Set {'JavaHomeArm64' if runtime == 'osx-arm64' else 'JavaHomeX64'} in Toolchain.local.json for universal publishing")
         home = Path(value).resolve()
@@ -169,7 +170,15 @@ def preferences(path=SETTINGS):
     value = json.loads(path.read_text()) if path.exists() else {"ProtectionEnabled": False, "MinifyEnabled": True}
     require(type(value.get("ProtectionEnabled")) is bool and type(value.get("MinifyEnabled")) is bool, "Invalid build settings")
     require(not value["ProtectionEnabled"] or value["MinifyEnabled"], "Protection requires R8")
+    value.setdefault("UniversalEnabled", True)
+    require(type(value["UniversalEnabled"]) is bool, "Invalid UniversalEnabled setting")
     return value
+
+
+def selected_targets(prefs, host_runtime):
+    if prefs.get("UniversalEnabled", True): return dict(TARGETS)
+    require(host_runtime == "osx-arm64", "Apple Silicon-only publishing requires an Apple Silicon Mac for native payload verification")
+    return {"osx-arm64": "arm64"}
 
 
 def version_info():
@@ -349,6 +358,8 @@ def main():
     parser.add_argument("--alias", default="voyahiran")
     parser.add_argument("--protection", action=argparse.BooleanOptionalAction, default=None)
     parser.add_argument("--minify", action=argparse.BooleanOptionalAction, default=None)
+    parser.add_argument("--universal", action=argparse.BooleanOptionalAction, default=None,
+                        help="Include Intel and Apple Silicon; --no-universal builds Apple Silicon only")
     parser.add_argument("--identity", default="-", help="Apple Developer ID Application identity, or '-' for local ad-hoc testing")
     args = parser.parse_args()
     require(sys.platform == "darwin", "Publish must run on macOS")
@@ -356,6 +367,7 @@ def main():
     prefs = preferences()
     if args.protection is not None: prefs["ProtectionEnabled"] = args.protection
     if args.minify is not None: prefs["MinifyEnabled"] = args.minify
+    if args.universal is not None: prefs["UniversalEnabled"] = args.universal
     require(not prefs["ProtectionEnabled"] or prefs["MinifyEnabled"], "Protection requires R8")
     require(not prefs["ProtectionEnabled"] or sys.version_info >= (3, 10), "DPT protection requires Python 3.10+")
     runtime = "osx-arm64" if os.uname().machine == "arm64" else "osx-x64"
@@ -371,6 +383,8 @@ def main():
 
 
 def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
+    targets = selected_targets(prefs, host_runtime)
+    bundle_runtime = "osx-universal" if len(targets) == 2 else "osx-arm64"
     work = Path(tempfile.mkdtemp(prefix="publish-", dir=cache))
     for name in ("tmp", "cli", "nuget", "gradle", "clang"):
         (cache / name).mkdir(exist_ok=True)
@@ -382,14 +396,14 @@ def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
     require(run([args.dotnet, "--version"], env=env, capture=True).startswith("8."), ".NET SDK 8 is required; set VI_DOTNET")
     if not args.development:
         require(bool(args.java_home), "Set JAVA_HOME to JDK 25 (or use --java-home)")
-        homes = java_homes(args, host_runtime)
+        homes = java_homes(args, host_runtime, targets)
         adb_dir = Path(args.sdk).resolve() / "platform-tools"
-        for arch in TARGETS.values(): check_native(adb_dir / "adb", arch)
+        for arch in targets.values(): check_native(adb_dir / "adb", arch)
         # Build/sign/protect the Android APK exactly once; both Mac payloads use it.
         apk, _, cert = build_android(args, work, env, version, code, prefs)
-    print("Building both native installer backends…", flush=True)
+    print("Building native installer backends: " + ", ".join(targets), flush=True)
     backends = {}
-    for runtime, arch in TARGETS.items():
+    for runtime, arch in targets.items():
         backend = work / "backend" / runtime
         run([args.dotnet, "publish", BACKEND, "-c", "Release", "-r", runtime, "--self-contained", "true",
              "-p:PublishSingleFile=false", "--nologo", "-o", backend], env=env)
@@ -399,9 +413,9 @@ def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
     verifier = backends[host_runtime] / "VoyahIran.Installer.Mac"
     bundles = {}
     if not args.development:
-        print("2/4 Preparing and verifying both offline payloads…", flush=True)
+        print("2/4 Preparing and verifying selected offline payloads…", flush=True)
         sources = {}
-        for runtime, arch in TARGETS.items():
+        for runtime, arch in targets.items():
             java_runtime = work / ("java-" + runtime)
             copy_java_runtime(homes[runtime], java_runtime)
             check_native_tree(java_runtime, arch)
@@ -409,9 +423,9 @@ def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
             sources[runtime] = payload_sources(required, apk, java_runtime, adb_dir)
         common, specific = split_payload_sources(sources)
         shared_bundle = work / "common.zip"
-        shared_hashes = make_payload(shared_bundle, common, version, "osx-universal", manifest=False)
+        shared_hashes = make_payload(shared_bundle, common, version, bundle_runtime, manifest=False)
         bundles["common"] = shared_bundle
-        for runtime in TARGETS:
+        for runtime in targets:
             bundle = work / (runtime + ".zip")
             make_payload(bundle, specific[runtime], version, runtime, shared_hashes=shared_hashes)
             extracted = work / ("payload-check-" + runtime)
@@ -422,20 +436,23 @@ def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
                 run([extracted / "java/bin/java", "--list-modules"], env=env, capture=True)
                 run([extracted / "adb", "version"], env=env, capture=True)
             bundles[runtime] = bundle
-    print("3/4 Building the universal macOS application…", flush=True)
+    print("3/4 Building the macOS application: " + bundle_runtime, flush=True)
     stem = output_stem(label, args.development)
     app = work / (stem + ".app")
     macos, resources = app / "Contents/MacOS", app / "Contents/Resources"
     macos.mkdir(parents=True); resources.mkdir(parents=True)
     slices = []
-    for arch in TARGETS.values():
+    for arch in targets.values():
         executable = work / ("VoyahIranInstaller-" + arch)
         run(["/usr/bin/xcrun", "swiftc", "-parse-as-library", "-O", "-target", f"{arch}-apple-macosx{MIN_MACOS}",
              "-module-cache-path", cache / "clang", ROOT / "Sources/App.swift", "-o", executable], env=env)
         check_native(executable, arch)
         slices.append(executable)
-    run(["/usr/bin/lipo", "-create", *slices, "-output", macos / "VoyahIranInstaller"], env=env)
-    for arch in TARGETS.values(): check_native(macos / "VoyahIranInstaller", arch)
+    if len(slices) == 1:
+        shutil.copy2(slices[0], macos / "VoyahIranInstaller")
+    else:
+        run(["/usr/bin/lipo", "-create", *slices, "-output", macos / "VoyahIranInstaller"], env=env)
+    for arch in targets.values(): check_native(macos / "VoyahIranInstaller", arch)
     for runtime, backend in backends.items():
         shutil.copytree(backend, resources / "backend" / runtime)
     icon_name = install_icon(resources)
@@ -447,7 +464,7 @@ def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
             "CFBundleName": "Voyah Iran Installer", "CFBundleDisplayName": "نصاب وویا ایران", "CFBundlePackageType": "APPL",
             "CFBundleIconFile": icon_name,
             "CFBundleShortVersionString": version, "CFBundleVersion": str(code), "LSMinimumSystemVersion": MIN_MACOS,
-            "LSArchitecturePriority": ["arm64", "x86_64"],
+            "LSArchitecturePriority": list(targets.values()),
             "NSHighResolutionCapable": True, "NSPrincipalClass": "NSApplication", "LSMultipleInstancesProhibited": True}
     (app / "Contents/Info.plist").write_bytes(plistlib.dumps(info))
     # Sign nested .NET code before the outer bundle. No sandbox: ADB needs USB/process access.
@@ -461,7 +478,7 @@ def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
     run(["/usr/bin/ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", app, archive], env=env)
     report = work / (stem + ".build-report.json")
     report.write_text(json.dumps({"version": version, "versionCode": code, "label": label,
-        "runtime": "osx-universal", "architectures": list(TARGETS.values()), "minimumMacOS": MIN_MACOS,
+        "runtime": bundle_runtime, "architectures": list(targets.values()), "minimumMacOS": MIN_MACOS,
         "nativeToolsSmokeTested": [] if args.development else [host_runtime], "macOS12Tested": False,
         "developmentOnly": args.development, "protection": prefs["ProtectionEnabled"], "minify": prefs["MinifyEnabled"],
         "apkSha256": None if args.development else sha(apk), "certificate": None if args.development else cert,

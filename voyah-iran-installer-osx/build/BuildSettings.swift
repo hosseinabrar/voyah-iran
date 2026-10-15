@@ -14,10 +14,12 @@ let store = NSSecureTextField(), key = NSSecureTextField()
 store.placeholderString = "رمز Keystore"; key.placeholderString = "رمز مستقل کلید — اختیاری"
 let protect = NSButton(checkboxWithTitle: "اعمال پروتکشن DPT (نیازمند R8)", target: nil, action: nil)
 let minify = NSButton(checkboxWithTitle: "مینی‌فای و کوچک‌سازی منابع (R8)", target: nil, action: nil)
+let universal = NSButton(checkboxWithTitle: "Universal — اینتل و سری M (خاموش: فقط سری M)", target: nil, action: nil)
+universal.state = old["UniversalEnabled"] as? Bool == false ? .off : .on
 protect.state = old["ProtectionEnabled"] as? Bool == true ? .on : .off
 minify.state = old["MinifyEnabled"] as? Bool == false ? .off : .on
-for view in [store, key, protect, minify] as [NSView] { stack.addArrangedSubview(view) }
-stack.frame = NSRect(x: 0, y: 0, width: 410, height: 130)
+for view in [store, key, protect, minify, universal] as [NSView] { stack.addArrangedSubview(view) }
+stack.frame = NSRect(x: 0, y: 0, width: 450, height: 165)
 alert.accessoryView = stack; alert.addButton(withTitle: "ذخیره"); alert.addButton(withTitle: "انصراف")
 if alert.runModal() == .alertFirstButtonReturn {
     func save(_ service: String, _ value: String) throws {
@@ -32,7 +34,10 @@ if alert.runModal() == .alertFirstButtonReturn {
             try save("VoyahIran.Android.StorePassword", store.stringValue)
             try save("VoyahIran.Android.KeyPassword", key.stringValue.isEmpty ? store.stringValue : key.stringValue)
         } else if !key.stringValue.isEmpty { try save("VoyahIran.Android.KeyPassword", key.stringValue) }
-        let settings = ["ProtectionEnabled": protect.state == .on, "MinifyEnabled": protect.state == .on || minify.state == .on]
+        var settings = old
+        settings["ProtectionEnabled"] = protect.state == .on
+        settings["MinifyEnabled"] = protect.state == .on || minify.state == .on
+        settings["UniversalEnabled"] = universal.state == .on
         try JSONSerialization.data(withJSONObject: settings, options: [.prettyPrinted, .sortedKeys]).write(to: path, options: .atomic)
     } catch { let failure = NSAlert(error: error); failure.runModal(); exit(1) }
 }
