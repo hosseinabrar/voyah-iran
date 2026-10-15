@@ -27,9 +27,9 @@ internal class PassengerClimateView(context: Context) : View(context) {
     private fun color(hex:String)=Color.parseColor(hex)
     private val foreground get()=color(if(light)"#303b4a" else "#ffffff")
     private val secondary get()=color(if(light)"#71839e" else "#bec9e2")
-    private fun bitmap(name:String)=images.getOrPut(name){context.assets.open("passenger/oem-ac/$name.png").use{BitmapFactory.decodeStream(it)}}
+    private fun bitmap(name:String):Bitmap?=images[name] ?: PassengerArtworkCache.get(context,"passenger/oem-ac/$name.png",this)?.also{images[name]=it}
     private fun image(c:Canvas,name:String,rect:RectF,tint:Int?=null,cover:Boolean=false){
-        val b=bitmap(name);val s=if(cover)max(rect.width()/b.width,rect.height()/b.height) else minOf(rect.width()/b.width,rect.height()/b.height)
+        val b=bitmap(name) ?: return;val s=if(cover)max(rect.width()/b.width,rect.height()/b.height) else minOf(rect.width()/b.width,rect.height()/b.height)
         val dest=RectF(rect.centerX()-b.width*s/2,rect.centerY()-b.height*s/2,rect.centerX()+b.width*s/2,rect.centerY()+b.height*s/2)
         paint.color=Color.WHITE;paint.alpha=255;paint.shader=null;paint.colorFilter=tint?.let{PorterDuffColorFilter(it,PorterDuff.Mode.SRC_IN)}
         c.drawBitmap(b,null,dest,paint);paint.colorFilter=null

@@ -50,7 +50,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
     override fun onVisibilityChanged(changedView:View,visibility:Int){super.onVisibilityChanged(changedView,visibility);animateObject()}
     override fun onDetachedFromWindow(){fade?.cancel();breath?.cancel();breath=null;pulse=0f;blend=1f;super.onDetachedFromWindow()}
     private fun color(s:String)=Color.parseColor(s)
-    private fun asset(n:String)=images.getOrPut(n){context.assets.open("passenger/fragrance-wide/$n.png").use{BitmapFactory.decodeStream(it)}}
+    private fun asset(n:String):Bitmap?=images[n] ?: PassengerArtworkCache.get(context,"passenger/fragrance-wide/$n.png",this)?.also{images[n]=it}
     private fun filter(degrees:Float,saturation:Float):ColorMatrix{
         val c=cos(degrees*PI/180).toFloat();val s=sin(degrees*PI/180).toFloat()
         return ColorMatrix(floatArrayOf(.213f+.787f*c-.213f*s,.715f-.715f*c-.715f*s,.072f-.072f*c+.928f*s,0f,0f,
@@ -60,7 +60,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
         }
     }
     private fun image(c:Canvas,n:String,r:RectF,cover:Boolean=false,matrix:ColorMatrix?=null,alpha:Int=255){
-        val b=asset(n);val scale=if(cover)max(r.width()/b.width,r.height()/b.height) else min(r.width()/b.width,r.height()/b.height)
+        val b=asset(n) ?: return;val scale=if(cover)max(r.width()/b.width,r.height()/b.height) else min(r.width()/b.width,r.height()/b.height)
         paint.shader=null;paint.color=Color.WHITE;paint.alpha=alpha;paint.colorFilter=matrix?.let{ColorMatrixColorFilter(it)}
         c.drawBitmap(b,null,RectF(r.centerX()-b.width*scale/2,r.centerY()-b.height*scale/2,r.centerX()+b.width*scale/2,r.centerY()+b.height*scale/2),paint)
         paint.colorFilter=null;paint.alpha=255

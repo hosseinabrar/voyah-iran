@@ -160,6 +160,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             fadeStartupCover()
             if(visible)startVisibleWork()
             LauncherAppsCache.warm(this)
+            PassengerArtworkCache.warm(this)
         }
     }
     private fun fadeStartupCover() {

@@ -66,6 +66,9 @@ class PassengerLauncherActivity : ComponentActivity() {
     private fun allowed()=visible && !isFinishing && !isDestroyed && LauncherPreferences.enabled(this) && (application as VoyahIranApplication).subscriptions.vipAllowed && (window.decorView.display?.displayId ?: windowManager.defaultDisplay.displayId)==1
     @Suppress("SetJavaScriptEnabled") override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
+        AppLog.info("PassengerLauncher","create instance=${System.identityHashCode(this)}")
+        PassengerArtworkCache.warm(this)
+        LauncherAppsCache.warm(this)
         web=WebView(this)
         weatherCard=PassengerWeatherView(this)
         musicCard=PassengerMusicView(this).apply {onCommand={kind,value->if(allowed())runCatching{command(kind,value)}.onFailure{error(it)}}}
@@ -189,7 +192,9 @@ class PassengerLauncherActivity : ComponentActivity() {
         super.onResume();visible=true;if(!allowed()){finish();return};applyTheme();web.onResume()
         web.evaluateJavascript("window.passenger&&passenger.visibility(true)",null)
         if(watch?.isActive==true)return
-        vehicleAt=0L;publish("vehicle",JSONObject().put("fresh",false))
+        // Keep the last rendered state while the bridge returns its current snapshot.
+        // Commands still require a recent vehicleAt, so cached visuals cannot send stale actions.
+        AppLog.info("PassengerLauncher","resume cached instance=${System.identityHashCode(this)} vehicleAge=${SystemClock.elapsedRealtime()-vehicleAt}")
         weather.start();mediaObserver.start();volume();unobserve=LauncherAppsCache.observe(this){catalog=it;publishApps()}
         watch=lifecycleScope.launch {
             var revision=-1L
@@ -200,7 +205,8 @@ class PassengerLauncherActivity : ComponentActivity() {
                     vehicleAt=SystemClock.elapsedRealtime();val next=s.optLong("revision",-1)
                     if(next!=revision || states["vehicle"]?.optBoolean("fresh")!=true){revision=next;publish("vehicle",s.put("fresh",true))}
                 }
-                if(SystemClock.elapsedRealtime()-vehicleAt>10000 && states["vehicle"]?.optBoolean("fresh")!=false)publish("vehicle",JSONObject().put("fresh",false))
+                if(SystemClock.elapsedRealtime()-vehicleAt>10000 && states["vehicle"]?.optBoolean("fresh")!=false)
+                    publish("vehicle",JSONObject(states["vehicle"]?.toString() ?: "{}").put("fresh",false))
                 delay(if(r.exitCode==0)100 else 1000)
             }
         }
@@ -251,10 +257,14 @@ class PassengerLauncherActivity : ComponentActivity() {
         else lifecycleScope.launch {val nonce=java.util.UUID.randomUUID().toString().replace("-","");val r=withContext(Dispatchers.IO){BridgeClient.run(listOf("launcher-drawer","open",nonce,entry.id,"1"),5)};if(r.exitCode!=0 || r.timedOut)error(IllegalStateException(r.output))}
     }
     private var catalogJob:Job?=null
+    private var publishedCatalog:List<LauncherAppsEntry>?=null
+    private var publishedFavorites:List<String>?=null
     private fun publishApps() {
         val saved=runCatching {JSONArray(favorites.getString("ids",null))}.getOrNull()
         val ids=if(saved!=null)(0..4).map {saved.optString(it).takeIf {id->catalog.any {e->e.id==id}}.orEmpty()} else catalog.take(5).map {it.id}.let {it+List(5-it.size){""}}
         if(saved==null&&catalog.isNotEmpty())favorites.edit().putString("ids",JSONArray(ids).toString()).apply()
+        if(publishedCatalog==catalog && publishedFavorites==ids)return
+        publishedCatalog=catalog;publishedFavorites=ids
         favoriteCard.bind(catalog,ids);appPicker?.dismiss()
         catalogJob?.cancel();val items=catalog
         catalogJob=lifecycleScope.launch {val rows=withContext(Dispatchers.Default){JSONArray().also {a->items.forEach {e->

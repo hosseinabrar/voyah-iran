@@ -21,6 +21,7 @@ class PassengerFragranceRenderTest {
     private fun sample(tone:Int=2,on:Boolean=true)=JSONObject().put("fresh",true).put("IVI_FRAG_TASTE_FB",tone)
         .put("FCM_SW_REQ_FB",if(on)2 else 1).put("IVI_FRAG_CONCERNTION_FB",2).put("FCM_DURATION_CONTROL",1)
     @Test fun renderAllScentsInBothThemesAndPowerStates(){
+        preparePassengerArtwork("fragrance-wide")
         val view=PassengerFragranceView(RuntimeEnvironment.getApplication());view.layout(0,0,770,280)
         val output=File("build/reports/passenger-fragrance").apply{mkdirs()}
         for(light in listOf(false,true))for(tone in 1..3)for(on in listOf(false,true)){

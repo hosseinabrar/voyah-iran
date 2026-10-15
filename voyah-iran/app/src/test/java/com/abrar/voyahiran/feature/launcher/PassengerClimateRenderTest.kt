@@ -23,6 +23,7 @@ class PassengerClimateRenderTest {
         .put("getAirMode",1).put("getAirSupplyStatus",0).put("getAirFrontWindowDefogger",0)
         .put("getAirRearWindowDefogger",0).put("getAirCirculationMode",0)
     @Test fun renderProductionClimateInBothThemes(){
+        preparePassengerArtwork("oem-ac")
         val view=PassengerClimateView(RuntimeEnvironment.getApplication());view.layout(0,0,770,370);view.update(sample())
         val output=File("build/reports/passenger-climate").apply{mkdirs()}
         for(light in listOf(false,true)){

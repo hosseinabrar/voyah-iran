@@ -40,6 +40,8 @@ open class LauncherAppsActivity : ComponentActivity() {
     private var catalogDirty = true
     private var resumed = false
     private var unobserveCatalog:(()->Unit)?=null
+    private var renderedLight:Boolean?=null
+    private var renderedEntries:List<LauncherAppsEntry>?=null
     private val packageChanges = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if(intent?.action==Intent.ACTION_PACKAGE_REMOVED && intent.getBooleanExtra(Intent.EXTRA_REPLACING,false))return
@@ -90,6 +92,7 @@ open class LauncherAppsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppLog.info("LauncherApps","create display=$launcherDisplayId instance=${System.identityHashCode(this)}")
         root = FrameLayout(this).apply { layoutDirection = View.LAYOUT_DIRECTION_LTR }
         content = FrameLayout(this)
         pager = LauncherPager(this)
@@ -128,7 +131,7 @@ open class LauncherAppsActivity : ComponentActivity() {
         applyTheme()
         unobserveCatalog=LauncherAppsCache.observe(this) { fresh ->
             if(allowed()) {
-                if(draggedId!=null)deferredEntries=fresh else {entries=ordered(fresh);render()}
+                if(draggedId!=null)deferredEntries=fresh else {entries=ordered(fresh);render(false)}
                 catalogDirty=false
                 loading.visibility=View.GONE
                 status.visibility=View.GONE
@@ -162,6 +165,11 @@ open class LauncherAppsActivity : ComponentActivity() {
         }
     }
     override fun onPause(){resumed=false;finishEditing();super.onPause()}
+    override fun onConfigurationChanged(config:android.content.res.Configuration) {
+        super.onConfigurationChanged(config)
+        applyTheme()
+        root.post { layoutSafeArea();render() }
+    }
     // Android 9 pauses one display when the other gains focus; visible drawers still need the VIP guard.
     override fun onStop(){guard?.cancel();guard=null;super.onStop()}
     private fun applyTheme() {
@@ -198,7 +206,7 @@ open class LauncherAppsActivity : ComponentActivity() {
             try {
                 val fresh=LauncherAppsCache.get(this@LauncherAppsActivity)
                 if(!allowed()){catalogDirty=true;return@launch}
-                if(draggedId!=null)deferredEntries=fresh else { entries=ordered(fresh);render() }
+                if(draggedId!=null)deferredEntries=fresh else { entries=ordered(fresh);render(false) }
                 status.visibility=View.GONE
                 loading.visibility=View.GONE
                 AppLog.info("LauncherApps","loaded total=${entries.size} pages=${LauncherAppsPolicy.pages(entries.size)} light=$light")
@@ -211,7 +219,9 @@ open class LauncherAppsActivity : ComponentActivity() {
             }
         }
     }
-    private fun render() {
+    private fun render(force:Boolean=true) {
+        if(!force && renderedLight==light && renderedEntries==entries)return
+        renderedLight=light;renderedEntries=entries.toList()
         val selected=pager.page
         stopWobble()
         badges.clear()
