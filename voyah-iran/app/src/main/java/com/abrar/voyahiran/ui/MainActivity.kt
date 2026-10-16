@@ -335,6 +335,10 @@ class MainActivity : ComponentActivity() {
             requestDrive(if (binding.comfortPage.pedestrianMemory.isChecked) DriveMemoryService.PEDESTRIAN_ENABLE else DriveMemoryService.PEDESTRIAN_DISABLE)
         }
         binding.comfortPage.pedestrianRetry.setOnClickListener { requestDrive(DriveMemoryService.PEDESTRIAN_RETRY) }
+        binding.comfortPage.energyModeMemory.setOnClickListener {
+            requestDrive(if (binding.comfortPage.energyModeMemory.isChecked) DriveMemoryService.ENERGY_MODE_ENABLE else DriveMemoryService.ENERGY_MODE_DISABLE)
+        }
+        binding.comfortPage.energyModeRetry.setOnClickListener { requestDrive(DriveMemoryService.ENERGY_MODE_RETRY) }
         binding.comfortPage.shadeDeparture.setOnClickListener {
             requestDrive(if (binding.comfortPage.shadeDeparture.isChecked) DriveMemoryService.SHADE_ENABLE else DriveMemoryService.SHADE_DISABLE)
         }
@@ -659,6 +663,21 @@ class MainActivity : ComponentActivity() {
         pedestrianStatus.visibility = if (pedestrianMessage == null) View.GONE else View.VISIBLE
         pedestrianMessage?.let(pedestrianStatus::setText)
         pedestrianRetry.visibility = if (allowed && pedestrian.error && !busy) View.VISIBLE else View.GONE
+        val energyMode = state.energyMode
+        energyModeMemory.isChecked = energyMode.enabled
+        energyModeMemory.isEnabled = !busy && (energyMode.enabled || energyMode.current != null)
+        energyModeProgress.visibility = if (allowed && (busy || energyMode.phase == DrivePhase.RESTORING)) View.VISIBLE else View.GONE
+        val energyModeMessage = when {
+            !allowed -> null
+            energyMode.phase == DrivePhase.FAILED -> R.string.energy_mode_unconfirmed
+            energyMode.error -> R.string.drive_error
+            busy || (energyMode.enabled && energyMode.phase == DrivePhase.WAITING) -> R.string.drive_waiting
+            energyMode.phase == DrivePhase.RESTORING -> R.string.energy_mode_restoring
+            else -> null
+        }
+        energyModeStatus.visibility = if (energyModeMessage == null) View.GONE else View.VISIBLE
+        energyModeMessage?.let(energyModeStatus::setText)
+        energyModeRetry.visibility = if (allowed && energyMode.error && !busy) View.VISIBLE else View.GONE
         shadeDeparture.isChecked = state.shadeEnabled
         shadeDeparture.isEnabled = !busy
         val shadeMessage = when {

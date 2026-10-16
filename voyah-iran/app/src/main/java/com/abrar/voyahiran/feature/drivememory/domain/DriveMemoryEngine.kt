@@ -5,7 +5,7 @@ interface DriveMemoryStore {
     fun read(): DriveMemory
     fun write(value: DriveMemory)
 }
-data class VehicleSample(val mode: Int? = null, val acc: Int? = null, val ready: Int? = null, val speed: Int? = null, val recovery: Int? = null, val aeb: Int? = null, val pedestrian: Int? = null) {
+data class VehicleSample(val mode: Int? = null, val acc: Int? = null, val ready: Int? = null, val speed: Int? = null, val recovery: Int? = null, val aeb: Int? = null, val pedestrian: Int? = null, val energyMode: Int? = null) {
     // H97c onAccStatus stores 2 for power-on and 0 for power-off (not boolean 1).
     val powered: Boolean get() = acc == 2
     val off: Boolean get() = acc == 0
@@ -13,8 +13,8 @@ data class VehicleSample(val mode: Int? = null, val acc: Int? = null, val ready:
 /** All comfort memories require VIP; saved preferences survive entitlement changes. */
 data class MemoryAccess(val allowed: Boolean, val vipAllowed: Boolean) {
     fun permits() = allowed && vipAllowed
-    fun active(aeb: Boolean, drive: Boolean, recovery: Boolean, pedestrian: Boolean = false) =
-        permits() && (aeb || drive || recovery || pedestrian)
+    fun active(aeb: Boolean, drive: Boolean, recovery: Boolean, pedestrian: Boolean = false, energyMode: Boolean = false) =
+        permits() && (aeb || drive || recovery || pedestrian || energyMode)
 }
 enum class DrivePhase { OFF, WAITING, MONITORING, RESTORING, FAILED }
 fun validDriveMode(mode: Int?) = mode != null && mode in 1..6

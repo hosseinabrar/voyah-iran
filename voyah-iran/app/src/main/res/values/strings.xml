@@ -167,6 +167,10 @@
     <string name="shade_ready_description">پس از ورود خودرو به حالت READY پرده سانروف بطور خودکار باز می‌شود.</string>
     <string name="shade_ready_opening">در حال باز کردن پردهٔ سانروف…</string>
     <string name="shade_ready_error">باز شدن پردهٔ سانروف تأیید نشد. وضعیت پرده را بررسی کنید؛ فرمان خودکار تکرار نمی‌شود.</string>
+    <string name="energy_mode_memory_label">ذخیره‌سازی مود مصرف انرژی</string>
+    <string name="energy_mode_memory_description">آخرین حالت مصرف انرژی را ذخیره کرده و پس از روشن‌شدن خودرو، هنگام توقف بازیابی می‌کند.</string>
+    <string name="energy_mode_restoring">در حال بازیابی مود مصرف انرژی…</string>
+    <string name="energy_mode_unconfirmed">خودرو بازیابی مود مصرف انرژی را تأیید نکرد. وضعیت را در منوی خودرو بررسی کنید.</string>
 </resources>
 
 

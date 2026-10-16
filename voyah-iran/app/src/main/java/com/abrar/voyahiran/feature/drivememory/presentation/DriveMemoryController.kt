@@ -21,14 +21,15 @@ data class DriveMemoryUiState(
     val recovery: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val aeb: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val pedestrian: RecoveryMemoryUiState = RecoveryMemoryUiState(),
+    val energyMode: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val shadeReadyEnabled: Boolean = false, val shadeReadyError: Boolean = false, val shadeOpening: Boolean = false,
     val shadeEnabled: Boolean = false, val shadeError: Boolean = false, val shadeClosing: Boolean = false,
-) { val anyEnabled: Boolean get() = enabled || recovery.enabled || aeb.enabled || pedestrian.enabled || shadeEnabled || shadeReadyEnabled }
+) { val anyEnabled: Boolean get() = enabled || recovery.enabled || aeb.enabled || pedestrian.enabled || energyMode.enabled || shadeEnabled || shadeReadyEnabled }
 
 data class RecoveryMemoryUiState(val enabled: Boolean = false, val current: Int? = null,
     val saved: Int? = null, val phase: DrivePhase = DrivePhase.OFF, val error: Boolean = false)
 
-class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryStore: DriveMemoryStore, aebStore: DriveMemoryStore, pedestrianStore: DriveMemoryStore) {
+class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryStore: DriveMemoryStore, aebStore: DriveMemoryStore, pedestrianStore: DriveMemoryStore, energyModeStore: DriveMemoryStore) {
     private val context = context.applicationContext
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val mutex = Mutex()
@@ -36,7 +37,9 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val recoveryEngine = DriveMemoryEngine(recoveryStore, 2..4)
     private val aebEngine = DriveMemoryEngine(aebStore, 1..2)
     private val pedestrianEngine = DriveMemoryEngine(pedestrianStore, 1..2)
+    private val energyModeEngine = DriveMemoryEngine(energyModeStore, 1..4)
     private val pedestrianWriter = PedestrianMemoryWriter(ProcessCommandRunner())
+    private val energyModeWriter = EnergyModeMemoryWriter(ProcessCommandRunner())
     private val aebWriter = AebMemoryWriter(ProcessCommandRunner())
     private val shadePreferences = this.context.getSharedPreferences("sunshade_departure", Context.MODE_PRIVATE)
     private var shadeEnabled = shadePreferences.getBoolean("enabled", false)
@@ -51,7 +54,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val shadeWriter = SunshadeDepartureWriter(ProcessCommandRunner())
     private val subscriptions get() = (context as com.abrar.voyahiran.VoyahIranApplication).subscriptions
     private val access get() = MemoryAccess(subscriptions.allowed, subscriptions.vipAllowed)
-    val hasActiveMemory: Boolean get() = access.permits() && (shadeEnabled || shadeReadyEnabled || engine.memory.enabled || recoveryEngine.memory.enabled || aebEngine.memory.enabled || pedestrianEngine.memory.enabled)
+    val hasActiveMemory: Boolean get() = access.permits() && (shadeEnabled || shadeReadyEnabled || engine.memory.enabled || recoveryEngine.memory.enabled || aebEngine.memory.enabled || pedestrianEngine.memory.enabled || energyModeEngine.memory.enabled)
     private val recoveryWriter = RecoveryLevelWriter(ProcessCommandRunner())
     private val restoreOrder = RecoveryRestoreOrder()
     private val events = Channel<CanSignal>(Channel.UNLIMITED)
@@ -64,6 +67,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         recovery = RecoveryMemoryUiState(enabled = recoveryEngine.memory.enabled, saved = recoveryEngine.memory.mode),
         aeb = RecoveryMemoryUiState(enabled = aebEngine.memory.enabled, saved = aebEngine.memory.mode),
         pedestrian = RecoveryMemoryUiState(enabled = pedestrianEngine.memory.enabled, saved = pedestrianEngine.memory.mode),
+        energyMode = RecoveryMemoryUiState(enabled = energyModeEngine.memory.enabled, saved = energyModeEngine.memory.mode),
         shadeEnabled = shadeEnabled, shadeReadyEnabled = shadeReadyEnabled))
     val state = mutable.asStateFlow()
 
@@ -71,9 +75,10 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         scope.launch {
             for (event in events) mutex.withLock {
                 if (running) protect {
-                    if (event.field == CanField.DISCONNECTED) { engine.start(boot); recoveryEngine.start(boot); aebEngine.start(boot); pedestrianEngine.start(boot); shadePolicy.reset(); shadeReadyPolicy.reset() }
+                    if (event.field == CanField.DISCONNECTED) { engine.start(boot); recoveryEngine.start(boot); aebEngine.start(boot); pedestrianEngine.start(boot); energyModeEngine.start(boot); shadePolicy.reset(); shadeReadyPolicy.reset() }
                     sample = when (event.field) {
                         CanField.PEDESTRIAN -> sample.copy(pedestrian = event.value)
+                        CanField.ENERGY_MODE -> sample.copy(energyMode = event.value)
                         CanField.AEB -> sample.copy(aeb = event.value)
                         CanField.MODE -> sample.copy(mode = event.value)
                         CanField.RECOVERY -> sample.copy(recovery = event.value)
@@ -82,7 +87,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
                         CanField.SPEED -> sample.copy(speed = event.value)
                         CanField.DISCONNECTED -> VehicleSample()
                     }
-                    process(event.field == CanField.MODE, event.field == CanField.RECOVERY, event.field == CanField.AEB, event.field == CanField.PEDESTRIAN)
+                    process(event.field == CanField.MODE, event.field == CanField.RECOVERY, event.field == CanField.AEB, event.field == CanField.PEDESTRIAN, event.field == CanField.ENERGY_MODE)
                 }
             }
         }
@@ -97,6 +102,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
             recoveryEngine.start(boot)
             aebEngine.start(boot)
             pedestrianEngine.start(boot)
+            energyModeEngine.start(boot)
             running = true
         }
         sample = readVehicle()
@@ -192,6 +198,26 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         sample = readVehicle(); process(true, true)
     } } }
 
+    suspend fun enableEnergyMode() = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        mutable.value = mutable.value.copy(busy = true)
+        writer.checkAccess()
+        if (boot.isBlank()) boot = bootIdentity()
+        sample = readVehicle()
+        energyModeEngine.enable(sample.copy(mode = sample.energyMode), boot)
+        running = true; publish()
+    } } }
+
+    suspend fun disableEnergyMode() = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        energyModeEngine.disable()
+        if (!hasActiveMemory) { running = false; gateway.close() }
+        publish()
+    } } }
+
+    suspend fun retryEnergyMode() = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        energyModeEngine.retry()
+        sample = readVehicle(); process(true, true)
+    } } }
+
     suspend fun setShadeEnabled(enabled: Boolean) = withContext(Dispatchers.IO) { mutex.withLock { protect {
         mutable.value = mutable.value.copy(busy = true)
         if (enabled) {
@@ -268,7 +294,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         running = false; gateway.close(); shadePolicy.reset(); shadeReadyPolicy.reset()
     } }
 
-    private fun process(modeObserved: Boolean, recoveryObserved: Boolean, aebObserved: Boolean = true, pedestrianObserved: Boolean = true) {
+    private fun process(modeObserved: Boolean, recoveryObserved: Boolean, aebObserved: Boolean = true, pedestrianObserved: Boolean = true, energyModeObserved: Boolean = true) {
         if (!access.permits()) { shadePolicy.reset(); shadeReadyPolicy.reset(); return }
         closeShadeOnDeparture()
         openShadeOnReady()
@@ -305,6 +331,15 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         }
         if (restoreOrder.allow(engine.memory.enabled, driveWasPending,
                 engine.phase == DrivePhase.MONITORING, sample.off, now)) {
+            val energyModeRequest = energyModeEngine.observe(sample.copy(mode = sample.energyMode), now, energyModeObserved)
+            if (energyModeRequest != null) {
+                publish()
+                try { energyModeWriter.apply(energyModeRequest) }
+                catch (error: Exception) {
+                    com.abrar.voyahiran.core.logging.AppLog.error("EnergyModeMemory", "apply-failed", error)
+                    energyModeEngine.requestFailed()
+                }
+            }
             val level = recoveryEngine.observe(sample.copy(mode = sample.recovery), now, recoveryObserved)
             if (level != null) {
                 com.abrar.voyahiran.core.logging.AppLog.info("Recovery", "apply level=$level")
@@ -324,6 +359,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         com.abrar.voyahiran.core.logging.AppLog.changed("Recovery", "enabled=${recoveryEngine.memory.enabled} saved=${recoveryEngine.memory.mode} current=${sample.recovery} phase=${recoveryEngine.phase} pending=${recoveryEngine.memory.pending} error=$error")
         com.abrar.voyahiran.core.logging.AppLog.changed("AebMemory", "enabled=${aebEngine.memory.enabled} saved=${aebEngine.memory.mode} current=${sample.aeb} phase=${aebEngine.phase} pending=${aebEngine.memory.pending} error=$error")
         com.abrar.voyahiran.core.logging.AppLog.changed("PedestrianMemory", "enabled=${pedestrianEngine.memory.enabled} saved=${pedestrianEngine.memory.mode} current=${sample.pedestrian} phase=${pedestrianEngine.phase} pending=${pedestrianEngine.memory.pending} error=$error")
+        com.abrar.voyahiran.core.logging.AppLog.changed("EnergyModeMemory", "enabled=${energyModeEngine.memory.enabled} saved=${energyModeEngine.memory.mode} current=${sample.energyMode} phase=${energyModeEngine.phase} pending=${energyModeEngine.memory.pending} error=$error")
         mutable.value = DriveMemoryUiState(engine.memory.enabled, sample.mode?.takeIf { validDriveMode(it) },
             engine.memory.mode, engine.phase, error = error || engine.phase == DrivePhase.FAILED,
             recovery = RecoveryMemoryUiState(recoveryEngine.memory.enabled, sample.recovery?.takeIf { it in 2..4 },
@@ -332,6 +368,8 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
                 aebEngine.memory.mode, aebEngine.phase, error || aebEngine.phase == DrivePhase.FAILED),
             pedestrian = RecoveryMemoryUiState(pedestrianEngine.memory.enabled, sample.pedestrian?.takeIf { it in 1..2 },
                 pedestrianEngine.memory.mode, pedestrianEngine.phase, error || pedestrianEngine.phase == DrivePhase.FAILED),
+            energyMode = RecoveryMemoryUiState(energyModeEngine.memory.enabled, sample.energyMode?.takeIf { it in 1..4 },
+                energyModeEngine.memory.mode, energyModeEngine.phase, error || energyModeEngine.phase == DrivePhase.FAILED),
             shadeEnabled = shadeEnabled, shadeError = shadeError || error, shadeClosing = shadeClosing,
             shadeReadyEnabled = shadeReadyEnabled, shadeReadyError = shadeReadyError || error, shadeOpening = shadeOpening)
     }
@@ -346,6 +384,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         if (recoveryEngine.memory.enabled) recoveryEngine.start(boot.ifBlank { bootIdentity() })
         if (aebEngine.memory.enabled) aebEngine.start(boot.ifBlank { bootIdentity() })
         if (pedestrianEngine.memory.enabled) pedestrianEngine.start(boot.ifBlank { bootIdentity() })
+        if (energyModeEngine.memory.enabled) energyModeEngine.start(boot.ifBlank { bootIdentity() })
         throw error
     }
 

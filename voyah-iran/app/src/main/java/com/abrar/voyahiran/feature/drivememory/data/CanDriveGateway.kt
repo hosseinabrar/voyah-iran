@@ -11,7 +11,7 @@ import com.abrar.voyahiran.feature.drivememory.domain.VehicleSample
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.withTimeout
 
-enum class CanField { MODE, RECOVERY, AEB, PEDESTRIAN, ACC, READY, SPEED, DISCONNECTED }
+enum class CanField { MODE, RECOVERY, AEB, PEDESTRIAN, ENERGY_MODE, ACC, READY, SPEED, DISCONNECTED }
 data class CanSignal(val field: CanField, val value: Int)
 
 /** Read-only adapter for the supplied H97x CAN protocol. No raw frames or write transaction. */
@@ -28,6 +28,7 @@ class CanDriveGateway(context: Context, private val signal: (CanSignal) -> Unit)
                     val ordinal = data.readInt()
                     val id = data.readInt()
                     val value = data.readInt()
+                    if (ordinal == ENERGY_MODE_ORDINAL && id == ENERGY_MODE_ID) signal(CanSignal(CanField.ENERGY_MODE, value))
                     if (ordinal == PEDESTRIAN_ORDINAL && id == PEDESTRIAN_ID) signal(CanSignal(CanField.PEDESTRIAN, value))
                     if (ordinal == AEB_ORDINAL && id == AEB_ID) signal(CanSignal(CanField.AEB, value))
                     if (ordinal == MODE_ORDINAL && id == MODE_ID) signal(CanSignal(CanField.MODE, value))
@@ -45,7 +46,8 @@ class CanDriveGateway(context: Context, private val signal: (CanSignal) -> Unit)
     suspend fun read(): VehicleSample {
         connect()
         return VehicleSample(readState(MODE_ORDINAL, MODE_ID), readInt(0x42), readState(READY_ORDINAL, READY_ID), readInt(0x1A), readState(RECOVERY_ORDINAL, RECOVERY_ID), runCatching { readState(AEB_ORDINAL, AEB_ID) }.getOrNull(),
-            runCatching { readState(PEDESTRIAN_ORDINAL, PEDESTRIAN_ID) }.getOrNull())
+            runCatching { readState(PEDESTRIAN_ORDINAL, PEDESTRIAN_ID) }.getOrNull(),
+            runCatching { readState(ENERGY_MODE_ORDINAL, ENERGY_MODE_ID) }.getOrNull())
     }
 
     suspend fun readRearCameraStatus(): Int {
@@ -123,6 +125,8 @@ class CanDriveGateway(context: Context, private val signal: (CanSignal) -> Unit)
 
     companion object {
         // DFVehicleState.AEB_SWITCH aliases VehicleState.AEBSwitch, NOT VehicleState.AEB_SWITCH.
+        const val ENERGY_MODE_ORDINAL = 0x2e4
+        const val ENERGY_MODE_ID = 0x3bd
         const val PEDESTRIAN_ORDINAL = 0x1bf
         const val PEDESTRIAN_ID = 0x299
         const val AEB_ORDINAL = 0x3e

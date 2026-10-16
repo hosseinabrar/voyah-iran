@@ -10,6 +10,17 @@ interface EnergyCommandPort {
 }
 
 class EnergyCommandExecutor(private val port: EnergyCommandPort) {
+    /** Restore raw OEM value; never change reserve percentage or relabel modes. */
+    fun restoreMode(value: Int) {
+        require(value in 1..4 && value in port.modes().values) { "Unsupported saved energy mode" }
+        port.validate("IVI_SOC_MODESET", true)
+        val current = port.read("IVI_SOC_MODESET")
+        require(current in 1..4) { "Energy mode feedback unavailable" }
+        if (current != value) {
+            port.write("IVI_SOC_MODESET", value, true)
+            port.confirm("IVI_SOC_MODESET", value)
+        }
+    }
     fun execute(action: String, p: Map<String, Any>) {
         fun integer(key: String): Int {
             val n=(p[key] as? Number)?.toDouble() ?: error("Missing $key")

@@ -42,6 +42,7 @@ class VoyahIranApplication : Application() {
         DriveMemoryController(this, PreferencesDriveMemoryStore(getSharedPreferences("drive_memory", MODE_PRIVATE)),
             PreferencesDriveMemoryStore(getSharedPreferences("energy_recovery_memory", MODE_PRIVATE)),
             PreferencesDriveMemoryStore(getSharedPreferences("aeb_memory", MODE_PRIVATE)),
-            PreferencesDriveMemoryStore(getSharedPreferences("pedestrian_memory", MODE_PRIVATE)))
+            PreferencesDriveMemoryStore(getSharedPreferences("pedestrian_memory", MODE_PRIVATE)),
+            PreferencesDriveMemoryStore(getSharedPreferences("energy_mode_memory", MODE_PRIVATE)))
     }
 }

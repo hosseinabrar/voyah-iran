@@ -31,17 +31,22 @@ class ComfortMemoryRenderTest {
         assertEquals(VipCheckBox::class.java, binding.shadeReady.javaClass)
         assertEquals(VipCheckBox::class.java, binding.driveMemory.javaClass)
         assertEquals(VipCheckBox::class.java, binding.recoveryMemory.javaClass)
+        assertEquals(VipCheckBox::class.java, binding.energyModeMemory.javaClass)
         binding.avmTurnCard.visibility = View.VISIBLE
         binding.root.visibility = View.VISIBLE
         binding.root.setBackgroundColor(context.getColor(R.color.background))
         binding.aebMemory.isEnabled = true
         binding.aebMemory.isChecked = true
         val width = 1120
-        val height = 1330
+        val height = 1490
         binding.root.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
         binding.root.layout(0, 0, width, height)
         binding.aebMemory.jumpDrawablesToCurrentState()
+        assertTrue((binding.energyModeMemory.parent as View).top > (binding.recoveryMemory.parent as View).top)
+        assertTrue((binding.energyModeMemory.parent as View).top < (binding.aebMemory.parent as View).top)
+        for (line in 0 until binding.energyModeMemory.layout.lineCount)
+            assertEquals(0, binding.energyModeMemory.layout.getEllipsisCount(line))
         assertTrue((binding.aebMemory.parent as View).top > (binding.recoveryMemory.parent as View).top)
         assertTrue((binding.pedestrianMemory.parent as View).top > (binding.aebMemory.parent as View).top)
         assertTrue(binding.avmTurnCard.top > (binding.pedestrianMemory.parent as View).top)
