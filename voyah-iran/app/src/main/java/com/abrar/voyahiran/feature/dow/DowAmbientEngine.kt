@@ -8,6 +8,8 @@ object DowContract {
     const val SWITCH_ORDINAL = 0x1dc
     const val SWITCH_ID = 0x2b6
     const val RED = 62 // OEM atm_color_62_01, #fa4550.
+    fun warningAllowed(state: Int?, doorOnly: Boolean, driverDoor: Int?) =
+        state == EXPERIMENTAL_WARNING && (!doorOnly || driverDoor == 1)
     /** 250 ms on at full brightness, 250 ms completely off. */
     fun level(elapsed: Long): Int {
         val t = elapsed.coerceAtLeast(0) % 500

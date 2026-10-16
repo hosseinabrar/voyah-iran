@@ -339,6 +339,8 @@ class MainActivity : ComponentActivity() {
         binding.comfortPage.dowAmbient.setOnClickListener {
             requestDrive(if (binding.comfortPage.dowAmbient.isChecked) DriveMemoryService.DOW_ENABLE else DriveMemoryService.DOW_DISABLE)
         }
+        binding.comfortPage.dowAlways.setOnClickListener { requestDrive(DriveMemoryService.DOW_ALWAYS) }
+        binding.comfortPage.dowDoorOnly.setOnClickListener { requestDrive(DriveMemoryService.DOW_DOOR) }
         binding.comfortPage.shadeDeparture.setOnClickListener {
             requestDrive(if (binding.comfortPage.shadeDeparture.isChecked) DriveMemoryService.SHADE_ENABLE else DriveMemoryService.SHADE_DISABLE)
         }
@@ -657,6 +659,11 @@ class MainActivity : ComponentActivity() {
         energyModeRetry.visibility = if (allowed && energyMode.error && !busy) View.VISIBLE else View.GONE
         dowAmbient.isChecked = state.dowEnabled
         dowAmbient.isEnabled = !busy
+        dowMode.visibility = if (allowed && state.dowEnabled) View.VISIBLE else View.GONE
+        dowAlways.isChecked = !state.dowDoorOnly
+        dowDoorOnly.isChecked = state.dowDoorOnly
+        dowAlways.isEnabled = allowed && !busy
+        dowDoorOnly.isEnabled = allowed && !busy
         dowAmbientStatus.visibility = if (allowed && state.dowError) View.VISIBLE else View.GONE
         dowAmbientStatus.setText(R.string.dow_ambient_error)
         shadeDeparture.isChecked = state.shadeEnabled

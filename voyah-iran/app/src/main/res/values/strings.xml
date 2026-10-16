@@ -170,8 +170,8 @@
     <string name="energy_mode_memory_description">آخرین حالت مصرف انرژی را ذخیره کرده و پس از روشن‌شدن خودرو، هنگام توقف بازیابی می‌کند.</string>
     <string name="energy_mode_restoring">در حال بازیابی مود مصرف انرژی…</string>
     <string name="energy_mode_unconfirmed">خودرو بازیابی مود مصرف انرژی را تأیید نکرد. وضعیت را در منوی خودرو بررسی کنید.</string>
-    <string name="dow_ambient_label">هشدار نوری خطر باز کردن در (DOW) — آزمایشی</string>
-    <string name="dow_ambient_description">هنگام هشدار، نورپردازی قرمز ضربانی می‌شود و سپس به وضعیت قبلی برمی‌گردد. مقدار آزمایشی هشدار: ۳؛ هنوز روی خودرو تأیید نشده است.</string>
+    <string name="dow_ambient_label">هشدار نوری خطر باز کردن درب (DOW)</string>
+    <string name="dow_ambient_description">هنگام هشدار DOW نورپردازی قرمز چشمک می‌زند و سپس به وضعیت قبلی برمی‌گردد.</string>
     <string name="dow_ambient_error">ارتباط با هشدار نوری برقرار نشد؛ وضعیت ذخیره‌شده حفظ شده است.</string>
 </resources>
 

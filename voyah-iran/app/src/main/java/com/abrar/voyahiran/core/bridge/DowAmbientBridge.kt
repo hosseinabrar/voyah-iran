@@ -23,11 +23,13 @@ internal object DowAmbientBridge {
     private var nextRead = 0L
     private var acc: Int? = null
     private var dow: Int? = null
+    private var driverDoor: Int? = null
+    private var doorOnly = true
     private val callback = object : Binder() {
         override fun onTransact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
             if (code == INTERFACE_TRANSACTION) { reply?.writeString("com.qinggan.canbus.ICanBusServiceCallback"); return true }
             data.enforceInterface("com.qinggan.canbus.ICanBusServiceCallback")
-            if (code == 0x27) dirty = true
+            if (code == 0x27 || code == 0x1) dirty = true // ACC or door status changed.
             if (code == 0x24 && data.readInt() != 0) {
                 val ordinal = data.readInt(); val id = data.readInt()
                 if (dowIdentity == (ordinal to id)) dirty = true
@@ -47,9 +49,11 @@ internal object DowAmbientBridge {
                 return CommandResult(126, "Manual test requires powered stationary vehicle")
             return CommandResult(0, "DOW_TEST_STARTED; expires in 10 seconds")
         }
-        if (value == "enable") {
+        if (value == "enable" || value == "enable-always") {
             if (!BridgeSubscriptionSession.vipActive) return CommandResult(126, "VIP inactive")
             until = SystemClock.elapsedRealtime() + 15_000
+            doorOnly = value != "enable-always"
+            dirty = true
         } else if (value == "disable") until = 0
         else return CommandResult(0, status)
         return CommandResult(0, "DOW_ACCEPTED")
@@ -80,11 +84,13 @@ internal object DowAmbientBridge {
                                     dirty = false; nextRead = now + 1000
                                     acc = session().acc().takeIf { it == 0 || it == 2 }
                                     dow = session().vehicle("DOW_STATE").takeIf { it in 0..7 }
-                                    AppLog.changed("DowAmbient", "acc=$acc state=$dow trigger=3 EXPERIMENTAL")
+                                    driverDoor = session().driverDoor().takeIf { it in 0..1 }
+                                    AppLog.changed("DowAmbient", "acc=$acc state=$dow driverDoor=$driverDoor doorOnly=$doorOnly trigger=3 EXPERIMENTAL")
                                 }
                                 if (manual) manual = manualTest.active(now, entitled, acc, session().speed())
                                 engine!!.tick(now, automatic || manual, acc,
-                                    if (manual) DowContract.EXPERIMENTAL_WARNING else if (automatic) dow else null)
+                                    if (manual || (automatic && DowContract.warningAllowed(dow, doorOnly, driverDoor)))
+                                        DowContract.EXPERIMENTAL_WARNING else null)
                                 status = when {
                                     engine!!.flashing -> "flashing"
                                     engine!!.journal?.pending == true -> "restore-pending"
@@ -101,7 +107,7 @@ internal object DowAmbientBridge {
                     AppLog.error("DowAmbient", "worker failed; original snapshot retained", e)
                     engine?.connectionLost()
                     runCatching { sdk?.watch(callback, false) }; sdk = null
-                    acc = null; dow = null; retryAt = SystemClock.elapsedRealtime() + 5000
+                    acc = null; dow = null; driverDoor = null; retryAt = SystemClock.elapsedRealtime() + 5000
                 }
                 Thread.sleep(25)
             }

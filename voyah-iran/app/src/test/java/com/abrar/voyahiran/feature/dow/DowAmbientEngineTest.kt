@@ -4,6 +4,22 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class DowAmbientEngineTest {
+    @Test fun doorModeRequiresConfirmedOpenDriverDoorAndDowThree() {
+        for (door in listOf(null, -1, 0, 1, 2)) for (state in listOf(null, 0, 1, 2, 3, 4)) {
+            assertEquals(state == 3 && door == 1, DowContract.warningAllowed(state, true, door))
+            assertEquals(state == 3, DowContract.warningAllowed(state, false, door))
+        }
+    }
+    @Test fun closingDoorRestoresAndReopeningStartsNewWarning() {
+        val port = Port(original); val store = Store(); val engine = DowAmbientEngine(port, store)
+        fun tick(time: Long, door: Int?) = engine.tick(time, true, 2,
+            if (DowContract.warningAllowed(3, true, door)) 3 else null)
+        tick(0, 0); assertFalse(engine.flashing)
+        tick(25, 1); assertTrue(engine.flashing)
+        tick(50, 0); assertFalse(engine.flashing); assertEquals("restore", port.calls.last())
+        tick(75, 1); assertTrue(engine.flashing)
+        tick(100, null); assertFalse(engine.flashing)
+    }
     private val original = AmbientSnapshot(1, 2, 1, 19, 4)
     private class Store(var journal: AmbientJournal? = null) : AmbientStore {
         var fail = false

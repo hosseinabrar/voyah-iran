@@ -38,6 +38,11 @@ class ComfortMemoryRenderTest {
         binding.root.setBackgroundColor(context.getColor(R.color.background))
         binding.aebMemory.isEnabled = true
         binding.aebMemory.isChecked = true
+        binding.dowAmbient.isEnabled = true
+        binding.dowAmbient.isChecked = true
+        binding.dowMode.visibility = View.VISIBLE
+        assertTrue(binding.dowDoorOnly.isChecked)
+        assertFalse(binding.dowAlways.isChecked)
         val width = 1120
         val height = 1710
         binding.root.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
@@ -69,6 +74,9 @@ class ComfortMemoryRenderTest {
         output.parentFile?.mkdirs()
         output.outputStream().use { image.compress(Bitmap.CompressFormat.PNG, 100, it) }
         val card = binding.dowAmbientCard
+        // Render the entitled/checked appearance only; the plain test Application has no VIP account.
+        binding.dowAmbient.buttonDrawable?.state = intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked)
+        binding.dowAmbient.buttonDrawable?.jumpToCurrentState()
         val preview = Bitmap.createBitmap(card.width + 80, card.height + 60, Bitmap.Config.ARGB_8888)
         Canvas(preview).apply {
             drawColor(context.getColor(R.color.background))

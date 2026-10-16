@@ -171,6 +171,13 @@
                 android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false"
                 android:text="@string/dow_ambient_label" />
             <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/dow_ambient_description" />
+            <LinearLayout android:id="@+id/dowMode" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:layout_marginTop="@dimen/space_sm" android:visibility="gone">
+                <ToggleButton android:id="@+id/dowAlways" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:textOn="همیشه" android:textOff="همیشه" />
+                <ToggleButton android:id="@+id/dowDoorOnly" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp" android:checked="true" android:textOn="با باز شدن درب" android:textOff="با باز شدن درب" />
+            </LinearLayout>
             <TextView android:id="@+id/dowAmbientStatus" style="@style/Text.Caption"
                 android:layout_marginTop="@dimen/space_sm" android:accessibilityLiveRegion="polite" android:visibility="gone" />
         </LinearLayout>

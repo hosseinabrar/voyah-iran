@@ -23,6 +23,7 @@ data class DriveMemoryUiState(
     val pedestrian: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val energyMode: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val dowEnabled: Boolean = false, val dowError: Boolean = false,
+    val dowDoorOnly: Boolean = true,
     val shadeReadyEnabled: Boolean = false, val shadeReadyError: Boolean = false, val shadeOpening: Boolean = false,
     val shadeEnabled: Boolean = false, val shadeError: Boolean = false, val shadeClosing: Boolean = false,
 ) { val anyEnabled: Boolean get() = dowEnabled || enabled || recovery.enabled || aeb.enabled || pedestrian.enabled || energyMode.enabled || shadeEnabled || shadeReadyEnabled }
@@ -44,10 +45,12 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val aebWriter = AebMemoryWriter(ProcessCommandRunner())
     private val dowPreferences = this.context.getSharedPreferences("dow_ambient", Context.MODE_PRIVATE)
     private var dowEnabled = dowPreferences.getBoolean("enabled", false)
+    private var dowDoorOnly = dowPreferences.getBoolean("door_only", true)
     private var dowError = false
     private var nextDowHeartbeat = 0L
     private fun dowCommand(enabled: Boolean) {
-        val result = ProcessCommandRunner().run(listOf("su", "0", "dow-light", if (enabled) "enable" else "disable"), 3)
+        val result = ProcessCommandRunner().run(listOf("su", "0", "dow-light",
+            if (!enabled) "disable" else if (dowDoorOnly) "enable" else "enable-always"), 3)
         check(!result.timedOut && result.exitCode == 0 && result.output.trim() == "DOW_ACCEPTED") { "DOW runtime unavailable" }
     }
     private fun renewDow() {
@@ -71,6 +74,12 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         publish()
     } } }
     private val shadePreferences = this.context.getSharedPreferences("sunshade_departure", Context.MODE_PRIVATE)
+    suspend fun setDowDoorOnly(value: Boolean) = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        check(access.permits()) { "VIP inactive" }
+        check(dowPreferences.edit().putBoolean("door_only", value).commit())
+        dowDoorOnly = value; nextDowHeartbeat = 0
+        renewDow(); publish()
+    } } }
     private var shadeEnabled = shadePreferences.getBoolean("enabled", false)
     private var shadeError = false
     private var shadeClosing = false
@@ -97,7 +106,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         aeb = RecoveryMemoryUiState(enabled = aebEngine.memory.enabled, saved = aebEngine.memory.mode),
         pedestrian = RecoveryMemoryUiState(enabled = pedestrianEngine.memory.enabled, saved = pedestrianEngine.memory.mode),
         energyMode = RecoveryMemoryUiState(enabled = energyModeEngine.memory.enabled, saved = energyModeEngine.memory.mode),
-        dowEnabled = dowEnabled,
+        dowEnabled = dowEnabled, dowDoorOnly = dowDoorOnly,
         shadeEnabled = shadeEnabled, shadeReadyEnabled = shadeReadyEnabled))
     val state = mutable.asStateFlow()
 
@@ -403,7 +412,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
                 pedestrianEngine.memory.mode, pedestrianEngine.phase, error || pedestrianEngine.phase == DrivePhase.FAILED),
             energyMode = RecoveryMemoryUiState(energyModeEngine.memory.enabled, sample.energyMode?.takeIf { it in 1..4 },
                 energyModeEngine.memory.mode, energyModeEngine.phase, error || energyModeEngine.phase == DrivePhase.FAILED),
-            dowEnabled = dowEnabled, dowError = dowError,
+            dowEnabled = dowEnabled, dowError = dowError, dowDoorOnly = dowDoorOnly,
             shadeEnabled = shadeEnabled, shadeError = shadeError || error, shadeClosing = shadeClosing,
             shadeReadyEnabled = shadeReadyEnabled, shadeReadyError = shadeReadyError || error, shadeOpening = shadeOpening)
     }
