@@ -74,6 +74,7 @@ object BridgeServer {
                         "local-profile-test" -> LocalProfileTest.execute(command[1])
                         "apollo-capability" -> ApolloCapability.read()
                         "avm-turn" -> AvmTurnBridge.execute(command[1])
+                        "aeb-memory" -> AebMemoryBridge.apply(command[1].toInt())
                         "apollo-test-read" -> ApolloExperimentBridge.execute()
                         "apollo-test-set" -> ApolloExperimentBridge.execute(command[1], command[2].toInt())
                         "apollo-feature" -> ApolloBundle.setFeature(command[1], command[2] == "on")

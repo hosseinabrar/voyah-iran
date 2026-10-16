@@ -15,7 +15,12 @@ internal object OemDriverAssistanceBinder {
         try { executeInstalled(action,parameters) }
         catch(error:LinkageError) {throw IllegalStateException("Installed driver-assistance SDK could not be loaded",error)}
     }
-    private fun executeInstalled(action: String, parameters: Map<String,Any>) {
+    fun restoreAeb(value: Int) {
+        require(value in 1..2)
+        try { executeInstalled("SET_AUTOMATIC_EMERGENCY_BRAKING", mapOf("enabled" to (value == 1)), memoryRestore = true) }
+        catch (error: LinkageError) { throw IllegalStateException("Installed AEB SDK could not be loaded", error) }
+    }
+    private fun executeInstalled(action: String, parameters: Map<String,Any>, memoryRestore: Boolean = false) {
         val apk=File("/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk")
         check(apk.isFile) { "Installed VehicleSetting SDK unavailable" }
         val loader=object : PathClassLoader(apk.path,"/system/lib64:/system/lib",javaClass.classLoader) {
@@ -61,6 +66,12 @@ internal object OemDriverAssistanceBinder {
                 return value
             }
             override fun write(field:String,value:Int) {
+                if (memoryRestore) {
+                    // Recheck at the write boundary, not only at the earlier app-side CAN sample.
+                    check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
+                    check(api.getMethod("getAccStatus").invoke(remote) == 2 &&
+                        api.getMethod("getVehicleSpeed").invoke(remote) == 0) { "AEB memory requires a stationary powered vehicle" }
+                }
                 AppLog.info("RahaAdas","write action=$action field=$field value=$value")
                 val result=api.getMethod("setVehicleState",stateType,Int::class.javaPrimitiveType).invoke(remote,field(field),value)
                 check(result !is Number || result.toInt()>=0) { "OEM rejected $field: $result" }

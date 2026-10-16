@@ -166,9 +166,9 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
     private suspend fun startFeatures(): Boolean = try {
         if(app.starBackup.desired || app.starBackup.read()!=null) StarBackService.request(app,StarBackService.RESUME)
         // A failed read before registration may have left this shared controller running.
-        // Reset its connection so start() re-arms both saved restore targets.
+        // Reset its connection so start() re-arms the saved restore targets.
         app.driveMemoryController.detach()
-        if(vipAllowed) DriveMemoryService.request(app,DriveMemoryService.RESUME)
+        if(app.driveMemoryController.hasActiveMemory) DriveMemoryService.request(app,DriveMemoryService.RESUME)
         if(vipAllowed && VoicePreferences(app).enabled) withContext(Dispatchers.IO) {
             val result = ProcessCommandRunner().run(listOf("su","0","raha-service","start"),5)
             check(result.exitCode == 0 && !result.timedOut) {

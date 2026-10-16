@@ -150,6 +150,10 @@
     <string name="avm_turn_wait">در حال ارتباط با خودرو…</string>
     <string name="avm_turn_read_ok">تنظیم ذخیره شد؛ عملکرد خودکار دوربین را روی خودرو آزمایش کنید.</string>
     <string name="avm_turn_failed">وضعیت تأیید نشد؛ جزئیات در گزارش ثبت شده است.</string>
+    <string name="aeb_memory_label">ذخیره وضعیت ترمز اضطراری</string>
+    <string name="aeb_memory_description">آخرین وضعیت روشن یا خاموش ترمز اضطراری خودکار را پس از روشن‌شدن خودرو، هنگام توقف برمی‌گرداند. اگر آن را خاموش کرده باشید، خاموش می‌ماند.</string>
+    <string name="aeb_restoring">در حال بازیابی وضعیت ترمز اضطراری…</string>
+    <string name="aeb_unconfirmed">خودرو بازیابی وضعیت ترمز اضطراری را تأیید نکرد. وضعیت را در منوی خودرو بررسی کنید.</string>
 </resources>
 
 

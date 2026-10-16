@@ -19,17 +19,23 @@ data class DriveMemoryUiState(
     val enabled: Boolean = false, val current: Int? = null, val saved: Int? = null,
     val phase: DrivePhase = DrivePhase.OFF, val busy: Boolean = false, val error: Boolean = false,
     val recovery: RecoveryMemoryUiState = RecoveryMemoryUiState(),
-) { val anyEnabled: Boolean get() = enabled || recovery.enabled }
+    val aeb: RecoveryMemoryUiState = RecoveryMemoryUiState(),
+) { val anyEnabled: Boolean get() = enabled || recovery.enabled || aeb.enabled }
 
 data class RecoveryMemoryUiState(val enabled: Boolean = false, val current: Int? = null,
     val saved: Int? = null, val phase: DrivePhase = DrivePhase.OFF, val error: Boolean = false)
 
-class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryStore: DriveMemoryStore) {
+class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryStore: DriveMemoryStore, aebStore: DriveMemoryStore) {
     private val context = context.applicationContext
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val mutex = Mutex()
     private val engine = DriveMemoryEngine(store)
     private val recoveryEngine = DriveMemoryEngine(recoveryStore, 2..4)
+    private val aebEngine = DriveMemoryEngine(aebStore, 1..2)
+    private val aebWriter = AebMemoryWriter(ProcessCommandRunner())
+    private val subscriptions get() = (context as com.abrar.voyahiran.VoyahIranApplication).subscriptions
+    private val access get() = MemoryAccess(subscriptions.allowed, subscriptions.vipAllowed)
+    val hasActiveMemory: Boolean get() = access.active(aebEngine.memory.enabled, engine.memory.enabled, recoveryEngine.memory.enabled)
     private val recoveryWriter = RecoveryLevelWriter(ProcessCommandRunner())
     private val restoreOrder = RecoveryRestoreOrder()
     private val events = Channel<CanSignal>(Channel.UNLIMITED)
@@ -39,15 +45,17 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private var running = false
     private var boot = ""
     private val mutable = MutableStateFlow(DriveMemoryUiState(enabled = engine.memory.enabled, saved = engine.memory.mode,
-        recovery = RecoveryMemoryUiState(enabled = recoveryEngine.memory.enabled, saved = recoveryEngine.memory.mode)))
+        recovery = RecoveryMemoryUiState(enabled = recoveryEngine.memory.enabled, saved = recoveryEngine.memory.mode),
+        aeb = RecoveryMemoryUiState(enabled = aebEngine.memory.enabled, saved = aebEngine.memory.mode)))
     val state = mutable.asStateFlow()
 
     init {
         scope.launch {
             for (event in events) mutex.withLock {
                 if (running) protect {
-                    if (event.field == CanField.DISCONNECTED) { engine.start(boot); recoveryEngine.start(boot) }
+                    if (event.field == CanField.DISCONNECTED) { engine.start(boot); recoveryEngine.start(boot); aebEngine.start(boot) }
                     sample = when (event.field) {
+                        CanField.AEB -> sample.copy(aeb = event.value)
                         CanField.MODE -> sample.copy(mode = event.value)
                         CanField.RECOVERY -> sample.copy(recovery = event.value)
                         CanField.ACC -> sample.copy(acc = event.value)
@@ -55,7 +63,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
                         CanField.SPEED -> sample.copy(speed = event.value)
                         CanField.DISCONNECTED -> VehicleSample()
                     }
-                    process(event.field == CanField.MODE, event.field == CanField.RECOVERY)
+                    process(event.field == CanField.MODE, event.field == CanField.RECOVERY, event.field == CanField.AEB)
                 }
             }
         }
@@ -67,6 +75,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
             boot = bootIdentity()
             engine.start(boot)
             recoveryEngine.start(boot)
+            aebEngine.start(boot)
             running = true
         }
         sample = readVehicle()
@@ -86,7 +95,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     suspend fun disable() = withContext(Dispatchers.IO) { mutex.withLock { protect {
         mutable.value = mutable.value.copy(busy = true, error = false)
         engine.disable()
-        if (!recoveryEngine.memory.enabled) { running = false; gateway.close() }
+        if (!hasActiveMemory) { running = false; gateway.close() }
         publish()
     } } }
 
@@ -112,7 +121,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     suspend fun disableRecovery() = withContext(Dispatchers.IO) { mutex.withLock { protect {
         mutable.value = mutable.value.copy(busy = true)
         recoveryEngine.disable()
-        if (!engine.memory.enabled) { running = false; gateway.close() }
+        if (!hasActiveMemory) { running = false; gateway.close() }
         publish()
     } } }
 
@@ -122,13 +131,43 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         sample = readVehicle(); process(true, true)
     } } }
 
+    suspend fun enableAeb() = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        mutable.value = mutable.value.copy(busy = true)
+        writer.checkAccess()
+        if (boot.isBlank()) boot = bootIdentity()
+        sample = readVehicle()
+        aebEngine.enable(sample.copy(mode = sample.aeb), boot)
+        running = true; publish()
+    } } }
+
+    suspend fun disableAeb() = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        aebEngine.disable()
+        if (!hasActiveMemory) { running = false; gateway.close() }
+        publish()
+    } } }
+
+    suspend fun retryAeb() = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        aebEngine.retry()
+        sample = readVehicle(); process(true, true)
+    } } }
+
     suspend fun detach() = withContext(Dispatchers.IO) { mutex.withLock {
         running = false; gateway.close()
     } }
 
-    private fun process(modeObserved: Boolean, recoveryObserved: Boolean) {
-        if(!(context as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) return
+    private fun process(modeObserved: Boolean, recoveryObserved: Boolean, aebObserved: Boolean = true) {
+        if (!access.permits()) return
         val now = SystemClock.elapsedRealtime()
+        // AEB shares VIP access but is independent of drive/recovery restore ordering.
+        val aebRequest = aebEngine.observe(sample.copy(mode = sample.aeb), now, aebObserved)
+        if (aebRequest != null) {
+            publish()
+            try { aebWriter.apply(aebRequest) }
+            catch (error: Exception) {
+                com.abrar.voyahiran.core.logging.AppLog.error("AebMemory", "apply-failed", error)
+                aebEngine.requestFailed()
+            }
+        }
         val driveWasPending = engine.memory.pending
         val request = engine.observe(sample, now, modeObserved)
         publish()
@@ -159,10 +198,13 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private fun publish(error: Boolean = false) {
         com.abrar.voyahiran.core.logging.AppLog.changed("DriveMemory", "enabled=${engine.memory.enabled} saved=${engine.memory.mode} current=${sample.mode} phase=${engine.phase} pending=${engine.memory.pending} acc=${sample.acc} ready=${sample.ready} speed=${sample.speed} error=$error")
         com.abrar.voyahiran.core.logging.AppLog.changed("Recovery", "enabled=${recoveryEngine.memory.enabled} saved=${recoveryEngine.memory.mode} current=${sample.recovery} phase=${recoveryEngine.phase} pending=${recoveryEngine.memory.pending} error=$error")
+        com.abrar.voyahiran.core.logging.AppLog.changed("AebMemory", "enabled=${aebEngine.memory.enabled} saved=${aebEngine.memory.mode} current=${sample.aeb} phase=${aebEngine.phase} pending=${aebEngine.memory.pending} error=$error")
         mutable.value = DriveMemoryUiState(engine.memory.enabled, sample.mode?.takeIf { validDriveMode(it) },
             engine.memory.mode, engine.phase, error = error || engine.phase == DrivePhase.FAILED,
             recovery = RecoveryMemoryUiState(recoveryEngine.memory.enabled, sample.recovery?.takeIf { it in 2..4 },
-                recoveryEngine.memory.mode, recoveryEngine.phase, error || recoveryEngine.phase == DrivePhase.FAILED))
+                recoveryEngine.memory.mode, recoveryEngine.phase, error || recoveryEngine.phase == DrivePhase.FAILED),
+            aeb = RecoveryMemoryUiState(aebEngine.memory.enabled, sample.aeb?.takeIf { it in 1..2 },
+                aebEngine.memory.mode, aebEngine.phase, error || aebEngine.phase == DrivePhase.FAILED))
     }
 
     private fun bootIdentity() = "boot:" + Settings.Global.getInt(context.contentResolver, Settings.Global.BOOT_COUNT, -1)
@@ -172,11 +214,12 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         sample = VehicleSample()
         if (engine.memory.enabled) engine.start(boot.ifBlank { bootIdentity() })
         if (recoveryEngine.memory.enabled) recoveryEngine.start(boot.ifBlank { bootIdentity() })
+        if (aebEngine.memory.enabled) aebEngine.start(boot.ifBlank { bootIdentity() })
         throw error
     }
 
     private suspend fun protect(block: suspend () -> Unit): Boolean {
-        if (!(context as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) return false
+        if (!access.permits()) { publish(); return false }
         return try { block(); true }
         catch (error: CancellationException) { throw error }
         catch (error: Exception) {

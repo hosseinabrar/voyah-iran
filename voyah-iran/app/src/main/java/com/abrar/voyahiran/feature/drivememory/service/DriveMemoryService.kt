@@ -40,10 +40,13 @@ class DriveMemoryService : Service() {
                     RECOVERY_ENABLE -> controller.enableRecovery()
                     RECOVERY_DISABLE -> controller.disableRecovery()
                     RECOVERY_RETRY -> controller.retryRecovery()
+                    AEB_ENABLE -> controller.enableAeb()
+                    AEB_DISABLE -> controller.disableAeb()
+                    AEB_RETRY -> controller.retryAeb()
                     else -> controller.start()
                 }
                 if (action == BOOT) com.abrar.voyahiran.core.logging.AppLog.info("Boot", "Background startup complete; UI not launched")
-                if (!controller.state.value.anyEnabled) stopSelf()
+                if (!controller.hasActiveMemory) stopSelf()
             }
         }
         scope.launch { while (isActive) { delay(1000); controller.tick() } }
@@ -84,6 +87,9 @@ class DriveMemoryService : Service() {
         const val RECOVERY_ENABLE = "com.abrar.voyahiran.recovery.ENABLE"
         const val RECOVERY_DISABLE = "com.abrar.voyahiran.recovery.DISABLE"
         const val RECOVERY_RETRY = "com.abrar.voyahiran.recovery.RETRY"
+        const val AEB_ENABLE = "com.abrar.voyahiran.aeb.ENABLE"
+        const val AEB_DISABLE = "com.abrar.voyahiran.aeb.DISABLE"
+        const val AEB_RETRY = "com.abrar.voyahiran.aeb.RETRY"
         private const val CHANNEL = "drive_memory"
         fun request(context: Context, action: String) {
             context.startForegroundService(Intent(context, DriveMemoryService::class.java).setAction(action))
