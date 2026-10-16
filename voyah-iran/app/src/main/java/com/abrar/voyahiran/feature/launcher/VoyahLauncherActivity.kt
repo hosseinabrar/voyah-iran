@@ -55,11 +55,12 @@ class VoyahLauncherActivity : ComponentActivity() {
         val key=listOf(state.sourcePackage,state.oemSource,state.source,state.title,state.artist,state.coverUri)
         val sameCover=key==coverKey
         if(!sameCover){coverJob?.cancel();coverKey=key}
+        if(state.cover!=null)coverJob?.cancel()
         // Playback/position callbacks must never briefly replace the decoded cover with the placeholder.
         val retained=if(sameCover)dashboard.media.cover else null
         dashboard.media=state.copy(cover=state.cover ?: retained,coverPending=state.cover==null && retained==null && state.coverUri.isNotBlank())
         if(dashboard.media.cover==null && state.coverUri.isNotBlank() && coverJob?.isActive!=true) coverJob=lifecycleScope.launch {
-            val cover=withContext(Dispatchers.IO) { artwork.load(state.coverUri) }
+            val cover=artwork.loadWithRetry(state.coverUri,key.toString())
             if(coverKey==key)dashboard.media=dashboard.media.copy(cover=cover,coverPending=false)
         }
     } }

@@ -314,7 +314,7 @@ class PassengerLauncherActivity : ComponentActivity() {
             // Keep the previous artwork until the replacement is decoded, then crossfade once.
             musicCover=state.cover?:musicCover.takeIf{state.coverUri.isNotBlank()}
             coverJob=lifecycleScope.launch {
-            val image=withContext(Dispatchers.IO){state.cover ?: state.coverUri.takeIf {it.isNotBlank()}?.let {musicArtwork.load(it)}}
+            val image=state.cover ?: state.coverUri.takeIf {it.isNotBlank()}?.let {musicArtwork.loadWithRetry(it,key)}
             if(coverKey==key){musicCover=image;mediaState()}
         }};mediaState()
     }

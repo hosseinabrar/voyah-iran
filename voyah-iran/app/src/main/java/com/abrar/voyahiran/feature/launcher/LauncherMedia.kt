@@ -21,6 +21,7 @@ data class LauncherMediaState(val source: String = "Music", val title: String = 
 }
 
 object LauncherMedia {
+    internal fun firstArtworkUri(vararg values:String?):String=values.firstOrNull{!it.isNullOrBlank()}.orEmpty()
     private val memory = LauncherMediaMemory()
     private var lastOemSource = ""
     private var iconPackage = ""
@@ -55,7 +56,7 @@ object LauncherMedia {
                 true, ((state?.position ?: 0) + elapsed).coerceAtLeast(0).let { if(duration > 0) it.coerceAtMost(duration) else it }, duration, active,
                 sourcePackage = active.packageName, sourceIcon = appIcon(context, active.packageName),
                 oemSource = if(active.packageName in setOf("com.qinggan.media", "com.qinggan.app.music", "com.qinggan.app.radio") && currentOemSource!="NO") currentOemSource else "",
-                coverUri = m?.getString(MediaMetadata.METADATA_KEY_ALBUM_ART_URI) ?: m?.getString(MediaMetadata.METADATA_KEY_ART_URI) ?: m?.getString(MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI).orEmpty()))
+                coverUri = firstArtworkUri(m?.getString(MediaMetadata.METADATA_KEY_ALBUM_ART_URI),m?.getString(MediaMetadata.METADATA_KEY_ART_URI),m?.getString(MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI))))
         }
         if (oem != null && oemActive) {
             val radio = oem.optString("source") == "LOCAL_RADIO"
@@ -72,7 +73,16 @@ object LauncherMedia {
         val controller = sessions.firstOrNull { it.packageName == previous?.controller?.packageName ||
             (previous?.sourcePackage?.isNotEmpty()==true && it.packageName==previous.sourcePackage) ||
             (previous?.oemSource?.isNotEmpty()==true && it.packageName in setOf("com.qinggan.media", "com.qinggan.app.music", "com.qinggan.app.radio")) }
-        return memory.paused(controller, sourceChanged)
+        val paused=memory.paused(controller, sourceChanged)
+        val metadata=controller?.metadata
+        // Artwork may arrive after pause. Do not discard that metadata callback or
+        // borrow an image from a different track/source.
+        if(!sourceChanged && metadata?.getString(MediaMetadata.METADATA_KEY_TITLE)==paused.title){
+            val cover=metadata.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART) ?: metadata.getBitmap(MediaMetadata.METADATA_KEY_ART) ?: metadata.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON)
+            val uri=firstArtworkUri(metadata.getString(MediaMetadata.METADATA_KEY_ALBUM_ART_URI),metadata.getString(MediaMetadata.METADATA_KEY_ART_URI),metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI))
+            return memory.remember(paused.copy(cover=cover ?: paused.cover,coverUri=uri.ifBlank{paused.coverUri}))
+        }
+        return paused
     }
 }
 

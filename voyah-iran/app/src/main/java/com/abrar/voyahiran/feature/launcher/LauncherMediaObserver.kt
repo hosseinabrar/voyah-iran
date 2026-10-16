@@ -90,7 +90,7 @@ internal class LauncherMediaObserver(private val context: Context, private val s
                 }
                 value.onSuccess {
                     changed(it)
-                    AppLog.info("LauncherMedia","applied reason=${event.reason} pkg=${it.sourcePackage} source=${it.oemSource} playing=${it.playing} position=${it.position} delayMs=${SystemClock.elapsedRealtime()-event.at}")
+                    AppLog.info("LauncherMedia","applied reason=${event.reason} pkg=${it.sourcePackage} source=${it.oemSource} playing=${it.playing} position=${it.position} coverBitmap=${it.cover!=null} coverUri=${it.coverUri.isNotBlank()} delayMs=${SystemClock.elapsedRealtime()-event.at}")
                 }.onFailure { failed("media read failed",it) }
             }
         }
