@@ -64,16 +64,22 @@ internal object DowAmbientSettings {
 
     internal fun setOn(provider: Any, api: Class<*>, value: Int) {
         require(value in 0..1)
-        if (readFrom(provider, api) != value) {
-            val values = ContentValues().apply { put("name", KEY); put("value", value.toString()) }
-            val insert = api.methods.single { it.name == "insert" }
-            val args = when (insert.parameterCount) {
-                3 -> arrayOf<Any?>("root", uri, values)
-                5 -> arrayOf<Any?>("root", null, uri, values, Bundle())
-                else -> error("Unsupported ambient insert protocol")
-            }
-            insert.invoke(provider, *args)
-            check(readFrom(provider, api) == value) { "Ambient drive mode write not confirmed" }
+        val values = ContentValues().apply { put("name", KEY); put("value", value.toString()) }
+        // Android 11 exposes BOTH the legacy default method and the modern overload.
+        // Selecting by name with single() fails before any write reaches the provider.
+        val insert = try {
+            api.getMethod("insert", String::class.java, String::class.java,
+                Uri::class.java, ContentValues::class.java, Bundle::class.java)
+        } catch (_: NoSuchMethodException) {
+            api.getMethod("insert", String::class.java, Uri::class.java, ContentValues::class.java)
         }
+        val args = when (insert.parameterCount) {
+            3 -> arrayOf<Any?>("root", uri, values)
+            5 -> arrayOf<Any?>("root", null, uri, values, Bundle())
+            else -> error("Unsupported ambient insert protocol")
+        }
+        // Dispatch only. Do not gate warning onset on a query/readback round trip.
+        // Recovery still verifies the complete saved snapshot asynchronously.
+        checkNotNull(insert.invoke(provider, *args)) { "Ambient settings write rejected" }
     }
 }

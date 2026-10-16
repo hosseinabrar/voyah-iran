@@ -40,6 +40,7 @@ class DowAmbientSettingsTest {
         fun insert(pkg: String, uri: Uri, values: ContentValues): Uri = save(values)
     }
     class R : Data() {
+        fun insert(pkg: String, uri: Uri, values: ContentValues): Uri = error("Legacy overload must not be selected on R")
         fun query(pkg: String, tag: String?, uri: Uri, projection: Array<String>, extras: Bundle, cancel: Any?): Cursor {
             assertNull(tag); return rows(pkg, uri, projection, extras)
         }
@@ -47,13 +48,14 @@ class DowAmbientSettingsTest {
             assertNull(tag); return save(values)
         }
     }
-    @Test fun bothProtocolsReadWriteConfirmAndCloseCursors() {
+    @Test fun bothProtocolsDispatchWithoutReadbackAndCloseReadCursors() {
         for (p in listOf(Pie(), R())) {
             assertEquals(1, DowAmbientSettings.readFrom(p, p.javaClass))
             DowAmbientSettings.setOn(p, p.javaClass, 0)
             assertEquals("0", p.value); assertEquals(1, p.writes)
+            assertEquals(1, p.cursors.size) // Only the explicit snapshot read above.
             DowAmbientSettings.setOn(p, p.javaClass, 0)
-            assertEquals(1, p.writes)
+            assertEquals(2, p.writes)
             assertTrue(p.cursors.all { it.isClosed })
         }
     }
@@ -66,8 +68,11 @@ class DowAmbientSettingsTest {
         assertThrows(IllegalStateException::class.java) { DowAmbientSettings.readFrom(p, p.javaClass) }
         assertTrue(p.cursors.all { it.isClosed })
     }
-    @Test fun ignoredWriteFailsConfirmation() {
+    @Test fun dispatchDoesNotWaitForFeedback() {
         val p = Pie().apply { ignoreWrite = true }
-        assertThrows(IllegalStateException::class.java) { DowAmbientSettings.setOn(p, p.javaClass, 0) }
+        DowAmbientSettings.setOn(p, p.javaClass, 0)
+        assertEquals(1, p.writes)
+        assertTrue(p.cursors.isEmpty())
+        assertEquals("1", p.value)
     }
 }
