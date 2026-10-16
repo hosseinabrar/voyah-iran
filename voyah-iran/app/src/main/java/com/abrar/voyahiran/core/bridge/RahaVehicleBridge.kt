@@ -229,6 +229,10 @@ object RahaVehicleBridge {
                 ?: error("Ambient drive-mode preference unavailable")
         }
         fun acc() = api.getMethod("getAccStatus").invoke(remote) as Int
+        fun driverDoor(): Int {
+            val doors = api.getMethod("getDoorStatus").invoke(remote) ?: return -1
+            return doors.javaClass.getMethod("getFLDoor").invoke(doors) as Int
+        }
         override fun speed() = api.getMethod("getVehicleSpeed").invoke(remote) as Int
         override fun vehicle(field: String) = api.getMethod("getVehicleState", vehicleType).invoke(remote, field(vehicleType, field)) as Int
         override fun air(field: String) = api.getMethod("getAirConditionState", airType).invoke(remote, field(airType, field)) as Int

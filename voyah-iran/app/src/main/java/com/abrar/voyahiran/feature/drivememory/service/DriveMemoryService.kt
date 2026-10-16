@@ -51,6 +51,8 @@ class DriveMemoryService : Service() {
                     ENERGY_MODE_RETRY -> controller.retryEnergyMode()
                     DOW_ENABLE -> controller.setDowEnabled(true)
                     DOW_DISABLE -> controller.setDowEnabled(false)
+                    DOW_ALWAYS -> controller.setDowDoorOnly(false)
+                    DOW_DOOR -> controller.setDowDoorOnly(true)
                     SHADE_ENABLE -> controller.setShadeEnabled(true)
                     SHADE_DISABLE -> controller.setShadeEnabled(false)
                     SHADE_READY_ENABLE -> controller.setShadeReadyEnabled(true)
@@ -110,6 +112,8 @@ class DriveMemoryService : Service() {
         const val ENERGY_MODE_RETRY = "com.abrar.voyahiran.energyMode.RETRY"
         const val DOW_ENABLE = "com.abrar.voyahiran.dow.ENABLE"
         const val DOW_DISABLE = "com.abrar.voyahiran.dow.DISABLE"
+        const val DOW_ALWAYS = "com.abrar.voyahiran.dow.ALWAYS"
+        const val DOW_DOOR = "com.abrar.voyahiran.dow.DOOR"
         const val SHADE_ENABLE = "com.abrar.voyahiran.shade.ENABLE"
         const val SHADE_DISABLE = "com.abrar.voyahiran.shade.DISABLE"
         const val SHADE_READY_ENABLE = "com.abrar.voyahiran.shade.READY_ENABLE"
