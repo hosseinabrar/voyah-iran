@@ -22,8 +22,9 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     private var themeAppliedAt=0L
     private var attemptedTheme:Pair<Int,Boolean>?=null
     private var themeRetryAt=0L
+    private var themeUnsupported=false
     private suspend fun refreshTheme(id:Int,force:Boolean=false) {
-        if(id<=1)return
+        if(id<=1 || themeUnsupported)return
         val wanted=id to LauncherTheme.isLight()
         val now=android.os.SystemClock.elapsedRealtime()
         if(!force && attemptedTheme==wanted && now<themeRetryAt)return
@@ -39,6 +40,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
             themeAppliedAt=android.os.SystemClock.elapsedRealtime()
             themeRetryAt=0L
         }
+        if(result.exitCode==69 && result.output.contains("MAP_THEME_UNSUPPORTED"))themeUnsupported=true
         com.abrar.voyahiran.core.logging.AppLog.changed("LauncherMapTheme","exit=${result.exitCode} ${result.output}")
     }
     private var autoMonitor: Job? = null

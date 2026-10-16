@@ -32,7 +32,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
                 vehicleOff = true
                 startup?.cancel()
                 attempted = false
-                history.edit().remove("attemptedBoot").commit()
+                withContext(Dispatchers.IO){history.edit().remove("attemptedBoot").commit()}
                 AppLog.info("MusicAutomation", "ACC off; next power-on re-armed")
             } else if (signal.value == 2) vehicleOff = false
         }
@@ -44,15 +44,18 @@ internal class MusicAutomation(private val context: Context, private val scope: 
     private var attempted = false
     private var bootLaunchPackage: String? = null
 
-    fun tick() {
+    suspend fun tick() {
         val allowed = app.subscriptions.vipAllowed
         if (!allowed || !preferences.musicAutoPlay) startup?.cancel()
         if (allowed && !vehicleOff && preferences.musicAutoPlay && preferences.musicPlayer.isNotBlank() && !attempted) {
             attempted = true
-            val boot = Settings.Global.getInt(context.contentResolver, Settings.Global.BOOT_COUNT, -1)
+            val boot = withContext(Dispatchers.IO){Settings.Global.getInt(context.contentResolver, Settings.Global.BOOT_COUNT, -1)}
             // Do not restart music on Activity recreation, listener rebind or app process restart.
-            if (boot >= 0 && history.getInt("attemptedBoot", -2) != boot) {
-                history.edit().putInt("attemptedBoot", boot).commit()
+            val claimed=withContext(Dispatchers.IO){
+                boot>=0 && history.getInt("attemptedBoot",-2)!=boot &&
+                    history.edit().putInt("attemptedBoot",boot).commit()
+            }
+            if (claimed && !vehicleOff && app.subscriptions.vipAllowed && preferences.musicAutoPlay) {
                 startup = scope.launch { autoPlay(preferences.musicPlayer) }
             }
         }

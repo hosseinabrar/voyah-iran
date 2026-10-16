@@ -31,8 +31,14 @@ internal object LauncherMapBridge {
             val config=android.content.res.Configuration().apply {
                 uiMode=if(light) android.content.res.Configuration.UI_MODE_NIGHT_NO else android.content.res.Configuration.UI_MODE_NIGHT_YES
             }
-            apiClass.getMethod("updateDisplayOverrideConfiguration",android.content.res.Configuration::class.java,Int::class.javaPrimitiveType)
-                .invoke(api,config,destination)
+            val update=try {
+                apiClass.getMethod("updateDisplayOverrideConfiguration",android.content.res.Configuration::class.java,Int::class.javaPrimitiveType)
+            } catch(_:NoSuchMethodException) {
+                // H97X Android 11 does not expose this binder method. Never fall back
+                // to global updateConfiguration: that would change both physical screens.
+                return CommandResult(69,"MAP_THEME_UNSUPPORTED: per-display override API absent")
+            }
+            update.invoke(api,config,destination)
             return CommandResult(0,"MAP_THEME display=$destination light=$light")
         }
         val stacks = apiClass.getMethod("getAllStackInfos").invoke(api) as List<*>

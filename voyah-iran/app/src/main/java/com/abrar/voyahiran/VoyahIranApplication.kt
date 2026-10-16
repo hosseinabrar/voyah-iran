@@ -17,6 +17,7 @@ class VoyahIranApplication : Application() {
     val subscriptions by lazy { com.abrar.voyahiran.feature.subscription.SubscriptionManager(this) }
     override fun onCreate() {
         super.onCreate()
+        com.abrar.voyahiran.core.logging.StartupMainThreadMonitor.start()
         com.abrar.voyahiran.feature.voice.RahaPhonebook.start(this)
         com.abrar.voyahiran.core.bridge.BridgeClient.configure(filesDir)
         com.abrar.voyahiran.feature.display.ScreenSwapControl(this).start()

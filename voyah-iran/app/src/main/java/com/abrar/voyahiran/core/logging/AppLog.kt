@@ -16,5 +16,13 @@ object AppLog {
     fun error(section: String, message: String, error: Throwable) {
         val location = error.stackTrace.firstOrNull()?.toString().orEmpty()
         Log.e("VI/$section", "$message exception=${error.javaClass.simpleName} at=$location")
+        // Reflection/Binder wrappers otherwise hide the useful exception in vehicle logs.
+        var cause=error.cause
+        repeat(4){
+            val current=cause ?: return
+            Log.e("VI/$section","cause=${current.javaClass.name} stack="+
+                current.stackTrace.take(8).joinToString(" <- "))
+            cause=current.cause.takeUnless{it===current}
+        }
     }
 }

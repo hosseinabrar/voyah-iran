@@ -39,6 +39,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private var appPicker:android.app.Dialog?=null
     private lateinit var surface:android.widget.FrameLayout
     private var ready=false
+    private var layoutSignature=""
     private var visible=false
     private var light=false
     private var watch:Job?=null
@@ -84,6 +85,9 @@ class PassengerLauncherActivity : ComponentActivity() {
         web.settings.apply {javaScriptEnabled=true;allowFileAccess=false;allowContentAccess=false;domStorageEnabled=false;javaScriptCanOpenWindowsAutomatically=false;setSupportMultipleWindows(false);mixedContentMode=WebSettings.MIXED_CONTENT_NEVER_ALLOW}
         web.addJavascriptInterface(Commands(),"Passenger")
         web.webViewClient=object:WebViewClient() {
+            override fun onReceivedError(v:WebView,r:WebResourceRequest,e:WebResourceError){
+                if(r.isForMainFrame)AppLog.info("PassengerLauncher","web main-frame error code=${e.errorCode}")
+            }
             override fun shouldOverrideUrlLoading(v:WebView,r:WebResourceRequest)=true
             override fun shouldInterceptRequest(v:WebView,r:WebResourceRequest):WebResourceResponse {
                 val uri=r.url;val path=uri.path.orEmpty().removePrefix("/")
@@ -97,6 +101,7 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             override fun onPageFinished(v:WebView,url:String) {
                 if(url!="https://passenger.local/${if(light)"light" else "dark"}.html")return
+                AppLog.info("PassengerLauncher","web ready size=${v.width}x${v.height}")
                 ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';document.querySelector('.weather-card').style.display='none';document.querySelector('.seat').style.display='none';document.querySelector('.music-card').style.display='none';window.passengerNativeSeats=true;window.passengerNativeMusic=true;passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
             }
         }
@@ -113,14 +118,19 @@ class PassengerLauncherActivity : ComponentActivity() {
             false
         }}
         setContentView(surface)
-        web.addOnLayoutChangeListener {_,_,_,_,_,_,_,_,_->
+        fun layoutCards() {
+            if(surface.width<=0 || surface.height<=0)return
             val point=android.graphics.Point()
             @Suppress("DEPRECATION")
             windowManager.defaultDisplay.getRealSize(point)
-            val origin=IntArray(2);web.getLocationOnScreen(origin)
-            val top=if(point.y>0)origin[1]*720.0/point.y else 0.0
+            val origin=IntArray(2);surface.getLocationOnScreen(origin)
+            val top=(if(point.y>0)origin[1]*720.0/point.y else 0.0).coerceIn(0.0,50.0)
+            val signature="${surface.width}x${surface.height} origin=${origin.toList()} top=$top"
+            if(layoutSignature==signature)return
+            layoutSignature=signature
+            AppLog.info("PassengerLauncher","layout $signature")
             publish("frame",JSONObject().put("top",top))
-            val sx=web.width/1920f;val sy=(web.height/(720.0-top)).toFloat()
+            val sx=surface.width/1920f;val sy=(surface.height/(720.0-top)).toFloat()
             climate.layoutParams=android.widget.FrameLayout.LayoutParams((770*sx).toInt(),(370*sy).toInt()).apply {
                 leftMargin=(5*sx).toInt();topMargin=((50-top)*sy).toInt()
             }
@@ -140,6 +150,18 @@ class PassengerLauncherActivity : ComponentActivity() {
                 leftMargin=(1356*sx).toInt();topMargin=((456-top)*sy).toInt()
             }
         }
+        // Native cards must not depend on a WebView layout/page callback to leave their 1px bootstrap bounds.
+        surface.addOnLayoutChangeListener {_,_,_,_,_,_,_,_,_->layoutCards()}
+        surface.post {layoutCards()}
+        surface.viewTreeObserver.addOnPreDrawListener(object:android.view.ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw():Boolean {
+                if(climate.width>1 && musicCard.width>1){
+                    surface.viewTreeObserver.removeOnPreDrawListener(this)
+                    AppLog.info("PassengerLauncher","first native frame climate=${climate.width}x${climate.height} music=${musicCard.width}x${musicCard.height} display=${surface.display?.displayId}")
+                }
+                return true
+            }
+        })
         onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){favoriteCard.dismissEdit();web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)}})
         val filter=IntentFilter("theme_loaded").apply {addAction("android.media.VOLUME_CHANGED_ACTION")}
         if(android.os.Build.VERSION.SDK_INT>=33)registerReceiver(changes,filter,Context.RECEIVER_EXPORTED) else registerReceiver(changes,filter)
