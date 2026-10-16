@@ -335,6 +335,12 @@ class MainActivity : ComponentActivity() {
             requestDrive(if (binding.comfortPage.pedestrianMemory.isChecked) DriveMemoryService.PEDESTRIAN_ENABLE else DriveMemoryService.PEDESTRIAN_DISABLE)
         }
         binding.comfortPage.pedestrianRetry.setOnClickListener { requestDrive(DriveMemoryService.PEDESTRIAN_RETRY) }
+        binding.comfortPage.shadeDeparture.setOnClickListener {
+            requestDrive(if (binding.comfortPage.shadeDeparture.isChecked) DriveMemoryService.SHADE_ENABLE else DriveMemoryService.SHADE_DISABLE)
+        }
+        binding.comfortPage.shadeReady.setOnClickListener {
+            requestDrive(if (binding.comfortPage.shadeReady.isChecked) DriveMemoryService.SHADE_READY_ENABLE else DriveMemoryService.SHADE_READY_DISABLE)
+        }
         binding.aboutPage.version.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
         selectTab(Tab.entries.firstOrNull { it != Tab.DIAGNOSTICS && it.name == savedInstanceState?.getString(TAB_KEY) } ?: Tab.SETTINGS)
         lifecycleScope.launch {
@@ -594,7 +600,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun renderDrive(state: DriveMemoryUiState) = with(binding.comfortPage) {
-        val busy = state.busy || driveRequestPending
+        val busy = state.busy || driveRequestPending || state.shadeClosing || state.shadeOpening
         driveMemory.isChecked = state.enabled
         driveMemory.isEnabled = !busy && (state.enabled || state.current != null)
         driveProgress.visibility = if (busy || state.phase == DrivePhase.RESTORING) View.VISIBLE else View.GONE
@@ -653,6 +659,26 @@ class MainActivity : ComponentActivity() {
         pedestrianStatus.visibility = if (pedestrianMessage == null) View.GONE else View.VISIBLE
         pedestrianMessage?.let(pedestrianStatus::setText)
         pedestrianRetry.visibility = if (allowed && pedestrian.error && !busy) View.VISIBLE else View.GONE
+        shadeDeparture.isChecked = state.shadeEnabled
+        shadeDeparture.isEnabled = !busy
+        val shadeMessage = when {
+            !allowed -> null
+            state.shadeClosing -> R.string.shade_departure_closing
+            state.shadeError -> R.string.shade_departure_error
+            else -> null
+        }
+        shadeDepartureStatus.visibility = if (shadeMessage == null) View.GONE else View.VISIBLE
+        shadeMessage?.let(shadeDepartureStatus::setText)
+        shadeReady.isChecked = state.shadeReadyEnabled
+        shadeReady.isEnabled = !busy
+        val readyShadeMessage = when {
+            !allowed -> null
+            state.shadeOpening -> R.string.shade_ready_opening
+            state.shadeReadyError -> R.string.shade_ready_error
+            else -> null
+        }
+        shadeReadyStatus.visibility = if (readyShadeMessage == null) View.GONE else View.VISIBLE
+        readyShadeMessage?.let(shadeReadyStatus::setText)
     }
 
     // One mapping for labels, readback and commands; hidden rows cannot shift labels.

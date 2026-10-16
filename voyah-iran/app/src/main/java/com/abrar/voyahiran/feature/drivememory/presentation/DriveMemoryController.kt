@@ -21,7 +21,9 @@ data class DriveMemoryUiState(
     val recovery: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val aeb: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val pedestrian: RecoveryMemoryUiState = RecoveryMemoryUiState(),
-) { val anyEnabled: Boolean get() = enabled || recovery.enabled || aeb.enabled || pedestrian.enabled }
+    val shadeReadyEnabled: Boolean = false, val shadeReadyError: Boolean = false, val shadeOpening: Boolean = false,
+    val shadeEnabled: Boolean = false, val shadeError: Boolean = false, val shadeClosing: Boolean = false,
+) { val anyEnabled: Boolean get() = enabled || recovery.enabled || aeb.enabled || pedestrian.enabled || shadeEnabled || shadeReadyEnabled }
 
 data class RecoveryMemoryUiState(val enabled: Boolean = false, val current: Int? = null,
     val saved: Int? = null, val phase: DrivePhase = DrivePhase.OFF, val error: Boolean = false)
@@ -36,9 +38,20 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val pedestrianEngine = DriveMemoryEngine(pedestrianStore, 1..2)
     private val pedestrianWriter = PedestrianMemoryWriter(ProcessCommandRunner())
     private val aebWriter = AebMemoryWriter(ProcessCommandRunner())
+    private val shadePreferences = this.context.getSharedPreferences("sunshade_departure", Context.MODE_PRIVATE)
+    private var shadeEnabled = shadePreferences.getBoolean("enabled", false)
+    private var shadeError = false
+    private var shadeClosing = false
+    private val shadePolicy = SunshadeDeparturePolicy()
+    private var shadeReadyEnabled = shadePreferences.getBoolean("open_on_ready", false)
+    private var shadeReadyError = false
+    private var shadeOpening = false
+    private val shadeReadyPolicy = SunshadeReadyPolicy()
+    private val shadeReadyWriter = SunshadeReadyWriter(ProcessCommandRunner())
+    private val shadeWriter = SunshadeDepartureWriter(ProcessCommandRunner())
     private val subscriptions get() = (context as com.abrar.voyahiran.VoyahIranApplication).subscriptions
     private val access get() = MemoryAccess(subscriptions.allowed, subscriptions.vipAllowed)
-    val hasActiveMemory: Boolean get() = access.active(aebEngine.memory.enabled, engine.memory.enabled, recoveryEngine.memory.enabled, pedestrianEngine.memory.enabled)
+    val hasActiveMemory: Boolean get() = access.permits() && (shadeEnabled || shadeReadyEnabled || engine.memory.enabled || recoveryEngine.memory.enabled || aebEngine.memory.enabled || pedestrianEngine.memory.enabled)
     private val recoveryWriter = RecoveryLevelWriter(ProcessCommandRunner())
     private val restoreOrder = RecoveryRestoreOrder()
     private val events = Channel<CanSignal>(Channel.UNLIMITED)
@@ -50,14 +63,15 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val mutable = MutableStateFlow(DriveMemoryUiState(enabled = engine.memory.enabled, saved = engine.memory.mode,
         recovery = RecoveryMemoryUiState(enabled = recoveryEngine.memory.enabled, saved = recoveryEngine.memory.mode),
         aeb = RecoveryMemoryUiState(enabled = aebEngine.memory.enabled, saved = aebEngine.memory.mode),
-        pedestrian = RecoveryMemoryUiState(enabled = pedestrianEngine.memory.enabled, saved = pedestrianEngine.memory.mode)))
+        pedestrian = RecoveryMemoryUiState(enabled = pedestrianEngine.memory.enabled, saved = pedestrianEngine.memory.mode),
+        shadeEnabled = shadeEnabled, shadeReadyEnabled = shadeReadyEnabled))
     val state = mutable.asStateFlow()
 
     init {
         scope.launch {
             for (event in events) mutex.withLock {
                 if (running) protect {
-                    if (event.field == CanField.DISCONNECTED) { engine.start(boot); recoveryEngine.start(boot); aebEngine.start(boot); pedestrianEngine.start(boot) }
+                    if (event.field == CanField.DISCONNECTED) { engine.start(boot); recoveryEngine.start(boot); aebEngine.start(boot); pedestrianEngine.start(boot); shadePolicy.reset(); shadeReadyPolicy.reset() }
                     sample = when (event.field) {
                         CanField.PEDESTRIAN -> sample.copy(pedestrian = event.value)
                         CanField.AEB -> sample.copy(aeb = event.value)
@@ -78,6 +92,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         mutable.value = mutable.value.copy(busy = true, error = false)
         if (!running) {
             boot = bootIdentity()
+            shadePolicy.reset(); shadeReadyPolicy.reset()
             engine.start(boot)
             recoveryEngine.start(boot)
             aebEngine.start(boot)
@@ -177,12 +192,86 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         sample = readVehicle(); process(true, true)
     } } }
 
+    suspend fun setShadeEnabled(enabled: Boolean) = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        mutable.value = mutable.value.copy(busy = true)
+        if (enabled) {
+            writer.checkAccess()
+            if (boot.isBlank()) boot = bootIdentity()
+            sample = readVehicle()
+        }
+        check(shadePreferences.edit().putBoolean("enabled", enabled).commit()) { "Sunshade preference not saved" }
+        shadeEnabled = enabled
+        shadeError = false
+        shadePolicy.reset(if (enabled) sample.acc else null)
+        if (enabled) running = true
+        else if (!hasActiveMemory) { running = false; gateway.close() }
+        publish()
+    } } }
+
+    private fun closeShadeOnDeparture() {
+        if (!shadePolicy.observe(sample.acc, sample.speed, shadeEnabled, access.permits())) return
+        val power = context.getSystemService(android.os.PowerManager::class.java)
+        val wake = power.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "VoyahIran:SunshadeDeparture")
+        shadeClosing = true; shadeError = false; publish()
+        try {
+            // Short CPU hold only; never an unbounded wake lock or a retry after shutdown.
+            wake.acquire(12_000)
+            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeDeparture", "ACC 2->0; close once")
+            shadeWriter.close()
+            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeDeparture", "closed feedback confirmed")
+        } catch (error: Exception) {
+            shadeError = true
+            com.abrar.voyahiran.core.logging.AppLog.error("SunshadeDeparture", "not confirmed; no replay", error)
+        } finally {
+            if (wake.isHeld) wake.release()
+            shadeClosing = false; publish()
+        }
+    }
+
+    suspend fun setShadeReadyEnabled(enabled: Boolean) = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        mutable.value = mutable.value.copy(busy = true)
+        if (enabled) {
+            writer.checkAccess()
+            if (boot.isBlank()) boot = bootIdentity()
+            sample = readVehicle()
+        }
+        check(shadePreferences.edit().putBoolean("open_on_ready", enabled).commit()) { "Sunshade preference not saved" }
+        shadeReadyEnabled = enabled
+        shadeReadyError = false
+        shadeReadyPolicy.reset(if (enabled) sample.ready else null)
+        if (enabled) running = true
+        else if (!hasActiveMemory) { running = false; gateway.close() }
+        publish()
+    } } }
+
+    private fun openShadeOnReady() {
+        if (!shadeReadyPolicy.observe(sample.acc, sample.ready, sample.speed, shadeReadyEnabled, access.permits())) return
+        val power = context.getSystemService(android.os.PowerManager::class.java)
+        val wake = power.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "VoyahIran:SunshadeReady")
+        shadeOpening = true; shadeReadyError = false; publish()
+        try {
+            // Short CPU hold only; never an unbounded wake lock or a retry after shutdown.
+            wake.acquire(12_000)
+            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeReady", "entered READY; open once")
+            shadeReadyWriter.open()
+            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeReady", "opened feedback confirmed")
+        } catch (error: Exception) {
+            shadeReadyError = true
+            com.abrar.voyahiran.core.logging.AppLog.error("SunshadeReady", "not confirmed; no replay", error)
+        } finally {
+            if (wake.isHeld) wake.release()
+            shadeOpening = false; publish()
+        }
+    }
+
     suspend fun detach() = withContext(Dispatchers.IO) { mutex.withLock {
-        running = false; gateway.close()
+        running = false; gateway.close(); shadePolicy.reset(); shadeReadyPolicy.reset()
     } }
 
     private fun process(modeObserved: Boolean, recoveryObserved: Boolean, aebObserved: Boolean = true, pedestrianObserved: Boolean = true) {
-        if (!access.permits()) return
+        if (!access.permits()) { shadePolicy.reset(); shadeReadyPolicy.reset(); return }
+        closeShadeOnDeparture()
+        openShadeOnReady()
         val now = SystemClock.elapsedRealtime()
         // AEB shares VIP access but is independent of drive/recovery restore ordering.
         val aebRequest = aebEngine.observe(sample.copy(mode = sample.aeb), now, aebObserved)
@@ -242,7 +331,9 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
             aeb = RecoveryMemoryUiState(aebEngine.memory.enabled, sample.aeb?.takeIf { it in 1..2 },
                 aebEngine.memory.mode, aebEngine.phase, error || aebEngine.phase == DrivePhase.FAILED),
             pedestrian = RecoveryMemoryUiState(pedestrianEngine.memory.enabled, sample.pedestrian?.takeIf { it in 1..2 },
-                pedestrianEngine.memory.mode, pedestrianEngine.phase, error || pedestrianEngine.phase == DrivePhase.FAILED))
+                pedestrianEngine.memory.mode, pedestrianEngine.phase, error || pedestrianEngine.phase == DrivePhase.FAILED),
+            shadeEnabled = shadeEnabled, shadeError = shadeError || error, shadeClosing = shadeClosing,
+            shadeReadyEnabled = shadeReadyEnabled, shadeReadyError = shadeReadyError || error, shadeOpening = shadeOpening)
     }
 
     private fun bootIdentity() = "boot:" + Settings.Global.getInt(context.contentResolver, Settings.Global.BOOT_COUNT, -1)
@@ -250,6 +341,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private suspend fun readVehicle(): VehicleSample = try { gateway.read() }
     catch (error: Exception) {
         sample = VehicleSample()
+        shadePolicy.reset(); shadeReadyPolicy.reset()
         if (engine.memory.enabled) engine.start(boot.ifBlank { bootIdentity() })
         if (recoveryEngine.memory.enabled) recoveryEngine.start(boot.ifBlank { bootIdentity() })
         if (aebEngine.memory.enabled) aebEngine.start(boot.ifBlank { bootIdentity() })
@@ -258,7 +350,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     }
 
     private suspend fun protect(block: suspend () -> Unit): Boolean {
-        if (!access.permits()) { publish(); return false }
+        if (!access.permits()) { shadePolicy.reset(); shadeReadyPolicy.reset(); publish(); return false }
         return try { block(); true }
         catch (error: CancellationException) { throw error }
         catch (error: Exception) {
