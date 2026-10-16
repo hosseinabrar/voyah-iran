@@ -158,6 +158,14 @@
     <string name="pedestrian_memory_description">آخرین وضعیت روشن یا خاموش صدای هشدار عابر پیاده را پس از روشن‌شدن خودرو، هنگام توقف برمی‌گرداند. اگر آن را خاموش کرده باشید، خاموش می‌ماند.</string>
     <string name="pedestrian_restoring">در حال بازیابی وضعیت هشدار عابر پیاده…</string>
     <string name="pedestrian_unconfirmed">خودرو بازیابی وضعیت هشدار عابر پیاده را تأیید نکرد. وضعیت را در منوی خودرو بررسی کنید.</string>
+    <string name="shade_departure_label">بستن پردهٔ سانروف هنگام خاموش‌شدن خودرو</string>
+    <string name="shade_departure_description">پس از خاموش شدن خودرو پرده سانروف بطور خودکار بسته می‌شود.</string>
+    <string name="shade_departure_closing">در حال بستن پردهٔ سانروف…</string>
+    <string name="shade_departure_error">بستن پردهٔ سانروف تأیید نشد. وضعیت پرده را بررسی کنید؛ فرمان خودکار تکرار نمی‌شود.</string>
+    <string name="shade_ready_label">باز کردن پردهٔ سانروف هنگام آماده‌شدن خودرو (READY)</string>
+    <string name="shade_ready_description">پس از ورود خودرو به حالت READY پرده سانروف بطور خودکار باز می‌شود.</string>
+    <string name="shade_ready_opening">در حال باز کردن پردهٔ سانروف…</string>
+    <string name="shade_ready_error">باز شدن پردهٔ سانروف تأیید نشد. وضعیت پرده را بررسی کنید؛ فرمان خودکار تکرار نمی‌شود.</string>
 </resources>
 
 

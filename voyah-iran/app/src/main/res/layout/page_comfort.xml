@@ -113,5 +113,31 @@
             <TextView android:id="@+id/avmTurnStatus" style="@style/Text.Caption" android:accessibilityLiveRegion="polite" android:layout_marginTop="@dimen/space_sm" />
             <Button android:id="@+id/avmTurnRetry" style="@style/NavigationTab" android:layout_width="wrap_content" android:text="@string/retry" android:visibility="gone" />
         </LinearLayout>
+        <LinearLayout android:id="@+id/shadeDepartureCard" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="@dimen/space_lg">
+            <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/shadeDeparture"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false"
+                android:text="@string/shade_departure_label" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/shade_departure_description" />
+            <TextView android:id="@+id/shadeDepartureStatus" style="@style/Text.Caption"
+                android:layout_marginTop="@dimen/space_sm" android:accessibilityLiveRegion="polite" android:visibility="gone" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/shadeReadyCard" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="@dimen/space_lg">
+            <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/shadeReady"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
+                android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false"
+                android:text="@string/shade_ready_label" />
+            <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/shade_ready_description" />
+            <TextView android:id="@+id/shadeReadyStatus" style="@style/Text.Caption"
+                android:layout_marginTop="@dimen/space_sm" android:accessibilityLiveRegion="polite" android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

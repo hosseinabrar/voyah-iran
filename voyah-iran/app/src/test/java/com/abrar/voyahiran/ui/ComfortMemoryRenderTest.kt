@@ -27,6 +27,8 @@ class ComfortMemoryRenderTest {
         val binding = PageComfortBinding.inflate(LayoutInflater.from(context))
         assertEquals(VipCheckBox::class.java, binding.aebMemory.javaClass)
         assertEquals(VipCheckBox::class.java, binding.pedestrianMemory.javaClass)
+        assertEquals(VipCheckBox::class.java, binding.shadeDeparture.javaClass)
+        assertEquals(VipCheckBox::class.java, binding.shadeReady.javaClass)
         assertEquals(VipCheckBox::class.java, binding.driveMemory.javaClass)
         assertEquals(VipCheckBox::class.java, binding.recoveryMemory.javaClass)
         binding.avmTurnCard.visibility = View.VISIBLE
@@ -35,7 +37,7 @@ class ComfortMemoryRenderTest {
         binding.aebMemory.isEnabled = true
         binding.aebMemory.isChecked = true
         val width = 1120
-        val height = 1010
+        val height = 1330
         binding.root.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
         binding.root.layout(0, 0, width, height)
@@ -43,11 +45,17 @@ class ComfortMemoryRenderTest {
         assertTrue((binding.aebMemory.parent as View).top > (binding.recoveryMemory.parent as View).top)
         assertTrue((binding.pedestrianMemory.parent as View).top > (binding.aebMemory.parent as View).top)
         assertTrue(binding.avmTurnCard.top > (binding.pedestrianMemory.parent as View).top)
+        assertTrue(binding.shadeDepartureCard.top > binding.avmTurnCard.top)
+        assertTrue(binding.shadeReadyCard.top > binding.shadeDepartureCard.top)
         assertTrue(binding.aebMemory.width > 0)
         for (line in 0 until binding.aebMemory.layout.lineCount)
             assertEquals(0, binding.aebMemory.layout.getEllipsisCount(line))
         for (line in 0 until binding.pedestrianMemory.layout.lineCount)
             assertEquals(0, binding.pedestrianMemory.layout.getEllipsisCount(line))
+        for (line in 0 until binding.shadeDeparture.layout.lineCount)
+            assertEquals(0, binding.shadeDeparture.layout.getEllipsisCount(line))
+        for (line in 0 until binding.shadeReady.layout.lineCount)
+            assertEquals(0, binding.shadeReady.layout.getEllipsisCount(line))
         val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         binding.root.draw(Canvas(image))
         val output = File(System.getProperty("voyah.renderDir", "build/reports/comfort-memory"), "comfort-memory.png")

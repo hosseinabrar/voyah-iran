@@ -7,6 +7,14 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class RahaVehiclePlanTest {
+    @Test fun readyUsesRahaShadeOpenWithoutTouchingRoofGlass() {
+        assertEquals(listOf(RahaWrite("vehicle", "ROLL_OPEN_PERCENT", 100)),
+            RahaVehiclePlan(Snapshot()).create(RahaAction.SET_SUNSHADE_POSITION, mapOf("position" to 100)))
+    }
+    @Test fun departureUsesRahaShadeCloseWithoutTouchingRoofGlass() {
+        assertEquals(listOf(RahaWrite("vehicle", "ROLL_OPEN_PERCENT", 0)),
+            RahaVehiclePlan(Snapshot()).create(RahaAction.SET_SUNSHADE_POSITION, mapOf("position" to 0)))
+    }
     private class Snapshot : RahaVehicleSnapshot {
         var left = 27.0
         var right = 20.0

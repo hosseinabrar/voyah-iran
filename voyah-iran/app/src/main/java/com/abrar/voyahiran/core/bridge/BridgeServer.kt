@@ -74,6 +74,8 @@ object BridgeServer {
                         "local-profile-test" -> LocalProfileTest.execute(command[1])
                         "apollo-capability" -> ApolloCapability.read()
                         "avm-turn" -> AvmTurnBridge.execute(command[1])
+                        "sunshade-departure" -> RahaVehicleBridge.closeSunshadeOnDeparture()
+                        "sunshade-ready" -> RahaVehicleBridge.openSunshadeOnReady()
                         "aeb-memory" -> AebMemoryBridge.apply(command[1].toInt())
                         "pedestrian-memory" -> PedestrianMemoryBridge.apply(command[1].toInt())
                         "apollo-test-read" -> ApolloExperimentBridge.execute()

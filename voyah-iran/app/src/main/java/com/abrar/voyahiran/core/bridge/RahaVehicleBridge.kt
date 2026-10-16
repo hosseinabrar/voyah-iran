@@ -17,6 +17,70 @@ import java.io.File
 
 /** Runs only inside the authenticated root bridge. Uses the installed OEM SDK's enums and parceling. */
 object RahaVehicleBridge {
+    /** Same SDK, field and planner as Raha; no UI, motor override, or retry on failure. */
+    fun closeSunshadeOnDeparture(): CommandResult = try {
+        check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
+        val sdk = OemSession()
+        val plan = RahaVehiclePlan(sdk).create(RahaAction.SET_SUNSHADE_POSITION, mapOf("position" to 0))
+        check(plan == listOf(RahaWrite("vehicle", "ROLL_OPEN_PERCENT", 0))) { "Unexpected shade plan" }
+        plan.forEach(sdk::validate)
+        val before = sdk.vehicle("ROLL_OPEN_PERCENT")
+        check(before in 0..100) { "Sunshade position unavailable" }
+        check(BridgeSubscriptionSession.vipActive && sdk.acc() == 0 && sdk.speed() == 0) {
+            "Departure closure requires VIP, ACC off and stationary vehicle"
+        }
+        if (before != 0) {
+            AppLog.info("SunshadeDeparture", "OEM request ROLL_OPEN_PERCENT=0 before=$before")
+            sdk.write(plan.single())
+            val deadline = android.os.SystemClock.elapsedRealtime() + 6000
+            var actual = sdk.vehicle("ROLL_OPEN_PERCENT")
+            while (actual != 0 && android.os.SystemClock.elapsedRealtime() < deadline) {
+                Thread.sleep(150)
+                actual = sdk.vehicle("ROLL_OPEN_PERCENT")
+            }
+            check(actual == 0) { "Sunshade closure not confirmed: $actual" }
+        }
+        CommandResult(0, "SUNSHADE_CLOSED")
+    } catch (error: Exception) {
+        AppLog.error("SunshadeDeparture", "close failed; no replay", error)
+        CommandResult(1, "Sunshade closure not confirmed")
+    } catch (error: LinkageError) {
+        AppLog.error("SunshadeDeparture", "OEM SDK unavailable", error)
+        CommandResult(1, "Sunshade SDK unavailable")
+    }
+
+    /** Same SDK, field and planner as Raha; no UI, motor override, or retry on failure. */
+    fun openSunshadeOnReady(): CommandResult = try {
+        check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
+        val sdk = OemSession()
+        val plan = RahaVehiclePlan(sdk).create(RahaAction.SET_SUNSHADE_POSITION, mapOf("position" to 100))
+        check(plan == listOf(RahaWrite("vehicle", "ROLL_OPEN_PERCENT", 100))) { "Unexpected shade plan" }
+        plan.forEach(sdk::validate)
+        val before = sdk.vehicle("ROLL_OPEN_PERCENT")
+        check(before in 0..100) { "Sunshade position unavailable" }
+        check(BridgeSubscriptionSession.vipActive && sdk.acc() == 2 && sdk.vehicle("HUM_VCU_READY") == 1 && sdk.speed() == 0) {
+            "READY opening requires VIP, powered READY and stationary vehicle"
+        }
+        if (before != 100) {
+            AppLog.info("SunshadeReady", "OEM request ROLL_OPEN_PERCENT=100 before=$before")
+            sdk.write(plan.single())
+            val deadline = android.os.SystemClock.elapsedRealtime() + 6000
+            var actual = sdk.vehicle("ROLL_OPEN_PERCENT")
+            while (actual != 100 && android.os.SystemClock.elapsedRealtime() < deadline) {
+                Thread.sleep(150)
+                actual = sdk.vehicle("ROLL_OPEN_PERCENT")
+            }
+            check(actual == 100) { "Sunshade opening not confirmed: $actual" }
+        }
+        CommandResult(0, "SUNSHADE_OPENED")
+    } catch (error: Exception) {
+        AppLog.error("SunshadeReady", "open failed; no replay", error)
+        CommandResult(1, "Sunshade opening not confirmed")
+    } catch (error: LinkageError) {
+        AppLog.error("SunshadeReady", "OEM SDK unavailable", error)
+        CommandResult(1, "Sunshade SDK unavailable")
+    }
+
     fun execute(actionName: String, json: String): CommandResult { return try {
         val action = RahaAction.valueOf(actionName)
         val data = JSONObject(json)
@@ -114,6 +178,7 @@ object RahaVehicleBridge {
             }
             return checkNotNull(member.get(null))
         }
+        fun acc() = api.getMethod("getAccStatus").invoke(remote) as Int
         override fun speed() = api.getMethod("getVehicleSpeed").invoke(remote) as Int
         override fun vehicle(field: String) = api.getMethod("getVehicleState", vehicleType).invoke(remote, field(vehicleType, field)) as Int
         override fun air(field: String) = api.getMethod("getAirConditionState", airType).invoke(remote, field(airType, field)) as Int
