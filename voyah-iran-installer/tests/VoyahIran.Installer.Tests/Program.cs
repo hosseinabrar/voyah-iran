@@ -234,7 +234,39 @@ using (var splitLog = new SessionLog(Path.Combine(root, "splits"))) {
     catch (InvalidDataException) { invalid = true; }
     Check(invalid && mismatch.Calls.Count == 0, "Mismatched APK set rejected before device operations");
 }
+foreach (var mode in new[] { "ready", "delayed", "race", "missing", "security", "timeout", "empty" })
+{
+    var fake = new LaunchAdb(mode);
+    Exception? error = null;
+    try { await PostBootAppLauncher.LaunchAsync(fake, "CAR", _ => { }, () => Task.CompletedTask); }
+    catch (Exception e) { error = e; }
+    Check((error == null) == (mode is "ready" or "delayed" or "race"), "Post-boot launch " + mode);
+    if (mode == "delayed") Check(fake.Queries == 3 && fake.Starts == 1, "Wait for resolution before starting");
+    if (mode == "race") Check(fake.Starts == 2, "Retry explicit Error type 3");
+    if (mode == "missing") Check(fake.Queries == 10 && fake.Starts == 0, "Bounded unresolved activity wait");
+    if (mode is "security" or "timeout" or "empty") Check(fake.Starts == 1, "No ambiguous or permanent launch retry: " + mode);
+}
 Console.WriteLine($"All {passed} checks passed. Fixtures: {root}");
+
+sealed class LaunchAdb(string mode) : IAdbClient
+{
+    public int Queries, Starts;
+    public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
+    {
+        if (serial != "CAR") throw new Exception("Wrong device");
+        if (args.Contains("resolve-activity"))
+        {
+            Queries++;
+            return Task.FromResult(new CommandResult(0, mode == "missing" || mode == "delayed" && Queries < 3
+                ? "No activity found" : "com.abrar.voyahiran/.ui.MainActivity"));
+        }
+        Starts++;
+        if (mode == "timeout") throw new TimeoutException();
+        return Task.FromResult(new CommandResult(0, mode == "security" ? "SecurityException: denied"
+            : mode == "empty" ? "" : mode == "race" && Starts == 1 ? "Error type 3\nActivity does not exist"
+            : "Starting: Intent { cmp=com.abrar.voyahiran/.ui.MainActivity }"));
+    }
+}
 
 sealed class RebootAdb(string mode) : IAdbClient
 {
@@ -295,6 +327,8 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
         else if (args.Contains("/proc/sys/kernel/random/boot_id")) text = new Guid(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)(1 + Calls.Count(c => c[0] == "reboot"))).ToString();
         else if (args.Contains("sys.boot_completed")) text = "1";
         else if (args.Contains("init.svc.voyahiran_bridge")) text = "running";
+        else if (args.Contains("resolve-activity")) text = "com.abrar.voyahiran/.ui.MainActivity";
+        else if (args.Contains("am") && args.Contains("start")) text = "Starting: Intent { cmp=com.abrar.voyahiran/.ui.MainActivity }";
         else if (args.Contains("pm")) text = "package:/data/app/com.abrar.voyahiran/base.apk";
         else if (args[0] == "install") {
             text = "Success"; if (failure == "apk") exit = 1;

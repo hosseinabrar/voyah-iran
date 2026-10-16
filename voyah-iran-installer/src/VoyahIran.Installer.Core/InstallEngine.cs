@@ -246,8 +246,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             var apk = packages.Split('\n').Select(l => l.Trim()).FirstOrDefault(l => l.StartsWith("package:/", StringComparison.Ordinal))?[8..];
             if (apk == null || apk.Any(c => !(char.IsAsciiLetterOrDigit(c) || "/._-=+~".Contains(c)))) throw new InvalidDataException("مسیر APK نصب‌شده معتبر نیست.");
             await VerifyHash(apk, bundle.Manifest.Files["app.apk"]);
-            var launch = await Command(20, "shell", "am", "start", "--user", "0", "-n", "com.abrar.voyahiran/.ui.MainActivity");
-            if (launch.Contains("Error", StringComparison.OrdinalIgnoreCase) || launch.Contains("Exception", StringComparison.OrdinalIgnoreCase)) throw new IOException("نصب تأیید شد، اما بازکردن برنامه ناموفق بود.");
+            await PostBootAppLauncher.LaunchAsync(adb, serial, log.Write);
             // Only after reboot, service readiness and all installed hashes were verified.
             // A cleanup failure must not turn a verified installation into a rollback.
             try { log.Write(await Root(120, InstallationStorage.RemoteCleanup)); }
