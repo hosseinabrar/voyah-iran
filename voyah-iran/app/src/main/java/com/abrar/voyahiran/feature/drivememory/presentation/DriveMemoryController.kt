@@ -260,21 +260,21 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         check(shadePreferences.edit().putBoolean("enabled", enabled).commit()) { "Sunshade preference not saved" }
         shadeEnabled = enabled
         shadeError = false
-        shadePolicy.reset(if (enabled) sample.acc else null)
+        shadePolicy.reset(if (enabled) sample.ready else null)
         if (enabled) running = true
         else if (!hasActiveMemory) { running = false; gateway.close() }
         publish()
     } } }
 
     private fun closeShadeOnDeparture() {
-        if (!shadePolicy.observe(sample.acc, sample.speed, shadeEnabled, access.permits())) return
+        if (!shadePolicy.observe(sample.ready, sample.speed, shadeEnabled, access.permits())) return
         val power = context.getSystemService(android.os.PowerManager::class.java)
         val wake = power.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "VoyahIran:SunshadeDeparture")
         shadeClosing = true; shadeError = false; publish()
         try {
             // Short CPU hold only; never an unbounded wake lock or a retry after shutdown.
             wake.acquire(12_000)
-            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeDeparture", "ACC 2->0; close once")
+            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeDeparture", "READY 1->0; close once per edge")
             shadeWriter.close()
             com.abrar.voyahiran.core.logging.AppLog.info("SunshadeDeparture", "closed feedback confirmed")
         } catch (error: Exception) {

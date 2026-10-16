@@ -23,10 +23,24 @@ class SunshadeReadyTest {
         assertTrue(policy.observe(2, 1))
         repeat(5) { assertFalse(policy.observe(2, 1)) }
     }
-    @Test fun offThenReadyWorksEvenWhenZeroReadyCallbackWasMissed() {
+    @Test fun accOffCannotSubstituteForMissingReadyState() {
         val policy = SunshadeReadyPolicy()
         policy.observe(0, null)
-        assertTrue(policy.observe(2, 1))
+        assertFalse(policy.observe(2, 1))
+    }
+    @Test fun repeatedReadyCyclesOpenWhileAccStaysOn() {
+        val policy = SunshadeReadyPolicy()
+        repeat(3) {
+            assertFalse(policy.observe(2, 0))
+            assertTrue(policy.observe(2, 1))
+            assertFalse(policy.observe(2, 1))
+        }
+    }
+    @Test fun unpoweredReadyEdgeIsConsumed() {
+        val policy = SunshadeReadyPolicy()
+        policy.observe(2, 0)
+        assertFalse(policy.observe(0, 1))
+        assertFalse(policy.observe(2, 1))
     }
     @Test fun nextPowerCycleRearmsWithoutReboot() {
         val policy = SunshadeReadyPolicy()

@@ -9,53 +9,53 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class SunshadeDepartureTest {
-    private fun SunshadeDeparturePolicy.observe(acc: Int?, speed: Int? = 0) = observe(acc, speed, true, true)
+    private fun SunshadeDeparturePolicy.observe(ready: Int?, speed: Int? = 0) = observe(ready, speed, true, true)
 
     @Test fun coldOffDoesNotClose() {
         val policy = SunshadeDeparturePolicy()
         repeat(5) { assertFalse(policy.observe(0)) }
     }
-    @Test fun closesOncePerObservedPowerCycle() {
+    @Test fun closesOncePerReadyCycleWithoutAccTransition() {
         val policy = SunshadeDeparturePolicy()
         repeat(3) {
-            assertFalse(policy.observe(2))
+            assertFalse(policy.observe(1))
             assertTrue(policy.observe(0))
             repeat(5) { assertFalse(policy.observe(0)) }
         }
     }
-    @Test fun speedAndDoorLockWhilePoweredCannotTriggerClosure() {
+    @Test fun speedOrOtherEventsWhileReadyCannotTriggerClosure() {
         val policy = SunshadeDeparturePolicy()
-        for (speed in listOf(0, 10, 0, 40, 0)) assertFalse(policy.observe(2, speed))
+        for (speed in listOf(0, 10, 0, 40, 0)) assertFalse(policy.observe(1, speed))
     }
     @Test fun unsafeOffIsConsumedNotDeferredUntilLaterStop() {
         for (speed in listOf(null, -1, 1, 80)) {
             val policy = SunshadeDeparturePolicy()
-            policy.observe(2)
+            policy.observe(1)
             assertFalse(policy.observe(0, speed))
             assertFalse(policy.observe(0, 0))
         }
     }
-    @Test fun unknownPowerAndDisconnectDisarm() {
+    @Test fun unknownReadyAndDisconnectDisarm() {
         val policy = SunshadeDeparturePolicy()
-        for (unknown in listOf(null, -1, 1, 255)) {
-            policy.observe(2)
+        for (unknown in listOf(null, -1, 2, 255)) {
+            policy.observe(1)
             assertFalse(policy.observe(unknown))
             assertFalse(policy.observe(0))
         }
-        policy.observe(2); policy.reset()
+        policy.observe(1); policy.reset()
         assertFalse(policy.observe(0))
     }
     @Test fun enableWhileOffDoesNotMoveShade() {
         val policy = SunshadeDeparturePolicy()
         policy.reset(0)
         assertFalse(policy.observe(0))
-        policy.reset(2)
+        policy.reset(1)
         assertTrue(policy.observe(0))
     }
     @Test fun disabledOrNonVipCannotActOrReplayOnRenewal() {
         for ((enabled, vip) in listOf(false to true, true to false, false to false)) {
             val policy = SunshadeDeparturePolicy()
-            policy.observe(2)
+            policy.observe(1)
             assertFalse(policy.observe(0, 0, enabled, vip))
             assertFalse(policy.observe(0))
         }

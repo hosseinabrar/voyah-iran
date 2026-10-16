@@ -1,14 +1,14 @@
 package com.abrar.voyahiran.feature.drivememory.domain
 
-/** CAN ACC uses 2=on, 0=off on H97A/C/X (not CarSignalManager's separate ACC enum).
- * No replay after cold startup/reconnect; every off edge is consumed, including unsafe ones. */
+/** Close on observed READY 1->0, without waiting for ACC power-off.
+ * No replay after cold startup/reconnect; every edge is consumed, including unsafe ones. */
 class SunshadeDeparturePolicy {
     private var previous: Int? = null
-    fun reset(acc: Int? = null) { previous = acc?.takeIf { it == 0 || it == 2 } }
-    fun observe(acc: Int?, speed: Int?, enabled: Boolean, vip: Boolean): Boolean {
+    fun reset(ready: Int? = null) { previous = ready?.takeIf { it in 0..1 } }
+    fun observe(ready: Int?, speed: Int?, enabled: Boolean, vip: Boolean): Boolean {
         if (!enabled || !vip) { reset(); return false }
-        val leaving = previous == 2 && acc == 0
-        reset(acc)
+        val leaving = previous == 1 && ready == 0
+        reset(ready)
         return leaving && speed == 0
     }
 }
