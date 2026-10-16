@@ -16,7 +16,7 @@ class DowAmbientBundleTest {
         assertEquals(2, b.getInt("OEM_SWITCH"))
         assertEquals(1, b.getInt("OEM_MUSICAL_RHYTHM_SWITCH"))
         assertEquals(62, b.getInt("OEM_COLOR"))
-        assertEquals(1, b.getInt("OEM_BRIGHTNESS_LEVEL"))
+        assertEquals(10, b.getInt("OEM_BRIGHTNESS_LEVEL"))
     }
     @Test fun restorePreservesEveryCanValueForAllModes() {
         for (power in 1..2) for (music in 1..2) for (drive in 0..1) {
@@ -42,5 +42,12 @@ class DowAmbientBundleTest {
         assertThrows(IllegalStateException::class.java) {
             DowAmbientBundle.create(mapOf("drive" to 0)) { it }
         }
+    }
+    @Test fun offPhaseReallyPowersOffButKeepsFullBrightnessForNextOn() {
+        val b = DowAmbientBundle.create(DowAmbientBundle.warning(0)) { it }
+        assertEquals(1, b.getInt("SWITCH"))
+        assertEquals(10, b.getInt("BRIGHTNESS_LEVEL"))
+        assertEquals(62, b.getInt("COLOR"))
+        assertThrows(IllegalArgumentException::class.java) { DowAmbientBundle.warning(5) }
     }
 }

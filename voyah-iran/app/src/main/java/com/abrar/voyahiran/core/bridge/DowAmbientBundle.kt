@@ -7,8 +7,11 @@ import com.abrar.voyahiran.feature.dow.DowContract
 internal object DowAmbientBundle {
     // OEM assembles a shared lighting packet; keep all warning controls explicit so
     // a pulse cannot reintroduce pre-warning values from its not-yet-updated cache.
-    fun warning(brightness: Int = 1) = linkedMapOf("SWITCH" to 2, "MUSICAL_RHYTHM_SWITCH" to 1,
-        "COLOR" to DowContract.RED, "BRIGHTNESS_LEVEL" to brightness)
+    fun warning(level: Int = 10): Map<String, Int> {
+        require(level == 0 || level == 10)
+        return linkedMapOf("SWITCH" to if (level == 0) 1 else 2, "MUSICAL_RHYTHM_SWITCH" to 1,
+            "COLOR" to DowContract.RED, "BRIGHTNESS_LEVEL" to 10)
+    }
 
     fun restore(s: AmbientSnapshot): Map<String, Int> {
         require(s.valid())

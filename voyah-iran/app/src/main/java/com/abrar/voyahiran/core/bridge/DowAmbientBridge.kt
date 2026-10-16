@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantLock
 /** Resident worker: no shell/bridge requests per pulse; same write lock as other vehicle commands. */
 internal object DowAmbientBridge {
     @Volatile private var until = 0L
+    private val manualTest = DowManualTest() // Accessed under the bridge execution lock.
     @Volatile private var dirty = true
     @Volatile private var status = "idle"
     private var sdk: RahaVehicleBridge.OemSession? = null
@@ -35,6 +36,17 @@ internal object DowAmbientBridge {
         }
     }
     fun command(value: String): CommandResult {
+        if (value == "test-stop") {
+            manualTest.stop()
+            return CommandResult(0, "DOW_TEST_STOPPED; real warnings remain active")
+        }
+        if (value == "test-start") {
+            if (!BridgeSubscriptionSession.vipActive) return CommandResult(126, "VIP inactive")
+            val vehicle = sdk ?: RahaVehicleBridge.OemSession()
+            if (!manualTest.start(SystemClock.elapsedRealtime(), BridgeSubscriptionSession.vipActive, vehicle.acc(), vehicle.speed()))
+                return CommandResult(126, "Manual test requires powered stationary vehicle")
+            return CommandResult(0, "DOW_TEST_STARTED; expires in 10 seconds")
+        }
         if (value == "enable") {
             if (!BridgeSubscriptionSession.vipActive) return CommandResult(126, "VIP inactive")
             until = SystemClock.elapsedRealtime() + 15_000
@@ -51,7 +63,10 @@ internal object DowAmbientBridge {
                     if (now >= retryAt && lock.tryLock()) {
                         try {
                             if (engine == null) engine = DowAmbientEngine(Port(), Journal())
-                            val active = now < until && BridgeSubscriptionSession.vipActive
+                            val entitled = BridgeSubscriptionSession.vipActive
+                            val automatic = now < until && entitled
+                            var manual = manualTest.pending(now, entitled)
+                            val active = automatic || manual
                             // Pending rollback runs without VIP: it only restores our own saved settings.
                             if (active || engine!!.journal?.pending == true || engine!!.flashing) {
                                 if (sdk == null) {
@@ -67,7 +82,9 @@ internal object DowAmbientBridge {
                                     dow = session().vehicle("DOW_STATE").takeIf { it in 0..7 }
                                     AppLog.changed("DowAmbient", "acc=$acc state=$dow trigger=3 EXPERIMENTAL")
                                 }
-                                engine!!.tick(now, active, acc, dow)
+                                if (manual) manual = manualTest.active(now, entitled, acc, session().speed())
+                                engine!!.tick(now, automatic || manual, acc,
+                                    if (manual) DowContract.EXPERIMENTAL_WARNING else if (automatic) dow else null)
                                 status = when {
                                     engine!!.flashing -> "flashing"
                                     engine!!.journal?.pending == true -> "restore-pending"
@@ -129,7 +146,7 @@ internal object DowAmbientBridge {
         }
         override fun level(value: Int) {
             check(BridgeSubscriptionSession.vipActive)
-            require(value in 1..10)
+            require(value == 0 || value == 10)
             session().writeAmbientBundle(DowAmbientBundle.warning(value))
         }
         override fun restore(snapshot: AmbientSnapshot) {

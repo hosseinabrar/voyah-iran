@@ -1,4 +1,11 @@
-VOYAH DOW Probe — experimental, READ ONLY
+VOYAH DOW Probe — read-only CAN monitoring + explicit ambient-light diagnostic
+
+Test lights starts the MAIN bridge's actual warning engine for at most 10 seconds.
+Requires the updated main installer/bridge, root access and an active VIP session.
+The car must be powered and stationary. Stop test / restore or leaving this app
+ends the manual trigger; a real DOW warning can still keep the automatic warning active.
+No subscription preferences or DOW CAN states are changed. The root-only credential
+is read into memory, never logged or copied into probe storage.
 
 Open this directory directly in Android Studio, or open ../voyah-iran and select module dow-test.
 For a standalone IDE import, use Gradle 9.5.0 (matching the main project's wrapper).
@@ -46,9 +53,8 @@ Main feature:
 VIP checkbox in Comfort; disabled by default. Experimental warning value 3 is defined
 once in DowContract.EXPERIMENTAL_WARNING. No installer or APK was built for this change.
 OEM red slot 62; normal mode uses music off and vehicle_setting_drive_mode_atm=0.
-Intensity rises for 50 ms, fades for 400 ms, stays at minimum 50 ms; hardware timing unverified.
-Brightness stays within 1..10. Lighting remains on throughout the pulse, with no power toggling.
-Power-off is only restored after the warning if that was the original saved state.
+Each cycle is 250 ms ON at brightness 10, then 250 ms OFF (real power switch).
+All four lighting controls travel together in each CAN bundle. Hardware timing needs testing.
 No per-frame shell process. Resident root bridge serializes writes with other commands.
 The original power/music/drive-follow/color/brightness snapshot is fsynced before writes
 to /data/local/voyahiran-dow-ambient.json, outside installer payload/temporary backups.

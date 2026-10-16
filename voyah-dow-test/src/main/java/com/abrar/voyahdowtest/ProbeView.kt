@@ -10,6 +10,8 @@ class ProbeView(context: Context) : LinearLayout(context) {
     val apply = Button(context).apply { text = "Apply value" }
     val export = Button(context).apply { text = "Save log" }
     val share = Button(context).apply { text = "Share log" }
+    val testStart = Button(context).apply { text = "Test lights · 10 sec" }
+    val testStop = Button(context).apply { text = "Stop test / restore" }
     val status = TextView(context).apply { textSize = 22f; text = "Waiting for CAN…"; setTextColor(Color.WHITE) }
     val warning = TextView(context).apply {
         text = "DOW MATCH\nExperimental — not a confirmed danger signal"
@@ -19,10 +21,13 @@ class ProbeView(context: Context) : LinearLayout(context) {
     val logs = TextView(context).apply { textSize = 13f; typeface = Typeface.MONOSPACE; setTextColor(0xffb6c7d9.toInt()) }
     init {
         orientation = VERTICAL; setPadding(24, 12, 24, 12); setBackgroundColor(0xff101923.toInt())
-        addView(TextView(context).apply { text = "VOYAH · DOW read-only probe"; textSize = 26f; setTextColor(Color.WHITE) })
+        addView(TextView(context).apply { text = "VOYAH · DOW probe + light test"; textSize = 26f; setTextColor(Color.WHITE) })
         addView(TextView(context).apply {
-            text = "Test 3, 2, 1 first. 4 = OEM fault. Match is NOT proof of danger. No vehicle writes."
+            text = "CAN monitor is read-only. Light test needs root + VIP + updated bridge; park before testing."
             textSize = 16f; setTextColor(0xffffcb76.toInt())
+        })
+        addView(LinearLayout(context).apply {
+            addView(testStart, LayoutParams(280, 64)); addView(testStop, LayoutParams(280, 64))
         })
         addView(LinearLayout(context).apply {
             gravity = Gravity.CENTER_VERTICAL
