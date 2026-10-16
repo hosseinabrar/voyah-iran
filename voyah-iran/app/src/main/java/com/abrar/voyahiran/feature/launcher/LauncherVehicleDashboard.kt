@@ -7,9 +7,12 @@ import android.view.MotionEvent
 import android.view.View
 import java.util.Locale
 import kotlin.math.*
+import kotlinx.coroutines.*
 
 /** Page two occupies only the same OEM safe rectangle as page one. */
 class LauncherVehicleDashboard(context:Context):View(context) {
+    var transitioning=false
+        set(v){if(field==v)return;field=v;stopAnimations();if(!v)invalidate()}
     private var compassAngle=0f
     private var ground:Float?=null
     private var compassAnimation:ValueAnimator?=null
@@ -19,6 +22,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
     var state=LauncherVehicleState()
         set(v){
             if(field==v)return
+            if(transitioning){field=v;artwork.state=v;return}
             if(field.groundMm!=v.groundMm) {
                 groundAnimation?.cancel()
                 val target=v.groundMm?.toFloat()
@@ -33,6 +37,8 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         }
     var compass=LauncherCompassState()
         set(v){
+            if(field==v)return
+            if(transitioning){field=v;return}
             if(field.bearing!=v.bearing) {
                 compassAnimation?.cancel()
                 val target=v.bearing ?: 0f
@@ -51,12 +57,23 @@ class LauncherVehicleDashboard(context:Context):View(context) {
     var onCommand:(String,String)->Unit={_,_->}
     var onDrive:()->Unit={}
     var onDriveStateChanged:()->Unit={}
-    val artwork=LauncherSuspensionArtwork(context){invalidate()}
+    val artwork=LauncherSuspensionArtwork(context){if(!transitioning)invalidate()}
     private val p=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
-    private val energy by lazy {context.assets.open("launcher/ccc/energy_car.png").use {BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{inSampleSize=2})!!}}
-    private val driveIcons by lazy {mapOf(1 to "eco_normal",2 to "comfort_normal",3 to "sport_img",4 to "outing_img",5 to "person_normal",6 to "snow_normal",10 to "get_off").mapValues {(_,name)->
-        runCatching {context.assets.open("launcher/ccc/$name.png").use(BitmapFactory::decodeStream)}.getOrNull()
-    }}
+    private var energy:Bitmap?=null
+    private var driveIcons=emptyMap<Int,Bitmap?>()
+    private var artworkJob:Job?=null
+    fun preload(scope:CoroutineScope){
+        if(artworkJob!=null)return
+        artworkJob=scope.launch {
+            val loaded=withContext(Dispatchers.IO){
+                fun decode(name:String,sample:Int=1)=runCatching{context.assets.open("launcher/ccc/$name.png").use{
+                    BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{inSampleSize=sample})
+                }}.getOrNull()
+                decode("energy_car",2) to mapOf(1 to "eco_normal",2 to "comfort_normal",3 to "sport_img",4 to "outing_img",5 to "person_normal",6 to "snow_normal",10 to "get_off").mapValues{decode(it.value)}
+            }
+            energy=loaded.first;driveIcons=loaded.second;if(!transitioning)invalidate()
+        }
+    }
     private val fg get()=if(lightTheme)0xff263651.toInt() else Color.WHITE
     private val muted get()=if(lightTheme)0xff6d7e99.toInt() else 0xffc0cbe0.toInt()
     private val cyan=0xff00aaff.toInt()
@@ -93,7 +110,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         c.save();c.clipPath(Path().apply {addRoundRect(RectF(0f,0f,575f,319f),16f,16f,Path.Direction.CW)})
         // Extend beyond the card clip so the transparent right fringe stays outside it.
         // Both themes use the same blue car artwork.
-        p.color=Color.WHITE;c.drawBitmap(energy,Rect((energy.width*460f/1860).toInt(),0,energy.width,energy.height),RectF(230f,58f,581f,266f),p);c.restore()
+        p.color=Color.WHITE;energy?.let{c.drawBitmap(it,Rect((it.width*460f/1860).toInt(),0,it.width,it.height),RectF(230f,58f,581f,266f),p)};c.restore()
         text(c,"Energy mode",32f,53f,25f)
         val mode=state.modes.entries.firstOrNull {it.value==state.energy}?.key
         text(c,LauncherVehicleState.energyNames[mode] ?: "—",32f,115f,32f,bold=true)

@@ -111,6 +111,12 @@ class VoyahLauncherActivity : ComponentActivity() {
         pager.addView(firstPage,FrameLayout.LayoutParams(-1,-1))
         pager.addView(vehiclePage,FrameLayout.LayoutParams(-1,-1))
         pager.onPage={updatePageWork()}
+        pager.onMotion={moving->
+            vehiclePage.transitioning=moving
+            // Cache only the native vehicle page. Never flatten the live map SurfaceView.
+            vehiclePage.setLayerType(if(moving)View.LAYER_TYPE_HARDWARE else View.LAYER_TYPE_NONE,null)
+            updatePageWork()
+        }
         vehiclePage.onCommand=::vehicleCommand
         vehiclePage.onDriveStateChanged={ drivePopup?.dismiss();drivePopup=null }
         vehiclePage.onDrive={
@@ -168,6 +174,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             if(visible)startVisibleWork()
             LauncherAppsCache.warm(this)
             PassengerArtworkCache.warm(this)
+            vehiclePage.preload(lifecycleScope)
         }
     }
     private fun fadeStartupCover() {
@@ -299,6 +306,12 @@ class VoyahLauncherActivity : ComponentActivity() {
     // Android 9 may pause the host when the map resumes on its virtual display; it is still visible.
     private fun updatePageWork() {
         if(!contentReady)return
+        if(pager.moving && visible){
+            // Keep existing subscriptions/cache alive. Registering/unregistering GPS
+            // during ACTION_MOVE would itself add synchronous Binder work to a frame.
+            vehiclePage.artwork.stop();vehiclePage.stopAnimations()
+            return
+        }
         mapPageVisible=visible && pager.page==0
         if(visible && pager.page==1) {
             // Keep the map surface alive offscreen: the pager can expose it during either swipe.

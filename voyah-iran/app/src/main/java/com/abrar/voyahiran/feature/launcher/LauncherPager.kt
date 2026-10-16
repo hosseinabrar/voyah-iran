@@ -1,10 +1,13 @@
 package com.abrar.voyahiran.feature.launcher
 
 import android.animation.ValueAnimator
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.ViewConfiguration
+import android.view.Choreographer
 import android.view.animation.Interpolator
 import android.widget.FrameLayout
 import kotlin.math.abs
@@ -13,6 +16,25 @@ import kotlin.math.abs
 class LauncherPager(context:Context):FrameLayout(context) {
     var page=0;private set
     var onPage:(Int)->Unit={}
+    var onMotion:(Boolean)->Unit={}
+    var moving=false;private set
+    private val frameStats=LauncherSwipeFrames()
+    private val frameCallback=object:Choreographer.FrameCallback {
+        override fun doFrame(at:Long){
+            if(!moving)return
+            frameStats.frame(at)
+            Choreographer.getInstance().postFrameCallback(this)
+        }
+    }
+    private fun motion(value:Boolean){if(moving!=value){
+        moving=value
+        if(value){frameStats.reset();Choreographer.getInstance().postFrameCallback(frameCallback)}
+        else {
+            Choreographer.getInstance().removeFrameCallback(frameCallback)
+            com.abrar.voyahiran.core.logging.AppLog.info("LauncherSwipe", "page=$page intervals=${frameStats.intervals} slow32ms=${frameStats.slow} maxGapMs=${frameStats.maxGapNanos/1_000_000}")
+        }
+        onMotion(value)
+    }}
     private var downX=0f;private var downY=0f;private var dragging=false
     private val config=ViewConfiguration.get(context)
     private val slop=config.scaledTouchSlop
@@ -25,12 +47,15 @@ class LauncherPager(context:Context):FrameLayout(context) {
     override fun dispatchTouchEvent(e:MotionEvent):Boolean {
         if(e.actionMasked==MotionEvent.ACTION_DOWN) {
             animation?.cancel()
+            animation=null
             downOffset=offset;downX=e.x;downY=e.y;dragging=false
             velocity?.recycle();velocity=VelocityTracker.obtain()
         }
         velocity?.addMovement(e)
         val result=super.dispatchTouchEvent(e)
         if(e.actionMasked==MotionEvent.ACTION_UP || e.actionMasked==MotionEvent.ACTION_CANCEL) {
+            // A tap can interrupt a settle animation without ever becoming a drag.
+            if(moving && animation==null)settle(page,true,0f)
             velocity?.recycle();velocity=null
         }
         return result
@@ -38,7 +63,7 @@ class LauncherPager(context:Context):FrameLayout(context) {
     override fun onInterceptTouchEvent(e:MotionEvent):Boolean {
         if(e.pointerCount>1)return false
         if(e.actionMasked==MotionEvent.ACTION_MOVE && abs(e.x-downX)>slop && abs(e.x-downX)>abs(e.y-downY)*1.5f) {
-            dragging=true;return true
+            dragging=true;motion(true);return true
         }
         return dragging
     }
@@ -67,10 +92,12 @@ class LauncherPager(context:Context):FrameLayout(context) {
     fun show(index:Int,animate:Boolean=true)=settle(index,animate,0f)
     private fun settle(index:Int,animate:Boolean,releaseVelocity:Float) {
         animation?.cancel()
+        animation=null
         val next=index.coerceIn(0,lastPage);val changed=next!=page;page=next
         val target=-page*width.toFloat()
         val distance=target-offset
-        if(!animate || abs(distance)<1f)translate(target) else {
+        if(!animate || abs(distance)<1f){translate(target);motion(false)} else {
+            motion(true)
             val toward=if(distance*releaseVelocity>0)abs(releaseVelocity) else 0f
             val duration=if(toward>0) (2000f*abs(distance)/toward).toLong().coerceIn(120,420) else 260L
             val tangent=if(toward>0) (toward*duration/1000f/abs(distance)).coerceIn(0f,3f) else 0f
@@ -79,6 +106,11 @@ class LauncherPager(context:Context):FrameLayout(context) {
                 // Cubic Hermite: use the finger's release velocity, then decelerate to rest.
                 interpolator=Interpolator { t -> (-2*t*t*t+3*t*t)+tangent*(t*t*t-2*t*t+t) }
                 addUpdateListener { translate(it.animatedValue as Float) }
+                addListener(object:AnimatorListenerAdapter(){
+                    private var cancelled=false
+                    override fun onAnimationCancel(a:Animator){cancelled=true}
+                    override fun onAnimationEnd(a:Animator){if(!cancelled){animation=null;motion(false)}}
+                })
                 start()
             }
         }
@@ -87,5 +119,5 @@ class LauncherPager(context:Context):FrameLayout(context) {
         if(changed)onPage(page)
     }
     override fun onSizeChanged(w:Int,h:Int,oldw:Int,oldh:Int){super.onSizeChanged(w,h,oldw,oldh);settle(page,false,0f)}
-    override fun onDetachedFromWindow(){animation?.cancel();velocity?.recycle();velocity=null;super.onDetachedFromWindow()}
+    override fun onDetachedFromWindow(){animation?.cancel();animation=null;motion(false);velocity?.recycle();velocity=null;super.onDetachedFromWindow()}
 }

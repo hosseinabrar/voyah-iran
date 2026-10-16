@@ -28,6 +28,7 @@ class LauncherVehicleDashboardTest {
     private fun view()=LauncherVehicleDashboard(RuntimeEnvironment.getApplication()).apply {
         measure(View.MeasureSpec.makeMeasureSpec(1775,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(660,View.MeasureSpec.EXACTLY))
         layout(0,0,1775,660);state=sample()
+        runBlocking {preload(this)}
     }
     private fun draw(v:View,name:String?=null) {
         val b=Bitmap.createBitmap(1775,660,Bitmap.Config.ARGB_8888);v.draw(Canvas(b))
