@@ -37,10 +37,13 @@ internal object LauncherVehicleBridge {
     }
     fun execute(op: String, value: String = ""): CommandResult = try {
         val s=session()
-        if(op == "read" || op == "watch") CommandResult(0,s.readAll(if(op=="watch")value.toLongOrNull() else null).toString()) else {
+        if(op in listOf("read","watch","refresh")) {
+            if(op=="refresh")s.refresh()
+            CommandResult(0,s.readAll(if(op=="watch")value.toLongOrNull() else null).toString())
+        } else {
             check(BridgeSubscriptionSession.active) { "Subscription inactive" }
             when(op) {
-                "energy" -> OemEnergyBinder.execute("SET_ENERGY_STRATEGY",mapOf("strategy" to value))
+                "energy" -> OemEnergyBinder.dispatchStrategy(value)
                 "recovery" -> {
                     check(s.read("HUM_ENERGY_PTREGEN_LEVL_FB") in 2..4) { "Recovery unavailable" }
                     s.write("HUM_ENERGY_PTREGEN_LEVL",value.toInt().also { require(it in 2..4) })
@@ -76,6 +79,7 @@ internal object LauncherVehicleBridge {
         CommandResult(1,(e.cause ?: e).toString())
     }
     private class Session {
+        private val generation=SystemClock.elapsedRealtimeNanos()
         private val apk=File("/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk")
         private val loader=object:PathClassLoader(apk.path,"/system/lib64:/system/lib",javaClass.classLoader) {
             override fun loadClass(name:String,resolve:Boolean):Class<*> {
@@ -94,7 +98,7 @@ internal object LauncherVehicleBridge {
         private val config by lazy {configType.getConstructor().newInstance()}
         fun flag(name:String)=configType.getMethod(name).invoke(config) as Boolean
         init { check(apk.isFile && binder.interfaceDescriptor==api.name) }
-        private fun field(name:String)=fields.getOrPut(name) { (try {facade.getField(name)} catch(_:NoSuchFieldException){type.getField(name)}).get(null)!! }
+        private fun field(name:String)=synchronized(fields){fields.getOrPut(name) { (try {facade.getField(name)} catch(_:NoSuchFieldException){type.getField(name)}).get(null)!! }}
         fun read(name:String)=(get.invoke(remote,field(name)) as Number).toInt()
         fun speed()=(api.getMethod("getVehicleSpeed").invoke(remote) as Number).toInt()
         fun write(name:String,value:Int) {
@@ -193,6 +197,20 @@ internal object LauncherVehicleBridge {
             lastRead=SystemClock.elapsedRealtime()
             values["speed"]?.takeIf {it in 0..300}
         }
+        /** One-shot readback for the OEM three-second fallback, never a refresh loop. */
+        fun refresh() {
+            for(n in names+"speed") {
+                val before=synchronized(lock){revision}
+                val value=runCatching{if(n=="speed")speed() else read(n)}.getOrNull() ?: continue
+                synchronized(lock){
+                    // A callback during the binder read is newer and must win.
+                    if(revision==before && values[n]!=value){values[n]=value;revision++;lock.notifyAll()}
+                }
+            }
+            val before=synchronized(lock){revision}
+            val air=runCatching{api.getMethod("getAirCondition").invoke(remote)}.getOrNull()
+            synchronized(lock){if(revision==before)acceptAir(air)}
+        }
         fun readAll(after:Long?=null):JSONObject {
             check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
             lastRead=SystemClock.elapsedRealtime()
@@ -202,6 +220,7 @@ internal object LauncherVehicleBridge {
                     check(listening && binder.isBinderAlive) {"CAN listener disconnected"}
                     for(n in names+airGetters+"speed")put(n,values[n] ?: JSONObject.NULL)
                     put("revision",revision)
+                    put("session",generation)
                 }
                 put("modes",JSONObject(modes))
                 put("supportsSuspension",runCatching{flag("isSupportAsc")}.getOrDefault(false))

@@ -17,7 +17,12 @@ internal object OemEnergyBinder {
         try { executeInstalled(action,parameters) }
         catch(error:LinkageError) {throw IllegalStateException("Installed energy SDK could not be loaded",error)}
     }
-    private fun executeInstalled(action: String, parameters: Map<String,Any>) {
+    /** Launcher confirmation comes from its existing CAN listener, not a second poll. */
+    fun dispatchStrategy(strategy:String) {
+        try {executeInstalled("SET_ENERGY_STRATEGY",mapOf("strategy" to strategy),false)}
+        catch(error:LinkageError){throw IllegalStateException("Installed energy SDK could not be loaded",error)}
+    }
+    private fun executeInstalled(action: String, parameters: Map<String,Any>,awaitFeedback:Boolean=true) {
         val apk=File("/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk")
         check(apk.isFile) { "Installed VehicleSetting SDK unavailable" }
         val loader=object : PathClassLoader(apk.path,"/system/lib64:/system/lib",javaClass.classLoader) {
@@ -77,6 +82,7 @@ internal object OemEnergyBinder {
                 check(result !is Number || result.toInt()>=0) { "OEM rejected $field: $result" }
             }
             override fun confirm(field:String,value:Int) {
+                if(!awaitFeedback)return
                 val deadline=SystemClock.elapsedRealtime()+3000
                 var actual=read(field)
                 while(actual!=value && SystemClock.elapsedRealtime()<deadline) {Thread.sleep(100);actual=read(field)}

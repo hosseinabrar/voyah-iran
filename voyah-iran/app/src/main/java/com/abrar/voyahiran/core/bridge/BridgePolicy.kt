@@ -29,6 +29,7 @@ object BridgePolicy {
              (request[1] == "open" && request[3].matches(Regex("[A-Za-z0-9_.]{1,120}")) &&
               com.abrar.voyahiran.feature.launcher.LauncherAppsPolicy.visible(request[3])))) return request
         if(request == listOf("launcher-vehicle","read")) return request
+        if(request == listOf("launcher-vehicle","refresh")) return request
         if(request.size==3 && request[0]=="launcher-vehicle" && request[1]=="watch" && request[2].toLongOrNull()?.let {it>=-1}==true) return request
         if(request.size==3 && request[0]=="launcher-vehicle" && when(request[1]) {
             "energy" -> request[2] in listOf("smart","electric","fuel","hybrid","save")

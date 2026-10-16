@@ -74,6 +74,8 @@ class BridgePolicyTest {
     }
 
     @Test fun launcherWatchOnlyAcceptsBoundedNumericCursor() {
+        assertEquals(listOf("launcher-vehicle","refresh"),BridgePolicy.resolve(listOf("launcher-vehicle","refresh")))
+        assertNull(BridgePolicy.resolve(listOf("launcher-vehicle","refresh","extra")))
         for(cursor in listOf("-1","0","1000")) {
             val request=listOf("launcher-vehicle","watch",cursor)
             assertEquals(request,BridgePolicy.resolve(request))

@@ -16,6 +16,9 @@ import java.util.concurrent.TimeUnit
 
 /** Started by init using app_process, not an exported Android component. */
 object BridgeServer {
+    // Long-poll CAN watches must never occupy the command workers. Both launchers
+    // can wait for two seconds at once; the old two-worker pool then dropped taps.
+    private val watchPool=ThreadPoolExecutor(2,2,0,TimeUnit.SECONDS,ArrayBlockingQueue<Runnable>(2))
     private val roa = RoaHookManager()
     private val neshan = NeshanHookManager()
     @JvmStatic fun main(args: Array<String>) {
@@ -30,7 +33,7 @@ object BridgeServer {
         neshan.start()
         OemNavigationManager.start()
         val execution = java.util.concurrent.locks.ReentrantLock()
-        val pool = ThreadPoolExecutor(2, 2, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(4))
+        val pool = ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(16))
         ServerSocket(BridgePolicy.PORT, 8, InetAddress.getByName("127.0.0.1")).use { server ->
             AppLog.info("BridgeServer", "ready protocol=1 uid=${Process.myUid()} port=${BridgePolicy.PORT}")
             while (true) {
@@ -42,7 +45,8 @@ object BridgeServer {
     }
 
     private fun handle(socket: Socket, token: String, runner: ProcessCommandRunner, execution: java.util.concurrent.locks.ReentrantLock) {
-        socket.use {
+        var handedOff=false
+        try {
             try {
                 socket.soTimeout = 3000
                 val input = DataInputStream(socket.getInputStream())
@@ -50,6 +54,20 @@ object BridgeServer {
                 val parsed = BridgeProtocol.read(input, token)
                 val request = parsed.id
                 val command = BridgePolicy.resolve(parsed.arguments, android.os.Build.VERSION.SDK_INT)
+                if(command!=null && command.take(2)==listOf("launcher-vehicle","watch")) {
+                    try {
+                        watchPool.execute {
+                            socket.use {
+                                try {reply(output,request,LauncherVehicleBridge.execute("watch",command[2]))}
+                                catch(e:Exception){AppLog.error("BridgeServer","watch failed",e)}
+                            }
+                        }
+                        handedOff=true
+                    } catch(_:java.util.concurrent.RejectedExecutionException) {
+                        reply(output,request,CommandResult(75,"Bridge busy; no command executed"))
+                    }
+                    return
+                }
                 val result = if (command == null) CommandResult(126, "Operation denied")
                 // Display ACK polling must not hold up vehicle/startup commands.
                 else if (command.first() == "app-display") AppDisplayBridge.set(command[1] == "enable")
@@ -59,7 +77,7 @@ object BridgeServer {
                 // A Back press must not wait behind long vehicle operations. Its DOWN/UP pair
                 // has a separate lock and cannot change a task's display or global focus.
                 else if (command == listOf("steering-back", "center")) LegacySteeringBack.press()
-                else if(command.first()=="launcher-vehicle" && command[1] in listOf("read","watch")) LauncherVehicleBridge.execute(command[1],command.getOrElse(2){""})
+                else if(command.first()=="launcher-vehicle" && command[1] in listOf("read","refresh")) LauncherVehicleBridge.execute(command[1],command.getOrElse(2){""})
                 else if (command.first() == "cluster-music") ClusterMusicBridge.command(command[1])
                 else if (command.first() == "launcher-startup") LauncherStartupBridge.open()
                 else if (command.first() == "cluster-map") ClusterMapBridge.command(command[1],command[2])
@@ -115,16 +133,19 @@ object BridgeServer {
                         else -> runner.run(command, parsed.timeout)
                     }
                 } finally { execution.unlock() }
-                output.writeInt(BridgePolicy.MAGIC)
-                output.writeUTF(request)
-                output.writeInt(result.exitCode)
-                output.writeUTF(result.output.take(8000))
-                output.writeBoolean(result.timedOut)
-                output.flush()
+                reply(output,request,result)
             } catch (error: Exception) {
                 AppLog.error("BridgeServer", "request-failed no-replay", error)
             }
-        }
+        } finally {if(!handedOff)socket.close()}
+    }
+    private fun reply(output:DataOutputStream,request:String,result:CommandResult){
+        output.writeInt(BridgePolicy.MAGIC)
+        output.writeUTF(request)
+        output.writeInt(result.exitCode)
+        output.writeUTF(result.output.take(8000))
+        output.writeBoolean(result.timedOut)
+        output.flush()
     }
 }
 

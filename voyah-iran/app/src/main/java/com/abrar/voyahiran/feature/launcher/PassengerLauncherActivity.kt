@@ -48,7 +48,13 @@ class PassengerLauncherActivity : ComponentActivity() {
     private var coverKey=""
     private var media=LauncherMediaState()
     private var vehicleAt=0L
-    private var commandBusy=false
+    private val comfortCache=PassengerComfortCache()
+    private val vehicleOrder=VehicleSnapshotOrder()
+    private fun acceptVehicleSnapshot(s:JSONObject){
+        if(!vehicleOrder.accept(s.optLong("session",0),s.optLong("revision",-1)))return
+        vehicleAt=SystemClock.elapsedRealtime()
+        comfortCache.accept(s.put("fresh",true));publish("vehicle",comfortCache.display)
+    }
     private var lastVolume=11
     private var catalog=emptyList<LauncherAppsEntry>()
     private var unobserve:(()->Unit)?=null
@@ -224,11 +230,12 @@ class PassengerLauncherActivity : ComponentActivity() {
                 val r=withContext(Dispatchers.IO){BridgeClient.run(listOf("launcher-vehicle","watch",revision.toString()),4)}
                 if(!allowed())break
                 if(r.exitCode==0 && !r.timedOut)runCatching {JSONObject(r.output)}.onSuccess {s->
-                    vehicleAt=SystemClock.elapsedRealtime();val next=s.optLong("revision",-1)
-                    if(next!=revision || states["vehicle"]?.optBoolean("fresh")!=true){revision=next;publish("vehicle",s.put("fresh",true))}
+                    val next=s.optLong("revision",-1)
+                    revision=next;acceptVehicleSnapshot(s)
                 }
-                if(SystemClock.elapsedRealtime()-vehicleAt>10000 && states["vehicle"]?.optBoolean("fresh")!=false)
-                    publish("vehicle",JSONObject(states["vehicle"]?.toString() ?: "{}").put("fresh",false))
+                if(SystemClock.elapsedRealtime()-vehicleAt>10000 && states["vehicle"]?.optBoolean("fresh")!=false){
+                    comfortCache.stale();publish("vehicle",comfortCache.display)
+                }
                 delay(if(r.exitCode==0)100 else 1000)
             }
         }
@@ -249,9 +256,16 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
             "comfort" -> {
                 val p=JSONObject(value);val op=p.getString("op");val v=p.getString("value")
-                if(commandBusy || SystemClock.elapsedRealtime()-vehicleAt>10000 || !PassengerComfortBridge.valid(op,v))return
-                commandBusy=true;lifecycleScope.launch {try {val r=withContext(Dispatchers.IO){BridgeClient.run(listOf("passenger-comfort",op,v),12)};check(r.exitCode==0 && !r.timedOut){r.output}}
-                catch(e:CancellationException){throw e}catch(e:Exception){error(e)}finally{commandBusy=false}}
+                if(SystemClock.elapsedRealtime()-vehicleAt>10000 || !PassengerComfortBridge.valid(op,v))return
+                val request=comfortCache.request(op,v)
+                request.dispatched=false
+                publish("vehicle",comfortCache.display)
+                LauncherControlCommands.launch(lifecycleScope,listOf("passenger-comfort",op,v),
+                    pending={comfortCache.pending(request)},finish={comfortCache.finish(request)},
+                    refresh={s->acceptVehicleSnapshot(s)},
+                    changed={publish("vehicle",comfortCache.display)},
+                    failed={if(visible)error(IllegalStateException("تغییر توسط خودرو تأیید نشد"))},
+                    allowed={allowed() && SystemClock.elapsedRealtime()-vehicleAt<=10000},dispatching={request.dispatched=true})
             }
             "allApps" -> startActivity(Intent(this,PassengerAppsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),ActivityOptions.makeBasic().apply {launchDisplayId=1}.toBundle())
             "open" -> catalog.firstOrNull {it.id==value}?.let(::openApp)
