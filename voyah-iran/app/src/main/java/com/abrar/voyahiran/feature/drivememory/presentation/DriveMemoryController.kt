@@ -22,9 +22,10 @@ data class DriveMemoryUiState(
     val aeb: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val pedestrian: RecoveryMemoryUiState = RecoveryMemoryUiState(),
     val energyMode: RecoveryMemoryUiState = RecoveryMemoryUiState(),
+    val dowEnabled: Boolean = false, val dowError: Boolean = false,
     val shadeReadyEnabled: Boolean = false, val shadeReadyError: Boolean = false, val shadeOpening: Boolean = false,
     val shadeEnabled: Boolean = false, val shadeError: Boolean = false, val shadeClosing: Boolean = false,
-) { val anyEnabled: Boolean get() = enabled || recovery.enabled || aeb.enabled || pedestrian.enabled || energyMode.enabled || shadeEnabled || shadeReadyEnabled }
+) { val anyEnabled: Boolean get() = dowEnabled || enabled || recovery.enabled || aeb.enabled || pedestrian.enabled || energyMode.enabled || shadeEnabled || shadeReadyEnabled }
 
 data class RecoveryMemoryUiState(val enabled: Boolean = false, val current: Int? = null,
     val saved: Int? = null, val phase: DrivePhase = DrivePhase.OFF, val error: Boolean = false)
@@ -41,6 +42,34 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val pedestrianWriter = PedestrianMemoryWriter(ProcessCommandRunner())
     private val energyModeWriter = EnergyModeMemoryWriter(ProcessCommandRunner())
     private val aebWriter = AebMemoryWriter(ProcessCommandRunner())
+    private val dowPreferences = this.context.getSharedPreferences("dow_ambient", Context.MODE_PRIVATE)
+    private var dowEnabled = dowPreferences.getBoolean("enabled", false)
+    private var dowError = false
+    private var nextDowHeartbeat = 0L
+    private fun dowCommand(enabled: Boolean) {
+        val result = ProcessCommandRunner().run(listOf("su", "0", "dow-light", if (enabled) "enable" else "disable"), 3)
+        check(!result.timedOut && result.exitCode == 0 && result.output.trim() == "DOW_ACCEPTED") { "DOW runtime unavailable" }
+    }
+    private fun renewDow() {
+        val now = SystemClock.elapsedRealtime()
+        if (!dowEnabled || now < nextDowHeartbeat) return
+        nextDowHeartbeat = now + 5000
+        dowError = runCatching {
+            dowCommand(true)
+            val result = ProcessCommandRunner().run(listOf("su", "0", "dow-light", "status"), 3)
+            check(!result.timedOut && result.exitCode == 0 && !result.output.startsWith("error:"))
+        }.isFailure
+    }
+    suspend fun setDowEnabled(enabled: Boolean) = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        if (enabled) { writer.checkAccess(); dowCommand(true) }
+        check(dowPreferences.edit().putBoolean("enabled", enabled).commit())
+        dowEnabled = enabled; dowError = false; nextDowHeartbeat = 0
+        if (enabled) running = true else {
+            dowError = runCatching { dowCommand(false) }.isFailure
+            if (!hasActiveMemory) { running = false; gateway.close() }
+        }
+        publish()
+    } } }
     private val shadePreferences = this.context.getSharedPreferences("sunshade_departure", Context.MODE_PRIVATE)
     private var shadeEnabled = shadePreferences.getBoolean("enabled", false)
     private var shadeError = false
@@ -54,7 +83,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val shadeWriter = SunshadeDepartureWriter(ProcessCommandRunner())
     private val subscriptions get() = (context as com.abrar.voyahiran.VoyahIranApplication).subscriptions
     private val access get() = MemoryAccess(subscriptions.allowed, subscriptions.vipAllowed)
-    val hasActiveMemory: Boolean get() = access.permits() && (shadeEnabled || shadeReadyEnabled || engine.memory.enabled || recoveryEngine.memory.enabled || aebEngine.memory.enabled || pedestrianEngine.memory.enabled || energyModeEngine.memory.enabled)
+    val hasActiveMemory: Boolean get() = access.permits() && (dowEnabled || shadeEnabled || shadeReadyEnabled || engine.memory.enabled || recoveryEngine.memory.enabled || aebEngine.memory.enabled || pedestrianEngine.memory.enabled || energyModeEngine.memory.enabled)
     private val recoveryWriter = RecoveryLevelWriter(ProcessCommandRunner())
     private val restoreOrder = RecoveryRestoreOrder()
     private val events = Channel<CanSignal>(Channel.UNLIMITED)
@@ -68,6 +97,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         aeb = RecoveryMemoryUiState(enabled = aebEngine.memory.enabled, saved = aebEngine.memory.mode),
         pedestrian = RecoveryMemoryUiState(enabled = pedestrianEngine.memory.enabled, saved = pedestrianEngine.memory.mode),
         energyMode = RecoveryMemoryUiState(enabled = energyModeEngine.memory.enabled, saved = energyModeEngine.memory.mode),
+        dowEnabled = dowEnabled,
         shadeEnabled = shadeEnabled, shadeReadyEnabled = shadeReadyEnabled))
     val state = mutable.asStateFlow()
 
@@ -105,6 +135,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
             energyModeEngine.start(boot)
             running = true
         }
+        renewDow()
         sample = readVehicle()
         process(true, true)
     } } }
@@ -127,6 +158,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     } } }
 
     suspend fun tick() = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        renewDow()
         if (running) { sample = readVehicle(); process(true, true) }
     } } }
 
@@ -291,6 +323,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     }
 
     suspend fun detach() = withContext(Dispatchers.IO) { mutex.withLock {
+        runCatching { dowCommand(false) }; nextDowHeartbeat = 0
         running = false; gateway.close(); shadePolicy.reset(); shadeReadyPolicy.reset()
     } }
 
@@ -370,6 +403,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
                 pedestrianEngine.memory.mode, pedestrianEngine.phase, error || pedestrianEngine.phase == DrivePhase.FAILED),
             energyMode = RecoveryMemoryUiState(energyModeEngine.memory.enabled, sample.energyMode?.takeIf { it in 1..4 },
                 energyModeEngine.memory.mode, energyModeEngine.phase, error || energyModeEngine.phase == DrivePhase.FAILED),
+            dowEnabled = dowEnabled, dowError = dowError,
             shadeEnabled = shadeEnabled, shadeError = shadeError || error, shadeClosing = shadeClosing,
             shadeReadyEnabled = shadeReadyEnabled, shadeReadyError = shadeReadyError || error, shadeOpening = shadeOpening)
     }

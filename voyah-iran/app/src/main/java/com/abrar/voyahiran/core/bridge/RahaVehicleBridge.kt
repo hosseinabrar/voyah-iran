@@ -147,7 +147,7 @@ object RahaVehicleBridge {
 
     }
 
-    private class OemSession : RahaVehicleSnapshot {
+    internal class OemSession : RahaVehicleSnapshot {
         private val apk = listOf(
             "/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk",
             "/system/priv-app/VehicleAir-release-signed/VehicleAir-release-signed.apk"
@@ -177,6 +177,41 @@ object RahaVehicleBridge {
                 loader.loadClass("com.qinggan.canbus.DFVehicleState").getField(name)
             }
             return checkNotNull(member.get(null))
+        }
+        fun stateIdentity(name: String): Pair<Int, Int> {
+            val value = field(vehicleType, name)
+            return (value as Enum<*>).ordinal to (vehicleType.getMethod("getValue").invoke(value) as Int)
+        }
+        fun watch(callback: android.os.IBinder, register: Boolean) {
+            val data = android.os.Parcel.obtain(); val reply = android.os.Parcel.obtain()
+            try {
+                data.writeInterfaceToken(api.name); data.writeStrongBinder(callback)
+                check(binder.transact(if (register) 0x1c else 0x1d, data, reply, 0))
+                reply.readException()
+                if (register) check(reply.readInt() != 0) { "CAN callback rejected" }
+            } finally { data.recycle(); reply.recycle() }
+        }
+        fun writeAmbient(suffix: String, value: Int) {
+            val range = when(suffix) {
+                "SWITCH", "MUSICAL_RHYTHM_SWITCH" -> 1..2
+                "COLOR" -> 1..64
+                "BRIGHTNESS_LEVEL" -> 1..10
+                else -> error("Unsupported ambient field")
+            }
+            require(value in range)
+            val result = api.getMethod("setVehicleState", vehicleType, Int::class.javaPrimitiveType)
+                .invoke(remote, field(vehicleType, "VEHICLE_AMBIENT_LIGHT_" + suffix), value)
+            check(result !is Number || result.toInt() >= 0) { "Ambient command rejected" }
+        }
+        fun driveAmbient(): Int {
+            val result = ProcessCommandRunner(useBridge = false).run(listOf("/system/bin/content", "query",
+                "--uri", "content://qinggan.settings/global", "--user", "0", "--projection", "value",
+                "--where", "name='vehicle_setting_drive_mode_atm'"), 2)
+            check(result.exitCode == 0 && !result.timedOut && !result.output.contains("Error", true))
+            // Factory getInt default is 0 when no row exists.
+            if (result.output.contains("No result found")) return 0
+            return Regex("value=([01])(?:\\s|$)").find(result.output)?.groupValues?.get(1)?.toInt()
+                ?: error("Ambient drive-mode preference unavailable")
         }
         fun acc() = api.getMethod("getAccStatus").invoke(remote) as Int
         override fun speed() = api.getMethod("getVehicleSpeed").invoke(remote) as Int
