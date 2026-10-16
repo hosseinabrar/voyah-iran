@@ -6,6 +6,11 @@ android {
     defaultConfig { applicationId = "com.abrar.voyahdowtest"; minSdk = 28; targetSdk = 32; versionCode = 1; versionName = "0.1" }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
     testOptions { unitTests.isIncludeAndroidResources = true }
+    lint {
+        // Sideload-only vehicle diagnostic, not a Google Play application.
+        // Match the main app's tested target SDK without changing runtime behavior.
+        disable += "ExpiredTargetSdkVersion"
+    }
     sourceSets["main"].kotlin.directories.add(file("../voyah-iran/app/src/main/java/com/abrar/voyahiran/feature/dow").path)
 }
 dependencies {

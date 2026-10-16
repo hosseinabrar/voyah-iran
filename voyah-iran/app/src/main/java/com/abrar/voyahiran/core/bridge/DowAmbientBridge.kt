@@ -7,7 +7,6 @@ import android.util.AtomicFile
 import com.abrar.voyahiran.core.logging.AppLog
 import com.abrar.voyahiran.core.shell.CommandResult
 import com.abrar.voyahiran.feature.dow.*
-import com.abrar.voyahiran.feature.voice.RahaWrite
 import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.locks.ReentrantLock
@@ -119,16 +118,18 @@ internal object DowAmbientBridge {
         private fun write(suffix: String, value: Int) {
             session().writeAmbient(suffix, value)
         }
-        private fun drive(value: Int) = session().write(RahaWrite("qg", "vehicle_setting_drive_mode_atm", value))
+        private fun drive(value: Int) = DowAmbientSettings.set(value)
         override fun snapshot() = AmbientSnapshot(
             session().vehicle(prefix + "SWITCH"), session().vehicle(prefix + "MUSICAL_RHYTHM_SWITCH"),
-            session().driveAmbient(), session().vehicle(prefix + "COLOR"), session().vehicle(prefix + "BRIGHTNESS_LEVEL"))
+            DowAmbientSettings.read(), session().vehicle(prefix + "COLOR"), session().vehicle(prefix + "BRIGHTNESS_LEVEL"))
         override fun normalRed() {
+            val started = SystemClock.elapsedRealtime()
             check(BridgeSubscriptionSession.vipActive)
             // Exactly the factory normal-mode controls, without changing its saved normal colour preference.
             drive(0); write("MUSICAL_RHYTHM_SWITCH", 1)
             write("BRIGHTNESS_LEVEL", 1); write("COLOR", DowContract.RED)
             write("SWITCH", 2)
+            AppLog.info("DowAmbient", "normal red configured elapsedMs=${SystemClock.elapsedRealtime() - started}")
         }
         override fun level(value: Int) {
             check(BridgeSubscriptionSession.vipActive)
