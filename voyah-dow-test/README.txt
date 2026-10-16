@@ -1,11 +1,16 @@
 VOYAH DOW Probe — experimental, READ ONLY
 
-Open ../voyah-iran in Android Studio and select module dow-test.
+Open this directory directly in Android Studio, or open ../voyah-iran and select module dow-test.
+For a standalone IDE import, use Gradle 9.5.0 (matching the main project's wrapper).
+The standalone settings reuse the main project's dependency catalog and DOW sources;
+keep this directory alongside ../voyah-iran rather than copying it out on its own.
 This diagnostic module is not an installer dependency and is not included in production bundles.
 Build only when requested:
   cd ../voyah-iran
   ./gradlew :dow-test:assembleDebug
 APK: ../voyah-dow-test/build/outputs/apk/debug/dow-test-debug.apk
+Alternatively, from this directory use the shared wrapper without building the main app:
+  ../voyah-iran/gradlew -p . assembleDebug
 Package: com.abrar.voyahdowtest
 
 Test:
