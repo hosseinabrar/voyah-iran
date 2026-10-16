@@ -219,7 +219,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         val buttonSize=(64f*1.3f*width/1775f).toInt().coerceAtLeast(1)
         clusterButton.layoutParams=FrameLayout.LayoutParams(buttonSize,buttonSize).apply {
             leftMargin=(18f*width/1775f).toInt()
-            topMargin=(height*.25f-buttonSize/2f-50f*width/1775f).toInt().coerceAtLeast(0)
+            topMargin=ClusterMapButton.topMargin(real.y,location[1]+top,buttonSize)
         }
         updateClusterButton()
     }

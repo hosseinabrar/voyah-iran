@@ -7,6 +7,11 @@ import android.view.View
 
 /** Drawn above the card surface, never into the shared map frames. */
 internal class ClusterMapButton(context: Context) : View(context) {
+    companion object {
+        // Position the centre 30% above the physical screen bottom, independent of safe-area insets.
+        internal fun topMargin(screenHeight:Int,cardTop:Int,size:Int)=
+            (screenHeight*.70f-cardTop-size/2f).toInt().coerceAtLeast(0)
+    }
     var mode = ClusterMapMode.ON
         set(value) { field=value; invalidate(); contentDescription=when(value) {
             ClusterMapMode.OFF -> "نقشهٔ کلاستر: خاموش"

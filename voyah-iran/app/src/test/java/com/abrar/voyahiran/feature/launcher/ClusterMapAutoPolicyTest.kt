@@ -31,9 +31,9 @@ class ClusterMapAutoPolicyTest {
         policy.update("turn",124,1100,1100,30);assertTrue(policy.show(1100))
     }
     @Test fun cyclesDependOnNavigatorWithoutChangingSavedAuto() {
-        assertEquals(ClusterMapMode.AUTO, ClusterMapMode.OFF.next(true))
-        assertEquals(ClusterMapMode.ON, ClusterMapMode.AUTO.next(true))
-        assertEquals(ClusterMapMode.OFF, ClusterMapMode.ON.next(true))
+        assertEquals(ClusterMapMode.ON, ClusterMapMode.OFF.next(true))
+        assertEquals(ClusterMapMode.AUTO, ClusterMapMode.ON.next(true))
+        assertEquals(ClusterMapMode.OFF, ClusterMapMode.AUTO.next(true))
         assertEquals(ClusterMapMode.ON, ClusterMapMode.OFF.next(false))
         assertEquals(ClusterMapMode.OFF, ClusterMapMode.ON.next(false))
         assertEquals(ClusterMapMode.ON, ClusterMapMode.AUTO.effective(false))

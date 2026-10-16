@@ -4,9 +4,9 @@ enum class ClusterMapMode {
     OFF, AUTO, ON;
     fun effective(neshan: Boolean) = if (this == AUTO && !neshan) ON else this
     fun next(neshan: Boolean): ClusterMapMode = when (effective(neshan)) {
-        OFF -> if (neshan) AUTO else ON
-        AUTO -> ON
-        ON -> OFF
+        OFF -> ON
+        ON -> if (neshan) AUTO else OFF
+        AUTO -> OFF
     }
 }
 
