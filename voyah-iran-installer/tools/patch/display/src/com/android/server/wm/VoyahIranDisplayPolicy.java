@@ -134,7 +134,11 @@ public final class VoyahIranDisplayPolicy {
 
     public static boolean applies(ActivityRecord a) {
         initialize(a);
-        return enabled && candidate(a);
+        // Passenger HOME owns its full-display layout and reserves the status area itself.
+        // Match disabling the geometry policy for this Activity only; keep theme handling.
+        return enabled && candidate(a) && !(a.getDisplayId() == 1 &&
+            "com.abrar.voyahiran".equals(a.info.packageName) &&
+            "com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity".equals(a.info.name));
     }
 
     private static boolean densityCandidate(ActivityRecord a) {

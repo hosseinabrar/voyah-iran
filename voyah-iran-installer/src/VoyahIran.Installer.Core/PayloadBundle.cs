@@ -30,6 +30,8 @@ public sealed class PayloadBundle
             .Select(p => p.Replace("legacy-merge-production/", "legacy-before-passenger/")))
             .Concat(Android9FrameworkAssets.RequiredFiles.Where(p => p.StartsWith("patch/android9/previous-merge-production/", StringComparison.Ordinal))
             .Select(p => p.Replace("previous-merge-production/", "previous-before-passenger/"))).ToArray();
+        required = required.Concat(required.Where(p => p.StartsWith("patch/display/helpers/", StringComparison.Ordinal))
+            .Select(p => p.Replace("display/helpers/", "display/legacy-passenger-inset/"))).ToArray();
         if (targetRuntime is "osx-arm64" or "osx-x64")
             return required.Except(new[] { "adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "java/bin/java.exe" })
                 .Concat(new[] { "adb", "java/bin/java" }).ToArray();

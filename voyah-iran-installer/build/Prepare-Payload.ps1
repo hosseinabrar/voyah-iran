@@ -125,6 +125,9 @@ Get-ChildItem (Join-Path $patchTools 'display/legacy-merge-production') -File -F
 Get-ChildItem (Join-Path $patchTools 'display/legacy-before-passenger') -File -Filter '*.smali' | ForEach-Object {
     $files['patch/display/legacy-before-passenger/' + $_.Name] = $_.FullName
 }
+Get-ChildItem (Join-Path $patchTools 'display/legacy-passenger-inset') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/legacy-passenger-inset/' + $_.Name] = $_.FullName
+}
 $runtimePath = (Resolve-Path -LiteralPath $JavaRuntime).Path.TrimEnd('\','/')
 $legacyPatch = (Resolve-Path -LiteralPath (Join-Path $patchTools 'android9')).Path
 Get-ChildItem $legacyPatch -File | Where-Object {

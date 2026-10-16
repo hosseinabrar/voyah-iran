@@ -165,105 +165,139 @@
 .method public static afterFrame(Lcom/android/server/wm/WindowState;Lcom/android/server/wm/WindowFrames;)V
     .locals 0
 
-    .line 242
+    .line 251
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->safe(Lcom/android/server/wm/WindowState;)Landroid/graphics/Rect;
 
     move-result-object p0
 
-    .line 243
+    .line 252
     if-eqz p0, :cond_0
 
     iget-object p1, p1, Lcom/android/server/wm/WindowFrames;->mFrame:Landroid/graphics/Rect;
 
     invoke-static {p1, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 244
+    .line 253
     :cond_0
     return-void
 .end method
 
 .method public static applies(Lcom/android/server/wm/ActivityRecord;)Z
-    .locals 1
+    .locals 3
 
     .line 136
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->initialize(Lcom/android/server/wm/ActivityRecord;)V
 
-    .line 137
+    .line 139
     sget-boolean v0, Lcom/android/server/wm/VoyahIranDisplayPolicy;->enabled:Z
 
-    if-eqz v0, :cond_0
+    if-eqz v0, :cond_1
 
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->candidate(Lcom/android/server/wm/ActivityRecord;)Z
 
+    move-result v0
+
+    if-eqz v0, :cond_1
+
+    invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getDisplayId()I
+
+    move-result v0
+
+    const/4 v1, 0x1
+
+    if-ne v0, v1, :cond_0
+
+    iget-object v0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
+
+    iget-object v0, v0, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
+
+    .line 140
+    const-string v2, "com.abrar.voyahiran"
+
+    invoke-virtual {v2, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    iget-object p0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
+
+    iget-object p0, p0, Landroid/content/pm/ActivityInfo;->name:Ljava/lang/String;
+
+    .line 141
+    const-string v0, "com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity"
+
+    invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
     move-result p0
 
-    if-eqz p0, :cond_0
-
-    const/4 p0, 0x1
-
-    goto :goto_0
+    if-nez p0, :cond_1
 
     :cond_0
-    const/4 p0, 0x0
+    goto :goto_0
 
+    :cond_1
+    const/4 v1, 0x0
+
+    .line 139
     :goto_0
-    return p0
+    return v1
 .end method
 
 .method public static beforeFrame(Lcom/android/server/wm/WindowState;Lcom/android/server/wm/WindowFrames;Landroid/graphics/Rect;Landroid/graphics/Rect;)V
     .locals 0
 
-    .line 205
+    .line 214
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->suppressLoginWelcome(Lcom/android/server/wm/WindowState;)V
 
-    .line 206
+    .line 215
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->safe(Lcom/android/server/wm/WindowState;)Landroid/graphics/Rect;
 
     move-result-object p0
 
-    .line 207
+    .line 216
     if-nez p0, :cond_0
 
     return-void
 
-    .line 208
+    .line 217
     :cond_0
     invoke-static {p2, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 209
+    .line 218
     invoke-static {p3, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 210
+    .line 219
     iget-object p2, p1, Lcom/android/server/wm/WindowFrames;->mParentFrame:Landroid/graphics/Rect;
 
     invoke-static {p2, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 211
+    .line 220
     iget-object p2, p1, Lcom/android/server/wm/WindowFrames;->mDisplayFrame:Landroid/graphics/Rect;
 
     invoke-static {p2, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 212
+    .line 221
     iget-object p2, p1, Lcom/android/server/wm/WindowFrames;->mContainingFrame:Landroid/graphics/Rect;
 
     invoke-static {p2, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 213
+    .line 222
     iget-object p2, p1, Lcom/android/server/wm/WindowFrames;->mContentFrame:Landroid/graphics/Rect;
 
     invoke-static {p2, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 214
+    .line 223
     iget-object p2, p1, Lcom/android/server/wm/WindowFrames;->mVisibleFrame:Landroid/graphics/Rect;
 
     invoke-static {p2, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 215
+    .line 224
     iget-object p1, p1, Lcom/android/server/wm/WindowFrames;->mStableFrame:Landroid/graphics/Rect;
 
     invoke-static {p1, p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 216
+    .line 225
     return-void
 .end method
 
@@ -359,7 +393,7 @@
 .method private static clip(Landroid/graphics/Rect;Landroid/graphics/Rect;)V
     .locals 1
 
-    .line 198
+    .line 207
     if-eqz p0, :cond_0
 
     invoke-virtual {p0}, Landroid/graphics/Rect;->isEmpty()Z
@@ -368,7 +402,7 @@
 
     if-nez v0, :cond_0
 
-    .line 200
+    .line 209
     invoke-virtual {p0, p1}, Landroid/graphics/Rect;->intersect(Landroid/graphics/Rect;)Z
 
     move-result v0
@@ -377,7 +411,7 @@
 
     invoke-virtual {p0, p1}, Landroid/graphics/Rect;->set(Landroid/graphics/Rect;)V
 
-    .line 202
+    .line 211
     :cond_0
     return-void
 .end method
@@ -385,10 +419,10 @@
 .method public static configuration(Lcom/android/server/wm/ActivityRecord;Landroid/content/res/Configuration;)V
     .locals 7
 
-    .line 153
+    .line 157
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->initialize(Lcom/android/server/wm/ActivityRecord;)V
 
-    .line 154
+    .line 158
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->candidate(Lcom/android/server/wm/ActivityRecord;)Z
 
     move-result v0
@@ -399,12 +433,12 @@
 
     if-eqz v0, :cond_0
 
-    .line 155
+    .line 159
     invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getResolvedOverrideConfiguration()Landroid/content/res/Configuration;
 
     move-result-object v0
 
-    .line 156
+    .line 160
     iget v1, v0, Landroid/content/res/Configuration;->uiMode:I
 
     and-int/lit8 v1, v1, -0x31
@@ -415,7 +449,7 @@
 
     iput v1, v0, Landroid/content/res/Configuration;->uiMode:I
 
-    .line 158
+    .line 162
     :cond_0
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->densityCandidate(Lcom/android/server/wm/ActivityRecord;)Z
 
@@ -425,20 +459,20 @@
 
     if-eqz v0, :cond_4
 
-    .line 159
+    .line 163
     invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getResolvedOverrideConfiguration()Landroid/content/res/Configuration;
 
     move-result-object v0
 
-    .line 160
+    .line 164
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->densityForActivity(Lcom/android/server/wm/ActivityRecord;)I
 
     move-result v2
 
-    .line 161
+    .line 165
     iput v2, v0, Landroid/content/res/Configuration;->densityDpi:I
 
-    .line 162
+    .line 166
     iget-object v3, p1, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
     if-nez v3, :cond_1
@@ -454,7 +488,7 @@
 
     move-result-object v3
 
-    .line 163
+    .line 167
     :goto_0
     if-eqz v3, :cond_2
 
@@ -475,7 +509,7 @@
 
     move-result-object v3
 
-    .line 164
+    .line 168
     :cond_3
     if-eqz v3, :cond_4
 
@@ -485,7 +519,7 @@
 
     if-nez v4, :cond_4
 
-    .line 165
+    .line 169
     invoke-virtual {v3}, Landroid/graphics/Rect;->width()I
 
     move-result v4
@@ -496,7 +530,7 @@
 
     iput v4, v0, Landroid/content/res/Configuration;->screenWidthDp:I
 
-    .line 166
+    .line 170
     invoke-virtual {v3}, Landroid/graphics/Rect;->height()I
 
     move-result v3
@@ -507,7 +541,7 @@
 
     iput v3, v0, Landroid/content/res/Configuration;->screenHeightDp:I
 
-    .line 167
+    .line 171
     iget v2, v0, Landroid/content/res/Configuration;->screenWidthDp:I
 
     iget v3, v0, Landroid/content/res/Configuration;->screenHeightDp:I
@@ -518,7 +552,7 @@
 
     iput v2, v0, Landroid/content/res/Configuration;->smallestScreenWidthDp:I
 
-    .line 170
+    .line 174
     :cond_4
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->applies(Lcom/android/server/wm/ActivityRecord;)Z
 
@@ -528,7 +562,7 @@
 
     return-void
 
-    .line 171
+    .line 175
     :cond_5
     iget-object v0, p1, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
@@ -536,7 +570,7 @@
 
     move-result-object v0
 
-    .line 172
+    .line 176
     invoke-virtual {v0}, Landroid/graphics/Rect;->width()I
 
     move-result v2
@@ -565,20 +599,22 @@
 
     goto/16 :goto_2
 
-    .line 173
+    .line 177
     :cond_6
     invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getResolvedOverrideConfiguration()Landroid/content/res/Configuration;
 
     move-result-object v2
 
-    .line 174
+    .line 178
     new-instance v3, Landroid/graphics/Rect;
 
     iget v4, v0, Landroid/graphics/Rect;->left:I
 
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->leftInset(Lcom/android/server/wm/ActivityRecord;)I
+
     move-result v5
-    add-int v4, v4, v5
+
+    add-int/2addr v4, v5
 
     iget v5, v0, Landroid/graphics/Rect;->top:I
 
@@ -590,19 +626,19 @@
 
     invoke-direct {v3, v4, v5, v6, v0}, Landroid/graphics/Rect;-><init>(IIII)V
 
-    .line 175
+    .line 179
     new-instance v0, Landroid/graphics/Rect;
 
     invoke-direct {v0, v3}, Landroid/graphics/Rect;-><init>(Landroid/graphics/Rect;)V
 
-    .line 176
+    .line 180
     iget-object v4, p1, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
     invoke-virtual {v4}, Landroid/app/WindowConfiguration;->getAppBounds()Landroid/graphics/Rect;
 
     move-result-object v4
 
-    .line 177
+    .line 181
     if-eqz v4, :cond_7
 
     invoke-virtual {v4}, Landroid/graphics/Rect;->isEmpty()Z
@@ -613,23 +649,23 @@
 
     invoke-virtual {v0, v4}, Landroid/graphics/Rect;->intersect(Landroid/graphics/Rect;)Z
 
-    .line 178
+    .line 182
     :cond_7
     iget-object v4, v2, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
     invoke-virtual {v4, v3}, Landroid/app/WindowConfiguration;->setBounds(Landroid/graphics/Rect;)V
 
-    .line 179
+    .line 183
     iget-object v4, v2, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
 
     invoke-virtual {v4, v0}, Landroid/app/WindowConfiguration;->setAppBounds(Landroid/graphics/Rect;)V
 
-    .line 180
+    .line 184
     const/4 v4, 0x2
 
     iput v4, v2, Landroid/content/res/Configuration;->orientation:I
 
-    .line 181
+    .line 185
     iget v4, v2, Landroid/content/res/Configuration;->densityDpi:I
 
     if-lez v4, :cond_8
@@ -641,13 +677,13 @@
     :cond_8
     iget p1, p1, Landroid/content/res/Configuration;->densityDpi:I
 
-    .line 182
+    .line 186
     :goto_1
     if-gtz p1, :cond_9
 
     move p1, v1
 
-    .line 183
+    .line 187
     :cond_9
     invoke-virtual {v0}, Landroid/graphics/Rect;->width()I
 
@@ -659,7 +695,7 @@
 
     iput v4, v2, Landroid/content/res/Configuration;->screenWidthDp:I
 
-    .line 184
+    .line 188
     invoke-virtual {v0}, Landroid/graphics/Rect;->height()I
 
     move-result v4
@@ -670,7 +706,7 @@
 
     iput v4, v2, Landroid/content/res/Configuration;->screenHeightDp:I
 
-    .line 185
+    .line 189
     iget p1, v2, Landroid/content/res/Configuration;->screenWidthDp:I
 
     iget v1, v2, Landroid/content/res/Configuration;->screenHeightDp:I
@@ -681,7 +717,7 @@
 
     iput p1, v2, Landroid/content/res/Configuration;->smallestScreenWidthDp:I
 
-    .line 186
+    .line 190
     new-instance p1, Ljava/lang/StringBuilder;
 
     invoke-direct {p1}, Ljava/lang/StringBuilder;-><init>()V
@@ -740,10 +776,10 @@
 
     invoke-static {p1, p0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 187
+    .line 191
     return-void
 
-    .line 172
+    .line 176
     :cond_a
     :goto_2
     return-void
@@ -752,7 +788,7 @@
 .method private static densityCandidate(Lcom/android/server/wm/ActivityRecord;)Z
     .locals 3
 
-    .line 141
+    .line 145
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->candidate(Lcom/android/server/wm/ActivityRecord;)Z
 
     move-result v0
@@ -763,13 +799,13 @@
 
     return v1
 
-    .line 142
+    .line 146
     :cond_0
     iget-object p0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
 
     iget-object p0, p0, Landroid/content/pm/ActivityInfo;->applicationInfo:Landroid/content/pm/ApplicationInfo;
 
-    .line 143
+    .line 147
     const-string v0, "com.abrar.voyahiran"
 
     iget-object v2, p0, Landroid/content/pm/ApplicationInfo;->packageName:Ljava/lang/String;
@@ -979,6 +1015,61 @@
     return-void
 .end method
 
+.method public static leftInset(Lcom/android/server/wm/ActivityRecord;)I
+    .locals 2
+
+    .line 202
+    if-eqz p0, :cond_0
+
+    invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getDisplayId()I
+
+    move-result v0
+
+    const/4 v1, 0x1
+
+    if-ne v0, v1, :cond_0
+
+    iget-object v0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
+
+    if-eqz v0, :cond_0
+
+    iget-object v0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
+
+    iget-object v0, v0, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
+
+    const-string v1, "com.abrar.voyahiran"
+
+    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    iget-object p0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
+
+    iget-object p0, p0, Landroid/content/pm/ActivityInfo;->name:Ljava/lang/String;
+
+    .line 203
+    const-string v0, "com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity"
+
+    invoke-virtual {v0, p0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result p0
+
+    if-eqz p0, :cond_0
+
+    const/4 p0, 0x0
+
+    goto :goto_0
+
+    :cond_0
+    const/16 p0, 0x91
+
+    .line 202
+    :goto_0
+    return p0
+.end method
+
 .method static nightFor(Ljava/lang/String;Ljava/lang/String;)I
     .locals 1
 
@@ -1025,7 +1116,7 @@
 .method public static orientation(Lcom/android/server/wm/ActivityRecord;I)I
     .locals 1
 
-    .line 149
+    .line 153
     const/4 v0, -0x2
 
     if-eq p1, v0, :cond_0
@@ -1439,9 +1530,9 @@
 .end method
 
 .method private static safe(Lcom/android/server/wm/WindowState;)Landroid/graphics/Rect;
-    .locals 4
+    .locals 3
 
-    .line 191
+    .line 195
     iget-object v0, p0, Lcom/android/server/wm/WindowState;->mAttrs:Landroid/view/WindowManager$LayoutParams;
 
     iget v0, v0, Landroid/view/WindowManager$LayoutParams;->type:I
@@ -1470,53 +1561,55 @@
 
     goto :goto_1
 
-    .line 192
+    .line 196
     :cond_0
+    iget-object v0, p0, Lcom/android/server/wm/WindowState;->mActivityRecord:Lcom/android/server/wm/ActivityRecord;
+
+    invoke-virtual {v0}, Lcom/android/server/wm/ActivityRecord;->getResolvedOverrideConfiguration()Landroid/content/res/Configuration;
+
+    move-result-object v0
+
+    iget-object v0, v0, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
+
+    invoke-virtual {v0}, Landroid/app/WindowConfiguration;->getBounds()Landroid/graphics/Rect;
+
+    move-result-object v0
+
+    .line 197
+    iget v1, v0, Landroid/graphics/Rect;->left:I
+
     iget-object p0, p0, Lcom/android/server/wm/WindowState;->mActivityRecord:Lcom/android/server/wm/ActivityRecord;
 
     invoke-static {p0}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->leftInset(Lcom/android/server/wm/ActivityRecord;)I
-    move-result v3
-    invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getResolvedOverrideConfiguration()Landroid/content/res/Configuration;
 
-    move-result-object p0
+    move-result p0
 
-    iget-object p0, p0, Landroid/content/res/Configuration;->windowConfiguration:Landroid/app/WindowConfiguration;
+    if-lt v1, p0, :cond_2
 
-    invoke-virtual {p0}, Landroid/app/WindowConfiguration;->getBounds()Landroid/graphics/Rect;
-
-    move-result-object p0
-
-    .line 193
-    iget v0, p0, Landroid/graphics/Rect;->left:I
-
-    move v1, v3
-
-    if-lt v0, v1, :cond_2
-
-    iget v0, p0, Landroid/graphics/Rect;->top:I
+    iget p0, v0, Landroid/graphics/Rect;->top:I
 
     const/16 v1, 0x32
 
-    if-lt v0, v1, :cond_2
+    if-lt p0, v1, :cond_2
 
-    invoke-virtual {p0}, Landroid/graphics/Rect;->isEmpty()Z
+    invoke-virtual {v0}, Landroid/graphics/Rect;->isEmpty()Z
 
-    move-result v0
+    move-result p0
 
-    if-eqz v0, :cond_1
+    if-eqz p0, :cond_1
 
     goto :goto_0
 
-    .line 194
+    .line 198
     :cond_1
-    return-object p0
+    return-object v0
 
-    .line 193
+    .line 197
     :cond_2
     :goto_0
     return-object v2
 
-    .line 191
+    .line 195
     :cond_3
     :goto_1
     return-object v2
@@ -1525,7 +1618,7 @@
 .method static supportsLoginWelcomeVariant(Ljava/lang/String;)Z
     .locals 1
 
-    .line 219
+    .line 228
     const-string v0, "(?i)(?<![a-z0-9])h97[ac](?![a-z0-9])"
 
     invoke-static {v0}, Ljava/util/regex/Pattern;->compile(Ljava/lang/String;)Ljava/util/regex/Pattern;
@@ -1546,7 +1639,7 @@
 .method private static suppressLoginWelcome(Lcom/android/server/wm/WindowState;)V
     .locals 5
 
-    .line 223
+    .line 232
     const-string v0, "VI/DisplayPolicy"
 
     iget-object v1, p0, Lcom/android/server/wm/WindowState;->mAttrs:Landroid/view/WindowManager$LayoutParams;
@@ -1567,7 +1660,7 @@
 
     iget-object v1, p0, Lcom/android/server/wm/WindowState;->mAttrs:Landroid/view/WindowManager$LayoutParams;
 
-    .line 224
+    .line 233
     invoke-virtual {v1}, Landroid/view/WindowManager$LayoutParams;->getTitle()Ljava/lang/CharSequence;
 
     move-result-object v1
@@ -1582,7 +1675,7 @@
 
     goto :goto_1
 
-    .line 225
+    .line 234
     :cond_0
     new-instance v1, Ljava/lang/StringBuilder;
 
@@ -1642,12 +1735,12 @@
 
     sget-object v3, Ljava/util/Locale;->ROOT:Ljava/util/Locale;
 
-    .line 227
+    .line 236
     invoke-virtual {v1, v3}, Ljava/lang/String;->toLowerCase(Ljava/util/Locale;)Ljava/lang/String;
 
     move-result-object v1
 
-    .line 228
+    .line 237
     invoke-static {v1}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->supportsLoginWelcomeVariant(Ljava/lang/String;)Z
 
     move-result v1
@@ -1656,7 +1749,7 @@
 
     return-void
 
-    .line 230
+    .line 239
     :cond_1
     :try_start_0
     iget-object v1, p0, Lcom/android/server/wm/WindowState;->mContext:Landroid/content/Context;
@@ -1675,14 +1768,14 @@
 
     move-result v1
 
-    .line 232
+    .line 241
     const/4 v2, 0x2
 
     if-eq v1, v2, :cond_2
 
     return-void
 
-    .line 235
+    .line 244
     :cond_2
     const/4 v1, 0x0
 
@@ -1698,51 +1791,25 @@
     :try_end_0
     .catch Ljava/lang/RuntimeException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 238
+    .line 247
     :cond_3
     goto :goto_0
 
-    .line 236
+    .line 245
     :catch_0
     move-exception p0
 
-    .line 237
+    .line 246
     const-string v1, "Cannot read login welcome policy"
 
     invoke-static {v0, v1, p0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    .line 239
+    .line 248
     :goto_0
     return-void
 
-    .line 224
+    .line 233
     :cond_4
     :goto_1
     return-void
-.end method
-
-.method public static leftInset(Lcom/android/server/wm/ActivityRecord;)I
-    .locals 2
-    if-eqz p0, :cond_0
-    invoke-virtual {p0}, Lcom/android/server/wm/ActivityRecord;->getDisplayId()I
-    move-result v0
-    const/4 v1, 0x1
-    if-ne v0, v1, :cond_0
-    iget-object v0, p0, Lcom/android/server/wm/ActivityRecord;->info:Landroid/content/pm/ActivityInfo;
-    if-eqz v0, :cond_0
-    iget-object v1, v0, Landroid/content/pm/ActivityInfo;->packageName:Ljava/lang/String;
-    const-string p0, "com.abrar.voyahiran"
-    invoke-virtual {p0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-    move-result v1
-    if-eqz v1, :cond_0
-    iget-object v0, v0, Landroid/content/pm/ActivityInfo;->name:Ljava/lang/String;
-    const-string v1, "com.abrar.voyahiran.feature.launcher.PassengerLauncherActivity"
-    invoke-virtual {v1, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-    move-result v0
-    if-eqz v0, :cond_0
-    const/4 v0, 0x0
-    return v0
-    :cond_0
-    const/16 v0, 0x91
-    return v0
 .end method

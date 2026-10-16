@@ -89,6 +89,8 @@ names = names.Concat(names.Where(p => p.StartsWith("patch/display/legacy-merge-p
     .Select(p => p.Replace("legacy-merge-production/", "legacy-before-passenger/")))
     .Concat(Android9FrameworkAssets.RequiredFiles.Where(p => p.StartsWith("patch/android9/previous-merge-production/", StringComparison.Ordinal))
     .Select(p => p.Replace("previous-merge-production/", "previous-before-passenger/"))).Distinct().ToArray();
+names = names.Concat(names.Where(p => p.StartsWith("patch/display/helpers/", StringComparison.Ordinal))
+    .Select(p => p.Replace("display/helpers/", "display/legacy-passenger-inset/"))).Distinct().ToArray();
 var sourceRoot = new DirectoryInfo(AppContext.BaseDirectory);
 while (sourceRoot != null && !Directory.Exists(Path.Combine(sourceRoot.FullName, "tools", "patch", "android9"))) sourceRoot = sourceRoot.Parent;
 if (sourceRoot != null)

@@ -67,6 +67,8 @@ try {
         var bundle = PayloadBundle.Extract(input, Path.Combine(root, runtime));
         Check(bundle.Manifest.TargetRuntime == runtime, "Runtime retained " + runtime);
         Check(File.Exists(bundle.JavaExecutable), "Java resolved " + runtime);
+        foreach (var name in new[] { "VoyahIranDisplayPolicy.smali", "VoyahIranDisplayPolicy$1.smali", "VoyahIranDisplayPolicy$1$1.smali", "VoyahIranDisplayPolicy$2.smali" })
+            Check(File.Exists(bundle.File("patch/display/legacy-passenger-inset/" + name)), "Passenger layout upgrade template " + runtime + " " + name);
         if (runtime.StartsWith("osx-") && !OperatingSystem.IsWindows()) {
             Check(!File.Exists(bundle.File("adb.exe")), "No Windows ADB in Mac bundle");
             foreach (var executable in new[] { "adb", "java/bin/java", "java/lib/jspawnhelper" })
