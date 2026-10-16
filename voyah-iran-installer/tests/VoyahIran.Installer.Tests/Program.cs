@@ -28,6 +28,7 @@ if (args.Length == 2 && args[0] == "--verify-payload") {
     return;
 }
 await LogcatCaptureTests.Run(root);
+await InstallationStorageTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);
 var passed = 0;
 Check(Android9Firmware.IsSupportedVdex("a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06"), "Original H97A firmware remains supported");
@@ -142,6 +143,7 @@ foreach (var failure in new[] { "root", "remount", "remount-empty", "firmware", 
     var failed = false;
     try { await engine.RunAsync("CAR"); } catch { failed = true; }
     Check(failed && !fake.Calls.Any(c => c.SequenceEqual(new[] { "reboot" })), $"{failure} failure never reboots");
+    Check(!fake.Calls.Any(c=>c.Contains(InstallationStorage.RemoteCleanup)), $"{failure} retains rollback backups");
     if (failure is "root" or "remount" or "remount-reboot" or "remount-empty" or "firmware" or "patch") Check(!fake.Calls.Any(c => c[0] == "install"), $"{failure} rejected before APK changes");
     if (failure == "timeout") Check(!fake.Calls.Any(c => c.Contains("rm")), "Uncertain remote write keeps staging");
     if (failure is "apk" or "apk-timeout") Check(fake.Calls.Count(c => c[0] == "install") == 1, "Do not retry ambiguous or unrelated APK failure");
@@ -176,6 +178,10 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     var phases = new List<PhaseUpdate>(); engine.Progress += phases.Add;
     await engine.RunAsync("CAR");
     Check(phases.Count(p => p.State == PhaseState.Succeeded) == 8, "All eight phases verified on simulated success");
+    var cleanupIndex=fake.Calls.FindIndex(c=>c.Contains(InstallationStorage.RemoteCleanup));
+    var launchIndex=fake.Calls.FindIndex(c=>c.Contains("com.abrar.voyahiran/.ui.MainActivity"));
+    Check(cleanupIndex>launchIndex && launchIndex>=0,"Backup cleanup only after reboot verification and launch");
+    Check(!Directory.EnumerateDirectories(Path.Combine(root,"backups")).Any(),"Successful install removes old failed and current local patch generations");
     Check(fake.Calls.Count(c => c.SequenceEqual(new[] { "reboot" })) == 1, "One reboot on success");
     Check(!fake.Calls.Any(c => c.Contains("ime")), "Installer leaves keyboard preference to user");
     Check(fake.Calls.Single(c => c[0] == "install").Contains("--no-streaming"), "Android 11 retains push installation");

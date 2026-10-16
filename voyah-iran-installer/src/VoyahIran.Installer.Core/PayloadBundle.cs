@@ -5,8 +5,10 @@ using System.Text.Json;
 namespace VoyahIran.Installer.Core;
 
 public record BundleManifest(string AppVersion, int PatchSchema, Dictionary<string, string> Files, string TargetRuntime = "win-x64");
-public sealed class PayloadBundle
+public sealed class PayloadBundle : IDisposable
 {
+    private FileStream? cacheLease;
+    public void Dispose() { cacheLease?.Dispose(); cacheLease=null; }
     public string Root { get; }
     public BundleManifest Manifest { get; }
     private PayloadBundle(string root, BundleManifest manifest) { Root = root; Manifest = manifest; }
@@ -39,6 +41,22 @@ public sealed class PayloadBundle
         return required;
     }
     public static PayloadBundle Extract(Stream stream, string root, Stream? commonStream = null)
+    {
+        FileStream? lease=null;
+        try
+        {
+            if(Path.GetFileName(Path.GetDirectoryName(root)) == "Cache" && Guid.TryParseExact(Path.GetFileName(root), "N", out _))
+            {
+                Directory.CreateDirectory(root);
+                lease=new FileStream(Path.Combine(root,".installer-lease"),FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None);
+            }
+            var bundle=ExtractCore(stream,root,commonStream);
+            bundle.cacheLease=lease;
+            return bundle;
+        }
+        catch { lease?.Dispose(); throw; }
+    }
+    private static PayloadBundle ExtractCore(Stream stream, string root, Stream? commonStream)
     {
         using var zip = new ZipArchive(stream, ZipArchiveMode.Read);
         using var common = commonStream == null ? null : new ZipArchive(commonStream, ZipArchiveMode.Read);
