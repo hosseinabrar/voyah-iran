@@ -10,3 +10,7 @@ include(":app", ":command-core", ":raha-runtime")
 project(":command-core").projectDir = file("raha-core")
 
 include(":raha-feedback")
+
+// Read-only diagnostic APK; not part of installer payloads.
+include(":dow-test")
+project(":dow-test").projectDir = file("../voyah-dow-test")

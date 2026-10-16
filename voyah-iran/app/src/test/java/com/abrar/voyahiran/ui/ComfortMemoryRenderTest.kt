@@ -32,13 +32,14 @@ class ComfortMemoryRenderTest {
         assertEquals(VipCheckBox::class.java, binding.driveMemory.javaClass)
         assertEquals(VipCheckBox::class.java, binding.recoveryMemory.javaClass)
         assertEquals(VipCheckBox::class.java, binding.energyModeMemory.javaClass)
+        assertEquals(VipCheckBox::class.java, binding.dowAmbient.javaClass)
         binding.avmTurnCard.visibility = View.VISIBLE
         binding.root.visibility = View.VISIBLE
         binding.root.setBackgroundColor(context.getColor(R.color.background))
         binding.aebMemory.isEnabled = true
         binding.aebMemory.isChecked = true
         val width = 1120
-        val height = 1490
+        val height = 1710
         binding.root.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
         binding.root.layout(0, 0, width, height)
@@ -52,6 +53,7 @@ class ComfortMemoryRenderTest {
         assertTrue(binding.avmTurnCard.top > (binding.pedestrianMemory.parent as View).top)
         assertTrue(binding.shadeDepartureCard.top > binding.avmTurnCard.top)
         assertTrue(binding.shadeReadyCard.top > binding.shadeDepartureCard.top)
+        assertTrue(binding.dowAmbientCard.top > binding.shadeReadyCard.top)
         assertTrue(binding.aebMemory.width > 0)
         for (line in 0 until binding.aebMemory.layout.lineCount)
             assertEquals(0, binding.aebMemory.layout.getEllipsisCount(line))
@@ -66,5 +68,12 @@ class ComfortMemoryRenderTest {
         val output = File(System.getProperty("voyah.renderDir", "build/reports/comfort-memory"), "comfort-memory.png")
         output.parentFile?.mkdirs()
         output.outputStream().use { image.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        val card = binding.dowAmbientCard
+        val preview = Bitmap.createBitmap(card.width + 80, card.height + 60, Bitmap.Config.ARGB_8888)
+        Canvas(preview).apply {
+            drawColor(context.getColor(R.color.background))
+            translate(40f, 30f); card.draw(this)
+        }
+        File(output.parentFile, "dow-comfort.png").outputStream().use { preview.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
 }

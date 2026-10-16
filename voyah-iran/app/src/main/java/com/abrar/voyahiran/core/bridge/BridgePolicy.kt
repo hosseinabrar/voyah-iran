@@ -53,6 +53,7 @@ object BridgePolicy {
         if (request.size == 2 && request[0] == "app-theme" && request[1] in listOf("dark", "light", "vehicle")) return request
         if (request == listOf("sunshade-departure", "close")) return request
         if (request == listOf("sunshade-ready", "open")) return request
+        if (request.size == 2 && request[0] == "dow-light" && request[1] in listOf("enable", "disable", "status")) return request
         if (request.size == 2 && request[0] == "energy-mode-memory" && request[1] in listOf("1", "2", "3", "4")) return request
         if (request.size == 2 && request[0] in listOf("aeb-memory", "pedestrian-memory") && request[1] in listOf("1", "2")) return request
         if (request.size == 2 && request[0] == "music-startup-hide" &&

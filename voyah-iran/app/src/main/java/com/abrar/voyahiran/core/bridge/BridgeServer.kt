@@ -33,6 +33,7 @@ object BridgeServer {
         neshan.start()
         OemNavigationManager.start()
         val execution = java.util.concurrent.locks.ReentrantLock()
+        DowAmbientBridge.start(execution)
         val pool = ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(16))
         ServerSocket(BridgePolicy.PORT, 8, InetAddress.getByName("127.0.0.1")).use { server ->
             AppLog.info("BridgeServer", "ready protocol=1 uid=${Process.myUid()} port=${BridgePolicy.PORT}")
@@ -115,6 +116,7 @@ object BridgeServer {
                         "apollo-capability" -> ApolloCapability.read()
                         "avm-turn" -> AvmTurnBridge.execute(command[1])
                         "sunshade-departure" -> RahaVehicleBridge.closeSunshadeOnDeparture()
+                        "dow-light" -> DowAmbientBridge.command(command[1])
                         "sunshade-ready" -> RahaVehicleBridge.openSunshadeOnReady()
                         "aeb-memory" -> AebMemoryBridge.apply(command[1].toInt())
                         "energy-mode-memory" -> EnergyModeMemoryBridge.apply(command[1].toInt())

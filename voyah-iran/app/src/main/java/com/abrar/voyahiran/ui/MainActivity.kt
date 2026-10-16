@@ -339,6 +339,9 @@ class MainActivity : ComponentActivity() {
             requestDrive(if (binding.comfortPage.energyModeMemory.isChecked) DriveMemoryService.ENERGY_MODE_ENABLE else DriveMemoryService.ENERGY_MODE_DISABLE)
         }
         binding.comfortPage.energyModeRetry.setOnClickListener { requestDrive(DriveMemoryService.ENERGY_MODE_RETRY) }
+        binding.comfortPage.dowAmbient.setOnClickListener {
+            requestDrive(if (binding.comfortPage.dowAmbient.isChecked) DriveMemoryService.DOW_ENABLE else DriveMemoryService.DOW_DISABLE)
+        }
         binding.comfortPage.shadeDeparture.setOnClickListener {
             requestDrive(if (binding.comfortPage.shadeDeparture.isChecked) DriveMemoryService.SHADE_ENABLE else DriveMemoryService.SHADE_DISABLE)
         }
@@ -678,6 +681,10 @@ class MainActivity : ComponentActivity() {
         energyModeStatus.visibility = if (energyModeMessage == null) View.GONE else View.VISIBLE
         energyModeMessage?.let(energyModeStatus::setText)
         energyModeRetry.visibility = if (allowed && energyMode.error && !busy) View.VISIBLE else View.GONE
+        dowAmbient.isChecked = state.dowEnabled
+        dowAmbient.isEnabled = !busy
+        dowAmbientStatus.visibility = if (allowed && state.dowError) View.VISIBLE else View.GONE
+        dowAmbientStatus.setText(R.string.dow_ambient_error)
         shadeDeparture.isChecked = state.shadeEnabled
         shadeDeparture.isEnabled = !busy
         val shadeMessage = when {

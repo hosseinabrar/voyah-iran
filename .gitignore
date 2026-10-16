@@ -17,6 +17,7 @@ Desktop.ini
 # Android generated outputs (do not ignore installer/build: it contains source scripts)
 /voyah-iran/**/build/
 /voyah-voice-test/**/build/
+/voyah-dow-test/build/
 /voyah-iran/app/release/
 /voyah-iran/app/debug/
 /voyah-voice-test/app/release/
