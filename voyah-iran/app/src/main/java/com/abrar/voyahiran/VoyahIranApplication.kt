@@ -40,6 +40,7 @@ class VoyahIranApplication : Application() {
     val steeringController by lazy { SteeringController(StarBackRepository(steeringKeys, starBackup)) { subscriptions.allowed } }
     val driveMemoryController by lazy {
         DriveMemoryController(this, PreferencesDriveMemoryStore(getSharedPreferences("drive_memory", MODE_PRIVATE)),
-            PreferencesDriveMemoryStore(getSharedPreferences("energy_recovery_memory", MODE_PRIVATE)))
+            PreferencesDriveMemoryStore(getSharedPreferences("energy_recovery_memory", MODE_PRIVATE)),
+            PreferencesDriveMemoryStore(getSharedPreferences("aeb_memory", MODE_PRIVATE)))
     }
 }

@@ -327,6 +327,10 @@ class MainActivity : ComponentActivity() {
             requestDrive(if (binding.comfortPage.recoveryMemory.isChecked) DriveMemoryService.RECOVERY_ENABLE else DriveMemoryService.RECOVERY_DISABLE)
         }
         binding.comfortPage.recoveryRetry.setOnClickListener { requestDrive(DriveMemoryService.RECOVERY_RETRY) }
+        binding.comfortPage.aebMemory.setOnClickListener {
+            requestDrive(if (binding.comfortPage.aebMemory.isChecked) DriveMemoryService.AEB_ENABLE else DriveMemoryService.AEB_DISABLE)
+        }
+        binding.comfortPage.aebRetry.setOnClickListener { requestDrive(DriveMemoryService.AEB_RETRY) }
         binding.aboutPage.version.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
         selectTab(Tab.entries.firstOrNull { it != Tab.DIAGNOSTICS && it.name == savedInstanceState?.getString(TAB_KEY) } ?: Tab.SETTINGS)
         lifecycleScope.launch {
@@ -390,7 +394,7 @@ class MainActivity : ComponentActivity() {
                 launch {
                     while (true) {
                         updateClock(model.state.value)
-                        if (!drive.state.value.anyEnabled) drive.tick()
+                        if (!drive.hasActiveMemory) drive.tick()
                         delay(1000)
                     }
                 }
@@ -441,14 +445,14 @@ class MainActivity : ComponentActivity() {
             StarBackService.request(this, StarBackService.RESUME)
         } else lifecycleScope.launch { steering.refresh() }
         if ((application as VoyahIranApplication).subscriptions.vipAllowed) {
-            if (drive.state.value.anyEnabled) DriveMemoryService.request(this, DriveMemoryService.RESUME)
+            if (drive.hasActiveMemory) DriveMemoryService.request(this, DriveMemoryService.RESUME)
             else lifecycleScope.launch { drive.start() }
         }
     }
 
     override fun onStop() {
         unregisterReceiver(timeChanged)
-        if (!drive.state.value.anyEnabled) lifecycleScope.launch { drive.detach() }
+        if (!drive.hasActiveMemory) lifecycleScope.launch { drive.detach() }
         super.onStop()
     }
 
@@ -614,6 +618,22 @@ class MainActivity : ComponentActivity() {
         recoveryStatus.visibility = if (recoveryMessage == null) View.GONE else View.VISIBLE
         recoveryMessage?.let(recoveryStatus::setText)
         recoveryRetry.visibility = if (recovery.error && !busy) View.VISIBLE else View.GONE
+        val aeb = state.aeb
+        val allowed = (application as VoyahIranApplication).subscriptions.vipAllowed
+        aebMemory.isChecked = aeb.enabled
+        aebMemory.isEnabled = !busy && (aeb.enabled || aeb.current != null)
+        aebProgress.visibility = if (allowed && (busy || aeb.phase == DrivePhase.RESTORING)) View.VISIBLE else View.GONE
+        val aebMessage = when {
+            !allowed -> null
+            aeb.phase == DrivePhase.FAILED -> R.string.aeb_unconfirmed
+            aeb.error -> R.string.drive_error
+            busy || (aeb.enabled && aeb.phase == DrivePhase.WAITING) -> R.string.drive_waiting
+            aeb.phase == DrivePhase.RESTORING -> R.string.aeb_restoring
+            else -> null
+        }
+        aebStatus.visibility = if (aebMessage == null) View.GONE else View.VISIBLE
+        aebMessage?.let(aebStatus::setText)
+        aebRetry.visibility = if (allowed && aeb.error && !busy) View.VISIBLE else View.GONE
     }
 
     // One mapping for labels, readback and commands; hidden rows cannot shift labels.
