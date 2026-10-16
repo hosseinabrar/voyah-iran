@@ -137,6 +137,7 @@ class MainActivity : ComponentActivity() {
     private var steeringRequestPending = false
     private val drive get() = (application as VoyahIranApplication).driveMemoryController
     private var driveRequestPending = false
+    private var driveRequestId: String? = null
     private val timeChanged = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) { model.refresh() }
     }
@@ -406,7 +407,17 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 launch { steering.state.collect { steeringRequestPending = false; renderSteering(it) } }
-                launch { drive.state.collect { driveRequestPending = false; renderDrive(it) } }
+                launch { drive.state.collect { renderDrive(it) } }
+                launch { drive.requestCompletion.collect { results ->
+                    val id = driveRequestId
+                    val success = if (id != null) results[id] else null
+                    if (id != null && success != null) {
+                        driveRequestPending = false; driveRequestId = null
+                        drive.forgetRequest(id)
+                        com.abrar.voyahiran.core.logging.AppLog.info("DriveUI", "request=$id completed success=$success")
+                        renderDrive(if (success) drive.state.value else drive.state.value.copy(error = true))
+                    }
+                } }
                 launch {
                     while (true) {
                         updateClock(model.state.value)
@@ -416,6 +427,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        driveRequestId?.let { drive.forgetRequest(it) }
+        super.onDestroy()
     }
 
     override fun onStart() {
@@ -574,10 +590,16 @@ class MainActivity : ComponentActivity() {
     private fun requestDrive(action: String) {
         if (driveRequestPending || drive.state.value.busy) return
         driveRequestPending = true
+        val id = java.util.UUID.randomUUID().toString()
+        driveRequestId = id
+        drive.trackRequest(id)
+        com.abrar.voyahiran.core.logging.AppLog.info("DriveUI", "request=$id action=$action submitted")
         renderDrive(drive.state.value)
-        try { DriveMemoryService.request(this, action) }
+        try { DriveMemoryService.request(this, action, id) }
         catch (_: RuntimeException) {
             driveRequestPending = false
+            driveRequestId = null
+            drive.forgetRequest(id)
             renderDrive(drive.state.value.copy(error = true))
         }
     }

@@ -17,7 +17,8 @@ import kotlinx.coroutines.channels.Channel
 
 class DriveMemoryService : Service() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val commands = Channel<String>(Channel.UNLIMITED)
+    private data class Request(val action: String, val id: String, val queued: Long)
+    private val commands = Channel<Request>(Channel.UNLIMITED)
     private val controller get() = (application as VoyahIranApplication).driveMemoryController
 
     override fun onCreate() {
@@ -30,10 +31,15 @@ class DriveMemoryService : Service() {
             .setContentTitle(getString(R.string.app_name)).setContentText(getString(R.string.drive_notification))
             .setContentIntent(open).setOngoing(true).build())
         scope.launch {
-            for (action in commands) {
-                if(!(application as VoyahIranApplication).subscriptions.vipAllowed) { controller.detach();stopSelf();break }
+            for (request in commands) {
+                val action = request.action
+                val started = android.os.SystemClock.elapsedRealtime()
+                var success = false
+                com.abrar.voyahiran.core.logging.AppLog.info("DriveService", "request=${request.id} action=$action begin queueMs=${started - request.queued}")
+                try {
+                if(!(application as VoyahIranApplication).subscriptions.vipAllowed) { controller.detach();stopSelf();continue }
                 if (action == BOOT) awaitBridgeAtBoot()
-                when (action) {
+                val outcome = when (action) {
                     ENABLE -> controller.enable()
                     DISABLE -> controller.disable()
                     RETRY -> controller.retry()
@@ -59,11 +65,32 @@ class DriveMemoryService : Service() {
                     SHADE_READY_DISABLE -> controller.setShadeReadyEnabled(false)
                     else -> controller.start()
                 }
+                success = outcome == true && !controller.state.value.error
                 if (action == BOOT) com.abrar.voyahiran.core.logging.AppLog.info("Boot", "Background startup complete; UI not launched")
                 if (!controller.hasActiveMemory) stopSelf()
+                } catch (error: TimeoutCancellationException) {
+                    currentCoroutineContext().ensureActive()
+                    com.abrar.voyahiran.core.logging.AppLog.error("DriveService", "request=${request.id} timeout; not replayed; consumer continues", error)
+                } catch (error: CancellationException) {
+                    com.abrar.voyahiran.core.logging.AppLog.info("DriveService", "request=${request.id} cancelled")
+                    throw error
+                } catch (error: Exception) {
+                    com.abrar.voyahiran.core.logging.AppLog.error("DriveService", "request=${request.id} failed; not replayed; consumer continues", error)
+                } finally {
+                    controller.completeRequest(request.id, success)
+                    com.abrar.voyahiran.core.logging.AppLog.info("DriveService", "request=${request.id} action=$action end success=$success elapsedMs=${android.os.SystemClock.elapsedRealtime() - started}")
+                }
             }
         }
-        scope.launch { while (isActive) { delay(1000); controller.tick() } }
+        scope.launch { while (isActive) {
+            delay(1000)
+            try { controller.tick() }
+            catch (error: TimeoutCancellationException) {
+                currentCoroutineContext().ensureActive()
+                com.abrar.voyahiran.core.logging.AppLog.error("DriveService", "tick timed out; loop continues", error)
+            } catch (error: CancellationException) { throw error }
+            catch (error: Exception) { com.abrar.voyahiran.core.logging.AppLog.error("DriveService", "tick failed; loop continues", error) }
+        } }
     }
 
     private suspend fun awaitBridgeAtBoot() = withContext(Dispatchers.IO) {
@@ -81,13 +108,20 @@ class DriveMemoryService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         com.abrar.voyahiran.core.logging.AppLog.info("DriveService", "action=${intent?.action ?: RESUME} startId=$startId")
-        commands.trySend(intent?.action ?: RESUME)
+        val id = intent?.getStringExtra("request_id") ?: java.util.UUID.randomUUID().toString()
+        val queued = commands.trySend(Request(intent?.action ?: RESUME, id, android.os.SystemClock.elapsedRealtime()))
+        com.abrar.voyahiran.core.logging.AppLog.info("DriveService", "request=$id queued=${queued.isSuccess} startId=$startId")
+        if (queued.isFailure) controller.completeRequest(id, false)
         return START_STICKY
     }
     override fun onBind(intent: Intent?): IBinder? = null
     override fun onDestroy() {
         com.abrar.voyahiran.core.logging.AppLog.info("DriveService", "destroyed")
         commands.close(); scope.cancel()
+        while (true) {
+            val abandoned = commands.tryReceive().getOrNull() ?: break
+            controller.completeRequest(abandoned.id, false)
+        }
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch { controller.detach() }
         super.onDestroy()
     }
@@ -119,8 +153,8 @@ class DriveMemoryService : Service() {
         const val SHADE_READY_ENABLE = "com.abrar.voyahiran.shade.READY_ENABLE"
         const val SHADE_READY_DISABLE = "com.abrar.voyahiran.shade.READY_DISABLE"
         private const val CHANNEL = "drive_memory"
-        fun request(context: Context, action: String) {
-            context.startForegroundService(Intent(context, DriveMemoryService::class.java).setAction(action))
+        fun request(context: Context, action: String, requestId: String = java.util.UUID.randomUUID().toString()) {
+            context.startForegroundService(Intent(context, DriveMemoryService::class.java).setAction(action).putExtra("request_id", requestId))
         }
     }
 }

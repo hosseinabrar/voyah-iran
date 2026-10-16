@@ -10,6 +10,9 @@ import android.os.Parcel
 import com.abrar.voyahiran.feature.drivememory.domain.VehicleSample
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 
 enum class CanField { MODE, RECOVERY, AEB, PEDESTRIAN, ENERGY_MODE, ACC, READY, SPEED, DISCONNECTED }
 data class CanSignal(val field: CanField, val value: Int)
@@ -89,7 +92,11 @@ class CanDriveGateway(context: Context, private val signal: (CanSignal) -> Unit)
         try {
             connection = pending
             check(context.bindService(Intent().setComponent(ComponentName(PACKAGE, "$PACKAGE.CanBusService")), pending, Context.BIND_AUTO_CREATE))
-            val service = withTimeout(3000) { ready.await() }
+            val service = try { withTimeout(3000) { ready.await() } }
+            catch (error: TimeoutCancellationException) {
+                currentCoroutineContext().ensureActive()
+                throw java.io.IOException("CAN bind timed out after 3000ms", error)
+            }
             check(service.interfaceDescriptor == DESCRIPTOR) { "Unsupported CAN interface" }
             remote = service
             com.abrar.voyahiran.core.logging.AppLog.info("CAN", "connected descriptor=${service.interfaceDescriptor}")
@@ -111,6 +118,9 @@ class CanDriveGateway(context: Context, private val signal: (CanSignal) -> Unit)
     private fun readInt(code: Int) = call(code, {}) { readInt() }
 
     private fun <T> call(code: Int, write: Parcel.() -> Unit, read: Parcel.() -> T): T {
+        val started = android.os.SystemClock.elapsedRealtime()
+        val operation = com.abrar.voyahiran.core.logging.AppLog.nextId()
+        com.abrar.voyahiran.core.logging.AppLog.info("CAN", "request=$operation transaction=$code begin")
         val request = Parcel.obtain(); val reply = Parcel.obtain()
         try {
             request.writeInterfaceToken(DESCRIPTOR); request.write()
@@ -120,7 +130,10 @@ class CanDriveGateway(context: Context, private val signal: (CanSignal) -> Unit)
         } catch (error: Exception) {
             com.abrar.voyahiran.core.logging.AppLog.error("CAN", "transaction=$code failed", error)
             throw error
-        } finally { reply.recycle(); request.recycle() }
+        } finally {
+            com.abrar.voyahiran.core.logging.AppLog.info("CAN", "request=$operation transaction=$code end elapsedMs=${android.os.SystemClock.elapsedRealtime() - started}")
+            reply.recycle(); request.recycle()
+        }
     }
 
     companion object {

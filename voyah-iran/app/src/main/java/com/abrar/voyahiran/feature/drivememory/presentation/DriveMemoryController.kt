@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -109,6 +110,13 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         dowEnabled = dowEnabled, dowDoorOnly = dowDoorOnly,
         shadeEnabled = shadeEnabled, shadeReadyEnabled = shadeReadyEnabled))
     val state = mutable.asStateFlow()
+    private val completion = MutableStateFlow<Map<String, Boolean?>>(emptyMap())
+    val requestCompletion = completion.asStateFlow()
+    fun trackRequest(id: String) { completion.update { it + (id to null) } }
+    fun forgetRequest(id: String) { completion.update { it - id } }
+    fun completeRequest(id: String, success: Boolean) {
+        completion.update { if (id in it) it + (id to success) else it }
+    }
 
     init {
         scope.launch {
@@ -419,7 +427,10 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
 
     private fun bootIdentity() = "boot:" + Settings.Global.getInt(context.contentResolver, Settings.Global.BOOT_COUNT, -1)
 
-    private suspend fun readVehicle(): VehicleSample = try { gateway.read() }
+    private suspend fun readVehicle(): VehicleSample = try {
+        com.abrar.voyahiran.core.logging.AppLog.info("DriveMemory", "stage=read-vehicle begin")
+        gateway.read().also { com.abrar.voyahiran.core.logging.AppLog.info("DriveMemory", "stage=read-vehicle end sample=$it") }
+    }
     catch (error: Exception) {
         sample = VehicleSample()
         shadePolicy.reset(); shadeReadyPolicy.reset()
@@ -434,11 +445,23 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private suspend fun protect(block: suspend () -> Unit): Boolean {
         if (!access.permits()) { shadePolicy.reset(); shadeReadyPolicy.reset(); publish(); return false }
         return try { block(); true }
+        catch (error: TimeoutCancellationException) {
+            currentCoroutineContext().ensureActive()
+            com.abrar.voyahiran.core.logging.AppLog.error("DriveMemory", "operation-timeout; request not replayed", error)
+            publish(error = true)
+            false
+        }
         catch (error: CancellationException) { throw error }
         catch (error: Exception) {
             com.abrar.voyahiran.core.logging.AppLog.error("DriveMemory", "operation-failed", error)
             publish(error = true)
             false
+        }
+        finally {
+            if (mutable.value.busy) {
+                mutable.value = mutable.value.copy(busy = false)
+                com.abrar.voyahiran.core.logging.AppLog.info("DriveMemory", "busy cleared in operation cleanup")
+            }
         }
     }
 }
