@@ -15,13 +15,14 @@ internal class PassengerClimateView(context: Context) : View(context) {
         set(value){if(field!=value){field=value;invalidate()}}
     var onCommand:(String,String)->Unit={_,_->}
     private var state=JSONObject()
+    private val motion=LauncherMotion(this)
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val images=HashMap<String,Bitmap>()
     private var downX=0f;private var downY=0f
     private val buttons=listOf("blow_window","blow_face","blow_foot","ac","switch","auto","front_defrost","rear_defrost","cycle")
     init {isClickable=true;contentDescription="Driver and passenger climate controls"}
-    fun update(value:JSONObject){if(state.toString()!=value.toString()){state=value;invalidate()}}
+    fun update(value:JSONObject){if(state.toString()!=value.toString()){motion.updated();state=value;invalidate()}}
     private fun value(key:String)=if(state.has(key)&&!state.isNull(key))state.optInt(key,-999) else -999
     private fun valid(key:String,range:IntRange)=state.optBoolean("fresh")&&value(key) in range
     private fun color(hex:String)=Color.parseColor(hex)
@@ -61,22 +62,25 @@ internal class PassengerClimateView(context: Context) : View(context) {
         temperature(c,"Passenger","getAirRightTemperature",646f,674f)
         val sync=valid("getAirDUALStatus",0..1)&&value("getAirDUALStatus")==0
         val syncRect=RectF(55f,240f,166f,273.5f)
-        if(light)pill(c,syncRect,color(if(sync)"#cee3fb" else "#dce5f2"))
-        else image(c,if(sync)"air_ic_sync_on_normal" else "air_ic_sync_off_normal",syncRect)
-        text(c,"Front Sync",110.5f,263f,17.65f,if(sync)color("#389cff") else color(if(light)"#536780" else "#bfc9de"),true)
+        if(light)pill(c,syncRect,motion.color("sync-bg",sync,color("#dce5f2"),color("#cee3fb")))
+        else motion.content("sync",if(sync)"air_ic_sync_on_normal" else "air_ic_sync_off_normal",c,syncRect){image(c,it,syncRect)}
+        text(c,"Front Sync",110.5f,263f,17.65f,motion.color("sync-text",sync,color(if(light)"#536780" else "#bfc9de"),color("#389cff")),true)
         val fan=if(valid("getAirWindSpeed",0..7))value("getAirWindSpeed") else 0
         val inactive=if(light)color("#718096") else Color.WHITE
         // Optical alignment with the fan bars (y=257), not the OEM PNG bounds.
         image(c,"air_ic_wind_min",RectF(191f,228f,249f,286f),if(light)inactive else null)
         image(c,"air_ic_wind_max",RectF(501f,228f,559f,286f),if(light)inactive else null)
-        for(i in 0..6){paint.color=if(i<fan)color("#389cff") else inactive;c.drawRoundRect(RectF(267f+i*35.8f,249f,273f+i*35.8f,265f),3f,3f,paint)}
+        for(i in 0..6){paint.color=motion.color("fan-$i",i<fan,inactive,color("#389cff"));c.drawRoundRect(RectF(267f+i*35.8f,249f,273f+i*35.8f,265f),3f,3f,paint)}
         for(group in 0..2){val r=RectF(51f+group*226f,301f,266f+group*226f,351f)
             if(light)pill(c,r,color("#dce5f2")) else image(c,"air_bg_operation",r)
         }
         buttons.forEachIndexed{i,key->
             val active=active(key);val x=82f+(i/3)*226f+(i%3)*69f
             val name=if(key=="cycle")"air_cycle_${if(value("getAirCirculationMode")==1)"outer" else "inner"}_normal" else "air_ic_${key}_${if(active)"on" else "off"}_normal"
-            image(c,name,RectF(x-25f,301f,x+25f,351f),if(light&&!active)color("#637c98") else null)
+            val rect=RectF(x-25f,301f,x+25f,351f)
+            motion.content("button-$key","$name|$active",c,rect){token->
+                image(c,token.substringBefore('|'),rect,if(light&&token.endsWith("|false"))color("#637c98") else null)
+            }
         }
         c.restore()
     }
@@ -88,11 +92,14 @@ internal class PassengerClimateView(context: Context) : View(context) {
             text(c,whole,x,baseline,size,tint)
             if(v!=null&&v!=305&&v!=155){val width=paint.measureText(whole);text(c,".${v%10}",x+width,baseline,size*.46f,tint)}
         }
-        number(n?.plus(5)?.takeIf{it<=305},107f,32f,if(light)color("#929eae") else color("#74777a"))
-        number(n,171f,48.3f,foreground)
+        motion.text("temperature-$key",n?.toString()?:"unknown",c,RectF(x-3,75f,x+76f,229f)){token->
+            val shown=token.toIntOrNull()
+            number(shown?.plus(5)?.takeIf{it<=305},107f,32f,if(light)color("#929eae") else color("#74777a"))
+            number(shown,171f,48.3f,foreground)
+            number(shown?.minus(5)?.takeIf{it>=155},219f,32f,if(light)color("#718096") else color("#74777a"))
+        }
         val unitOffset=if(n!=null&&n!=155&&n!=305)76f else 64f
         text(c,"℃",x+unitOffset,171f,24.8f,foreground)
-        number(n?.minus(5)?.takeIf{it>=155},219f,32f,if(light)color("#718096") else color("#74777a"))
     }
     private fun active(key:String):Boolean=when(key){
         "blow_face"->value("getAirSupplyStatus") in listOf(0,1,6)

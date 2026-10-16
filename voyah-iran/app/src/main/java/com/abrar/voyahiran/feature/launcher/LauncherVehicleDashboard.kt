@@ -11,8 +11,9 @@ import kotlinx.coroutines.*
 
 /** Page two occupies only the same OEM safe rectangle as page one. */
 class LauncherVehicleDashboard(context:Context):View(context) {
+    private val motion=LauncherMotion(this)
     var transitioning=false
-        set(v){if(field==v)return;field=v;stopAnimations();if(!v)invalidate()}
+        set(v){if(field==v)return;field=v;motion.paused=v;stopAnimations();if(!v)invalidate()}
     private var compassAngle=0f
     private var ground:Float?=null
     private var compassAnimation:ValueAnimator?=null
@@ -22,6 +23,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
     var state=LauncherVehicleState()
         set(v){
             if(field==v)return
+            motion.updated()
             if(transitioning){field=v;artwork.state=v;return}
             if(field.groundMm!=v.groundMm) {
                 groundAnimation?.cancel()
@@ -95,11 +97,18 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         if(labels.isEmpty()){text(c,"Unavailable",x+w/2,y+47,23f,true,muted);return}
         val cell=w/labels.size
         p.color=if(lightTheme)0xffe0e9f7.toInt() else 0xff454e76.toInt();c.drawRoundRect(x,y,x+w,y+78,12f,12f,p)
+        val index=labels.indexOfFirst{it.first==selected}
+        fun selectable(value:String?)=enabled && !busy && (op!="height" || when(value){"3"->state.supportsOuting && state.speed in 0..39;"0"->state.manual in 1..2;else->true})
+        val position=motion.value("selector-$op",index.toFloat(),spring=true)
+        if(index>=0){
+            p.color=motion.color("enabled-$op",selectable(selected),if(lightTheme)0xff91b1cc.toInt() else 0xff496689.toInt(),cyan)
+            val clip=c.save();c.clipRect(x,y,x+w,y+78)
+            c.drawRoundRect(x+position*cell,y,x+(position+1)*cell,y+78,12f,12f,p);c.restoreToCount(clip)
+        }
         labels.forEachIndexed {i,(value,label)->
-            val active=enabled && !busy && (op!="height" || when(value){"3"->state.supportsOuting && state.speed in 0..39;"0"->state.manual in 1..2;else->true})
-            if(selected==value) {p.color=if(active)cyan else if(lightTheme)0xff91b1cc.toInt() else 0xff496689.toInt();c.drawRoundRect(x+i*cell,y,x+(i+1)*cell,y+78,12f,12f,p)}
+            val active=selectable(value)
             text(c,label,x+(i+.5f)*cell,y+48,if(labels.size>=4)22f else 25f,true,
-                if(selected==value)Color.WHITE else if(active)fg else muted)
+                motion.color("label-$op-$value",selected==value,if(active)fg else muted,Color.WHITE))
             hits+=Hit(RectF(x+i*cell,y,x+(i+1)*cell,y+78),op,value,active)
         }
     }
@@ -113,12 +122,12 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         p.color=Color.WHITE;energy?.let{c.drawBitmap(it,Rect((it.width*460f/1860).toInt(),0,it.width,it.height),RectF(230f,58f,581f,266f),p)};c.restore()
         text(c,"Energy mode",32f,53f,25f)
         val mode=state.modes.entries.firstOrNull {it.value==state.energy}?.key
-        text(c,LauncherVehicleState.energyNames[mode] ?: "—",32f,115f,32f,bold=true)
+        motion.text("energy-label",LauncherVehicleState.energyNames[mode] ?: "—",c,RectF(25f,75f,310f,125f)){text(c,it,32f,115f,32f,bold=true)}
         selector(c,32f,322f,511f,state.modes.map {(k,_)->k to LauncherVehicleState.energyNames.getValue(k)},mode,"energy",state.fresh && state.energy in state.modes.values)
         p.color=if(lightTheme)0xffd8e4f2.toInt() else 0xff61708c.toInt();p.strokeWidth=1f;c.drawLine(24f,426f,551f,426f,p)
         text(c,"Energy recovery",32f,484f)
-        text(c,when(state.recovery){2->"Low";3->"Medium";4->"High";else->"—"},32f,532f,32f,bold=true)
-        for(i in 0..2) {p.color=if(i<(state.recovery?.minus(1) ?: 0))cyan else if(lightTheme)0xffc5d4e9.toInt() else 0xff4a587b.toInt();c.drawRoundRect(420f+i*34,535f-(i+1)*27,442f+i*34,535f,5f,5f,p)}
+        motion.text("recovery-label",when(state.recovery){2->"Low";3->"Medium";4->"High";else->"—"},c,RectF(25f,490f,310f,540f)){text(c,it,32f,532f,32f,bold=true)}
+        for(i in 0..2) {p.color=motion.color("recovery-bar-$i",i<(state.recovery?.minus(1) ?: 0),if(lightTheme)0xffc5d4e9.toInt() else 0xff4a587b.toInt(),cyan);c.drawRoundRect(420f+i*34,535f-(i+1)*27,442f+i*34,535f,5f,5f,p)}
         selector(c,32f,560f,511f,listOf("2" to "Low","3" to "Medium","4" to "High"),state.recovery?.toString(),"recovery",state.fresh && state.recovery in 2..4)
         fun degrees(n:Double?)=n?.let {String.format(Locale.US,"%.0f°",it)} ?: "—"
         text(c,"Slope ${degrees(compass.slope)}",622f,54f,23f)
@@ -154,7 +163,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         text(c,"Air Pressure ${state.pressure?.takeIf{it>0}?.let{it.toString()} ?: "—"} hPa",911f,621f,23f)
         text(c,"Suspension height",1214f,54f)
         p.color=cyan;c.drawRoundRect(1214f,70f,1223f,120f,4f,4f,p)
-        text(c,state.heightLabel,1240f,108f,32f,bold=true)
+        motion.text("height-label",state.heightLabel,c,RectF(1235f,70f,1750f,120f)){text(c,it,1240f,108f,32f,bold=true)}
         val rect=RectF(1182f,167f,1757f,467f)
         p.color=Color.WHITE
         if(artwork.wheels.size==4) {
@@ -168,11 +177,12 @@ class LauncherVehicleDashboard(context:Context):View(context) {
             p.style=Paint.Style.FILL;c.drawCircle(1558f,380f,2.5f,p)
         }
         text(c,ground?.let{String.format(Locale.US,"%.0f mm",it)} ?: "— mm",1630f,446f,23f)
-        driveIcons[if(state.manual==2)10 else state.drive]?.let {
+        motion.content("drive-icon",(if(state.manual==2)10 else state.drive).toString(),c,RectF(1214f,486f,1248f,520f)){token->driveIcons[token.toIntOrNull()]?.let {
             p.colorFilter=if(lightTheme)PorterDuffColorFilter(fg,PorterDuff.Mode.SRC_IN) else null
             c.drawBitmap(it,null,RectF(1214f,486f,1248f,520f),p);p.colorFilter=null
-        }
-        text(c,state.displayedDrive,1264f,516f,30f)
+        }}
+        motion.text("drive-label",state.displayedDrive,c,RectF(1260f,480f,1700f,530f)){text(c,it,1264f,516f,30f)}
+        p.textSize=30f
         val arrowX=1264f+p.measureText(state.displayedDrive)+16f
         if(state.driveMenuVisible) {
             p.color=fg;p.strokeWidth=3f;c.drawLine(arrowX,494f,arrowX+10f,504f,p);c.drawLine(arrowX+10f,504f,arrowX,514f,p)

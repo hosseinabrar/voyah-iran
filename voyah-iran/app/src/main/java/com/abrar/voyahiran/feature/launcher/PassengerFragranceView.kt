@@ -14,6 +14,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
         set(v){if(field!=v){field=v;invalidate()}}
     var onCommand:(String,String)->Unit={_,_->}
     private var state=JSONObject()
+    private val motion=LauncherMotion(this)
     private var scent=2
     private var oldScent=2
     private var blend=1f
@@ -30,6 +31,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
     init {isClickable=true;contentDescription="Fragrance selection, intensity and duration"}
     fun update(s:JSONObject){
         if(state.toString()==s.toString())return
+        motion.updated()
         state=s
         val artwork=PassengerFragranceMapping.artwork(value("IVI_FRAG_TASTE_FB"))
         if(valid("IVI_FRAG_TASTE_FB",1..3)&&artwork!=null&&scent!=artwork){
@@ -72,25 +74,25 @@ internal class PassengerFragranceView(context:Context):View(context) {
     override fun onDraw(c:Canvas){
         super.onDraw(c);c.save();c.scale(width/770f,height/280f)
         c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,770f,280f),16f,16f,Path.Direction.CW)})
-        val offLayer=if(!on){paint.color=Color.WHITE;paint.colorFilter=ColorMatrixColorFilter(ColorMatrix().apply{setSaturation(0f)});c.saveLayer(0f,0f,770f,280f,paint).also{paint.colorFilter=null}}else -1
+        val power=motion.value("power",if(on)1f else 0f)
+        val offLayer=if(power<1f){paint.color=Color.WHITE;paint.colorFilter=ColorMatrixColorFilter(ColorMatrix().apply{setSaturation(power)});c.saveLayer(0f,0f,770f,280f,paint).also{paint.colorFilter=null}}else -1
         if(blend<1f)scene(c,oldScent)
         val layer=c.saveLayerAlpha(0f,0f,770f,280f,(blend*255).toInt());scene(c,scent);c.restoreToCount(layer)
         if(offLayer>=0)c.restoreToCount(offLayer)
         c.restore()
     }
     private fun scene(c:Canvas,tone:Int){
-        val neutral=ColorMatrix().apply{setSaturation(0f)}
         val hue=if(light)when(tone){1->18f;2->-52f;else->105f} else when(tone){1->25f;3->90f;else->0f}
         c.save();c.translate(770f,0f);c.scale(-1f,1f)
         image(c,if(light)"landscape-day-v1" else "landscape",RectF(0f,0f,770f,280f),true,
-            if(!on)neutral else filter(hue,if(light)when(tone){1->.7f;2->.85f;else->.65f} else 1f))
+            filter(hue,if(light)when(tone){1->.7f;2->.85f;else->.65f} else 1f))
         c.restore()
         if(light&&tone!=1&&on)c.drawColor(0x29ffffff)
         if(!light){paint.shader=LinearGradient(0f,280f,0f,210f,intArrayOf(0x8006101b.toInt(),0x0006101b),null,Shader.TileMode.CLAMP);c.drawRect(0f,0f,770f,280f,paint);paint.shader=null}
         c.save();c.translate(28.0464f,0f);c.scale(.927152f,.927152f)
         if(light){c.save();c.translate(586.5f,229f);c.scale(1f,30f/133f);paint.shader=RadialGradient(0f,0f,66.5f,intArrayOf(0x70253f57,0x00324e65),null,Shader.TileMode.CLAMP);c.drawCircle(0f,0f,66.5f,paint);paint.shader=null;c.restore()}
         c.save();c.translate(0f,-2f*pulse);c.scale(1f+.012f*pulse,1f+.012f*pulse,587f,222f)
-        image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",RectF(467f,46f,707f,242f),matrix=if(on)null else neutral,alpha=if(on)255 else 191)
+        image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",RectF(467f,46f,707f,242f),alpha=(191+64*motion.value("power",if(on)1f else 0f)).toInt())
         c.restore()
         val label=if(light)color(when(tone){1->"#707985";2->"#747970";else->"#7c7182"}) else Color.WHITE
         text(c,listOf("","Watery mist","Fresh bamboo","Peony scarlet")[tone],587f,37f,20f,label)
@@ -100,14 +102,23 @@ internal class PassengerFragranceView(context:Context):View(context) {
             paint.color=if(light)color(when(tone){1->"#99335b78";2->"#99173d2c";else->"#99675478"}) else 0x66001629
             c.drawRoundRect(RectF(71f,y,359f,y+48f),30f,30f,paint)
             val selected=if(row==0)value("IVI_FRAG_CONCERNTION_FB")-1 else listOf(1,2,0).indexOf(value("FCM_DURATION_CONTROL"))
-            for(i in 0..2){if(i==selected){paint.color=if(on)color("#389cff") else color("#87939b");c.drawRoundRect(RectF(71f+i*96,y,167f+i*96,y+48),30f,30f,paint)}
+            val position=motion.value("selection-$row",selected.toFloat(),spring=true)
+            if(selected>=0){
+                val clip=c.save();c.clipPath(Path().apply{addRoundRect(RectF(71f,y,359f,y+48),30f,30f,Path.Direction.CW)})
+                paint.color=motion.color("power-$row",on,color("#87939b"),color("#389cff"));c.drawRoundRect(RectF(71f+position*96,y,167f+position*96,y+48),30f,30f,paint);c.restoreToCount(clip)
+            }
+            for(i in 0..2){
                 text(c,(if(row==0)listOf("Low","Medium","High") else listOf("30 min","60 min","Unlimited"))[i],119f+i*96,y+30f,17f,if(on)Color.WHITE else 0xffc6cbd0.toInt())}
         }
         listOf(2,3,1).forEachIndexed{i,n->
-            val active=on&&tone==n
+            // Both scene layers share one control target during the background crossfade.
+            val active=on&&scent==n
             val name=when(n){1->"shuigan";2->"zhuzi";else->"mudan"}
             val x=456f+i*82
-            image(c,"fragrance_icon_${name}_${if(active)"on" else "off"}",RectF(x,221f,x+90,311f),matrix=if(light&&!active)ColorMatrix().apply{setScale(.45f,.45f,.45f,1f)} else null)
+            val rect=RectF(x,221f,x+90,311f)
+            motion.content("scent-icon-$n",if(active)"on" else "off",c,rect){status->
+                image(c,"fragrance_icon_${name}_$status",rect,matrix=if(light&&status=="off")ColorMatrix().apply{setScale(.45f,.45f,.45f,1f)} else null)
+            }
         }
         c.restore()
     }

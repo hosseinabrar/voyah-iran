@@ -112,6 +112,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         pager.addView(vehiclePage,FrameLayout.LayoutParams(-1,-1))
         pager.onPage={updatePageWork()}
         pager.onMotion={moving->
+            dashboard.controlMotionPaused=moving
             vehiclePage.transitioning=moving
             // Cache only the native vehicle page. Never flatten the live map SurfaceView.
             vehiclePage.setLayerType(if(moving)View.LAYER_TYPE_HARDWARE else View.LAYER_TYPE_NONE,null)

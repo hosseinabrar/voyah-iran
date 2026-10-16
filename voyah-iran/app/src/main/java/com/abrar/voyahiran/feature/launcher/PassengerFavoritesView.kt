@@ -12,6 +12,8 @@ import kotlin.math.*
 
 /** Five editable shortcuts and a fixed drawer entry; shared by production and native render tests. */
 internal class PassengerFavoritesView(context:Context):View(context) {
+    private val motion=LauncherMotion(this)
+    private val previousEntries=HashMap<String,LauncherAppsEntry>()
     var light=false
         set(v){if(field!=v){field=v;invalidate()}}
     var onOpen:(String)->Unit={}
@@ -35,6 +37,8 @@ internal class PassengerFavoritesView(context:Context):View(context) {
     private val hold=Runnable{if(down in 0..4){held=true;beginEdit()}}
     init{isClickable=true;contentDescription="Favorite apps"}
     fun bind(apps:List<LauncherAppsEntry>,favorites:List<String>){
+        motion.updated()
+        previousEntries.clear();catalog.filter{it.id in ids}.forEach{previousEntries[it.id]=it}
         catalog=apps;ids=List(5){i->favorites.getOrNull(i)?.takeIf{id->apps.any{it.id==id}}.orEmpty()};invalidate()
     }
     fun selections()=ids.toList()
@@ -74,8 +78,11 @@ internal class PassengerFavoritesView(context:Context):View(context) {
         c.restore()
     }
     private fun tile(c:Canvas,i:Int,x:Float,y:Float){
+        motion.content("slot-$i",if(i==5)"all"else ids[i],c,RectF(x-112,y-80,x+112,y+103)){id->tileContent(c,i,id,x,y)}
+    }
+    private fun tileContent(c:Canvas,i:Int,id:String,x:Float,y:Float){
         c.save();if(editing&&i<5)c.rotate(if(i%2==0)angle else -angle,x,y)
-        val app=if(i<5)catalog.firstOrNull{it.id==ids[i]}else null
+        val app=if(i<5)catalog.firstOrNull{it.id==id}?:previousEntries[id]else null
         if(i==5){
             paint.shader=LinearGradient(x-43,y-43,x+43,y+43,if(light)0xff82a7dc.toInt() else 0xffd0e0ff.toInt(),if(light)0xff668dc8.toInt() else 0xff809acd.toInt(),Shader.TileMode.CLAMP)
             for(r in 0..1)for(col in 0..1)c.drawRoundRect(RectF(x-43+col*47,y-43+r*47,x-5+col*47,y-5+r*47),7f,7f,paint)
@@ -85,10 +92,13 @@ internal class PassengerFavoritesView(context:Context):View(context) {
             c.drawLine(x-30,y,x+30,y,paint);c.drawLine(x,y-30,x,y+30,paint)
         }
         label(c,if(i==5)"All apps" else app?.label?:"Add",x,y+92,24f,220f)
-        if(editing&&app!=null){
+        val editAlpha=motion.value("edit-$i",if(editing&&i<5)1f else 0f)
+        if(editAlpha>0f&&app!=null){
+            val layer=if(editAlpha<1f)c.saveLayerAlpha(x+37,y-77,x+77,y-37,(editAlpha*255).toInt())else c.save()
             val bx=x+57;val by=y-57;paint.color=if(light)0xfff2f6fc.toInt()else 0xff26364f.toInt();c.drawCircle(bx,by,18f,paint)
             paint.color=0xff657995.toInt();paint.style=Paint.Style.STROKE;paint.strokeWidth=1f;c.drawCircle(bx,by,18f,paint);paint.style=Paint.Style.FILL
             paint.color=if(light)0xff303947.toInt()else 0xffeef3fb.toInt();paint.strokeWidth=2.5f;paint.strokeCap=Paint.Cap.ROUND;c.drawLine(bx-5,by-5,bx+5,by+5,paint);c.drawLine(bx+5,by-5,bx-5,by+5,paint)
+            c.restoreToCount(layer)
         };c.restore()
     }
     private fun drawIcon(c:Canvas,icon:Drawable,x:Float,y:Float){val old=Rect(icon.bounds);val w=icon.intrinsicWidth.coerceAtLeast(1);val h=icon.intrinsicHeight.coerceAtLeast(1);val scale=116f/max(w,h);c.save();c.clipPath(Path().apply{addRoundRect(RectF(x-58,y-58,x+58,y+58),24f,24f,Path.Direction.CW)});icon.setBounds((x-w*scale/2).roundToInt(),(y-h*scale/2).roundToInt(),(x+w*scale/2).roundToInt(),(y+h*scale/2).roundToInt());icon.draw(c);icon.bounds=old;c.restore()}

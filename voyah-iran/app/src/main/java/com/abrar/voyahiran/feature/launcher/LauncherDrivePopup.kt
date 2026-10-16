@@ -31,6 +31,8 @@ internal object LauncherDrivePopup {
             setBackgroundDrawable(android.graphics.drawable.ColorDrawable(Color.TRANSPARENT))
             isOutsideTouchable=true
             elevation=0f
+            enterTransition=android.transition.Fade().apply{duration=220}
+            exitTransition=android.transition.Fade().apply{duration=180}
         }
         options.forEach { entry ->
             val selected=state.drive==entry.key

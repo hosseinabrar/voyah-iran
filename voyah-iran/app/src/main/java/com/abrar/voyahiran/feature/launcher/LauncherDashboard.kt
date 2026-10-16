@@ -10,6 +10,9 @@ import java.util.Locale
 
 /** Layout coordinates match the approved 1775-pixel OEM safe area; no OEM bars are drawn. */
 class LauncherDashboard(context: Context) : View(context) {
+    private val motion=LauncherMotion(this)
+    internal var controlMotionPaused=false
+        set(value){field=value;motion.paused=value}
     private val bitmaps=LauncherBitmapLoader(resources){invalidate()}
     override fun onAttachedToWindow() {super.onAttachedToWindow();bitmaps.start();invalidate()}
     private val buttonPress = FloatArray(3)
@@ -42,6 +45,7 @@ class LauncherDashboard(context: Context) : View(context) {
     var media = LauncherMediaState()
         set(value) {
             if(field==value)return
+            motion.updated()
             val trackChanged=field.title!=value.title || field.artist!=value.artist || field.radio!=value.radio
             if(trackChanged)coverReceivedForTrack=false
             field=value
@@ -223,7 +227,9 @@ class LauncherDashboard(context: Context) : View(context) {
                 c.drawCircle(1101f,595f,38f,paint);paint.shader=null
             }
             paint.colorFilter=if(lightTheme && x!=1101f)darkIconFilter else null
-            c.drawBitmap(b,null,RectF(x-18,577f,x+18,613f),paint)
+            if(index==1)motion.content("play",media.playing.toString(),c,RectF(x-18,577f,x+18,613f)){
+                c.drawBitmap(icons[if(it=="true")2 else 1],null,RectF(x-18,577f,x+18,613f),paint)
+            }else c.drawBitmap(b,null,RectF(x-18,577f,x+18,613f),paint)
             paint.alpha=255;c.restore()
         }
         paint.colorFilter=null

@@ -18,6 +18,7 @@ internal class PassengerMusicView(context:Context):View(context){
         set(v){if(field!=v){field=v;invalidate()}}
     var onCommand:(String,String)->Unit={_,_->}
     private var state=PassengerMusicPresentation()
+    private val motion=LauncherMotion(this)
     private var stamp=0L
     private var volume=0
     private var drag=0
@@ -41,6 +42,7 @@ internal class PassengerMusicView(context:Context):View(context){
     init{isClickable=true;contentDescription="Music playback and media volume"}
     fun update(s:PassengerMusicPresentation){
         if(s==state)return
+        motion.updated()
         val trackChanged=s.title!=state.title||s.artist!=state.artist
         if(trackChanged)cancelGesture()
         val timingChanged=trackChanged||s.position!=state.position||s.playing!=state.playing||s.duration!=state.duration
@@ -52,7 +54,7 @@ internal class PassengerMusicView(context:Context):View(context){
         }else if(changed)oldCover=null
         contentDescription="${s.title}, ${s.artist}";schedule();invalidate()
     }
-    fun updateVolume(value:Int){val bounded=value.coerceIn(0,30);if(volume!=bounded){volume=bounded;invalidate()}}
+    fun updateVolume(value:Int){val bounded=value.coerceIn(0,30);if(volume!=bounded){motion.updated();volume=bounded;invalidate()}}
     private fun schedule(){removeCallbacks(tick);if(isAttachedToWindow&&isShown&&windowVisibility==VISIBLE&&state.playing&&state.duration>0)postDelayed(tick,1000)}
     override fun onAttachedToWindow(){super.onAttachedToWindow();schedule()}
     override fun onWindowVisibilityChanged(v:Int){super.onWindowVisibilityChanged(v);if(isAttachedToWindow){if(v!=VISIBLE)cancelGesture();schedule()}}
@@ -76,22 +78,26 @@ internal class PassengerMusicView(context:Context):View(context){
         fun cover(b:Bitmap?,alpha:Int){if(b==null){bitmap(c,music,RectF(63f,63f,111f,111f),muted,alpha)}else{val size=min(b.width,b.height);paint.color=Color.WHITE;paint.alpha=alpha;c.drawBitmap(b,Rect((b.width-size)/2,(b.height-size)/2,(b.width+size)/2,(b.height+size)/2),coverRect,paint);paint.alpha=255}}
         if(blend<1f)cover(oldCover,255);cover(state.cover,(blend*255).toInt());c.restore()
         state.source?.let{d->c.save();c.clipPath(Path().apply{addRoundRect(RectF(121.4f,121.4f,149.4f,149.4f),7f,7f,Path.Direction.CW)});val old=Rect(d.bounds);d.setBounds(121,121,149,149);d.draw(c);d.bounds=old;c.restore()}
-        text(c,state.title.ifBlank{"Music"},173f,68f,28f,fg,210f,true)
-        text(c,state.artist,173f,102f,21f,muted,210f)
+        motion.text("title",state.title.ifBlank{"Music"},c,RectF(170f,37f,385f,74f)){text(c,it,173f,68f,28f,fg,210f,true)}
+        motion.text("artist",state.artist,c,RectF(170f,77f,385f,109f)){text(c,it,173f,102f,21f,muted,210f)}
         bitmap(c,previous,RectF(397.6f,59.6f,426.4f,88.4f),if(light)fg else null)
         bitmap(c,next,RectF(505.6f,59.6f,534.4f,88.4f),if(light)fg else null)
         paint.shader=LinearGradient(438f,46f,494f,102f,if(light)0xff719eff.toInt()else 0xff536eb5.toInt(),if(light)0xff3868e5.toInt()else 0xff304986.toInt(),Shader.TileMode.CLAMP);paint.color=Color.WHITE;c.drawCircle(466f,74f,28f,paint);paint.shader=null;paint.color=0xffe5edff.toInt()
-        if(state.playing){c.drawRoundRect(RectF(456f,62f,463f,86f),1f,1f,paint);c.drawRoundRect(RectF(470f,62f,477f,86f),1f,1f,paint)}else c.drawPath(Path().apply{moveTo(459f,61f);lineTo(480f,74f);lineTo(459f,87f);close()},paint)
+        motion.content("play",state.playing.toString(),c,RectF(450f,56f,484f,92f)){token->
+            paint.color=0xffe5edff.toInt()
+            if(token=="true"){c.drawRoundRect(RectF(456f,62f,463f,86f),1f,1f,paint);c.drawRoundRect(RectF(470f,62f,477f,86f),1f,1f,paint)}else c.drawPath(Path().apply{moveTo(459f,61f);lineTo(480f,74f);lineTo(459f,87f);close()},paint)
+        }
         val elapsed=position();val progress=if(state.duration>0)elapsed.toFloat()/state.duration else 0f
         paint.strokeWidth=3f;paint.color=if(light)0xffcdd9e8.toInt()else 0x26ffffff;c.drawLine(173f,126f,534f,126f,paint)
         paint.color=if(light)0xff668cce.toInt()else 0xffc9d7f9.toInt();c.drawLine(173f,126f,173f+361*progress,126f,paint);c.drawCircle(173f+361*progress,126f,5f,paint)
         text(c,if(state.duration>0)clock(elapsed)else "—",173f,152f,17f,muted)
         val duration=if(state.duration>0)clock(state.duration)else "—";paint.textSize=17f;text(c,duration,534f-paint.measureText(duration),152f,17f,muted)
         val n=if(drag==1)previewVolume else volume
+        val smoothVolume=motion.value("volume",n.toFloat())
         paint.color=if(light)0xffdce5f2.toInt()else 0xff202c47.toInt();c.drawRoundRect(RectF(17f,167.6f,90f,234f),20f,20f,paint);c.drawRoundRect(RectF(103f,167.6f,443f,234f),20f,20f,paint)
-        c.save();c.clipPath(Path().apply{addRoundRect(RectF(103f,167.6f,443f,234f),20f,20f,Path.Direction.CW)});paint.color=0xff389cff.toInt();c.drawRect(103f,167.6f,103f+340*n/30f,234f,paint);c.restore()
+        c.save();c.clipPath(Path().apply{addRoundRect(RectF(103f,167.6f,443f,234f),20f,20f,Path.Direction.CW)});paint.color=0xff389cff.toInt();c.drawRect(103f,167.6f,103f+340*(if(drag==1)n.toFloat()else smoothVolume)/30f,234f,paint);c.restore()
         bitmap(c,music,RectF(256f,183.8f,290f,217.8f),if(light)0xff63788b.toInt()else 0xffeef5ff.toInt())
-        speaker(c,n==0)
+        motion.content("mute",(n==0).toString(),c,RectF(17f,167.6f,90f,234f)){speaker(c,it=="true")}
         text(c,n.toString(),460f,210f,27f,fg);text(c,"/ 30",495f,206f,15f,muted)
         c.restore()
     }

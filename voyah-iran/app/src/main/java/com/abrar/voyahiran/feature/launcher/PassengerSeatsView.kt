@@ -15,6 +15,8 @@ internal class PassengerSeatsView(context:Context):View(context) {
         set(v){if(field!=v){field=v;invalidate()}}
     var onCommand:(String,String)->Unit={_,_->}
     private var state=JSONObject()
+    private val motion=LauncherMotion(this)
+    private val fadingArtwork=HashMap<String,Bitmap>()
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val cache=object:LruCache<String,Bitmap>(12*1024*1024){override fun sizeOf(key:String,value:Bitmap)=value.allocationByteCount}
@@ -55,6 +57,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
     }
     fun update(next:JSONObject){
         if(state.toString()==next.toString())return
+        motion.updated()
         state=next
         for(side in 0..1)for(feature in listOf("vent","heat","massage")){
             val name="seat_${if(side==0)"left"else "right"}_${feature}_${if(valid(side,feature))level(side,feature)else 0}_normal"
@@ -75,6 +78,12 @@ internal class PassengerSeatsView(context:Context):View(context) {
     override fun onWindowVisibilityChanged(visibility:Int){super.onWindowVisibilityChanged(visibility);if(isAttachedToWindow)animateIfNeeded()}
     override fun onVisibilityChanged(changedView:View,visibility:Int){super.onVisibilityChanged(changedView,visibility);if(isAttachedToWindow)animateIfNeeded()}
     private fun image(c:Canvas,name:String,r:RectF,filter:ColorFilter?=null){val b=cached(name)?:return;paint.shader=null;paint.color=Color.WHITE;paint.colorFilter=filter;c.drawBitmap(b,null,r,paint);paint.colorFilter=null}
+    private fun overlay(c:Canvas,key:String,name:String?,r:RectF){
+        if(name!=null)cached(name)?.let{fadingArtwork[key]=it}
+        val alpha=motion.value(key,if(name!=null)1f else 0f)
+        if(alpha<=0f){fadingArtwork.remove(key);return}
+        fadingArtwork[key]?.let{b->paint.shader=null;paint.colorFilter=null;paint.color=Color.WHITE;paint.alpha=(alpha*255).toInt();c.drawBitmap(b,null,r,paint);paint.alpha=255}
+    }
     override fun onDraw(c:Canvas){
         super.onDraw(c);paint.color=Color.WHITE;paint.style=Paint.Style.FILL;paint.colorFilter=null;c.save();c.scale(width/556f,height/228f);c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,556f,228f),16f,16f,Path.Direction.CW)})
         paint.shader=LinearGradient(0f,0f,556f,228f,if(light)intArrayOf(0xfff7faff.toInt(),0xffeef4fc.toInt())else intArrayOf(0xff35456e.toInt(),0xff1b233a.toInt()),null,Shader.TileMode.CLAMP);c.drawRect(0f,0f,556f,228f,paint);paint.shader=null
@@ -87,14 +96,29 @@ internal class PassengerSeatsView(context:Context):View(context) {
         c.save();c.translate(75f,27f);c.clipRect(if(side==0)-75f else 0f,0f,188f,181f);c.scale(1.1f,1.1f);c.translate(if(side==0)-210f else -353f,-63f)
         c.save();if(side==0)c.clipRect(0f,0f,353.6f,237.6f)
         image(c,"seat_bg_high_level_97c",RectF(0f,0f,633.6f,237.6f),if(light)bright else null)
-        if(active(side,"vent")||active(side,"heat"))image(c,"seatfront_${if(active(side,"vent"))"vent"else "hot"}${s}_bg_97c",RectF(0f,0f,633.6f,237.6f));c.restore()
-        if(active(side,"vent")||active(side,"heat")){val x=if(side==0)159.72f else 355.08f;image(c,"seat_${if(active(side,"vent"))"vent"else "hot"}_${s}_${frame%89}",RectF(x,70.95f,x+165f,235.95f))}
-        if(active(side,"massage")){val x=if(side==0)248.49f else 376.53f;c.save();c.rotate(if(side==0)5f else -2f,x+24.75f,138.6f);image(c,"seat_${if(side==0)"main"else "co"}_massage_${if(level(side,"mode")==2)"rolling"else "waving"}_${frame%91}",RectF(x,105.6f,x+49.5f,171.6f));c.restore()};c.restore()
-        listOf("vent","heat","massage").forEachIndexed{i,f->val name="seat_${s}_${f}_${if(valid(side,f))level(side,f)else 0}_normal";image(c,if(light)"light-$name"else name,RectF(40f+i*66,205f,106f+i*66,271f))}
-        if(active(side,"massage"))for(i in 0..1){val x=if(side==0)205f else 7f;val y=70f+i*43.9f;val selected=valid(side,"mode")&&level(side,"mode")==i+1
-            paint.color=if(light)if(selected)0x1aac4ed0 else 0xffe1e8f2.toInt()else if(selected)0xff3b3154.toInt()else 0xff222c40.toInt();c.drawRoundRect(RectF(x,y,x+66,y+34.9f),18f,18f,paint)
-            if(selected){paint.color=0xffac4ed0.toInt();paint.style=Paint.Style.STROKE;paint.strokeWidth=1f;c.drawRoundRect(RectF(x,y,x+66,y+34.9f),18f,18f,paint);paint.style=Paint.Style.FILL}
-            paint.color=if(selected)if(light)0xffa346cb.toInt()else 0xffdfb1f4.toInt()else if(light)0xff536780.toInt()else 0xffc4ccdc.toInt();paint.typeface=font;paint.textSize=12f;paint.textAlign=Paint.Align.CENTER;c.drawText(if(i==0)"Waving"else "Rolling",x+33,y+22,paint)
+        for(feature in listOf("vent","heat")){val kind=if(feature=="vent")"vent"else "hot"
+            overlay(c,"back-$side-$feature",if(active(side,feature))"seatfront_${kind}${s}_bg_97c"else null,RectF(0f,0f,633.6f,237.6f))
+        };c.restore()
+        for(feature in listOf("vent","heat")){val x=if(side==0)159.72f else 355.08f;val kind=if(feature=="vent")"vent"else "hot"
+            overlay(c,"air-$side-$feature",if(active(side,feature))"seat_${kind}_${s}_${frame%89}"else null,RectF(x,70.95f,x+165f,235.95f))
+        }
+        for(mode in 1..2){val x=if(side==0)248.49f else 376.53f;c.save();c.rotate(if(side==0)5f else -2f,x+24.75f,138.6f)
+            overlay(c,"massage-$side-$mode",if(active(side,"massage")&&level(side,"mode")==mode)"seat_${if(side==0)"main"else "co"}_massage_${if(mode==2)"rolling"else "waving"}_${frame%91}"else null,RectF(x,105.6f,x+49.5f,171.6f));c.restore()
+        };c.restore()
+        listOf("vent","heat","massage").forEachIndexed{i,f->
+            val name="seat_${s}_${f}_${if(valid(side,f))level(side,f)else 0}_normal"
+            val rect=RectF(40f+i*66,205f,106f+i*66,271f)
+            motion.content("control-$side-$f",name,c,rect){image(c,if(light)"light-$it"else it,rect)}
+        }
+        val modeAlpha=motion.value("mode-visible-$side",if(active(side,"massage"))1f else 0f)
+        if(modeAlpha>0){
+        val modeLayer=if(modeAlpha<1f)c.saveLayerAlpha(0f,60f,280f,160f,(modeAlpha*255).toInt())else c.save()
+        for(i in 0..1){val x=if(side==0)205f else 7f;val y=70f+i*43.9f;val selected=valid(side,"mode")&&level(side,"mode")==i+1
+            paint.color=motion.color("mode-bg-$side-$i",selected,if(light)0xffe1e8f2.toInt()else 0xff222c40.toInt(),if(light)0x1aac4ed0 else 0xff3b3154.toInt());c.drawRoundRect(RectF(x,y,x+66,y+34.9f),18f,18f,paint)
+            paint.color=motion.color("mode-outline-$side-$i",selected,0x00ac4ed0,0xffac4ed0.toInt());paint.style=Paint.Style.STROKE;paint.strokeWidth=1f;c.drawRoundRect(RectF(x,y,x+66,y+34.9f),18f,18f,paint);paint.style=Paint.Style.FILL
+            paint.color=motion.color("mode-text-$side-$i",selected,if(light)0xff536780.toInt()else 0xffc4ccdc.toInt(),if(light)0xffa346cb.toInt()else 0xffdfb1f4.toInt());paint.typeface=font;paint.textSize=12f;paint.textAlign=Paint.Align.CENTER;c.drawText(if(i==0)"Waving"else "Rolling",x+33,y+22,paint)
+        }
+        c.restoreToCount(modeLayer)
         }
     }
     override fun onTouchEvent(e:MotionEvent):Boolean{
