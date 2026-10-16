@@ -6,6 +6,12 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun cameraRecenterCannotTargetPhysicalDisplays() {
+        assertEquals(listOf("neshan-direct","recenter","3"),BridgePolicy.resolve(listOf("neshan-direct","recenter","3")))
+        for(id in listOf("0","1","-1","10001","bad"))assertNull(BridgePolicy.resolve(listOf("neshan-direct","recenter",id)))
+        assertNull(BridgePolicy.resolve(listOf("neshan-direct","trip-state")))
+        assertNull(BridgePolicy.resolve(listOf("neshan-direct","trip-cancel","123-1","3")))
+    }
     @Test fun autoNavigationRequestHasNoCallerControlledArguments() {
         val command = listOf("neshan-direct", "auto-state")
         assertEquals(command, BridgePolicy.resolve(command))

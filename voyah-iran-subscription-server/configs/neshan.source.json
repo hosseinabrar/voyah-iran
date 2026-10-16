@@ -1,18 +1,21 @@
 {
   "purpose": "voyah-iran-neshan-config",
   "schemaVersion": 1,
-  "revision": 7,
+  "revision": 9,
   "packageName": "org.rajman.neshan.traffic.tehran.navigator",
   "profiles": [
     {
       "id": "14.12.0.3-70789",
-      "routeRestart": {
-        "startMethod": "Q", "stopMethod": "o", "routeClass": "rx.n",
-        "navigatorMethod": "b", "currentDestinationMethod": "x1",
-        "metadataMethod": "b", "destinationMethod": "b", "stopsMethod": "c",
-        "routingTypeMethod": "g", "latitudeMethod": "g", "longitudeMethod": "h",
-        "activityClass": "org.rajman.neshan.ui.activity.MainActivity",
-        "stopButtonId": "stop_navigation_button"
+      "cardRecenter": {
+        "buttonId": "followButton",
+        "listenerClass": "f41.d",
+        "fragmentField": "d",
+        "modelField": "K",
+        "stateMethod": "X",
+        "cameraStateClass": "di0.a",
+        "builderClass": "di0.a$c",
+        "followClass": "gi0.a",
+        "applyMethod": "r0"
       },
       "versionName": "14.12.0.3",
       "versionCode": 70789,
@@ -74,13 +77,16 @@
     },
     {
       "id": "14.13.0.6-70794",
-      "routeRestart": {
-        "startMethod": "e0", "stopMethod": "p", "routeClass": "h50.n",
-        "navigatorMethod": "d", "currentDestinationMethod": "y1",
-        "metadataMethod": "b", "destinationMethod": "b", "stopsMethod": "c",
-        "routingTypeMethod": "g", "latitudeMethod": "g", "longitudeMethod": "h",
-        "activityClass": "org.rajman.neshan.ui.activity.MainActivity",
-        "stopButtonId": "stop_navigation_button"
+      "cardRecenter": {
+        "buttonId": "followButton",
+        "listenerClass": "dc1.e",
+        "fragmentField": "a",
+        "modelField": "m",
+        "stateMethod": "X",
+        "cameraStateClass": "bq0.a",
+        "builderClass": "bq0.a$c",
+        "followClass": "eq0.a",
+        "applyMethod": "r0"
       },
       "versionName": "14.13.0.6",
       "versionCode": 70794,
@@ -142,13 +148,16 @@
     },
     {
       "id": "14.14.0.4-70799",
-      "routeRestart": {
-        "startMethod": "e0", "stopMethod": "p", "routeClass": "k50.n",
-        "navigatorMethod": "d", "currentDestinationMethod": "y1",
-        "metadataMethod": "b", "destinationMethod": "b", "stopsMethod": "c",
-        "routingTypeMethod": "g", "latitudeMethod": "g", "longitudeMethod": "h",
-        "activityClass": "org.rajman.neshan.ui.activity.MainActivity",
-        "stopButtonId": "stop_navigation_button"
+      "cardRecenter": {
+        "buttonId": "followButton",
+        "listenerClass": "fd1.e",
+        "fragmentField": "a",
+        "modelField": "m",
+        "stateMethod": "Y",
+        "cameraStateClass": "nr0.a",
+        "builderClass": "nr0.a$c",
+        "followClass": "qr0.a",
+        "applyMethod": "v0"
       },
       "versionName": "14.14.0.4",
       "versionCode": 70799,

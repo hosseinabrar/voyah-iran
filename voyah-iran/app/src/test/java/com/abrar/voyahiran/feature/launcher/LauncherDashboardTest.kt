@@ -197,8 +197,6 @@ class LauncherDashboardTest {
         val view=LauncherDashboard(RuntimeEnvironment.getApplication())
         view.layout(0,0,1775,660)
         var claims=0;var opens=0
-        val mapActions=mutableListOf<Int>()
-        view.onMapTouch={event,_,_->mapActions.add(event.actionMasked)}
         view.onShowMap={claims++};view.onMap={opens++}
         fun tap(x:Float,y:Float) {
             for(action in listOf(android.view.MotionEvent.ACTION_DOWN,android.view.MotionEvent.ACTION_UP)) {
@@ -219,8 +217,7 @@ class LauncherDashboardTest {
         view.draw(Canvas(bitmap))
         File("build/reports/launcher/map-loading.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG,100,it) }
         view.mapMessage=""
-        tap(300f,300f);assertEquals(2,claims);assertEquals(0,opens)
-        assertEquals(listOf(android.view.MotionEvent.ACTION_DOWN,android.view.MotionEvent.ACTION_UP),mapActions)
+        tap(300f,300f);assertEquals(2,claims);assertEquals(1,opens)
     }
     @Test fun launcherThemeFollowsOnlyVehicle() {
         assertTrue(LauncherTheme.resolve("simple"))

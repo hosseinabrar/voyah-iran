@@ -12,18 +12,17 @@ import com.sun.net.httpserver.HttpServer
 import java.net.InetSocketAddress
 
 class NeshanConfigTest {
-    @Test fun routeRestartSourceUsesValidatedDataOnlySelectors() {
+    @Test fun cameraSelectorsAreValidatedForEveryProfile() {
         val doc=JSONObject(File("../../voyah-iran-subscription-server/configs/neshan.source.json").readText())
-        val catalog=NeshanConfig.verify(sign(doc),publicKey)
-        assertEquals(7L,catalog.revision)
-        assertEquals(3,catalog.profiles.size)
-        for(profile in catalog.profiles) assertTrue(profile.json.has("routeRestart"))
-        val restart=doc.getJSONArray("profiles").getJSONObject(0).getJSONObject("routeRestart")
-        for(field in listOf("startMethod","stopMethod","navigatorMethod","currentDestinationMethod","routeClass","activityClass","stopButtonId")) {
-            val old=restart.getString(field)
-            restart.put(field,"bad;command")
-            rejects {NeshanConfig.verify(sign(doc),publicKey)}
-            restart.put(field,old)
+        assertEquals(3,NeshanConfig.verify(sign(doc),publicKey).profiles.size)
+        for(i in 0 until doc.getJSONArray("profiles").length()) {
+            val camera=doc.getJSONArray("profiles").getJSONObject(i).getJSONObject("cardRecenter")
+            for(field in camera.keys().asSequence().toList()) {
+                val old=camera.getString(field)
+                camera.put(field,"bad;command")
+                rejects {NeshanConfig.verify(sign(doc),publicKey)}
+                camera.put(field,old)
+            }
         }
     }
     private val pair = KeyPairGenerator.getInstance("RSA").apply { initialize(2048) }.generateKeyPair()
@@ -95,7 +94,8 @@ class NeshanConfigTest {
         val artifact=File("../../voyah-iran-subscription-server/deployment/configs/neshan.json")
         val catalog=NeshanConfig.verify(artifact.readText())
         // Publication advances independently of this selector-validation test.
-        assertTrue("Expected current route-aware publication",catalog.revision >= 7L)
+        assertTrue("Expected publication without route restart",catalog.revision >= 8L)
+        for (profile in catalog.profiles) assertFalse(profile.json.has("routeRestart"))
         for (profile in catalog.profiles) {
             assertTrue(profile.json.getJSONObject("adSuppression").getBoolean("enabled"))
             assertEquals(3,profile.json.getJSONObject("androidTheme").getInt("value"))

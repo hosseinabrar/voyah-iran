@@ -12,12 +12,8 @@ import kotlinx.coroutines.sync.withLock
 /** Read-only monitoring; passenger ownership changes only on an explicit button press. */
 class LauncherMapPreview(private val context: Context, private val scope: CoroutineScope, private val onMessage: (String) -> Unit, private val view:SurfaceView) : SurfaceHolder.Callback {
     private var mapInCard=false
-    private val touch=LauncherMapTouch()
-    internal fun touch(event:android.view.MotionEvent,width:Int,height:Int):Boolean {
-        val id=embedded.displayId
-        if(!active || busy || closed || fullscreen || !mapInCard || id==null || id<=1) {touch.cancel();return true}
-        return touch.send(event,packageName,id,width,height)
-    }
+    private var recenteredDisplay: Int? = null
+    private var cardSeenAt = 0L
     private var appliedTheme:Pair<Int,Boolean>?=null
     private var themeAppliedAt=0L
     private var attemptedTheme:Pair<Int,Boolean>?=null
@@ -97,6 +93,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 if(!mapInCard || closed)break
                 if(status.exitCode==0 && !status.timedOut) {
                     mapInCard=isVisibleHere(status.output,id)
+                    if(!mapInCard){recenteredDisplay=null;cardSeenAt=0L}
                     refreshCluster()
                 } else if(status.exitCode!=75) {mapInCard=false;refreshCluster()}
             }
@@ -110,6 +107,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 val data = org.json.JSONObject(android.provider.Settings.Global.getString(context.contentResolver, "voyah_iran_map_transfer") ?: "{}")
                 val age = System.currentTimeMillis() - data.optLong("time")
                 if (!closed && data.optString("pkg") == packageName && age in 0..12000) {
+                    recenteredDisplay=null;cardSeenAt=0L
                     departingUntil = android.os.SystemClock.elapsedRealtime() + if(data.optString("state")=="start") 12000 else 1000
                     error("نقشه روی نمایشگر شاگرد است")
                 }
@@ -169,8 +167,8 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         }
     }
     private fun move(id: Int, claim: Boolean, done: (() -> Unit)? = null) {
-        touch.cancel()
         if(closed || busy)return
+        recenteredDisplay=null;cardSeenAt=0L
         busy=true
         mapInCard=false;embedded.cluster(false)
         departingUntil=0L
@@ -188,9 +186,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                     val clean = !claim && id != 0 && packageName.isNotBlank() &&
                         LauncherMapWakeSession.pending &&
                         (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed &&
-                        com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null &&
-                        (packageName!=com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN ||
-                            com.abrar.voyahiran.feature.navigation.NeshanCardRouteRestart.confirmedIdle())
+                        com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null
                     val generation = LauncherMapWakeSession.generation
                     if(id>1)refreshTheme(id)
                     if (clean) LauncherMapWakeSession.restarting = true
@@ -303,9 +299,20 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                                 move(id, false)
                                 return@withLock
                             }
-                            error(if(isVisibleHere(r.output,id)) "" else if(r.output.contains("MAP_DISPLAY=1 ")) "نقشه روی نمایشگر شاگرد است" else "نقشه در دسترس نیست")
-                            if(isVisibleHere(r.output,id) && packageName==com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN)
-                                com.abrar.voyahiran.feature.navigation.NeshanCardRouteRestart.consider(context,id)
+                            val inCard=isVisibleHere(r.output,id)
+                            error(if(inCard) "" else if(r.output.contains("MAP_DISPLAY=1 ")) "نقشه روی نمایشگر شاگرد است" else "نقشه در دسترس نیست")
+                            if(!inCard) {recenteredDisplay=null;cardSeenAt=0L}
+                            else if(packageName==com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN && recenteredDisplay!=id) {
+                                val now=android.os.SystemClock.elapsedRealtime()
+                                if(cardSeenAt==0L)cardSeenAt=now
+                                // Wait for the resized card layout, once per arrival, not each heartbeat.
+                                if(now-cardSeenAt>=500) {
+                                    val camera=withContext(Dispatchers.IO) {
+                                        com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("neshan-direct","recenter",id.toString()),3)
+                                    }
+                                    if(camera.exitCode!=75 || now-cardSeenAt>5000)recenteredDisplay=id
+                                }
+                            }
                         } else if(r.exitCode!=75) error("نقشه در دسترس نیست")
                     } } catch(e:CancellationException) {throw e}
                     catch(e:Exception) {error("نقشه در دسترس نیست")}
@@ -315,7 +322,6 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         }
     }
     fun stopMonitoring() {
-        touch.cancel()
         if(fullscreen || closed) {mapInCard=false;refreshCluster()}
         active=false;monitor?.cancel();monitor=null
         runCatching {embedded.active(false)}
@@ -344,7 +350,6 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         }
     }
     override fun surfaceDestroyed(h:SurfaceHolder) {
-        touch.cancel()
         holder=null
         if(closed) embedded.detach() else runCatching { embedded.park() }.onFailure {
             embedded.detach()
@@ -353,7 +358,6 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         // Losing a window surface is not loss of the map task. Preserve card state.
     }
     fun close() {
-        touch.cancel()
         autoMonitor?.cancel();autoMonitor=null
         LauncherClusterMap.autoPolicy.reset()
         clusterMonitor?.cancel();clusterMonitor=null

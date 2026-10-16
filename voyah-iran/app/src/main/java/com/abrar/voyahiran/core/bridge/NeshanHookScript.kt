@@ -86,7 +86,6 @@ function wireJson(value) {
 }
 function clear(reason) { if (latest !== null) routeEpoch++; latest = null; sampleState = reason || 'route-reset'; }
 function disable() {
-    if (typeof VI_TRIP !== 'undefined') VI_TRIP.disable();
     enabled = false; clear();
     restoreAds();
     if (hook) hook.implementation = null;
@@ -98,15 +97,14 @@ rpc.exports = {
         const cmd = data.trim();
         if (cmd === 'ping') heartbeat = Date.now();
         if (cmd === 'disable') Java.perform(disable);
-        const tripCancel=/^trip-cancel ([0-9]{1,20}-[0-9]{1,10}) ([0-9]{1,5})$/.exec(cmd);
-        if (enabled && Date.now()-heartbeat<15000 && tripCancel && typeof VI_TRIP !== 'undefined') VI_TRIP.cancel(tripCancel[1],Number(tripCancel[2]));
+        const recenter=/^recenter ([0-9]{1,5})$/.exec(cmd);
+        if(recenter && typeof recenterCard==='function')recenterCard(Number(recenter[1]));
     },
     dispose: function() { Java.perform(disable); }
 };
 Java.perform(function() {
     try {
         installAdSuppression();
-        if (typeof VI_TRIP !== 'undefined') VI_TRIP.install();
         if (!routeEnabled) {
             console.log('VI_NESHAN_READY profile=' + profile.id + ' source=ad-ui-only');
             return;
@@ -161,7 +159,6 @@ Java.perform(function() {
 function publish() {
     if (!enabled) return;
     if (Date.now() - heartbeat > 15000) { disable(); return; }
-    if (typeof VI_TRIP !== 'undefined') VI_TRIP.publish();
     if (!routeEnabled) return;
     let verified = false;
     if (routeState) {

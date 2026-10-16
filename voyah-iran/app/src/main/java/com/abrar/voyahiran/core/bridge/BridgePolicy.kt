@@ -15,8 +15,6 @@ object BridgePolicy {
         "--ei", "mPerceptionTakePic", "4", "--ez", "ispic", "false", "--es", "cameratype", "FRONT")
     fun resolve(request: List<String>, sdkInt: Int = 30): List<String>? {
         if(request.size==3 && request[0]=="passenger-comfort" && PassengerComfortBridge.valid(request[1],request[2]))return request
-        if(request.size==4 && request[0]=="launcher-map-touch" && sdkInt>=29 && AppDensityPreferences.validPackage(request[1]) &&
-            request[1]!="com.abrar.voyahiran" && request[2].toIntOrNull() in 2..10000 && MapTouchPacket.parse(request[3])!=null)return request
         if(request==listOf("neshan-theme-android"))return request
         if(request.size==4 && request[0]=="launcher-map-theme" && AppDensityPreferences.validPackage(request[1]) && request[1]!="com.abrar.voyahiran" && request[2].toIntOrNull()?.let {it in 2..10000}==true && request[3] in listOf("light","dark"))return request
         if(request==listOf("launcher-startup"))return request
@@ -72,9 +70,8 @@ object BridgePolicy {
         if (request.size == 2 && request[0] in listOf("apollo-state", "apollo-reconcile") && request[1] in listOf("1", "2")) return request
         if (request.size == 2 && request[0] == "system-logging" && request[1] in listOf("enable", "disable", "status")) return request
         if (request == listOf("steering-back", "center")) return request
-        if (request.size == 2 && request[0] == "neshan-direct" && request[1] in listOf("enable", "disable", "status", "auto-state", "trip-state")) return request
-        if(request.size==4 && request[0]=="neshan-direct" && request[1]=="trip-cancel" &&
-            request[2].matches(Regex("[0-9]{1,20}-[0-9]{1,10}")) && request[3].toIntOrNull() in 2..10000)return request
+        if (request.size == 2 && request[0] == "neshan-direct" && request[1] in listOf("enable", "disable", "status", "auto-state")) return request
+        if(request.size==3 && request[0]=="neshan-direct" && request[1]=="recenter" && request[2].toIntOrNull() in 2..10000)return request
         if (request == listOf("cluster-navigation", "clear")) return request
         if (request.size == 5 && request[0] == "cluster-navigation" && request[1] == "show" &&
             request[2].isNotBlank() && request[2].toByteArray(Charsets.UTF_8).size <= 180 &&

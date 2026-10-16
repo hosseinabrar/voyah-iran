@@ -31,7 +31,7 @@ class NeshanDrivingService : AccessibilityService() {
     private val tick = Runnable { tickPending = false; inspect() }
     private val preferences get() = NavigationPreferences(this)
     private val enabled get() = (application as VoyahIranApplication).subscriptions.vipAllowed &&
-        (preferences.autoDriving || preferences.voiceNavigationEnabled || NeshanVoiceNavigation.pending?.cardRepair==true || com.abrar.voyahiran.feature.launcher.LauncherPreferences.clusterMap(this))
+        (preferences.autoDriving || preferences.voiceNavigationEnabled || com.abrar.voyahiran.feature.launcher.LauncherPreferences.clusterMap(this))
 
     override fun onServiceConnected() {
         instance = this
@@ -86,7 +86,7 @@ class NeshanDrivingService : AccessibilityService() {
                         val ids = if (profile != null) profile.labels("moreScopeIds") + profile.labels("activeIds") + profile.labels("routeIds")
                             else listOf("bottomNavigationViewMain", "closeMaterialCardViewDrivingControl", "address_panel_upcoming_step_frame")
                         route.startup.observe(ids.any { visible(root, it) }, now)
-                    } else if (preferences.voiceNavigationEnabled || route.cardRepair) enterRoute(root, route, now)
+                    } else if (preferences.voiceNavigationEnabled) enterRoute(root, route, now)
                 } else if (rootIsCard && preferences.autoDriving) {
                     maintainCardDriving(root, now)
                 } else if (preferences.autoDriving && (!session.consumed || verifyUntil != 0L)) enterDriving(root, now)

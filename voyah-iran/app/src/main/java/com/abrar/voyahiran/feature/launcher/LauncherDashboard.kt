@@ -275,15 +275,6 @@ class LauncherDashboard(context: Context) : View(context) {
     }
     override fun onTouchEvent(e: MotionEvent): Boolean {
         val x=e.x*1775/width;val y=e.y*660/height
-        if(e.actionMasked==MotionEvent.ACTION_DOWN)mapGesture=android.os.Build.VERSION.SDK_INT>=29 && x<871 && mapMessage.isEmpty()
-        if(mapGesture) {
-            parent?.requestDisallowInterceptTouchEvent(true)
-            onMapTouch(e,(width*871f/1775f).toInt(),height)
-            if(e.actionMasked==MotionEvent.ACTION_UP || e.actionMasked==MotionEvent.ACTION_CANCEL) {
-                mapGesture=false;parent?.requestDisallowInterceptTouchEvent(false)
-            }
-            return true
-        }
         when(e.actionMasked) {
             MotionEvent.ACTION_DOWN -> {touchedButton=mediaButton(x,y);pressButton(touchedButton,true)}
             MotionEvent.ACTION_MOVE -> if(touchedButton>=0) {
@@ -316,8 +307,6 @@ class LauncherDashboard(context: Context) : View(context) {
         return true
     }
     override fun performClick():Boolean {super.performClick();return true}
-    private var mapGesture=false
-    var onMapTouch:(MotionEvent,Int,Int)->Unit={_,_,_->}
     override fun onDetachedFromWindow() {
         bitmaps.stop()
         coverAnimation?.cancel();oldCover=null;coverFade=1f

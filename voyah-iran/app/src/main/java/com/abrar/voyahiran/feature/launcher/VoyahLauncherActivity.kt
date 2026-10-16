@@ -17,7 +17,6 @@ import kotlinx.coroutines.*
 
 class VoyahLauncherActivity : ComponentActivity() {
     companion object { @Volatile internal var mapPageVisible=false; private set }
-    private lateinit var fullscreenButton:MapFullscreenButton
     private lateinit var dashboard: LauncherDashboard
     private lateinit var container: FrameLayout
     private lateinit var pager: LauncherPager
@@ -103,11 +102,6 @@ class VoyahLauncherActivity : ComponentActivity() {
             }
         }
         firstPage.addView(clusterButton)
-        fullscreenButton=MapFullscreenButton(this).apply {
-            visibility=View.GONE
-            setOnClickListener {preview?.open {preview?.stopMonitoring()}}
-        }
-        firstPage.addView(fullscreenButton)
         pager.addView(firstPage,FrameLayout.LayoutParams(-1,-1))
         pager.addView(vehiclePage,FrameLayout.LayoutParams(-1,-1))
         pager.onPage={updatePageWork()}
@@ -127,7 +121,6 @@ class VoyahLauncherActivity : ComponentActivity() {
             }
         }
         dashboard.onMap = { preview?.open { preview?.stopMonitoring() } }
-        dashboard.onMapTouch={event,w,h->preview?.touch(event,w,h);Unit}
         dashboard.onShowMap = { preview?.showInCard() }
         dashboard.onMedia = media@{ button ->
             if (!dashboard.media.playing && (dashboard.media.controller == null || dashboard.media.title=="no music")) {
@@ -228,15 +221,9 @@ class VoyahLauncherActivity : ComponentActivity() {
             leftMargin=(18f*width/1775f).toInt()
             topMargin=(height*.25f-buttonSize/2f-50f*width/1775f).toInt().coerceAtLeast(0)
         }
-        fullscreenButton.layoutParams=FrameLayout.LayoutParams(buttonSize,buttonSize).apply {
-            leftMargin=(18f*width/1775f).toInt()
-            topMargin=(height*.25f+buttonSize/2f-38f*width/1775f).toInt().coerceAtLeast(0)
-        }
         updateClusterButton()
     }
     private fun updateClusterButton() {
-        fullscreenButton.visibility=if(dashboard.mapMessage.isEmpty()) View.VISIBLE else View.GONE
-        fullscreenButton.light=LauncherTheme.isLight()
         clusterButton.visibility=if(dashboard.mapMessage.isEmpty() && LauncherPreferences.clusterMap(this) &&
             (application as VoyahIranApplication).subscriptions.vipAllowed) View.VISIBLE else View.GONE
         clusterButton.mode=LauncherPreferences.clusterMapMode(this)

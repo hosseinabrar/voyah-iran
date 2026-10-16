@@ -81,7 +81,6 @@ object BridgeServer {
                 else if (command.first() == "cluster-music") ClusterMusicBridge.command(command[1])
                 else if (command.first() == "launcher-startup") LauncherStartupBridge.open()
                 else if (command.first() == "cluster-map") ClusterMapBridge.command(command[1],command[2])
-                else if (command.first() == "launcher-map-touch") LauncherMapTouchBridge.execute(command)
                 // Renewals must not be rejected while a map/vehicle operation owns the mutation lock.
                 // Subscription session writes have their own serialization, and do not move tasks.
                 else if (command.first() == "subscription-session") BridgeSubscriptionSession.update(command[1].toInt())
@@ -121,7 +120,7 @@ object BridgeServer {
                         "apollo-reconcile" -> ApolloBundle.reconcile(command[1].toInt())
                         "apollo-state" -> ApolloBundle.apply(command[1].toInt())
                         "system-logging" -> SystemLoggingControl.command(command[1])
-                        "neshan-direct" -> neshan.command(command[1],command.getOrNull(2),command.getOrNull(3)?.toIntOrNull())
+                        "neshan-direct" -> neshan.command(command[1],command.getOrNull(2)?.toIntOrNull())
                         "neshan-theme-android" -> NeshanThemeBridge.execute()
                         "cluster-navigation" -> OemClusterNavigation.command(command)
                         "subscription-vin" -> VehicleIdentity.read()
