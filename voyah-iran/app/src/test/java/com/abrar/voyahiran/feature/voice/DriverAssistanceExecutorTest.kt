@@ -4,6 +4,40 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class DriverAssistanceExecutorTest {
+    @Test fun memoryTargetsAndRahaUseIdenticalSingleFieldRequests() {
+        val cases = listOf(
+            Triple("SET_AUTOMATIC_EMERGENCY_BRAKING", "AEB_SWITCH", 1),
+            Triple("SET_PEDESTRIAN_WARNING_SOUND", "HUM_VSP_FUNCTION_SW", 2),
+        )
+        for ((action, field, on) in cases) for (saved in 1..2) {
+            val parameters = mapOf<String, Any>("enabled" to (saved == on))
+            assertEquals(listOf(DriverAssistanceExecutor.Change(field, saved)),
+                DriverAssistanceExecutor.plan(action, parameters))
+            val port = Fake().apply { values[field] = 3 - saved }
+            DriverAssistanceExecutor(port).execute(action, parameters)
+            assertEquals(listOf(field to saved), port.writes)
+            assertEquals(port.writes, port.confirmations)
+            // Restoring an already matching state must not toggle or resend it.
+            DriverAssistanceExecutor(port).execute(action, parameters)
+            assertEquals(1, port.writes.size)
+            assertEquals(1, port.confirmations.size)
+        }
+    }
+
+    @Test fun memoryAndRahaTargetsRejectUnknownFeedbackBeforeAnyWrite() {
+        for ((action, field) in listOf(
+            "SET_AUTOMATIC_EMERGENCY_BRAKING" to "AEB_SWITCH",
+            "SET_PEDESTRIAN_WARNING_SOUND" to "HUM_VSP_FUNCTION_SW",
+        )) for (value in listOf(0, 3, 255)) {
+            val port = Fake().apply { values[field] = value }
+            try {
+                DriverAssistanceExecutor(port).execute(action, mapOf("enabled" to true))
+                fail("Unknown feedback must not be written")
+            } catch (_: IllegalStateException) { }
+            assertTrue(port.writes.isEmpty())
+        }
+    }
+
     @org.junit.Test fun h97aLaneModeUsesSingleStateAndPreservesExistingMode() {
         org.junit.Assert.assertEquals(2, DriverAssistanceExecutor.legacyLaneMode(mapOf("enabled" to true),1))
         for(current in 2..4) org.junit.Assert.assertEquals(current, DriverAssistanceExecutor.legacyLaneMode(mapOf("enabled" to true),current))
@@ -57,7 +91,7 @@ class DriverAssistanceExecutorTest {
             "SET_REAR_COLLISION_WARNING" to "RCW_SWITCH", "SET_AUTOMATIC_EMERGENCY_BRAKING" to "AEB_SWITCH",
             "SET_BLIND_SPOT_MONITORING" to "BSD_SYSTEM_SWITCH", "SET_FRONT_CROSS_TRAFFIC_WARNING" to "FCTA_SWITCH",
             "SET_TRAFFIC_SIGN_RECOGNITION" to "TSR_SWITCH")
-        val reversed = mapOf("SET_DRIVER_GESTURES" to "GESTUREID_REQ", "SET_LEAD_VEHICLE_DEPARTURE_ALERT" to "FVSR_SWITCH")
+        val reversed = mapOf("SET_PEDESTRIAN_WARNING_SOUND" to "HUM_VSP_FUNCTION_SW", "SET_DRIVER_GESTURES" to "GESTUREID_REQ", "SET_LEAD_VEHICLE_DEPARTURE_ALERT" to "FVSR_SWITCH")
         (standard + reversed).forEach { (action, field) ->
             val on = if (action in reversed) 2 else 1
             val port = Fake().apply { values[field] = 3 - on }

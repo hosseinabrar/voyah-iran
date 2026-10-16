@@ -26,6 +26,7 @@ class ComfortMemoryRenderTest {
         context.setTheme(R.style.Theme_VoyahIran)
         val binding = PageComfortBinding.inflate(LayoutInflater.from(context))
         assertEquals(VipCheckBox::class.java, binding.aebMemory.javaClass)
+        assertEquals(VipCheckBox::class.java, binding.pedestrianMemory.javaClass)
         assertEquals(VipCheckBox::class.java, binding.driveMemory.javaClass)
         assertEquals(VipCheckBox::class.java, binding.recoveryMemory.javaClass)
         binding.avmTurnCard.visibility = View.VISIBLE
@@ -34,16 +35,19 @@ class ComfortMemoryRenderTest {
         binding.aebMemory.isEnabled = true
         binding.aebMemory.isChecked = true
         val width = 1120
-        val height = 850
+        val height = 1010
         binding.root.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
         binding.root.layout(0, 0, width, height)
         binding.aebMemory.jumpDrawablesToCurrentState()
         assertTrue((binding.aebMemory.parent as View).top > (binding.recoveryMemory.parent as View).top)
-        assertTrue(binding.avmTurnCard.top > (binding.aebMemory.parent as View).top)
+        assertTrue((binding.pedestrianMemory.parent as View).top > (binding.aebMemory.parent as View).top)
+        assertTrue(binding.avmTurnCard.top > (binding.pedestrianMemory.parent as View).top)
         assertTrue(binding.aebMemory.width > 0)
         for (line in 0 until binding.aebMemory.layout.lineCount)
             assertEquals(0, binding.aebMemory.layout.getEllipsisCount(line))
+        for (line in 0 until binding.pedestrianMemory.layout.lineCount)
+            assertEquals(0, binding.pedestrianMemory.layout.getEllipsisCount(line))
         val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         binding.root.draw(Canvas(image))
         val output = File(System.getProperty("voyah.renderDir", "build/reports/comfort-memory"), "comfort-memory.png")
