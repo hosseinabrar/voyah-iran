@@ -92,6 +92,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         var tokenPath = bundle.File("session.token");
         var stageCreated = false;
         var uncertain = false;
+        FileStream? backupLease = null;
         try
         {
             Begin(InstallPhase.Device);
@@ -114,6 +115,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             if (!Guid.TryParse(bootId, out _)) throw new InvalidDataException("شناسهٔ راه‌اندازی خودرو خوانده نشد.");
             var directory = Path.Combine(backupRoot, DateTime.Now.ToString("yyyyMMdd-HHmmss") + "-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(directory);
+            backupLease = new FileStream(Path.Combine(directory,".installer-lease"),FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None);
             var backup = Path.Combine(directory, "services.jar");
             await Command(90, "pull", "/system/framework/services.jar", backup);
             if (PayloadBundle.Digest(backup) != currentHash) throw new InvalidDataException("بررسی بکاپ لپ‌تاپ ناموفق بود.");
@@ -246,6 +248,13 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             await VerifyHash(apk, bundle.Manifest.Files["app.apk"]);
             var launch = await Command(20, "shell", "am", "start", "--user", "0", "-n", "com.abrar.voyahiran/.ui.MainActivity");
             if (launch.Contains("Error", StringComparison.OrdinalIgnoreCase) || launch.Contains("Exception", StringComparison.OrdinalIgnoreCase)) throw new IOException("نصب تأیید شد، اما بازکردن برنامه ناموفق بود.");
+            // Only after reboot, service readiness and all installed hashes were verified.
+            // A cleanup failure must not turn a verified installation into a rollback.
+            try { log.Write(await Root(120, InstallationStorage.RemoteCleanup)); }
+            catch (Exception cleanupError) { log.Write($"WARNING: verified install; remote backup cleanup incomplete: {cleanupError.Message}"); }
+            backupLease.Dispose(); backupLease=null;
+            try { InstallationStorage.CleanLocal(backupRoot, bundle.Root, log.Write); }
+            catch (Exception cleanupError) { log.Write($"WARNING: local cleanup incomplete: {cleanupError.Message}"); }
             Done(); log.Write("INSTALLATION VERIFIED. No keyboard preference was forced; use the app to select Gboard.");
         }
         catch (Exception e)
@@ -256,6 +265,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         }
         finally
         {
+            backupLease?.Dispose();
             try { if (File.Exists(tokenPath)) File.Delete(tokenPath); }
             catch (Exception e) { log.Write($"Local credential cleanup failed: {e.Message}"); }
             if (stageCreated && !uncertain)

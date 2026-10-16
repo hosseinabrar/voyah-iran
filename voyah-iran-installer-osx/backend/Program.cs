@@ -157,6 +157,8 @@ try {
 } finally {
     if (capture != null) { await capture.StopAsync(); capture.Dispose(); }
     if (can != null) await can.StopAsync();
+    bundle.Dispose();
+    InstallationStorage.CleanPayload(bundle.Root,log.Write);
 }
 string ReportPath(string prefix) {
     var dir = Path.Combine(dataRoot, "Reports"); Directory.CreateDirectory(dir);

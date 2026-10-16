@@ -348,6 +348,12 @@ public sealed partial class MainViewModel : Observable, IDisposable
         foreach (var name in new[] { nameof(HomeVisibility), nameof(ProgressVisibility), nameof(ProgressTitle), nameof(ProgressSubtitle), nameof(CanLeave) }) Notify(name);
         InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh(); HomeCommand.Refresh();
     }
-    public void Dispose() { disposed = true; timer.Stop(); capture?.Dispose(); /* ADB may still own its executable: retain verified cache for diagnostics. */ }
+    public void Dispose() {
+        disposed = true; timer.Stop(); capture?.Dispose();
+        if(!Busy && !CanBusy && !captureChanging && bundle != null) {
+            bundle.Dispose();
+            InstallationStorage.CleanPayload(bundle.Root,log.Write);
+        }
+    }
 }
 
