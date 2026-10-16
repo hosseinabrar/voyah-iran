@@ -115,9 +115,6 @@ internal object DowAmbientBridge {
     }
     private class Port : AmbientPort {
         private val prefix = "VEHICLE_AMBIENT_LIGHT_"
-        private fun write(suffix: String, value: Int) {
-            session().writeAmbient(suffix, value)
-        }
         private fun drive(value: Int) = DowAmbientSettings.set(value)
         override fun snapshot() = AmbientSnapshot(
             session().vehicle(prefix + "SWITCH"), session().vehicle(prefix + "MUSICAL_RHYTHM_SWITCH"),
@@ -125,23 +122,20 @@ internal object DowAmbientBridge {
         override fun normalRed() {
             val started = SystemClock.elapsedRealtime()
             check(BridgeSubscriptionSession.vipActive)
-            // Exactly the factory normal-mode controls, without changing its saved normal colour preference.
-            drive(0); write("MUSICAL_RHYTHM_SWITCH", 1)
-            write("BRIGHTNESS_LEVEL", 1); write("COLOR", DowContract.RED)
-            write("SWITCH", 2)
+            // Driving synchronisation is an Android preference, not a CAN bundle field.
+            drive(0)
+            session().writeAmbientBundle(DowAmbientBundle.warning())
             AppLog.info("DowAmbient", "normal red configured elapsedMs=${SystemClock.elapsedRealtime() - started}")
         }
         override fun level(value: Int) {
             check(BridgeSubscriptionSession.vipActive)
             require(value in 1..10)
-            write("BRIGHTNESS_LEVEL", value)
+            session().writeAmbientBundle(DowAmbientBundle.warning(value))
         }
         override fun restore(snapshot: AmbientSnapshot) {
             check(snapshot.valid())
-            drive(0); write("MUSICAL_RHYTHM_SWITCH", 1)
-            write("COLOR", snapshot.color); write("BRIGHTNESS_LEVEL", snapshot.brightness)
-            drive(snapshot.drive); write("MUSICAL_RHYTHM_SWITCH", snapshot.music)
-            write("SWITCH", snapshot.power)
+            drive(snapshot.drive)
+            session().writeAmbientBundle(DowAmbientBundle.restore(snapshot))
             AppLog.info("DowAmbient", "restore sent; awaiting feedback")
         }
         override fun confirmed(snapshot: AmbientSnapshot) = snapshot() == snapshot

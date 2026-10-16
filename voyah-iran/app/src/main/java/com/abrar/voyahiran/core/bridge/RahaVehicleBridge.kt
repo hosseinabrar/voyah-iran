@@ -203,6 +203,14 @@ object RahaVehicleBridge {
                 .invoke(remote, field(vehicleType, "VEHICLE_AMBIENT_LIGHT_" + suffix), value)
             check(result !is Number || result.toInt() >= 0) { "Ambient command rejected" }
         }
+        fun writeAmbientBundle(values: Map<String, Int>) {
+            val bundle = DowAmbientBundle.create(values) {
+                field(vehicleType, "VEHICLE_AMBIENT_LIGHT_" + it).toString()
+            }
+            val result = api.getMethod("setVehicleAndAirConditionBundleState",
+                android.os.Bundle::class.java, android.os.Bundle::class.java).invoke(remote, null, bundle)
+            check(result !is Number || result.toInt() >= 0) { "Ambient bundle rejected" }
+        }
         fun driveAmbient(): Int {
             val result = ProcessCommandRunner(useBridge = false).run(listOf("/system/bin/content", "query",
                 "--uri", "content://qinggan.settings/global", "--user", "0", "--projection", "value",
