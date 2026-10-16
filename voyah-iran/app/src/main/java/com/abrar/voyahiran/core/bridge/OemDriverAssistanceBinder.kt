@@ -20,6 +20,12 @@ internal object OemDriverAssistanceBinder {
         try { executeInstalled("SET_AUTOMATIC_EMERGENCY_BRAKING", mapOf("enabled" to (value == 1)), memoryRestore = true) }
         catch (error: LinkageError) { throw IllegalStateException("Installed AEB SDK could not be loaded", error) }
     }
+    fun restorePedestrian(value: Int) {
+        require(value in 1..2)
+        // Unlike AEB, the OEM pedestrian sound switch uses 2=on, 1=off.
+        try { executeInstalled("SET_PEDESTRIAN_WARNING_SOUND", mapOf("enabled" to (value == 2)), memoryRestore = true) }
+        catch (error: LinkageError) { throw IllegalStateException("Installed pedestrian SDK could not be loaded", error) }
+    }
     private fun executeInstalled(action: String, parameters: Map<String,Any>, memoryRestore: Boolean = false) {
         val apk=File("/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk")
         check(apk.isFile) { "Installed VehicleSetting SDK unavailable" }
@@ -70,7 +76,7 @@ internal object OemDriverAssistanceBinder {
                     // Recheck at the write boundary, not only at the earlier app-side CAN sample.
                     check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
                     check(api.getMethod("getAccStatus").invoke(remote) == 2 &&
-                        api.getMethod("getVehicleSpeed").invoke(remote) == 0) { "AEB memory requires a stationary powered vehicle" }
+                        api.getMethod("getVehicleSpeed").invoke(remote) == 0) { "Comfort memory requires a stationary powered vehicle" }
                 }
                 AppLog.info("RahaAdas","write action=$action field=$field value=$value")
                 val result=api.getMethod("setVehicleState",stateType,Int::class.javaPrimitiveType).invoke(remote,field(field),value)

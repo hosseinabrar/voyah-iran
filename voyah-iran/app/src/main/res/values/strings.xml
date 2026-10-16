@@ -154,6 +154,10 @@
     <string name="aeb_memory_description">آخرین وضعیت روشن یا خاموش ترمز اضطراری خودکار را پس از روشن‌شدن خودرو، هنگام توقف برمی‌گرداند. اگر آن را خاموش کرده باشید، خاموش می‌ماند.</string>
     <string name="aeb_restoring">در حال بازیابی وضعیت ترمز اضطراری…</string>
     <string name="aeb_unconfirmed">خودرو بازیابی وضعیت ترمز اضطراری را تأیید نکرد. وضعیت را در منوی خودرو بررسی کنید.</string>
+    <string name="pedestrian_memory_label">ذخیره وضعیت هشدار عابر پیاده</string>
+    <string name="pedestrian_memory_description">آخرین وضعیت روشن یا خاموش صدای هشدار عابر پیاده را پس از روشن‌شدن خودرو، هنگام توقف برمی‌گرداند. اگر آن را خاموش کرده باشید، خاموش می‌ماند.</string>
+    <string name="pedestrian_restoring">در حال بازیابی وضعیت هشدار عابر پیاده…</string>
+    <string name="pedestrian_unconfirmed">خودرو بازیابی وضعیت هشدار عابر پیاده را تأیید نکرد. وضعیت را در منوی خودرو بررسی کنید.</string>
 </resources>
 
 

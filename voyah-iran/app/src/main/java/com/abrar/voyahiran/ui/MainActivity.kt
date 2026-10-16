@@ -328,6 +328,10 @@ class MainActivity : ComponentActivity() {
             requestDrive(if (binding.comfortPage.aebMemory.isChecked) DriveMemoryService.AEB_ENABLE else DriveMemoryService.AEB_DISABLE)
         }
         binding.comfortPage.aebRetry.setOnClickListener { requestDrive(DriveMemoryService.AEB_RETRY) }
+        binding.comfortPage.pedestrianMemory.setOnClickListener {
+            requestDrive(if (binding.comfortPage.pedestrianMemory.isChecked) DriveMemoryService.PEDESTRIAN_ENABLE else DriveMemoryService.PEDESTRIAN_DISABLE)
+        }
+        binding.comfortPage.pedestrianRetry.setOnClickListener { requestDrive(DriveMemoryService.PEDESTRIAN_RETRY) }
         binding.aboutPage.version.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
         selectTab(Tab.entries.firstOrNull { it != Tab.DIAGNOSTICS && it.name == savedInstanceState?.getString(TAB_KEY) } ?: Tab.SETTINGS)
         lifecycleScope.launch {
@@ -608,6 +612,21 @@ class MainActivity : ComponentActivity() {
         aebStatus.visibility = if (aebMessage == null) View.GONE else View.VISIBLE
         aebMessage?.let(aebStatus::setText)
         aebRetry.visibility = if (allowed && aeb.error && !busy) View.VISIBLE else View.GONE
+        val pedestrian = state.pedestrian
+        pedestrianMemory.isChecked = pedestrian.enabled
+        pedestrianMemory.isEnabled = !busy && (pedestrian.enabled || pedestrian.current != null)
+        pedestrianProgress.visibility = if (allowed && (busy || pedestrian.phase == DrivePhase.RESTORING)) View.VISIBLE else View.GONE
+        val pedestrianMessage = when {
+            !allowed -> null
+            pedestrian.phase == DrivePhase.FAILED -> R.string.pedestrian_unconfirmed
+            pedestrian.error -> R.string.drive_error
+            busy || (pedestrian.enabled && pedestrian.phase == DrivePhase.WAITING) -> R.string.drive_waiting
+            pedestrian.phase == DrivePhase.RESTORING -> R.string.pedestrian_restoring
+            else -> null
+        }
+        pedestrianStatus.visibility = if (pedestrianMessage == null) View.GONE else View.VISIBLE
+        pedestrianMessage?.let(pedestrianStatus::setText)
+        pedestrianRetry.visibility = if (allowed && pedestrian.error && !busy) View.VISIBLE else View.GONE
     }
 
     // One mapping for labels, readback and commands; hidden rows cannot shift labels.

@@ -43,6 +43,9 @@ class DriveMemoryService : Service() {
                     AEB_ENABLE -> controller.enableAeb()
                     AEB_DISABLE -> controller.disableAeb()
                     AEB_RETRY -> controller.retryAeb()
+                    PEDESTRIAN_ENABLE -> controller.enablePedestrian()
+                    PEDESTRIAN_DISABLE -> controller.disablePedestrian()
+                    PEDESTRIAN_RETRY -> controller.retryPedestrian()
                     else -> controller.start()
                 }
                 if (action == BOOT) com.abrar.voyahiran.core.logging.AppLog.info("Boot", "Background startup complete; UI not launched")
@@ -90,6 +93,9 @@ class DriveMemoryService : Service() {
         const val AEB_ENABLE = "com.abrar.voyahiran.aeb.ENABLE"
         const val AEB_DISABLE = "com.abrar.voyahiran.aeb.DISABLE"
         const val AEB_RETRY = "com.abrar.voyahiran.aeb.RETRY"
+        const val PEDESTRIAN_ENABLE = "com.abrar.voyahiran.pedestrian.ENABLE"
+        const val PEDESTRIAN_DISABLE = "com.abrar.voyahiran.pedestrian.DISABLE"
+        const val PEDESTRIAN_RETRY = "com.abrar.voyahiran.pedestrian.RETRY"
         private const val CHANNEL = "drive_memory"
         fun request(context: Context, action: String) {
             context.startForegroundService(Intent(context, DriveMemoryService::class.java).setAction(action))
