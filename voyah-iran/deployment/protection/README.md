@@ -28,6 +28,17 @@ Package keep rules alone did not prevent this on the current R8 version. This
 trades some R8 optimization for reliable protection boundaries; the dependency
 scan still verifies each APK rather than relying on the rules alone.
 
+Renamed classes are repackaged under `com.abrar.voyahiran.obfuscated` rather
+than the default package. This prevents ordinary reflective-method literals
+such as the OEM value `on` from accidentally matching a renamed UI class `on`.
+The conservative reflection scan is retained, not weakened to ignore dependencies.
+Both Windows and macOS use this same R8 configuration and protection script.
+Before DPT runs, `selection-report.json` records the selected classes and exclusion
+paths. Publishing fails if fewer than half of the first-party DEX classes are
+selected, or key Android-only entry/entitlement/voice classes enter root exclusions.
+This is a regression guard, not a security guarantee or permission to weaken the
+root dependency checks; intentional scope changes require reviewing the policy.
+
 ## Build and tools
 
 Use the installer Publish flow normally. For a standalone run from the Android

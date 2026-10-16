@@ -1,5 +1,5 @@
 import unittest
-from protect_raha import choose_targets, choose_app_targets, BRIDGE
+from protect_raha import choose_targets, choose_app_targets, validate_coverage, BRIDGE
 
 
 class ProtectionSelectionTests(unittest.TestCase):
@@ -146,6 +146,29 @@ class ApplicationProtectionTests(unittest.TestCase):
     def test_stale_mapping_fails(self):
         self.strings=['~~R8{"pg-map-id":"wrong"}']
         with self.assertRaisesRegex(RuntimeError,'do not match'):self.select()
+
+
+class ProtectionCoverageTests(unittest.TestCase):
+    def test_rejects_observed_19_class_regression(self):
+        with self.assertRaisesRegex(RuntimeError, "coverage collapsed"):
+            validate_coverage(dict.fromkeys(range(19)), {
+                i: {"classes": [f"com.abrar.Root{i}"]} for i in range(1106)
+            })
+
+    def test_accepts_bounded_root_exclusions(self):
+        validate_coverage(dict.fromkeys(range(800)), {
+            i: {"classes": [f"com.abrar.Root{i}"]} for i in range(300)
+        })
+
+    def test_rejects_android_entry_even_with_high_coverage(self):
+        with self.assertRaisesRegex(RuntimeError, "Android-only"):
+            validate_coverage(dict.fromkeys(range(800)), {
+                "Lui;": {"classes": ["com.abrar.voyahiran.ui.MainActivity"]}
+            })
+
+    def test_empty_selection_fails_closed(self):
+        with self.assertRaisesRegex(RuntimeError, "coverage collapsed"):
+            validate_coverage({}, {})
 
 
 if __name__ == "__main__":
