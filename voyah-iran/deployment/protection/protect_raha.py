@@ -308,6 +308,23 @@ def choose_app_targets(mapping, strings, inventory, graph, native=()):
     return targets, match[1], excluded, reasons
 
 
+def validate_coverage(targets, exclusions):
+    """Do not sign/package a successful but effectively unprotected application."""
+    total = len(targets) + len(exclusions)
+    require(total > 0 and len(targets) * 2 >= total,
+            f"Protection coverage collapsed: {len(targets)}/{total} first-party DEX classes; "
+            "inspect selection-report.json before publishing")
+    android_only = {
+        "com.abrar.voyahiran.ui.MainActivity",
+        "com.abrar.voyahiran.VoyahIranApplication",
+        "com.abrar.voyahiran.feature.subscription.SubscriptionRepository",
+        "com.abrar.voyahiran.feature.voice.RahaService",
+        "com.abrar.raha.RahaCommandRecognizer",
+    }
+    leaked = android_only & {name for entry in exclusions.values() for name in entry["classes"]}
+    require(not leaked, "Android-only implementation entered root exclusions: " + ", ".join(sorted(leaked)))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--java", required=True, type=Path)
@@ -331,6 +348,11 @@ def main():
     tool = prepare_tool(java, args.cache.resolve(), log)
     graph, native = dependency_graph(java, tool, apk, output, log)
     targets, map_id, exclusions, root_closure = choose_app_targets(mapping, strings, inventory, graph, native)
+    (output / "selection-report.json").write_text(json.dumps({
+        "protected_classes": targets, "first_party_exclusions": exclusions,
+        "root_dependency_closure": root_closure,
+    }, indent=2), encoding="utf-8")
+    validate_coverage(targets, exclusions)
     # Java regex matches the whole descriptor. Everything except these classes is excluded.
     rules = output / "exclude.rules"
     rules.write_text("(?!(?:" + "|".join(re.escape(t) for t in sorted(targets)) + ")$).*\n", encoding="utf-8")

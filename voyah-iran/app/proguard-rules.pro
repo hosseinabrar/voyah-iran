@@ -37,6 +37,12 @@
 # also prevents generated lambda holders from merging across the root/DPT boundary;
 # package keep rules alone do not cover R8's newly generated shared holders.
 -dontoptimize
+# Keep renamed classes in a qualified namespace. The conservative reflection
+# dependency scanner also examines string literals in reflective methods:
+# default-package names such as "on" can collide with ordinary OEM values and
+# accidentally pull the entire Android UI into the app_process exclusion graph.
+# Manifest/root entry points retained by keep/keepnames keep their required names.
+-repackageclasses com.abrar.voyahiran.obfuscated
 -keep,allowshrinking,allowobfuscation class com.abrar.** { *; }
 # JNA resolves these custom native interfaces and their method names reflectively.
 -keep interface * extends com.sun.jna.Library { *; }
