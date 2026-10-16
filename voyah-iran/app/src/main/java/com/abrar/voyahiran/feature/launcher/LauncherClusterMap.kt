@@ -103,7 +103,7 @@ internal object LauncherClusterMap {
         task?.cancel();task=null
     }
     // OFF/AUTO changes request a fade; do not let the Activity's 100ms watchdog
-    // destroy its SurfaceView halfway through that transition.
+    // destroy its output texture halfway through that transition.
     fun valid(c: Context, id: String?) = id != null && session == id && renderer != null &&
         (c.applicationContext as VoyahIranApplication).subscriptions.vipAllowed
     fun surface(id: String, surface: Surface?, w: Int, h: Int) {
