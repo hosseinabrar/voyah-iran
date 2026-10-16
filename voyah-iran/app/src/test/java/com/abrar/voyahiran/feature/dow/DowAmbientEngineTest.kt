@@ -23,10 +23,10 @@ class DowAmbientEngineTest {
     }
     @Test fun experimentalValueIsNotFaultAndCurveIsBoundedAndPeriodic() {
         assertNotEquals(4, DowContract.EXPERIMENTAL_WARNING)
-        assertEquals(1, DowContract.level(0)); assertEquals(10, DowContract.level(50))
-        assertEquals(5, DowContract.level(250)); assertEquals(1, DowContract.level(450))
+        assertEquals(10, DowContract.level(0)); assertEquals(10, DowContract.level(249))
+        assertEquals(0, DowContract.level(250)); assertEquals(0, DowContract.level(499))
         for (t in 0L..2000) {
-            assertTrue(DowContract.level(t) in 1..10)
+            assertTrue(DowContract.level(t) in listOf(0, 10))
             assertEquals(DowContract.level(t), DowContract.level(t + 500))
         }
     }
@@ -37,8 +37,8 @@ class DowAmbientEngineTest {
         for (t in 0L..2000 step 25) engine.tick(t, true, 2, 3)
         assertTrue(engine.flashing); assertEquals(1, port.calls.count { it == "normal-red" })
         assertEquals(original, store.journal!!.snapshot); assertTrue(store.journal!!.pending)
-        assertTrue(port.calls.contains("level:10")); assertTrue(port.calls.contains("level:1"))
-        assertFalse(port.calls.contains("level:0"))
+        assertTrue(port.calls.contains("level:10")); assertTrue(port.calls.contains("level:0"))
+        assertFalse(port.calls.contains("level:1"))
     }
     @Test fun anyStateChangeRestoresPowerModeColorAndBrightness() {
         for (next in listOf(null, 0, 1, 2, 4, 5, 6, 7)) {

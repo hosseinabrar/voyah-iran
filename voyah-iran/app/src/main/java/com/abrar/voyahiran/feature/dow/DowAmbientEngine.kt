@@ -8,14 +8,10 @@ object DowContract {
     const val SWITCH_ORDINAL = 0x1dc
     const val SWITCH_ID = 0x2b6
     const val RED = 62 // OEM atm_color_62_01, #fa4550.
-    /** Fast 50 ms rise, 400 ms fall, 50 ms at minimum brightness; never powers off. */
+    /** 250 ms on at full brightness, 250 ms completely off. */
     fun level(elapsed: Long): Int {
         val t = elapsed.coerceAtLeast(0) % 500
-        return when {
-            t < 50 -> (t / 5).toInt()
-            t < 450 -> (10 - (t - 50) / 40).toInt()
-            else -> 1
-        }.coerceIn(1, 10)
+        return if (t < 250) 10 else 0
     }
 }
 data class AmbientSnapshot(val power: Int, val music: Int, val drive: Int, val color: Int, val brightness: Int) {

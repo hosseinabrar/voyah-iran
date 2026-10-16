@@ -9,7 +9,7 @@ import com.abrar.voyahiran.feature.dow.DowContract
 import java.io.File
 import java.util.ArrayDeque
 
-/** Only callback registration and read transactions. Never writes to the vehicle. */
+/** CAN monitoring is read-only; explicit light test delegates to the authenticated main bridge. */
 class MainActivity : Activity() {
     private lateinit var ui: ProbeView
     private val main = Handler(Looper.getMainLooper())
@@ -30,6 +30,7 @@ class MainActivity : Activity() {
     private lateinit var logFile: File
     private var lastSample = ""
     private var lastHeartbeat = 0L
+    private var manualTestRequested = false
     private val callback = object : Binder() {
         override fun onTransact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
             if (code == INTERFACE_TRANSACTION) { reply?.writeString(CALLBACK); return true }
@@ -71,6 +72,15 @@ class MainActivity : Activity() {
         logFile = File(getExternalFilesDir(null) ?: filesDir, "dow-probe.log")
         target = getPreferences(0).getInt("target", 3).coerceIn(0, 7)
         ui = ProbeView(this); ui.target.setText(target.toString()); setContentView(ui)
+        ui.testStart.setOnClickListener {
+            manualTestRequested = true
+            ui.testStart.isEnabled = false
+            worker.post { sendLightTest(true) }
+        }
+        ui.testStop.setOnClickListener {
+            manualTestRequested = false
+            worker.post { sendLightTest(false) }
+        }
         ui.apply.setOnClickListener {
             val value = ui.target.text.toString().toIntOrNull()
             if (value == null || value !in 0..7) { ui.target.error = "Enter 0–7"; return@setOnClickListener }
@@ -103,6 +113,10 @@ class MainActivity : Activity() {
     }
     override fun onStop() {
         visible = false; main.removeCallbacks(frame); worker.removeCallbacks(poll)
+        if (manualTestRequested) {
+            manualTestRequested = false
+            worker.post { sendLightTest(false) }
+        }
         worker.post {
             runCatching { call(0x1d) { writeStrongBinder(callback) } }; binder = null
             state = null; switch = null; acc = null; record("STOP")
@@ -111,6 +125,15 @@ class MainActivity : Activity() {
         super.onStop()
     }
     override fun onDestroy() { workerThread.quitSafely(); super.onDestroy() }
+    private fun sendLightTest(start: Boolean) {
+        val result = runCatching { AmbientTestClient.send(start) }
+        val message = result.getOrElse { "Light test failed: ${it.message}. Update the main installer/bridge first." }
+        record(message)
+        main.post {
+            ui.testStart.isEnabled = true
+            if (visible) Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
+    }
     @Deprecated("Legacy vehicle picker")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
