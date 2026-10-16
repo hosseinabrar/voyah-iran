@@ -23,8 +23,8 @@ android {
         applicationId = "com.abrar.voyahiran"
         minSdk = 28
         targetSdk = 32
-        versionCode = 16
-        versionName = "2.0.1"
+        versionCode = 19
+        versionName = "2.1.0"
         buildConfigField("String", "NESHAN_MAP_KEY", neshanKey("neshan.mapKey", "NESHAN_MAP_KEY"))
         buildConfigField("String", "NESHAN_SEARCH_KEY", neshanKey("neshan.searchKey", "NESHAN_SEARCH_KEY"))
         buildConfigField("String", "SUBSCRIPTION_URL", "\"http://voyah-iran.ir/registerOrRenewSubscription\"")
