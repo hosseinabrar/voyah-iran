@@ -17,7 +17,12 @@ internal object OemEnergyBinder {
         try { executeInstalled(action,parameters) }
         catch(error:LinkageError) {throw IllegalStateException("Installed energy SDK could not be loaded",error)}
     }
-    private fun executeInstalled(action: String, parameters: Map<String,Any>) {
+    fun restoreMode(value: Int) {
+        require(value in 1..4)
+        try { executeInstalled("RESTORE_ENERGY_MODE", emptyMap(), value) }
+        catch (error: LinkageError) { throw IllegalStateException("Installed energy SDK could not be loaded", error) }
+    }
+    private fun executeInstalled(action: String, parameters: Map<String,Any>, memoryValue: Int? = null) {
         val apk=File("/system/priv-app/VehicleSetting-release-signed/VehicleSetting-release-signed.apk")
         check(apk.isFile) { "Installed VehicleSetting SDK unavailable" }
         val loader=object : PathClassLoader(apk.path,"/system/lib64:/system/lib",javaClass.classLoader) {
@@ -68,6 +73,11 @@ internal object OemEnergyBinder {
                 else api.getMethod("setVehicleState",stateType,Int::class.javaPrimitiveType)
             }
             override fun write(field:String,value:Int,bundle:Boolean) {
+                if (memoryValue != null) {
+                    check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
+                    check(api.getMethod("getAccStatus").invoke(remote) == 2) { "Vehicle not powered" }
+                    check(api.getMethod("getVehicleSpeed").invoke(remote) == 0) { "Vehicle not stationary" }
+                }
                 AppLog.info("RahaEnergy","write field=$field value=$value bundle=$bundle")
                 val result=if(bundle && !legacyMenu) {
                     val values=Bundle().apply {putInt(field(field).toString(),value)}
@@ -96,6 +106,7 @@ internal object OemEnergyBinder {
             port.confirm(key, desired)
             return
         }
-        EnergyCommandExecutor(port).execute(action,parameters)
+        if (memoryValue != null) EnergyCommandExecutor(port).restoreMode(memoryValue)
+        else EnergyCommandExecutor(port).execute(action,parameters)
     }
 }

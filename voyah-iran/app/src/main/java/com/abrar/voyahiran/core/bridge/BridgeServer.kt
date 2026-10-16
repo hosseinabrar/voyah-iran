@@ -77,6 +77,7 @@ object BridgeServer {
                         "sunshade-departure" -> RahaVehicleBridge.closeSunshadeOnDeparture()
                         "sunshade-ready" -> RahaVehicleBridge.openSunshadeOnReady()
                         "aeb-memory" -> AebMemoryBridge.apply(command[1].toInt())
+                        "energy-mode-memory" -> EnergyModeMemoryBridge.apply(command[1].toInt())
                         "pedestrian-memory" -> PedestrianMemoryBridge.apply(command[1].toInt())
                         "apollo-test-read" -> ApolloExperimentBridge.execute()
                         "apollo-test-set" -> ApolloExperimentBridge.execute(command[1], command[2].toInt())

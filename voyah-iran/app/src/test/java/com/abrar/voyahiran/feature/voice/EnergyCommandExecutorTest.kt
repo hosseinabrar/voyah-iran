@@ -15,6 +15,32 @@ class EnergyCommandExecutorTest {
         override fun write(field:String,value:Int,bundle:Boolean) {operations+="write:$field:$value:$bundle"}
         override fun confirm(field:String,value:Int) {operations+="confirm:$field:$value";if(reject)error("No feedback");if(field=="IVI_SOC_MODESET")mode=value}
     }
+    @Test fun memoryMatchesRahaForEverySupportedFactoryMode() {
+        for (modes in listOf(EnergyStrategyPolicy.legacyModes(true),
+            EnergyStrategyPolicy.modes(true,true,false), EnergyStrategyPolicy.modes(true,false,true))) {
+            for ((name, value) in modes) {
+                val voice = Port(modes).apply { mode = if (value == 2) 3 else 2 }
+                val memory = Port(modes).apply { mode = voice.mode }
+                EnergyCommandExecutor(voice).execute("SET_ENERGY_STRATEGY", mapOf("strategy" to name))
+                EnergyCommandExecutor(memory).restoreMode(value)
+                assertEquals(voice.operations, memory.operations)
+                assertFalse(memory.operations.any { it.contains("SREV_SOC_SET") })
+            }
+        }
+    }
+    @Test fun memoryRejectsUnsupportedAndUnknownAndSkipsAlreadySelected() {
+        val same = Port()
+        EnergyCommandExecutor(same).restoreMode(2)
+        assertTrue(same.operations.isEmpty())
+        for ((p, value) in listOf(Port() to 1, Port(emptyMap()) to 2,
+            Port().apply { mode = 255 } to 4, Port() to 5)) {
+            rejected { EnergyCommandExecutor(p).restoreMode(value) }
+            assertTrue(p.operations.isEmpty())
+        }
+        val failed = Port().apply { reject = true }
+        rejected { EnergyCommandExecutor(failed).restoreMode(4) }
+        assertEquals(2, failed.operations.size)
+    }
     private fun rejected(block:()->Unit) {try {block();fail("Expected rejection")}catch(_:IllegalArgumentException){}catch(_:IllegalStateException){}}
     @Test fun installedMenuMappingSelectsHybridFuelAndElectric() {
         for((name,value) in mapOf("hybrid" to 3,"fuel" to 4,"electric" to 2)) {
