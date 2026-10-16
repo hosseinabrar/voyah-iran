@@ -26,8 +26,8 @@ object RahaVehicleBridge {
         plan.forEach(sdk::validate)
         val before = sdk.vehicle("ROLL_OPEN_PERCENT")
         check(before in 0..100) { "Sunshade position unavailable" }
-        check(BridgeSubscriptionSession.vipActive && sdk.acc() == 0 && sdk.speed() == 0) {
-            "Departure closure requires VIP, ACC off and stationary vehicle"
+        check(BridgeSubscriptionSession.vipActive && sdk.vehicle("HUM_VCU_READY") == 0 && sdk.speed() == 0) {
+            "Departure closure requires VIP, READY off and stationary vehicle"
         }
         if (before != 0) {
             AppLog.info("SunshadeDeparture", "OEM request ROLL_OPEN_PERCENT=0 before=$before")
