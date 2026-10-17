@@ -77,7 +77,7 @@ class LauncherDashboard(context: Context) : View(context) {
         c.restoreToCount(layer)
     }
     private fun changeCover(next:Bitmap?) {
-        if(next===shownCover)return
+        if(LauncherArtworkIdentity.same(next,shownCover))return
         // Retarget from the currently visible mixture, never jump to either endpoint.
         val previous=if(coverFade<1f)Bitmap.createBitmap(355,355,Bitmap.Config.ARGB_8888).also {
             drawCoverBlend(Canvas(it),RectF(0f,0f,355f,355f))

@@ -28,6 +28,7 @@ internal class LauncherMediaObserver(private val context: Context, private val s
     private var running=false
     private var sessionListenerRegistered=false
     private var lastError=""
+    private var lastArtwork: android.graphics.Bitmap? = null
     private val sessions=MediaSessionManager.OnActiveSessionsChangedListener {
         if(running) { bind(it.orEmpty());refresh("sessions") }
     }
@@ -86,7 +87,13 @@ internal class LauncherMediaObserver(private val context: Context, private val s
                 }
                 snapshot.onSuccess { bind(it) }.onFailure { failed("session snapshot unavailable",it) }
                 val value=withContext(Dispatchers.IO) {
-                    runCatching { LauncherMedia.read(context,snapshot.getOrDefault(emptyList())) }
+                    runCatching {
+                        val fresh=LauncherMedia.read(context,snapshot.getOrDefault(emptyList()))
+                        // Do the potentially expensive pixel comparison off the UI thread.
+                        val cover=if(LauncherArtworkIdentity.same(lastArtwork,fresh.cover))lastArtwork else fresh.cover
+                        lastArtwork=cover
+                        fresh.copy(cover=cover)
+                    }
                 }
                 value.onSuccess {
                     changed(it)

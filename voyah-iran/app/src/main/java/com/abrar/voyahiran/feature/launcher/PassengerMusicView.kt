@@ -46,7 +46,7 @@ internal class PassengerMusicView(context:Context):View(context){
         val trackChanged=s.title!=state.title||s.artist!=state.artist
         if(trackChanged)cancelGesture()
         val timingChanged=trackChanged||s.position!=state.position||s.playing!=state.playing||s.duration!=state.duration
-        val changed=s.cover!==state.cover
+        val changed=!LauncherArtworkIdentity.same(s.cover,state.cover)
         if(changed){
             val previous=if(blend<1f)Bitmap.createBitmap(135,135,Bitmap.Config.ARGB_8888).also {
                 val canvas=Canvas(it);canvas.translate(-20f,-20f);drawCoverBlend(canvas)
