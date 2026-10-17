@@ -28,7 +28,7 @@ internal class PassengerWeatherView(context:Context):View(context) {
         icons[unavailable]=LauncherWeatherArtwork.decode(resources,unavailable)
         contentDescription="Weather unavailable"
     }
-    private fun iconId(code:Int,day:Boolean)=if(!day&&code in 0..1)com.abrar.voyahiran.R.drawable.launcher_weather_moon else LauncherWeatherCode.icon(code)
+    private fun iconId(code:Int,day:Boolean)=LauncherWeatherCode.icon(code,day)
     fun update(next:LauncherWeatherState){
         if(next==state)return
         (listOf(next.code to next.day)+next.hours.take(5).map{it.code to it.day}).forEach{(code,day)->

@@ -102,8 +102,6 @@ class LauncherDashboard(context: Context) : View(context) {
     private var mediaTextPicture:Picture?=null
     var weather = LauncherWeatherState()
         set(value) { field=value; invalidate() }
-    private val moonBitmap get() = bitmaps.get(R.drawable.launcher_weather_moon,sample=4)
-    private val nightCloudBitmap get() = bitmaps.get(R.drawable.launcher_weather_hd_overcast,weather=true)
     private val unknownWeatherBitmap get() = bitmaps.get(R.drawable.launcher_weather_hd_unavailable,weather=true)
     var mapMessage = LauncherMapPreview.LOADING
         set(value) { field = value; invalidate() }
@@ -267,16 +265,9 @@ class LauncherDashboard(context: Context) : View(context) {
             paint.color=Color.WHITE
             c.drawBitmap(unknownWeatherBitmap,null,RectF(1569f,462f,1749f,642f),paint)
         } else {
-            if (!weather.day && weather.code in 0..2) {
-                paint.color=Color.WHITE
-                val bounds=if(weather.code==2) RectF(1541f,459f,1691f,609f) else RectF(1542f,462f,1722f,642f)
-                c.drawBitmap(moonBitmap,null,bounds,paint)
-                if(weather.code==2) c.drawBitmap(nightCloudBitmap,null,RectF(1565f,519f,1710f,647f),paint)
-            } else {
-                val id=LauncherWeatherCode.icon(if(!weather.day && weather.code in 80..82) 63 else weather.code)
-                val weatherBitmap=bitmaps.get(id,weather=true)
-                weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1569f,462f,1749f,642f),paint) }
-            }
+            val id=LauncherWeatherCode.icon(weather.code,weather.day)
+            val weatherBitmap=bitmaps.get(id,weather=true)
+            weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1569f,462f,1749f,642f),paint) }
         }
         text("Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",1355f,646f,12f,secondary)
         c.restore()
