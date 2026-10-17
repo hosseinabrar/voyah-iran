@@ -9,6 +9,7 @@ import java.lang.reflect.*;
 
 /** Runs in an isolated root app_process. EOF or STOP clears guidance. */
 public final class ClusterProbe {
+ private static final ImageLayerProbe imageLayer=new ImageLayerProbe();
  private static void log(String s) { System.out.println(s); System.out.flush(); Log.i("VoyahClusterTest",s); }
  public static void main(String[] args) {
   try {
@@ -44,14 +45,16 @@ public final class ClusterProbe {
    while(true) {
     String line=null;
     try{line=reader.readLine();if(line==null||line.equals("STOP"))break;}catch(java.net.SocketTimeoutException timeout){}
-    if(line!=null && line.startsWith("MAP ")){try{if(map==null)map=new MapProbe(api.remote,api.service,api.loader);map.command(line);}catch(Exception e){output.println("MAP_ERROR "+Log.getStackTraceString(e));}line=null;}
+    if(line!=null && line.startsWith("IMAGE ")){try{if(map!=null){map.close();map=null;}imageLayer.command(line.substring(6));}catch(Exception e){output.println("IMAGE_ERROR "+Log.getStackTraceString(e));}line=null;}
+    try{imageLayer.poll(output);}catch(Exception e){output.println("IMAGE_ERROR "+e);}
+    if(line!=null && line.startsWith("MAP ")){imageLayer.off();try{if(map==null)map=new MapProbe(api.remote,api.service,api.loader);map.command(line);}catch(Exception e){output.println("MAP_ERROR "+Log.getStackTraceString(e));}line=null;}
     if(map!=null)try{map.poll(output);}catch(Exception e){output.println("MAP_POLL_ERROR "+Log.getStackTraceString(e));map.close();map=null;}
     if(line!=null){try{String[] parts=line.split("\\t",-1);if(parts.length!=2)throw new IllegalArgumentException("Expected icon and base64 text; update helper");int value=Integer.parseInt(parts[0]);String nextRoad=TextProbe.decode(parts[1]);if(value<0||value>65535)throw new IllegalArgumentException("0..65535");icon=value;road=nextRoad;next=0;}catch(Exception e){output.println("INVALID "+line);}}
     long now=SystemClock.elapsedRealtime();
     if(icon!=null&&now>=next){api.send(icon,road);String message="BINDER_RETURNED icon="+icon+" meters=100 road="+road+" codepoints="+TextProbe.codepoints(road)+" state=GUIDING (verify visually)";log(message);output.println(message);if(output.checkError())break;next=now+1000;}
    }
   }catch(Throwable e){String message="ERROR "+Log.getStackTraceString(e);log(message);output.println(message);}
-  finally {if(map!=null)map.close();if(api!=null)try{api.send(null,"");output.println("STOPPED MAN_STOP");log("STOPPED MAN_STOP");}catch(Throwable e){log("CLEAR_FAILED "+Log.getStackTraceString(e));output.println("CLEAR_FAILED "+e);}}
+  finally {imageLayer.off();if(map!=null)map.close();if(api!=null)try{api.send(null,"");output.println("STOPPED MAN_STOP");log("STOPPED MAN_STOP");}catch(Throwable e){log("CLEAR_FAILED "+Log.getStackTraceString(e));output.println("CLEAR_FAILED "+e);}}
  }
  private static final class Api {
   final Object remote;final Class<?> info,guide,service;final ClassLoader loader;final Method update;

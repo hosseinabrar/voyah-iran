@@ -138,3 +138,22 @@ Diagnostics (`VoyahClusterTest` logcat tag): `PRESENTATION_REQUEST` means a requ
 No persistent navigation-card settings, vehicle configuration, firmware, or raw bus packets are changed. Stop requests close the selected presentation and remove the test activity via a short-lived lease. It does not restore the exact previous cluster page or claim to reconstruct unknown OEM readiness state. If a service call fails, the failure is logged; returning to the original cluster page with the steering wheel may be necessary.
 
 This first image probe targets the `qg.cluster.service` API verified in the available H97X/H97C dumps. It does not implement H97A's separate legacy Presentation backend. Missing APIs fail explicitly; it never guesses that another physical display is the cluster. The existing root helper/TBT backend already requires this service.
+# Single-image layer experiment
+
+The three buttons at the top select the bundled transparent map PNG, music PNG,
+or **قطع**. This experiment injects **one ImageView into the OEM music panel**;
+it does not launch MapTestActivity or move Neshan. The layer persists at alpha 0
+after OFF. Map/music hide the original panel children; OFF restores their saved
+visibility. Image changes blend inside one Drawable; opacity transitions take
+360 ms. Rapid changes continue from the current blend. Geometry is initially
+480×480 at (95,167) in the OEM 1920×720 coordinate space.
+
+Disable Voyah Iran's cluster music/map publishing before testing to avoid two
+hooks owning the same panel. Install the updated test APK and rerun
+Start-ClusterTest.ps1 to update the root helper. Requires the existing
+/data/local/tmp/voyahiran-bridge/neshan/frida-inject runtime and the H97X/H97C
+instrumentcard app. No production source is used or modified by this test.
+Disconnect/background returns to OFF; a 3-second heartbeat watchdog also restores
+factory content. The image remains attached for the OEM panel's lifetime.
+Logs: VoyahClusterTest / VI_IMAGE_TEST (mounted, transition, settled, ERROR).
+No on-car validation is implied by the mocked JavaScript tests.

@@ -69,6 +69,10 @@ public final class MainActivity extends Activity {
  @Override public void onCreate(Bundle b){super.onCreate(b);getFilesDir().mkdirs();
   ScrollView scroll=new ScrollView(this);LinearLayout box=new LinearLayout(this);box.setOrientation(1);box.setPadding(dp(24),dp(16),dp(24),dp(16));box.setBackgroundColor(0xff172238);scroll.addView(box);setContentView(scroll);
   label(box,"تست نقشه، متن و فلش کلاستر — 0.4.0");
+  label(box,"تست تصویر ثابت — یک لایهٔ ماندگار");
+  LinearLayout imageRow=new LinearLayout(this);box.addView(imageRow);
+  mapButton(imageRow,"نمایش نقشه","IMAGE map");mapButton(imageRow,"نمایش موزیک","IMAGE music");mapButton(imageRow,"قطع","IMAGE off");
+  label(box,"پیش از تست، نمایش موزیک و نقشهٔ کلاستر در وویا ایران را خاموش کنید. قطع، محتوای اصلی خودرو را برمی‌گرداند.");
   tuningControls(box);
   label(box,"ابتدا نمایش ناوبری نشان در کلاستر را در وویا ایران خاموش کنید. تست را در حالت توقف خودرو انجام دهید.");
   label(box,"جهت نشان — همهٔ مقادیر enum");directions=new Spinner(this);directions.setBackgroundColor(Color.WHITE);
