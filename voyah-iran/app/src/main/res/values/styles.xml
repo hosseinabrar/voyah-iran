@@ -3,7 +3,21 @@
     <style name="Theme.VoyahLauncher" parent="android:style/Theme.Material.NoActionBar">
         <!-- The OEM safe-area cover bridges to our theme-aware first frame, not a stale task preview. -->
         <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.VoyahLauncher</item>
+    </style>
+    <style name="Animation.VoyahLauncher" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/launcher_c_enter</item>
+        <item name="android:activityCloseEnterAnimation">@anim/launcher_c_enter</item>
+        <item name="android:taskOpenEnterAnimation">@anim/launcher_c_enter</item>
+        <item name="android:taskCloseEnterAnimation">@anim/launcher_c_enter</item>
+        <item name="android:taskToFrontEnterAnimation">@anim/launcher_c_enter</item>
+        <item name="android:taskToBackEnterAnimation">@anim/launcher_c_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/launcher_c_exit</item>
+        <item name="android:activityCloseExitAnimation">@anim/launcher_c_exit</item>
+        <item name="android:taskOpenExitAnimation">@anim/launcher_c_exit</item>
+        <item name="android:taskCloseExitAnimation">@anim/launcher_c_exit</item>
+        <item name="android:taskToFrontExitAnimation">@anim/launcher_c_exit</item>
+        <item name="android:taskToBackExitAnimation">@anim/launcher_c_exit</item>
     </style>
     <style name="Theme.VoyahIran.Notice" parent="Theme.VoyahIran">
         <item name="android:windowIsFloating">true</item>

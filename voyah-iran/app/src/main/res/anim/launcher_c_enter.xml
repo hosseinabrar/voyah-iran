@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- H97C launcher activity enter: centered scale and alpha, OEM timing/interpolator. -->
+<set xmlns:android="http://schemas.android.com/apk/res/android" android:shareInterpolator="false">
+    <alpha android:duration="300" android:fromAlpha="0" android:toAlpha="1" android:interpolator="@android:interpolator/accelerate_decelerate" />
+    <scale android:duration="300" android:fromXScale="0.8" android:toXScale="1" android:fromYScale="0.8" android:toYScale="1" android:pivotX="50%" android:pivotY="50%" android:fillAfter="false" android:interpolator="@android:interpolator/accelerate_decelerate" />
+</set>
