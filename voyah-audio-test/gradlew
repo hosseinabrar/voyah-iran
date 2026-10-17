@@ -1,0 +1,3 @@
+#!/bin/sh
+# Shared, pinned wrapper; no dependency on a globally installed Gradle.
+exec sh "$(dirname "$0")/../voyah-iran/gradlew" -p "$(dirname "$0")" "$@"
