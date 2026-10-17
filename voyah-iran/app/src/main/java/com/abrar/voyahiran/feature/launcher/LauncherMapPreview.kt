@@ -310,10 +310,17 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                                 if(cardSeenAt==0L)cardSeenAt=now
                                 // Wait for the resized card layout, once per arrival, not each heartbeat.
                                 if(now-cardSeenAt>=500) {
+                                    val arrival=cardSeenAt
                                     val camera=withContext(Dispatchers.IO) {
                                         com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("neshan-direct","recenter",id.toString()),3)
                                     }
-                                    if(camera.exitCode!=75 || now-cardSeenAt>5000)recenteredDisplay=id
+                                    // A reply from a previous arrival must not complete the current one.
+                                    if(closed || fullscreen || !active || !mapInCard || embedded.displayId!=id || cardSeenAt!=arrival)return@withLock
+                                    val confirmed=camera.exitCode==0 && !camera.timedOut && camera.output.startsWith("RECENTER_RESULT=applied ")
+                                    val exhausted=android.os.SystemClock.elapsedRealtime()-arrival>=5000
+                                    com.abrar.voyahiran.core.logging.AppLog.info("NeshanRecenter",
+                                        "display=$id arrival=$arrival confirmed=$confirmed exhausted=$exhausted exit=${camera.exitCode} timedOut=${camera.timedOut} result=${camera.output.take(700)}")
+                                    if(confirmed || exhausted)recenteredDisplay=id
                                 }
                             }
                         } else if(r.exitCode!=75) error("نقشه در دسترس نیست")

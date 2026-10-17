@@ -20,6 +20,8 @@ internal class NeshanHookManager {
     private val flag = File(directory, "enabled")
     private val runner = ProcessCommandRunner(useBridge = false)
     private val stateLock = Any()
+    private data class RecenterReply(val process: Process, val signal: java.util.concurrent.CountDownLatch = java.util.concurrent.CountDownLatch(1), @Volatile var result: String? = null)
+    private val recenterReplies = java.util.concurrent.ConcurrentHashMap<String, RecenterReply>()
     @Volatile private var child: Process? = null
     @Volatile private var ready = false
     @Volatile private var failure: String? = null
@@ -92,8 +94,17 @@ internal class NeshanHookManager {
             "recenter" -> {
                 check(BridgeSubscriptionSession.vipActive && display != null && display in 2..10000)
                 if (!ready || child?.isAlive != true) return CommandResult(75, "Neshan hook not ready")
-                child!!.outputStream.apply { write("recenter $display\n".toByteArray()); flush() }
-                return CommandResult(0, "Camera follow update queued")
+                val process = child ?: return CommandResult(75, "hook_missing")
+                val token = java.util.UUID.randomUUID().toString()
+                val reply = RecenterReply(process)
+                recenterReplies[token] = reply
+                try {
+                    process.outputStream.apply { write("recenter $display $token ${System.currentTimeMillis()+1200}\n".toByteArray()); flush() }
+                    reply.signal.await(1500, TimeUnit.MILLISECONDS)
+                    val result = reply.result ?: "ack_timeout"
+                    AppLog.info("NeshanRecenter", "request=$token display=$display result=$result")
+                    return CommandResult(if(result == "applied") 0 else 75, "RECENTER_RESULT=$result request=$token")
+                } finally { recenterReplies.remove(token) }
             }
             else -> error("Unsupported Neshan command")
         }
@@ -230,6 +241,13 @@ internal class NeshanHookManager {
     private fun accept(process: Process, line: String) = synchronized(stateLock) {
         if (child !== process) return@synchronized
         when {
+            line.startsWith("VI_NESHAN_RECENTER_RESULT ") -> {
+                val parts = line.split(' ', limit=3)
+                if(parts.size==3) recenterReplies[parts[1]]?.takeIf { it.process === process }?.let {
+                    it.result=parts[2];it.signal.countDown()
+                }
+                AppLog.info("NeshanRecenter",line.take(700))
+            }
             line.startsWith("VI_NESHAN_READY ") -> { ready = true; AppLog.info("NeshanDirect", line) }
             line == "VI_NESHAN_CLEAR" -> sample = null
             line == "VI_NESHAN_DISABLED" -> { ready = false; sample = null }

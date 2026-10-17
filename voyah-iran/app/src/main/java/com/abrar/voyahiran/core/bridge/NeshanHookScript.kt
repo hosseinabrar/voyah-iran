@@ -97,8 +97,8 @@ rpc.exports = {
         const cmd = data.trim();
         if (cmd === 'ping') heartbeat = Date.now();
         if (cmd === 'disable') Java.perform(disable);
-        const recenter=/^recenter ([0-9]{1,5})$/.exec(cmd);
-        if(recenter && typeof recenterCard==='function')recenterCard(Number(recenter[1]));
+        const recenter=/^recenter ([0-9]{1,5}) ([a-f0-9-]{36}) ([0-9]{13})$/.exec(cmd);
+        if(recenter && typeof recenterCard==='function')recenterCard(Number(recenter[1]),recenter[2],Number(recenter[3]));
     },
     dispose: function() { Java.perform(disable); }
 };
