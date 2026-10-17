@@ -3,6 +3,7 @@ package com.abrar.voyahiran.feature.launcher
 import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Looper
 import android.view.MotionEvent
 import org.json.JSONObject
 import org.junit.Assert.*
@@ -10,6 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import java.io.File
@@ -26,7 +28,15 @@ class PassengerFragranceRenderTest {
         val output=File("build/reports/passenger-fragrance").apply{mkdirs()}
         for(light in listOf(false,true))for(tone in 1..3)for(on in listOf(false,true)){
             view.light=light;view.update(sample(tone,on))
-            val b=Bitmap.createBitmap(770,280,Bitmap.Config.ARGB_8888);view.draw(Canvas(b))
+            val b=Bitmap.createBitmap(770,280,Bitmap.Config.ARGB_8888)
+            // Draw once to retain cached assets and request anything evicted during preparation.
+            val deadline=System.nanoTime()+5_000_000_000L
+            do {
+                b.eraseColor(android.graphics.Color.TRANSPARENT);view.draw(Canvas(b))
+                if(android.graphics.Color.alpha(b.getPixel(10,100))==255)break
+                Thread.sleep(25);shadowOf(Looper.getMainLooper()).idle()
+            } while(System.nanoTime()<deadline)
+            assertEquals("Landscape must be loaded before snapshot",255,android.graphics.Color.alpha(b.getPixel(10,100)))
             File(output,"fragrance-${if(light)"light" else "dark"}-$tone-${if(on)"on" else "off"}.png").outputStream().use{b.compress(Bitmap.CompressFormat.PNG,100,it)}
             assertNotEquals(b.getPixel(300,10),b.getPixel(300,260));b.recycle()
         }

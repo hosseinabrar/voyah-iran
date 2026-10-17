@@ -5,6 +5,7 @@ import android.graphics.*
 import android.view.MotionEvent
 import android.view.View
 import android.animation.ValueAnimator
+import android.view.animation.LinearInterpolator
 import org.json.JSONObject
 import kotlin.math.*
 
@@ -45,7 +46,8 @@ internal class PassengerFragranceView(context:Context):View(context) {
     }
     private fun animateObject(){
         if(isAttachedToWindow&&isShown&&windowVisibility==VISIBLE&&on&&ValueAnimator.areAnimatorsEnabled()){
-            if(breath==null)breath=ValueAnimator.ofFloat(0f,1f).apply{duration=2500;repeatCount=ValueAnimator.INFINITE;repeatMode=ValueAnimator.REVERSE;addUpdateListener{pulse=it.animatedValue as Float;invalidate()};start()}
+            // OEM uses 56 frames at 40 ms. Bundled artwork contains every other frame.
+            if(breath==null)breath=ValueAnimator.ofFloat(0f,1f).apply{duration=2240;interpolator=LinearInterpolator();repeatCount=ValueAnimator.INFINITE;addUpdateListener{val p=it.animatedValue as Float;if((p*28).toInt()!=(pulse*28).toInt()){pulse=p;invalidate()}};start()}
         }else{breath?.cancel();breath=null;pulse=0f}
     }
     override fun onAttachedToWindow(){super.onAttachedToWindow();animateObject()}
@@ -91,13 +93,16 @@ internal class PassengerFragranceView(context:Context):View(context) {
         if(!light){paint.shader=LinearGradient(0f,280f,0f,210f,intArrayOf(0x8006101b.toInt(),0x0006101b),null,Shader.TileMode.CLAMP);c.drawRect(0f,0f,770f,280f,paint);paint.shader=null}
         c.save();c.translate(28.0464f,0f);c.scale(.927152f,.927152f)
         if(light){c.save();c.translate(586.5f,229f);c.scale(1f,30f/133f);paint.shader=RadialGradient(0f,0f,66.5f,intArrayOf(0x70253f57,0x00324e65),null,Shader.TileMode.CLAMP);c.drawCircle(0f,0f,66.5f,paint);paint.shader=null;c.restore()}
-        c.save();c.translate(0f,-2f*pulse);c.scale(1f+.012f*pulse,1f+.012f*pulse,587f,222f)
         image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",RectF(467f,46f,707f,242f),alpha=(191+64*motion.value("power",if(on)1f else 0f)).toInt())
-        c.restore()
+        if(on){
+            val frame=((pulse*28).toInt().coerceIn(0,27)*2).toString().padStart(2,'0')
+            image(c,"fragrance_anim_$frame",RectF(528f,55f,646f,221f),alpha=if(light)185 else 225)
+        }
         val label=if(light)color(when(tone){1->"#707985";2->"#747970";else->"#7c7182"}) else Color.WHITE
         text(c,listOf("","Watery mist","Fresh bamboo","Peony scarlet")[tone],587f,37f,20f,label)
         for(row in 0..1){
             val y=if(row==0)94f else 193f
+            c.save();c.scale(1.2f,1.2f,215f,y+24f)
             text(c,if(row==0)"Intensity" else "Duration",215f,y-12f,18f,label)
             paint.color=if(light)color(when(tone){1->"#99335b78";2->"#99173d2c";else->"#99675478"}) else 0x66001629
             c.drawRoundRect(RectF(71f,y,359f,y+48f),30f,30f,paint)
@@ -109,6 +114,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
             }
             for(i in 0..2){
                 text(c,(if(row==0)listOf("Low","Medium","High") else listOf("30 min","60 min","Unlimited"))[i],119f+i*96,y+30f,17f,if(on)Color.WHITE else 0xffc6cbd0.toInt())}
+            c.restore()
         }
         listOf(2,3,1).forEachIndexed{i,n->
             // Both scene layers share one control target during the background crossfade.
@@ -130,9 +136,9 @@ internal class PassengerFragranceView(context:Context):View(context) {
                 if(abs(x-downX)>24||abs(y-downY)>24)return true
                 if(y in 237f..302f&&x in 469f..697f&&valid("IVI_FRAG_TASTE_FB",1..3)&&valid("FCM_SW_REQ_FB",1..2)){
                     val n=listOf(2,3,1)[((x-469)/82).toInt().coerceIn(0,2)];onCommand("scent",if(on&&scent==n)"0" else PassengerFragranceMapping.channel(n).toString())
-                }else if(on&&x in 71f..359f){val i=((x-71)/96).toInt().coerceIn(0,2)
-                    if(y in 94f..142f&&valid("IVI_FRAG_CONCERNTION_FB",1..3))onCommand("intensity",(i+1).toString())
-                    if(y in 193f..241f&&valid("FCM_DURATION_CONTROL",0..2))onCommand("duration",listOf(1,2,0)[i].toString())
+                }else if(on&&x in 42.2f..387.8f){val i=((x-42.2f)/115.2f).toInt().coerceIn(0,2)
+                    if(y in 89.2f..146.8f&&valid("IVI_FRAG_CONCERNTION_FB",1..3))onCommand("intensity",(i+1).toString())
+                    if(y in 188.2f..245.8f&&valid("FCM_DURATION_CONTROL",0..2))onCommand("duration",listOf(1,2,0)[i].toString())
                 }
                 performClick();return true
             }

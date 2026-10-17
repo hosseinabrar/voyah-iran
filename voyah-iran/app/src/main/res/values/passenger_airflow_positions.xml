@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shared by production and passenger_climate_preview.xml.
+     Coordinates use the card's 770 x 370 design canvas, not screen pixels.
+     x/y = top-left of PNG (including its transparent padding).
+     Preserve width/height ratio when resizing. -->
+<resources>
+    <integer name="air_face_left_x">85</integer>
+    <integer name="air_face_left_y">80</integer>
+    <integer name="air_face_left_width">160</integer>
+    <integer name="air_face_left_height">160</integer>
+
+    <integer name="air_face_center_x">315</integer>
+    <integer name="air_face_center_y">116</integer>
+    <integer name="air_face_center_width">160</integer>
+    <integer name="air_face_center_height">160</integer>
+
+    <integer name="air_face_right_x">525</integer>
+    <integer name="air_face_right_y">80</integer>
+    <integer name="air_face_right_width">160</integer>
+    <integer name="air_face_right_height">160</integer>
+
+    <integer name="air_window_x">235</integer>
+    <integer name="air_window_y">65</integer>
+    <integer name="air_window_width">300</integer>
+    <integer name="air_window_height">98</integer>
+
+    <integer name="air_foot_left_x">175</integer>
+    <integer name="air_foot_left_y">190</integer>
+    <integer name="air_foot_left_width">180</integer>
+    <integer name="air_foot_left_height">55</integer>
+
+    <integer name="air_foot_right_x">415</integer>
+    <integer name="air_foot_right_y">190</integer>
+    <integer name="air_foot_right_width">180</integer>
+    <integer name="air_foot_right_height">55</integer>
+</resources>

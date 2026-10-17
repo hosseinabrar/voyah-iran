@@ -25,10 +25,14 @@ class PassengerClimateRenderTest {
     @Test fun renderProductionClimateInBothThemes(){
         preparePassengerArtwork("oem-ac")
         val view=PassengerClimateView(RuntimeEnvironment.getApplication());view.layout(0,0,770,370);view.update(sample())
+        PassengerClimateView::class.java.getDeclaredField("airflowTime").apply{isAccessible=true}.setLong(view,1400L)
         val output=File("build/reports/passenger-climate").apply{mkdirs()}
         for(light in listOf(false,true)){
             view.light=light
-            val b=Bitmap.createBitmap(770,370,Bitmap.Config.ARGB_8888);view.draw(Canvas(b))
+            val b=Bitmap.createBitmap(770,370,Bitmap.Config.ARGB_8888)
+            // Allow asynchronous production artwork to arrive before capturing the frozen frame.
+            repeat(10){view.draw(Canvas(b));Thread.sleep(30);org.robolectric.Shadows.shadowOf(android.os.Looper.getMainLooper()).idle()}
+            view.draw(Canvas(b))
             File(output,"climate-${if(light)"light" else "dark"}.png").outputStream().use{b.compress(Bitmap.CompressFormat.PNG,100,it)}
             assertTrue(b.getPixel(385,100)!=b.getPixel(385,365));b.recycle()
         }

@@ -38,6 +38,19 @@ internal class PassengerSeatsView(context:Context):View(context) {
     private fun load(name:String):Bitmap {
         cached(name)?.let{return it}
         val b=context.assets.open("passenger/oem-x/$name.png").use{BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{if(name.endsWith("bg_97c")||name=="seat_bg_high_level_97c")inSampleSize=2})!!}
+        if(name=="seat_bg_high_level_97c"){
+            // Register the material-only sprite to the OEM geometry. Keep the OEM alpha
+            // silhouette so the existing ventilation/heating/massage layers stay aligned.
+            val texture=context.assets.open("passenger/oem-x/seat_upholstery_free.png").use{BitmapFactory.decodeStream(it)!!}
+            val result=Bitmap.createBitmap(b.width,b.height,Bitmap.Config.ARGB_8888)
+            val canvas=Canvas(result);canvas.scale(b.width/1920f,b.height/720f)
+            val brush=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+            canvas.drawBitmap(texture,Rect(443,14,972,753),RectF(656f,195f,974f,660f),brush)
+            canvas.drawBitmap(texture,Rect(1146,14,1676,753),RectF(1094f,195f,1413f,660f),brush)
+            brush.xfermode=PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+            canvas.drawBitmap(b,null,RectF(0f,0f,1920f,720f),brush)
+            texture.recycle();b.recycle();retain(name,result);return result
+        }
         retain(name,b);return b
     }
     private fun control(name:String,day:Boolean):Bitmap {
@@ -107,7 +120,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
         };c.restore()
         listOf("vent","heat","massage").forEachIndexed{i,f->
             val name="seat_${s}_${f}_${if(valid(side,f))level(side,f)else 0}_normal"
-            val rect=RectF(40f+i*66,205f,106f+i*66,271f)
+            val rect=RectF(20.2f+i*79.2f,198.4f,99.4f+i*79.2f,277.6f)
             motion.content("control-$side-$f",name,c,rect){image(c,if(light)"light-$it"else it,rect)}
         }
         val modeAlpha=motion.value("mode-visible-$side",if(active(side,"massage"))1f else 0f)
@@ -126,7 +139,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
         when(e.actionMasked){MotionEvent.ACTION_DOWN->{downX=x;downY=y;return true};MotionEvent.ACTION_UP->{
             if(abs(x-downX)>20||abs(y-downY)>20)return true
             val side=if(x<278)0 else 1;val localX=(x-side*278-25.02f)/.82f;val localY=y/.82f;val owner=if(side==0)"driver"else "passenger"
-            if(localY in 205f..273f&&localX in 40f..238f){val f=listOf("vent","heat","massage")[((localX-40)/66).toInt().coerceIn(0,2)];if(valid(side,f))onCommand("$owner-$f",((level(side,f)+1)%4).toString())}
+            if(localY in 198.4f..277.6f&&localX in 20.2f..257.8f){val f=listOf("vent","heat","massage")[((localX-20.2f)/79.2f).toInt().coerceIn(0,2)];if(valid(side,f))onCommand("$owner-$f",((level(side,f)+1)%4).toString())}
             val modeX=if(side==0)205f else 7f
             if(active(side,"massage")&&valid(side,"mode")&&localX in modeX..modeX+66){for(i in 0..1)if(localY in (70f+i*43.9f)..(104.9f+i*43.9f))onCommand("$owner-mode",(i+1).toString())}
             performClick();return true

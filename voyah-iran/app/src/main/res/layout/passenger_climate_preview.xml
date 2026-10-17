@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Design-only entry point; never inflated by the app.
+     All outlets are frozen ON in edit mode. Change positions in
+     res/values/passenger_airflow_positions.xml (also used on the car).
+     android:tag="preview-light" selects daytime; preview-dark selects night. -->
+<com.abrar.voyahiran.feature.launcher.PassengerClimateView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="770dp"
+    android:layout_height="370dp"
+    android:tag="preview-dark" />
