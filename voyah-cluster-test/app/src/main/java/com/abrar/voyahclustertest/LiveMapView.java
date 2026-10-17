@@ -37,16 +37,24 @@ final class LiveMapView extends FrameLayout implements TextureView.SurfaceTextur
  @Override protected void onSizeChanged(int w,int h,int ow,int oh){super.onSizeChanged(w,h,ow,oh);transform();}
  private void transform(){
   // Zoom around source center; output offsets and OEM mask remain independent.
-  float halfW=panel.width()*tuning.maskScale/200f,halfH=panel.height()*tuning.maskScale/200f;
-  float cx=panel.centerX()+tuning.maskX,cy=panel.centerY()+tuning.maskY;
+  float halfW=tuning.maskWidth()/2f,halfH=tuning.maskHeight()/2f;
+  float cx=tuning.baseCenterX()+tuning.maskX,cy=tuning.baseCenterY()+tuning.maskY;
   maskBounds.set(cx-halfW,cy-halfH,cx+halfW,cy+halfH);
   Log.i("VoyahClusterTest","MAP_GEOMETRY mapOffset="+tuning.x+","+tuning.y+" zoom="+tuning.zoom+" maskOffset="+tuning.maskX+","+tuning.maskY+" maskScale="+tuning.maskScale+" enabled="+tuning.maskEnabled+" maskBounds="+maskBounds);
   texture.setScaleX(tuning.zoom/100f);texture.setScaleY(tuning.zoom/100f);
-  texture.setTranslationX(panel.centerX()-getWidth()/2f+tuning.x);
-  texture.setTranslationY(panel.centerY()-getHeight()/2f+tuning.y);
+  texture.setTranslationX(tuning.baseCenterX()-getWidth()/2f+tuning.x);
+  texture.setTranslationY(tuning.baseCenterY()-getHeight()/2f+tuning.y);
  }
  private void loadMask(){
   if(maskCache[tuning.maskId]!=null){boxMask=maskCache[tuning.maskId];return;}
+  if(tuning.maskId==MapTuning.CIRCLE_MASK){
+   int diameter=MapTuning.CIRCLE_DIAMETER;
+   boxMask=Bitmap.createBitmap(diameter,diameter,Bitmap.Config.ARGB_8888);
+   Paint edge=new Paint(Paint.ANTI_ALIAS_FLAG);edge.setColor(Color.WHITE);
+   new Canvas(boxMask).drawCircle(diameter/2f,diameter/2f,diameter/2f,edge);
+   maskCache[tuning.maskId]=boxMask;mask.setFilterBitmap(true);
+   Log.i("VoyahClusterTest","CIRCLE_MASK diameter="+diameter+" antialias=true");return;
+  }
   BitmapFactory.Options options=new BitmapFactory.Options();options.inScaled=false;
   Bitmap original=BitmapFactory.decodeResource(getResources(),MASKS[tuning.maskId],options);
   int w=original.getWidth(),h=original.getHeight();int[] pixels=new int[w*h];

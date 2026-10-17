@@ -9,7 +9,13 @@ public final class MapTuningCheck {
   for(int id=0;id<MapTuning.MASK_COUNT;id++){MapTuning m=MapTuning.parse("12 -34 50 "+id);if(m.maskId!=id||m.x!=12||m.y!=-34||m.zoom!=50)throw new AssertionError("mask round trip");}
   MapTuning full=MapTuning.parse(new MapTuning(2,-10,95,7,120,-40,75,false).toString());
   if(full.maskX!=120||full.maskY!=-40||full.maskScale!=75||full.maskEnabled||full.x!=2||full.zoom!=95)throw new AssertionError("independent mask transform");
-  for(String bad:new String[]{"0 0 100 -1","0 0 100 12","v2 0 0 100 0 1921 0 100 1","v2 0 0 100 0 0 0 24 1","v2 0 0 100 0 0 0 100 2","0 0 24","0 0 301","872 0","0 -661","2147483647 0","-2147483648 0","0","a b"}){
+  for(int scale:new int[]{25,100,300}){
+   MapTuning circle=MapTuning.parse(new MapTuning(0,0,100,MapTuning.CIRCLE_MASK,0,0,scale,true).toString());
+   if(circle.maskWidth()!=700*scale/100f||circle.maskHeight()!=circle.maskWidth())throw new AssertionError("circle diameter/aspect");
+   if(circle.baseCenterX()!=350||circle.baseCenterY()!=360)throw new AssertionError("circle center");
+  }
+  if(t.maskWidth()!=490||t.maskHeight()!=506||t.baseCenterX()!=335||t.baseCenterY()!=407)throw new AssertionError("old mask geometry changed");
+  for(String bad:new String[]{"0 0 100 -1","0 0 100 13","v2 0 0 100 0 1921 0 100 1","v2 0 0 100 0 0 0 24 1","v2 0 0 100 0 0 0 100 2","0 0 24","0 0 301","872 0","0 -661","2147483647 0","-2147483648 0","0","a b"}){
    try{MapTuning.parse(bad);throw new AssertionError(bad);}catch(IllegalArgumentException expected){}
   }
   System.out.println("MapTuningCheck passed");

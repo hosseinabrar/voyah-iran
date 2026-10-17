@@ -1,5 +1,14 @@
 ## Independent mask calibration (current)
 
+`Circle 700` is the thirteenth live-map mask (ID 12). At mask scale 100% its
+diameter is exactly 700 output pixels, centered at (350,360), with an antialiased
+edge and no broad feather. It is generated once and cached; no ring is added
+during calibration. Existing masks retain their original geometry and IDs.
+Use the live Neshan/media test, not the static image-map button. Keep mask scale
+at 100% for a 700px baseline; map zoom and map/mask X/Y remain independent.
+The 871×660 map source may need map zoom above 100% to fill the circle vertically.
+Send all six controls (map X/Y/zoom, mask X/Y/scale) with a screenshot for final sizing.
+
 Six sliders independently control map X/Y/zoom and mask X/Y/scale. Mask offsets are output pixels relative to the base 490 x 506 panel at (90,154); scale is 25–300% around its center. Positive X/Y moves right/down. Map rendering stays 871 x 660.
 The no-mask toggle bypasses both alpha masking and panel clipping so the full transformed map can be inspected. All values and the enabled state persist; MAP_GEOMETRY logs mask bounds and independent transforms.
 Current protocol: `v2 mapX mapY mapZoom maskId maskX maskY maskScale enabled` (enabled 0/1). Reinstall the APK and restart Start-ClusterTest.ps1. Legacy two/three/four-value settings remain readable.

@@ -21,13 +21,13 @@ public final class MainActivity extends Activity {
  private void tuningControls(LinearLayout box){
   try{MapTuning t=MapTuning.parse(getPreferences(0).getString("fixedMaskOffsets","0 0"));offsets[0]=t.x;offsets[1]=t.y;offsets[2]=t.zoom;selectedMask=t.maskId;offsets[3]=t.maskX;offsets[4]=t.maskY;offsets[5]=t.maskScale;maskEnabled=t.maskEnabled;}catch(Exception ignored){}
   label(box,"رندر ثابت کارت نقشه: 871 × 660 — ماسک تصویری ثابت");
-  String[] maskNames={"Organic","Flashlight","Mask 01","Mask 02","Mask 03","Mask 04","Mask 05","Mask 06","Mask 07","Mask 08","Mask 09","Mask 10"};
+  String[] maskNames={"Organic","Flashlight","Mask 01","Mask 02","Mask 03","Mask 04","Mask 05","Mask 06","Mask 07","Mask 08","Mask 09","Mask 10","Circle 700"};
   TextView chosen=new TextView(this);chosen.setTextColor(Color.WHITE);chosen.setTextSize(18);chosen.setText("Mask: "+maskNames[selectedMask]);box.addView(chosen);
   Button[] maskButtons=new Button[MapTuning.MASK_COUNT];
-  for(int rowIndex=0;rowIndex<4;rowIndex++){
+  for(int rowIndex=0;rowIndex<(MapTuning.MASK_COUNT+2)/3;rowIndex++){
    LinearLayout maskRow=new LinearLayout(this);box.addView(maskRow);
    for(int column=0;column<3;column++){
-    final int id=rowIndex*3+column;Button button=new Button(this);maskButtons[id]=button;button.setText(maskNames[id]);
+    final int id=rowIndex*3+column;if(id>=MapTuning.MASK_COUNT)break;Button button=new Button(this);maskButtons[id]=button;button.setText(maskNames[id]);
     button.setAlpha(id==selectedMask?1f:.55f);maskRow.addView(button,new LinearLayout.LayoutParams(0,dp(52),1));
     button.setOnClickListener(v->{
      selectedMask=id;chosen.setText("Mask: "+maskNames[id]);

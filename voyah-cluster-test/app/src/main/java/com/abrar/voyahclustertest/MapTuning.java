@@ -2,7 +2,11 @@ package com.abrar.voyahclustertest;
 /** Fixed launcher render; translation is in pixels. */
 final class MapTuning {
  static final int WIDTH=871, HEIGHT=660;
- static final int MASK_COUNT=12;
+ static final int CIRCLE_MASK=12, CIRCLE_DIAMETER=700, MASK_COUNT=13;
+ float maskWidth(){return (maskId==CIRCLE_MASK?CIRCLE_DIAMETER:490)*maskScale/100f;}
+ float maskHeight(){return (maskId==CIRCLE_MASK?CIRCLE_DIAMETER:506)*maskScale/100f;}
+ float baseCenterX(){return maskId==CIRCLE_MASK?350:335;}
+ float baseCenterY(){return maskId==CIRCLE_MASK?360:407;}
  final int x,y,zoom,maskId,maskX,maskY,maskScale; final boolean maskEnabled;
  MapTuning(int x,int y) {this(x,y,100);}
  MapTuning(int x,int y,int zoom) {this(x,y,zoom,0);}
