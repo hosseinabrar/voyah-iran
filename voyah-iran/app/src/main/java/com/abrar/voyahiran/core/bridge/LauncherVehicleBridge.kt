@@ -16,7 +16,8 @@ import java.io.File
 
 /** Bounded, symbolic operations; the factory drive service retains its ECU interlocks and mode bundle. */
 internal object LauncherVehicleBridge {
-    private var cached: Session? = null
+    @Volatile private var cached: Session? = null
+    internal fun audioChanged() { cached?.externalChange() }
     private val leaseTimer=java.util.concurrent.Executors.newSingleThreadScheduledExecutor { r -> Thread(r,"LauncherCanLease").apply {isDaemon=true} }
     init { leaseTimer.scheduleWithFixedDelay({
         synchronized(this) {
@@ -36,6 +37,7 @@ internal object LauncherVehicleBridge {
         null
     }
     fun execute(op: String, value: String = ""): CommandResult = try {
+        if(op=="audio") CommandResult(0,LauncherAudioBridge.command(value).toString()) else {
         val s=session()
         if(op in listOf("read","watch","refresh")) {
             if(op=="refresh")s.refresh()
@@ -73,8 +75,9 @@ internal object LauncherVehicleBridge {
             AppLog.info("LauncherVehicle","requested $op=$value; awaiting vehicle feedback")
             CommandResult(0,"DISPATCHED")
         }
+        }
     } catch(e:Exception) {
-        synchronized(this) {cached?.close();cached=null}
+        if(op!="audio") synchronized(this) {cached?.close();cached=null}
         AppLog.error("LauncherVehicle","$op failed",e)
         CommandResult(1,(e.cause ?: e).toString())
     }
@@ -211,6 +214,7 @@ internal object LauncherVehicleBridge {
             val air=runCatching{api.getMethod("getAirCondition").invoke(remote)}.getOrNull()
             synchronized(lock){if(revision==before)acceptAir(air)}
         }
+        fun externalChange() { synchronized(lock) { revision++;lock.notifyAll() } }
         fun readAll(after:Long?=null):JSONObject {
             check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
             lastRead=SystemClock.elapsedRealtime()

@@ -55,7 +55,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         vehicleAt=SystemClock.elapsedRealtime()
         comfortCache.accept(s.put("fresh",true));publish("vehicle",comfortCache.display)
     }
-    private var lastVolume=11
+    private var volumeJob: Job? = null
     private var catalog=emptyList<LauncherAppsEntry>()
     private var unobserve:(()->Unit)?=null
     private val states=linkedMapOf<String,JSONObject>()
@@ -236,6 +236,7 @@ class PassengerLauncherActivity : ComponentActivity() {
                 if(SystemClock.elapsedRealtime()-vehicleAt>10000 && states["vehicle"]?.optBoolean("fresh")!=false){
                     comfortCache.stale();publish("vehicle",comfortCache.display)
                 }
+                volume()
                 delay(if(r.exitCode==0)100 else 1000)
             }
         }
@@ -274,8 +275,8 @@ class PassengerLauncherActivity : ComponentActivity() {
                 require(ids.filter {it.isNotBlank()}.distinct().size==ids.count {it.isNotBlank()});require(ids.all {id->id.isEmpty() || catalog.any {it.id==id}})
                 favorites.edit().putString("ids",a.toString()).apply();publishApps()
             }
-            "volume" -> {val n=value.toInt();require(n in 0..30);audio.setStreamVolume(AudioManager.STREAM_MUSIC,(n*audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)/30f).toInt(),0);volume()}
-            "mute" -> {val n=audio.getStreamVolume(AudioManager.STREAM_MUSIC);if(n>0)lastVolume=n;audio.setStreamVolume(AudioManager.STREAM_MUSIC,if(n>0)0 else lastVolume.coerceIn(1,audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)),0);volume()}
+            "volume" -> {val n=value.toInt();require(n in 0..30);volume(n.toString())}
+            "mute" -> volume("mute")
             "seek" -> if(media.canSeek)media.controller?.transportControls?.seekTo(value.toLong().coerceIn(0,media.duration))
             "media" -> {
                 if(value=="play" && !media.playing && (media.controller==null || media.title=="no music")) {
@@ -323,6 +324,22 @@ class PassengerLauncherActivity : ComponentActivity() {
         musicCard.update(PassengerMusicPresentation(if(s.title=="no music")"Music"else s.title,s.artist,musicCover,s.sourceIcon,s.playing,s.position,s.duration,s.canSeek))
     }
     private fun png(b:Bitmap)=ByteArrayOutputStream().use {b.compress(Bitmap.CompressFormat.PNG,100,it);it.toByteArray()}
-    private fun volume(){musicCard.updateVolume((audio.getStreamVolume(AudioManager.STREAM_MUSIC)*30f/audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)).toInt())}
+    private fun volume(value: String = "read") {
+        if(value=="read" && volumeJob?.isActive==true)return
+        val previous=volumeJob
+        volumeJob=lifecycleScope.launch {
+            previous?.join()
+            if(!visible || !allowed())return@launch
+            try {
+                val result=withContext(Dispatchers.IO){BridgeClient.run(listOf("launcher-vehicle","audio",value),4)}
+                check(result.exitCode==0 && !result.timedOut){result.output}
+                val state=JSONObject(result.output)
+                val level=state.getInt("volume");val max=state.getInt("max")
+                check(max>0 && level in 0..max)
+                musicCard.updateVolume(if(state.getBoolean("muted"))0 else (level*30f/max).toInt())
+            } catch(e:CancellationException){throw e}
+            catch(e:Exception){AppLog.changed("PassengerAudio","OEM volume unavailable: ${e.message}")}
+        }
+    }
     private fun error(e:Throwable){AppLog.error("PassengerLauncher","Operation failed",e);if(visible)Toast.makeText(this,"عملیات انجام نشد؛ وضعیت خودرو را بررسی کنید",Toast.LENGTH_LONG).show()}
 }
