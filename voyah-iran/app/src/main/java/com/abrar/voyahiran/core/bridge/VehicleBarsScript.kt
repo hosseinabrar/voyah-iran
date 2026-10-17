@@ -48,12 +48,17 @@ Java.perform(function () {
             const b=bars.get(display);
             let stage="lift-state";
             try {
+                stage='theme';
+                const light=String(Props.get('persist.sys.qg.currenttheme','default'))==='simple';
+                // Center light-theme bars must survive OEM apps and empty top-task
+                // snapshots during activity transitions, independently of eligibility.
+                const persistentLightCenter=display===0 && light;
+                stage='lift-state';
                 // The lowered display has different factory controls/geometry.
-                if(!enabled || Number(Lift.getScreenLiftState())!==2) {
+                if((!enabled && !persistentLightCenter) || Number(Lift.getScreenLiftState())!==2) {
                     if(b)restore(b);removeTop(s);return;
                 }
                 stage='theme';
-                const light=String(Props.get('persist.sys.qg.currenttheme','default'))==='simple';
                 const color=light ? -1709069 : -16777216; // #e5ebf3 / black
                 if(b) {
                     stage='navigation-view';
