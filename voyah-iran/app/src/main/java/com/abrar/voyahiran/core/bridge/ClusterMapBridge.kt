@@ -10,10 +10,28 @@ import java.lang.reflect.Proxy
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-/** Owns only a temporary MEDIA presentation, never navigation or persistent cluster settings. */
+/** Leases the map input of the OEM image compositor; never replaces the OEM window. */
 internal object ClusterMapBridge {
     @Volatile var presenting=false
         private set
+    @Volatile var layersActive=false
+        private set
+    @Volatile var blendFrom=0f
+        private set
+    @Volatile var blendStart=0L
+        private set
+    @Synchronized fun layerPacket()=org.json.JSONObject()
+        .put("layers",layersActive).put("map",presenting).put("from",blendFrom).put("start",blendStart)
+        .put("session",session ?: org.json.JSONObject.NULL)
+    private fun target(map: Boolean) {
+        if(presenting==map)return
+        val t=((SystemClock.elapsedRealtime()-blendStart)/360f).coerceIn(0f,1f)
+        val ease=t*t*(3-2*t)
+        blendFrom += ((if(presenting)1f else 0f)-blendFrom)*ease
+        presenting=map
+        blendStart=SystemClock.elapsedRealtime()+300
+        AppLog.info("ClusterMap","blend target=$map from=$blendFrom start=$blendStart")
+    }
     private const val MEDIA="qg.car.cluster.MEDIA"
     private const val SMALL="qg.car.cluster.MEDIA_SMALL"
     private var api: Api?=null
@@ -33,8 +51,8 @@ internal object ClusterMapBridge {
             if(session!=id) {
                 stop("session_replaced new=$id")
                 val client=Api();api=client;session=id;hasFrame=false;revealed=false
+                layersActive=true;blendFrom=0f;blendStart=0L
                 bootstrapped=false;launchAt=0L;launchRequested=false;startedAt=SystemClock.elapsedRealtime()
-                ClusterMusicBridge.beginMapTransition()
                 ClusterMusicBridge.start()
                 client.call("syncReadyState",MEDIA,1)
                 client.call("requestPresentation",SMALL,1)
@@ -45,18 +63,15 @@ internal object ClusterMapBridge {
                 hasFrame=true
                 AppLog.info("ClusterMap","map frame confirmed session=$id")
             }
-            if(action=="covered" && hasFrame) presenting=true
-            if(action=="music" && presenting) {
-                ClusterMusicBridge.beginMusicTransition()
-                presenting=false
-            }
+            if(action=="covered" && hasFrame && ClusterMusicBridge.musicReady)target(true)
+            if(action=="music")target(false)
             if(!timer) {
                 timer=true
                 Executors.newSingleThreadScheduledExecutor { r->Thread(r,"ClusterMapLease").apply {isDaemon=true} }
                     .scheduleWithFixedDelay(::tick,0,100,TimeUnit.MILLISECONDS)
             }
             val theme=runCatching {api?.theme()}.getOrNull()
-            return CommandResult(0,"Map lease renewed theme=${theme ?: -1} reveal=${if(revealed) 1 else 0} musicReady=${if(ClusterMusicBridge.musicReady) 1 else 0}")
+            return CommandResult(0,"Map lease renewed theme=${theme ?: -1} reveal=${if(revealed) 1 else 0} musicReady=${if(ClusterMusicBridge.musicReady) 1 else 0} target=${if(presenting)1 else 0} from=$blendFrom start=$blendStart")
         } catch(e:Exception) {stop("command_error action=$action error=${e.cause ?: e}");return CommandResult(1,"Cluster map unavailable: ${e.cause ?: e}")}
     }
     @Synchronized private fun tick() {
@@ -78,17 +93,18 @@ internal object ClusterMapBridge {
                 client.type.getMethod("notifyReadyToShow",String::class.java).invoke(client.remote,SMALL)
             }
             if(client.mediaReady && !hasFrame && (!launchRequested || now-launchAt>=1000)) {
-                val intent=Intent().setClassName("com.abrar.voyahiran","com.abrar.voyahiran.feature.launcher.ClusterMapActivity")
+                // The OEM window remains the sole display owner. Map frames arrive
+                // in its ImageReader; no second activity/window is launched.
+                val intent=Intent().setClassName("com.qinggan.instrumentcard","com.qinggan.instrumentcard.ScreenActivity")
                     .addCategory(MEDIA).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                     .putExtra("session",session)
                 client.type.getMethod("startClusterActivity",Intent::class.java).invoke(client.remote,intent)
                 launchRequested=true;launchAt=now
                 // The vendor API returns void even on rejection. Only ready from
                 // the actual rendered surface is confirmation, never this call.
-                AppLog.info("ClusterMap","map launch requested session=$session")
+                AppLog.info("ClusterMap","OEM image compositor requested session=$session")
             }
-            // Reveal over the still-visible music; hide music only after the client
-            // confirms that the final opaque map frame has been swapped.
+            // Register the persistent transparent output. Layer selection is a separate blend.
             if(hasFrame && client.requested) {
                 client.requested=false
                 client.type.getMethod("notifyReadyToShow",String::class.java).invoke(client.remote,SMALL)
@@ -98,21 +114,11 @@ internal object ClusterMapBridge {
     }
     private fun stop(reason: String) {
         if(session != null) AppLog.info("ClusterMap", "stop reason=$reason session=$session leaseAgeMs=${SystemClock.elapsedRealtime()-renewed} hasFrame=$hasFrame revealed=$revealed launchRequested=$launchRequested")
-        val client=api;val restore=launchRequested
-        api=null;session=null;hasFrame=false;revealed=false;presenting=false
+        val client=api
+        api=null;session=null;hasFrame=false;revealed=false;presenting=false;layersActive=false;blendFrom=0f;blendStart=0L
         if(client!=null) {
-            // MEDIA is shared, not a map-only presentation. Closing it does not restore
-            // the OEM task displaced by startClusterActivity. Restore the stock owner;
-            // its onResume/callback supplies syncReadyState and notifyReadyToShow.
-            // Do not close the shared MEDIA display before restoring its owner:
-            // that can invalidate the very category needed by the restore call.
-            if(restore && client.mediaReady) runCatching {
-                val intent=Intent().setClassName("com.qinggan.instrumentcard","com.qinggan.instrumentcard.ScreenActivity")
-                    .addCategory(MEDIA).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                client.type.getMethod("startClusterActivity",Intent::class.java).invoke(client.remote,intent)
-                client.call("requestPresentation",SMALL,1)
-                AppLog.info("ClusterMap","map released; OEM media restore requested")
-            }.onFailure {AppLog.error("ClusterMap","OEM media restore failed",it)}
+            // Nothing displaced the OEM task: releasing the input must NOT relaunch
+            // it, hide its display or expose factory contents under our music image.
             runCatching {client.type.getMethod("unregisterCallback",client.callbackType).invoke(client.remote,client.callback)}
         }
     }

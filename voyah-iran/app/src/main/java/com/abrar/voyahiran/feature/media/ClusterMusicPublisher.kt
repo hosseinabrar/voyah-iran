@@ -11,6 +11,7 @@ import com.abrar.voyahiran.core.shell.ProcessCommandRunner
 import com.abrar.voyahiran.feature.launcher.LauncherMediaObserver
 import com.abrar.voyahiran.feature.launcher.LauncherMediaState
 import com.abrar.voyahiran.feature.launcher.LauncherArtwork
+import com.abrar.voyahiran.feature.launcher.LauncherClusterMap
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import org.json.JSONObject
@@ -41,21 +42,23 @@ internal class ClusterMusicPublisher(private val context: Context, private val s
                 val value = state
                 val allowed = ClusterMusicPreferences.enabled(context) &&
                     (context.applicationContext as VoyahIranApplication).subscriptions.allowed
-                val userSource = withContext(Dispatchers.IO) { runCatching {
-                    val oem = runCatching { JSONObject(android.provider.Settings.Global.getString(context.contentResolver, "voyah_iran_launcher_media")) }.getOrNull()
-                    val factoryPlaying = oem?.optBoolean("playing") == true &&
-                        SystemClock.elapsedRealtime() - oem.optLong("at", -10000) in 0..6500
-                    val info = context.packageManager.getApplicationInfo(value.sourcePackage, 0)
-                    !factoryPlaying && info.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0 &&
-                        // Use the same selected session as the launcher card. Buffering,
-                        // connecting, or temporarily missing playback state must not clear
-                        // metadata already available while waiting for the stream.
-                        value.sourcePackage != context.packageName && value.controller != null && value.oemSource.isEmpty()
-                }.getOrDefault(false) }
+                val mapEnabled = LauncherClusterMap.available(context)
+                // H97A has a different OEM renderer. Keep its previous third-party
+                // music policy; the single-image compositor targets H97X/H97C.
+                val legacySource = android.os.Build.VERSION.SDK_INT != 28 || withContext(Dispatchers.IO) {
+                    runCatching {
+                        val oem = runCatching { JSONObject(android.provider.Settings.Global.getString(context.contentResolver, "voyah_iran_launcher_media")) }.getOrNull()
+                        val factoryPlaying = oem?.optBoolean("playing") == true &&
+                            SystemClock.elapsedRealtime() - oem.optLong("at", -10000) in 0..6500
+                        val info = context.packageManager.getApplicationInfo(value.sourcePackage, 0)
+                        !factoryPlaying && info.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0 &&
+                            value.sourcePackage != context.packageName && value.controller != null && value.oemSource.isEmpty()
+                    }.getOrDefault(false)
+                }
                 try {
-                    if (allowed && userSource) {
+                    if ((allowed || mapEnabled) && legacySource) {
                         val elapsed = if (value.playing) SystemClock.elapsedRealtime() - observedAt else 0
-                        withContext(Dispatchers.IO) { publish(value, elapsed) }
+                        withContext(Dispatchers.IO) { publish(value, elapsed, allowed, mapEnabled) }
                         sent = true
                     } else if (sent) {
                         withContext(Dispatchers.IO) { runner.run(listOf("su", "0", "cluster-music", "clear"), 3) }
@@ -69,7 +72,7 @@ internal class ClusterMusicPublisher(private val context: Context, private val s
             }
         }
     }
-    private fun publish(value: LauncherMediaState, elapsed: Long) {
+    private fun publish(value: LauncherMediaState, elapsed: Long, musicEnabled: Boolean, mapEnabled: Boolean) {
         val key = listOf(value.sourcePackage, value.title, value.cover, value.coverUri)
         if (key != coverKey) {
             coverKey = key
@@ -84,7 +87,11 @@ internal class ClusterMusicPublisher(private val context: Context, private val s
                 }.orEmpty()
             }.getOrDefault("")
         }
-        val frame = JSONObject().put("package", value.sourcePackage).put("source", value.source.take(100))
+        val frame = JSONObject().put("package", value.sourcePackage.ifBlank { context.packageName }).put("source", value.source.take(100))
+            .put("musicEnabled", musicEnabled).put("mapEnabled", mapEnabled)
+            // Either checkbox gives the compositor ownership of the whole region.
+            // The compositor uses musicEnabled to restore OEM content in map-only fallback.
+            .put("idle", !value.playing)
             .put("title", value.title.take(300)).put("artist", value.artist.take(300))
             .put("album", value.controller?.metadata?.getString(android.media.MediaMetadata.METADATA_KEY_ALBUM).orEmpty().take(300))
             .put("playing", value.playing).put("duration", value.duration.coerceAtLeast(0))

@@ -12,7 +12,7 @@ import com.abrar.voyahiran.R;
 import java.nio.*;
 import java.util.concurrent.*;
 
-/** One map producer, two GPU outputs. No readback, screenshot polling or second map display. */
+/** One map producer: card Surface and OEM ImageReader Surface. No map activity/window. */
 final class MapFrameRelay {
     private final HandlerThread thread = new HandlerThread("MapFrameRelay");
     private final Handler handler;
@@ -26,8 +26,6 @@ final class MapFrameRelay {
     private boolean frame;
     private volatile boolean closed;
     private Runnable ready;
-    private float clusterOpacity;
-    private int fadeGeneration;
     private final java.util.Map<String,Integer> uniforms=new java.util.HashMap<>();
     private int position;
     private int cardGeneration;
@@ -66,26 +64,8 @@ final class MapFrameRelay {
         }
         card=candidate;draw();
     }
-    void cluster(Surface s,int w,int h,Runnable ready){post(()->{++fadeGeneration;clusterOpacity=0;destroy(cluster);cluster=null;this.ready=ready;clusterW=w;clusterH=h;if(s!=null&&s.isValid())cluster=window(s);draw();});}
-    // Animate the actual premultiplied GPU output, not SurfaceView.alpha (unreliable
-    // for on-top surfaces on older Android). The launcher card is never faded.
-    void fadeCluster(float target,long duration,Runnable complete){post(()->{
-        int generation=++fadeGeneration;
-        float from=clusterOpacity;
-        long start=android.os.SystemClock.elapsedRealtime();
-        Runnable tick=new Runnable(){public void run(){
-            if(closed || generation!=fadeGeneration)return;
-            try {
-                float t=Math.min(1f,(android.os.SystemClock.elapsedRealtime()-start)/(float)Math.max(1,duration));
-                float ease=t*t*(3f-2f*t);
-                clusterOpacity=from+(target-from)*ease;
-                if(frame && cluster!=null){render(cluster,clusterW,clusterH,true);current(scratch);}
-                if(t<1f)handler.postDelayed(this,16);
-                else if(complete!=null)complete.run();
-            }catch(Throwable e){failure.accept(e);}
-        }};
-        tick.run();
-    });}
+    // Full-opacity input: the SINGLE final drawable owns the crossfade of both inputs.
+    void cluster(Surface s,int w,int h,Runnable ready){post(()->{destroy(cluster);cluster=null;this.ready=ready;clusterW=w;clusterH=h;if(s!=null&&s.isValid())cluster=window(s);draw();});}
     private void post(Runnable r){if(!closed)handler.post(()->{if(!closed)try{r.run();}catch(Throwable e){failure.accept(e);}});}
     private void initialize(){
         egl=EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);int[] out=new int[2];
@@ -123,7 +103,7 @@ final class MapFrameRelay {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,texture);GLES20.glUniform1i(uniform("image"),0);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE1);GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,mask);GLES20.glUniform1i(uniform("maskImage"),1);
         GLES20.glUniformMatrix4fv(uniform("texMatrix"),1,false,matrix,0);GLES20.glUniform1f(uniform("masked"),masked?1:0);
-        GLES20.glUniform1f(uniform("opacity"),masked?clusterOpacity:1f);
+        GLES20.glUniform1f(uniform("opacity"),1f);
         // OEM output uses a 1920x720 coordinate space; card output fills its own surface.
         GLES20.glUniform2f(uniform("outputSize"),masked?1920:w,masked?720:h);
         if(masked){

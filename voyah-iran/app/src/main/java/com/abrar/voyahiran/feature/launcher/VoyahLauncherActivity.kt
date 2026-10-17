@@ -227,6 +227,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     }
     private fun updateClusterButton() {
         clusterButton.visibility=if(dashboard.mapMessage.isEmpty() && LauncherPreferences.clusterMap(this) &&
+            com.abrar.voyahiran.feature.media.ClusterMusicPreferences.enabled(this) &&
             (application as VoyahIranApplication).subscriptions.vipAllowed) View.VISIBLE else View.GONE
         clusterButton.mode=LauncherPreferences.clusterMapMode(this)
         clusterButton.light=LauncherTheme.isLight()

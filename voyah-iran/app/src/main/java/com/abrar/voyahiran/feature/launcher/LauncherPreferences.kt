@@ -11,14 +11,18 @@ object LauncherPreferences {
         val saved = prefs.getString("cluster_map_mode", null)
         val mode = ClusterMapMode.entries.firstOrNull { it.name == saved }
             ?: if (prefs.getBoolean("cluster_map_visible", true)) ClusterMapMode.ON else ClusterMapMode.OFF
-        return mode.effective(com.abrar.voyahiran.feature.navigation.NavigationPreferences(c).navigator ==
+        val musicEnabled = com.abrar.voyahiran.feature.media.ClusterMusicPreferences.enabled(c)
+        // Map-only has no selector: follow card presence regardless of the saved mode.
+        if (!musicEnabled) return ClusterMapMode.ON
+        return mode.effective(musicEnabled && com.abrar.voyahiran.feature.navigation.NavigationPreferences(c).navigator ==
             com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN)
     }
     fun autoClusterRequested(c: Context) = enabled(c) && clusterMap(c) && clusterMapMode(c) == ClusterMapMode.AUTO &&
         (c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed
     fun cycleClusterMap(c: Context) {
         check((c.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed)
-        val neshan = com.abrar.voyahiran.feature.navigation.NavigationPreferences(c).navigator ==
+        if (!com.abrar.voyahiran.feature.media.ClusterMusicPreferences.enabled(c)) return
+        val neshan = com.abrar.voyahiran.feature.media.ClusterMusicPreferences.enabled(c) && com.abrar.voyahiran.feature.navigation.NavigationPreferences(c).navigator ==
             com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN
         c.getSharedPreferences("launcher",0).edit().putString("cluster_map_mode",clusterMapMode(c).next(neshan).name).apply()
     }

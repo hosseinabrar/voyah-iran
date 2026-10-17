@@ -21,14 +21,10 @@ internal object ClusterMusicBridge {
     private var pid = ""
     private var retryAt = 0L
     private var attachingAt = 0L
-    private var keepAliveUntil = 0L
+    private var legacyAdapter=false
     @Volatile private var ready = false
-    @Volatile var mapHidden = false
-        private set
-    fun beginMapTransition() { mapHidden=false }
     @Volatile var musicReady=false
         private set
-    fun beginMusicTransition() { musicReady=false }
     private val runner = ProcessCommandRunner(useBridge = false)
     @Synchronized fun command(action: String): CommandResult {
         if (action == "clear") { frame = null; return CommandResult(0, "Cluster music released") }
@@ -53,12 +49,9 @@ internal object ClusterMusicBridge {
     private fun tick() {
         try {
             val value = frame?.takeIf { BridgeSubscriptionSession.active && SystemClock.elapsedRealtime() - received < 5000 }
-            val map = ClusterMapBridge.presenting && BridgeSubscriptionSession.active
-            if (map) keepAliveUntil=SystemClock.elapsedRealtime()+10_000
+            val map = ClusterMapBridge.layersActive && BridgeSubscriptionSession.active
             if (value == null && !map) {
-                if (!BridgeSubscriptionSession.active || SystemClock.elapsedRealtime() >= keepAliveUntil) { close(); return }
-                // Brief OFF periods must not require a new injection on the next ON.
-                if (child?.isAlive != true) return
+                close(); return
             }
             if (child?.isAlive != true) {
                 close()
@@ -66,6 +59,7 @@ internal object ClusterMusicBridge {
                 retryAt = SystemClock.elapsedRealtime() + 5000
                 val modernInstalled = runner.run(listOf("/system/bin/pm", "path", PACKAGE), 3).output.lineSequence().any { it.startsWith("package:") }
                 val legacy = !modernInstalled && android.os.Build.VERSION.SDK_INT == 28
+                legacyAdapter=legacy
                 check(modernInstalled || legacy) { "No supported OEM cluster package" }
                 val targetPackage = if (legacy) "com.qinggan.canbus.service" else PACKAGE
                 val target = runner.run(listOf("/system/bin/pidof", targetPackage), 2).output.trim()
@@ -82,7 +76,6 @@ internal object ClusterMusicBridge {
                     runCatching { process.inputStream.bufferedReader().useLines { lines -> lines.forEach {
                         if (child === process) {
                             if (it == "VI_CLUSTER_MUSIC_READY") ready = true
-                            if (it == "VI_CLUSTER_MUSIC_HIDDEN") mapHidden = true
                             if (it == "VI_CLUSTER_MUSIC_VISIBLE") musicReady = true
                             AppLog.changed("ClusterMusic", it.take(400))
                         }
@@ -95,10 +88,12 @@ internal object ClusterMusicBridge {
             // Map ownership suppresses only the output, not the adapter. Re-injecting
             // on every toggle adds seconds and can hit the attachment retry delay.
             // Recheck ownership here since attachment itself may take some time.
-            val output = if (ClusterMapBridge.presenting) "map" else value ?: "clear"
-            if(output=="map") musicReady=false
-            if (output != "map") mapHidden=false
-            if (ready && (output != lastSent || output == "map")) {
+            val data=value?.let {JSONObject(it)}
+            val output = if(legacyAdapter) value ?: "clear" else ClusterMapBridge.layerPacket()
+                .put("owned", map || data?.optBoolean("musicEnabled")==true ||
+                    (BridgeSubscriptionSession.vipActive && data?.optBoolean("mapEnabled")==true))
+                .put("frame",data ?: JSONObject.NULL).toString()
+            if (ready && (output != lastSent || map)) {
                 child!!.outputStream.apply { write((output + "\n").toByteArray()); flush() }
                 lastSent = output
             }
@@ -109,7 +104,7 @@ internal object ClusterMusicBridge {
     }
     private var lastSent: String? = null
     private fun close() {
-        val old = child; child = null; ready = false; lastSent = null;mapHidden=false
+        val old = child; child = null; ready = false; lastSent = null;musicReady=false
         if (old != null) {
             runCatching { old.outputStream.apply { write("clear\n".toByteArray()); flush() } }
             // Give the main-thread restoration a chance to finish before unloading the hooks.

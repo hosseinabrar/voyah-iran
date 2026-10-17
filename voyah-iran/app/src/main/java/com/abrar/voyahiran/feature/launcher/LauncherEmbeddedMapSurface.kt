@@ -38,7 +38,8 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         relay?.let {it.resize(width,height);it.card(holder.surface,width,height)}
     }
     fun cluster(inCard: Boolean) {
-        if(!inCard || !LauncherClusterMap.allowed(context)) {relay?.let {LauncherClusterMap.hide(it)};return}
+        if(!LauncherClusterMap.available(context)) {relay?.let {LauncherClusterMap.hide(it,"feature_unavailable")};return}
+        if(!inCard) {relay?.let {LauncherClusterMap.cardPresence(it,false)};return}
         if(relay==null && !relayFailed && attached && bufferWidth>0 && bufferHeight>0) {
             try {
                 val output=MapFrameRelay(context,bufferWidth,bufferHeight) { failure ->
@@ -90,5 +91,5 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         try { display!!.surface=reader.surface;background=reader }
         catch(e:Exception) {reader.close();throw e}
     }
-    fun close() {detach();display?.release();display=null;background?.close();background=null;relay?.close();relay=null}
+    fun close() {relay?.let {LauncherClusterMap.hide(it,"owner_closed")};detach();display?.release();display=null;background?.close();background=null;relay?.close();relay=null}
 }
