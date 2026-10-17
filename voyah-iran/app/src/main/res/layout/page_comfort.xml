@@ -64,7 +64,7 @@
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent" android:textColor="@color/text_primary"
+                android:buttonTint="@null" android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body" android:textDirection="rtl"
                 android:gravity="center_vertical|start" android:enabled="false"
                 android:text="@string/energy_mode_memory_label" tools:enabled="true" />
@@ -75,7 +75,7 @@
                 android:indeterminateTint="@color/accent" android:visibility="gone" />
             <TextView android:id="@+id/energyModeStatus" style="@style/Text.Caption"
                 android:layout_marginTop="@dimen/space_md" android:accessibilityLiveRegion="polite" android:visibility="gone" />
-            <Button android:id="@+id/energyModeRetry" style="@style/NavigationTab"
+            <Button android:id="@+id/energyModeRetry" style="@style/Oem.Button"
                 android:layout_width="wrap_content" android:layout_gravity="start"
                 android:layout_marginTop="@dimen/space_sm" android:text="@string/retry" android:visibility="gone" />
         </LinearLayout>
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent" android:textColor="@color/text_primary"
+                android:buttonTint="@null" android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body" android:textDirection="rtl"
                 android:gravity="center_vertical|start" android:enabled="false"
                 android:text="@string/aeb_memory_label" tools:enabled="true" />
@@ -97,7 +97,7 @@
                 android:indeterminateTint="@color/accent" android:visibility="gone" />
             <TextView android:id="@+id/aebStatus" style="@style/Text.Caption"
                 android:layout_marginTop="@dimen/space_md" android:accessibilityLiveRegion="polite" android:visibility="gone" />
-            <Button android:id="@+id/aebRetry" style="@style/NavigationTab"
+            <Button android:id="@+id/aebRetry" style="@style/Oem.Button"
                 android:layout_width="wrap_content" android:layout_gravity="start"
                 android:layout_marginTop="@dimen/space_sm" android:text="@string/retry" android:visibility="gone" />
         </LinearLayout>
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target"
                 android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent" android:textColor="@color/text_primary"
+                android:buttonTint="@null" android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_body" android:textDirection="rtl"
                 android:gravity="center_vertical|start" android:enabled="false"
                 android:text="@string/pedestrian_memory_label" tools:enabled="true" />
@@ -119,7 +119,7 @@
                 android:indeterminateTint="@color/accent" android:visibility="gone" />
             <TextView android:id="@+id/pedestrianStatus" style="@style/Text.Caption"
                 android:layout_marginTop="@dimen/space_md" android:accessibilityLiveRegion="polite" android:visibility="gone" />
-            <Button android:id="@+id/pedestrianRetry" style="@style/NavigationTab"
+            <Button android:id="@+id/pedestrianRetry" style="@style/Oem.Button"
                 android:layout_width="wrap_content" android:layout_gravity="start"
                 android:layout_marginTop="@dimen/space_sm" android:text="@string/retry" android:visibility="gone" />
         </LinearLayout>
@@ -128,12 +128,12 @@
             android:orientation="vertical" android:padding="@dimen/space_lg" android:visibility="gone">
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/avmTurn" android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:buttonTint="@null" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
                 android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false"
                 android:text="@string/avm_turn_label" />
             <TextView style="@style/Text.Secondary" android:text="@string/avm_turn_description" android:layout_marginTop="@dimen/space_sm" />
             <TextView android:id="@+id/avmTurnStatus" style="@style/Text.Caption" android:accessibilityLiveRegion="polite" android:layout_marginTop="@dimen/space_sm" />
-            <Button android:id="@+id/avmTurnRetry" style="@style/NavigationTab" android:layout_width="wrap_content" android:text="@string/retry" android:visibility="gone" />
+            <Button android:id="@+id/avmTurnRetry" style="@style/Oem.Button" android:layout_width="wrap_content" android:text="@string/retry" android:visibility="gone" />
         </LinearLayout>
         <LinearLayout android:id="@+id/shadeDepartureCard" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card"
@@ -141,7 +141,7 @@
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/shadeDeparture"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:buttonTint="@null" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
                 android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false"
                 android:text="@string/shade_departure_label" />
             <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/shade_departure_description" />
@@ -154,7 +154,7 @@
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/shadeReady"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:buttonTint="@null" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
                 android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false"
                 android:text="@string/shade_ready_label" />
             <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/shade_ready_description" />
@@ -167,7 +167,7 @@
             <com.abrar.voyahiran.feature.subscription.VipCheckBox android:id="@+id/dowAmbient"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm"
-                android:buttonTint="@color/accent" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
+                android:buttonTint="@null" android:textColor="@color/text_primary" android:textSize="@dimen/text_body"
                 android:textDirection="rtl" android:gravity="center_vertical|start" android:enabled="false"
                 android:text="@string/dow_ambient_label" />
             <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/dow_ambient_description" />
