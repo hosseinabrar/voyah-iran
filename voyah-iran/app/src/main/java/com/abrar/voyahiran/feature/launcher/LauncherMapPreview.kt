@@ -193,11 +193,9 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                     val generation = LauncherMapWakeSession.generation
                     if(id>1)refreshTheme(id)
                     if (clean) LauncherMapWakeSession.restarting = true
-                    val r=try { withContext(Dispatchers.IO + NonCancellable) {
-                        if (clean) {
-                            ProcessCommandRunner().run(listOf("su", "0", "launcher-map-clean", packageName, id.toString()), 15)
-                        } else ProcessCommandRunner().run(listOf("su","0",if(claim)"launcher-map-claim" else "launcher-map",packageName,id.toString()),15)
-                    } } finally { if (clean) LauncherMapWakeSession.restarting = false }
+                    val command=if(clean) "launcher-map-clean" else if(claim) "launcher-map-claim" else "launcher-map"
+                    val r=try { transferWithBusyRetry(command,id) }
+                        finally { if (clean) LauncherMapWakeSession.restarting = false }
                     if (clean) {
                         // One attempt per wake, including unsupported/failed force-stop, avoids a restart loop.
                         LauncherMapWakeSession.handled = generation
@@ -234,6 +232,27 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
             } catch(e:CancellationException) {throw e}
             catch(e:Exception) {error("نقشه در دسترس نیست");com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap","move failed",e)}
             finally {mask?.finish(centralReady);busy=false}
+        }
+    }
+    private suspend fun transferWithBusyRetry(command:String,id:Int):com.abrar.voyahiran.core.shell.CommandResult {
+        val started=android.os.SystemClock.elapsedRealtime()
+        var attempt=0
+        while(true) {
+            currentCoroutineContext().ensureActive()
+            if(closed || (id!=0 && (!active || fullscreen || embedded.displayId!=id)))
+                throw CancellationException("Map transfer owner changed")
+            attempt++
+            // Finish each dispatched request even if the view stops, but never
+            // shield the retry delay from cancellation or resend an unknown result.
+            val result=withContext(Dispatchers.IO + NonCancellable) {
+                ProcessCommandRunner().run(listOf("su","0",command,packageName,id.toString()),15)
+            }
+            val elapsed=android.os.SystemClock.elapsedRealtime()-started
+            val retry=MapTransferRetryPolicy.shouldRetry(result.exitCode,result.timedOut,result.output,attempt,elapsed)
+            com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap",
+                "transfer command=$command display=$id attempt=$attempt elapsedMs=$elapsed exit=${result.exitCode} timedOut=${result.timedOut} retry=$retry")
+            if(!retry)return result
+            delay(150)
         }
     }
     private suspend fun awaitCardReady(id: Int): Boolean {
@@ -317,10 +336,11 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                                     // A reply from a previous arrival must not complete the current one.
                                     if(closed || fullscreen || !active || !mapInCard || embedded.displayId!=id || cardSeenAt!=arrival)return@withLock
                                     val confirmed=camera.exitCode==0 && !camera.timedOut && camera.output.startsWith("RECENTER_RESULT=applied ")
+                                    val accepted=camera.exitCode==0 && !camera.timedOut && camera.output.startsWith("RECENTER_RESULT=accepted ")
                                     val exhausted=android.os.SystemClock.elapsedRealtime()-arrival>=5000
                                     com.abrar.voyahiran.core.logging.AppLog.info("NeshanRecenter",
-                                        "display=$id arrival=$arrival confirmed=$confirmed exhausted=$exhausted exit=${camera.exitCode} timedOut=${camera.timedOut} result=${camera.output.take(700)}")
-                                    if(confirmed || exhausted)recenteredDisplay=id
+                                        "display=$id arrival=$arrival accepted=$accepted confirmed=$confirmed exhausted=$exhausted exit=${camera.exitCode} timedOut=${camera.timedOut} result=${camera.output.take(700)}")
+                                    if(accepted || confirmed || exhausted)recenteredDisplay=id
                                 }
                             }
                         } else if(r.exitCode!=75) error("نقشه در دسترس نیست")

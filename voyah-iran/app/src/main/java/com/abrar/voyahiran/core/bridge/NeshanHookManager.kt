@@ -99,11 +99,11 @@ internal class NeshanHookManager {
                 val reply = RecenterReply(process)
                 recenterReplies[token] = reply
                 try {
-                    process.outputStream.apply { write("recenter $display $token ${System.currentTimeMillis()+1200}\n".toByteArray()); flush() }
+                    process.outputStream.apply { write("recenter $display $token ${System.currentTimeMillis()+10000}\n".toByteArray()); flush() }
                     reply.signal.await(1500, TimeUnit.MILLISECONDS)
                     val result = reply.result ?: "ack_timeout"
                     AppLog.info("NeshanRecenter", "request=$token display=$display result=$result")
-                    return CommandResult(if(result == "applied") 0 else 75, "RECENTER_RESULT=$result request=$token")
+                    return CommandResult(if(result == "applied" || result == "accepted") 0 else 75, "RECENTER_RESULT=$result request=$token")
                 } finally { recenterReplies.remove(token) }
             }
             else -> error("Unsupported Neshan command")
@@ -241,6 +241,11 @@ internal class NeshanHookManager {
     private fun accept(process: Process, line: String) = synchronized(stateLock) {
         if (child !== process) return@synchronized
         when {
+            line.startsWith("VI_NESHAN_RECENTER_ERROR ") ||
+            line.startsWith("VI_NESHAN_RECENTER_STACK ") ||
+            line.startsWith("VI_NESHAN_RECENTER_PHASE ") ||
+            line.startsWith("VI_NESHAN_RECENTER_TIMING ") ||
+            line.startsWith("VI_NESHAN_RECENTER_BUTTON ") -> AppLog.info("NeshanRecenter", line.take(2000))
             line.startsWith("VI_NESHAN_RECENTER_RESULT ") -> {
                 val parts = line.split(' ', limit=3)
                 if(parts.size==3) recenterReplies[parts[1]]?.takeIf { it.process === process }?.let {
