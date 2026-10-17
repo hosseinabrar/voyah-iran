@@ -36,12 +36,37 @@ function text(v,name,value){
     if(String(t.getText())!==s)Text.setText.overload('java.lang.CharSequence').call(t,Java.use('java.lang.String').${'$'}new(s));
 }
 function resourceText(c,name){const r=c.getResources(),id=r.getIdentifier(name,'string',c.getPackageName());if(!id)throw Error('Missing OEM string '+name);return String(r.getString(id));}
-function inflate(c,p,name){const id=c.getResources().getIdentifier(name,'layout',c.getPackageName());if(!id)throw Error('Missing OEM layout '+name);return Java.retain(Inflater.from(c).inflate(id,Java.cast(p,Group),false));}
-function time(ms){const s=Math.floor(Math.max(0,ms)/1000);return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
+function inflate(c,p,name){
+    const id=c.getResources().getIdentifier(name,'layout',c.getPackageName());if(!id)throw Error('Missing OEM layout '+name);
+    // MusicBaseView.initView inflates INTO a FrameLayout. Preserve the XML child's
+    // fixed dimensions instead of measuring the ConstraintLayout as the whole panel.
+    const root=Java.use('android.widget.FrameLayout').${'$'}new(c);
+    Inflater.from(c).inflate(id,root,true);return Java.retain(root);
+}
+function time(ms){return String(Java.use('com.qinggan.cardview.utils.Tools').convertMinutes(Math.floor(Math.max(0,ms))));}
+function visibility(v,name,value){const node=find(v,name);if(node)node.setVisibility(value);}
+function imageResource(v,name,res){const node=find(v,name);if(!node)return;const c=v.getContext();const id=c.getResources().getIdentifier(res,'mipmap',c.getPackageName());if(!id)throw Error('Missing OEM image '+res);Java.cast(node,Image).setImageResource(id);}
 function styleMusic(v,theme){
-    const icon=find(v,'music_iv_type');if(icon&&theme===4){icon.setScaleX(0.4);icon.setScaleY(0.4);}
-    const node=find(v,'music_tv_title');if(node){const title=Java.cast(node,Text);title.setTextSize(0,title.getTextSize()*0.8);
+    // Keep OEM layout, plus the owner's title sizing and white-theme source badge.
+    if(theme===5){visibility(v,'view_1',4);visibility(v,'view_2',4);}
+    const titleNode=find(v,'music_tv_title');if(titleNode){const title=Java.cast(titleNode,Text);title.setTextSize(0,title.getTextSize()*0.8);
         title.setSingleLine(true);title.setEllipsize(Java.use('android.text.TextUtils${'$'}TruncateAt').END.value);title.setSelected(false);}
+    const icon=find(v,'music_iv_type');
+    if(icon&&theme===4){
+        const lp=Java.cast(icon.getLayoutParams(),Java.use('androidx.constraintlayout.widget.ConstraintLayout${'$'}LayoutParams'));
+        // Match the classic XML badge (34dp, end 6.3dp, top 5.4dp), mirrored vertically.
+        const density=v.getContext().getResources().getDisplayMetrics().density.value;
+        lp.width.value=Math.round(34*density);lp.height.value=Math.round(34*density);
+        lp.setMarginEnd(Math.round(6.3*density));lp.bottomMargin.value=Math.round(5.4*density);
+        lp.startToStart.value=-1;lp.topToTop.value=-1;
+        const coverId=v.getContext().getResources().getIdentifier('music_iv_cover','id',v.getContext().getPackageName());
+        lp.endToEnd.value=coverId;lp.bottomToBottom.value=coverId;icon.setLayoutParams(lp);
+        // Default View pivot is its center: shrink visually without moving the badge.
+        icon.setScaleX(0.90);icon.setScaleY(0.90);
+    }
+    const cover=find(v,'music_iv_cover');if(cover)Java.cast(cover,Image).setScaleType(Java.use('android.widget.ImageView${'$'}ScaleType').CENTER_CROP.value);
+    ['loading_group','loading_cover','loading','music_tv_disconnect'].forEach(name=>visibility(v,name,8));
+    imageResource(v,'music_iv_cover',theme===5?'panel_golden_music_bg':'icon_music_'+({1:'simple',2:'classic',4:'white'}[theme])+'_bg');
 }
 function originals(hide){
     if(!mounted)return;const m=mounted;
@@ -146,28 +171,39 @@ function geometry(m){
 }
 function metadata(){
     if(!mounted)return;const m=mounted,d=packet.frame;if(!d||d.idle)return;
-    text(m.music,'music_tv_title',d.source);text(m.music,'music_tv_song_name',d.title);text(m.music,'music_tv_artist_name',d.artist);
+    const source=d.oemSource||'',radio=['DAB','XMLA_MUSIC','RADIO_YUNTING','LOCAL_RADIO'].indexOf(source)>=0;
+    text(m.music,'music_tv_title',d.source||resourceText(m.music.getContext(),radio?'title_radio':'title_music'));
+    text(m.music,'music_tv_song_name',d.title||resourceText(m.music.getContext(),'unknown'));
+    text(m.music,'music_tv_artist_name',d.artist||resourceText(m.music.getContext(),'unknown'));
     const pause=find(m.music,'music_iv_stop');if(pause)pause.setVisibility(d.playing?8:0);
-    if(m.pkg!==d.package){
+    const sourceKey=(d.package||'')+':'+source;
+    if(m.pkg!==sourceKey){
         const icon=find(m.music,'music_iv_type');
-        if(icon){const iv=Java.cast(icon,Image);try{iv.setImageDrawable(m.music.getContext().getPackageManager().getApplicationIcon(d.package));}catch(e){iv.setImageDrawable(null);}}
-        m.pkg=d.package;
+        const nativeIcon={BT_MUSIC:'bluetooth',SYSTEM_BT_MUSIC:'bluetooth',USB_MUSIC:'usb',KW_MUSIC:'kuwo',WECAR_FLOW:'wecar',XMLA_MUSIC:'xmly',RADIO_YUNTING:'yunting',DAB:'dab'}[source];
+        if(nativeIcon){const suffix={1:'simple',2:'classic',4:'white',5:'new'}[m.theme];const prefix=nativeIcon==='xmly'&&(m.theme===2||m.theme===5)?'icon_radio_':'icon_music_';imageResource(m.music,'music_iv_type',prefix+nativeIcon+'_'+(nativeIcon==='kuwo'&&m.theme===1?'sipmle':suffix));}
+        else if(icon){const iv=Java.cast(icon,Image);try{iv.setImageDrawable(m.music.getContext().getPackageManager().getApplicationIcon(d.package));}catch(e){iv.setImageDrawable(null);}}
+        m.pkg=sourceKey;
     }
     if(m.cover!==d.cover){
         let bitmap=null;
         if(d.cover){const bytes=Java.use('android.util.Base64').decode(d.cover,0);bitmap=Java.use('android.graphics.BitmapFactory').decodeByteArray(bytes,0,bytes.length);}
-        const iv=find(m.music,'music_iv_cover');if(iv)Java.cast(iv,Image).setImageBitmap(bitmap);
+        const iv=find(m.music,'music_iv_cover');if(iv){if(bitmap)Java.cast(iv,Image).setImageBitmap(bitmap);
+            else imageResource(m.music,'music_iv_cover',m.theme===5?'panel_golden_music_bg':'icon_music_'+({1:'simple',2:'classic',4:'white'}[m.theme])+'_bg');}
         recycle(m.coverBitmap);m.coverBitmap=bitmap?Java.retain(bitmap):null;m.cover=d.cover;
     }
 }
 function progress(m){
     const d=packet.frame;if(!d||d.idle)return;
     const duration=Math.min(2147483647,Math.max(0,d.duration||0));
+    const show=duration>0&&!d.radio;
+    ['music_tv_play_time','music_tv_total_time'].forEach(name=>visibility(m.music,name,show?0:(m.theme===5?8:4)));
+    visibility(m.music,'music_progress',d.radio||(!show&&(m.theme===1||m.theme===5))?8:0);
+    visibility(m.music,'music_progress_reflection',show?0:8);
     const position=Math.min(duration,Math.max(0,(d.position||0)+(d.playing?Math.max(0,now()-d.at):0)));
     const node=find(m.music,'music_progress');
     if(node){if(m.theme===1)Java.cast(node,Java.use('com.qinggan.cardview.panel.CircleProgressView')).setPercent(duration>0?position/duration:0);
         else{const bar=Java.cast(node,Java.use('android.widget.ProgressBar'));bar.setMax(duration);bar.setProgress(position);}}
-    text(m.music,'music_tv_play_time',time(position));text(m.music,'music_tv_total_time',time(duration));
+    text(m.music,'music_tv_play_time',show?time(position):'');text(m.music,'music_tv_total_time',show?time(duration):'');
 }
 function renderFrame(){
     const m=mounted;if(!m)return;

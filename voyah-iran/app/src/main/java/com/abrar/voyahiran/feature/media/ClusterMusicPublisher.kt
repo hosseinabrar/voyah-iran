@@ -88,6 +88,7 @@ internal class ClusterMusicPublisher(private val context: Context, private val s
             }.getOrDefault("")
         }
         val frame = JSONObject().put("package", value.sourcePackage.ifBlank { context.packageName }).put("source", value.source.take(100))
+            .put("oemSource", value.oemSource).put("radio", value.radio)
             .put("musicEnabled", musicEnabled).put("mapEnabled", mapEnabled)
             // Either checkbox gives the compositor ownership of the whole region.
             // The compositor uses musicEnabled to restore OEM content in map-only fallback.
