@@ -18,7 +18,7 @@ internal object LauncherClusterMap {
     @Volatile private var ready = false
     @Volatile private var output: Surface? = null
     private var retryAt=0L
-    val autoPolicy = ClusterMapAutoPolicy()
+    val autoPolicy = ClusterMapAutoPolicy { AppLog.info("ClusterMapAuto", it) }
     fun allowed(c: Context) = LauncherPreferences.enabled(c) && LauncherPreferences.clusterMap(c) &&
         when (LauncherPreferences.clusterMapMode(c)) {
             ClusterMapMode.OFF -> false
@@ -27,7 +27,7 @@ internal object LauncherClusterMap {
         } &&
         (c.applicationContext as VoyahIranApplication).subscriptions.vipAllowed
     fun show(c: Context, relay: MapFrameRelay) {
-        if (!allowed(c)) { hide(relay); return }
+        if (!allowed(c)) { hide(relay, denialReason(c)); return }
         if (renderer === relay && task?.isActive == true) {
             if (fadeOut != null) {
                 fadeOut?.cancel(); fadeOut=null
@@ -44,7 +44,7 @@ internal object LauncherClusterMap {
             val started=android.os.SystemClock.elapsedRealtime()
             try {
                 while (isActive && renderer === relay) {
-                    if (!allowed(c)) hide(relay)
+                    if (!allowed(c)) hide(relay, denialReason(c))
                     if (session != id) break
                     check(revealed || android.os.SystemClock.elapsedRealtime()-started<12000) {"Cluster transition did not become ready"}
                     val action = if (ready) "ready" else "show"
@@ -77,11 +77,15 @@ internal object LauncherClusterMap {
             }
         }
     }
-    fun hide(relay: MapFrameRelay? = null) {
+    private fun denialReason(c: Context): String =
+        "not_allowed launcher=${LauncherPreferences.enabled(c)} cluster=${LauncherPreferences.clusterMap(c)} mode=${LauncherPreferences.clusterMapMode(c)} vip=${(c.applicationContext as VoyahIranApplication).subscriptions.vipAllowed}"
+
+    fun hide(relay: MapFrameRelay? = null, reason: String = "owner_hide") {
         if (relay != null && renderer !== relay) return
         if (fadeOut != null) return
         val current=renderer
         val id=session
+        if (id != null) AppLog.info("ClusterMap", "hide requested reason=$reason session=$id revealed=$revealed")
         if (current == null || id == null || !revealed) { release(); return }
         fadeOut=scope.launch {
             // Keep the Activity, surface and bridge lease alive until the last

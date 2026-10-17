@@ -11,7 +11,7 @@ enum class ClusterMapMode {
 }
 
 /** Monotonic-clock policy; no UI, preference writes or vehicle commands. */
-internal class ClusterMapAutoPolicy {
+internal class ClusterMapAutoPolicy(private val log: (String) -> Unit = {}) {
     companion object {
         // Fifteen seconds of travel, bounded for slow traffic and fast roads.
         // Missing/invalid CAN speed preserves the previous 200 m behavior.
@@ -25,14 +25,20 @@ internal class ClusterMapAutoPolicy {
     private var hideAt: Long? = null
     private var freshUntil = 0L
 
-    fun reset() { step = null; visible = false; near = false; hideAt = null; freshUntil = 0 }
+    fun reset(reason: String = "owner_reset") {
+        if (visible) log("exit reason=$reason step=$step freshUntil=$freshUntil hideAt=$hideAt")
+        step = null; visible = false; near = false; hideAt = null; freshUntil = 0
+    }
+
+    // A failed read is not a navigation cancellation. Never extend the data lease.
+    fun unavailable(now: Long) { show(now) }
 
     fun update(key: String?, meters: Int, sampledAt: Long, now: Long, speedKmh: Int? = null) {
         if (key.isNullOrBlank() || meters !in 0..1_000_000 || now - sampledAt !in 0..5000) {
-            reset(); return
+            unavailable(now); return
         }
         // Never resurrect a previous maneuver after a broken/stale connection.
-        if (now > freshUntil) reset()
+        if (now > freshUntil) reset("sample_expired now=$now")
         if (step != null && step != key && visible) hideAt = now + 4000
         step = key
         freshUntil = sampledAt + 5000
@@ -43,8 +49,9 @@ internal class ClusterMapAutoPolicy {
     }
 
     fun show(now: Long): Boolean {
-        if (now > freshUntil) { reset(); return false }
+        if (now > freshUntil) { reset("sample_expired now=$now"); return false }
         if (hideAt?.let { now >= it } == true) {
+            if (visible && !near) log("exit reason=maneuver_grace_elapsed step=$step now=$now")
             visible = near // Keep the map for immediately consecutive nearby maneuvers.
             hideAt = null
         }

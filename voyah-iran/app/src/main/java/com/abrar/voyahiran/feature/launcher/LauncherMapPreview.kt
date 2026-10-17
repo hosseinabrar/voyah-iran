@@ -46,9 +46,9 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     fun refreshCluster() {
         if (!wantsAuto()) {
             autoMonitor?.cancel(); autoMonitor = null
-            LauncherClusterMap.autoPolicy.reset()
+            LauncherClusterMap.autoPolicy.reset("auto_not_requested closed=$closed mapInCard=$mapInCard package=$packageName")
         } else if (autoMonitor?.isActive != true) {
-            LauncherClusterMap.autoPolicy.reset()
+            LauncherClusterMap.autoPolicy.reset("monitor_started")
             autoMonitor = scope.launch {
                 while (isActive && wantsAuto()) {
                     try {
@@ -64,10 +64,13 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                             LauncherClusterMap.autoPolicy.update(data.getString("step"), data.getInt("meters"),
                                 data.getLong("sampledAt"), android.os.SystemClock.elapsedRealtime(),
                                 (data.opt("speedKmh") as? Number)?.toInt())
-                        } else LauncherClusterMap.autoPolicy.reset()
+                        } else {
+                            LauncherClusterMap.autoPolicy.unavailable(android.os.SystemClock.elapsedRealtime())
+                            com.abrar.voyahiran.core.logging.AppLog.changed("ClusterMapAuto", "sample unavailable exit=${result.exitCode} timedOut=${result.timedOut} reason=${data?.optString("reason") ?: "missing_response"}; retaining unexpired sample")
+                        }
                     } catch (e: CancellationException) { throw e }
                     catch (e: Exception) {
-                        LauncherClusterMap.autoPolicy.reset()
+                        LauncherClusterMap.autoPolicy.unavailable(android.os.SystemClock.elapsedRealtime())
                         com.abrar.voyahiran.core.logging.AppLog.changed("ClusterMapAuto", "navigation unavailable: ${e.message}")
                     }
                     embedded.cluster(mapInCard)

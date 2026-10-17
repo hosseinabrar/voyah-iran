@@ -27,11 +27,11 @@ internal object ClusterMapBridge {
     private var startedAt=0L
     private var timer=false
     @Synchronized fun command(action: String,id: String): CommandResult {
-        if(action=="stop") { if(session==id)stop();return CommandResult(0,"Map released") }
+        if(action=="stop") { if(session==id)stop("client_stop");return CommandResult(0,"Map released") }
         if(!BridgeSubscriptionSession.vipActive)return CommandResult(126,"VIP inactive")
         try {
             if(session!=id) {
-                stop()
+                stop("session_replaced new=$id")
                 val client=Api();api=client;session=id;hasFrame=false;revealed=false
                 bootstrapped=false;launchAt=0L;launchRequested=false;startedAt=SystemClock.elapsedRealtime()
                 ClusterMusicBridge.beginMapTransition()
@@ -53,17 +53,18 @@ internal object ClusterMapBridge {
             }
             val theme=runCatching {api?.theme()}.getOrNull()
             return CommandResult(0,"Map lease renewed theme=${theme ?: -1} reveal=${if(revealed) 1 else 0}")
-        } catch(e:Exception) {stop();return CommandResult(1,"Cluster map unavailable: ${e.cause ?: e}")}
+        } catch(e:Exception) {stop("command_error action=$action error=${e.cause ?: e}");return CommandResult(1,"Cluster map unavailable: ${e.cause ?: e}")}
     }
     @Synchronized private fun tick() {
         if(session==null)return
-        if(!BridgeSubscriptionSession.vipActive || SystemClock.elapsedRealtime()-renewed>3500) {stop();return}
+        if(!BridgeSubscriptionSession.vipActive) {stop("vip_inactive");return}
+        if(SystemClock.elapsedRealtime()-renewed>3500) {stop("lease_expired");return}
         try {
             val client=api ?: return
             val now=SystemClock.elapsedRealtime()
             if(!hasFrame && now-startedAt>12_000) {
                 AppLog.info("ClusterMap","map startup timed out mediaReady=${client.mediaReady} launchRequested=$launchRequested")
-                stop();return
+                stop("startup_timeout");return
             }
             // OEM creates the MEDIA virtual display from notifyReadyToShow, not
             // startClusterActivity. Bootstrap with music still visible; waiting
@@ -87,9 +88,10 @@ internal object ClusterMapBridge {
                 client.type.getMethod("notifyReadyToShow",String::class.java).invoke(client.remote,SMALL)
                 revealed=true
             }
-        } catch(e:Exception) {AppLog.error("ClusterMap","ready failed",e);stop()}
+        } catch(e:Exception) {AppLog.error("ClusterMap","ready failed",e);stop("ready_error error=${e.cause ?: e}")}
     }
-    private fun stop() {
+    private fun stop(reason: String) {
+        if(session != null) AppLog.info("ClusterMap", "stop reason=$reason session=$session leaseAgeMs=${SystemClock.elapsedRealtime()-renewed} hasFrame=$hasFrame revealed=$revealed launchRequested=$launchRequested")
         val client=api;val restore=launchRequested
         api=null;session=null;hasFrame=false;revealed=false;presenting=false
         if(client!=null) {

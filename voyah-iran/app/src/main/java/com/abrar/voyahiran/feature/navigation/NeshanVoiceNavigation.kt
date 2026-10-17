@@ -65,9 +65,6 @@ internal object NeshanVoiceNavigation {
                 check(NavigationPreferences(app).voiceNavigationEnabled &&
                     (app as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed) { "Navigation disabled" }
                 check(serviceConnected) { "Neshan accessibility disconnected" }
-                val preferCard = com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(app) &&
-                    NavigationPreferences(app).navigator == NavigationPreferences.NESHAN
-                val preparedCard = if (preferCard) prepareLauncherCard(app) else null
                 val status = bridgeRetry(listOf("launcher-map-status", NavigationPreferences.NESHAN, "0"), 4)
                 check(status.exitCode == 0 && !status.timedOut) { "Cannot verify map display: ${status.output}" }
                 AppLog.info("NeshanRoute", "map status ${status.output.trim()}")
@@ -75,7 +72,8 @@ internal object NeshanVoiceNavigation {
                     Regex("MAP_DISPLAY=(\\d+) MAP_VISIBLE=1").find(status.output)?.groupValues?.get(1)?.toIntOrNull()
                     else null
                 val card = com.abrar.voyahiran.feature.launcher.LauncherEmbeddedMapSurface.automationDisplayId
-                val reuse = preparedCard ?: visibleDisplay?.takeIf { it == 0 || it == 1 ||
+                // Preserve the current display. Recenter only when the user returns to the card.
+                val reuse = visibleDisplay?.takeIf { it == 0 || it == 1 ||
                     (it == card && com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible) }
                 active.displayId = reuse ?: 0
                 val options = android.app.ActivityOptions.makeBasic().apply { launchDisplayId = active.displayId!! }.toBundle()
@@ -123,48 +121,6 @@ internal object NeshanVoiceNavigation {
             }
         }
         return CommandResult(0, "Neshan navigation accepted: $id")
-    }
-    private suspend fun prepareLauncherCard(app: Context): Int {
-        app.startActivity(Intent(app, com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP),
-            android.app.ActivityOptions.makeBasic().apply { launchDisplayId=0 }.toBundle())
-        val deadline=SystemClock.elapsedRealtime()+15_000
-        var claimedDisplay: Int?=null
-        var stableDisplay: Int?=null
-        var stable=0
-        while(SystemClock.elapsedRealtime()<deadline) {
-            check(serviceConnected && NavigationPreferences(app).voiceNavigationEnabled &&
-                (app as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed &&
-                com.abrar.voyahiran.feature.launcher.LauncherPreferences.enabled(app) &&
-                NavigationPreferences(app).navigator==NavigationPreferences.NESHAN) { "Map card navigation disabled" }
-            val card=com.abrar.voyahiran.feature.launcher.LauncherEmbeddedMapSurface.automationDisplayId
-            if(card!=null && card>1 && com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible) {
-                val status=bridgeRetry(listOf("launcher-map-status",NavigationPreferences.NESHAN,card.toString()),4)
-                val visible=status.exitCode==0 && !status.timedOut &&
-                    status.output.contains("MAP_DISPLAY=$card MAP_VISIBLE=1")
-                if(visible) {
-                    // Let the card-sized layout settle before injecting the destination.
-                    if(stableDisplay!=card) {stableDisplay=card;stable=0}
-                    stable++
-                    if(stable>=3) {
-                        AppLog.info("NeshanRoute","launcher card ready display=$card")
-                        return card
-                    }
-                } else {
-                    stable=0
-                    if(status.exitCode==0 && !status.timedOut && claimedDisplay!=card) {
-                        val claim=bridgeRetry(listOf("launcher-map-claim",NavigationPreferences.NESHAN,card.toString()),8)
-                        check(claim.exitCode==0 && !claim.timedOut && !claim.output.contains("Error:")) {
-                            "Cannot prepare map card: ${claim.output}"
-                        }
-                        claimedDisplay=card
-                    }
-                }
-            } else stable=0
-            delay(200)
-        }
-        // Do not silently navigate fullscreen: that recreates the stale wide-layout offset.
-        error("Launcher map card did not become ready; destination was not sent")
     }
     private suspend fun bridgeRetry(args: List<String>, timeout: Long): CommandResult {
         val until = SystemClock.elapsedRealtime() + 4000

@@ -67,9 +67,30 @@ class ClusterMapAutoPolicyTest {
         assertFalse(policy.show(6001))
         policy.update("turn", 10, 1000, 6001); assertFalse(policy.show(6001))
         policy.update("turn", 10, 7000, 7000)
-        policy.update(null, 0, 7100, 7100); assertFalse(policy.show(7100))
-        policy.update("turn", -1, 7200, 7200); assertFalse(policy.show(7200))
-        policy.update("turn", 10, 7400, 7300); assertFalse(policy.show(7300))
+        policy.update(null, 0, 7100, 7100); assertTrue(policy.show(7100))
+        policy.update("turn", -1, 7200, 7200); assertTrue(policy.show(7200))
+        policy.update("turn", 10, 7400, 7300); assertTrue(policy.show(7300))
+        assertFalse(policy.show(12001))
+    }
+    @Test fun transientReadFailureDoesNotHideOrExtendLease() {
+        val messages = mutableListOf<String>()
+        val policy = ClusterMapAutoPolicy { messages.add(it) }
+        policy.update("turn", 90, 1000, 1000, 0)
+        policy.unavailable(1500)
+        assertTrue(policy.show(1500))
+        policy.unavailable(5900)
+        assertTrue(policy.show(6000))
+        policy.unavailable(6001)
+        assertFalse(policy.show(6001))
+        assertEquals(1, messages.size)
+        assertTrue(messages.single().contains("sample_expired"))
+    }
+    @Test fun recoveryDuringBrakingPreservesSameManeuverLatch() {
+        val policy = ClusterMapAutoPolicy()
+        policy.update("turn", 240, 1000, 1000, 60)
+        policy.unavailable(1500)
+        policy.update("turn", 230, 2000, 2000, 0)
+        assertTrue(policy.show(2000))
     }
     @Test fun staleSessionCannotCarryItsLatchIntoTheNextSample() {
         val policy = ClusterMapAutoPolicy()
