@@ -47,7 +47,12 @@ internal class PassengerMusicView(context:Context):View(context){
         if(trackChanged)cancelGesture()
         val timingChanged=trackChanged||s.position!=state.position||s.playing!=state.playing||s.duration!=state.duration
         val changed=s.cover!==state.cover
-        if(changed){fade?.cancel();oldCover=state.cover;blend=1f}
+        if(changed){
+            val previous=if(blend<1f)Bitmap.createBitmap(135,135,Bitmap.Config.ARGB_8888).also {
+                val canvas=Canvas(it);canvas.translate(-20f,-20f);drawCoverBlend(canvas)
+            }else state.cover
+            fade?.cancel();oldCover=previous;blend=1f
+        }
         state=s;if(timingChanged)stamp=SystemClock.elapsedRealtime()
         if(changed&&isAttachedToWindow&&isShown&&ValueAnimator.areAnimatorsEnabled()){
             fade=ValueAnimator.ofFloat(0f,1f).apply{duration=300;addUpdateListener{blend=it.animatedValue as Float;invalidate()};addListener(object:android.animation.AnimatorListenerAdapter(){override fun onAnimationEnd(animation:android.animation.Animator){oldCover=null}});start()}
@@ -69,14 +74,24 @@ internal class PassengerMusicView(context:Context):View(context){
     }
     private fun bitmap(c:Canvas,b:Bitmap,r:RectF,tint:Int?=null,alpha:Int=255){paint.shader=null;paint.color=Color.WHITE;paint.alpha=alpha;paint.colorFilter=tint?.let{PorterDuffColorFilter(it,PorterDuff.Mode.SRC_IN)};c.drawBitmap(b,null,r,paint);paint.colorFilter=null;paint.alpha=255}
     private fun clock(ms:Long)="${ms.coerceAtLeast(0)/60000}:${(ms.coerceAtLeast(0)/1000%60).toString().padStart(2,'0')}"
+    private fun drawCoverBlend(c:Canvas) {
+        val rect=RectF(20f,20f,154.4f,154.4f)
+        fun cover(b:Bitmap?) {
+            paint.shader=null;paint.colorFilter=null;paint.alpha=255
+            paint.color=if(light)0xffdce5f2.toInt()else 0xff202c47.toInt();c.drawRect(rect,paint)
+            if(b==null)bitmap(c,music,RectF(63f,63f,111f,111f),muted)
+            else {val size=min(b.width,b.height);paint.color=Color.WHITE;c.drawBitmap(b,Rect((b.width-size)/2,(b.height-size)/2,(b.width+size)/2,(b.height+size)/2),rect,paint)}
+        }
+        if(blend<1f)cover(oldCover)
+        val layer=c.saveLayerAlpha(rect,(blend*255).toInt())
+        cover(state.cover);c.restoreToCount(layer)
+    }
     override fun onDraw(c:Canvas){
         super.onDraw(c);paint.color=Color.WHITE;paint.style=Paint.Style.FILL;paint.colorFilter=null;c.save();c.scale(width/556f,height/256f);c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,556f,256f),16f,16f,Path.Direction.CW)})
         paint.shader=LinearGradient(0f,0f,556f,256f,if(light)intArrayOf(0xfff7faff.toInt(),0xffeef4fc.toInt())else intArrayOf(0xff35456e.toInt(),0xff1b233a.toInt()),null,Shader.TileMode.CLAMP);c.drawRect(0f,0f,556f,256f,paint);paint.shader=null
         c.save();c.translate(278f,266f);c.scale(1f,.12f);paint.shader=RadialGradient(0f,0f,417f,intArrayOf(if(light)0x356ba5ef else 0x706278b6,0x006278b6),null,Shader.TileMode.CLAMP);c.drawCircle(0f,0f,417f,paint);paint.shader=null;c.restore()
         val coverRect=RectF(20f,20f,154.4f,154.4f);c.save();c.clipPath(Path().apply{addRoundRect(coverRect,12f,12f,Path.Direction.CW)})
-        paint.color=if(light)0xffdce5f2.toInt()else 0xff202c47.toInt();c.drawRect(coverRect,paint)
-        fun cover(b:Bitmap?,alpha:Int){if(b==null){bitmap(c,music,RectF(63f,63f,111f,111f),muted,alpha)}else{val size=min(b.width,b.height);paint.color=Color.WHITE;paint.alpha=alpha;c.drawBitmap(b,Rect((b.width-size)/2,(b.height-size)/2,(b.width+size)/2,(b.height+size)/2),coverRect,paint);paint.alpha=255}}
-        if(blend<1f)cover(oldCover,255);cover(state.cover,(blend*255).toInt());c.restore()
+        drawCoverBlend(c);c.restore()
         state.source?.let{d->c.save();c.clipPath(Path().apply{addRoundRect(RectF(121.4f,121.4f,149.4f,149.4f),7f,7f,Path.Direction.CW)});val old=Rect(d.bounds);d.setBounds(121,121,149,149);d.draw(c);d.bounds=old;c.restore()}
         motion.text("title",state.title.ifBlank{"Music"},c,RectF(170f,37f,385f,74f)){text(c,it,173f,68f,28f,fg,210f,true)}
         motion.text("artist",state.artist,c,RectF(170f,77f,385f,109f)){text(c,it,173f,102f,21f,muted,210f)}

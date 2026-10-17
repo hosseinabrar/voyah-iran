@@ -4,19 +4,75 @@ internal object ClusterMusicScript {
 val source = """
 'use strict';
 // Inflate the installed ROM's own layouts in its own process/class loader. All factory
-// children continue receiving their normal data; only the OEM window is temporarily hidden while the map owns the output.
+// children continue receiving their normal data; their pixels are hidden while a
+// translucent OEM carrier stays alive beneath the map.
 let latest = null, received = 0, mounted = null, themeHook = null, createHook = null, stopped = false;
 let mapMode = false, mapSettled = false, hiddenWindow = null, fadeSerial = 0, returningUntil = 0;
+// Keep an actual translucent OEM surface alive. A zero-alpha whole window can
+// be dropped by the vendor virtual-display compositor and flatten the mask to black.
+function clearCarrier(item) {
+    const saved=item.carrier;if(!saved)return;
+    item.carrier=null;
+    try {
+        saved.decor.removeView(saved.dot);
+        saved.children.forEach(function(child) {
+            child.view.setAlpha(child.alpha);child.view.setVisibility(child.visibility);child.view.${'$'}dispose();
+        });
+        item.window.setBackgroundDrawable(saved.background);
+        item.window.setFormat(saved.format);
+    } finally {
+        if(saved.background)saved.background.${'$'}dispose();
+        saved.dot.${'$'}dispose();saved.decor.${'$'}dispose();
+    }
+}
+function keepCarrier(item) {
+    if(!item.carrier) {
+        const decor=Java.cast(item.window.getDecorView(),Java.use('android.view.ViewGroup'));
+        const background=decor.getBackground(), children=[];
+        const dot=Java.use('android.view.View').${'$'}new(decor.getContext());
+        item.carrier={decor:Java.retain(decor),background:background?Java.retain(background):null,
+            format:item.window.getAttributes().format.value,children:children,dot:Java.retain(dot)};
+        for(let i=0;i<decor.getChildCount();i++) {
+            const child=decor.getChildAt(i);
+            children.push({view:Java.retain(child),alpha:child.getAlpha(),visibility:child.getVisibility()});
+            child.setAlpha(0);child.setVisibility(4); // INVISIBLE preserves layout, unlike GONE.
+        }
+        item.window.setBackgroundDrawable(Java.use('android.graphics.drawable.ColorDrawable').${'$'}new(0));
+        item.window.setFormat(-3); // PixelFormat.TRANSLUCENT
+        dot.setBackgroundColor(-16777216);dot.setClickable(false);dot.setFocusable(false);
+        dot.setImportantForAccessibility(2);
+        const params=Java.use('android.widget.FrameLayout${'$'}LayoutParams').${'$'}new(1,1);
+        params.leftMargin.value=Math.round(decor.getWidth()*335/1920);
+        params.topMargin.value=Math.round(decor.getHeight()*407/720);
+        decor.addView(dot,params);
+        console.log('VI_CLUSTER_MUSIC_CARRIER transparent with 1px anchor');
+    }
+    // Source updates may replace content without a theme callback.
+    const saved=item.carrier;
+    for(let i=0;i<saved.decor.getChildCount();i++) {
+        const child=saved.decor.getChildAt(i);
+        if(child.equals(saved.dot))continue;
+        if(!saved.children.some(function(entry){return entry.view.equals(child);}))
+            saved.children.push({view:Java.retain(child),alpha:child.getAlpha(),visibility:child.getVisibility()});
+        child.setAlpha(0);
+        // OEM media/title animations can restore alpha independently. Keep their
+        // entire content branch invisible; only the carrier dot remains drawable.
+        if(child.getVisibility()!==4)child.setVisibility(4);
+    }
+    const attrs=item.window.getAttributes();attrs.alpha.value=item.alpha;item.window.setAttributes(attrs);
+}
 function restoreWindow(animated) {
     if (!hiddenWindow) return;
     if (animated) { fadeWindow(hiddenWindow.alpha, 360); return; }
     ++fadeSerial;
     const old=hiddenWindow; hiddenWindow=null;
     try {
+        clearCarrier(old);
         const attrs=old.window.getAttributes();
         attrs.alpha.value=old.alpha;
         old.window.setAttributes(attrs);
         console.log('VI_CLUSTER_MUSIC_WINDOW restored');
+        console.log('VI_CLUSTER_MUSIC_VISIBLE');
     } finally { old.window.${'$'}dispose(); }
 }
 function fadeWindow(target, duration) {
@@ -25,13 +81,16 @@ function fadeWindow(target, duration) {
     if (item.target === target) {
         // Theme/source callbacks must not reset a finished hidden window.
         if (target === 0 && item.done) {
-            const attrs=item.window.getAttributes();
-            if(attrs.alpha.value !== 0) { attrs.alpha.value=0;item.window.setAttributes(attrs); }
+            keepCarrier(item);
             console.log('VI_CLUSTER_MUSIC_HIDDEN');
         }
         return;
     }
     item.target=target;item.done=false;
+    if(target!==0 && item.carrier) {
+        const attrs=item.window.getAttributes();attrs.alpha.value=0;item.window.setAttributes(attrs);
+        clearCarrier(item);
+    }
     const serial=++fadeSerial, start=Date.now(), from=Number(item.window.getAttributes().alpha.value);
     function frame() {
         Java.scheduleOnMainThread(function() {
@@ -43,10 +102,11 @@ function fadeWindow(target, duration) {
                 item.window.setAttributes(attrs);
                 if(t<1) setTimeout(frame,16);
                 else if(target===0) {
-                    item.done=true;mapSettled=true;restore();console.log('VI_CLUSTER_MUSIC_HIDDEN');
+                    item.done=true;mapSettled=true;restore();keepCarrier(item);console.log('VI_CLUSTER_MUSIC_HIDDEN');
                 } else {
                     hiddenWindow=null;item.window.${'$'}dispose();
                     console.log('VI_CLUSTER_MUSIC_WINDOW restored');
+                    console.log('VI_CLUSTER_MUSIC_VISIBLE');
                 }
             } catch(e) {
                 restoreWindow(false);
@@ -101,15 +161,17 @@ function render() {
                 if(replacement || mapSettled) {attrs.alpha.value=0;window.setAttributes(attrs);}
                 console.log('VI_CLUSTER_MUSIC_WINDOW suppressed for map');
             }
-            // Suppress the entire OEM layer, including its decor background. Hiding
-            // PanelView alone leaves other window pixels underneath our alpha mask.
-            // Do not replace backgrounds on every heartbeat: OEM theme/source changes
-            // may rebuild their views, but none can escape a zero-alpha window.
+            // Hide OEM contents, but retain a translucent carrier instead of a
+            // permanently zero-alpha window. The anchor is covered by the map.
             fadeWindow(0,240);
         } else { restore();mapSettled=true;console.log('VI_CLUSTER_MUSIC_HIDDEN'); }
         return;
     }
     restoreWindow(!stopped && Date.now()-received<=5000);
+    if(!hiddenWindow && !stopped) {
+        const activity=Screen.screenActivity.value;
+        if(activity && !activity.isDestroyed())console.log('VI_CLUSTER_MUSIC_VISIBLE');
+    }
     if (stopped || !latest || Date.now() - received > 5000) { restore(); return; }
     const activity = Screen.screenActivity.value;
     if (!activity || activity.isFinishing() || activity.isDestroyed()) { restore(); return; }
@@ -207,6 +269,10 @@ Java.perform(function() {
         BitmapFactory=Java.use('android.graphics.BitmapFactory'); Clock=Java.use('android.os.SystemClock');
         themeHook=Panel.onThemeChanged.overload('int','boolean');
         themeHook.implementation=function(theme, force) {
+            if(hiddenWindow && hiddenWindow.carrier) {
+                const attrs=hiddenWindow.window.getAttributes();attrs.alpha.value=0;hiddenWindow.window.setAttributes(attrs);
+                clearCarrier(hiddenWindow);
+            }
             restore(); const result=themeHook.call(this,theme,force);
             try { render(); } catch(e) { latest=null; restore(); console.log('VI_CLUSTER_MUSIC_ERROR ' + (e.stack || e)); }
             return result;
@@ -214,12 +280,8 @@ Java.perform(function() {
         createHook=Screen.onCreate.overload('android.os.Bundle');
         createHook.implementation=function(state) {
             const result=createHook.call(this,state);
-            if(!mapMode && Date.now()<returningUntil) {
-                restoreWindow(false);
-                const window=this.getWindow(), attrs=window.getAttributes();
-                hiddenWindow={window:Java.retain(window),alpha:attrs.alpha.value};
-                attrs.alpha.value=0;window.setAttributes(attrs);
-            }
+            // Music has already been restored beneath the map before handoff.
+            // Never hide a replacement music window on its first return frame.
             // A replacement OEM activity must be hidden before its first frame.
             try { render(); } catch(e) { console.log('VI_CLUSTER_MUSIC_ERROR ' + (e.stack || e)); }
             return result;

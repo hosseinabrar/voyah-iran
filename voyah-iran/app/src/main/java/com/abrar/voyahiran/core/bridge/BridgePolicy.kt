@@ -18,7 +18,7 @@ object BridgePolicy {
         if(request==listOf("neshan-theme-android"))return request
         if(request.size==4 && request[0]=="launcher-map-theme" && AppDensityPreferences.validPackage(request[1]) && request[1]!="com.abrar.voyahiran" && request[2].toIntOrNull()?.let {it in 2..10000}==true && request[3] in listOf("light","dark"))return request
         if(request==listOf("launcher-startup"))return request
-        if(request.size==3 && request[0]=="cluster-map" && request[1] in listOf("show","ready","stop") &&
+        if(request.size==3 && request[0]=="cluster-map" && request[1] in listOf("show","ready","covered","music","stop") &&
             request[2].matches(Regex("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")))return request
         if (request.size == 2 && request[0] == "cluster-music" && request[1] in listOf("refresh", "clear")) return request
         if ((request.size == 4 || (request.size == 5 && request[4] in listOf("0","1"))) && request[0] == "launcher-drawer" &&

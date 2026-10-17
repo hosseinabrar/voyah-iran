@@ -46,11 +46,11 @@ class LauncherDashboard(context: Context) : View(context) {
         set(value) {
             if(field==value)return
             motion.updated()
-            val trackChanged=field.title!=value.title || field.artist!=value.artist || field.radio!=value.radio
+            val trackChanged=field.title!=value.title || field.artist!=value.artist || field.radio!=value.radio || field.sourcePackage!=value.sourcePackage || field.oemSource!=value.oemSource
             if(trackChanged)coverReceivedForTrack=false
             field=value
             if(value.radio) {coverAnimation?.cancel();oldCover=null;shownCover=null;coverFade=1f}
-            else if(!value.coverPending && !coverReceivedForTrack) {
+            else if(!value.coverPending && (!coverReceivedForTrack || value.cover!==shownCover)) {
                 changeCover(value.cover)
                 // Allow the first asynchronous cover, then retain it until title/artist changes.
                 coverReceivedForTrack=value.cover!=null
@@ -62,10 +62,28 @@ class LauncherDashboard(context: Context) : View(context) {
     private var oldCover:Bitmap?=null
     private var coverFade=1f
     private var coverAnimation:android.animation.ValueAnimator?=null
+    private fun drawArtwork(c:Canvas, image:Bitmap?, rect:RectF) {
+        paint.color=Color.WHITE
+        if(lightTheme && image==null) {
+            paint.color=0xffdce8f7.toInt();c.drawRect(rect,paint)
+            paint.color=0xffeaf1fa.toInt();c.drawCircle(rect.centerX(),rect.top+rect.height()*165f/355f,rect.width()*116.53125f/355f,paint)
+            paint.color=0xffd3e2f3.toInt();c.drawCircle(rect.centerX(),rect.top+rect.height()*165f/355f,rect.width()*39.1875f/355f,paint)
+        } else c.drawBitmap(image ?: defaultCover,null,rect,paint)
+    }
+    private fun drawCoverBlend(c:Canvas,rect:RectF) {
+        if(coverFade<1f)drawArtwork(c,oldCover,rect)
+        val layer=c.saveLayerAlpha(rect,(coverFade*255).toInt())
+        drawArtwork(c,shownCover,rect)
+        c.restoreToCount(layer)
+    }
     private fun changeCover(next:Bitmap?) {
         if(next===shownCover)return
+        // Retarget from the currently visible mixture, never jump to either endpoint.
+        val previous=if(coverFade<1f)Bitmap.createBitmap(355,355,Bitmap.Config.ARGB_8888).also {
+            drawCoverBlend(Canvas(it),RectF(0f,0f,355f,355f))
+        } else shownCover
         coverAnimation?.cancel()
-        oldCover=if(coverFade<.5f)oldCover else shownCover
+        oldCover=previous
         shownCover=next
         coverFade=0f
         coverAnimation=android.animation.ValueAnimator.ofFloat(0f,1f).apply {
@@ -181,19 +199,9 @@ class LauncherDashboard(context: Context) : View(context) {
         c.drawLine(1280f, 27f, 1288f, 35f, paint)
         c.drawLine(1288f, 35f, 1280f, 43f, paint)
         if(!media.radio) {
-            val image=if(coverFade<.5f)oldCover else shownCover
-            val opacity=if(coverFade<.5f)1f-coverFade*2 else coverFade*2-1f
-            val cover = image ?: defaultCover
             val rect=RectF(923.5f,78f,1278.5f,433f)
             c.save();c.clipPath(Path().apply{addRoundRect(rect,12f,12f,Path.Direction.CW)})
-            paint.color=Color.WHITE
-            val layer=c.saveLayerAlpha(rect,(opacity*255).toInt())
-            if(lightTheme && image==null) {
-                paint.color=0xffdce8f7.toInt();c.drawRect(rect,paint)
-                paint.color=0xffeaf1fa.toInt();c.drawCircle(1101f,243f,116.53125f,paint)
-                paint.color=0xffd3e2f3.toInt();c.drawCircle(1101f,243f,39.1875f,paint)
-            } else c.drawBitmap(cover,null,rect,paint)
-            c.restoreToCount(layer)
+            drawCoverBlend(c,rect)
             c.restore()
         }
         // Replay retained text drawing commands on progress/clock frames. Re-measure and

@@ -14,6 +14,7 @@ internal object LauncherClusterMap {
     private var task: Job? = null
     private var fadeOut: Job? = null
     private var revealed = false
+    @Volatile private var coverComplete = false
     @Volatile private var session: String? = null
     @Volatile private var ready = false
     @Volatile private var output: Surface? = null
@@ -31,7 +32,10 @@ internal object LauncherClusterMap {
         if (renderer === relay && task?.isActive == true) {
             if (fadeOut != null) {
                 fadeOut?.cancel(); fadeOut=null
-                if (revealed) relay.fadeCluster(1f,360,null)
+                if (revealed) {
+                    val currentSession=session
+                    relay.fadeCluster(1f,360,Runnable { if(session==currentSession)coverComplete=true })
+                }
             }
             return
         }
@@ -47,14 +51,14 @@ internal object LauncherClusterMap {
                     if (!allowed(c)) hide(relay, denialReason(c))
                     if (session != id) break
                     check(revealed || android.os.SystemClock.elapsedRealtime()-started<12000) {"Cluster transition did not become ready"}
-                    val action = if (ready) "ready" else "show"
+                    val action = if(fadeOut!=null) "music" else if(coverComplete) "covered" else if (ready) "ready" else "show"
                     val result = withContext(Dispatchers.IO) {
                         ProcessCommandRunner().run(listOf("su", "0", "cluster-map", action, id), 3)
                     }
                     check(result.exitCode == 0 && !result.timedOut) { result.output }
                     if (session == id && ready && !revealed && fadeOut == null && result.output.contains("reveal=1")) {
                         revealed=true
-                        relay.fadeCluster(1f,360,null)
+                        relay.fadeCluster(1f,360,Runnable { if(session==id)coverComplete=true })
                     }
                     Regex("theme=(\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull()?.let {
                         if(it in setOf(1,2,4)) ClusterMapCalibration.themeId=it
@@ -88,6 +92,24 @@ internal object LauncherClusterMap {
         if (id != null) AppLog.info("ClusterMap", "hide requested reason=$reason session=$id revealed=$revealed")
         if (current == null || id == null || !revealed) { release(); return }
         fadeOut=scope.launch {
+            var musicReady=false
+            withTimeoutOrNull(2200) {
+                while(isActive && session==id) {
+                    val result=withContext(Dispatchers.IO) {
+                        ProcessCommandRunner().run(listOf("su","0","cluster-map","music",id),3)
+                    }
+                    if(result.exitCode==0 && !result.timedOut && result.output.contains("musicReady=1")) {
+                        musicReady=true;break
+                    }
+                    delay(100)
+                }
+            }
+            if(!musicReady) {
+                AppLog.info("ClusterMap","music handoff not ready; retaining map session=$id")
+                fadeOut=null
+                return@launch
+            }
+            AppLog.info("ClusterMap","music ready beneath map; fading map session=$id")
             // Keep the Activity, surface and bridge lease alive until the last
             // transparent buffer has been swapped. Quick re-entry cancels this job.
             withTimeoutOrNull(700) {
@@ -104,6 +126,7 @@ internal object LauncherClusterMap {
         fadeOut?.cancel();fadeOut=null
         renderer?.cluster(null,0,0,null)
         renderer=null; ready=false; session=null; output=null;revealed=false
+        coverComplete=false
         task?.cancel();task=null
     }
     // OFF/AUTO changes request a fade; do not let the Activity's 100ms watchdog
@@ -112,7 +135,7 @@ internal object LauncherClusterMap {
         (c.applicationContext as VoyahIranApplication).subscriptions.vipAllowed
     fun surface(id: String, surface: Surface?, w: Int, h: Int) {
         if (session != id) return
-        output=surface;ready=false;revealed=false
+        output=surface;ready=false;revealed=false;coverComplete=false
         renderer?.cluster(surface,w,h,if(surface==null)null else Runnable { if(session==id && output===surface)ready=true })
     }
 }

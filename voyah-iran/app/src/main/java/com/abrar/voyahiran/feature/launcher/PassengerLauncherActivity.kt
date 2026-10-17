@@ -313,9 +313,9 @@ class PassengerLauncherActivity : ComponentActivity() {
         media=state;val key=listOf(state.sourcePackage,state.title,state.artist,state.coverUri).joinToString("|")
         if(key!=coverKey||state.cover!==mediaCoverReference){coverKey=key;mediaCoverReference=state.cover;coverJob?.cancel()
             // Keep the previous artwork until the replacement is decoded, then crossfade once.
-            musicCover=state.cover?:musicCover.takeIf{state.coverUri.isNotBlank()}
+            musicCover=state.cover?:musicCover
             coverJob=lifecycleScope.launch {
-            val image=state.cover ?: state.coverUri.takeIf {it.isNotBlank()}?.let {musicArtwork.loadWithRetry(it,key)}
+            val image=state.cover ?: if(state.coverUri.isNotBlank())musicArtwork.loadWithRetry(state.coverUri,key) else {delay(600);null}
             if(coverKey==key){musicCover=image;mediaState()}
         }};mediaState()
     }

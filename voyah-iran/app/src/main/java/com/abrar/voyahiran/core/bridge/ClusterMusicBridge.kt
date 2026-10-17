@@ -26,6 +26,9 @@ internal object ClusterMusicBridge {
     @Volatile var mapHidden = false
         private set
     fun beginMapTransition() { mapHidden=false }
+    @Volatile var musicReady=false
+        private set
+    fun beginMusicTransition() { musicReady=false }
     private val runner = ProcessCommandRunner(useBridge = false)
     @Synchronized fun command(action: String): CommandResult {
         if (action == "clear") { frame = null; return CommandResult(0, "Cluster music released") }
@@ -80,6 +83,7 @@ internal object ClusterMusicBridge {
                         if (child === process) {
                             if (it == "VI_CLUSTER_MUSIC_READY") ready = true
                             if (it == "VI_CLUSTER_MUSIC_HIDDEN") mapHidden = true
+                            if (it == "VI_CLUSTER_MUSIC_VISIBLE") musicReady = true
                             AppLog.changed("ClusterMusic", it.take(400))
                         }
                     } } }
@@ -92,6 +96,7 @@ internal object ClusterMusicBridge {
             // on every toggle adds seconds and can hit the attachment retry delay.
             // Recheck ownership here since attachment itself may take some time.
             val output = if (ClusterMapBridge.presenting) "map" else value ?: "clear"
+            if(output=="map") musicReady=false
             if (output != "map") mapHidden=false
             if (ready && (output != lastSent || output == "map")) {
                 child!!.outputStream.apply { write((output + "\n").toByteArray()); flush() }

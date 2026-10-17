@@ -43,8 +43,12 @@ internal object ClusterMapBridge {
             renewed=SystemClock.elapsedRealtime()
             if(action=="ready" && !hasFrame) {
                 hasFrame=true
-                presenting=true
                 AppLog.info("ClusterMap","map frame confirmed session=$id")
+            }
+            if(action=="covered" && hasFrame) presenting=true
+            if(action=="music" && presenting) {
+                ClusterMusicBridge.beginMusicTransition()
+                presenting=false
             }
             if(!timer) {
                 timer=true
@@ -52,7 +56,7 @@ internal object ClusterMapBridge {
                     .scheduleWithFixedDelay(::tick,0,100,TimeUnit.MILLISECONDS)
             }
             val theme=runCatching {api?.theme()}.getOrNull()
-            return CommandResult(0,"Map lease renewed theme=${theme ?: -1} reveal=${if(revealed) 1 else 0}")
+            return CommandResult(0,"Map lease renewed theme=${theme ?: -1} reveal=${if(revealed) 1 else 0} musicReady=${if(ClusterMusicBridge.musicReady) 1 else 0}")
         } catch(e:Exception) {stop("command_error action=$action error=${e.cause ?: e}");return CommandResult(1,"Cluster map unavailable: ${e.cause ?: e}")}
     }
     @Synchronized private fun tick() {
@@ -83,7 +87,9 @@ internal object ClusterMapBridge {
                 // the actual rendered surface is confirmation, never this call.
                 AppLog.info("ClusterMap","map launch requested session=$session")
             }
-            if(hasFrame && client.requested && ClusterMusicBridge.mapHidden) {
+            // Reveal over the still-visible music; hide music only after the client
+            // confirms that the final opaque map frame has been swapped.
+            if(hasFrame && client.requested) {
                 client.requested=false
                 client.type.getMethod("notifyReadyToShow",String::class.java).invoke(client.remote,SMALL)
                 revealed=true
