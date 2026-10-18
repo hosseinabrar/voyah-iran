@@ -19,6 +19,7 @@
 -keep class com.k2fsa.sherpa.onnx.** { *; }
 # Keep stack traces retraceable with the private per-release mapping file.
 -keepattributes SourceFile,LineNumberTable
+-keep class com.abrar.voyahiran.core.bridge.clustertext.** { *; }
 -renamesourcefileattribute SourceFile
 
 # Retain recognizer implementations used to construct runtime vocabularies.

@@ -6,6 +6,7 @@ val source = """
 'use strict';
 let packet={owned:false},received=0,stopped=false,mounted=null,feed=null;
 let Screen,View,Group,Image,Bitmap,Canvas,Paint,Clock,Inflater,Text,Handler,Looper,Rect,Porter;
+let ownText=null,ownContext=null;
 let Connection,Listener,themeHook,createHook,visibilityHook,handler,restoring=false,framePending=false;
 let mapAlpha=0,blendFrom=0,blendTo=0,blendAt=0,lastLog=0;
 let retrySession=null,retryAt=0,feedFailures=0;
@@ -41,12 +42,21 @@ function inflate(c,p,name){
     // MusicBaseView.initView inflates INTO a FrameLayout. Preserve the XML child's
     // fixed dimensions instead of measuring the ConstraintLayout as the whole panel.
     const root=Java.use('android.widget.FrameLayout').${'$'}new(c);
-    Inflater.from(c).inflate(id,root,true);return Java.retain(root);
+    Inflater.from(c).inflate(id,root,true);
+    if(!ownText){
+        ownContext=Java.retain(c.createPackageContext('com.abrar.voyahiran',3));
+        ownText=Java.ClassFactory.get(ownContext.getClassLoader()).use('com.abrar.voyahiran.core.bridge.clustertext.ClusterTextAssets');
+    }
+    const count=ownText.install(root,ownContext);
+    log('local text installed layout='+name+' count='+count+' font=cluster/text/semibold.ttf');
+    return Java.retain(root);
 }
 function time(ms){return String(Java.use('com.qinggan.cardview.utils.Tools').convertMinutes(Math.floor(Math.max(0,ms))));}
 function visibility(v,name,value){const node=find(v,name);if(node)node.setVisibility(value);}
 function imageResource(v,name,res){const node=find(v,name);if(!node)return;const c=v.getContext();const id=c.getResources().getIdentifier(res,'mipmap',c.getPackageName());if(!id)throw Error('Missing OEM image '+res);Java.cast(node,Image).setImageResource(id);}
 function styleMusic(v,theme){
+    const originalCover=find(v,'music_iv_cover');
+    if(originalCover){ownText.installCover(Java.cast(originalCover,Image),theme);log('local rounded cover installed theme='+theme);}
     // Keep OEM layout, plus the owner's title sizing and white-theme source badge.
     if(theme===5){visibility(v,'view_1',4);visibility(v,'view_2',4);}
     const titleNode=find(v,'music_tv_title');if(titleNode){const title=Java.cast(titleNode,Text);title.setTextSize(0,title.getTextSize()*0.8);
@@ -152,7 +162,7 @@ function refreshMusic(p){
     styleMusic(music,theme);
     text(empty,'music_tv_title',resourceText(c,'title_music'));text(empty,'music_tv_tips',resourceText(c,'open_media_app'));
     dispose(m.music);dispose(m.empty);dispose(m.panel);recycle(m.coverBitmap);
-    m.music=music;m.empty=empty;m.panel=Java.retain(p);m.theme=theme;
+    m.music=music;m.empty=empty;m.panel=Java.retain(p);m.theme=theme;m.textDiagnostics=false;
     m.cover=null;m.coverBitmap=null;m.pkg=null;
     log('theme/panel refreshed; SAME image and Surface theme='+theme);
 }
@@ -167,6 +177,13 @@ function geometry(m){
         m.outputCanvas=Java.retain(Canvas.${'$'}new(m.outputBitmap));
     }
     [m.music,m.empty].forEach(v=>{if(v.isLayoutRequested()||v.getWidth()!==w||v.getHeight()!==h){v.measure(1073741824+w,1073741824+h);v.layout(0,0,w,h);}});
+    if(!m.textDiagnostics){
+        ['music_tv_title','music_tv_song_name','music_tv_artist_name'].forEach(id=>{
+            const v=find(m.music,id);if(!v){log('local text missing id='+id);return;}
+            const t=Java.cast(v,Java.use('android.widget.TextView'));
+            log('local text id='+id+' class='+t.getClass().getName()+' bounds='+t.getLeft()+','+t.getTop()+','+t.getWidth()+'x'+t.getHeight()+' visibility='+t.getVisibility()+' alpha='+t.getAlpha()+' color='+t.getCurrentTextColor()+' length='+t.getText().length()+' font='+t.getTypeface());
+        });m.textDiagnostics=true;
+    }
     m.panel.getLocationInWindow(m.location);return true;
 }
 function metadata(){

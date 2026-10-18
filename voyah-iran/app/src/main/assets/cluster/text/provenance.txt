@@ -1,0 +1,10 @@
+semibold.ttf: exact bytes from the supplied factory APK extraction
+work/cluster-single-image-res/res/font/semibold.ttf.
+
+Source ports: com.pateo.material.widgets.BoldTextView,
+com.qinggan.cardview.panel.MarqueeBoldTextView and MarqueeTextView.
+The local Java implementation retains the font language policy, font cache,
+single-line marquee settings and focus behavior. OEM logging dependencies and
+the unused font-configuration toggle are omitted. MarqueeTextView uses the
+Android base widget rather than pulling AppCompat into the injected process.
+No image assets are dependencies of these text widgets.
