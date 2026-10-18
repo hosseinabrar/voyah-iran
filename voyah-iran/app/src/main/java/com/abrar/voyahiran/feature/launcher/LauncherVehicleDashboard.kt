@@ -12,8 +12,10 @@ import kotlinx.coroutines.*
 /** Page two occupies only the same OEM safe rectangle as page one. */
 class LauncherVehicleDashboard(context:Context):View(context) {
     private val motion=LauncherMotion(this)
+    var animationsEnabled=true
+        set(v){field=v;motion.paused=transitioning||!v;if(!v)stopAnimations()}
     var transitioning=false
-        set(v){if(field==v)return;field=v;motion.paused=v;stopAnimations();if(!v)invalidate()}
+        set(v){if(field==v)return;field=v;motion.paused=v||!animationsEnabled;stopAnimations();if(!v)invalidate()}
     private var compassAngle=0f
     private var ground:Float?=null
     private var compassAnimation:ValueAnimator?=null
@@ -28,7 +30,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
             if(field.groundMm!=v.groundMm) {
                 groundAnimation?.cancel()
                 val target=v.groundMm?.toFloat()
-                if(ground==null || target==null)ground=target else {
+                if(!animationsEnabled || ground==null || target==null)ground=target else {
                     groundAnimation=ValueAnimator.ofFloat(ground!!,target).apply {
                         duration=1000;addUpdateListener {ground=it.animatedValue as Float;invalidate()};start()
                     }
@@ -44,7 +46,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
             if(field.bearing!=v.bearing) {
                 compassAnimation?.cancel()
                 val target=v.bearing ?: 0f
-                if(field.bearing==null || v.bearing==null)compassAngle=target else {
+                if(!animationsEnabled || field.bearing==null || v.bearing==null)compassAngle=target else {
                     val delta=((target-compassAngle+540f)%360f)-180f
                     compassAnimation=ValueAnimator.ofFloat(compassAngle,compassAngle+delta).apply {
                         duration=200;addUpdateListener {compassAngle=(it.animatedValue as Float+360f)%360f;invalidate()};start()
@@ -69,9 +71,10 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         0f,0f,0f,1f,0f)))
     private var driveIcons=emptyMap<Int,Bitmap?>()
     private var artworkJob:Job?=null
-    fun preload(scope:CoroutineScope){
-        if(artworkJob!=null)return
-        artworkJob=scope.launch {
+    fun preload(scope:CoroutineScope):Job {
+        artworkJob?.let {if(!it.isCancelled)return it}
+        return scope.launch {
+            artwork.prepare()
             val loaded=withContext(Dispatchers.IO){
                 fun decode(name:String,sample:Int=1)=runCatching{context.assets.open("launcher/ccc/$name.png").use{
                     BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{inSampleSize=sample})
@@ -91,7 +94,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
                 car to mapOf(1 to "eco_normal",2 to "comfort_normal",3 to "sport_img",4 to "outing_img",5 to "person_normal",6 to "snow_normal",10 to "get_off").mapValues{decode(it.value)}
             }
             energy=loaded.first;driveIcons=loaded.second;if(!transitioning)invalidate()
-        }
+        }.also {artworkJob=it}
     }
     private val fg get()=if(lightTheme)0xff263651.toInt() else Color.WHITE
     private val muted get()=if(lightTheme)0xff6d7e99.toInt() else 0xffc0cbe0.toInt()

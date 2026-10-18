@@ -98,6 +98,7 @@ internal object LauncherAppsCache {
                 val result=load(c,selectedTheme)
                 check(revision==generation) {"Catalog invalidated"}
                 cached=result
+                LauncherAppsTiles.warm(c,result,selectedTheme)
                 listeners.toList().forEach {listener->runCatching {listener(result)}.onFailure {AppLog.error("LauncherApps","Catalog observer failed",it)}}
                 AppLog.info("LauncherApps","background catalog ready total="+result.size+" light="+selectedTheme)
                 result
@@ -111,6 +112,7 @@ internal object LauncherAppsCache {
         }
     }
     fun invalidate() {
+        LauncherAppsTiles.invalidate()
         generation++;theme=LauncherTheme.isLight();cached=null;work?.cancel();work=null
     }
     suspend fun get(context:Context):List<LauncherAppsEntry> {

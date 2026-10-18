@@ -41,6 +41,22 @@ class LauncherVehicleDashboardTest {
         }
         b.recycle()
     }
+    @Test fun preloadPreparesSuspensionWithoutVisitingPageTwo() {
+        val v=view()
+        assertNotNull(v.artwork.body)
+        assertTrue(v.artwork.wheels.isEmpty())
+        val first=v.artwork.body
+        runBlocking {v.artwork.prepare()}
+        assertSame(first,v.artwork.body)
+        v.state=sample().copy(height=1)
+        runBlocking {v.artwork.prepare()}
+        assertNotSame(first,v.artwork.body)
+        val dark=v.artwork.body
+        v.lightTheme=true
+        runBlocking {v.artwork.prepare()}
+        assertNotSame(dark,v.artwork.body)
+        v.artwork.close()
+    }
     @Test fun renderActualPageInBothThemesAndNoData() {
         val v=view();v.compass=LauncherCompassState(0f,1180.0,0.0,0.0)
         // Load real frame without scheduling the lifecycle animation loop in Robolectric.

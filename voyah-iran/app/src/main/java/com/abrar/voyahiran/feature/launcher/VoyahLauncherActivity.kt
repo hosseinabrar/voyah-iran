@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import com.abrar.voyahiran.VoyahIranApplication
+import com.abrar.voyahiran.core.logging.AppLog
 import com.abrar.voyahiran.feature.navigation.NavigationPreferences
 import kotlinx.coroutines.*
 
@@ -27,6 +28,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     private var contentFrameReady=false
     private lateinit var startupCover: View
     private var vehicleTicker: Job? = null
+    private var posePreparation: Job? = null
     private var visible=false
     private val vehicleCache=LauncherVehicleCache()
     private val vehicleOrder=VehicleSnapshotOrder()
@@ -35,6 +37,12 @@ class VoyahLauncherActivity : ComponentActivity() {
         val state=LauncherVehicleState.parse(s)
         lastVehicleRead=android.os.SystemClock.elapsedRealtime()
         vehicleCache.accept(state);vehiclePage.state=vehicleCache.display;compass.speed=state.speed
+        prepareHiddenVehiclePose()
+    }
+    private fun prepareHiddenVehiclePose() {
+        if(!contentReady || (visible && pager.page==1) || pager.moving)return
+        posePreparation?.cancel()
+        posePreparation=lifecycleScope.launch {vehiclePage.artwork.prepare()}
     }
     private var lastVehicleRead=0L
     private val compassDelegate=lazy { LauncherCompass(this) {vehiclePage.compass=it} }
@@ -111,7 +119,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             dashboard.controlMotionPaused=moving
             vehiclePage.transitioning=moving
             // Cache only the native vehicle page. Never flatten the live map SurfaceView.
-            vehiclePage.setLayerType(if(moving)View.LAYER_TYPE_HARDWARE else View.LAYER_TYPE_NONE,null)
+            vehiclePage.setLayerType(View.LAYER_TYPE_HARDWARE,null)
             updatePageWork()
         }
         vehiclePage.onCommand=::vehicleCommand
@@ -168,9 +176,15 @@ class VoyahLauncherActivity : ComponentActivity() {
             layoutContent()
             fadeStartupCover()
             if(visible)startVisibleWork()
-            LauncherAppsCache.warm(this)
-            PassengerArtworkCache.warm(this)
-            vehiclePage.preload(lifecycleScope)
+            lifecycleScope.launch {
+                val start=android.os.SystemClock.elapsedRealtime()
+                vehiclePage.preload(this).join()
+                vehiclePage.setLayerType(View.LAYER_TYPE_HARDWARE,null)
+                if(vehiclePage.isAttachedToWindow && vehiclePage.width>0)vehiclePage.buildLayer()
+                AppLog.info("LauncherWake","page two artwork prepared before navigation ms=${android.os.SystemClock.elapsedRealtime()-start}")
+                PassengerArtworkCache.warm(this@VoyahLauncherActivity)
+                LauncherAppsCache.warm(this@VoyahLauncherActivity)
+            }
         }
     }
     private fun fadeStartupCover() {
@@ -286,7 +300,9 @@ class VoyahLauncherActivity : ComponentActivity() {
         val light=LauncherTheme.isLight()
         if(vehiclePage.lightTheme!=light) { drivePopup?.dismiss();drivePopup=null }
         dashboard.lightTheme=light
+        val changed=vehiclePage.lightTheme!=light
         vehiclePage.lightTheme=light
+        if(changed)prepareHiddenVehiclePose()
         LauncherWindowTheme.apply(window,light)
         container.setBackgroundColor(LauncherWindowTheme.background(light))
     }
@@ -297,6 +313,7 @@ class VoyahLauncherActivity : ComponentActivity() {
     // Android 9 may pause the host when the map resumes on its virtual display; it is still visible.
     private fun updatePageWork() {
         if(!contentReady)return
+        vehiclePage.animationsEnabled=visible && pager.page==1 && !pager.moving
         if(pager.moving && visible){
             // Keep existing subscriptions/cache alive. Registering/unregistering GPS
             // during ACTION_MOVE would itself add synchronous Binder work to a frame.
@@ -304,10 +321,17 @@ class VoyahLauncherActivity : ComponentActivity() {
             return
         }
         mapPageVisible=visible && pager.page==0
-        if(visible && pager.page==1) {
+        if(visible) {
             // Keep the map surface alive offscreen: the pager can expose it during either swipe.
             // Only leaving the Activity releases it; ownership monitoring stays current on page two.
-            compass.start();vehiclePage.artwork.start(lifecycleScope)
+            compass.start()
+            if(pager.page==1) {
+                posePreparation?.cancel()
+                vehiclePage.artwork.start(lifecycleScope)
+            } else {
+                vehiclePage.artwork.stop();vehiclePage.stopAnimations()
+                prepareHiddenVehiclePose()
+            }
             if(vehicleTicker?.isActive==true)return
             vehicleTicker=lifecycleScope.launch {
                 var revision=-1L

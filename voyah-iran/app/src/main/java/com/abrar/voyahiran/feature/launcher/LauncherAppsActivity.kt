@@ -242,35 +242,13 @@ open class LauncherAppsActivity : ComponentActivity() {
             }
             page.setOnClickListener {if(editing)finishEditing()}
             entries.drop(pageIndex*27).take(27).forEach { entry ->
-                val tile=LinearLayout(this).apply {
-                    orientation=LinearLayout.VERTICAL;gravity=Gravity.CENTER;isFocusable=true;isClickable=true
-                    contentDescription=entry.label
-                    val value=android.util.TypedValue();theme.resolveAttribute(android.R.attr.selectableItemBackground,value,true);setBackgroundResource(value.resourceId)
-                }
-                val size=(112f*resources.displayMetrics.widthPixels/1920).toInt().coerceAtLeast(56)
-                val iconBox=FrameLayout(this).apply {clipChildren=false;clipToPadding=false}
-                iconBox.addView(ImageView(this).apply {setImageDrawable(entry.icon);scaleType=ImageView.ScaleType.FIT_CENTER},FrameLayout.LayoutParams(size,size).apply {leftMargin=22;topMargin=22})
-                if(entry.component!=null && entry.component.packageName!=packageName) {
-                    val badge=TextView(this).apply {
-                        text="⋯";gravity=Gravity.CENTER;contentDescription="Options for ${entry.label}"
-                        setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,28f)
-                        setTextColor(if(light)0xff303947.toInt() else 0xffeef3fb.toInt())
-                        background=android.graphics.drawable.GradientDrawable().apply {shape=android.graphics.drawable.GradientDrawable.OVAL;setColor(if(light)0xfff2f6fc.toInt() else 0xff26364f.toInt());setStroke(1,0xff657995.toInt())}
-                        visibility=if(editing)View.VISIBLE else View.GONE
-                        isFocusable=true;setOnClickListener {showActions(entry,this)}
-                    }
-                    iconBox.addView(badge,FrameLayout.LayoutParams(44,44,Gravity.TOP or Gravity.RIGHT))
+                val prepared=LauncherAppsTiles.take(this,launcherDisplayId,entry,light)
+                val tile=prepared.view
+                prepared.badge?.let {badge->
+                    badge.visibility=if(editing)View.VISIBLE else View.GONE
+                    badge.setOnClickListener {showActions(entry,badge)}
                     badges+=badge
                 }
-                tile.addView(iconBox,LinearLayout.LayoutParams(size+44,size+22))
-                tile.addView(TextView(this).apply {
-                    text=entry.label
-                    if(entry.label.any {it in '\u0600'..'\u06ff'})typeface=resources.getFont(com.abrar.raha.feedback.R.font.iransansx_regular)
-                    setTextColor(if(light)0xff303947.toInt() else 0xffeef3fb.toInt())
-                    setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,(25f*resources.displayMetrics.widthPixels/1920).coerceAtLeast(14f))
-                    setSingleLine(true);ellipsize=android.text.TextUtils.TruncateAt.END;gravity=Gravity.CENTER
-                    setPadding(5,14,5,0)
-                },LinearLayout.LayoutParams(-1,-2))
                 tile.tag=entry.id
                 var touchedContent=false
                 val beginDrag={

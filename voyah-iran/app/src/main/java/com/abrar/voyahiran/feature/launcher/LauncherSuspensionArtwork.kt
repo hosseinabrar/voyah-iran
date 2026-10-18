@@ -20,6 +20,17 @@ class LauncherSuspensionArtwork(private val context:Context,private val changed:
     private suspend fun load(name:String):Bitmap?=withContext(Dispatchers.IO) {
         cache.get(name) ?: runCatching {context.assets.open("launcher/ccc/$name.png").use(BitmapFactory::decodeStream)}.getOrNull()?.also {cache.put(name,it)}
     }
+    /** Prepare the current static pose without starting the hidden page's animation loop. */
+    suspend fun prepare() {
+        val target=state.bodyFrame ?: 60
+        val selectedLight=light
+        val loaded=load("body_${if(selectedLight)"light" else "dark"}_$target")
+        // A live animation or a newer snapshot owns the pose now.
+        if(job?.isActive!=true && selectedLight==light && target==(state.bodyFrame ?: 60)) {
+            frame=target
+            loaded?.let {if(body!==it){body=it;changed()}}
+        }
+    }
     fun start(scope:CoroutineScope) {
         if(job?.isActive==true)return
         job=scope.launch {

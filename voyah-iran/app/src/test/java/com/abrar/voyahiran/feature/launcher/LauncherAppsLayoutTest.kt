@@ -19,8 +19,10 @@ class LauncherAppsLayoutTest {
         val controller=Robolectric.buildActivity(LauncherAppsActivity::class.java).create()
         val activity=controller.get()
         val rows=(1..55).map {LauncherAppsEntry("app$it","App $it",ColorDrawable(Color.BLUE),null)}
+        LauncherAppsTiles.warm(activity,rows,false)
+        org.robolectric.Shadows.shadowOf(android.os.Looper.getMainLooper()).idle()
         LauncherAppsActivity::class.java.getDeclaredField("entries").apply {isAccessible=true}.set(activity,rows)
-        LauncherAppsActivity::class.java.getDeclaredMethod("render").apply {isAccessible=true}.invoke(activity)
+        LauncherAppsActivity::class.java.getDeclaredMethod("render",Boolean::class.javaPrimitiveType).apply {isAccessible=true}.invoke(activity,true)
         val pager=LauncherAppsActivity::class.java.getDeclaredField("pager").apply {isAccessible=true}.get(activity) as LauncherPager
         pager.measure(View.MeasureSpec.makeMeasureSpec(1775,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(642,View.MeasureSpec.EXACTLY))
         pager.layout(0,0,1775,642)
