@@ -22,6 +22,7 @@ import kotlinx.coroutines.*
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1775dp-h660dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class LauncherVehicleDashboardTest {
+    @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     @Test fun drivePopupCoversCurrentModeAndRendersBothThemes() {
         for(scale in listOf(1f,0.75f)) {
             val bounds=LauncherDrivePopup.bounds((1775*scale).toInt(),(660*scale).toInt())

@@ -20,6 +20,7 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerFragranceRenderTest {
+    @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     private fun sample(tone:Int=2,on:Boolean=true)=JSONObject().put("fresh",true).put("IVI_FRAG_TASTE_FB",PassengerFragranceMapping.channel(tone))
         .put("FCM_SW_REQ_FB",if(on)2 else 1).put("IVI_FRAG_CONCERNTION_FB",2).put("FCM_DURATION_CONTROL",1)
     @Test fun renderAllScentsInBothThemesAndPowerStates(){

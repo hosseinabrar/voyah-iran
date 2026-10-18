@@ -23,6 +23,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
     private var breath:ValueAnimator?=null
     private var pulse=0f
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+    private val staticArtwork=StaticLauncherArtwork(this)
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val images=HashMap<String,Bitmap>()
     private var downX=0f;private var downY=0f
@@ -54,45 +55,33 @@ internal class PassengerFragranceView(context:Context):View(context) {
     override fun onWindowVisibilityChanged(visibility:Int){super.onWindowVisibilityChanged(visibility);animateObject()}
     override fun onVisibilityChanged(changedView:View,visibility:Int){super.onVisibilityChanged(changedView,visibility);animateObject()}
     override fun onDetachedFromWindow(){fade?.cancel();breath?.cancel();breath=null;pulse=0f;blend=1f;super.onDetachedFromWindow()}
-    private fun color(s:String)=Color.parseColor(s)
+    private var grayscale=false
+    private fun gray(value:Int):Int { if(!grayscale)return value;val y=(Color.red(value)*.213f+Color.green(value)*.715f+Color.blue(value)*.072f).toInt();return Color.argb(Color.alpha(value),y,y,y) }
+    private fun color(s:String)=gray(Color.parseColor(s))
     private fun asset(n:String):Bitmap?=images[n] ?: PassengerArtworkCache.get(context,"passenger/fragrance-wide/$n.png",this)?.also{images[n]=it}
-    private fun filter(degrees:Float,saturation:Float):ColorMatrix{
-        val c=cos(degrees*PI/180).toFloat();val s=sin(degrees*PI/180).toFloat()
-        return ColorMatrix(floatArrayOf(.213f+.787f*c-.213f*s,.715f-.715f*c-.715f*s,.072f-.072f*c+.928f*s,0f,0f,
-            .213f-.213f*c+.143f*s,.715f+.285f*c+.140f*s,.072f-.072f*c-.283f*s,0f,0f,
-            .213f-.213f*c-.787f*s,.715f-.715f*c+.715f*s,.072f+.928f*c+.072f*s,0f,0f,0f,0f,0f,1f,0f)).apply{
-            postConcat(ColorMatrix().apply{setSaturation(saturation)})
-        }
-    }
-    private fun image(c:Canvas,n:String,r:RectF,cover:Boolean=false,matrix:ColorMatrix?=null,alpha:Int=255){
-        val b=asset(n) ?: return;val scale=if(cover)max(r.width()/b.width,r.height()/b.height) else min(r.width()/b.width,r.height()/b.height)
-        paint.shader=null;paint.color=Color.WHITE;paint.alpha=alpha;paint.colorFilter=matrix?.let{ColorMatrixColorFilter(it)}
+    private fun image(c:Canvas,n:String,r:RectF,cover:Boolean=false,alpha:Int=255){
+        val b=asset(if(grayscale)"$n-gray"else n) ?: return;val scale=if(cover)max(r.width()/b.width,r.height()/b.height) else min(r.width()/b.width,r.height()/b.height)
+        paint.shader=null;paint.color=Color.WHITE;paint.alpha=alpha;paint.colorFilter=null
         c.drawBitmap(b,null,RectF(r.centerX()-b.width*scale/2,r.centerY()-b.height*scale/2,r.centerX()+b.width*scale/2,r.centerY()+b.height*scale/2),paint)
         paint.colorFilter=null;paint.alpha=255
     }
     private fun text(c:Canvas,s:String,x:Float,y:Float,size:Float,tint:Int){
-        paint.shader=null;paint.color=tint;paint.typeface=font;paint.textSize=size;paint.textAlign=Paint.Align.CENTER;c.drawText(s,x,y,paint)
+        paint.shader=null;paint.color=gray(tint);paint.typeface=font;paint.textSize=size;paint.textAlign=Paint.Align.CENTER;c.drawText(s,x,y,paint)
     }
     override fun onDraw(c:Canvas){
         super.onDraw(c);c.save();c.scale(width/770f,height/280f)
         c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,770f,280f),16f,16f,Path.Direction.CW)})
         val power=motion.value("power",if(on)1f else 0f)
-        val offLayer=if(power<1f){paint.color=Color.WHITE;paint.colorFilter=ColorMatrixColorFilter(ColorMatrix().apply{setSaturation(power)});c.saveLayer(0f,0f,770f,280f,paint).also{paint.colorFilter=null}}else -1
+        grayscale=!on&&power<=0f
+        val offLayer=if(!grayscale&&power<1f){paint.color=Color.WHITE;paint.colorFilter=ColorMatrixColorFilter(ColorMatrix().apply{setSaturation(power)});c.saveLayer(0f,0f,770f,280f,paint).also{paint.colorFilter=null}}else -1
         if(blend<1f)scene(c,oldScent)
         val layer=c.saveLayerAlpha(0f,0f,770f,280f,(blend*255).toInt());scene(c,scent);c.restoreToCount(layer)
         if(offLayer>=0)c.restoreToCount(offLayer)
         c.restore()
     }
     private fun scene(c:Canvas,tone:Int){
-        val hue=if(light)when(tone){1->18f;2->-52f;else->105f} else when(tone){1->25f;3->90f;else->0f}
-        c.save();c.translate(770f,0f);c.scale(-1f,1f)
-        image(c,if(light)"landscape-day-v1" else "landscape",RectF(0f,0f,770f,280f),true,
-            filter(hue,if(light)when(tone){1->.7f;2->.85f;else->.65f} else 1f))
-        c.restore()
-        if(light&&tone!=1&&on)c.drawColor(0x29ffffff)
-        if(!light){paint.shader=LinearGradient(0f,280f,0f,210f,intArrayOf(0x8006101b.toInt(),0x0006101b),null,Shader.TileMode.CLAMP);c.drawRect(0f,0f,770f,280f,paint);paint.shader=null}
+        staticArtwork.draw(c,"fragrance-${if(light)"light"else "dark"}-$tone-$on${if(grayscale)"-gray"else ""}",RectF(0f,0f,770f,280f))
         c.save();c.translate(28.0464f,0f);c.scale(.927152f,.927152f)
-        if(light){c.save();c.translate(586.5f,229f);c.scale(1f,30f/133f);paint.shader=RadialGradient(0f,0f,66.5f,intArrayOf(0x70253f57,0x00324e65),null,Shader.TileMode.CLAMP);c.drawCircle(0f,0f,66.5f,paint);paint.shader=null;c.restore()}
         image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",RectF(467f,46f,707f,242f),alpha=(191+64*motion.value("power",if(on)1f else 0f)).toInt())
         if(on){
             val frame=((pulse*28).toInt().coerceIn(0,27)*2).toString().padStart(2,'0')
@@ -104,7 +93,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
             val y=if(row==0)94f else 193f
             c.save();c.scale(1.2f,1.2f,215f,y+24f)
             text(c,if(row==0)"Intensity" else "Duration",215f,y-12f,18f,label)
-            paint.color=if(light)color(when(tone){1->"#99335b78";2->"#99173d2c";else->"#99675478"}) else 0x66001629
+            paint.color=if(light)color(when(tone){1->"#99335b78";2->"#99173d2c";else->"#99675478"}) else gray(0x66001629)
             c.drawRoundRect(RectF(71f,y,359f,y+48f),30f,30f,paint)
             val selected=if(row==0)value("IVI_FRAG_CONCERNTION_FB")-1 else listOf(1,2,0).indexOf(value("FCM_DURATION_CONTROL"))
             val position=motion.value("selection-$row",selected.toFloat(),spring=true)
@@ -123,12 +112,8 @@ internal class PassengerFragranceView(context:Context):View(context) {
             val x=456f+i*82
             val rect=RectF(x,221f,x+90,311f)
             motion.content("scent-icon-$n",if(active)"on" else "off",c,rect){status->
-                image(c,"fragrance_icon_${name}_$status",rect,matrix=if(light&&status=="off")ColorMatrix(floatArrayOf(
-                    .09f,0f,0f,0f,25.5f,
-                    0f,.09f,0f,0f,25.5f,
-                    0f,0f,.09f,0f,25.5f,
-                    0f,0f,0f,1f,0f
-                )) else null)
+                if(light&&status=="off")staticArtwork.draw(c,"fragrance_icon_${name}_off-light",rect)
+                else image(c,"fragrance_icon_${name}_$status",rect)
             }
         }
         c.restore()

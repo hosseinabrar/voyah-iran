@@ -64,9 +64,6 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         set(value) { if(field!=value) {field=value;invalidate();progressView.invalidate();clockView.invalidate()} }
     private val foreground get() = if(lightTheme) 0xff252f3c.toInt() else Color.WHITE
     private val secondary get() = if(lightTheme) 0xff71839e.toInt() else 0xffbfc9de.toInt()
-    private val accentTop get() = if(lightTheme) 0xff719eff.toInt() else 0xff617bbb.toInt()
-    private val accentBottom get() = if(lightTheme) 0xff3868e5.toInt() else 0xff354b86.toInt()
-    private val darkIconFilter = PorterDuffColorFilter(0xff293543.toInt(),PorterDuff.Mode.SRC_IN)
     var media = LauncherMediaState()
         set(value) {
             if(field==value)return
@@ -147,6 +144,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         intArrayOf(0x00243860,0xff47628f.toInt(),0xff304b79.toInt(),0xff203656.toInt(),0x00203656),
         floatArrayOf(0f,.28f,.60f,.8333f,1f))
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val staticArtwork=StaticLauncherArtwork(this)
     private val defaultCover get() = bitmaps.get(R.drawable.launcher_album_default)
     private val icons get() = listOf(R.drawable.launcher_previous, R.drawable.launcher_play, R.drawable.launcher_pause, R.drawable.launcher_next).map { bitmaps.get(it) }
     private val sourceIcons get() = mapOf(
@@ -163,11 +161,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         super.onDraw(c)
         c.save(); c.scale(width / 1775f, height / 660f)
         fun card(x: Float, y: Float, w: Float, h: Float) {
-            paint.shader = LinearGradient(x,y,x+w,y+h,if(lightTheme) intArrayOf(0xfffcfdff.toInt(),0xffeef4fc.toInt()) else intArrayOf(Color.rgb(60,75,119),Color.rgb(27,35,58)),null,Shader.TileMode.CLAMP)
-            c.drawRoundRect(x,y,x+w,y+h,16f,16f,paint); paint.shader = null
-            c.save(); c.clipPath(Path().apply { addRoundRect(RectF(x,y,x+w,y+h),16f,16f,Path.Direction.CW) })
-            paint.shader = RadialGradient(x+w/2,y+h+7,w*.5f,intArrayOf(if(lightTheme) 0x559ec5fc else 0x776278b6,Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
-            c.save(); c.scale(1f,.13f,x+w/2,y+h); c.drawCircle(x+w/2,y+h,w*.55f,paint); c.restore(); paint.shader=null;c.restore()
+            staticArtwork.draw(c,"central-card-${if(lightTheme)"light"else "dark"}-${h.toInt()}",RectF(x,y,x+w,y+h))
         }
         card(887f,0f,428f,660f); card(1331f,0f,428f,426f); card(1331f,442f,428f,218f)
         if(mapMessage.isNotEmpty()) {
@@ -177,9 +171,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
             val dw=mapDefault.width*scale;val dh=mapDefault.height*scale
             paint.color=Color.WHITE;c.drawBitmap(mapDefault,null,RectF((871f-dw)/2,(660f-dh)/2,(871f+dw)/2,(660f+dh)/2),paint);c.restore()
         }
-        c.save();c.clipRect(0f,0f,871f,660f)
-        paint.shader=RadialGradient(435f,667f,435f,intArrayOf(if(lightTheme) 0x449ec5fc else 0x556278b6,Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
-        c.scale(1f,.13f,435f,660f);c.drawCircle(435f,660f,450f,paint);paint.shader=null;c.restore()
+        staticArtwork.draw(c,"map-glow-${if(lightTheme)"light"else "dark"}",RectF(0f,0f,871f,660f))
         fun text(t: String,x:Float,y:Float,size:Float,color:Int=foreground,center:Boolean=false,bold:Boolean=false,fa:Boolean=false,target:Canvas=c) {
             paint.color=color;paint.textSize=size
             val usePersian=fa || t.any { it in '\u0600'..'\u06ff' || it in '\u0750'..'\u077f' || it in '\u08a0'..'\u08ff' || it in '\ufb50'..'\ufdff' || it in '\ufe70'..'\ufeff' }
@@ -205,8 +197,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
             c.restore()
             if(isShown) postInvalidateOnAnimation()
         } else if(mapMessage.isNotEmpty()) {
-            paint.shader=LinearGradient(285f,465f,585f,535f,accentTop,accentBottom,Shader.TileMode.CLAMP)
-            c.drawRoundRect(285f,465f,585f,535f,14f,14f,paint);paint.shader=null
+            staticArtwork.draw(c,"show-map-${if(lightTheme)"light"else "dark"}",RectF(285f,465f,585f,535f))
             text("Show Map",435f,510f,27f,Color.WHITE,center=true)
         }
         val oemIcon = sourceIcons[media.oemSource]
@@ -251,13 +242,13 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
             if(index==1) {
                 // The previous icon's light-theme tint must not recolor the blue button.
                 paint.colorFilter=null
-                paint.shader=LinearGradient(1060f,564f,1140f,644f,accentTop,accentBottom,Shader.TileMode.CLAMP)
-                c.drawCircle(1101f,595f,38f,paint);paint.shader=null
+                staticArtwork.draw(c,"central-play-${if(lightTheme)"light"else "dark"}",RectF(1060f,557f,1140f,645f),paint.alpha)
             }
-            paint.colorFilter=if(lightTheme && x!=1101f)darkIconFilter else null
+            paint.colorFilter=null
             if(index==1)motion.content("play",media.playing.toString(),c,RectF(x-18,577f,x+18,613f)){
                 c.drawBitmap(icons[if(it=="true")2 else 1],null,RectF(x-18,577f,x+18,613f),paint)
-            }else c.drawBitmap(b,null,RectF(x-18,577f,x+18,613f),paint)
+            }else if(lightTheme)staticArtwork.draw(c,"launcher_${if(index==0)"previous"else "next"}-light",RectF(x-18,577f,x+18,613f),paint.alpha)
+            else c.drawBitmap(b,null,RectF(x-18,577f,x+18,613f),paint)
             paint.alpha=255;c.restore()
         }
         paint.colorFilter=null
@@ -283,13 +274,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
     private fun drawClock(c:Canvas){
         val paint=Paint(Paint.ANTI_ALIAS_FLAG)
         val now=Calendar.getInstance();val cx=1545f;val cy=177f
-        if(lightTheme){
-            paint.shader=RadialGradient(cx,cy+4,135f,intArrayOf(0x00344358,0x00344358,0x22344358,Color.TRANSPARENT),floatArrayOf(0f,.86f,.93f,1f),Shader.TileMode.CLAMP)
-            c.drawCircle(cx,cy+4,135f,paint)
-            paint.shader=LinearGradient(cx-100,cy-100,cx+100,cy+124,0xffffffff.toInt(),0xffedf0f4.toInt(),Shader.TileMode.CLAMP)
-        }else paint.color=0xff252726.toInt()
-        c.drawCircle(cx,cy,124f,paint);paint.shader=null
-        for(i in 0..59){c.save();c.rotate(i*6f,cx,cy);paint.color=if(lightTheme)foreground else 0xffe6eaf1.toInt();paint.strokeWidth=if(i%5==0)2f else 1f;c.drawLine(cx,cy-116,cx,cy-if(i%5==0)107 else 112,paint);c.restore()}
+        staticArtwork.draw(c,"clock-${if(lightTheme)"light"else "dark"}",RectF(cx-139f,cy-135f,cx+139f,cy+143f))
         fun hand(degrees:Float,length:Float,stroke:Float){c.save();c.rotate(degrees,cx,cy);paint.color=if(lightTheme)foreground else 0xffedf3ff.toInt();paint.strokeWidth=stroke;paint.strokeCap=Paint.Cap.ROUND;c.drawLine(cx,cy,cx,cy-length,paint);paint.strokeCap=Paint.Cap.BUTT;c.restore()}
         hand((now.get(Calendar.HOUR)%12)*30f+now.get(Calendar.MINUTE)*.5f,65f,5f)
         hand(now.get(Calendar.MINUTE)*6f+now.get(Calendar.SECOND)*.1f,84f,4f)

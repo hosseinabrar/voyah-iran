@@ -18,6 +18,7 @@ import java.util.TimeZone
 @Config(sdk=[30], application=Application::class, qualifiers="fa-rIR-w1775dp-h660dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class LauncherDashboardTest {
+    @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     @Test fun renderWeatherCardPreview() {
         val view=LauncherDashboard(RuntimeEnvironment.getApplication())
         view.layout(0,0,1775,660)

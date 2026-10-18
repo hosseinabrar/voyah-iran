@@ -18,6 +18,7 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerSeatsRenderTest {
+    @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     @Test fun rememberedLevelsCannotActivateAnOffOrUnknownSwitch(){
         for(side in 0..1)for((feature,type) in listOf("vent" to "VENTILATION","heat" to "HEATING","massage" to "MASS")){
             val suffix=if(side==0)"LEFT"else "RIGHT"
@@ -71,6 +72,26 @@ class PassengerSeatsRenderTest {
             assertEquals(255,android.graphics.Color.alpha(bitmap.getPixel(10,100)))
             File(output,"seats-${if(light)"light"else "dark"}-$name.png").outputStream().use{bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
             assertNotEquals(bitmap.getPixel(140,80),bitmap.getPixel(278,80));bitmap.recycle()
+        }
+    }
+    @Test fun isolatedEffectsNeverLoadReplacementUpholstery(){
+        val output=File("build/reports/passenger-seats").apply{mkdirs()}
+        for(light in listOf(false,true))for(feature in listOf("VENTILATION","HEATING","MASS")){
+            val view=PassengerSeatsView(RuntimeEnvironment.getApplication());view.layout(0,0,556,228)
+            view.light=light
+            val state=sample(false,false)
+            for(side in listOf("LEFT","RIGHT")){
+                state.put("FRONT_SEAT_${feature}_SWITCH_$side",2)
+                state.put("FRONT_SEAT_${feature}_${if(feature=="MASS")"INTEN"else "COMMAND"}_$side",2)
+            }
+            view.update(state)
+            val names=PassengerSeatsView::class.java.getDeclaredMethod("names").apply{isAccessible=true}.invoke(view) as List<*>
+            assertFalse("Old OEM upholstery must never cover our seat",names.any{it.toString().startsWith("seatfront_")})
+            assertEquals(if(feature=="MASS")2 else 4,names.size)
+            kotlinx.coroutines.runBlocking{view.prepareArtwork()}
+            val bitmap=Bitmap.createBitmap(556,228,Bitmap.Config.ARGB_8888);view.draw(Canvas(bitmap))
+            File(output,"seats-${if(light)"light"else "dark"}-${feature.lowercase()}.png").outputStream().use{bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
+            bitmap.recycle()
         }
     }
     @Test fun writesUseIndependentFeedbackAndModesRequireActiveMassage(){

@@ -18,6 +18,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
     private val motion=LauncherMotion(this)
     private val fadingArtwork=HashMap<String,Bitmap>()
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+    private val staticArtwork=StaticLauncherArtwork(this)
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val cache=object:LruCache<String,Bitmap>(12*1024*1024){override fun sizeOf(key:String,value:Bitmap)=value.allocationByteCount}
     // Animation churn must never evict the static seats or their controls.
@@ -50,39 +51,13 @@ internal class PassengerSeatsView(context:Context):View(context) {
     }
     private fun load(name:String):Bitmap {
         cached(name)?.let{return it}
-        val b=context.assets.open("passenger/oem-x/$name.png").use{BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{if(name.endsWith("bg_97c")||name=="seat_bg_high_level_97c")inSampleSize=2})!!}
-        if(name=="seat_bg_high_level_97c"){
-            // Register the material-only sprite to the OEM geometry. Keep the OEM alpha
-            // silhouette so the existing ventilation/heating/massage layers stay aligned.
-            val texture=context.assets.open("passenger/oem-x/seat_upholstery_free.png").use{BitmapFactory.decodeStream(it)!!}
-            val result=Bitmap.createBitmap(b.width,b.height,Bitmap.Config.ARGB_8888)
-            val canvas=Canvas(result);canvas.scale(b.width/1920f,b.height/720f)
-            val brush=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
-            canvas.drawBitmap(texture,Rect(443,14,972,753),RectF(656f,195f,974f,660f),brush)
-            canvas.drawBitmap(texture,Rect(1146,14,1676,753),RectF(1094f,195f,1413f,660f),brush)
-            brush.xfermode=PorterDuffXfermode(PorterDuff.Mode.DST_IN)
-            canvas.drawBitmap(b,null,RectF(0f,0f,1920f,720f),brush)
-            texture.recycle();b.recycle();retain(name,result);return result
-        }
+        val b=context.assets.open("passenger/oem-x/${if(name=="seat_bg_high_level_97c")"seat_dark_baked"else name}.png").use{BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{if(name.endsWith("bg_97c")&&name!="seat_bg_high_level_97c")inSampleSize=2})!!}
         retain(name,b);return b
     }
-    private fun control(name:String,day:Boolean):Bitmap {
-        if(!day)return load(name)
-        cached("light-$name")?.let{return it}
-        val source=load(name);val b=source.copy(Bitmap.Config.ARGB_8888,true);val pixels=IntArray(b.width*b.height);b.getPixels(pixels,0,b.width,0,0,b.width,b.height)
-        pixels.indices.forEach{i->val c=pixels[i];val r=Color.red(c);val g=Color.green(c);val blue=Color.blue(c)
-            val neutral=maxOf(r,g,blue)-minOf(r,g,blue)<20
-            if(r+g+blue>740||(i/b.width<b.height*.78f&&neutral&&maxOf(r,g,blue)>40)){
-            val bars=i/b.width>=b.height*.78f
-            val tint=if(bars)0xffdce5f2.toInt()else 0xff303030.toInt()
-            val alpha=if(bars)Color.alpha(c)else (Color.alpha(c)*3).coerceAtMost(255)
-            pixels[i]=(alpha shl 24)or(tint and 0xffffff)
-        }}
-        b.setPixels(pixels,0,b.width,0,0,b.width,b.height);retain("light-$name",b);return b
-    }
+    private fun control(name:String,day:Boolean):Bitmap = load(if(day)"light-$name"else name)
     private fun names():List<String> = buildList {
         for(side in 0..1){val s=if(side==0)"left"else "right"
-            if(active(side,"vent")||active(side,"heat")){val kind=if(active(side,"vent"))"vent"else "hot";add("seatfront_${kind}${s}_bg_97c");add("seat_${kind}_${s}_${frame%89}")}
+            for(feature in listOf("vent","heat"))if(active(side,feature)){val kind=if(feature=="vent")"vent"else "hot";add("seat_effect_${kind}_${s}");add("seat_${kind}_${s}_${frame%89}")}
             if(active(side,"massage"))add("seat_${if(side==0)"main"else "co"}_massage_${if(level(side,"mode")==2)"rolling"else "waving"}_${frame%91}")
         }
     }
@@ -104,7 +79,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
     override fun onDetachedFromWindow(){scope?.cancel();scope=null;animation=null;super.onDetachedFromWindow()}
     override fun onWindowVisibilityChanged(visibility:Int){super.onWindowVisibilityChanged(visibility);if(isAttachedToWindow)animateIfNeeded()}
     override fun onVisibilityChanged(changedView:View,visibility:Int){super.onVisibilityChanged(changedView,visibility);if(isAttachedToWindow)animateIfNeeded()}
-    private fun image(c:Canvas,name:String,r:RectF,filter:ColorFilter?=null){val b=cached(name)?:return;paint.shader=null;paint.color=Color.WHITE;paint.colorFilter=filter;c.drawBitmap(b,null,r,paint);paint.colorFilter=null}
+    private fun image(c:Canvas,name:String,r:RectF){val b=cached(name)?:return;paint.shader=null;paint.color=Color.WHITE;paint.colorFilter=null;c.drawBitmap(b,null,r,paint)}
     private fun overlay(c:Canvas,key:String,name:String?,r:RectF){
         if(name!=null)cached(name)?.let{fadingArtwork[key]=it}
         val alpha=motion.value(key,if(name!=null)1f else 0f)
@@ -113,8 +88,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
     }
     override fun onDraw(c:Canvas){
         super.onDraw(c);paint.color=Color.WHITE;paint.style=Paint.Style.FILL;paint.colorFilter=null;c.save();c.scale(width/556f,height/228f);c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,556f,228f),16f,16f,Path.Direction.CW)})
-        paint.shader=LinearGradient(0f,0f,556f,228f,if(light)intArrayOf(0xfff7faff.toInt(),0xffeef4fc.toInt())else intArrayOf(0xff35456e.toInt(),0xff1b233a.toInt()),null,Shader.TileMode.CLAMP);c.drawRect(0f,0f,556f,228f,paint);paint.shader=null
-        c.save();c.translate(278f,237f);c.scale(1f,.12f);paint.shader=RadialGradient(0f,0f,417f,intArrayOf(if(light)0x356ba5ef else 0x706278b6,0x006278b6),null,Shader.TileMode.CLAMP);c.drawCircle(0f,0f,417f,paint);paint.shader=null;c.restore()
+        staticArtwork.draw(c,"seats-${if(light)"light"else "dark"}",RectF(0f,0f,556f,228f))
         for(side in 0..1){c.save();c.translate(side*278f+25.02f,0f);c.scale(.82f,.82f);seat(c,side);c.restore()}
         paint.color=if(light)0x2271839e else 0x22bfc9de;c.drawRect(277.5f,178f,278.5f,213f,paint);c.restore()
     }
@@ -123,9 +97,11 @@ internal class PassengerSeatsView(context:Context):View(context) {
         c.save();c.translate(75f,27f);c.clipRect(if(side==0)-75f else 0f,0f,188f,181f);c.scale(1.1f,1.1f);c.translate(if(side==0)-210f else -353f,-63f)
         c.save();if(side==0)c.clipRect(0f,0f,353.6f,237.6f)
         image(c,if(light)"seat_day_baked"else "seat_bg_high_level_97c",RectF(0f,0f,633.6f,237.6f))
+        // Offline-rendered lighting on the approved upholstery; no runtime relighting.
         for(feature in listOf("vent","heat")){val kind=if(feature=="vent")"vent"else "hot"
-            overlay(c,"back-$side-$feature",if(active(side,feature))"seatfront_${kind}${s}_bg_97c"else null,RectF(0f,0f,633.6f,237.6f))
-        };c.restore()
+            overlay(c,"back-$side-$feature",if(active(side,feature))"seat_effect_${kind}_${s}"else null,RectF(0f,0f,633.6f,237.6f))
+        }
+        c.restore()
         for(feature in listOf("vent","heat")){val x=if(side==0)159.72f else 355.08f;val kind=if(feature=="vent")"vent"else "hot"
             overlay(c,"air-$side-$feature",if(active(side,feature))"seat_${kind}_${s}_${frame%89}"else null,RectF(x,70.95f,x+165f,235.95f))
         }

@@ -19,6 +19,7 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerFavoritesRenderTest {
+    @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     @Test fun emptyDefaultsAndBlankCardTouchesExitEditing(){
         val view=PassengerFavoritesView(context);view.layout(0,0,546,662)
         view.bind(apps(),List(5){""})

@@ -1,5 +1,9 @@
 # Feature subscription policy
 
+## Launcher artwork performance
+
+Bake fixed lighting, shadows, hue/saturation variants, theme tints, and decorative gradients into project assets offline. Do not reconstruct these in onDraw or at launcher startup. Load immutable artwork asynchronously and cache it. Keep runtime drawing for actual state, text, progress, and transitions; preserve approved geometry and verify both themes with render tests. Offline asset authoring tests must be disabled by default and never packaged in the app.
+
 ## End-user interface copy
 
 Keep titles and descriptions focused on what a control does for the end user. Do not expose implementation details, CAN/state values, protocol names, experimental/tester notes, or developer-facing explanations in ordinary UI copy. The project owner provides tester instructions separately. Preserve actionable user guidance and necessary safety warnings, and keep technical details in logs/developer documentation. When asked to audit copy, propose replacements and wait for approval before applying them.

@@ -58,9 +58,9 @@ internal object LauncherDrivePopup {
                 isSelected=selected
             }
             val image=ImageView(context).apply {
-                setImageDrawable(icon(if(selected) chosen[entry.key] ?: icons.getValue(entry.key) else icons.getValue(entry.key)))
+                setImageDrawable(if(lightTheme&&!selected)context.assets.open("passenger/baked/drive-${entry.key}-light.png").use{Drawable.createFromStream(it,null)}
+                    else icon(if(selected) chosen[entry.key] ?: icons.getValue(entry.key) else icons.getValue(entry.key)))
             }
-            if(lightTheme && !selected) image.setColorFilter(0xff263651.toInt(),android.graphics.PorterDuff.Mode.SRC_IN)
             row.addView(image,LinearLayout.LayoutParams(px(40),px(40)))
             val label=TextView(context).apply {
                 text=names[entry.key];setTextSize(TypedValue.COMPLEX_UNIT_PX,28*scale)

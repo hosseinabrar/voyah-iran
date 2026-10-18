@@ -19,6 +19,7 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerMusicRenderTest {
+    @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     private fun sample()=PassengerMusicPresentation("Tamasha","Shadmehr Aghili",
         javaClass.getResourceAsStream("/passenger-music/tamasha.jpg")!!.use{BitmapFactory.decodeStream(it)},
         javaClass.getResourceAsStream("/passenger-app-icons/apple-music.jpeg")!!.use{Drawable.createFromStream(it,"Apple Music")},true,72000,180000,true)

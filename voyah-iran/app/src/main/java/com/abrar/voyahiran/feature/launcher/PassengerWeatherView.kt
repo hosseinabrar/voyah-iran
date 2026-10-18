@@ -19,6 +19,7 @@ internal class PassengerWeatherView(context:Context):View(context) {
     private var blend=1f
     private var fade:ValueAnimator?=null
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+    private val staticArtwork=StaticLauncherArtwork(this)
     private val textPaint=TextPaint(Paint.ANTI_ALIAS_FLAG)
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val persian=Typeface.createFromAsset(context.assets,"passenger/fonts/iransansx_regular.ttf")
@@ -54,9 +55,7 @@ internal class PassengerWeatherView(context:Context):View(context) {
     override fun onDraw(c:Canvas){
         super.onDraw(c);c.save();c.scale(width/556f,height/154f)
         c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,556f,154f),16f,16f,Path.Direction.CW)})
-        paint.shader=LinearGradient(0f,0f,556f,154f,if(light)intArrayOf(0xfff7faff.toInt(),0xffeef4fc.toInt())else intArrayOf(0xff35456e.toInt(),0xff1b233a.toInt()),null,Shader.TileMode.CLAMP)
-        c.drawRect(0f,0f,556f,154f,paint);paint.shader=null
-        c.save();c.translate(278f,160f);c.scale(1f,.12f);paint.shader=RadialGradient(0f,0f,417f,intArrayOf(if(light)0x356ba5ef else 0x706278b6,0x006278b6),null,Shader.TileMode.CLAMP);c.drawCircle(0f,0f,417f,paint);paint.shader=null;c.restore()
+        staticArtwork.draw(c,"weather-${if(light)"light"else "dark"}",RectF(0f,0f,556f,154f))
         if(blend<1f){val layer=c.saveLayerAlpha(0f,0f,556f,154f,((1-blend)*255).toInt());contents(c,previous);c.restoreToCount(layer)}
         val layer=c.saveLayerAlpha(0f,0f,556f,154f,(blend*255).toInt());contents(c,state);c.restoreToCount(layer)
         c.restore()

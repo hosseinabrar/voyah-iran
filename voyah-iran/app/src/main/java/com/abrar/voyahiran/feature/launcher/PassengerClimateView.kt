@@ -21,6 +21,7 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
     private var state=JSONObject()
     private val motion=LauncherMotion(this)
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+    private val staticArtwork=StaticLauncherArtwork(this)
     private val colors=android.animation.ArgbEvaluator()
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val images=HashMap<String,Bitmap>()
@@ -75,9 +76,9 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
     )?.also{images[path]=it}
     private fun bitmap(name:String):Bitmap?=artwork("passenger/oem-ac/$name.png")
     private fun image(c:Canvas,name:String,rect:RectF,tint:Int?=null,cover:Boolean=false){
-        val b=bitmap(name) ?: return;val s=if(cover)max(rect.width()/b.width,rect.height()/b.height) else minOf(rect.width()/b.width,rect.height()/b.height)
+        val b=(if(tint!=null)artwork("passenger/baked/ac-$name.png") else bitmap(name)) ?: return;val s=if(cover)max(rect.width()/b.width,rect.height()/b.height) else minOf(rect.width()/b.width,rect.height()/b.height)
         val dest=RectF(rect.centerX()-b.width*s/2,rect.centerY()-b.height*s/2,rect.centerX()+b.width*s/2,rect.centerY()+b.height*s/2)
-        paint.color=Color.WHITE;paint.alpha=255;paint.shader=null;paint.colorFilter=tint?.let{PorterDuffColorFilter(it,PorterDuff.Mode.SRC_IN)}
+        paint.color=Color.WHITE;paint.alpha=255;paint.shader=null;paint.colorFilter=null
         c.drawBitmap(b,null,dest,paint);paint.colorFilter=null
     }
     private fun text(c:Canvas,s:String,x:Float,y:Float,size:Float,tint:Int,center:Boolean=false){
@@ -88,10 +89,10 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
     private fun drawAirflow(c:Canvas){
         if(!blowing)return
         fun frame(name:String,rect:RectF){
-            val path="passenger/airflow/$name.png"
+            val path="passenger/baked/air-${if(light)"light"else "dark"}-$name.png"
             val b=artwork(path)?:return
             paint.shader=null;paint.color=Color.WHITE;paint.alpha=if(light)180 else 215
-            paint.colorFilter=PorterDuffColorFilter(if(light)0xff479cd5.toInt() else 0xffb8e6ff.toInt(),PorterDuff.Mode.SRC_IN)
+            paint.colorFilter=null
             c.drawBitmap(b,null,rect,paint);paint.colorFilter=null;paint.alpha=255
         }
         if(active("blow_face")){
@@ -113,20 +114,7 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
     override fun onDraw(c:Canvas){
         super.onDraw(c);c.save();c.scale(width/770f,height/370f)
         c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,770f,370f),16f,16f,Path.Direction.CW)})
-        c.drawColor(if(light)lightBackground else color("#14191e"))
-        // These are the approved, composed artworks. Do not replace a composed
-        // light background with the raw OEM drawable of a different geometry.
-        image(c,if(light)"cabin-day-fade-v2" else "air_bg_h97c",RectF(0f,0f,770f,370f),cover=true)
-        if(light){
-            val base=lightBackground
-            fun fade(x0:Float,y0:Float,x1:Float,y1:Float,alphas:IntArray,stops:FloatArray){
-                paint.shader=LinearGradient(x0,y0,x1,y1,alphas.map{(base and 0xffffff) or (it shl 24)}.toIntArray(),stops,Shader.TileMode.CLAMP)
-                c.drawRect(0f,0f,770f,370f,paint);paint.shader=null
-            }
-            fade(0f,0f,770f,0f,intArrayOf(255,245,96,0,0,96,245,255),floatArrayOf(0f,.12f,.20f,.27f,.73f,.80f,.88f,1f))
-            fade(0f,370f,0f,0f,intArrayOf(255,245,128,0),floatArrayOf(0f,.29f,.39f,.51f))
-            fade(0f,0f,0f,370f,intArrayOf(179,51,0),floatArrayOf(0f,.20f,.36f))
-        }
+        staticArtwork.draw(c,"climate-${if(light)"light"else "dark"}",RectF(0f,0f,770f,370f))
         drawAirflow(c)
         temperature(c,"Driver","getAirLeftTemperature",67f,96f)
         temperature(c,"Passenger","getAirRightTemperature",646f,674f)

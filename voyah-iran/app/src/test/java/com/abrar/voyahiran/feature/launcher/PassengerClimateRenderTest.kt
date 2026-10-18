@@ -18,6 +18,7 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerClimateRenderTest {
+    @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     private fun sample()=JSONObject().put("fresh",true).put("getAirLeftTemperature",220).put("getAirRightTemperature",230)
         .put("getAirWindSpeed",3).put("getAirDUALStatus",1).put("getAirACStatus",1).put("getAirSWStatus",1)
         .put("getAirMode",1).put("getAirSupplyStatus",0).put("getAirFrontWindowDefogger",0)

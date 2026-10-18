@@ -31,6 +31,7 @@ internal class PassengerFavoritesView(context:Context):View(context) {
     private var dragging=false
     private var held=false
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG)
+    private val staticArtwork=StaticLauncherArtwork(this)
     private val textPaint=TextPaint(Paint.ANTI_ALIAS_FLAG)
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val persian=Typeface.createFromAsset(context.assets,"passenger/fonts/iransansx_regular.ttf")
@@ -68,9 +69,7 @@ internal class PassengerFavoritesView(context:Context):View(context) {
     override fun onDraw(c:Canvas){
         super.onDraw(c);c.save();c.scale(width/546f,height/662f)
         c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,546f,662f),16f,16f,Path.Direction.CW)})
-        paint.shader=LinearGradient(0f,0f,546f,662f,if(light)intArrayOf(0xfff7faff.toInt(),0xffeef4fc.toInt())else intArrayOf(0xff35456e.toInt(),0xff1b233a.toInt()),null,Shader.TileMode.CLAMP)
-        c.drawRect(0f,0f,546f,662f,paint)
-        c.save();c.translate(273f,688f);c.scale(1f,.16f);paint.shader=RadialGradient(0f,0f,410f,intArrayOf(if(light)0x356ba5ef else 0x706278b6,0x006278b6),null,Shader.TileMode.CLAMP);c.drawCircle(0f,0f,410f,paint);c.restore();paint.shader=null
+        staticArtwork.draw(c,"favorites-${if(light)"light"else "dark"}",RectF(0f,0f,546f,662f))
         textPaint.typeface=font;textPaint.textSize=30f
         label(c,"Favorite apps",30f+textPaint.measureText("Favorite apps")/2,55f,30f,300f)
         for(i in 0..5)if(!(dragging&&i==down))tile(c,i,cx(i),cy(i))
@@ -84,9 +83,7 @@ internal class PassengerFavoritesView(context:Context):View(context) {
         c.save();if(editing&&i<5)c.rotate(if(i%2==0)angle else -angle,x,y)
         val app=if(i<5)catalog.firstOrNull{it.id==id}?:previousEntries[id]else null
         if(i==5){
-            paint.shader=LinearGradient(x-43,y-43,x+43,y+43,if(light)0xff82a7dc.toInt() else 0xffd0e0ff.toInt(),if(light)0xff668dc8.toInt() else 0xff809acd.toInt(),Shader.TileMode.CLAMP)
-            for(r in 0..1)for(col in 0..1)c.drawRoundRect(RectF(x-43+col*47,y-43+r*47,x-5+col*47,y-5+r*47),7f,7f,paint)
-            paint.shader=null
+            staticArtwork.draw(c,"all-apps-${if(light)"light"else "dark"}",RectF(x-43,y-43,x+43,y+43))
         }else if(app!=null){app.icon?.let{drawIcon(c,it,x,y)}}else{
             paint.color=if(light)0xff6e90bd.toInt()else 0xffb8cbed.toInt();paint.strokeWidth=5f;paint.strokeCap=Paint.Cap.ROUND
             c.drawLine(x-30,y,x+30,y,paint);c.drawLine(x,y-30,x,y+30,paint)

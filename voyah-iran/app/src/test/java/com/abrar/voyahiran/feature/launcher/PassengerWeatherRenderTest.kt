@@ -18,6 +18,7 @@ import java.util.TimeZone
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PassengerWeatherRenderTest {
+    @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     @Test fun unavailableArtworkExistsOnFirstFrameAndAfterDataLoss(){
         val view=PassengerWeatherView(RuntimeEnvironment.getApplication())
         for(light in listOf(false,true)){

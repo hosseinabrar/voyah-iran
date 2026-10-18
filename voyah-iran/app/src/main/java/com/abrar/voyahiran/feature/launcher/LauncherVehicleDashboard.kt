@@ -66,12 +66,9 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
     var onDriveStateChanged:()->Unit={}
     val artwork=LauncherSuspensionArtwork(context){if(!transitioning)invalidate()}
     private val p=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+    private val staticArtwork=StaticLauncherArtwork(this)
     private var energy:Bitmap?=null
-    private val energyDaylight=ColorMatrixColorFilter(ColorMatrix(floatArrayOf(
-        1.08f,0f,0f,0f,3f,
-        0f,1.08f,0f,0f,3f,
-        0f,0f,1.08f,0f,3f,
-        0f,0f,0f,1f,0f)))
+    private var energyDay:Bitmap?=null
     private var driveIcons=emptyMap<Int,Bitmap?>()
     private var artworkJob:Job?=null
     fun preload(scope:CoroutineScope):Job {
@@ -82,18 +79,8 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
                 fun decode(name:String,sample:Int=1)=runCatching{context.assets.open("launcher/ccc/$name.png").use{
                     BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{inSampleSize=sample})
                 }}.getOrNull()
-                // Prefilter at full source resolution before minifying. Decoder
-                // subsampling followed by one large shrink aliases the silhouette.
-                // Prepare once off-thread; both themes reuse the same smooth bitmap.
-                val car=decode("energy_car")?.let{source->
-                    var filtered=source
-                    repeat(2){
-                        val next=Bitmap.createScaledBitmap(filtered,filtered.width/2,filtered.height/2,true)
-                        if(next!==filtered)filtered.recycle()
-                        filtered=next
-                    }
-                    filtered.apply{setHasMipMap(true)}
-                }
+                val car=decode("energy_car_dark_baked")
+                energyDay=context.assets.open("passenger/baked/energy-car-light.png").use{BitmapFactory.decodeStream(it)}
                 car to mapOf(1 to "eco_normal",2 to "comfort_normal",3 to "sport_img",4 to "outing_img",5 to "person_normal",6 to "snow_normal",10 to "get_off").mapValues{decode(it.value)}
             }
             energy=loaded.first;driveIcons=loaded.second;if(!transitioning)invalidate()
@@ -110,11 +97,7 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         c.drawText(s,x,y,p)
     }
     private fun card(c:Canvas,x:Float,w:Float) {
-        p.shader=LinearGradient(x,0f,x+w,660f,if(lightTheme)intArrayOf(0xfffcfdff.toInt(),0xffedf4fd.toInt()) else intArrayOf(0xff3c4b77.toInt(),0xff1b233a.toInt()),null,Shader.TileMode.CLAMP)
-        c.drawRoundRect(x,0f,x+w,660f,16f,16f,p);p.shader=null
-        c.save();c.clipPath(Path().apply{addRoundRect(RectF(x,0f,x+w,660f),16f,16f,Path.Direction.CW)})
-        p.shader=RadialGradient(x+w/2,666f,w/2,intArrayOf(if(lightTheme)0x779ec5fc else 0x996278b6.toInt(),Color.TRANSPARENT),null,Shader.TileMode.CLAMP)
-        c.scale(1f,.13f,x+w/2,660f);c.drawCircle(x+w/2,660f,w*.55f,p);p.shader=null;c.restore()
+        staticArtwork.draw(c,"vehicle-card-${if(lightTheme)"light"else "dark"}",RectF(x,0f,x+w,660f))
     }
     private fun selector(c:Canvas,x:Float,y:Float,w:Float,labels:List<Pair<String,String>>,selected:String?,op:String,enabled:Boolean) {
         if(labels.isEmpty()){text(c,"Unavailable",x+w/2,y+47,23f,true,muted);return}
@@ -142,8 +125,8 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         c.save();c.clipPath(Path().apply {addRoundRect(RectF(0f,0f,575f,319f),16f,16f,Path.Direction.CW)})
         // Extend beyond the card clip so the transparent right fringe stays outside it.
         // Both themes use the same blue car artwork.
-        p.color=Color.WHITE;p.colorFilter=if(lightTheme)energyDaylight else null
-        energy?.let{c.drawBitmap(it,Rect((it.width*460f/1860).toInt(),0,it.width,it.height),RectF(230f,58f,581f,266f),p)}
+        p.color=Color.WHITE;p.colorFilter=null
+        (if(lightTheme)energyDay else energy)?.let{c.drawBitmap(it,Rect((it.width*460f/1860).toInt(),0,it.width,it.height),RectF(230f,58f,581f,266f),p)}
         p.colorFilter=null;c.restore()
         text(c,"Energy mode",32f,53f,25f)
         val mode=state.modes.entries.firstOrNull {it.value==state.energy}?.key
@@ -183,8 +166,8 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         }
         text(c,ground?.let{String.format(Locale.US,"%.0f mm",it)} ?: "— mm",1630f,446f,23f)
         motion.content("drive-icon",(if(state.manual==2)10 else state.drive).toString(),c,RectF(1214f,486f,1248f,520f)){token->driveIcons[token.toIntOrNull()]?.let {
-            p.colorFilter=if(lightTheme)PorterDuffColorFilter(fg,PorterDuff.Mode.SRC_IN) else null
-            c.drawBitmap(it,null,RectF(1214f,486f,1248f,520f),p);p.colorFilter=null
+            if(lightTheme)staticArtwork.draw(c,"drive-$token-light",RectF(1214f,486f,1248f,520f))
+            else c.drawBitmap(it,null,RectF(1214f,486f,1248f,520f),p)
         }}
         motion.text("drive-label",state.displayedDrive,c,RectF(1260f,480f,1700f,530f)){text(c,it,1264f,516f,30f)}
         p.textSize=30f
