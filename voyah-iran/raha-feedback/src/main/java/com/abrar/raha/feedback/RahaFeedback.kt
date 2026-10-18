@@ -32,7 +32,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         private val visibleOwners = mutableSetOf<RahaFeedback>()
         fun hostDisconnected() {
             Handler(Looper.getMainLooper()).post {
-                visibleOwners.toList().forEach { it.dismiss(); it.cancel() }
+                visibleOwners.toList().forEach { it.dismissImmediately(); it.cancel() }
             }
         }
     }
@@ -68,8 +68,9 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     private val main = Handler(Looper.getMainLooper())
     private val policy = FeedbackStateMachine()
     private val sounds = RahaSounds(context)
-    private val audioFocus = RahaAudioFocus(context) { dismiss(); cancel() }
+    private val audioFocus = RahaAudioFocus(context) { dismissImmediately(); cancel() }
     private var root: View? = null
+    private var exiting = false
     // addView succeeds before the first traversal attaches the view to its window.
     val showing get() = root != null && root?.visibility == View.VISIBLE && policy.state != FeedbackState.HIDDEN
     private var orb: RahaOrbView? = null
@@ -102,6 +103,8 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     }
     private fun renderPrompt() {
         val panel=root?.findViewById<android.widget.LinearLayout>(R.id.rahaPrompt) ?: return
+        if(panel.isLaidOut) android.transition.TransitionManager.beginDelayedTransition(panel,
+            android.transition.Fade().apply { duration=180 })
         panel.removeAllViews()
         panel.orientation=android.widget.LinearLayout.VERTICAL
         panel.visibility=if(promptText.isBlank()) View.GONE else View.VISIBLE
@@ -166,14 +169,17 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     }
     fun begin(manual: Boolean = false, tentative: Boolean = false): Unit = onMain {
         if(closed || !acquireAudio()) return@onMain
-        visibleOwners.toList().filter { it !== this }.forEach { it.dismiss() }
-        // A new activation always replaces our previous window, including a stale one.
-        if (!detach()) { Log.w("RahaFeedback", "new overlay postponed until old window is removed") }
+        visibleOwners.toList().filter { it !== this }.forEach { it.dismissImmediately() }
+        // Keep the visual host across dialogue steps and interrupted exits.
+        root?.animate()?.cancel()
+        exiting=false
+        root?.apply { visibility=View.VISIBLE; animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(220).start() }
         interactionStarted = SystemClock.elapsedRealtime()
         heartbeatStartedAt = null
         light=lightTheme(); themeCheckedAt=interactionStarted
         confirmation=false
         promptText=""; promptChoices=emptyList(); promptSelect=null; transcript=""; voiceActive=false; sounds.stop(); policy.cancel(); policy.begin(interactionStarted, !manual && !tentative)
+        renderPrompt()
         Log.i("RahaFeedback", "new interaction; remaining overlay owners=${visibleOwners.size}")
         if(manual && !tentative) playReady()
         refresh()
@@ -197,6 +203,9 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     /** Release transient focus before media control, so later focus restoration cannot undo Pause. */
     fun yieldAudioForMedia(): Unit = onMain { audioFocus.release() }
     fun dismiss(): Unit = onMain { policy.cancel(); promptText=""; promptChoices=emptyList(); promptSelect=null; transcript=""; voiceActive=false; sounds.stop(); main.removeCallbacks(tick); render() }
+    private fun dismissImmediately() {
+        dismiss();root?.animate()?.cancel();detach();exiting=false
+    }
     private fun acquireAudio(): Boolean {
         if (!focusAttempted) {
             interactionStarted = SystemClock.elapsedRealtime()
@@ -212,7 +221,18 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         if (policy.state == FeedbackState.HIDDEN) {
             audioFocus.release()
             focusAttempted = false
-            detach(); return
+            val view=root
+            if(view!=null && !exiting) {
+                exiting=true
+                view.animate().cancel()
+                view.animate().alpha(0f).scaleX(.96f).scaleY(.96f).setDuration(180)
+                    .withEndAction { if(exiting && root===view && policy.state==FeedbackState.HIDDEN) { detach();exiting=false } }.start()
+            }
+            return
+        }
+        if(exiting) {
+            root?.animate()?.cancel();exiting=false
+            root?.animate()?.alpha(1f)?.scaleX(1f)?.scaleY(1f)?.setDuration(220)?.start()
         }
         // A late service connection must promote the currently visible overlay as well.
         if(host == null && root != null && attachedType == WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY && RahaOverlayService.instance != null) {
@@ -241,6 +261,8 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
                 if(host != null) host.addView(view,ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT))
                 else { manager.addView(view,params); attachedWindows=manager; attachedType=windowType; Log.i("RahaFeedback", "overlay attached type=$windowType") }
                 root=view; visibleOwners.add(this); orb=view.findViewById(R.id.orb); transcriptView=view.findViewById(R.id.rahaTranscript)
+                view.alpha=0f;view.scaleX=.96f;view.scaleY=.96f
+                view.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(220).start()
                 view.addOnLayoutChangeListener { _,l,t,r,b,oldL,oldT,oldR,oldB ->
                     if(r-l!=oldR-oldL || b-t!=oldB-oldT) renderPrompt()
                 }
@@ -262,7 +284,10 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
             fun enableButtons(group: ViewGroup) {
                 for(i in 0 until group.childCount) {
                     val child=group.getChildAt(i)
-                    if(child is android.widget.Button) { child.isEnabled=receiving;child.alpha=if(receiving)1f else .45f }
+                    if(child is android.widget.Button && child.isEnabled!=receiving) {
+                        child.isEnabled=receiving
+                        child.animate().alpha(if(receiving)1f else .45f).setDuration(180).start()
+                    }
                     else if(child is ViewGroup) enableButtons(child)
                 }
             }
@@ -274,5 +299,5 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
             text=if(visible) transcript else ""
         }
     }
-    override fun close(): Unit = onMain { dismiss(); closed=true; sounds.close() }
+    override fun close(): Unit = onMain { dismiss();root?.animate()?.cancel();detach();exiting=false;closed=true;sounds.close() }
 }

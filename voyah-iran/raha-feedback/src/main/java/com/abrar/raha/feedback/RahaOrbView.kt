@@ -10,7 +10,26 @@ import kotlin.math.*
 /** Approved single-rim design. Shaders are cached; animation uses the display frame clock. */
 class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     var phase = FeedbackState.WAITING
-        set(value) { if (field != value) { field=value; started=SystemClock.uptimeMillis(); updateShaders(); invalidate() } }
+        set(value) {
+            if (field == value) return
+            val receiving = setOf(FeedbackState.WAITING, FeedbackState.LISTENING)
+            if (field !in receiving || value !in receiving) {
+                // Capture the actual visible frame, including an interrupted transition.
+                val snapshot = if (width > 0 && height > 0) Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).also {
+                    draw(Canvas(it))
+                } else null
+                outgoing?.recycle(); outgoing = snapshot
+                transitionStarted = SystemClock.uptimeMillis()
+                started = transitionStarted
+            }
+            field=value; updateShaders(); invalidate()
+        }
+    private var outgoing: Bitmap? = null
+    private var transitionStarted = 0L
+    private val composite = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val heights = FloatArray(7) { 8f }
+    private val processingHeights = FloatArray(7) { 8f }
+    private var visualPulse = .94f
     var light = false
         set(value) { if (field != value) { field=value; updateShaders(); invalidate() } }
     // Null keeps the initial waiting orb still until the READY cue is played.
@@ -50,13 +69,21 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         super.onDraw(canvas)
         if(width==0 || height==0 || phase==FeedbackState.HIDDEN)return
         val now=SystemClock.uptimeMillis()
+        val mix=RahaMotion.ease((now-transitionStarted)/280f)
+        val old=outgoing
+        val layer=if(old!=null && mix<1f) {
+            composite.alpha=((1f-mix)*255).toInt();canvas.drawBitmap(old,0f,0f,composite)
+            canvas.saveLayerAlpha(0f,0f,width.toFloat(),height.toFloat(),(mix*255).toInt())
+        } else { outgoing?.recycle();outgoing=null; -1 }
         val age=(now-started)/1000f
         val dt=if(previousFrame==0L)1f/60 else ((now-previousFrame)/1000f).coerceIn(0f,.05f)
         previousFrame=now
         val target=if(phase==FeedbackState.LISTENING)sqrt(level.coerceIn(0f,1f)) else 0f
         energy+=(target-energy)*(1-exp(-dt/if(target>energy).045f else .18f))
         val beat=heartbeatStartedAt?.let { RahaMotion.heartbeat((now-it).coerceAtLeast(0L)/1000f) } ?: 0f
-        val pulse=if(phase==FeedbackState.WAITING).94f+.10f*beat else 1.04f
+        val pulseTarget=if(phase==FeedbackState.WAITING).94f+.10f*beat else 1.04f
+        visualPulse+=(pulseTarget-visualPulse)*(1-exp(-dt/.10f))
+        val pulse=visualPulse
         val unit=min(width,height)/256f
         val shake=if(phase==FeedbackState.FAILURE)sin(age*26)*exp(-age*4)*7 else 0f
         canvas.save();canvas.translate(width/2f+shake*unit,height/2f);canvas.scale(unit*pulse,unit*pulse)
@@ -77,7 +104,7 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 paint.alpha=255;paint.shader=wave
                 if(age<.32f) {
                     val p=RahaMotion.ease(age/.32f)
-                    for(i in 0..6) { val h=(8f+52f*(1-abs(i-3)/3f))*(1-p)+10*p;val w=8+6*p
+                    for(i in 0..6) { val h=processingHeights[i]*(1-p)+10*p;val w=8+6*p
                         paint.style=Paint.Style.FILL;canvas.drawRoundRect((i-3)*13-w/2,-h/2,(i-3)*13+w/2,h/2,4f,4f,paint) }
                 } else {
                     paint.style=Paint.Style.STROKE;paint.strokeWidth=10f
@@ -94,16 +121,21 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             }
             else -> {
                 paint.style=Paint.Style.FILL;paint.shader=wave
-                for(i in 0..6) { val h=if(phase==FeedbackState.LISTENING)RahaMotion.barHeight(i,age,energy) else 8f
+                for(i in 0..6) {
+                    val targetHeight=if(phase==FeedbackState.LISTENING)RahaMotion.barHeight(i,now/1000f,energy) else 8f
+                    heights[i]+=(targetHeight-heights[i])*(1-exp(-dt/.075f))
+                    processingHeights[i]=heights[i]
+                    val h=heights[i]
                     val x=(i-3)*13f;canvas.drawRoundRect(x-4,-h/2,x+4,h/2,4f,4f,paint) }
             }
         }
         paint.shader=null;canvas.restore()
+        if(layer!=-1) canvas.restoreToCount(layer)
         if(isAttachedToWindow && isShown)postInvalidateOnAnimation()
     }
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView,visibility)
         if(visibility==VISIBLE) { previousFrame=0;invalidate() }
     }
-    override fun onDetachedFromWindow() { previousFrame=0;super.onDetachedFromWindow() }
+    override fun onDetachedFromWindow() { outgoing?.recycle();outgoing=null;previousFrame=0;super.onDetachedFromWindow() }
 }

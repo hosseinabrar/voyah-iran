@@ -20,6 +20,25 @@ import java.time.Duration
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk=[30],application=Application::class)
 class RahaFeedbackDesignTest {
+ @Test fun dialogueAndInterruptedExitKeepTheSameWindow() {
+  val controller=Robolectric.buildActivity(Activity::class.java).setup()
+  val a=controller.get();val host=FrameLayout(a);a.setContentView(host)
+  val feedback=RahaFeedback(a,{},host=host)
+  try {
+   feedback.begin(manual=true)
+   val window=host.getChildAt(0)
+   feedback.prompt("کدام مخاطب؟",listOf("اول","دوم")){}
+   assertSame(window,host.getChildAt(0));assertEquals(1,host.childCount)
+   feedback.processing()
+   feedback.prompt("تماس بگیرم؟",listOf("اول"),confirmation=true){}
+   assertSame(window,host.getChildAt(0))
+   feedback.dismiss();assertFalse(feedback.showing)
+   feedback.begin(manual=true)
+   shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(400))
+   assertTrue(feedback.showing);assertSame(window,host.getChildAt(0))
+   feedback.close();assertEquals(0,host.childCount)
+  } finally { feedback.close();controller.pause().stop().destroy() }
+ }
  private fun children(v:View):List<View> = listOf(v)+(if(v is ViewGroup)(0 until v.childCount).flatMap { children(v.getChildAt(it)) } else emptyList())
  @Test fun confirmationKeepsRtlQuestionAndRoutesAnswersAndTheme() {
   val controller=Robolectric.buildActivity(Activity::class.java).setup()

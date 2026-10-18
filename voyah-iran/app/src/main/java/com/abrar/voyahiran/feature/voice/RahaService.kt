@@ -308,7 +308,7 @@ class RahaService : Service() {
                         val ok=withContext(Dispatchers.IO) {
                             if(epoch!=cancelledEpoch) false else RahaPhonebook.dial(this@RahaService,selected) { epoch!=cancelledEpoch }
                         }
-                        if(epoch==cancelledEpoch) { feedback.dismiss(); feedback.result(ok) }
+                        if(epoch==cancelledEpoch) feedback.result(ok)
                     } catch(e:CancellationException) { throw e }
                     catch(_:Exception) { if(epoch==cancelledEpoch) feedback.result(false) }
                     finally { executing=false; reconcile() }
