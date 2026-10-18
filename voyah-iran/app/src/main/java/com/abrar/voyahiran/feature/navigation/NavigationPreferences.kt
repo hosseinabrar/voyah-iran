@@ -16,6 +16,12 @@ class NavigationPreferences(private val context: Context) {
     var musicAutoPlay: Boolean
         get() = prefs.getBoolean("musicAutoPlay", false)
         set(value) { check(prefs.edit().putBoolean("musicAutoPlay", value).commit()) }
+    var startupVolumeEnabled: Boolean
+        get() = prefs.getBoolean("startupVolumeEnabled", false)
+        set(value) { check(prefs.edit().putBoolean("startupVolumeEnabled",value).commit()) }
+    var startupVolume: Int
+        get() = prefs.getInt("startupVolume",5).coerceIn(1,20)
+        set(value) { require(value in 1..20);check(prefs.edit().putInt("startupVolume",value).commit()) }
     var musicPauseOnDoor: Boolean
         get() = prefs.getBoolean("musicPauseOnDoor", false)
         set(value) { check(prefs.edit().putBoolean("musicPauseOnDoor", value).commit()) }

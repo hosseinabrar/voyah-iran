@@ -19,6 +19,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
     private val preferences = NavigationPreferences(context)
     private val history = context.getSharedPreferences("music_boot_history", Context.MODE_PRIVATE)
     private val policy = MusicAutomationPolicy()
+    private val startupVolume=StartupVolumeAutomation(context,scope)
     private var vehicleOff = false
     private val gateway = CanDriveGateway(context) { signal ->
         if (signal.field == CanField.ACC) scope.launch {
@@ -37,6 +38,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
     private var attempted = false
 
     suspend fun tick() {
+        startupVolume.tick()
         val allowed = app.subscriptions.vipAllowed
         if (!allowed || !preferences.musicAutoPlay) startup?.cancel()
         if (allowed && !vehicleOff && preferences.musicAutoPlay && preferences.musicPlayer.isNotBlank() && !attempted) {
@@ -97,5 +99,5 @@ internal class MusicAutomation(private val context: Context, private val scope: 
         }
     }
 
-    fun close() { startup?.cancel(); doors?.cancel() }
+    fun close() { startup?.cancel(); doors?.cancel();startupVolume.close() }
 }

@@ -119,6 +119,14 @@
             <TextView style="@style/Text.Secondary" android:layout_marginTop="@dimen/space_sm" android:text="@string/media_controls_description"/>
             <TextView android:id="@+id/mediaControlsError" style="@style/Text.Secondary" android:textColor="@color/error"
                 android:text="@string/media_controls_error" android:visibility="gone" android:accessibilityLiveRegion="polite"/>
+<CheckBox android:id="@+id/startupVolumeEnabled" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="@dimen/touch_target" android:paddingStart="@dimen/space_sm" android:paddingEnd="@dimen/space_sm" android:buttonTint="@null" android:text="@string/startup_volume_title" android:textColor="@color/text_primary" android:textSize="@dimen/text_body" android:gravity="center_vertical|start"/>
+<TextView style="@style/Text.Secondary" android:text="@string/startup_volume_description"/>
+<LinearLayout android:id="@+id/startupVolumeControls" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:layoutDirection="ltr">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+    <SeekBar android:id="@+id/startupVolumeSlider" android:layout_width="0dp" android:layout_weight="1" android:layout_height="@dimen/touch_target" android:enabled="false" android:max="19" android:progress="4" android:contentDescription="@string/startup_volume_title"/>
+    </LinearLayout>
+    <TextView android:id="@+id/startupVolumeValue" style="@style/Text.Body" android:layout_width="match_parent" android:layout_marginTop="-35dp" android:includeFontPadding="false" android:fontFamily="@font/iransansx" android:gravity="center" android:text="۵"/>
+</LinearLayout>
         </LinearLayout>
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="@dimen/space_lg" android:layout_marginTop="@dimen/space_lg" android:background="@drawable/bg_card">
 <TextView style="@style/Text.Title" android:text="@string/navigation_section"/>

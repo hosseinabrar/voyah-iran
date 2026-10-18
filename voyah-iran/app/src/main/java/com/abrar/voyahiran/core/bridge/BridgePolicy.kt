@@ -53,6 +53,7 @@ object BridgePolicy {
             (request[2] == "inherit" || request[2] in listOf("120", "140", "160", "200", "240"))) return request
         if (request.size == 2 && request[0] == "app-density" && request[1] in listOf("120", "140", "160", "200", "240")) return request
         if (request.size == 2 && request[0] == "app-theme" && request[1] in listOf("dark", "light", "vehicle")) return request
+        if (request.size == 2 && request[0] == "music-startup-volume" && request[1].toIntOrNull()?.let {it in 1..20}==true) return request
         if (request == listOf("sunshade-departure", "close")) return request
         if (request == listOf("sunshade-ready", "open")) return request
         if (request.size == 2 && request[0] == "dow-light" && request[1] in listOf("enable", "enable-always", "disable", "status", "test-start", "test-stop")) return request

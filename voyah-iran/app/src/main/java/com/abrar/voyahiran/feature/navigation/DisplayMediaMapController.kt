@@ -156,6 +156,31 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
         }
         view.musicAutoPlay.setOnClickListener { saveMusicOption(true, view.musicAutoPlay.isChecked) }
         view.musicPauseOnDoor.setOnClickListener { saveMusicOption(false, view.musicPauseOnDoor.isChecked) }
+        view.startupVolumeEnabled.setOnClickListener {
+            val previous=preferences.startupVolumeEnabled
+            val requested=view.startupVolumeEnabled.isChecked
+            if(requested)com.abrar.voyahiran.feature.media.StartupVolumeAutomation.deferUntilNextStartup(activity)
+            preferences.startupVolumeEnabled=requested
+            renderMusic()
+            view.startupVolumeEnabled.isEnabled=false
+            activity.lifecycleScope.launch {
+                try {com.abrar.voyahiran.feature.media.MediaControl.provision(activity)}
+                catch(e:Exception) {
+                    if(e is CancellationException)throw e
+                    preferences.startupVolumeEnabled=previous
+                    view.mediaControlsError.visibility=View.VISIBLE
+                    AppLog.error("StartupVolume","configuration failed",e)
+                } finally {view.startupVolumeEnabled.isEnabled=true;renderMusic()}
+            }
+        }
+        view.startupVolumeSlider.setOnSeekBarChangeListener(object:android.widget.SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(bar:android.widget.SeekBar?,progress:Int,fromUser:Boolean) {
+                view.startupVolumeValue.text=String.format(java.util.Locale("fa"),"%d",progress+1)
+                if(fromUser)preferences.startupVolume=(progress+1).coerceIn(1,20)
+            }
+            override fun onStartTrackingTouch(bar:android.widget.SeekBar?) {}
+            override fun onStopTrackingTouch(bar:android.widget.SeekBar?) {}
+        })
         view.neshanCluster.setOnClickListener {
             val previous = preferences.neshanCluster
             preferences.neshanCluster = view.neshanCluster.isChecked
@@ -260,6 +285,12 @@ class DisplayMediaMapController(private val activity: ComponentActivity, private
     }
 
     private fun renderMusic() {
+        view.startupVolumeEnabled.isChecked=preferences.startupVolumeEnabled
+        view.startupVolumeControls.visibility=View.VISIBLE
+        view.startupVolumeSlider.isEnabled=preferences.startupVolumeEnabled
+        view.startupVolumeControls.alpha=if(preferences.startupVolumeEnabled)1f else 0.45f
+        view.startupVolumeSlider.progress=preferences.startupVolume-1
+        view.startupVolumeValue.text=String.format(java.util.Locale("fa"),"%d",preferences.startupVolume)
         val visibility = if (preferences.musicPlayer.isNotBlank()) View.VISIBLE else View.GONE
         view.musicAutoPlay.visibility = visibility
         view.musicPauseOnDoor.visibility = visibility

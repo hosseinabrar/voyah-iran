@@ -11,8 +11,16 @@ import java.lang.reflect.Proxy
 /** OEM media volume; callback-invalidated cache, independent of Android STREAM_MUSIC. */
 internal object LauncherAudioBridge {
     private var session: Session? = null
+    @Synchronized fun startupVolume(level:Int):JSONObject {
+        check(BridgeSubscriptionSession.active) { "Subscription inactive" }
+        require(level in 1..20)
+        return execute(level.toString())
+    }
     @Synchronized fun command(value: String): JSONObject {
         check(BridgeSubscriptionSession.vipActive) { "VIP inactive" }
+        return execute(value)
+    }
+    private fun execute(value:String):JSONObject {
         val s = session?.takeIf { it.binder.isBinderAlive } ?: Session().also { session = it }
         return try { s.command(value) } catch(e: Exception) {
             s.close(); session = null

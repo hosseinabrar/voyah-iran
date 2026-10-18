@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="fa">
     <string name="app_name">Voyah Iran</string>
+    <string name="startup_volume_title">تنظیم بلندی صدای پیشفرض</string>
+    <string name="startup_volume_description">وقتی خودرو روشن می‌شود بلندی صدای سیستم‌ صوتی با عدد زیر آغاز به کار می‌کند.</string>
     <string name="brand_wordmark" translatable="false">VOYAH\nIRAN</string>
     <string name="brand_caption">همراهِ وویا در ایران</string>
     <string name="settings_tab">تنظیمات</string>

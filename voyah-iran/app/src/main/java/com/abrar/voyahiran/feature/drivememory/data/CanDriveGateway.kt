@@ -57,6 +57,7 @@ class CanDriveGateway(context: Context, private val signal: (CanSignal) -> Unit)
         connect()
         return readState(0x2C3, 0x39C)
     }
+    suspend fun readPowerState():Int { connect();return readInt(0x42) }
 
     /** ICanBusService.getDoorStatus (2): presence, bonnet, front-left, ... */
     suspend fun readDriverDoor(): Int {

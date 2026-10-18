@@ -111,6 +111,7 @@ object BridgeServer {
                                 if(it.exitCode==0 && !it.timedOut) LauncherAppsBridge.enabledForLegacy=enable
                             }
                         }
+                        "music-startup-volume" -> CommandResult(0,LauncherAudioBridge.startupVolume(command[1].toInt()).toString())
                         "music-startup-hide" -> MusicStartupWindow.hide(command[1])
                         "music-launch-window" -> MusicLaunchGuard.execute(command)
                         "raha-phone" -> OemPhoneBridge.execute(command)
