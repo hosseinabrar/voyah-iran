@@ -17,7 +17,8 @@ import java.io.File
 /** Bounded, symbolic operations; the factory drive service retains its ECU interlocks and mode bundle. */
 internal object LauncherVehicleBridge {
     @Volatile private var cached: Session? = null
-    internal fun audioChanged() { cached?.externalChange() }
+    private val audioRevision=java.util.concurrent.atomic.AtomicLong()
+    internal fun audioChanged() { audioRevision.incrementAndGet();cached?.externalChange() }
     private val leaseTimer=java.util.concurrent.Executors.newSingleThreadScheduledExecutor { r -> Thread(r,"LauncherCanLease").apply {isDaemon=true} }
     init { leaseTimer.scheduleWithFixedDelay({
         synchronized(this) {
@@ -225,6 +226,7 @@ internal object LauncherVehicleBridge {
                     for(n in names+airGetters+"speed")put(n,values[n] ?: JSONObject.NULL)
                     put("revision",revision)
                     put("session",generation)
+                    put("audioRevision",audioRevision.get())
                 }
                 put("modes",JSONObject(modes))
                 put("supportsSuspension",runCatching{flag("isSupportAsc")}.getOrDefault(false))

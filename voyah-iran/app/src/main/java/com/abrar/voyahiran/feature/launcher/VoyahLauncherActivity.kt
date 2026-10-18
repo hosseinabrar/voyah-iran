@@ -17,6 +17,12 @@ import com.abrar.voyahiran.feature.navigation.NavigationPreferences
 import kotlinx.coroutines.*
 
 class VoyahLauncherActivity : ComponentActivity() {
+    private val uiEvents by lazy {LauncherUiEvents(this,lifecycleScope){
+        if(visible && contentReady){
+            if(!LauncherPreferences.enabled(this) || !(application as VoyahIranApplication).subscriptions.vipAllowed)finish()
+            else {updateTheme();updateClusterButton()}
+        }
+    }}
     companion object { @Volatile internal var mapPageVisible=false; private set }
     private lateinit var dashboard: LauncherDashboard
     private lateinit var container: FrameLayout
@@ -269,6 +275,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         }
     }
     private fun startVisibleWork() {
+        uiEvents.start()
         if(preview!=null && activeNavigator!=NavigationPreferences(this).navigator) {
             preview?.close();preview=null
             mapView?.let(firstPage::removeView);mapView=null
@@ -283,8 +290,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         ticker?.cancel()
         ticker=lifecycleScope.launch {
             while(isActive) {
-                updateTheme()
-                updateClusterButton()
+                if(pager.page==0 && !pager.moving)dashboard.tickClock()
                 // Animate elapsed time locally; playback changes arrive through callbacks.
                 val state=mediaSnapshot
                 if(state.playing && state.duration>0) {
@@ -292,7 +298,6 @@ class VoyahLauncherActivity : ComponentActivity() {
                     val speed=state.controller?.playbackState?.playbackSpeed ?: 1f
                     dashboard.media=dashboard.media.copy(position=(state.position+(elapsed*speed).toLong()).coerceIn(0,state.duration))
                 }
-                if(!LauncherPreferences.enabled(this@VoyahLauncherActivity) || !(application as VoyahIranApplication).subscriptions.vipAllowed) { finish();break }
                 delay(1000)
             }
         }
@@ -368,6 +373,6 @@ class VoyahLauncherActivity : ComponentActivity() {
             timeout=if(op=="height")30000L else LauncherControlCommands.FEEDBACK_MS)
     }
     override fun onNewIntent(intent:Intent){super.onNewIntent(intent);if(contentReady)pager.show(0)}
-    override fun onStop(){visible=false;updatePageWork();preview?.hostStopped();if(contentReady){weather.stop();mediaObserver.stop()};coverJob?.cancel();ticker?.cancel();super.onStop()}
+    override fun onStop(){visible=false;uiEvents.stop();updatePageWork();preview?.hostStopped();if(contentReady){weather.stop();mediaObserver.stop()};coverJob?.cancel();ticker?.cancel();super.onStop()}
     override fun onDestroy(){startupCover.animate().cancel();if(contentReady)vehiclePage.artwork.close();if(compassDelegate.isInitialized())compass.stop();preview?.close();preview=null;super.onDestroy()}
 }

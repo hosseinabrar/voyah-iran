@@ -43,7 +43,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private var visible=false
     private var light=false
     private var watch:Job?=null
-    private var guard:Job?=null
+    private val uiEvents by lazy {LauncherUiEvents(this,lifecycleScope){if(visible){if(!allowed())finish() else {applyTheme();volume()}}}}
     private var coverJob:Job?=null
     private var coverKey=""
     private var media=LauncherMediaState()
@@ -56,6 +56,8 @@ class PassengerLauncherActivity : ComponentActivity() {
         comfortCache.accept(s.put("fresh",true));publish("vehicle",comfortCache.display)
     }
     private var volumeJob: Job? = null
+    private var volumeDirty=false
+    private var audioRevision=Long.MIN_VALUE
     private var catalog=emptyList<LauncherAppsEntry>()
     private var unobserve:(()->Unit)?=null
     private val states=linkedMapOf<String,JSONObject>()
@@ -210,10 +212,12 @@ class PassengerLauncherActivity : ComponentActivity() {
         else {web.alpha=0f;load()}
     }
     private fun publish(kind:String,value:JSONObject) {
-        if(kind=="vehicle")climate.update(value)
-        if(kind=="vehicle")fragrance.update(value)
-        if(kind=="vehicle")seatsCard.update(value)
+        if(kind=="vehicle")climate.update(PassengerCardState.select(value,"climate"))
+        if(kind=="vehicle")fragrance.update(PassengerCardState.select(value,"fragrance"))
+        if(kind=="vehicle")seatsCard.update(PassengerCardState.select(value,"seats"))
         states[kind]=value
+        // Vehicle cards are native; do not animate/update their hidden HTML duplicates.
+        if(kind=="vehicle")return
         if(ready){val json=value.toString();if(lastSent[kind]==json)return;lastSent[kind]=json;web.evaluateJavascript("window.passenger&&passenger.update(${JSONObject.quote(kind)},$json)",null)}
     }
     override fun onResume() {
@@ -232,18 +236,19 @@ class PassengerLauncherActivity : ComponentActivity() {
                 if(r.exitCode==0 && !r.timedOut)runCatching {JSONObject(r.output)}.onSuccess {s->
                     val next=s.optLong("revision",-1)
                     revision=next;acceptVehicleSnapshot(s)
+                    val audio=s.optLong("audioRevision",Long.MIN_VALUE)
+                    if(audio!=audioRevision){audioRevision=audio;volume()}
                 }
                 if(SystemClock.elapsedRealtime()-vehicleAt>10000 && states["vehicle"]?.optBoolean("fresh")!=false){
                     comfortCache.stale();publish("vehicle",comfortCache.display)
                 }
-                volume()
                 delay(if(r.exitCode==0)100 else 1000)
             }
         }
-        guard=lifecycleScope.launch {while(isActive){delay(1000);if(!allowed()){finish();break};applyTheme()}}
+        uiEvents.start()
     }
     override fun onPause(){favoriteCard.dismissEdit();super.onPause()}
-    override fun onStop(){favoriteCard.dismissEdit();appPicker?.dismiss();visible=false;watch?.cancel();watch=null;guard?.cancel();guard=null;unobserve?.invoke();unobserve=null;weather.stop();mediaObserver.stop();web.evaluateJavascript("window.passenger&&passenger.visibility(false)",null);web.onPause();super.onStop()}
+    override fun onStop(){favoriteCard.dismissEdit();appPicker?.dismiss();visible=false;uiEvents.stop();watch?.cancel();watch=null;unobserve?.invoke();unobserve=null;weather.stop();mediaObserver.stop();web.evaluateJavascript("window.passenger&&passenger.visibility(false)",null);web.onPause();super.onStop()}
     override fun onDestroy(){ready=false;visible=false;unobserve?.invoke();unobserve=null;coverJob?.cancel();unregisterReceiver(changes);web.removeJavascriptInterface("Passenger");web.destroy();super.onDestroy()}
     override fun onConfigurationChanged(config:android.content.res.Configuration){super.onConfigurationChanged(config);applyTheme()}
     private inner class Commands {
@@ -325,7 +330,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     }
     private fun png(b:Bitmap)=ByteArrayOutputStream().use {b.compress(Bitmap.CompressFormat.PNG,100,it);it.toByteArray()}
     private fun volume(value: String = "read") {
-        if(value=="read" && volumeJob?.isActive==true)return
+        if(value=="read" && volumeJob?.isActive==true){volumeDirty=true;return}
         val previous=volumeJob
         volumeJob=lifecycleScope.launch {
             previous?.join()
@@ -338,7 +343,8 @@ class PassengerLauncherActivity : ComponentActivity() {
                 check(max>0 && level in 0..max)
                 musicCard.updateVolume(if(state.getBoolean("muted"))0 else (level*30f/max).toInt())
             } catch(e:CancellationException){throw e}
-            catch(e:Exception){AppLog.changed("PassengerAudio","OEM volume unavailable: ${e.message}")}
+            catch(e:Exception){audioRevision=Long.MIN_VALUE;AppLog.changed("PassengerAudio","OEM volume unavailable: ${e.message}")}
+            finally{window.decorView.post{if(visible && volumeDirty && volumeJob?.isActive!=true){volumeDirty=false;volume()}}}
         }
     }
     private fun error(e:Throwable){AppLog.error("PassengerLauncher","Operation failed",e);if(visible)Toast.makeText(this,"عملیات انجام نشد؛ وضعیت خودرو را بررسی کنید",Toast.LENGTH_LONG).show()}

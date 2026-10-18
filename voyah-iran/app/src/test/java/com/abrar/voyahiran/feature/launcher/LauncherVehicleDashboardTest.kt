@@ -128,6 +128,10 @@ class LauncherVehicleDashboardTest {
             artwork.state=sample();artwork.start(this)
             withTimeout(10000){while(artwork.body==null)delay(20)}
             assertTrue(updates>0)
+            val idleCount=updates
+            delay(250);assertEquals("Static pose must not emit animation frames",idleCount,updates)
+            artwork.light=true
+            withTimeout(10000){while(updates==idleCount)delay(20)}
             artwork.stop();val before=artwork.body;val count=updates
             artwork.state=sample().copy(height=1);delay(200)
             assertSame(before,artwork.body);assertEquals(count,updates)

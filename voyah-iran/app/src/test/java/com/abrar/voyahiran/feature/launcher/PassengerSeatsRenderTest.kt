@@ -38,6 +38,7 @@ class PassengerSeatsRenderTest {
         val view=PassengerSeatsView(RuntimeEnvironment.getApplication());view.layout(0,0,556,228)
         val off=sample(false,false)
         view.update(off)
+        kotlinx.coroutines.runBlocking{view.prepareArtwork()}
         val baseline=Bitmap.createBitmap(556,228,Bitmap.Config.ARGB_8888);view.draw(Canvas(baseline))
         val remembered=JSONObject(off.toString())
         for(side in listOf("LEFT","RIGHT"))for(field in listOf("HEATING_COMMAND","VENTILATION_COMMAND","MASS_INTEN"))
@@ -63,6 +64,7 @@ class PassengerSeatsRenderTest {
         val output=File("build/reports/passenger-seats").apply{mkdirs()}
         for(light in listOf(false,true))for((name,state) in listOf("one-on" to sample(),"both-off" to sample(false,false),"both-on" to sample(true,true),"heat" to sample(true,true,true))){
             view.light=light;view.update(state)
+            kotlinx.coroutines.runBlocking{view.prepareArtwork()}
             val bitmap=Bitmap.createBitmap(556,228,Bitmap.Config.ARGB_8888);view.draw(Canvas(bitmap))
             val repeated=Bitmap.createBitmap(556,228,Bitmap.Config.ARGB_8888);view.draw(Canvas(repeated))
             assertTrue("Repeated drawing must not inherit paint alpha",bitmap.sameAs(repeated));repeated.recycle()

@@ -26,14 +26,27 @@ internal class PassengerSeatsView(context:Context):View(context) {
     private fun retain(name:String,b:Bitmap){if(name.lastOrNull()?.isDigit()==true)cache.put(name,b)else artwork[name]=b}
     private var scope:CoroutineScope?=null
     private var animation:Job?=null
+    private var preparation:Job?=null
     private var frame=10
     private var downX=0f;private var downY=0f
     private val bright=ColorMatrixColorFilter(ColorMatrix(floatArrayOf(1.1712f,0f,0f,0f,5.1f,0f,1.1712f,0f,0f,5.1f,0f,0f,1.1712f,0f,5.1f,0f,0f,0f,1f,0f)))
     private fun level(side:Int,feature:String)=PassengerSeatFeedback.level(state,side,feature)
     private fun valid(side:Int,feature:String)=state.optBoolean("fresh")&&level(side,feature) in if(feature=="mode")1..2 else 0..3
     private fun active(side:Int,feature:String)=valid(side,feature)&&level(side,feature)>0
-    init {isClickable=true;contentDescription="Driver and passenger seat ventilation, heating and massage";load("seat_bg_high_level_97c")
-        for(s in listOf("left","right"))for(f in listOf("vent","heat","massage")){control("seat_${s}_${f}_0_normal",false);control("seat_${s}_${f}_0_normal",true)}
+    init {isClickable=true;contentDescription="Driver and passenger seat ventilation, heating and massage"}
+    suspend fun prepareArtwork(){
+        val required=names()
+        withContext(Dispatchers.IO){
+        load("seat_bg_high_level_97c")
+        for(s in listOf("left","right"))for(f in listOf("vent","heat","massage"))for(level in 0..3){
+            val name="seat_${s}_${f}_${level}_normal";control(name,false);control(name,true)
+        }
+        required.forEach(::load)
+        }
+    }
+    private fun prepare(){
+        if(preparation?.isActive==true)return
+        preparation=scope?.launch {prepareArtwork();invalidate();animateIfNeeded()}
     }
     private fun load(name:String):Bitmap {
         cached(name)?.let{return it}
@@ -72,11 +85,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
         if(state.toString()==next.toString())return
         motion.updated()
         state=next
-        for(side in 0..1)for(feature in listOf("vent","heat","massage")){
-            val name="seat_${if(side==0)"left"else "right"}_${feature}_${if(valid(side,feature))level(side,feature)else 0}_normal"
-            control(name,false);control(name,true)
-        }
-        names().forEach(::load);invalidate();animateIfNeeded()
+        invalidate();prepare();animateIfNeeded()
     }
     private fun animateIfNeeded(){
         val moving=(0..1).any{s->listOf("vent","heat","massage").any{active(s,it)}}
@@ -86,7 +95,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
             withContext(Dispatchers.IO){required.forEach(::load)};frame=nextFrame;invalidate()
         }}
     }
-    override fun onAttachedToWindow(){super.onAttachedToWindow();scope=CoroutineScope(SupervisorJob()+Dispatchers.Main.immediate);animateIfNeeded()}
+    override fun onAttachedToWindow(){super.onAttachedToWindow();scope=CoroutineScope(SupervisorJob()+Dispatchers.Main.immediate);prepare()}
     override fun onDetachedFromWindow(){scope?.cancel();scope=null;animation=null;super.onDetachedFromWindow()}
     override fun onWindowVisibilityChanged(visibility:Int){super.onWindowVisibilityChanged(visibility);if(isAttachedToWindow)animateIfNeeded()}
     override fun onVisibilityChanged(changedView:View,visibility:Int){super.onVisibilityChanged(changedView,visibility);if(isAttachedToWindow)animateIfNeeded()}

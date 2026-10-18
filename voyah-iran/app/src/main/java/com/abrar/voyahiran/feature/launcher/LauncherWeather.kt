@@ -26,10 +26,13 @@ internal class LauncherWeather(private val context: Context, private val scope: 
     private val prefs = context.getSharedPreferences("launcher_weather", Context.MODE_PRIVATE)
     private var location: Location? = null
     private var job: Job? = null
+    private val locationEvents=kotlinx.coroutines.channels.Channel<Unit>(kotlinx.coroutines.channels.Channel.CONFLATED)
     private var attempted = -300_000L
     private var startupPending = true
     private var failed = false
     private var lastStatus = ""
+    private var lastPublished:LauncherWeatherState?=null
+    private fun publish(state:LauncherWeatherState){if(lastPublished!=state){lastPublished=state;update(state)}}
     private var cached = runCatching { JSONObject(prefs.getString("response", "")!!) }.getOrNull()
 
     @SuppressLint("MissingPermission")
@@ -53,7 +56,7 @@ internal class LauncherWeather(private val context: Context, private val scope: 
                 val now = System.currentTimeMillis()
                 val old = cached
                 // Publish the saved response before waiting for GPS/network, including on cold start.
-                update(displayState(old, now, startupPending || failed || fix == null))
+                publish(displayState(old, now, startupPending || failed || fix == null))
                 val known = displayState(old, now, false).let { it.temperature != null && LauncherWeatherCode.description(it.code) != "Unknown" }
                 val urgent = startupPending || failed || !known
                 if (fix != null && (urgent || now-(old?.optLong("saved") ?: 0) >= REFRESH_INTERVAL_MS) &&
@@ -77,16 +80,19 @@ internal class LauncherWeather(private val context: Context, private val scope: 
                         startupPending=false
                         prefs.edit().putString("response", result.toString()).apply()
                     }
-                    update(displayState(cached, System.currentTimeMillis(), startupPending || failed))
+                    publish(displayState(cached, System.currentTimeMillis(), startupPending || failed))
                 }
-                delay(5_000)
+                // Location wakes us immediately; otherwise sleep until retry/forecast expiry.
+                val wait=if(fix==null)60_000L else if(startupPending || failed)10_000L
+                    else (REFRESH_INTERVAL_MS-(System.currentTimeMillis()-(cached?.optLong("saved") ?: 0))).coerceIn(1_000L,REFRESH_INTERVAL_MS)
+                withTimeoutOrNull(wait){locationEvents.receive()}
             }
         }
     }
     fun stop() { job?.cancel(); job=null; runCatching { manager.removeUpdates(this) } }
     override fun onLocationChanged(value: Location) {
         if(value.latitude.isFinite() && value.longitude.isFinite() && value.latitude in -90.0..90.0 && value.longitude in -180.0..180.0 &&
-            (location == null || value.elapsedRealtimeNanos > location!!.elapsedRealtimeNanos)) location=value
+            (location == null || value.elapsedRealtimeNanos > location!!.elapsedRealtimeNanos)) {location=value;locationEvents.trySend(Unit)}
     }
     override fun onProviderEnabled(provider: String) { AppLog.info("LauncherWeather", "provider enabled=$provider") }
     override fun onProviderDisabled(provider: String) { AppLog.info("LauncherWeather", "provider disabled=$provider") }

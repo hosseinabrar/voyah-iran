@@ -9,7 +9,32 @@ import java.util.Calendar
 import java.util.Locale
 
 /** Layout coordinates match the approved 1775-pixel OEM safe area; no OEM bars are drawn. */
-class LauncherDashboard(context: Context) : View(context) {
+class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) {
+    private val progressPaint=Paint(Paint.ANTI_ALIAS_FLAG)
+    private val progressView=object:View(context){
+        override fun onDraw(c:Canvas){
+            if(media.radio)return
+            c.save();c.scale(width/400f,height/45f)
+            val p=progressPaint;p.strokeWidth=4f
+            p.color=if(lightTheme)0xffcdd9e8.toInt() else if(media.canSeek)0xff7c879f.toInt() else 0xff4e5970.toInt()
+            c.drawLine(0f,6f,380f,6f,p)
+            p.color=if(lightTheme)0xff668cce.toInt() else if(media.canSeek)Color.WHITE else 0xff8d97aa.toInt()
+            if(media.duration>0)c.drawLine(0f,6f,380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),6f,p)
+            p.color=this@LauncherDashboard.foreground;p.typeface=latin;p.textSize=17f
+            fun time(ms:Long)=String.format(Locale.US,"%d:%02d",ms/60000,ms/1000%60)
+            c.drawText(time(media.position),0f,34f,p);c.drawText(time(media.duration),339f,34f,p)
+            c.restore()
+        }
+    }
+    private val clockView=object:View(context){override fun onDraw(c:Canvas){
+        c.save();c.scale(width/428f,height/426f);c.translate(-1331f,0f);drawClock(c);c.restore()
+    }}
+    fun tickClock(){clockView.invalidate()}
+    init{setWillNotDraw(false);addView(progressView);addView(clockView)}
+    override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
+        progressView.layout((911f*width/1775).toInt(),(518f*height/660).toInt(),(1311f*width/1775).toInt(),(563f*height/660).toInt())
+        clockView.layout((1331f*width/1775).toInt(),0,(1759f*width/1775).toInt(),(426f*height/660).toInt())
+    }
     private val motion=LauncherMotion(this)
     internal var controlMotionPaused=false
         set(value){field=value;motion.paused=value}
@@ -36,7 +61,7 @@ class LauncherDashboard(context: Context) : View(context) {
         }
     }
     var lightTheme = false
-        set(value) { if(field!=value) {field=value;invalidate()} }
+        set(value) { if(field!=value) {field=value;invalidate();progressView.invalidate();clockView.invalidate()} }
     private val foreground get() = if(lightTheme) 0xff252f3c.toInt() else Color.WHITE
     private val secondary get() = if(lightTheme) 0xff71839e.toInt() else 0xffbfc9de.toInt()
     private val accentTop get() = if(lightTheme) 0xff719eff.toInt() else 0xff617bbb.toInt()
@@ -45,12 +70,15 @@ class LauncherDashboard(context: Context) : View(context) {
     var media = LauncherMediaState()
         set(value) {
             if(field==value)return
+            val positionOnly=field.copy(position=value.position)==value
+            if(positionOnly){field=value;progressView.invalidate();return}
+            progressView.invalidate()
             motion.updated()
             val trackChanged=field.title!=value.title || field.artist!=value.artist || field.radio!=value.radio || field.sourcePackage!=value.sourcePackage || field.oemSource!=value.oemSource
             if(trackChanged)coverReceivedForTrack=false
             field=value
             if(value.radio) {coverAnimation?.cancel();oldCover=null;shownCover=null;coverFade=1f}
-            else if(!value.coverPending && (!coverReceivedForTrack || value.cover!==shownCover)) {
+            else if(!value.coverPending && (!coverReceivedForTrack || (value.cover!=null && value.cover!==shownCover))) {
                 changeCover(value.cover)
                 // Allow the first asynchronous cover, then retain it until title/artist changes.
                 coverReceivedForTrack=value.cover!=null
@@ -101,10 +129,10 @@ class LauncherDashboard(context: Context) : View(context) {
     private var mediaTextKey:MediaTextKey?=null
     private var mediaTextPicture:Picture?=null
     var weather = LauncherWeatherState()
-        set(value) { field=value; invalidate() }
+        set(value) { if(field==value)return;field=value; invalidate() }
     private val unknownWeatherBitmap get() = bitmaps.get(R.drawable.launcher_weather_hd_unavailable,weather=true)
     var mapMessage = LauncherMapPreview.LOADING
-        set(value) { field = value; invalidate() }
+        set(value) { if(field==value)return;field = value; invalidate() }
     var onMap: () -> Unit = {}
     var onShowMap: () -> Unit = {}
     private val mapLight get() = bitmaps.get(R.drawable.launcher_map_default_light)
@@ -215,12 +243,6 @@ class LauncherDashboard(context: Context) : View(context) {
         }
         c.save();c.translate(0f,10f)
         mediaTextPicture?.let {c.drawPicture(it)}
-        if(!media.radio) {
-            paint.color=if(lightTheme) 0xffcdd9e8.toInt() else if(media.canSeek) 0xff7c879f.toInt() else 0xff4e5970.toInt();paint.strokeWidth=4f;c.drawLine(911f,514f,1291f,514f,paint)
-            if(media.duration>0) { paint.color=if(lightTheme) 0xff668cce.toInt() else if(media.canSeek) Color.WHITE else 0xff8d97aa.toInt();c.drawLine(911f,514f,911f+380f*(media.position.toFloat()/media.duration).coerceIn(0f,1f),514f,paint) }
-            fun time(ms:Long)=String.format(Locale.US,"%d:%02d",ms/60000,ms/1000%60)
-            text(time(media.position),911f,542f,17f);text(time(media.duration),1250f,542f,17f)
-        }
         listOf(987f to icons[0],1101f to icons[if(media.playing)2 else 1],1215f to icons[3]).forEachIndexed { index,(x,b)->
             c.save()
             val scale=1f-.12f*buttonPress[index]
@@ -240,20 +262,6 @@ class LauncherDashboard(context: Context) : View(context) {
         }
         paint.colorFilter=null
         c.restore()
-        val now=Calendar.getInstance();val cx=1545f;val cy=177f
-        if(lightTheme) {
-            paint.shader=RadialGradient(cx,cy+4,135f,intArrayOf(0x00344358,0x00344358,0x22344358,Color.TRANSPARENT),floatArrayOf(0f,.86f,.93f,1f),Shader.TileMode.CLAMP)
-            c.drawCircle(cx,cy+4,135f,paint);paint.shader=null
-            paint.shader=LinearGradient(cx-100,cy-100,cx+100,cy+124,0xffffffff.toInt(),0xffedf0f4.toInt(),Shader.TileMode.CLAMP)
-        } else paint.color=0xff252726.toInt()
-        c.drawCircle(cx,cy,124f,paint);paint.shader=null
-        for(i in 0..59) { c.save();c.rotate(i*6f,cx,cy);paint.color=if(lightTheme)foreground else 0xffe6eaf1.toInt();paint.strokeWidth=if(i%5==0)2f else 1f;c.drawLine(cx,cy-116,cx,cy-if(i%5==0)107 else 112,paint);c.restore() }
-        fun hand(degrees:Float,length:Float,stroke:Float) {c.save();c.rotate(degrees,cx,cy);paint.color=if(lightTheme)foreground else 0xffedf3ff.toInt();paint.strokeWidth=stroke;paint.strokeCap=Paint.Cap.ROUND;c.drawLine(cx,cy,cx,cy-length,paint);paint.strokeCap=Paint.Cap.BUTT;c.restore()}
-        hand((now.get(Calendar.HOUR)%12)*30f+now.get(Calendar.MINUTE)*.5f,65f,5f)
-        hand(now.get(Calendar.MINUTE)*6f+now.get(Calendar.SECOND)*.1f,84f,4f)
-        paint.color=if(lightTheme)foreground else 0xffdfeaff.toInt();c.drawCircle(cx,cy,7f,paint)
-        text(LauncherClock.persianDate(now.timeInMillis),cx,349f,26f,center=true,fa=true)
-        text(LauncherClock.gregorianDate(now.timeInMillis),cx,387f,17f,secondary,center=true)
         fun degree(value: Double?) = value?.let { String.format(Locale.US,"%.0f°",it) } ?: "—"
         c.save();c.clipRect(1355f,455f,1588f,640f)
         text(weather.city,1387f,499f,23f)
@@ -271,6 +279,25 @@ class LauncherDashboard(context: Context) : View(context) {
         }
         text("Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",1355f,646f,12f,secondary)
         c.restore()
+    }
+    private fun drawClock(c:Canvas){
+        val paint=Paint(Paint.ANTI_ALIAS_FLAG)
+        val now=Calendar.getInstance();val cx=1545f;val cy=177f
+        if(lightTheme){
+            paint.shader=RadialGradient(cx,cy+4,135f,intArrayOf(0x00344358,0x00344358,0x22344358,Color.TRANSPARENT),floatArrayOf(0f,.86f,.93f,1f),Shader.TileMode.CLAMP)
+            c.drawCircle(cx,cy+4,135f,paint)
+            paint.shader=LinearGradient(cx-100,cy-100,cx+100,cy+124,0xffffffff.toInt(),0xffedf0f4.toInt(),Shader.TileMode.CLAMP)
+        }else paint.color=0xff252726.toInt()
+        c.drawCircle(cx,cy,124f,paint);paint.shader=null
+        for(i in 0..59){c.save();c.rotate(i*6f,cx,cy);paint.color=if(lightTheme)foreground else 0xffe6eaf1.toInt();paint.strokeWidth=if(i%5==0)2f else 1f;c.drawLine(cx,cy-116,cx,cy-if(i%5==0)107 else 112,paint);c.restore()}
+        fun hand(degrees:Float,length:Float,stroke:Float){c.save();c.rotate(degrees,cx,cy);paint.color=if(lightTheme)foreground else 0xffedf3ff.toInt();paint.strokeWidth=stroke;paint.strokeCap=Paint.Cap.ROUND;c.drawLine(cx,cy,cx,cy-length,paint);paint.strokeCap=Paint.Cap.BUTT;c.restore()}
+        hand((now.get(Calendar.HOUR)%12)*30f+now.get(Calendar.MINUTE)*.5f,65f,5f)
+        hand(now.get(Calendar.MINUTE)*6f+now.get(Calendar.SECOND)*.1f,84f,4f)
+        paint.color=if(lightTheme)foreground else 0xffdfeaff.toInt();c.drawCircle(cx,cy,7f,paint)
+        paint.textAlign=Paint.Align.CENTER;paint.typeface=persian;paint.textSize=26f;paint.color=foreground
+        c.drawText(LauncherClock.persianDate(now.timeInMillis),cx,349f,paint)
+        paint.typeface=latin;paint.textSize=17f;paint.color=secondary
+        c.drawText(LauncherClock.gregorianDate(now.timeInMillis),cx,387f,paint)
     }
     override fun onTouchEvent(e: MotionEvent): Boolean {
         val x=e.x*1775/width;val y=e.y*660/height

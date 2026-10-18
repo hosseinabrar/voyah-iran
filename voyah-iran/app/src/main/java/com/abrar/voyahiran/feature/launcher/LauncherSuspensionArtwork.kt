@@ -12,8 +12,11 @@ class LauncherSuspensionArtwork(private val context:Context,private val changed:
     // One full 20-frame wheel cycle is ~14 MiB; keep it resident to avoid decoding every lap.
     private val cache=object:LruCache<String,Bitmap>(20*1024*1024) {override fun sizeOf(key:String,value:Bitmap)=value.byteCount}
     private var job:Job?=null
+    private val changes=kotlinx.coroutines.channels.Channel<Unit>(kotlinx.coroutines.channels.Channel.CONFLATED)
     var state=LauncherVehicleState()
+        set(value){if(field==value)return;field=value;changes.trySend(Unit)}
     var light=false
+        set(value){if(field==value)return;field=value;changes.trySend(Unit)}
     var body:Bitmap?=null;private set
     var wheels:List<Bitmap> = emptyList();private set
     private var frame:Int?=null
@@ -61,7 +64,8 @@ class LauncherSuspensionArtwork(private val context:Context,private val changed:
                     if(key!=lastKey) {load(key)?.let {body=it};lastKey=key;changed()}
                     else if(hadWheels)changed()
                 }
-                delay((if(moving)10L else if(driving)50L else 100L)-(SystemClock.elapsedRealtime()-start).coerceAtMost(if(moving)9L else if(driving)49L else 99L))
+                if(moving || driving)delay((if(moving)10L else 50L)-(SystemClock.elapsedRealtime()-start).coerceAtMost(if(moving)9L else 49L))
+                else changes.receive() // Sleep until a real state/theme update; no idle polling.
             }
         }
     }

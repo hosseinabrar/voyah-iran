@@ -34,7 +34,7 @@ class LauncherDashboardTest {
             output.outputStream().use {bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
         }
     }
-    @Test fun artworkChangesOnlyWhenTitleOrArtistChanges() {
+    @Test fun artworkIgnoresDuplicatesButAcceptsUpdatedArtwork() {
         val view=LauncherDashboard(RuntimeEnvironment.getApplication())
         val cover=Bitmap.createBitmap(64,64,Bitmap.Config.ARGB_8888).apply {eraseColor(android.graphics.Color.BLUE)}
         view.media=LauncherMediaState(title="Track",cover=cover)
@@ -47,8 +47,8 @@ class LauncherDashboardTest {
         assertSame(cover,shown.get(view))
         val changed=cover.copy(Bitmap.Config.ARGB_8888,true).apply {setPixel(32,32,android.graphics.Color.RED)}
         view.media=view.media.copy(cover=changed,position=10000)
-        assertSame(originalAnimation,animation.get(view))
-        assertSame(cover,shown.get(view))
+        assertNotSame(originalAnimation,animation.get(view))
+        assertSame(changed,shown.get(view))
         view.media=view.media.copy(title="Next track")
         assertNotSame(originalAnimation,animation.get(view))
         assertSame(changed,shown.get(view))
