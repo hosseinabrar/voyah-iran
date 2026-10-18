@@ -7,7 +7,6 @@ import com.abrar.voyahiran.core.shell.ProcessCommandRunner
 import com.abrar.voyahiran.feature.drivememory.data.*
 import com.abrar.voyahiran.feature.drivememory.domain.*
 import com.abrar.voyahiran.feature.recoverymemory.data.RecoveryLevelWriter
-import com.abrar.voyahiran.feature.recoverymemory.domain.RecoveryRestoreOrder
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -95,12 +94,17 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val access get() = MemoryAccess(subscriptions.allowed, subscriptions.vipAllowed)
     val hasActiveMemory: Boolean get() = access.permits() && (dowEnabled || shadeEnabled || shadeReadyEnabled || engine.memory.enabled || recoveryEngine.memory.enabled || aebEngine.memory.enabled || pedestrianEngine.memory.enabled || energyModeEngine.memory.enabled)
     private val recoveryWriter = RecoveryLevelWriter(ProcessCommandRunner())
-    private val restoreOrder = RecoveryRestoreOrder()
+    private val restoreSequence = MemoryRestoreSequence(mapOf(
+        MemorySetting.DRIVE to engine, MemorySetting.RECOVERY to recoveryEngine,
+        MemorySetting.ENERGY_MODE to energyModeEngine, MemorySetting.AEB to aebEngine,
+        MemorySetting.PEDESTRIAN to pedestrianEngine
+    )) { com.abrar.voyahiran.core.logging.AppLog.changed("MemoryRestore", it) }
     private val events = Channel<CanSignal>(Channel.UNLIMITED)
     private val gateway = CanDriveGateway(context) { events.trySend(it) }
     private val writer = OemDriveModeWriter(ProcessCommandRunner())
     private var sample = VehicleSample()
     private var running = false
+    private var restorationStarted = false
     private var boot = ""
     private val mutable = MutableStateFlow(DriveMemoryUiState(enabled = engine.memory.enabled, saved = engine.memory.mode,
         recovery = RecoveryMemoryUiState(enabled = recoveryEngine.memory.enabled, saved = recoveryEngine.memory.mode),
@@ -142,20 +146,26 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
 
     suspend fun start() = withContext(Dispatchers.IO) { mutex.withLock { protect {
         mutable.value = mutable.value.copy(busy = true, error = false)
-        if (!running) {
+        ensureStarted()
+        renewDow()
+        sample = readVehicle()
+        process(true, true)
+    } } }
+
+    private fun ensureStarted() {
+        if (!restorationStarted) {
             boot = bootIdentity()
+            restoreSequence.reset()
             shadePolicy.reset(); shadeReadyPolicy.reset()
             engine.start(boot)
             recoveryEngine.start(boot)
             aebEngine.start(boot)
             pedestrianEngine.start(boot)
             energyModeEngine.start(boot)
-            running = true
+            restorationStarted = true
         }
-        renewDow()
-        sample = readVehicle()
-        process(true, true)
-    } } }
+        running = true
+    }
 
     suspend fun enable() = withContext(Dispatchers.IO) { mutex.withLock { protect {
         mutable.value = mutable.value.copy(busy = true, error = false)
@@ -175,6 +185,8 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     } } }
 
     suspend fun tick() = withContext(Dispatchers.IO) { mutex.withLock { protect {
+        // A failed first startup must not require opening Settings to arm the loop again.
+        if (hasActiveMemory) ensureStarted()
         renewDow()
         if (running) { sample = readVehicle(); process(true, true) }
     } } }
@@ -341,7 +353,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
 
     suspend fun detach() = withContext(Dispatchers.IO) { mutex.withLock {
         runCatching { dowCommand(false) }; nextDowHeartbeat = 0
-        running = false; gateway.close(); shadePolicy.reset(); shadeReadyPolicy.reset()
+        running = false; restorationStarted = false; gateway.close(); shadePolicy.reset(); shadeReadyPolicy.reset()
     } }
 
     private fun process(modeObserved: Boolean, recoveryObserved: Boolean, aebObserved: Boolean = true, pedestrianObserved: Boolean = true, energyModeObserved: Boolean = true) {
@@ -349,56 +361,26 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         closeShadeOnDeparture()
         openShadeOnReady()
         val now = SystemClock.elapsedRealtime()
-        // AEB shares VIP access but is independent of drive/recovery restore ordering.
-        val aebRequest = aebEngine.observe(sample.copy(mode = sample.aeb), now, aebObserved)
-        if (aebRequest != null) {
+        val observed=buildSet {
+            if(modeObserved)add(MemorySetting.DRIVE)
+            if(recoveryObserved)add(MemorySetting.RECOVERY)
+            if(energyModeObserved)add(MemorySetting.ENERGY_MODE)
+            if(aebObserved)add(MemorySetting.AEB)
+            if(pedestrianObserved)add(MemorySetting.PEDESTRIAN)
+        }
+        restoreSequence.process(sample,now,observed) { key,value ->
             publish()
-            try { aebWriter.apply(aebRequest) }
-            catch (error: Exception) {
-                com.abrar.voyahiran.core.logging.AppLog.error("AebMemory", "apply-failed", error)
-                aebEngine.requestFailed()
-            }
-        }
-        val pedestrianRequest = pedestrianEngine.observe(sample.copy(mode = sample.pedestrian), now, pedestrianObserved)
-        if (pedestrianRequest != null) {
-            publish()
-            try { pedestrianWriter.apply(pedestrianRequest) }
-            catch (error: Exception) {
-                com.abrar.voyahiran.core.logging.AppLog.error("PedestrianMemory", "apply-failed", error)
-                pedestrianEngine.requestFailed()
-            }
-        }
-        val driveWasPending = engine.memory.pending
-        val request = engine.observe(sample, now, modeObserved)
-        publish()
-        if (request != null) {
-            com.abrar.voyahiran.core.logging.AppLog.info("DriveMemory", "apply mode=$request")
-            try { writer.apply(request) }
-            catch (error: Exception) {
-                com.abrar.voyahiran.core.logging.AppLog.error("DriveMemory", "apply-failed", error)
-                engine.requestFailed(); publish(); return
-            }
-        }
-        if (restoreOrder.allow(engine.memory.enabled, driveWasPending,
-                engine.phase == DrivePhase.MONITORING, sample.off, now)) {
-            val energyModeRequest = energyModeEngine.observe(sample.copy(mode = sample.energyMode), now, energyModeObserved)
-            if (energyModeRequest != null) {
-                publish()
-                try { energyModeWriter.apply(energyModeRequest) }
-                catch (error: Exception) {
-                    com.abrar.voyahiran.core.logging.AppLog.error("EnergyModeMemory", "apply-failed", error)
-                    energyModeEngine.requestFailed()
+            try {
+                when(key) {
+                    MemorySetting.DRIVE -> writer.apply(value)
+                    MemorySetting.RECOVERY -> recoveryWriter.apply(value)
+                    MemorySetting.ENERGY_MODE -> energyModeWriter.apply(value)
+                    MemorySetting.AEB -> aebWriter.apply(value)
+                    MemorySetting.PEDESTRIAN -> pedestrianWriter.apply(value)
                 }
-            }
-            val level = recoveryEngine.observe(sample.copy(mode = sample.recovery), now, recoveryObserved)
-            if (level != null) {
-                com.abrar.voyahiran.core.logging.AppLog.info("Recovery", "apply level=$level")
-                publish()
-                try { recoveryWriter.apply(level) }
-                catch (error: Exception) {
-                    com.abrar.voyahiran.core.logging.AppLog.error("Recovery", "apply-failed", error)
-                    recoveryEngine.requestFailed()
-                }
+            } catch(error:Exception) {
+                com.abrar.voyahiran.core.logging.AppLog.error("MemoryRestore","apply failed step=$key target=$value; bounded automatic retry scheduled",error)
+                throw error
             }
         }
         publish()
