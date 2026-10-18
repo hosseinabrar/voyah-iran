@@ -120,6 +120,7 @@ Java.perform(function () {
         function refreshPassenger(ctx, component, enabled) {
             syncBars(ctx,component,1,enabled);
             if (passengerModel === null || passengerHandler === null) return;
+            if (passengerMoving()) return; // Do not cache a policy the OEM cannot apply yet.
             const home=passengerHome(component);
             const signature = enabled + ':' + home + ':' + component;
             if (home) {
@@ -279,14 +280,46 @@ Java.perform(function () {
         });
         // React to the existing display-policy checkbox, including disable, without restarting launcher.
         let queued = false;
-        setInterval(function () {
+        let eventRetries=0, retryPending=false;
+        function passengerBusy(){
+            if(passengerMoving())return true;
+            if(passengerBarType===null)return false;
+            const raw=passengerModel.mSecondScreenNavigationBar.value;
+            if(raw===null)return true;
+            const animator=Java.cast(raw,passengerBarType).mMoveWindowAnimator.value;
+            return animator!==null && animator.isStarted();
+        }
+        function scheduleRefresh() {
             if (queued) return;
             queued = true;
             Java.scheduleOnMainThread(function () {
-                try { refresh(); } catch (e) { console.log('VI_NAV_REFRESH_ERROR ' + e); }
+                try {
+                    refresh();
+                    if(eventRetries>0 && passengerBusy() && !retryPending){
+                        eventRetries--;retryPending=true;
+                        console.log('VI_NAV_PASSENGER_DEFER moving-or-animating remaining='+eventRetries);
+                        setTimeout(function(){retryPending=false;scheduleRefresh();},100);
+                    }else if(!passengerBusy()){eventRetries=0;}
+                } catch (e) { console.log('VI_NAV_REFRESH_ERROR ' + e); }
                 finally { queued = false; }
             });
-        }, 1000);
+        }
+        // Use the OEM foreground broadcast, not the recovery timer, for display 1.
+        try {
+            const Model=Java.use('com.qinggan.app.launcher.LauncherModel');
+            const receive=Model.onReceive.overload('android.content.Context','android.content.Intent');
+            receive.implementation=function(ctx,intent){
+                const result=receive.call(this,ctx,intent);
+                if(String(intent.getAction())==='android.intent.action.TOP_ACTIVITY_CHANGED' && intent.getIntExtra('displayId',-1)===1){
+                    if(passengerModel===null)passengerModel=Java.retain(this);
+                    console.log('VI_NAV_PASSENGER_EVENT foreground');
+                    eventRetries=20;
+                    scheduleRefresh();
+                }
+                return result;
+            };
+        }catch(e){console.log('VI_NAV_PASSENGER_EVENT_ERROR '+e);}
+        setInterval(scheduleRefresh, 1000);
         console.log('VI_NAV_READY');
     } catch (error) { console.log('VI_NAV_ERROR ' + error); }
 });

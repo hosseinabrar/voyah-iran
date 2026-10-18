@@ -5,6 +5,7 @@ const source = kotlin.split('"""')[1].replaceAll('__DOLLAR__', '$');
 const key = 'voyah_iran_display_policy';
 const settings = {[key]: '1:' + 'a'.repeat(32), [key+'_ack']: '1:' + 'a'.repeat(32)};
 const calls = [], output = [];
+const timers=[];
 let interval, foreground = 'test.app/test.Main', taskDisplay = 0, fail = false;
 const task = { displayId: {get value() { return taskDisplay; }}, topActivity: {get value() { return {flattenToString: () => foreground}; }} };
 const infos = {
@@ -27,16 +28,18 @@ const bar = {mScreenId:{value:1},mMoveWindowAnimator:{value:{isStarted:()=>anima
  show(){calls.push(['recover']); attached=true;barX=0;}};
 const nativeDismiss={call(){calls.push(['nativeDismiss']);attached=false;}};
 const nativeRelease={call(ctx){nativeDismiss.implementation.call(ctx);}};
-const Bar={dismiss:{overload(){return nativeDismiss;}},release:{overload(){return nativeRelease;}}};
+const nativeShow={call(){bar.show();}};
+const Bar={show:{overload(){return nativeShow;}},dismiss:{overload(){return nativeDismiss;}},release:{overload(){return nativeRelease;}}};
 const model = {$dispose(){}, mSecondNavigationBarLastShow:{value:false},
  mMainScreenMoving:{value:false},mSecondScreenMoving:{value:false},mSecondScreenNavigationBar:{value:bar}};
-const Model = {handleUpdateSecondNavigationBar:{overload(){return passenger;}}};
+const receive={call(){calls.push(['receive']);}};
+const Model = {onReceive:{overload(){return receive;}},handleUpdateSecondNavigationBar:{overload(){return passenger;}}};
 const types = {'com.qinggan.launcher.base.drag.DragService': Drag, 'com.qinggan.launcher.base.BaseApplication': Base,
  'com.qinggan.app.launcher.LauncherModel':Model,
  'com.qinggan.launcher.base.utils.AppUtils':{getTopAppInfo(){return oemPassengerTop;}},
  'com.qinggan.launcher.navigation.NavigationBarController':Bar,
  'android.provider.Settings$Global': {getString(r,k) {return settings[k] ?? null;}}, 'android.app.ActivityManager': {}, 'android.app.ActivityManager$RunningTaskInfo': {}};
-vm.runInNewContext(source, {console: {log: m => output.push(m)}, setInterval(f) {interval=f;}, Java: {
+vm.runInNewContext(source, {console: {log: m => output.push(m)}, setTimeout(f){timers.push(f);}, setInterval(f) {interval=f;}, Java: {
  perform(f) {f();}, scheduleOnMainThread(f) {f();}, use(n) {if(!(n in types))throw Error(n);return types[n];},
  cast(v) {return v;}, retain(v) {return v;}, choose(n,c) {c.onMatch(n === 'com.qinggan.app.launcher.LauncherModel' ? model : service);c.onComplete();}
 }});
@@ -94,4 +97,23 @@ oemPassengerTop='test.app/test.Main';bar.mScreenId.value=0;calls.length=0;native
 check(()=>assert.deepEqual(calls,[['nativeDismiss']]));bar.mScreenId.value=1;
 settings[key]='0:'+'f'.repeat(32);settings[key+'_ack']=settings[key];calls.length=0;nativeDismiss.implementation.call(bar);
 check(()=>assert.deepEqual(calls,[['nativeDismiss']]));
+settings[key]='1:'+'a'.repeat(32);settings[key+'_ack']=settings[key];
+oemPassengerTop='com.abrar.voyahiran/.feature.launcher.PassengerAppsActivity';
+attached=false;barX=-145;calls.length=0;
+receive.implementation.call(model,service,{getAction:()=> 'android.intent.action.TOP_ACTIVITY_CHANGED',getIntExtra:()=>1});
+check(()=>assert(calls.some(c=>c[0]==='passenger'&&c[3]===true)));
+check(()=>assert(output.includes('VI_NAV_PASSENGER_EVENT foreground')));
+calls.length=0;
+receive.implementation.call(model,service,{getAction:()=> 'android.intent.action.TOP_ACTIVITY_CHANGED',getIntExtra:()=>0});
+check(()=>assert.deepEqual(calls,[['receive']]));
+oemPassengerTop='test.app/test.Main';model.mSecondScreenMoving.value=true;calls.length=0;
+receive.implementation.call(model,service,{getAction:()=> 'android.intent.action.TOP_ACTIVITY_CHANGED',getIntExtra:()=>1});
+check(()=>assert(!calls.some(c=>c[0]==='passenger')));
+check(()=>assert.equal(timers.length,1));
+model.mSecondScreenMoving.value=false;timers.shift()();
+check(()=>assert(calls.some(c=>c[0]==='passenger'&&c[1]==='test.app'&&c[3]===true)));
+model.mSecondScreenMoving.value=true;
+receive.implementation.call(model,service,{getAction:()=> 'android.intent.action.TOP_ACTIVITY_CHANGED',getIntExtra:()=>1});
+let retries=0;while(timers.length && retries<30){timers.shift()();retries++;}
+check(()=>assert.equal(retries,20));check(()=>assert.equal(timers.length,0));
 console.log(checks+' OEM navigation policy checks passed');
