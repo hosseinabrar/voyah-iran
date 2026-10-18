@@ -75,8 +75,7 @@ internal object OemDriverAssistanceBinder {
                 if (memoryRestore) {
                     // Recheck at the write boundary, not only at the earlier app-side CAN sample.
                     check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
-                    check(api.getMethod("getAccStatus").invoke(remote) == 2 &&
-                        api.getMethod("getVehicleSpeed").invoke(remote) == 0) { "Comfort memory requires a stationary powered vehicle" }
+                    check(api.getMethod("getAccStatus").invoke(remote) == 2) { "Comfort memory requires a powered vehicle" }
                 }
                 AppLog.info("RahaAdas","write action=$action field=$field value=$value")
                 val result=api.getMethod("setVehicleState",stateType,Int::class.javaPrimitiveType).invoke(remote,field(field),value)

@@ -81,7 +81,6 @@ internal object OemEnergyBinder {
                 if (memoryValue != null) {
                     check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
                     check(api.getMethod("getAccStatus").invoke(remote) == 2) { "Vehicle not powered" }
-                    check(api.getMethod("getVehicleSpeed").invoke(remote) == 0) { "Vehicle not stationary" }
                 }
                 AppLog.info("RahaEnergy","write field=$field value=$value bundle=$bundle")
                 val result=if(bundle && !legacyMenu) {

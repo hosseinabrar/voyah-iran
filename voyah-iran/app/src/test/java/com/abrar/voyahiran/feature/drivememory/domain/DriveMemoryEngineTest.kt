@@ -61,12 +61,11 @@ class DriveMemoryEngineTest {
         assertEquals(DrivePhase.MONITORING, engine.phase)
     }
 
-    @Test fun movingCarAndUnknownSpeedNeverReceiveAutomaticChange() {
-        val engine = DriveMemoryEngine(enabledStore()); engine.start("new")
-        assertNull(engine.observe(vehicle(1).copy(speed = 30), 0, true))
-        assertNull(engine.observe(vehicle(1).copy(speed = null), 1, true))
-        assertNull(engine.observe(vehicle(1).copy(speed = Int.MIN_VALUE), 2, true))
-        assertEquals(2, engine.observe(vehicle(1), 3, true))
+    @Test fun restorationDoesNotDependOnSpeed() {
+        for(speed in listOf(0,30,null,Int.MIN_VALUE)) {
+            val engine = DriveMemoryEngine(enabledStore()); engine.start("new")
+            assertEquals(2,engine.observe(vehicle(1).copy(speed=speed),0,true))
+        }
     }
 
     @Test fun waitsForCanButRestoresBeforeReady() {

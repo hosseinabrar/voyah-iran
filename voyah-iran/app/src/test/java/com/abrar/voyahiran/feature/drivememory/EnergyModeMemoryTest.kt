@@ -47,10 +47,14 @@ class EnergyModeMemoryTest {
             assertEquals(DrivePhase.MONITORING, engine.phase)
         }
     }
-    @Test fun movingOrUnknownSpeedAndUnknownEnergyModeNeverRestore() {
+    @Test fun unknownEnergyModeWaitsButSpeedDoesNotBlockRestore() {
         val engine = DriveMemoryEngine(Store(DriveMemory(true, 2)), 1..4)
         engine.start("boot")
-        for (speed in listOf(null, 1, 50)) assertNull(engine.observe(sample(1).copy(speed = speed), 0, true))
+        for (speed in listOf(null, 1, 50)) {
+            val moving = DriveMemoryEngine(Store(DriveMemory(true, 2)), 1..4)
+            moving.start("boot")
+            assertEquals(2,moving.observe(sample(1).copy(speed=speed),0,true))
+        }
         for (value in listOf(null, 0, 5, 255)) assertNull(engine.observe(sample(1).copy(mode = value), 0, true))
         assertNull(engine.observe(sample(1), 0, false))
         assertEquals(2, engine.observe(sample(1), 0, true))
