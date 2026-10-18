@@ -62,6 +62,11 @@ class LauncherVehicleDashboard(context:Context):View(context) {
     val artwork=LauncherSuspensionArtwork(context){if(!transitioning)invalidate()}
     private val p=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private var energy:Bitmap?=null
+    private val energyDaylight=ColorMatrixColorFilter(ColorMatrix(floatArrayOf(
+        1.08f,0f,0f,0f,3f,
+        0f,1.08f,0f,0f,3f,
+        0f,0f,1.08f,0f,3f,
+        0f,0f,0f,1f,0f)))
     private var driveIcons=emptyMap<Int,Bitmap?>()
     private var artworkJob:Job?=null
     fun preload(scope:CoroutineScope){
@@ -71,7 +76,19 @@ class LauncherVehicleDashboard(context:Context):View(context) {
                 fun decode(name:String,sample:Int=1)=runCatching{context.assets.open("launcher/ccc/$name.png").use{
                     BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{inSampleSize=sample})
                 }}.getOrNull()
-                decode("energy_car",2) to mapOf(1 to "eco_normal",2 to "comfort_normal",3 to "sport_img",4 to "outing_img",5 to "person_normal",6 to "snow_normal",10 to "get_off").mapValues{decode(it.value)}
+                // Prefilter at full source resolution before minifying. Decoder
+                // subsampling followed by one large shrink aliases the silhouette.
+                // Prepare once off-thread; both themes reuse the same smooth bitmap.
+                val car=decode("energy_car")?.let{source->
+                    var filtered=source
+                    repeat(2){
+                        val next=Bitmap.createScaledBitmap(filtered,filtered.width/2,filtered.height/2,true)
+                        if(next!==filtered)filtered.recycle()
+                        filtered=next
+                    }
+                    filtered.apply{setHasMipMap(true)}
+                }
+                car to mapOf(1 to "eco_normal",2 to "comfort_normal",3 to "sport_img",4 to "outing_img",5 to "person_normal",6 to "snow_normal",10 to "get_off").mapValues{decode(it.value)}
             }
             energy=loaded.first;driveIcons=loaded.second;if(!transitioning)invalidate()
         }
@@ -119,7 +136,9 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         c.save();c.clipPath(Path().apply {addRoundRect(RectF(0f,0f,575f,319f),16f,16f,Path.Direction.CW)})
         // Extend beyond the card clip so the transparent right fringe stays outside it.
         // Both themes use the same blue car artwork.
-        p.color=Color.WHITE;energy?.let{c.drawBitmap(it,Rect((it.width*460f/1860).toInt(),0,it.width,it.height),RectF(230f,58f,581f,266f),p)};c.restore()
+        p.color=Color.WHITE;p.colorFilter=if(lightTheme)energyDaylight else null
+        energy?.let{c.drawBitmap(it,Rect((it.width*460f/1860).toInt(),0,it.width,it.height),RectF(230f,58f,581f,266f),p)}
+        p.colorFilter=null;c.restore()
         text(c,"Energy mode",32f,53f,25f)
         val mode=state.modes.entries.firstOrNull {it.value==state.energy}?.key
         motion.text("energy-label",LauncherVehicleState.energyNames[mode] ?: "—",c,RectF(25f,75f,310f,125f)){text(c,it,32f,115f,32f,bold=true)}

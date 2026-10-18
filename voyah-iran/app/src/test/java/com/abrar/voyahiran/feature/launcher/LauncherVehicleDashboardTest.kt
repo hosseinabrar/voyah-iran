@@ -35,6 +35,9 @@ class LauncherVehicleDashboardTest {
         if(name!=null) {
             val f=File("build/reports/launcher/$name.png");f.parentFile.mkdirs()
             f.outputStream().use {b.compress(Bitmap.CompressFormat.PNG,100,it)}
+            val card=Bitmap.createBitmap(b,0,0,575,660)
+            File(f.parentFile,"$name-energy.png").outputStream().use{card.compress(Bitmap.CompressFormat.PNG,100,it)}
+            card.recycle()
         }
         b.recycle()
     }
