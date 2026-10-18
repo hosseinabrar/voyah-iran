@@ -92,7 +92,7 @@ internal class ClusterMusicPublisher(private val context: Context, private val s
             .put("musicEnabled", musicEnabled).put("mapEnabled", mapEnabled)
             // Either checkbox gives the compositor ownership of the whole region.
             // The compositor uses musicEnabled to restore OEM content in map-only fallback.
-            .put("idle", !value.playing)
+            .put("idle", !value.hasContent)
             .put("title", value.title.take(300)).put("artist", value.artist.take(300))
             .put("album", value.controller?.metadata?.getString(android.media.MediaMetadata.METADATA_KEY_ALBUM).orEmpty().take(300))
             .put("playing", value.playing).put("duration", value.duration.coerceAtLeast(0))

@@ -16,6 +16,10 @@ data class LauncherMediaState(val source: String = "Music", val title: String = 
     val controller: MediaController? = null, val radio: Boolean = false, val coverUri: String = "",
     val sourcePackage: String = "", val oemSource: String = "", val sourceIcon: android.graphics.drawable.Drawable? = null,
     val coverPending:Boolean = false) {
+    /** Content survives pause, just as it does in the launcher music cards. */
+    val hasContent: Boolean get() = playing || radio ||
+        (title.isNotBlank() && title != "no music") || artist.isNotBlank() ||
+        cover != null || coverUri.isNotBlank() || duration > 0
     val canSeek: Boolean get() = !radio && duration > 0 &&
         ((controller?.playbackState?.actions ?: 0L) and PlaybackState.ACTION_SEEK_TO != 0L)
 }
