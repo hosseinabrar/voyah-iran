@@ -123,7 +123,12 @@ internal class PassengerFragranceView(context:Context):View(context) {
             val x=456f+i*82
             val rect=RectF(x,221f,x+90,311f)
             motion.content("scent-icon-$n",if(active)"on" else "off",c,rect){status->
-                image(c,"fragrance_icon_${name}_$status",rect,matrix=if(light&&status=="off")ColorMatrix().apply{setScale(.45f,.45f,.45f,1f)} else null)
+                image(c,"fragrance_icon_${name}_$status",rect,matrix=if(light&&status=="off")ColorMatrix(floatArrayOf(
+                    .09f,0f,0f,0f,25.5f,
+                    0f,.09f,0f,0f,25.5f,
+                    0f,0f,.09f,0f,25.5f,
+                    0f,0f,0f,1f,0f
+                )) else null)
             }
         }
         c.restore()

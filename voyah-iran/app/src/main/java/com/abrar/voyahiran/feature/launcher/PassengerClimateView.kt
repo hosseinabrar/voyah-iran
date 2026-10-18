@@ -136,7 +136,7 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
         else motion.content("sync",if(sync)"air_ic_sync_on_normal" else "air_ic_sync_off_normal",c,syncRect){image(c,it,syncRect)}
         text(c,"Front Sync",110.5f,263f,17.65f,motion.color("sync-text",sync,color(if(light)"#536780" else "#bfc9de"),color("#389cff")),true)
         val fan=if(valid("getAirWindSpeed",0..7))value("getAirWindSpeed") else 0
-        val inactive=if(light)color("#718096") else Color.WHITE
+        val inactive=if(light)color("#303030") else Color.WHITE
         // Optical alignment with the fan bars (y=257), not the OEM PNG bounds.
         c.save();c.scale(1.1f,1.1f,375f,257f)
         image(c,"air_ic_wind_min",RectF(191f,228f,249f,286f),if(light)inactive else null)
@@ -157,7 +157,7 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
             val name=if(key=="cycle")"air_cycle_${if(value("getAirCirculationMode")==1)"outer" else "inner"}_normal" else "air_ic_${key}_${if(active)"on" else "off"}_normal"
             val rect=RectF(x-25f,301f,x+25f,351f)
             motion.content("button-$key","$name|$active",c,rect){token->
-                image(c,token.substringBefore('|'),rect,if(light&&token.endsWith("|false"))color("#637c98") else null)
+                image(c,token.substringBefore('|'),rect,if(light&&token.endsWith("|false"))color("#303030") else null)
             }
         }
         c.restore()

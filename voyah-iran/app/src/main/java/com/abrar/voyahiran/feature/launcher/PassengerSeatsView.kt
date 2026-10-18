@@ -29,7 +29,6 @@ internal class PassengerSeatsView(context:Context):View(context) {
     private var preparation:Job?=null
     private var frame=10
     private var downX=0f;private var downY=0f
-    private val bright=ColorMatrixColorFilter(ColorMatrix(floatArrayOf(1.1712f,0f,0f,0f,5.1f,0f,1.1712f,0f,0f,5.1f,0f,0f,1.1712f,0f,5.1f,0f,0f,0f,1f,0f)))
     private fun level(side:Int,feature:String)=PassengerSeatFeedback.level(state,side,feature)
     private fun valid(side:Int,feature:String)=state.optBoolean("fresh")&&level(side,feature) in if(feature=="mode")1..2 else 0..3
     private fun active(side:Int,feature:String)=valid(side,feature)&&level(side,feature)>0
@@ -38,6 +37,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
         val required=names()
         withContext(Dispatchers.IO){
         load("seat_bg_high_level_97c")
+        load("seat_day_baked")
         for(s in listOf("left","right"))for(f in listOf("vent","heat","massage"))for(level in 0..3){
             val name="seat_${s}_${f}_${level}_normal";control(name,false);control(name,true)
         }
@@ -70,8 +70,13 @@ internal class PassengerSeatsView(context:Context):View(context) {
         if(!day)return load(name)
         cached("light-$name")?.let{return it}
         val source=load(name);val b=source.copy(Bitmap.Config.ARGB_8888,true);val pixels=IntArray(b.width*b.height);b.getPixels(pixels,0,b.width,0,0,b.width,b.height)
-        pixels.indices.forEach{i->val c=pixels[i];if(Color.red(c)+Color.green(c)+Color.blue(c)>740){
-            val tint=if(i/b.width>=b.height*.78f)0xffdce5f2.toInt()else 0xff747970.toInt();pixels[i]=(c and -0x1000000)or(tint and 0xffffff)
+        pixels.indices.forEach{i->val c=pixels[i];val r=Color.red(c);val g=Color.green(c);val blue=Color.blue(c)
+            val neutral=maxOf(r,g,blue)-minOf(r,g,blue)<20
+            if(r+g+blue>740||(i/b.width<b.height*.78f&&neutral&&maxOf(r,g,blue)>40)){
+            val bars=i/b.width>=b.height*.78f
+            val tint=if(bars)0xffdce5f2.toInt()else 0xff303030.toInt()
+            val alpha=if(bars)Color.alpha(c)else (Color.alpha(c)*3).coerceAtMost(255)
+            pixels[i]=(alpha shl 24)or(tint and 0xffffff)
         }}
         b.setPixels(pixels,0,b.width,0,0,b.width,b.height);retain("light-$name",b);return b
     }
@@ -117,7 +122,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
         val s=if(side==0)"left"else "right"
         c.save();c.translate(75f,27f);c.clipRect(if(side==0)-75f else 0f,0f,188f,181f);c.scale(1.1f,1.1f);c.translate(if(side==0)-210f else -353f,-63f)
         c.save();if(side==0)c.clipRect(0f,0f,353.6f,237.6f)
-        image(c,"seat_bg_high_level_97c",RectF(0f,0f,633.6f,237.6f),if(light)bright else null)
+        image(c,if(light)"seat_day_baked"else "seat_bg_high_level_97c",RectF(0f,0f,633.6f,237.6f))
         for(feature in listOf("vent","heat")){val kind=if(feature=="vent")"vent"else "hot"
             overlay(c,"back-$side-$feature",if(active(side,feature))"seatfront_${kind}${s}_bg_97c"else null,RectF(0f,0f,633.6f,237.6f))
         };c.restore()
