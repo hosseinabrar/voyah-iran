@@ -434,7 +434,8 @@ open class LauncherAppsActivity : ComponentActivity() {
                     val intent=Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(entry.component)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
                     if(entry.component.packageName==packageName)intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                    startActivity(intent,ActivityOptions.makeBasic().apply {launchDisplayId=launcherDisplayId}.toBundle())
+                    val launch={startActivity(intent,ActivityOptions.makeBasic().apply {launchDisplayId=launcherDisplayId}.toBundle())}
+                    if(launcherDisplayId!=1 || !LauncherMapPreview.openHostedMapOnPassenger(this@LauncherAppsActivity,entry.component.packageName,launch)) launch()
                 }
             } catch(e:CancellationException){throw e}
             catch(e:Exception){AppLog.error("LauncherApps","open ${entry.id} failed",e);Toast.makeText(this@LauncherAppsActivity,"اجرای برنامه انجام نشد",Toast.LENGTH_SHORT).show()}

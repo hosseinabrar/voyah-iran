@@ -372,6 +372,47 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     }
     companion object {
         private var currentPreview: java.lang.ref.WeakReference<LauncherMapPreview>? = null
+        internal suspend fun openHostedMapOnPassenger(context:Context,pkg:String,launch:()->Unit):Boolean {
+            val preview=currentPreview?.get() ?: return false
+            if(preview.closed || pkg.isBlank() || preview.packageName!=pkg)return false
+            return preview.moves.withLock {
+                if(preview.busy)return@withLock true
+                val id=preview.embedded.displayId ?: return@withLock false
+                val status=withContext(Dispatchers.IO) {
+                    ProcessCommandRunner().run(listOf("su","0","launcher-map-status",pkg,"0"),4)
+                }
+                if(status.exitCode!=0 || status.timedOut || !isVisibleHere(status.output,id))return@withLock false
+                val mask=LauncherTransferMask(context,pkg,1)
+                var ready=false
+                preview.busy=true
+                preview.departingUntil=android.os.SystemClock.elapsedRealtime()+12_000
+                preview.recenteredDisplay=null;preview.cardSeenAt=0L
+                preview.mapInCard=false;preview.embedded.cluster(false)
+                try {
+                    mask.show()
+                    launch()
+                    ready=withTimeoutOrNull(8000) {
+                        var stable=0
+                        while(true) {
+                            val result=withContext(Dispatchers.IO) {
+                                ProcessCommandRunner().run(listOf("su","0","launcher-map-status",pkg,"0"),4)
+                            }
+                            stable=if(result.exitCode==0 && !result.timedOut &&
+                                isVisibleHere(result.output,1) && result.output.contains("MAP_FITTED=1"))stable+1 else 0
+                            if(stable>=3)break
+                            delay(120)
+                        }
+                        true
+                    }==true
+                    com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap","passenger transfer pkg=$pkg fitted=$ready")
+                    true
+                } finally {
+                    mask.finish(ready)
+                    preview.busy=false
+                    preview.departingUntil=android.os.SystemClock.elapsedRealtime()+1000
+                }
+            }
+        }
         /** Drawer launches of the hosted map must use the same handoff as tapping its card. */
         internal fun openHostedMap(pkg: String): Boolean {
             val preview=currentPreview?.get() ?: return false

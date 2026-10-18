@@ -95,11 +95,11 @@ internal object LauncherMapBridge {
             val current=visibleStack?.let { it.javaClass.getField("displayId").getInt(it) } ?: -1
             val top=visibleStack?.let { (it.javaClass.getField("topActivity").get(it) as? ComponentName)?.packageName==pkg } == true
             val visible=visibleStack?.let { runCatching { it.javaClass.getField("visible").getBoolean(it) }.getOrDefault(top) } == true
-            val fitted = if (current == 0 && visibleStack != null) runCatching {
+            val fitted = if (current in 0..1 && visibleStack != null) runCatching {
                 val bounds = visibleStack.javaClass.getField("bounds").get(visibleStack) as android.graphics.Rect
                 val global = Class.forName("android.hardware.display.DisplayManagerGlobal")
                 val info = global.getMethod("getDisplayInfo", Int::class.javaPrimitiveType)
-                    .invoke(global.getMethod("getInstance").invoke(null), 0)
+                    .invoke(global.getMethod("getInstance").invoke(null), current)
                 bounds.isEmpty || (bounds.width() >= info.javaClass.getField("logicalWidth").getInt(info) * .9 &&
                     bounds.height() >= info.javaClass.getField("logicalHeight").getInt(info) * .9)
             }.getOrDefault(false) else false

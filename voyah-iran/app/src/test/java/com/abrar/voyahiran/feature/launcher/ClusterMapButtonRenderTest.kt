@@ -15,6 +15,19 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1920dp-h720dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class ClusterMapButtonRenderTest {
+    @Test fun renderSmartLabel() {
+        val bitmap=Bitmap.createBitmap(240,120,Bitmap.Config.ARGB_8888)
+        val canvas=Canvas(bitmap)
+        for((index,theme) in listOf(false,true).withIndex()) {
+            val button=ClusterMapButton(RuntimeEnvironment.getApplication()).apply {mode=ClusterMapMode.AUTO;light=theme}
+            assertEquals("نقشهٔ کلاستر: هوشمند",button.contentDescription)
+            button.layout(0,0,100,100)
+            canvas.save();canvas.translate(index*120f+10,10f);button.draw(canvas);canvas.restore()
+        }
+        val file=File("build/reports/launcher/cluster-smart.png")
+        file.parentFile!!.mkdirs();file.outputStream().use{bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
+        bitmap.recycle()
+    }
     @Test fun buttonCentreIsThirtyPercentAboveScreenBottom() {
         for(top in listOf(0,50)) {
             val margin=ClusterMapButton.topMargin(720,top,83)

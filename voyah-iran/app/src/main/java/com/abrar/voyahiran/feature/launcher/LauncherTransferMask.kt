@@ -12,9 +12,12 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.withTimeoutOrNull
 
 /** Uses an application overlay so stopping HOME does not uncover an unfinished resize. */
-internal class LauncherTransferMask(private val context: Context, private val packageName: String) {
-    private val wm = context.applicationContext.getSystemService(WindowManager::class.java)
-    private val view = View(context.applicationContext)
+internal class LauncherTransferMask(private val context: Context, private val packageName: String, private val displayId: Int = 0) {
+    private val display = requireNotNull(context.getSystemService(android.hardware.display.DisplayManager::class.java).getDisplay(displayId))
+    // Application context loses the passenger display association.
+    private val displayContext = context.applicationContext.createDisplayContext(display)
+    private val wm = displayContext.getSystemService(WindowManager::class.java)
+    private val view = View(displayContext)
     private val handler = Handler(Looper.getMainLooper())
     private var attached = false
     private val timeout = Runnable { remove() }
@@ -33,7 +36,7 @@ internal class LauncherTransferMask(private val context: Context, private val pa
         return try {
             val flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-            val size = android.graphics.Point().also { wm.defaultDisplay.getRealSize(it) }
+            val size = android.graphics.Point().also { display.getRealSize(it) }
             val resolver = context.contentResolver
             val request = android.provider.Settings.Global.getString(resolver,"voyah_iran_display_policy")
             val ack = android.provider.Settings.Global.getString(resolver,"voyah_iran_display_policy_ack")
@@ -43,7 +46,7 @@ internal class LauncherTransferMask(private val context: Context, private val pa
             }.getOrDefault(false)
             val bounds = LauncherTransferBounds.resolve(size.x,size.y,request,ack,eligible)
             wm.addView(view, WindowManager.LayoutParams(bounds.width(),bounds.height(),WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,flags,PixelFormat.OPAQUE)
-                .apply { title="VoyahIran central map transfer"; gravity=android.view.Gravity.TOP or android.view.Gravity.LEFT; x=bounds.left; y=bounds.top })
+                .apply { title="VoyahIran map transfer display=$displayId"; gravity=android.view.Gravity.TOP or android.view.Gravity.LEFT; x=bounds.left; y=bounds.top })
             attached = true
             handler.postDelayed(timeout, 20_000)
             val ready = withTimeoutOrNull(800) { drawn.await(); true } == true
@@ -51,7 +54,7 @@ internal class LauncherTransferMask(private val context: Context, private val pa
             ready
         } catch (e: Exception) {
             remove()
-            com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap", "central mask unavailable", e)
+            com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap", "mask unavailable display=$displayId", e)
             false
         }
     }

@@ -15,7 +15,7 @@ internal class ClusterMapButton(context: Context) : View(context) {
     var mode = ClusterMapMode.ON
         set(value) { field=value; invalidate(); contentDescription=when(value) {
             ClusterMapMode.OFF -> "نقشهٔ کلاستر: خاموش"
-            ClusterMapMode.AUTO -> "نقشهٔ کلاستر: خودکار"
+            ClusterMapMode.AUTO -> "نقشهٔ کلاستر: هوشمند"
             ClusterMapMode.ON -> "نقشهٔ کلاستر: روشن"
         } }
     private val active get() = mode != ClusterMapMode.OFF
@@ -43,7 +43,7 @@ internal class ClusterMapButton(context: Context) : View(context) {
         if(mode == ClusterMapMode.AUTO) {
             paint.style=Paint.Style.FILL;paint.textSize=18f;paint.textAlign=Paint.Align.CENTER
             paint.typeface=Typeface.create("sans-serif-medium",Typeface.NORMAL)
-            canvas.drawText("Auto",50f,57f,paint)
+            canvas.drawText("Smart",50f,57f,paint)
         } else {
         canvas.drawPath(eye,paint)
         if(active) {paint.style=Paint.Style.FILL;canvas.drawCircle(50f,51f,4f,paint)}
