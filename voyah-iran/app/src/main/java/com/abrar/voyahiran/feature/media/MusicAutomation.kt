@@ -1,16 +1,11 @@
 package com.abrar.voyahiran.feature.media
 
-import android.app.ActivityOptions
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.media.AudioManager
-import android.media.browse.MediaBrowser
 import android.media.session.MediaController
 import android.media.session.MediaSessionManager
 import android.media.session.PlaybackState
 import android.provider.Settings
-import android.view.KeyEvent
 import com.abrar.voyahiran.VoyahIranApplication
 import com.abrar.voyahiran.core.logging.AppLog
 import com.abrar.voyahiran.feature.drivememory.data.CanDriveGateway
@@ -39,10 +34,7 @@ internal class MusicAutomation(private val context: Context, private val scope: 
     }
     private var startup: Job? = null
     private var doors: Job? = null
-    private var browser: MediaBrowser? = null
-    private var browserController: MediaController? = null
     private var attempted = false
-    private var bootLaunchPackage: String? = null
 
     suspend fun tick() {
         val allowed = app.subscriptions.vipAllowed
@@ -93,104 +85,17 @@ internal class MusicAutomation(private val context: Context, private val scope: 
         PlaybackState.STATE_PLAYING, PlaybackState.STATE_BUFFERING, PlaybackState.STATE_CONNECTING)
 
     private suspend fun autoPlay(selection: String) {
-        val packageName = selection.substringBefore('#')
         try {
-            AppLog.info("MusicAutomation", "boot start package=$packageName")
-            if (selection != NavigationPreferences.OEM_RADIO && sessions().any { it.packageName == packageName && playing(it) }) return
-            // A MediaBrowser service starts the application's playback process without any Activity.
-            val services = context.packageManager.queryIntentServices(Intent("android.media.browse.MediaBrowserService").setPackage(packageName), 0)
-            val oemService = when (selection) {
-                NavigationPreferences.OEM_RADIO -> "com.qinggan.media.radio.LocalRadioBrowserService"
-                NavigationPreferences.OEM_MUSIC -> "com.qinggan.media.usbmusic.LocalMediaBrowserService"
-                else -> null
+            RahaMediaControl.playDefault(context,0) {
+                app.subscriptions.vipAllowed && !vehicleOff && preferences.musicAutoPlay &&
+                    preferences.musicPlayer == selection &&
+                    context.getSystemService(AudioManager::class.java).mode == AudioManager.MODE_NORMAL
             }
-            val service = if (oemService != null) {
-                context.packageManager.getServiceInfo(ComponentName(packageName, oemService), 0).takeIf { it.exported }
-            } else services.firstOrNull { it.serviceInfo.exported }?.serviceInfo
-            if (service != null) {
-                browser = MediaBrowser(context, ComponentName(packageName, service.name), object : MediaBrowser.ConnectionCallback() {
-                    override fun onConnected() {
-                        browser?.let { browserController = MediaController(context, it.sessionToken) }
-                        AppLog.info("MusicAutomation", "browser connected package=$packageName")
-                    }
-                    override fun onConnectionFailed() { AppLog.info("MusicAutomation", "browser rejected package=$packageName") }
-                    override fun onConnectionSuspended() { browserController = null }
-                }, null).also { it.connect() }
-            } else {
-                check(oemService == null) { "OEM playback service unavailable: $oemService" }
-                launchBehind(packageName)
-            }
-            delay(1000)
-            var launched = service == null
-            repeat(10) { attempt ->
-                kotlin.coroutines.coroutineContext.ensureActive()
-                if (!app.subscriptions.vipAllowed || vehicleOff || !preferences.musicAutoPlay || preferences.musicPlayer != selection) return
-                if (context.getSystemService(AudioManager::class.java).mode != AudioManager.MODE_NORMAL) return
-                val controllers = sessions()
-                if (controllers.any { it.packageName != packageName && playing(it) }) {
-                    AppLog.info("MusicAutomation", "another player is active; leave user playback unchanged")
-                    return
-                }
-                val target = browserController?.takeIf { it.packageName == packageName }
-                    ?: controllers.firstOrNull { it.packageName == packageName && oemService == null }
-                if (target != null && playing(target)) {
-                    AppLog.info("MusicAutomation", "playing confirmed package=$packageName")
-                    return
-                }
-                if (target != null) {
-                    if (attempt >= 2 && !launched && oemService == null) {
-                        launchBehind(packageName)
-                        launched = true
-                    }
-                    target.transportControls.play()
-                    AppLog.info("MusicAutomation", "play package=$packageName attempt=$attempt")
-                } else {
-                    if (oemService != null) { delay(1000); return@repeat }
-                    if (!launched) { launchBehind(packageName); launched = true }
-                    sendPlayButton(packageName)
-                }
-                delay(1000)
-            }
-            AppLog.info("MusicAutomation", "playback not confirmed package=$packageName; app may need login or a saved queue")
-        } catch (e: Exception) {
-            if (e is CancellationException) throw e
-            AppLog.error("MusicAutomation", "startup failed package=$packageName", e)
-        } finally {
-            browser?.disconnect(); browser = null; browserController = null
-            val launchedPackage = bootLaunchPackage
-            bootLaunchPackage = null
-            if (launchedPackage != null) withContext(NonCancellable + Dispatchers.IO) {
-                // A splash screen may replace its task and ignore launch-behind.
-                // Hide only our startup player, never another foreground app.
-                repeat(3) { attempt ->
-                    val result = com.abrar.voyahiran.core.shell.ProcessCommandRunner().run(
-                        listOf("su", "0", "music-startup-hide", launchedPackage), 4)
-                    AppLog.info("MusicAutomation", "hide startup player exit=${result.exitCode} detail=${result.output}")
-                    if (result.exitCode != 75 || attempt == 2) return@withContext
-                    delay(500)
-                }
-            }
+        } catch(e:Exception) {
+            if(e is CancellationException) throw e
+            AppLog.error("MusicAutomation","startup failed",e)
         }
     }
 
-    private fun launchBehind(packageName: String) {
-        val launch = context.packageManager.getLaunchIntentForPackage(packageName) ?: error("No launcher for $packageName")
-        launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-        context.startActivity(launch, ActivityOptions.makeTaskLaunchBehind().toBundle())
-        bootLaunchPackage = packageName
-        AppLog.info("MusicAutomation", "background launch requested package=$packageName")
-    }
-
-    private fun sendPlayButton(packageName: String) {
-        val intent = Intent(Intent.ACTION_MEDIA_BUTTON).setPackage(packageName)
-        val receiver = context.packageManager.queryBroadcastReceivers(intent, 0).firstOrNull { it.activityInfo.exported }?.activityInfo
-        if (receiver == null) { AppLog.changed("MusicPlayReceiver", "no media receiver/session package=$packageName"); return }
-        for (action in listOf(KeyEvent.ACTION_DOWN, KeyEvent.ACTION_UP)) {
-            context.sendBroadcast(Intent(intent).setComponent(ComponentName(packageName, receiver.name))
-                .putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(action, KeyEvent.KEYCODE_MEDIA_PLAY)))
-        }
-        AppLog.info("MusicAutomation", "targeted PLAY receiver=$packageName/${receiver.name}")
-    }
-
-    fun close() { startup?.cancel(); doors?.cancel(); browser?.disconnect(); browser = null; browserController = null }
+    fun close() { startup?.cancel(); doors?.cancel() }
 }

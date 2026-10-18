@@ -112,6 +112,7 @@ object BridgeServer {
                             }
                         }
                         "music-startup-hide" -> MusicStartupWindow.hide(command[1])
+                        "music-launch-window" -> MusicLaunchGuard.execute(command)
                         "raha-phone" -> OemPhoneBridge.execute(command)
                         "local-profile-test" -> LocalProfileTest.execute(command[1])
                         "apollo-capability" -> ApolloCapability.read()

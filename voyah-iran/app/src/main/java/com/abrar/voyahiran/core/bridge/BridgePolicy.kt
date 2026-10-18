@@ -58,6 +58,10 @@ object BridgePolicy {
         if (request.size == 2 && request[0] == "dow-light" && request[1] in listOf("enable", "enable-always", "disable", "status", "test-start", "test-stop")) return request
         if (request.size == 2 && request[0] == "energy-mode-memory" && request[1] in listOf("1", "2", "3", "4")) return request
         if (request.size == 2 && request[0] in listOf("aeb-memory", "pedestrian-memory") && request[1] in listOf("1", "2")) return request
+        if (request.size == 4 && request[0] == "music-launch-window" && request[1] == "begin" &&
+            AppDensityPreferences.validPackage(request[2]) && request[3] in listOf("0","1")) return request
+        if (request.size == 3 && request[0] == "music-launch-window" && request[1] in listOf("hide","end") &&
+            request[2].matches(Regex("[a-f0-9-]{36}"))) return request
         if (request.size == 2 && request[0] == "music-startup-hide" &&
             request[1].matches(Regex("[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_]+)+"))) return request
         if (request == listOf("raha-phone", "device")) return request
