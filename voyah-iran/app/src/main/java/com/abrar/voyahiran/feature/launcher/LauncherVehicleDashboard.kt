@@ -10,18 +10,21 @@ import kotlin.math.*
 import kotlinx.coroutines.*
 
 /** Page two occupies only the same OEM safe rectangle as page one. */
-class LauncherVehicleDashboard(context:Context):View(context) {
+class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(context) {
+    private val dial=LauncherCompassDial(context)
+    init {setWillNotDraw(false);addView(dial)}
+    override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
+        dial.layout((658.5f*width/1775).toInt(),(109f*height/660).toInt(),(1098.5f*width/1775).toInt(),(549f*height/660).toInt())
+    }
     private val motion=LauncherMotion(this)
     var animationsEnabled=true
         set(v){field=v;motion.paused=transitioning||!v;if(!v)stopAnimations()}
     var transitioning=false
         set(v){if(field==v)return;field=v;motion.paused=v||!animationsEnabled;stopAnimations();if(!v)invalidate()}
-    private var compassAngle=0f
     private var ground:Float?=null
-    private var compassAnimation:ValueAnimator?=null
     private var groundAnimation:ValueAnimator?=null
     var lightTheme=false
-        set(v){if(field==v)return;field=v;artwork.light=v;invalidate()}
+        set(v){if(field==v)return;field=v;artwork.light=v;dial.theme(v);invalidate()}
     var state=LauncherVehicleState()
         set(v){
             if(field==v)return
@@ -43,19 +46,19 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         set(v){
             if(field==v)return
             if(transitioning){field=v;return}
-            if(field.bearing!=v.bearing) {
-                compassAnimation?.cancel()
-                val target=v.bearing ?: 0f
-                if(!animationsEnabled || field.bearing==null || v.bearing==null)compassAngle=target else {
-                    val delta=((target-compassAngle+540f)%360f)-180f
-                    compassAnimation=ValueAnimator.ofFloat(compassAngle,compassAngle+delta).apply {
-                        duration=200;addUpdateListener {compassAngle=(it.animatedValue as Float+360f)%360f;invalidate()};start()
-                    }
-                }
+            val previous=field
+            if(field.bearing?.roundToInt()!=v.bearing?.roundToInt()) {
+                val target=v.bearing?.roundToInt()?.toFloat() ?: 0f
+                dial.bearing(target,animationsEnabled && field.bearing!=null && v.bearing!=null)
             }
-            field=v;invalidate()
+            field=v
+            // CCC publishes integer values; sub-degree sensor noise must not redraw the page.
+            fun shown(n:Double?)=n?.roundToInt()
+            if(previous.bearing?.roundToInt()!=v.bearing?.roundToInt() ||
+                shown(previous.slope)!=shown(v.slope) || shown(previous.inclination)!=shown(v.inclination) ||
+                shown(previous.altitude)!=shown(v.altitude))invalidate()
         }
-    fun stopAnimations(){compassAnimation?.cancel();groundAnimation?.cancel();ground=state.groundMm?.toFloat();compassAngle=compass.bearing ?: 0f}
+    fun stopAnimations(){groundAnimation?.cancel();ground=state.groundMm?.toFloat();dial.bearing(compass.bearing ?: 0f,false)}
     var busy=false
         set(v){field=v;invalidate()}
     var onCommand:(String,String)->Unit={_,_->}
@@ -155,27 +158,7 @@ class LauncherVehicleDashboard(context:Context):View(context) {
         text(c,"Slope ${degrees(compass.slope)}",622f,54f,23f)
         text(c,"Inclination ${degrees(compass.inclination)}",928f,54f,23f)
         val cx=878.5f;val cy=329f
-        // Draw in final coordinates. Avoid hundreds of rotated thin-line draw calls on
-        // the OEM GPU, including while the parent pager itself is translating.
-        val rotation=compassAngle*PI/180.0
-        p.color=muted
-        for(i in 0 until 180) {
-            val a=i*PI/90-PI/2-rotation
-            val dx=cos(a).toFloat();val dy=sin(a).toFloat()
-            val inner=if(i%15==0)141f else 154f
-            p.strokeWidth=if(i%15==0)2.3f else 1f
-            c.drawLine(cx+dx*166f,cy+dy*166f,cx+dx*inner,cy+dy*inner,p)
-        }
-        for(i in 0..11) {
-            val a=i*PI/6-PI/2-rotation
-            val x=cx+cos(a).toFloat()*199;val y=cy+sin(a).toFloat()*199
-            text(c,(i*30).toString(),x,y+8,21f,true)
-        }
-        listOf("N","E","S","W").forEachIndexed {i,s->
-            val a=i*PI/2-PI/2-rotation
-            val x=cx+cos(a).toFloat()*126;val y=cy+sin(a).toFloat()*126
-            text(c,s,x,y+9,25f,true,bold=true)
-        }
+        // The independently rotating dial is a child view, as in CCC.
         p.color=0xffff3c58.toInt();c.drawPath(Path().apply{moveTo(cx,117f);lineTo(cx-9,137f);lineTo(cx,132f);lineTo(cx+9,137f);close()},p)
         p.color=fg;p.strokeWidth=2f;c.drawLine(cx,138f,cx,177f,p)
         val bearing=compass.bearing

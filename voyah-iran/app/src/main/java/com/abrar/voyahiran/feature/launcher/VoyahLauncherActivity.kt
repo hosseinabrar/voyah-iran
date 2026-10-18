@@ -119,7 +119,7 @@ class VoyahLauncherActivity : ComponentActivity() {
             dashboard.controlMotionPaused=moving
             vehiclePage.transitioning=moving
             // Cache only the native vehicle page. Never flatten the live map SurfaceView.
-            vehiclePage.setLayerType(View.LAYER_TYPE_HARDWARE,null)
+            vehiclePage.setLayerType(if(moving)View.LAYER_TYPE_HARDWARE else View.LAYER_TYPE_NONE,null)
             updatePageWork()
         }
         vehiclePage.onCommand=::vehicleCommand
@@ -181,6 +181,7 @@ class VoyahLauncherActivity : ComponentActivity() {
                 vehiclePage.preload(this).join()
                 vehiclePage.setLayerType(View.LAYER_TYPE_HARDWARE,null)
                 if(vehiclePage.isAttachedToWindow && vehiclePage.width>0)vehiclePage.buildLayer()
+                if(!pager.moving)vehiclePage.setLayerType(View.LAYER_TYPE_NONE,null)
                 AppLog.info("LauncherWake","page two artwork prepared before navigation ms=${android.os.SystemClock.elapsedRealtime()-start}")
                 PassengerArtworkCache.warm(this@VoyahLauncherActivity)
                 LauncherAppsCache.warm(this@VoyahLauncherActivity)
