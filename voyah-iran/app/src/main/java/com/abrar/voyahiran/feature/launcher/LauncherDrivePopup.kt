@@ -11,7 +11,21 @@ import android.widget.*
 
 /** CCC popup_window_layout/mode_item proportions, scaled with the launcher canvas. */
 internal object LauncherDrivePopup {
+    internal fun bounds(width: Int, height: Int): android.graphics.Rect {
+        val scale=minOf(width/1775f,height/660f)
+        val popupHeight=minOf(LauncherVehicleState.standardDriveModes.size*100,400)
+        // Cover the current mode (y=480..530), leaving the height buttons at y=560 clear.
+        return android.graphics.Rect((1214*scale).toInt(),((550-popupHeight)*scale).toInt(),
+            (1554*scale).toInt(),(550*scale).toInt())
+    }
     fun show(anchor: View, state: LauncherVehicleState, lightTheme: Boolean = false, select: (Int) -> Unit): PopupWindow {
+        val popup=create(anchor,state,lightTheme,select)
+        val location=IntArray(2);anchor.getLocationInWindow(location)
+        val rect=bounds(anchor.width,anchor.height)
+        popup.showAtLocation(anchor,Gravity.TOP or Gravity.LEFT,location[0]+rect.left,location[1]+rect.top)
+        return popup
+    }
+    internal fun create(anchor: View, state: LauncherVehicleState, lightTheme: Boolean, select: (Int) -> Unit): PopupWindow {
         val context=anchor.context
         val scale=minOf(anchor.width/1775f, anchor.height/660f)
         fun px(n:Int)=(n*scale).toInt().coerceAtLeast(1)
@@ -23,11 +37,12 @@ internal object LauncherDrivePopup {
         val list=LinearLayout(context).apply { orientation=LinearLayout.VERTICAL;layoutDirection=View.LAYOUT_DIRECTION_LTR }
         val scroll=ScrollView(context).apply {
             isFillViewport=false;isVerticalScrollBarEnabled=false
-            background=GradientDrawable().apply {setColor(if(lightTheme)0xfcf2f6fc.toInt() else 0xfc131b24.toInt());cornerRadius=28*scale}
+            background=GradientDrawable().apply {setColor(if(lightTheme)0xfff2f6fc.toInt() else 0xff131b24.toInt());cornerRadius=28*scale}
             clipToOutline=true
             addView(list)
         }
-        val popup=PopupWindow(scroll,px(340),px(minOf(options.size*100,400)),true).apply {
+        val rect=bounds(anchor.width,anchor.height)
+        val popup=PopupWindow(scroll,rect.width(),rect.height(),true).apply {
             setBackgroundDrawable(android.graphics.drawable.ColorDrawable(Color.TRANSPARENT))
             isOutsideTouchable=true
             elevation=0f
@@ -60,9 +75,6 @@ internal object LauncherDrivePopup {
             row.setOnClickListener { popup.dismiss();select(entry.key) }
             list.addView(row,LinearLayout.LayoutParams(-1,px(100)))
         }
-        val location=IntArray(2);anchor.getLocationInWindow(location)
-        // Above the mode shortcut, inside the suspension card, as in the OEM screenshot.
-        popup.showAtLocation(anchor,Gravity.TOP or Gravity.LEFT,location[0]+px(1214),location[1]+px(80))
         scroll.post { val index=options.indexOfFirst {it.key==state.drive};if(index>=4) scroll.scrollTo(0,px((index-3)*100)) }
         return popup
     }

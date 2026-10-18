@@ -22,6 +22,32 @@ import kotlinx.coroutines.*
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1775dp-h660dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class LauncherVehicleDashboardTest {
+    @Test fun drivePopupCoversCurrentModeAndRendersBothThemes() {
+        for(scale in listOf(1f,0.75f)) {
+            val bounds=LauncherDrivePopup.bounds((1775*scale).toInt(),(660*scale).toInt())
+            assertTrue(bounds.contains((1264*scale).toInt(),(516*scale).toInt()))
+            assertTrue(bounds.bottom<(560*scale).toInt())
+        }
+        val v=view();v.animationsEnabled=false;v.state=sample().copy(drive=2)
+        for(light in listOf(false,true)) {
+            v.lightTheme=light
+            runBlocking { v.artwork.prepare() }
+            val popup=LauncherDrivePopup.create(v,v.state,light){}
+            val rect=LauncherDrivePopup.bounds(v.width,v.height)
+            val content=popup.contentView
+            content.measure(View.MeasureSpec.makeMeasureSpec(rect.width(),View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(rect.height(),View.MeasureSpec.EXACTLY))
+            content.layout(0,0,rect.width(),rect.height())
+            val bitmap=Bitmap.createBitmap(1775,660,Bitmap.Config.ARGB_8888)
+            val canvas=Canvas(bitmap);v.draw(canvas)
+            canvas.save();canvas.translate(rect.left.toFloat(),rect.top.toFloat());content.draw(canvas);canvas.restore()
+            val card=Bitmap.createBitmap(bitmap,1182,0,575,660)
+            val file=File("build/reports/launcher/drive-popup-${if(light)"light" else "dark"}.png")
+            file.parentFile.mkdirs();file.outputStream().use{card.compress(Bitmap.CompressFormat.PNG,100,it)}
+            card.recycle();bitmap.recycle()
+        }
+        v.artwork.close()
+    }
     @Test fun compassUsesIndependentDialAndUprightLabels() {
         val v=view();v.animationsEnabled=false
         v.compass=LauncherCompassState(90f,1180.0,0.0,0.0)
