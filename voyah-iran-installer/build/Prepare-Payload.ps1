@@ -125,6 +125,9 @@ Get-ChildItem (Join-Path $patchTools 'display/legacy-merge-production') -File -F
 Get-ChildItem (Join-Path $patchTools 'display/legacy-before-passenger') -File -Filter '*.smali' | ForEach-Object {
     $files['patch/display/legacy-before-passenger/' + $_.Name] = $_.FullName
 }
+Get-ChildItem (Join-Path $patchTools 'display/legacy-before-map-theme') -File -Filter '*.smali' | ForEach-Object {
+    $files['patch/display/legacy-before-map-theme/' + $_.Name] = $_.FullName
+}
 Get-ChildItem (Join-Path $patchTools 'display/legacy-passenger-inset') -File -Filter '*.smali' | ForEach-Object {
     $files['patch/display/legacy-passenger-inset/' + $_.Name] = $_.FullName
 }

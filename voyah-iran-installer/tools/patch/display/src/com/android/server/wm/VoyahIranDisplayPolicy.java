@@ -17,6 +17,7 @@ public final class VoyahIranDisplayPolicy {
     private static final String THEME = "voyah_iran_app_theme";
     private static volatile String themeMode = "vehicle";
     private static volatile int nightMode;
+    private static volatile int mapNightMode;
     private static final String DENSITY = "voyah_iran_app_density";
     private static volatile int appDensity = 160;
     private static final String PACKAGE_DENSITY = "voyah_iran_app_density_packages";
@@ -69,7 +70,7 @@ public final class VoyahIranDisplayPolicy {
                 try {
                     final ContentResolver resolver = service.mContext.getContentResolver();
                     if (observer != null) {
-                        if (nightMode != desiredNight()) refresh(service, resolver);
+                        if (nightMode != desiredNight() || mapNightMode != vehicleNight()) refresh(service, resolver);
                         return;
                     }
                     observer = new ContentObserver(handler) {
@@ -98,6 +99,7 @@ public final class VoyahIranDisplayPolicy {
             String mode = Settings.Global.getString(resolver, THEME);
             themeMode = "dark".equals(mode) || "light".equals(mode) ? mode : "vehicle";
             nightMode = desiredNight();
+            mapNightMode = vehicleNight();
             appDensity = densityFor(Settings.Global.getString(resolver, DENSITY));
             String packageRequest = Settings.Global.getString(resolver, PACKAGE_DENSITY);
             packageDensities = parseDensities(packageRequest);
@@ -105,7 +107,7 @@ public final class VoyahIranDisplayPolicy {
                 service.mRootWindowContainer.forAllActivities(new java.util.function.Consumer<ActivityRecord>() {
                     @Override public void accept(ActivityRecord a) {
                         // Include previously constrained activities on disable, too.
-                        if (candidate(a) && a.getParent() != null) {
+                        if ((candidate(a) || mapCandidate(a)) && a.getParent() != null) {
                             a.onConfigurationChanged(a.getParent().getConfiguration());
                             a.ensureActivityConfiguration(0, true);
                         }
@@ -132,6 +134,23 @@ public final class VoyahIranDisplayPolicy {
                 && app.uid >= 10000);
     }
 
+    private static int vehicleNight() {
+        return nightFor("vehicle", android.os.SystemProperties.get("persist.sys.qg.currenttheme", "default"));
+    }
+
+    // Only the launcher's owned map display. Never apply physical-screen geometry or
+    // third-party theme preferences here, and never affect the cluster/other displays.
+    private static boolean mapCandidate(ActivityRecord a) {
+        if (a == null || a.getDisplayId() <= 1 || a.getActivityType() != 1 ||
+                a.inMultiWindowMode() || a.info == null || a.info.applicationInfo == null) return false;
+        ApplicationInfo app = a.info.applicationInfo;
+        if (app.uid < 10000 || (app.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0) return false;
+        DisplayContent display = a.getDisplayContent();
+        android.view.DisplayInfo info = display == null ? null : display.getDisplayInfo();
+        return info != null && "VoyahIran.MapPreview".equals(info.name) &&
+                "com.abrar.voyahiran".equals(info.ownerPackageName);
+    }
+
     public static boolean applies(ActivityRecord a) {
         initialize(a);
         // Passenger HOME owns its full-display layout and reserves the status area itself.
@@ -155,9 +174,13 @@ public final class VoyahIranDisplayPolicy {
 
     public static void configuration(ActivityRecord a, Configuration parent) {
         initialize(a);
-        if (candidate(a) && nightMode != 0) {
+        boolean map = mapCandidate(a);
+        int selectedNight = map ? vehicleNight() : nightMode;
+        if ((map || candidate(a)) && selectedNight != 0) {
             Configuration themed = a.getResolvedOverrideConfiguration();
-            themed.uiMode = (themed.uiMode & ~0x30) | nightMode;
+            themed.uiMode = (themed.uiMode & ~0x30) | selectedNight;
+            if (map) Log.d(TAG, "Map theme display=" + a.getDisplayId() + " package=" + a.info.packageName +
+                    " source=launcher night=" + selectedNight + " uiMode=" + themed.uiMode);
         }
         if (densityCandidate(a)) {
             Configuration result = a.getResolvedOverrideConfiguration();

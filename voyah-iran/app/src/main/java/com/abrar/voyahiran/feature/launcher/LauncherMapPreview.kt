@@ -14,31 +14,8 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     private var mapInCard=false
     private var recenteredDisplay: Int? = null
     private var cardSeenAt = 0L
-    private var appliedTheme:Pair<Int,Boolean>?=null
-    private var themeAppliedAt=0L
-    private var attemptedTheme:Pair<Int,Boolean>?=null
-    private var themeRetryAt=0L
-    private var themeUnsupported=false
-    private suspend fun refreshTheme(id:Int,force:Boolean=false) {
-        if(id<=1 || themeUnsupported)return
-        val wanted=id to LauncherTheme.isLight()
-        val now=android.os.SystemClock.elapsedRealtime()
-        if(!force && attemptedTheme==wanted && now<themeRetryAt)return
-        // OEM display reconfiguration can replace a previously accepted override.
-        if(!force && appliedTheme==wanted && android.os.SystemClock.elapsedRealtime()-themeAppliedAt<2000)return
-        attemptedTheme=wanted
-        themeRetryAt=now+3000
-        val result=withContext(Dispatchers.IO) {
-            ProcessCommandRunner().run(listOf("su","0","launcher-map-theme",packageName,id.toString(),if(wanted.second) "light" else "dark"),4)
-        }
-        if(result.exitCode==0 && !result.timedOut) {
-            appliedTheme=wanted
-            themeAppliedAt=android.os.SystemClock.elapsedRealtime()
-            themeRetryAt=0L
-        }
-        if(result.exitCode==69 && result.output.contains("MAP_THEME_UNSUPPORTED"))themeUnsupported=true
-        com.abrar.voyahiran.core.logging.AppLog.changed("LauncherMapTheme","exit=${result.exitCode} ${result.output}")
-    }
+    // The framework applies launcher theme when the map resolves its configuration
+    // on our owned display, and app theme again when it returns to a physical one.
     private var autoMonitor: Job? = null
     private fun wantsAuto() = !closed && mapInCard &&
         packageName == com.abrar.voyahiran.feature.navigation.NavigationPreferences.NESHAN &&
@@ -89,7 +66,6 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 delay(750)
                 if(active || busy)continue
                 val id=embedded.displayId ?: break
-                refreshTheme(id)
                 val status=withContext(Dispatchers.IO) {
                     ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,id.toString()),4)
                 }
@@ -191,7 +167,6 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         (context.applicationContext as com.abrar.voyahiran.VoyahIranApplication).subscriptions.vipAllowed &&
                         com.abrar.voyahiran.feature.navigation.NeshanVoiceNavigation.pending == null
                     val generation = LauncherMapWakeSession.generation
-                    if(id>1)refreshTheme(id)
                     if (clean) LauncherMapWakeSession.restarting = true
                     val command=if(clean) "launcher-map-clean" else if(claim) "launcher-map-claim" else "launcher-map"
                     val r=try { transferWithBusyRetry(command,id) }
@@ -222,8 +197,6 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "central transfer fitted=$centralReady")
                     }
                     else {
-                        // Moving/fitting the task may replace the pre-transfer configuration.
-                        refreshTheme(id,force=true)
                         // Keep the opaque card above SurfaceView until both ownership and output are ready.
                         check(awaitCardReady(id)) { "Map transfer did not produce a ready card surface" }
                         if(!closed && active && embedded.displayId == id) error("")
@@ -307,7 +280,6 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 if(id!=null && embedded.attached && !busy) {
                     try { moves.withLock {
                         if(busy || closed || fullscreen)return@withLock
-                        refreshTheme(id)
                         val r=withContext(Dispatchers.IO) {
                             ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,id.toString()),4)
                         }

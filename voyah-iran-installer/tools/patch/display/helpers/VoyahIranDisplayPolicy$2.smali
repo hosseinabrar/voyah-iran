@@ -30,7 +30,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 105
+    .line 107
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -41,20 +41,27 @@
 .method public accept(Lcom/android/server/wm/ActivityRecord;)V
     .locals 2
 
-    .line 108
-    invoke-static {p1}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->access$600(Lcom/android/server/wm/ActivityRecord;)Z
+    .line 110
+    invoke-static {p1}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->access$800(Lcom/android/server/wm/ActivityRecord;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_0
+    if-nez v0, :cond_0
 
+    invoke-static {p1}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->access$900(Lcom/android/server/wm/ActivityRecord;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_1
+
+    :cond_0
     invoke-virtual {p1}, Lcom/android/server/wm/ActivityRecord;->getParent()Lcom/android/server/wm/WindowContainer;
 
     move-result-object v0
 
-    if-eqz v0, :cond_0
+    if-eqz v0, :cond_1
 
-    .line 109
+    .line 111
     invoke-virtual {p1}, Lcom/android/server/wm/ActivityRecord;->getParent()Lcom/android/server/wm/WindowContainer;
 
     move-result-object v0
@@ -65,15 +72,15 @@
 
     invoke-virtual {p1, v0}, Lcom/android/server/wm/ActivityRecord;->onConfigurationChanged(Landroid/content/res/Configuration;)V
 
-    .line 110
+    .line 112
     const/4 v0, 0x0
 
     const/4 v1, 0x1
 
     invoke-virtual {p1, v0, v1}, Lcom/android/server/wm/ActivityRecord;->ensureActivityConfiguration(IZ)Z
 
-    .line 112
-    :cond_0
+    .line 114
+    :cond_1
     return-void
 .end method
 
@@ -88,7 +95,7 @@
         }
     .end annotation
 
-    .line 105
+    .line 107
     check-cast p1, Lcom/android/server/wm/ActivityRecord;
 
     invoke-virtual {p0, p1}, Lcom/android/server/wm/VoyahIranDisplayPolicy$2;->accept(Lcom/android/server/wm/ActivityRecord;)V

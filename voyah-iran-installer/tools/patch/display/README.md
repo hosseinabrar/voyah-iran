@@ -1,5 +1,19 @@
 # Display policy (Android 11 OEM services.jar)
 
+## Map-card theme
+
+The user-installed map on the display named `VoyahIran.MapPreview`, owned by
+`com.abrar.voyahiran`, receives vehicle/launcher night mode during Activity
+configuration resolution. This is independent of the third-party app theme and
+of the geometry switch. No safe-area, density or orientation override is added
+to this virtual display. On transfer back to display 0/1, the existing app-theme
+policy takes over. Vehicle theme refresh includes map activities even when the
+app theme is explicitly light/dark. `VI/DisplayPolicy` logs the resolved map mode.
+
+Both installer platforms ship the shared generated helper and the exact previous
+helper templates (`legacy-before-map-theme`). Deploy via installer and reboot;
+APK-only updating cannot install this framework fix.
+
 ## Behaviour
 
 - Settings first checkbox: نمایش برنامه‌ها در ابعاد و جهت درست. Default enabled.

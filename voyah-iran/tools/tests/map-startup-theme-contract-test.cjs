@@ -14,9 +14,7 @@ assert(!bridge.includes('client.call("requestPresentation",SMALL,2)'),'Do not te
 assert(!bridge.includes('media presentation started'),'Void vendor call is not success confirmation');
 assert(bridge.includes('now-startedAt>12_000'),'Startup is bounded');
 const preview=read('feature/launcher/LauncherMapPreview.kt');
-assert(preview.includes('id to LauncherTheme.isLight()'));
-assert(preview.includes('if(wanted.second) "light" else "dark"'));
-assert(preview.includes('now<themeRetryAt'),'Failed theme updates are rate limited');
+assert(!preview.includes('launcher-map-theme'),'Theme is resolved by the framework, not a periodic unsupported Binder call');
 const map=read('core/bridge/LauncherMapBridge.kt').split('if(args[0]=="launcher-map-theme")')[1].split('val stacks')[0];
 assert(!map.includes('getConfiguration'));
 assert(!map.includes('SystemProperties'));

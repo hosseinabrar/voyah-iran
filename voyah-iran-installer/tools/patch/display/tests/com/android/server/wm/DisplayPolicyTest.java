@@ -11,6 +11,8 @@ public class DisplayPolicyTest {
  }
  static class Activity extends ActivityRecord {
   int display,type=1; boolean multi;
+  android.view.DisplayInfo displayInfo=new android.view.DisplayInfo();
+  DisplayContent getDisplayContent(){return new DisplayContent(){android.view.DisplayInfo getDisplayInfo(){return displayInfo;}};}
   Configuration config=new Configuration();
   Activity(){ info=new ActivityInfo();info.applicationInfo=new ApplicationInfo();info.applicationInfo.packageName="test.user";info.applicationInfo.uid=10068;
    info.packageName="test.user"; config.windowConfiguration=new Config(); }
@@ -38,6 +40,23 @@ public class DisplayPolicyTest {
   a.info.applicationInfo.flags=1;night.setInt(null,0x20);VoyahIranDisplayPolicy.configuration(a,themeParent);
   check(a.config.uiMode==0x13,"OEM theme untouched");a.info.applicationInfo.flags=0;
   a.display=1;VoyahIranDisplayPolicy.configuration(a,themeParent);check(a.config.uiMode==0x23,"passenger theme applied");a.display=0;
+  a.display=7;a.displayInfo.name="VoyahIran.MapPreview";a.displayInfo.ownerPackageName="com.abrar.voyahiran";
+  night.setInt(null,0x10);android.os.SystemProperties.value="default";
+  VoyahIranDisplayPolicy.configuration(a,themeParent);
+  check(a.config.uiMode==0x23,"card follows dark launcher even with light app setting");
+  check(!VoyahIranDisplayPolicy.applies(a),"map has no physical-screen margins");
+  night.setInt(null,0x20);android.os.SystemProperties.value="simple";
+  VoyahIranDisplayPolicy.configuration(a,themeParent);
+  check(a.config.uiMode==0x13,"card follows light launcher even with dark app setting");
+  a.display=0;VoyahIranDisplayPolicy.configuration(a,themeParent);
+  check(a.config.uiMode==0x23,"fullscreen restores app dark preference");
+  a.display=7;VoyahIranDisplayPolicy.configuration(a,themeParent);
+  check(a.config.uiMode==0x13,"return to card restores launcher light preference");
+  a.displayInfo.ownerPackageName="other";a.config.uiMode=0x23;VoyahIranDisplayPolicy.configuration(a,themeParent);
+  check(a.config.uiMode==0x23,"foreign virtual display untouched");
+  a.displayInfo.ownerPackageName="com.abrar.voyahiran";a.displayInfo.name="Cluster";
+  VoyahIranDisplayPolicy.configuration(a,themeParent);check(a.config.uiMode==0x23,"cluster untouched");
+  android.os.SystemProperties.value=null;a.display=0;
   night.setInt(null,0);state(true);
   check(VoyahIranDisplayPolicy.applies(a),"user app eligible");
   check(VoyahIranDisplayPolicy.orientation(a,7)==0,"portrait forced landscape");
