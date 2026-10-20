@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.graphics.Canvas;
+import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.os.SystemClock;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -42,6 +44,11 @@ public final class ClusterTextAssets {
         private float lastSize;
         private Typeface lastTypeface;
         private int lastWidth;
+        private Bitmap lineBitmap;
+        private final Paint bitmapPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        private float lastSpacing, lastScale;
+        private int lastColor, lastDirection;
+        private boolean lastIncludePad;
         private long began;
         public BoundedTextView(Context c) { this(c,false); }
         BoundedTextView(Context c,boolean moving) { super(c); this.moving=moving; }
@@ -59,11 +66,23 @@ public final class ClusterTextAssets {
             String text=getText().toString().replace('\n',' ');
             int width=getWidth()-getCompoundPaddingLeft()-getCompoundPaddingRight();
             if(width<=0)return;
-            if(fullLine==null || !text.equals(lastText) || lastSize!=getTextSize() || lastTypeface!=getTypeface() || lastWidth!=width){
+            if(fullLine==null || !text.equals(lastText) || lastSize!=getTextSize() || lastTypeface!=getTypeface() || lastWidth!=width
+                || lastSpacing!=getLetterSpacing() || lastScale!=getTextScaleX() || lastColor!=getCurrentTextColor()
+                || lastDirection!=getTextDirection() || lastIncludePad!=getIncludeFontPadding()){
                 lastText=text;lastSize=getTextSize();lastTypeface=getTypeface();lastWidth=width;began=SystemClock.uptimeMillis();
+                lastSpacing=getLetterSpacing();lastScale=getTextScaleX();lastColor=getCurrentTextColor();
+                lastDirection=getTextDirection();lastIncludePad=getIncludeFontPadding();
+                lineBitmap=null;
+                getPaint().setColor(lastColor);getPaint().drawableState=getDrawableState();
                 int desired=Math.max(1,(int)Math.ceil(Layout.getDesiredWidth(text,getPaint()))+1);
                 fullLine=StaticLayout.Builder.obtain(text,0,text.length(),getPaint(),desired)
                     .setAlignment(Layout.Alignment.ALIGN_NORMAL).setIncludePad(getIncludeFontPadding()).setMaxLines(1).build();
+                if(desired>width){
+                    // Rasterize glyphs at a fixed origin once. Fractional scrolling must move
+                    // this raster, not re-hint each glyph independently on every software frame.
+                    lineBitmap=Bitmap.createBitmap(desired,fullLine.getHeight(),Bitmap.Config.ARGB_8888);
+                    fullLine.draw(new Canvas(lineBitmap));
+                }
             }
             if(fullLine.getWidth()<=width){super.onDraw(canvas);return;}
             getPaint().setColor(getCurrentTextColor());getPaint().drawableState=getDrawableState();
@@ -78,7 +97,7 @@ public final class ClusterTextAssets {
             float y=gravity==android.view.Gravity.CENTER_VERTICAL?top+(bottom-top-fullLine.getHeight())/2f:
                 gravity==android.view.Gravity.BOTTOM?bottom-fullLine.getHeight():top;
             int save=canvas.save();canvas.clipRect(getCompoundPaddingLeft(),top,getWidth()-getCompoundPaddingRight(),bottom);
-            canvas.translate(getCompoundPaddingLeft()-offset,y);fullLine.draw(canvas);canvas.restoreToCount(save);
+            canvas.drawBitmap(lineBitmap,getCompoundPaddingLeft()-offset,y,bitmapPaint);canvas.restoreToCount(save);
         }
     }
     public static class BoldTextView extends BoundedTextView {

@@ -20,6 +20,40 @@ import java.time.Duration
 @Config(sdk=[30], application=Application::class, qualifiers="en-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class ClusterTextFramesTest {
+ @Test fun marqueeMovesOneCachedRasterAndRefreshesOnChanges() {
+  val context=RuntimeEnvironment.getApplication()
+  val view=ClusterTextAssets.MarqueeTextView(context).apply {
+   layoutParams=FrameLayout.LayoutParams(240,60)
+   text="Tamasha — a very long song title with many moving letters"
+   textSize=30f;setTextColor(Color.WHITE)
+  }
+  view.measure(View.MeasureSpec.makeMeasureSpec(240,View.MeasureSpec.EXACTLY),
+   View.MeasureSpec.makeMeasureSpec(60,View.MeasureSpec.EXACTLY))
+  view.layout(0,0,240,60)
+  fun frame():Bitmap=Bitmap.createBitmap(240,60,Bitmap.Config.ARGB_8888).also{view.draw(Canvas(it))}
+  val field=ClusterTextAssets.BoundedTextView::class.java.getDeclaredField("lineBitmap").apply{isAccessible=true}
+  frame()
+  val cached=field.get(view)
+  assertNotNull(cached)
+  Shadows.shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(1400))
+  val first=frame()
+  // 30 px/s: over 100 ms every glyph must translate together by exactly 3 px.
+  Shadows.shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(100))
+  val next=frame()
+  assertSame(cached,field.get(view))
+  for(y in 0 until 60)for(x in 4 until 230)
+   assertEquals("Rigid raster translation at $x,$y",first.getPixel(x+3,y),next.getPixel(x,y))
+  repeat(8) {
+   Shadows.shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(16))
+   frame();assertSame("Fractional frames must not rasterize again",cached,field.get(view))
+  }
+  view.setTextColor(Color.CYAN);frame()
+  assertNotSame(cached,field.get(view))
+  val recolored=field.get(view)
+  view.text="Another long song title that replaces the previous music metadata";frame()
+  assertNotSame(recolored,field.get(view))
+  view.text="Short";frame();assertNull(field.get(view))
+ }
  @Test fun renderDetachedFrames() {
   val context=RuntimeEnvironment.getApplication()
   val out=File("build/reports/cluster-text-frames").apply{mkdirs()}
