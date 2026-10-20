@@ -13,11 +13,20 @@ enum class ClusterMapMode {
 /** Monotonic-clock policy; no UI, preference writes or vehicle commands. */
 internal class ClusterMapAutoPolicy(private val log: (String) -> Unit = {}) {
     companion object {
-        // Fifteen seconds of travel, bounded for slow traffic and fast roads.
+        // Speed-adaptive lead time, bounded for slow traffic and fast roads.
         // Missing/invalid CAN speed preserves the previous 200 m behavior.
-        internal fun triggerMeters(speedKmh: Int?): Double =
-            // 15 / 3.6 == 25 / 6. Avoid rounding 125 m up at exactly 30 km/h.
-            speedKmh?.takeIf { it in 0..300 }?.let { (it * 25.0 / 6.0).coerceIn(100.0, 500.0) } ?: 200.0
+        internal fun triggerMeters(speedKmh: Int?): Double {
+            val speed = speedKmh?.takeIf { it in 0..300 } ?: return 200.0
+            val seconds = when {
+                speed <= 50 -> 15
+                speed <= 70 -> 20
+                speed <= 90 -> 25
+                speed <= 110 -> 30
+                else -> 45
+            }
+            // Multiply before dividing to preserve exact integer distance boundaries.
+            return (speed * seconds * 5.0 / 18.0).coerceIn(100.0, 1500.0)
+        }
     }
     private var step: String? = null
     private var visible = false

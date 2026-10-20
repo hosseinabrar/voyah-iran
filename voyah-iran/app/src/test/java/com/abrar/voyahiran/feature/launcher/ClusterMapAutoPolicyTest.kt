@@ -4,13 +4,27 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ClusterMapAutoPolicyTest {
-    @Test fun speedThresholdIsFifteenSecondsClampedTo100And500Meters() {
-        for ((speed, meters) in listOf(0 to 100.0, 20 to 100.0, 30 to 125.0, 60 to 250.0,
-            100 to (100 / 3.6 * 15), 120 to 500.0, 160 to 500.0)) {
+    @Test fun speedThresholdUsesAdaptiveLeadTimeAtEveryBandBoundary() {
+        for ((speed, seconds) in listOf(30 to 15, 40 to 15, 50 to 15,
+            51 to 20, 70 to 20, 71 to 25, 90 to 25,
+            91 to 30, 110 to 30, 111 to 45, 120 to 45)) {
+            val meters = speed * seconds / 3.6
             assertEquals("speed=$speed", meters, ClusterMapAutoPolicy.triggerMeters(speed), 0.001)
         }
+    }
+    @Test fun thresholdRetainsSlowTrafficFloorAndUses1500MeterCeiling() {
+        for (speed in listOf(0, 20, 24))
+            assertEquals(100.0, ClusterMapAutoPolicy.triggerMeters(speed), 0.001)
+        for (speed in listOf(120, 160, 300))
+            assertEquals(1500.0, ClusterMapAutoPolicy.triggerMeters(speed), 0.001)
         for(speed in listOf(null,-1,301,Int.MAX_VALUE))
             assertEquals(200.0,ClusterMapAutoPolicy.triggerMeters(speed),0.001)
+    }
+    @Test fun highSpeedActivatesBeyondOldCeilingButNotBeyond1500Meters() {
+        val policy = ClusterMapAutoPolicy()
+        policy.update("turn", 1501, 1000, 1000, 160); assertFalse(policy.show(1000))
+        policy.update("turn", 1500, 1100, 1100, 160); assertFalse(policy.show(1100))
+        policy.update("turn", 1499, 1200, 1200, 160); assertTrue(policy.show(1200))
     }
     @Test fun accelerationCanTriggerButDecelerationCannotHideSameTurn() {
         val policy=ClusterMapAutoPolicy()
