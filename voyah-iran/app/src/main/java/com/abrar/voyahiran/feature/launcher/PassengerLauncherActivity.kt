@@ -3,12 +3,10 @@ package com.abrar.voyahiran.feature.launcher
 import android.app.ActivityOptions
 import android.content.*
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.KeyEvent
-import android.webkit.*
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
@@ -20,13 +18,9 @@ import com.abrar.voyahiran.core.logging.AppLog
 import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.util.concurrent.ConcurrentHashMap
 
-/** Offline presentation; no remote page can access the bounded native command interface. */
+/** Fully native passenger launcher; artwork and commands do not depend on a web page. */
 class PassengerLauncherActivity : ComponentActivity() {
-    private lateinit var web:WebView
     private lateinit var climate:PassengerClimateView
     private lateinit var fragrance:PassengerFragranceView
     private lateinit var favoriteCard:PassengerFavoritesView
@@ -38,7 +32,6 @@ class PassengerLauncherActivity : ComponentActivity() {
     private val musicArtwork by lazy {LauncherArtwork(this)}
     private var appPicker:android.app.Dialog?=null
     private lateinit var surface:android.widget.FrameLayout
-    private var ready=false
     private var layoutSignature=""
     private var visible=false
     private var light=false
@@ -61,24 +54,20 @@ class PassengerLauncherActivity : ComponentActivity() {
     private var catalog=emptyList<LauncherAppsEntry>()
     private var unobserve:(()->Unit)?=null
     private val states=linkedMapOf<String,JSONObject>()
-    private val lastSent=HashMap<String,String>()
-    private val pictures=ConcurrentHashMap<String,ByteArray>()
-    private val skin by lazy {PassengerSkinArtwork(applicationContext)}
     private val favorites by lazy {getSharedPreferences("passenger_favorites",MODE_PRIVATE)}
     private val audio by lazy {getSystemService(AudioManager::class.java)}
     private val weather by lazy {LauncherSharedWeather(this) {s->
         weatherCard.update(s)
     }}
     private val mediaObserver by lazy {LauncherMediaObserver(this,lifecycleScope,::onMedia)}
-    private val changes=object:BroadcastReceiver() {override fun onReceive(c:Context?,i:Intent?) {if(i?.action=="theme_loaded"){skin.clear();applyTheme(true)} else volume()}}
+    private val changes=object:BroadcastReceiver() {override fun onReceive(c:Context?,i:Intent?) {if(i?.action=="theme_loaded")applyTheme(true) else volume()}}
     @Suppress("DEPRECATION")
     private fun allowed()=visible && !isFinishing && !isDestroyed && LauncherPreferences.enabled(this) && (application as VoyahIranApplication).subscriptions.vipAllowed && (window.decorView.display?.displayId ?: windowManager.defaultDisplay.displayId)==1
-    @Suppress("SetJavaScriptEnabled") override fun onCreate(savedInstanceState:Bundle?) {
+    override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         AppLog.info("PassengerLauncher","create instance=${System.identityHashCode(this)}")
         PassengerArtworkCache.warm(this)
         LauncherAppsCache.warm(this)
-        web=WebView(this)
         weatherCard=PassengerWeatherView(this)
         musicCard=PassengerMusicView(this).apply {onCommand={kind,value->if(allowed())runCatching{command(kind,value)}.onFailure{error(it)}}}
         seatsCard=PassengerSeatsView(this).apply {onCommand={op,value->if(allowed())command("comfort",JSONObject().put("op",op).put("value",value).toString())}}
@@ -90,41 +79,13 @@ class PassengerLauncherActivity : ComponentActivity() {
             onSave={if(allowed())command("favorites",JSONArray(it).toString())}
             onPick={if(allowed())showAppPicker(it)}
         }
-        web.settings.apply {javaScriptEnabled=true;allowFileAccess=false;allowContentAccess=false;domStorageEnabled=false;javaScriptCanOpenWindowsAutomatically=false;setSupportMultipleWindows(false);mixedContentMode=WebSettings.MIXED_CONTENT_NEVER_ALLOW}
-        web.addJavascriptInterface(Commands(),"Passenger")
-        web.webViewClient=object:WebViewClient() {
-            override fun onReceivedError(v:WebView,r:WebResourceRequest,e:WebResourceError){
-                if(r.isForMainFrame)AppLog.info("PassengerLauncher","web main-frame error code=${e.errorCode}")
-            }
-            override fun shouldOverrideUrlLoading(v:WebView,r:WebResourceRequest)=true
-            override fun shouldInterceptRequest(v:WebView,r:WebResourceRequest):WebResourceResponse {
-                val uri=r.url;val path=uri.path.orEmpty().removePrefix("/")
-                if(uri.scheme!="https" || uri.host!="passenger.local" || path.contains(".."))return emptyResponse()
-                return runCatching {
-                    if(path.startsWith("image/"))return@runCatching WebResourceResponse("image/png",null,ByteArrayInputStream(pictures[path.removePrefix("image/")] ?: byteArrayOf()))
-                    skin.get(path,light)?.let {return@runCatching WebResourceResponse("image/png",null,ByteArrayInputStream(it))}
-                    val mime=when(path.substringAfterLast('.')) {"html"->"text/html";"js"->"application/javascript";"css"->"text/css";"ttf"->"font/ttf";"png"->"image/png";"jpg","jpeg"->"image/jpeg";else->"application/octet-stream"}
-                    WebResourceResponse(mime,"UTF-8",assets.open("passenger/$path"))
-                }.getOrElse {emptyResponse()}
-            }
-            override fun onPageFinished(v:WebView,url:String) {
-                if(url!="https://passenger.local/${if(light)"light" else "dark"}.html")return
-                AppLog.info("PassengerLauncher","web ready size=${v.width}x${v.height}")
-                ready=true;states.toMap().forEach {(k,s)->publish(k,s)};publishApps();web.evaluateJavascript("document.querySelector('.climate').style.display='none';document.querySelector('.fragrance').style.display='none';document.querySelector('.apps').style.display='none';document.querySelector('.weather-card').style.display='none';document.querySelector('.seat').style.display='none';document.querySelector('.music-card').style.display='none';window.passengerNativeSeats=true;window.passengerNativeMusic=true;passenger.visibility($visible)",null);web.animate().alpha(1f).setDuration(280).start()
-            }
-        }
         surface=android.widget.FrameLayout(this)
-        surface.addView(web,android.widget.FrameLayout.LayoutParams(-1,-1))
         surface.addView(climate,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(fragrance,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(favoriteCard,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(weatherCard,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(seatsCard,android.widget.FrameLayout.LayoutParams(1,1))
         surface.addView(musicCard,android.widget.FrameLayout.LayoutParams(1,1))
-        listOf(climate,fragrance).forEach {card->card.setOnTouchListener {_,event->
-            if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN)web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)
-            false
-        }}
         LauncherEntrance.install(this,surface)
         fun layoutCards() {
             if(surface.width<=0 || surface.height<=0)return
@@ -137,7 +98,6 @@ class PassengerLauncherActivity : ComponentActivity() {
             if(layoutSignature==signature)return
             layoutSignature=signature
             AppLog.info("PassengerLauncher","layout $signature")
-            publish("frame",JSONObject().put("top",top))
             val sx=surface.width/1920f;val sy=(surface.height/(720.0-top)).toFloat()
             climate.layoutParams=android.widget.FrameLayout.LayoutParams((770*sx).toInt(),(370*sy).toInt()).apply {
                 leftMargin=(5*sx).toInt();topMargin=((50-top)*sy).toInt()
@@ -158,7 +118,7 @@ class PassengerLauncherActivity : ComponentActivity() {
                 leftMargin=(1356*sx).toInt();topMargin=((456-top)*sy).toInt()
             }
         }
-        // Native cards must not depend on a WebView layout/page callback to leave their 1px bootstrap bounds.
+        // Lay out directly from the native surface, independently of artwork loading.
         surface.addOnLayoutChangeListener {_,_,_,_,_,_,_,_,_->layoutCards()}
         surface.post {layoutCards()}
         surface.viewTreeObserver.addOnPreDrawListener(object:android.view.ViewTreeObserver.OnPreDrawListener {
@@ -170,12 +130,11 @@ class PassengerLauncherActivity : ComponentActivity() {
                 return true
             }
         })
-        onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){favoriteCard.dismissEdit();web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)}})
+        onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){favoriteCard.dismissEdit()}})
         val filter=IntentFilter("theme_loaded").apply {addAction("android.media.VOLUME_CHANGED_ACTION")}
         if(android.os.Build.VERSION.SDK_INT>=33)registerReceiver(changes,filter,Context.RECEIVER_EXPORTED) else registerReceiver(changes,filter)
         applyTheme(true)
     }
-    private fun emptyResponse()=WebResourceResponse("text/plain","UTF-8",ByteArrayInputStream(byteArrayOf()))
     override fun dispatchTouchEvent(event:android.view.MotionEvent):Boolean {
         if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN&&::favoriteCard.isInitialized){
             val bounds=android.graphics.Rect();favoriteCard.getGlobalVisibleRect(bounds)
@@ -185,7 +144,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     }
     private fun showAppPicker(slot:Int){
         appPicker?.dismiss()
-        val scale=web.width/1920f
+        val scale=surface.width/1920f
         val dialog=android.app.Dialog(this)
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
         dialog.setContentView(PassengerAppPickerView(this,favoriteCard.availableApps(),light,scale){id->
@@ -204,25 +163,18 @@ class PassengerLauncherActivity : ComponentActivity() {
     }
     private fun applyTheme(force:Boolean=false) {
         val next=LauncherTheme.isLight();if(!force && next==light)return
-        val fading=ready
-        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;weatherCard.light=next;seatsCard.light=next;musicCard.light=next;appPicker?.dismiss();ready=false;lastSent.clear();LauncherWindowTheme.apply(window,light);web.setBackgroundColor(LauncherWindowTheme.background(light))
-        web.animate().cancel()
-        val load={if(!isDestroyed && light==next)web.loadUrl("https://passenger.local/${if(next)"light" else "dark"}.html")}
-        if(fading)web.animate().alpha(0f).setDuration(160).withEndAction {load()}.start()
-        else {web.alpha=0f;load()}
+        light=next;climate.light=next;fragrance.light=next;favoriteCard.light=next;weatherCard.light=next;seatsCard.light=next;musicCard.light=next;appPicker?.dismiss()
+        LauncherWindowTheme.apply(window,light)
+        surface.setBackgroundColor(LauncherWindowTheme.background(light))
     }
     private fun publish(kind:String,value:JSONObject) {
         if(kind=="vehicle")climate.update(PassengerCardState.select(value,"climate"))
         if(kind=="vehicle")fragrance.update(PassengerCardState.select(value,"fragrance"))
         if(kind=="vehicle")seatsCard.update(PassengerCardState.select(value,"seats"))
         states[kind]=value
-        // Vehicle cards are native; do not animate/update their hidden HTML duplicates.
-        if(kind=="vehicle")return
-        if(ready){val json=value.toString();if(lastSent[kind]==json)return;lastSent[kind]=json;web.evaluateJavascript("window.passenger&&passenger.update(${JSONObject.quote(kind)},$json)",null)}
     }
     override fun onResume() {
-        super.onResume();visible=true;if(!allowed()){finish();return};applyTheme();web.onResume()
-        web.evaluateJavascript("window.passenger&&passenger.visibility(true)",null)
+        super.onResume();visible=true;if(!allowed()){finish();return};applyTheme()
         if(watch?.isActive==true)return
         // Keep the last rendered state while the bridge returns its current snapshot.
         // Commands still require a recent vehicleAt, so cached visuals cannot send stale actions.
@@ -248,18 +200,11 @@ class PassengerLauncherActivity : ComponentActivity() {
         uiEvents.start()
     }
     override fun onPause(){favoriteCard.dismissEdit();super.onPause()}
-    override fun onStop(){favoriteCard.dismissEdit();appPicker?.dismiss();visible=false;uiEvents.stop();watch?.cancel();watch=null;unobserve?.invoke();unobserve=null;weather.stop();mediaObserver.stop();web.evaluateJavascript("window.passenger&&passenger.visibility(false)",null);web.onPause();super.onStop()}
-    override fun onDestroy(){ready=false;visible=false;unobserve?.invoke();unobserve=null;coverJob?.cancel();unregisterReceiver(changes);web.removeJavascriptInterface("Passenger");web.destroy();super.onDestroy()}
+    override fun onStop(){favoriteCard.dismissEdit();appPicker?.dismiss();visible=false;uiEvents.stop();watch?.cancel();watch=null;unobserve?.invoke();unobserve=null;weather.stop();mediaObserver.stop();super.onStop()}
+    override fun onDestroy(){visible=false;unobserve?.invoke();unobserve=null;coverJob?.cancel();unregisterReceiver(changes);super.onDestroy()}
     override fun onConfigurationChanged(config:android.content.res.Configuration){super.onConfigurationChanged(config);applyTheme()}
-    private inner class Commands {
-        @JavascriptInterface fun send(kind:String,value:String) {if(kind.length>40 || value.length>4096)return;runOnUiThread {if(allowed())runCatching {command(kind,value)}.onFailure {error(it)}}}
-    }
     private fun command(kind:String,value:String) {
         when(kind) {
-            "nativeOverlay" -> {
-                val visibility=if(value=="true")android.view.View.INVISIBLE else android.view.View.VISIBLE
-                climate.visibility=visibility;fragrance.visibility=visibility
-            }
             "comfort" -> {
                 val p=JSONObject(value);val op=p.getString("op");val v=p.getString("value")
                 if(SystemClock.elapsedRealtime()-vehicleAt>10000 || !PassengerComfortBridge.valid(op,v))return
@@ -315,7 +260,6 @@ class PassengerLauncherActivity : ComponentActivity() {
             finally {openingApp=false}
         }
     }
-    private var catalogJob:Job?=null
     private var publishedCatalog:List<LauncherAppsEntry>?=null
     private var publishedFavorites:List<String>?=null
     private fun publishApps() {
@@ -324,11 +268,6 @@ class PassengerLauncherActivity : ComponentActivity() {
         if(publishedCatalog==catalog && publishedFavorites==ids)return
         publishedCatalog=catalog;publishedFavorites=ids
         favoriteCard.bind(catalog,ids);appPicker?.dismiss()
-        catalogJob?.cancel();val items=catalog
-        catalogJob=lifecycleScope.launch {val rows=withContext(Dispatchers.Default){JSONArray().also {a->items.forEach {e->
-            val key="app-"+e.id.hashCode();e.icon?.constantState?.newDrawable(resources)?.let {d->val b=Bitmap.createBitmap(128,128,Bitmap.Config.ARGB_8888);d.setBounds(0,0,128,128);d.draw(Canvas(b));pictures[key]=png(b);b.recycle()}
-            a.put(JSONObject().put("id",e.id).put("label",e.label).put("icon","image/$key"))
-        }}};publish("apps",JSONObject().put("items",rows).put("favorites",JSONArray(ids)))}
     }
     private fun onMedia(state:LauncherMediaState) {
         media=state;val key=listOf(state.sourcePackage,state.title,state.artist,state.coverUri).joinToString("|")
@@ -344,7 +283,6 @@ class PassengerLauncherActivity : ComponentActivity() {
         val s=media
         musicCard.update(PassengerMusicPresentation(if(s.title=="no music")"Music"else s.title,s.artist,musicCover,s.sourceIcon,s.playing,s.position,s.duration,s.canSeek))
     }
-    private fun png(b:Bitmap)=ByteArrayOutputStream().use {b.compress(Bitmap.CompressFormat.PNG,100,it);it.toByteArray()}
     private fun volume(value: String = "read") {
         if(value=="read" && volumeJob?.isActive==true){volumeDirty=true;return}
         val previous=volumeJob

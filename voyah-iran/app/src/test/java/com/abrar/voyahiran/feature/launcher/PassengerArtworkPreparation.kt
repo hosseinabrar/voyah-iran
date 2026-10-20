@@ -8,14 +8,12 @@ import org.robolectric.Shadows.shadowOf
 /** Native snapshots must wait for the same asynchronous artwork used in production. */
 internal fun preparePassengerArtwork(directory:String) {
     val context=RuntimeEnvironment.getApplication()
-    // Preparing unused historical fragrance variants evicts the actual landscapes from
-    // the bounded production cache before the first snapshot can retain them.
-    val names=if(directory=="fragrance-wide") listOf("landscape","landscape-day-v1","object-1","object-2","object-3",
+    // Prepare only shipped native artwork; authoring sources live outside the app.
+    val names=if(directory=="fragrance-wide") listOf("object-1","object-2","object-3",
         "object-1-day-v1","object-2-day-v2","object-3-day-v1").map{"$it.png"} +
         context.assets.list("passenger/$directory").orEmpty().filter{it.startsWith("fragrance_icon_")||it.endsWith("-gray.png")}
     else context.assets.list("passenger/$directory").orEmpty().filter {
-        it.endsWith(".png") && (directory!="baked" || !it.startsWith("air-")) &&
-            (directory!="oem-ac" || it !in listOf("air_bg_h97c.png","cabin-day-fade-v2.png"))
+        it.endsWith(".png") && (directory!="baked" || !it.startsWith("air-"))
     }
     for(name in names) {
         val path="passenger/$directory/$name"

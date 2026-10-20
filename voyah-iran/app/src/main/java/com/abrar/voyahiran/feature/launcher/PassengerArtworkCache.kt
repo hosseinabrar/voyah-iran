@@ -65,7 +65,7 @@ internal object PassengerArtworkCache {
         val app=context.applicationContext
         worker.execute {
             val paths=runCatching {
-                val ac=app.assets.list("passenger/oem-ac").orEmpty().filter{it.endsWith(".png")&&it!="cabin-day-fade-v2.png"&&it!="air_bg_h97c.png"}.map{"passenger/oem-ac/$it"}
+                val ac=app.assets.list("passenger/oem-ac").orEmpty().filter{it.endsWith(".png")}.map{"passenger/oem-ac/$it"}
                 val objects=listOf("object-1","object-2","object-3","object-1-day-v1","object-2-day-v2","object-3-day-v1")
                 val fragrance=(objects+objects.map{"$it-gray"})
                     .plus(listOf("shuigan","zhuzi","mudan").flatMap {n->listOf("on","off","off-gray").map {"fragrance_icon_${n}_$it"}})
