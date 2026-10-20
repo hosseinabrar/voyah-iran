@@ -154,13 +154,17 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         error(LOADING)
         job=scope.launch {
             var mask: LauncherTransferMask? = null
-            var centralReady = false
+            var destinationReady = false
             try {
                 moves.withLock {
                     if(closed || ((fullscreen || !active) && id!=0))return@withLock
-                    if (id == 0) {
-                        mask = LauncherTransferMask(context,packageName)
-                        mask?.show()
+                    val before=withContext(Dispatchers.IO) {
+                        ProcessCommandRunner().run(listOf("su","0","launcher-map-status",packageName,"0"),4)
+                    }
+                    val maskDisplay=transferMaskDisplay(id,if(before.exitCode==0 && !before.timedOut)before.output else "")
+                    if (maskDisplay != null) {
+                        mask = LauncherTransferMask(context,packageName,maskDisplay)
+                        check(mask!!.show()) { "Map transfer cover did not draw on display=$maskDisplay" }
                     }
                     val clean = !claim && id != 0 && packageName.isNotBlank() &&
                         LauncherMapWakeSession.pending &&
@@ -181,7 +185,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                         com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap",r.output)
                     } else if(id==0) {
                         fullscreen=true;initialAttempted=false;error("");done?.invoke()
-                        centralReady = withTimeoutOrNull(8000) {
+                        destinationReady = withTimeoutOrNull(8000) {
                             var stable = 0
                             while (!closed) {
                                 val status = withContext(Dispatchers.IO) {
@@ -194,17 +198,19 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                             }
                             false
                         } == true
-                        com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "central transfer fitted=$centralReady")
+                        com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "central transfer fitted=$destinationReady")
                     }
                     else {
                         // Keep the opaque card above SurfaceView until both ownership and output are ready.
                         check(awaitCardReady(id)) { "Map transfer did not produce a ready card surface" }
                         if(!closed && active && embedded.displayId == id) error("")
+                        destinationReady=true
+                        com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap","card transfer ready display=$id maskDisplay=$maskDisplay")
                     }
                 }
             } catch(e:CancellationException) {throw e}
             catch(e:Exception) {error("نقشه در دسترس نیست");com.abrar.voyahiran.core.logging.AppLog.error("LauncherMap","move failed",e)}
-            finally {mask?.finish(centralReady);busy=false}
+            finally {mask?.finish(destinationReady);busy=false}
         }
     }
     private suspend fun transferWithBusyRetry(command:String,id:Int):com.abrar.voyahiran.core.shell.CommandResult {
@@ -389,7 +395,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
                 preview.recenteredDisplay=null;preview.cardSeenAt=0L
                 preview.mapInCard=false;preview.embedded.cluster(false)
                 try {
-                    mask.show()
+                    check(mask.show()) { "Passenger map transfer cover did not draw" }
                     launch()
                     ready=withTimeoutOrNull(8000) {
                         var stable=0
@@ -426,6 +432,11 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         }
 
         internal const val LOADING = "در حال نمایش نقشه…"
+        internal fun transferMaskDisplay(destination:Int,status:String):Int? = when {
+            destination==0 -> 0
+            isVisibleHere(status,1) -> 1
+            else -> null
+        }
         internal fun isVisibleHere(output: String, displayId: Int): Boolean =
             Regex("(?:^|\\s)MAP_DISPLAY=$displayId MAP_VISIBLE=1(?:$|\\s)").containsMatchIn(output)
     }

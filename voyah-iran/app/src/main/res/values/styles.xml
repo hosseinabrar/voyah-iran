@@ -3,7 +3,8 @@
     <style name="Theme.VoyahLauncher" parent="android:style/Theme.Material.NoActionBar">
         <!-- The OEM safe-area cover bridges to our theme-aware first frame, not a stale task preview. -->
         <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowAnimationStyle">@style/Animation.VoyahLauncher</item>
+        <!-- Animate content inside the opaque window, never its background. -->
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
     <style name="Animation.VoyahLauncher" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/launcher_c_enter</item>

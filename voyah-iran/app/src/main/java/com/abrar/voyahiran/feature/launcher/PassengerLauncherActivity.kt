@@ -125,7 +125,7 @@ class PassengerLauncherActivity : ComponentActivity() {
             if(event.actionMasked==android.view.MotionEvent.ACTION_DOWN)web.evaluateJavascript("window.passenger&&passenger.dismiss()",null)
             false
         }}
-        setContentView(surface)
+        LauncherEntrance.install(this,surface)
         fun layoutCards() {
             if(surface.width<=0 || surface.height<=0)return
             val point=android.graphics.Point()
@@ -295,9 +295,25 @@ class PassengerLauncherActivity : ComponentActivity() {
             "source" -> LauncherSourceLaunch.open(this,media,1)
         }
     }
+    private var openingApp=false
     private fun openApp(entry:LauncherAppsEntry) {
-        if(entry.component!=null)startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(entry.component).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED),ActivityOptions.makeBasic().apply {launchDisplayId=1}.toBundle())
-        else lifecycleScope.launch {val nonce=java.util.UUID.randomUUID().toString().replace("-","");val r=withContext(Dispatchers.IO){BridgeClient.run(listOf("launcher-drawer","open",nonce,entry.id,"1"),5)};if(r.exitCode!=0 || r.timedOut)error(IllegalStateException(r.output))}
+        if(openingApp)return
+        openingApp=true
+        lifecycleScope.launch {
+            try {
+                val component=entry.component
+                if(component!=null) {
+                    val launch={startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(component).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED),ActivityOptions.makeBasic().apply {launchDisplayId=1}.toBundle())}
+                    if(!LauncherMapPreview.openHostedMapOnPassenger(this@PassengerLauncherActivity,component.packageName,launch))launch()
+                } else {
+                    val nonce=java.util.UUID.randomUUID().toString().replace("-","")
+                    val r=withContext(Dispatchers.IO){BridgeClient.run(listOf("launcher-drawer","open",nonce,entry.id,"1"),5)}
+                    if(r.exitCode!=0 || r.timedOut)error(IllegalStateException(r.output))
+                }
+            } catch(e:CancellationException){throw e}
+            catch(e:Exception){error(e)}
+            finally {openingApp=false}
+        }
     }
     private var catalogJob:Job?=null
     private var publishedCatalog:List<LauncherAppsEntry>?=null

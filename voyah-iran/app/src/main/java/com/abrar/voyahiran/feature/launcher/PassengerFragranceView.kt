@@ -22,6 +22,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
     private var fade:ValueAnimator?=null
     private var breath:ValueAnimator?=null
     private var pulse=0f
+    private var artReady=false
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val staticArtwork=StaticLauncherArtwork(this)
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
@@ -30,7 +31,24 @@ internal class PassengerFragranceView(context:Context):View(context) {
     private fun value(k:String)=state.optInt(k,-1)
     private fun valid(k:String,r:IntRange)=state.optBoolean("fresh")&&value(k) in r
     private val on get()=state.optBoolean("fresh")&&value("FCM_SW_REQ_FB")==2
-    init {isClickable=true;contentDescription="Fragrance selection, intensity and duration"}
+    init {
+        isClickable=true;contentDescription="Fragrance selection, intensity and duration"
+        val paths=buildList {
+            for(i in 0..27)add("passenger/fragrance-wide/fragrance_anim_${(i*2).toString().padStart(2,'0')}.png")
+            for(tone in 1..3)for(day in listOf(false,true)){
+                val objectName="object-$tone"+if(day)if(tone==2)"-day-v2"else "-day-v1"else ""
+                add("passenger/fragrance-wide/$objectName.png");add("passenger/fragrance-wide/$objectName-gray.png")
+                for(on in listOf(false,true)){
+                    val base="passenger/baked/fragrance-${if(day)"light"else "dark"}-$tone-$on"
+                    add("$base.png");if(!on)add("$base-gray.png")
+                }
+            }
+        }
+        PassengerArtworkCache.prepare(context,"fragrance-scenes",paths){loaded->
+            loaded.filterKeys{it.startsWith("passenger/fragrance-wide/")}.forEach{(path,b)->images[path.substringAfterLast('/').removeSuffix(".png")]=b}
+            staticArtwork.install(loaded);artReady=true;animateObject();invalidate()
+        }
+    }
     fun update(s:JSONObject){
         if(state.toString()==s.toString())return
         motion.updated()
@@ -38,7 +56,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
         val artwork=PassengerFragranceMapping.artwork(value("IVI_FRAG_TASTE_FB"))
         if(valid("IVI_FRAG_TASTE_FB",1..3)&&artwork!=null&&scent!=artwork){
             fade?.cancel();oldScent=scent;scent=artwork
-            if(isAttachedToWindow&&isShown&&ValueAnimator.areAnimatorsEnabled()){
+            if(artReady&&isAttachedToWindow&&isShown&&ValueAnimator.areAnimatorsEnabled()){
                 fade=ValueAnimator.ofFloat(0f,1f).apply{duration=320;addUpdateListener{blend=it.animatedValue as Float;invalidate()};start()}
             }else blend=1f
         }
@@ -46,7 +64,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
         animateObject()
     }
     private fun animateObject(){
-        if(isAttachedToWindow&&isShown&&windowVisibility==VISIBLE&&on&&ValueAnimator.areAnimatorsEnabled()){
+        if(artReady&&isAttachedToWindow&&isShown&&windowVisibility==VISIBLE&&on&&ValueAnimator.areAnimatorsEnabled()){
             // OEM uses 56 frames at 40 ms. Bundled artwork contains every other frame.
             if(breath==null)breath=ValueAnimator.ofFloat(0f,1f).apply{duration=2240;interpolator=LinearInterpolator();repeatCount=ValueAnimator.INFINITE;addUpdateListener{val p=it.animatedValue as Float;if((p*28).toInt()!=(pulse*28).toInt()){pulse=p;invalidate()}};start()}
         }else{breath?.cancel();breath=null;pulse=0f}
@@ -83,10 +101,6 @@ internal class PassengerFragranceView(context:Context):View(context) {
         staticArtwork.draw(c,"fragrance-${if(light)"light"else "dark"}-$tone-$on${if(grayscale)"-gray"else ""}",RectF(0f,0f,770f,280f))
         c.save();c.translate(28.0464f,0f);c.scale(.927152f,.927152f)
         image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",RectF(467f,46f,707f,242f),alpha=(191+64*motion.value("power",if(on)1f else 0f)).toInt())
-        if(on){
-            val frame=((pulse*28).toInt().coerceIn(0,27)*2).toString().padStart(2,'0')
-            image(c,"fragrance_anim_$frame",RectF(528f,55f,646f,221f),alpha=if(light)185 else 225)
-        }
         val label=if(light)color(when(tone){1->"#707985";2->"#747970";else->"#7c7182"}) else Color.WHITE
         text(c,listOf("","Watery mist","Fresh bamboo","Peony scarlet")[tone],587f,37f,20f,label)
         for(row in 0..1){
@@ -115,6 +129,11 @@ internal class PassengerFragranceView(context:Context):View(context) {
                 if(light&&status=="off")staticArtwork.draw(c,"fragrance_icon_${name}_off-light",rect)
                 else image(c,"fragrance_icon_${name}_$status",rect)
             }
+        }
+        // Emission is the foreground layer, including above the active selector icon.
+        if(on&&artReady){
+            val frame=((pulse*28).toInt().coerceIn(0,27)*2).toString().padStart(2,'0')
+            image(c,"fragrance_anim_$frame",RectF(469f,-28f,705f,304f),alpha=if(light)185 else 225)
         }
         c.restore()
     }

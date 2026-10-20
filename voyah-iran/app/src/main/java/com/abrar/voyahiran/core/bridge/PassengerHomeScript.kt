@@ -13,7 +13,16 @@ Java.perform(function(){
         return Global.getInt(ctx.getContentResolver(),'voyah_iran_launcher_home',0)===1 &&
             ['voyah_iran_launcher_lease','voyah_iran_launcher_vip_lease'].every(function(k){const n=Number(Global.getString(ctx.getContentResolver(),k))-now;return n>0&&n<=90000;});
     }
-    function top(){return String(Apps.getTopAppInfo(ctx,1,4));}
+    // The foreground broadcast arrives before AppUtils' task cache catches up.
+    // A newer event (including a non-home app) replaces the hint immediately.
+    let foregroundHint='',foregroundUntil=0;
+    globalThis.VI_PASSENGER_FOREGROUND=function(intent){
+        const value=intent.getStringExtra('android.intent.extra.COMPONENT_NAME');
+        foregroundHint=value===null?'':String(value);
+        foregroundUntil=Date.now()+2200;
+    };
+    globalThis.VI_PASSENGER_TOP_HINT=function(){return Date.now()<foregroundUntil?foregroundHint:'';};
+    function top(){return globalThis.VI_PASSENGER_TOP_HINT()||String(Apps.getTopAppInfo(ctx,1,4));}
     function open(drawer){
         if(!allowed())return false;
         const i=Intent.__DOLLAR__new();i.setClassName('com.abrar.voyahiran','com.abrar.voyahiran.feature.launcher.'+(drawer?'PassengerAppsActivity':'PassengerLauncherActivity'));

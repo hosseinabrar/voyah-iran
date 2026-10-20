@@ -120,7 +120,7 @@ class Android9Patch {
         var before=classes(source);check(Set.of(4713,4714,4717,4718).contains(before.size()),"Unexpected class count");
         boolean already=before.containsKey("com/android/server/am/VoyahIranLegacyDisplay.smali");
         Path accepted=templates;
-        if(already) for(String version:List.of("previous-v1","previous-v2","previous-v3","previous-v4","previous-v5","previous-v6", "previous-welcome", "previous-welcome-variant", "previous-merge-virtual", "previous-merge-production", "previous-before-passenger")) {
+        if(already) for(String version:List.of("previous-before-huge","previous-v1","previous-v2","previous-v3","previous-v4","previous-v5","previous-v6", "previous-welcome", "previous-welcome-variant", "previous-merge-virtual", "previous-merge-production", "previous-before-passenger")) {
             Path candidate=templates.resolve(version);
             if(classes(candidate.resolve("helpers")).entrySet().stream().allMatch(e -> { try { return before.containsKey(e.getKey()) && canonical(text(before.get(e.getKey()))).equals(canonical(text(e.getValue()))); } catch(Exception ex) { return false; } })) { accepted=candidate; break; }
         }

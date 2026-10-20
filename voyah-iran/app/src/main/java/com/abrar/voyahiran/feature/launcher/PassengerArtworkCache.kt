@@ -20,7 +20,30 @@ internal object PassengerArtworkCache {
     private val main=Handler(Looper.getMainLooper())
     private val pending=mutableMapOf<String,WeakHashMap<View,Boolean>>()
     private var warming=false
+    // Complete animation sets are retained separately: LRU eviction must not punch
+    // holes in the next loop. Publication and callbacks happen atomically on main.
+    private val batches=mutableMapOf<String,Map<String,Bitmap>>()
+    private val batchWaiters=mutableMapOf<String,MutableList<(Map<String,Bitmap>)->Unit>>()
+    @Synchronized fun prepare(context:Context,key:String,paths:List<String>,ready:(Map<String,Bitmap>)->Unit) {
+        batches[key]?.let{ready(it);return}
+        batchWaiters[key]?.let{it.add(ready);return}
+        batchWaiters[key]=mutableListOf(ready)
+        val assets=context.applicationContext.assets
+        worker.execute {
+            val started=android.os.SystemClock.elapsedRealtime()
+            val result=runCatching{paths.associateWith{path->assets.open(path).use{requireNotNull(BitmapFactory.decodeStream(it))}}}
+            main.post { synchronized(this) {
+                val callbacks=batchWaiters.remove(key).orEmpty()
+                result.onSuccess { loaded->
+                    batches[key]=loaded
+                    AppLog.info("PassengerArtwork","ready=$key frames=${loaded.size} bytes=${loaded.values.sumOf{it.allocationByteCount.toLong()}} elapsedMs=${android.os.SystemClock.elapsedRealtime()-started}")
+                    callbacks.forEach{it(loaded)}
+                }.onFailure{AppLog.error("PassengerArtwork","Batch failed: $key",it)}
+            } }
+        }
+    }
     @Synchronized fun get(context:Context,path:String,view:View?=null):Bitmap? {
+        batches.values.forEach{it[path]?.let{return it}}
         images.get(path)?.let{return it}
         pending[path]?.let{if(view!=null)it[view]=true;return null}
         pending[path]=WeakHashMap<View,Boolean>().apply{if(view!=null)put(view,true)}

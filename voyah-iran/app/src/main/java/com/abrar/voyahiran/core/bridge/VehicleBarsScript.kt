@@ -22,12 +22,15 @@ Java.perform(function () {
         const Props=Java.use('android.os.SystemProperties');
         const Lift=Java.use('com.qinggan.utils.ScreenLiftUtils');
         const bars=new Map(), states=new Map();
+        function persistentLight() {
+            return String(Props.get('persist.sys.qg.currenttheme','default'))==='simple' && Number(Lift.getScreenLiftState())===2;
+        }
         function remember(bar) {
             const display=Number(bar.mScreenId.value);
             if(display!==0 && display!==1)return;
             const old=bars.get(display);
             if(old && old.bar.equals(bar))return;
-            if(old)restore(old);
+            if(old && !persistentLight())restore(old);
             bars.set(display,{bar:Java.retain(bar),view:null,original:null,paint:null});
         }
         function restore(b) {
@@ -44,18 +47,18 @@ Java.perform(function () {
         function sync(ctx,display,enabled) {
             if(display!==0 && display!==1)return;
             let s=states.get(display);
-            if(!s) {s={view:null,key:'',wm:null};states.set(display,s);}
+            if(!s) {s={view:null,key:'',wm:null,ctx:Java.retain(ctx),enabled:enabled};states.set(display,s);}
+            s.enabled=enabled;
             const b=bars.get(display);
             let stage="lift-state";
             try {
                 stage='theme';
                 const light=String(Props.get('persist.sys.qg.currenttheme','default'))==='simple';
-                // Center light-theme bars must survive OEM apps and empty top-task
-                // snapshots during activity transitions, independently of eligibility.
-                const persistentLightCenter=display===0 && light;
+                // Both displays retain their light backdrop through HOME, OEM apps,
+                // empty task snapshots and navigation controller replacement.
                 stage='lift-state';
                 // The lowered display has different factory controls/geometry.
-                if((!enabled && !persistentLightCenter) || Number(Lift.getScreenLiftState())!==2) {
+                if((!enabled && !light) || Number(Lift.getScreenLiftState())!==2) {
                     if(b)restore(b);removeTop(s);return;
                 }
                 stage='theme';
@@ -102,14 +105,26 @@ Java.perform(function () {
                 stage='window-add';
                 addView.call(s.wm,v,lp);s.view=v;s.key=key;
                 console.log('VI_BAR_THEME display='+display+' light='+light);
-            } catch(e) {if(b)restore(b);removeTop(s);console.log('VI_BAR_THEME_ERROR stage='+stage+' '+e+' stack='+e.stack);}
+            } catch(e) {
+                // A transient OEM/view lookup failure must not tear down a good backdrop.
+                console.log('VI_BAR_THEME_ERROR stage='+stage+' retained='+(s.view!==null)+' '+e+' stack='+e.stack);
+            }
         }
         globalThis.VI_SYNC_BAR_BACKGROUND=sync;
         const show=Controller.show.overload();
-        show.implementation=function(){remember(this);return show.call(this);};
+        show.implementation=function(){
+            remember(this);
+            const result=show.call(this), display=Number(this.mScreenId.value), s=states.get(display);
+            if(s)sync(s.ctx,display,s.enabled);
+            return result;
+        };
         globalThis.VI_RELEASE_BAR_BACKGROUND=function(controller){
             const display=Number(controller.mScreenId.value), b=bars.get(display), s=states.get(display);
-            if(b && b.bar.equals(controller)){restore(b);bars.delete(display);if(s)removeTop(s);}
+            if(b && b.bar.equals(controller)){
+                // The top backdrop belongs to the display, not to this transient controller.
+                if(!persistentLight()){restore(b);if(s)removeTop(s);}
+                bars.delete(display);
+            }
         };
         Java.choose('com.qinggan.launcher.navigation.NavigationBarController',{
             onMatch:function(instance){remember(instance);},onComplete:function(){}

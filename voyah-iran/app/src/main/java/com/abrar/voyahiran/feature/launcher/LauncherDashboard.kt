@@ -30,6 +30,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         c.save();c.scale(width/428f,height/426f);c.translate(-1331f,0f);drawClock(c);c.restore()
     }}
     fun tickClock(){clockView.invalidate()}
+    private val clockMotion=LauncherMotion(clockView)
     init{setWillNotDraw(false);addView(progressView);addView(clockView)}
     override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
         progressView.layout((911f*width/1775).toInt(),(518f*height/660).toInt(),(1311f*width/1775).toInt(),(563f*height/660).toInt())
@@ -37,7 +38,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
     }
     private val motion=LauncherMotion(this)
     internal var controlMotionPaused=false
-        set(value){field=value;motion.paused=value}
+        set(value){field=value;motion.paused=value;clockMotion.paused=value}
     private val bitmaps=LauncherBitmapLoader(resources){invalidate()}
     override fun onAttachedToWindow() {super.onAttachedToWindow();bitmaps.start();invalidate()}
     private val buttonPress = FloatArray(3)
@@ -123,10 +124,11 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         }
     }
     private data class MediaTextKey(val title:String,val artist:String,val radio:Boolean,val light:Boolean)
-    private var mediaTextKey:MediaTextKey?=null
-    private var mediaTextPicture:Picture?=null
+    private val mediaTextPictures=object:LinkedHashMap<MediaTextKey,Picture>(8,.75f,true){
+        override fun removeEldestEntry(eldest:MutableMap.MutableEntry<MediaTextKey,Picture>?)=size>8
+    }
     var weather = LauncherWeatherState()
-        set(value) { if(field==value)return;field=value; invalidate() }
+        set(value) { if(field==value)return;motion.updated();field=value; invalidate() }
     private val unknownWeatherBitmap get() = bitmaps.get(R.drawable.launcher_weather_hd_unavailable,weather=true)
     var mapMessage = LauncherMapPreview.LOADING
         set(value) { if(field==value)return;field = value; invalidate() }
@@ -210,7 +212,9 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         }
         // Reserve space for the source shortcut even with long application names.
         c.save(); c.clipRect(911f, 0f, 1255f, 65f)
-        text(media.source, if(hasSourceIcon) 951f else 911f,45f,23f)
+        motion.text("source",media.source,c,RectF(911f,0f,1255f,65f)){
+            text(it, if(hasSourceIcon) 951f else 911f,45f,23f)
+        }
         c.restore()
         paint.color = foreground; paint.strokeWidth = 2.5f
         c.drawLine(1280f, 27f, 1288f, 35f, paint)
@@ -223,17 +227,19 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         }
         // Replay retained text drawing commands on progress/clock frames. Re-measure and
         // record only when the labels or their presentation actually change.
-        val textKey=MediaTextKey(media.title,media.artist,media.radio,lightTheme)
-        if(mediaTextKey!=textKey) {
-            val picture=Picture()
-            val labels=picture.beginRecording(1775,660)
-            text(media.title,1101f,if(media.radio)255f else 467f,if(media.radio)48f else 32f,center=true,bold=true,target=labels)
-            text(media.artist,1101f,if(media.radio)310f else 495f,if(media.radio)26f else 23f,secondary,center=true,target=labels)
-            picture.endRecording()
-            mediaTextPicture=picture;mediaTextKey=textKey
-        }
         c.save();c.translate(0f,10f)
-        mediaTextPicture?.let {c.drawPicture(it)}
+        val metadata=org.json.JSONArray().put(media.title).put(media.artist).put(media.radio).toString()
+        motion.text("metadata",metadata,c,RectF(911f,190f,1291f,510f)){token->
+            val parts=org.json.JSONArray(token)
+            val textKey=MediaTextKey(parts.getString(0),parts.getString(1),parts.getBoolean(2),lightTheme)
+            val picture=mediaTextPictures.getOrPut(textKey){Picture().also { picture->
+            val labels=picture.beginRecording(1775,660)
+            text(textKey.title,1101f,if(textKey.radio)255f else 467f,if(textKey.radio)48f else 32f,center=true,bold=true,target=labels)
+            text(textKey.artist,1101f,if(textKey.radio)310f else 495f,if(textKey.radio)26f else 23f,secondary,center=true,target=labels)
+            picture.endRecording()
+            }}
+            c.drawPicture(picture)
+        }
         listOf(987f to icons[0],1101f to icons[if(media.playing)2 else 1],1215f to icons[3]).forEachIndexed { index,(x,b)->
             c.save()
             val scale=1f-.12f*buttonPress[index]
@@ -255,10 +261,13 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         c.restore()
         fun degree(value: Double?) = value?.let { String.format(Locale.US,"%.0f°",it) } ?: "—"
         c.save();c.clipRect(1355f,455f,1588f,640f)
-        text(weather.city,1387f,499f,23f)
-        text(degree(weather.temperature),1387f,548f,51f)
-        text(if(weather.temperature==null) weather.notice else LauncherWeatherCode.description(weather.code),1387f,580f,19f,secondary)
-        if(weather.temperature!=null) text(degree(weather.high)+" / "+degree(weather.low),1387f,608f,18f,secondary)
+        fun weatherText(key:String,value:String,y:Float,size:Float,color:Int=foreground){
+            motion.text("weather-$key",value,c,RectF(1380f,y-size-8f,1588f,y+8f)){text(it,1387f,y,size,color)}
+        }
+        weatherText("city",weather.city,499f,23f)
+        weatherText("temperature",degree(weather.temperature),548f,51f)
+        weatherText("description",if(weather.temperature==null) weather.notice else LauncherWeatherCode.description(weather.code),580f,19f,secondary)
+        weatherText("range",if(weather.temperature!=null)degree(weather.high)+" / "+degree(weather.low)else "",608f,18f,secondary)
         c.restore()
         if(weather.temperature == null) {
             paint.color=Color.WHITE
@@ -268,7 +277,9 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
             val weatherBitmap=bitmaps.get(id,weather=true)
             weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1569f,462f,1749f,642f),paint) }
         }
-        text("Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",1355f,646f,12f,secondary)
+        motion.text("weather-notice","Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",c,RectF(1350f,628f,1755f,655f)){
+            text(it,1355f,646f,12f,secondary)
+        }
         c.restore()
     }
     private fun drawClock(c:Canvas){
@@ -280,9 +291,9 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         hand(now.get(Calendar.MINUTE)*6f+now.get(Calendar.SECOND)*.1f,84f,4f)
         paint.color=if(lightTheme)foreground else 0xffdfeaff.toInt();c.drawCircle(cx,cy,7f,paint)
         paint.textAlign=Paint.Align.CENTER;paint.typeface=persian;paint.textSize=26f;paint.color=foreground
-        c.drawText(LauncherClock.persianDate(now.timeInMillis),cx,349f,paint)
+        clockMotion.text("persian-date",LauncherClock.persianDate(now.timeInMillis),c,RectF(1331f,315f,1759f,360f)){c.drawText(it,cx,349f,paint)}
         paint.typeface=latin;paint.textSize=17f;paint.color=secondary
-        c.drawText(LauncherClock.gregorianDate(now.timeInMillis),cx,387f,paint)
+        clockMotion.text("gregorian-date",LauncherClock.gregorianDate(now.timeInMillis),c,RectF(1331f,362f,1759f,398f)){c.drawText(it,cx,387f,paint)}
     }
     override fun onTouchEvent(e: MotionEvent): Boolean {
         val x=e.x*1775/width;val y=e.y*660/height

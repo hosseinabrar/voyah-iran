@@ -114,7 +114,8 @@ public class DisplayPolicyTest {
   check(frames.mFrame.left==0 && frames.mFrame.top==0,"disabled frame unmodified");
   java.lang.reflect.Field density=VoyahIranDisplayPolicy.class.getDeclaredField("appDensity");density.setAccessible(true);
   a.info.applicationInfo.packageName="test.user";a.info.applicationInfo.flags=0;
-  for(int dpi:new int[]{120,140,160,180,200}) {
+  for(int dpi:new int[]{120,140,160,180,200,240}) {
+   check(VoyahIranDisplayPolicy.parseDensities("test.huge="+dpi).get("test.huge")==dpi,"all presets accepted per package");
    check(VoyahIranDisplayPolicy.densityFor(Integer.toString(dpi))==dpi,"preset accepted");density.setInt(null,dpi);
    state(true);VoyahIranDisplayPolicy.configuration(a,parent);
    check(a.config.densityDpi==dpi && a.config.screenWidthDp==1775*160/dpi && a.config.screenHeightDp==590*160/dpi,"density scales logical safe area, not physical bounds");

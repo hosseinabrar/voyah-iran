@@ -28,9 +28,9 @@
 
 # direct methods
 .method constructor <init>()V
-    .locals 0
+    .registers 1
 
-    .line 107
+    .line 108
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -39,9 +39,9 @@
 
 # virtual methods
 .method public accept(Lcom/android/server/wm/ActivityRecord;)V
-    .locals 2
+    .registers 4
 
-    .line 110
+    .line 111
     invoke-static {p1}, Lcom/android/server/wm/VoyahIranDisplayPolicy;->access$800(Lcom/android/server/wm/ActivityRecord;)Z
 
     move-result v0
@@ -61,7 +61,7 @@
 
     if-eqz v0, :cond_1
 
-    .line 111
+    .line 112
     invoke-virtual {p1}, Lcom/android/server/wm/ActivityRecord;->getParent()Lcom/android/server/wm/WindowContainer;
 
     move-result-object v0
@@ -72,30 +72,22 @@
 
     invoke-virtual {p1, v0}, Lcom/android/server/wm/ActivityRecord;->onConfigurationChanged(Landroid/content/res/Configuration;)V
 
-    .line 112
+    .line 113
     const/4 v0, 0x0
 
     const/4 v1, 0x1
 
     invoke-virtual {p1, v0, v1}, Lcom/android/server/wm/ActivityRecord;->ensureActivityConfiguration(IZ)Z
 
-    .line 114
+    .line 115
     :cond_1
     return-void
 .end method
 
 .method public bridge synthetic accept(Ljava/lang/Object;)V
-    .locals 0
-    .annotation system Ldalvik/annotation/MethodParameters;
-        accessFlags = {
-            0x1000
-        }
-        names = {
-            null
-        }
-    .end annotation
+    .registers 2
 
-    .line 107
+    .line 108
     check-cast p1, Lcom/android/server/wm/ActivityRecord;
 
     invoke-virtual {p0, p1}, Lcom/android/server/wm/VoyahIranDisplayPolicy$2;->accept(Lcom/android/server/wm/ActivityRecord;)V

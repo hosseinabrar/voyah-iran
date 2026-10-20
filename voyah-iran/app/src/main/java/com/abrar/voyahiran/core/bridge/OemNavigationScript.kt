@@ -26,6 +26,8 @@ Java.perform(function () {
                 typeof globalThis.VI_PASSENGER_HOME_VISIBLE==='function' && globalThis.VI_PASSENGER_HOME_VISIBLE();
         }
         function passengerTop(ctx) {
+            const hint=typeof globalThis.VI_PASSENGER_TOP_HINT==='function'?globalThis.VI_PASSENGER_TOP_HINT():'';
+            if(hint)return hint;
             if (passengerTopApi === null) return null;
             const value = passengerTopApi.getTopAppInfo(ctx, 1, 4);
             return value === null ? '' : value.toString();
@@ -309,10 +311,12 @@ Java.perform(function () {
             const Model=Java.use('com.qinggan.app.launcher.LauncherModel');
             const receive=Model.onReceive.overload('android.content.Context','android.content.Intent');
             receive.implementation=function(ctx,intent){
+                const passengerEvent=String(intent.getAction())==='android.intent.action.TOP_ACTIVITY_CHANGED' && intent.getIntExtra('displayId',-1)===1;
+                if(passengerEvent && typeof globalThis.VI_PASSENGER_FOREGROUND==='function')globalThis.VI_PASSENGER_FOREGROUND(intent);
                 const result=receive.call(this,ctx,intent);
                 if(String(intent.getAction())==='android.intent.action.TOP_ACTIVITY_CHANGED' && intent.getIntExtra('displayId',-1)===1){
                     if(passengerModel===null)passengerModel=Java.retain(this);
-                    console.log('VI_NAV_PASSENGER_EVENT foreground');
+                    console.log('VI_NAV_PASSENGER_EVENT foreground component='+passengerTop(ctx));
                     eventRetries=20;
                     scheduleRefresh();
                 }

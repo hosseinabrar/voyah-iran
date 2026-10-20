@@ -94,6 +94,33 @@ class PassengerSeatsRenderTest {
             bitmap.recycle()
         }
     }
+    @Test fun transparentEffectsKeepTheBaseSeatVisibleInBothThemes(){
+        for(light in listOf(false,true)){
+            fun render(enabled:Boolean):Bitmap {
+                val view=PassengerSeatsView(RuntimeEnvironment.getApplication())
+                view.layout(0,0,556,228);view.light=light
+                view.update(sample(enabled,enabled))
+                kotlinx.coroutines.runBlocking{view.prepareArtwork()}
+                if(enabled){
+                    // Remove only effect pixels, not the base. A replacement implementation
+                    // would now leave the seats missing instead of matching the off state.
+                    val blank=Bitmap.createBitmap(1,1,Bitmap.Config.ARGB_8888)
+                    @Suppress("UNCHECKED_CAST")
+                    val artwork=PassengerSeatsView::class.java.getDeclaredField("artwork")
+                        .apply{isAccessible=true}.get(view) as MutableMap<String,Bitmap>
+                    val names=PassengerSeatsView::class.java.getDeclaredMethod("names")
+                        .apply{isAccessible=true}.invoke(view) as List<*>
+                    names.forEach{artwork[it.toString()]=blank}
+                }
+                return Bitmap.createBitmap(556,228,Bitmap.Config.ARGB_8888).also{view.draw(Canvas(it))}
+            }
+            val off=render(false);val on=render(true)
+            // Exclude controls and massage-mode labels; compare both complete seats.
+            for(range in listOf(100..180,375..455))for(x in range)for(y in 23..160)
+                assertEquals("Base must remain visible at $x,$y, light=$light",off.getPixel(x,y),on.getPixel(x,y))
+            off.recycle();on.recycle()
+        }
+    }
     @Test fun writesUseIndependentFeedbackAndModesRequireActiveMassage(){
         val view=PassengerSeatsView(RuntimeEnvironment.getApplication());view.layout(0,0,556,228)
         val writes=mutableListOf<Pair<String,String>>();view.onCommand={a,b->writes.add(a to b)}

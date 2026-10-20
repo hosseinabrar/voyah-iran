@@ -54,7 +54,8 @@ public class LegacyDisplayTest {
   a.info.applicationInfo.flags=0;a.display=1;VoyahIranLegacyDisplay.configuration(a,override);check(override.uiMode==0x23,"passenger theme applied");
   java.lang.reflect.Field density=VoyahIranLegacyDisplay.class.getDeclaredField("appDensity");density.setAccessible(true);
   a.screen.mDisplay.width=1920;a.screen.mDisplay.height=720;state("enabled",true);
-  for(int dpi:new int[]{120,140,160,180,200}) {
+  for(int dpi:new int[]{120,140,160,180,200,240}) {
+   check(VoyahIranLegacyDisplay.parseDensities("test.huge="+dpi).get("test.huge")==dpi,"all presets accepted per package");
    check(VoyahIranLegacyDisplay.densityFor(Integer.toString(dpi))==dpi,"preset accepted");density.setInt(null,dpi);
    VoyahIranLegacyDisplay.configuration(a,override);
    check(override.densityDpi==dpi && override.screenWidthDp==1775*160/dpi && override.screenHeightDp==670*160/dpi,"density scales logical area");

@@ -93,7 +93,7 @@ names = names.Concat(names.Where(p => p.StartsWith("patch/display/legacy-merge-p
 names = names.Concat(names.Where(p => p.StartsWith("patch/display/helpers/", StringComparison.Ordinal))
     .Select(p => p.Replace("display/helpers/", "display/legacy-passenger-inset/"))).Distinct().ToArray();
 names = names.Concat(names.Where(p => p.StartsWith("patch/display/helpers/", StringComparison.Ordinal))
-    .Select(p => p.Replace("display/helpers/", "display/legacy-before-map-theme/"))).Distinct().ToArray();
+    .SelectMany(p => new[] { p.Replace("display/helpers/", "display/legacy-before-map-theme/"), p.Replace("display/helpers/", "display/legacy-before-huge/") })).Distinct().ToArray();
 var sourceRoot = new DirectoryInfo(AppContext.BaseDirectory);
 while (sourceRoot != null && !Directory.Exists(Path.Combine(sourceRoot.FullName, "tools", "patch", "android9"))) sourceRoot = sourceRoot.Parent;
 if (sourceRoot != null)
@@ -101,7 +101,7 @@ if (sourceRoot != null)
     var patchRoot = Path.Combine(sourceRoot.FullName, "tools", "patch", "android9");
     var packaged = Directory.GetFiles(patchRoot).Where(p => Path.GetFileName(p) == "Android9Patch.java" ||
         new[] { ".smali", ".jar", ".json" }.Contains(Path.GetExtension(p)) || Path.GetFileName(p).EndsWith("LICENSE.txt"))
-        .Concat(new[] { "helpers", "previous-v1", "previous-v2", "previous-v3", "previous-v4", "previous-v5", "previous-v6", "previous-welcome", "previous-welcome-variant", "previous-merge-virtual", "previous-merge-production" }.SelectMany(dir => Directory.GetFiles(Path.Combine(patchRoot, dir), "*.smali", SearchOption.AllDirectories)))
+        .Concat(new[] { "helpers", "previous-before-huge", "previous-v1", "previous-v2", "previous-v3", "previous-v4", "previous-v5", "previous-v6", "previous-welcome", "previous-welcome-variant", "previous-merge-virtual", "previous-merge-production" }.SelectMany(dir => Directory.GetFiles(Path.Combine(patchRoot, dir), "*.smali", SearchOption.AllDirectories)))
         .Select(p => "patch/android9/" + Path.GetRelativePath(patchRoot, p).Replace('\\', '/')).ToHashSet();
     Check(packaged.SetEquals(Android9FrameworkAssets.RequiredFiles), "Actual Android 9 payload files exactly match extraction allowlist");
 }

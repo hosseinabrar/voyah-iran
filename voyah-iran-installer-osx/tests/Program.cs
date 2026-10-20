@@ -68,7 +68,11 @@ try {
         Check(bundle.Manifest.TargetRuntime == runtime, "Runtime retained " + runtime);
         Check(File.Exists(bundle.JavaExecutable), "Java resolved " + runtime);
         foreach (var name in new[] { "VoyahIranDisplayPolicy.smali", "VoyahIranDisplayPolicy$1.smali", "VoyahIranDisplayPolicy$1$1.smali", "VoyahIranDisplayPolicy$2.smali" })
+        {
+            Check(File.Exists(bundle.File("patch/display/legacy-before-huge/" + name)), "Density upgrade template " + runtime + " " + name);
             Check(File.Exists(bundle.File("patch/display/legacy-before-map-theme/" + name)), "Map theme upgrade template " + runtime + " " + name);
+        }
+        Check(File.Exists(bundle.File("patch/android9/previous-before-huge/helpers/com/android/server/am/VoyahIranLegacyDisplay.smali")), "Android 9 density upgrade template " + runtime);
         foreach (var name in new[] { "VoyahIranDisplayPolicy.smali", "VoyahIranDisplayPolicy$1.smali", "VoyahIranDisplayPolicy$1$1.smali", "VoyahIranDisplayPolicy$2.smali" })
             Check(File.Exists(bundle.File("patch/display/legacy-passenger-inset/" + name)), "Passenger layout upgrade template " + runtime + " " + name);
         if (runtime.StartsWith("osx-") && !OperatingSystem.IsWindows()) {

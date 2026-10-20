@@ -19,33 +19,15 @@
 
 .field final synthetic val$resolver:Landroid/content/ContentResolver;
 
-.field final synthetic val$service:Lcom/android/server/am/ActivityManagerService;
-
 
 # direct methods
-.method constructor <init>(Lcom/android/server/am/VoyahIranLegacyDisplay$1;Landroid/os/Handler;Lcom/android/server/am/ActivityManagerService;Landroid/content/ContentResolver;)V
-    .registers 5
-    .annotation system Ldalvik/annotation/MethodParameters;
-        accessFlags = {
-            0x8010,
-            0x0,
-            0x1010,
-            0x1010
-        }
-        names = {
-            null,
-            null,
-            null,
-            null
-        }
-    .end annotation
+.method constructor <init>(Lcom/android/server/am/VoyahIranLegacyDisplay$1;Landroid/os/Handler;Landroid/content/ContentResolver;)V
+    .registers 4
 
-    .line 69
-    iput-object p3, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$service:Lcom/android/server/am/ActivityManagerService;
-
-    iput-object p4, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$resolver:Landroid/content/ContentResolver;
-
+    .line 70
     iput-object p1, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->this$0:Lcom/android/server/am/VoyahIranLegacyDisplay$1;
+
+    iput-object p3, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$resolver:Landroid/content/ContentResolver;
 
     invoke-direct {p0, p2}, Landroid/database/ContentObserver;-><init>(Landroid/os/Handler;)V
 
@@ -57,8 +39,10 @@
 .method public onChange(Z)V
     .registers 3
 
-    .line 70
-    iget-object p1, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$service:Lcom/android/server/am/ActivityManagerService;
+    .line 71
+    iget-object p1, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->this$0:Lcom/android/server/am/VoyahIranLegacyDisplay$1;
+
+    iget-object p1, p1, Lcom/android/server/am/VoyahIranLegacyDisplay$1;->val$service:Lcom/android/server/am/ActivityManagerService;
 
     iget-object v0, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;->val$resolver:Landroid/content/ContentResolver;
 

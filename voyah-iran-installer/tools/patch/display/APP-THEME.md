@@ -7,7 +7,7 @@ Per-package overrides use `voyah_iran_app_density_packages`, a sorted
 into an immutable map during setting changes, so activity configuration needs only
 a map lookup. A missing entry follows the current global choice; a stored entry
 remains fixed across global changes and reboot. The authenticated bridge command
-`app-density-package PACKAGE inherit|120|140|160|180|200` serializes updates and waits
+`app-density-package PACKAGE inherit|120|140|160|180|200|240` serializes updates and waits
 for a matching `voyah_iran_app_density_packages_ack`, rolling back on failure.
 The permissions page displays the effective value, with a separate inheritance
 switch; the selector is hidden while inheritance is on. Picking a size explicitly creates an override, even if it currently equals
@@ -15,7 +15,7 @@ the global value. Enabling inheritance removes that package's entry only.
 Exact global-density-only upgrade fixtures are `display/legacy-global-density`
 and `android9/previous-v5`.
 
-`voyah_iran_app_density` stores one of 120, 140, 160 (default), 180, 200.
+`voyah_iran_app_density` stores one of 120, 140, 160 (default), 200, 240. Legacy 180 is also accepted for saved settings.
 Both framework helpers apply density and recompute logical screen dimensions for
 user-installed activities on displays 0 and 1, excluding Voyah Iran itself and system/updated-system apps. Physical safe-area
 bounds remain unchanged. Density is independent of safe-area enablement; OEM apps,

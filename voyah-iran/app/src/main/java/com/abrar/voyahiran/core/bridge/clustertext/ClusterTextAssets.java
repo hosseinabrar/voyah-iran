@@ -3,6 +3,10 @@ package com.abrar.voyahiran.core.bridge.clustertext;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.graphics.Canvas;
+import android.os.SystemClock;
+import android.text.Layout;
+import android.text.StaticLayout;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -26,11 +30,60 @@ public final class ClusterTextAssets {
         String language = Locale.getDefault().getLanguage().toLowerCase(Locale.ENGLISH);
         return language.endsWith("en") || language.endsWith("zh");
     }
-    public static class BoldTextView extends TextView {
+    /** Detached bitmap views have no window to correct the huge single-line layout's scroll.
+     * Always measure in the real width. Long labels scroll using the existing bitmap frame clock. */
+    public static class BoundedTextView extends TextView {
+        private final boolean moving;
+        private StaticLayout fullLine;
+        private String lastText;
+        private float lastSize;
+        private Typeface lastTypeface;
+        private int lastWidth;
+        private long began;
+        public BoundedTextView(Context c) { this(c,false); }
+        BoundedTextView(Context c,boolean moving) { super(c); this.moving=moving; }
+        @Override public void setSingleLine(boolean single) {
+            super.setSingleLine(single);
+            if(single){setMaxLines(1);super.setHorizontallyScrolling(false);}
+        }
+        @Override protected void onMeasure(int w,int h) {
+            super.setHorizontallyScrolling(false);
+            if(moving){setMaxLines(1);super.setEllipsize(TextUtils.TruncateAt.END);}
+            super.onMeasure(w,h);
+        }
+        @Override protected void onDraw(Canvas canvas) {
+            if(!moving){super.onDraw(canvas);return;}
+            String text=getText().toString().replace('\n',' ');
+            int width=getWidth()-getCompoundPaddingLeft()-getCompoundPaddingRight();
+            if(width<=0)return;
+            if(fullLine==null || !text.equals(lastText) || lastSize!=getTextSize() || lastTypeface!=getTypeface() || lastWidth!=width){
+                lastText=text;lastSize=getTextSize();lastTypeface=getTypeface();lastWidth=width;began=SystemClock.uptimeMillis();
+                int desired=Math.max(1,(int)Math.ceil(Layout.getDesiredWidth(text,getPaint()))+1);
+                fullLine=StaticLayout.Builder.obtain(text,0,text.length(),getPaint(),desired)
+                    .setAlignment(Layout.Alignment.ALIGN_NORMAL).setIncludePad(getIncludeFontPadding()).setMaxLines(1).build();
+            }
+            if(fullLine.getWidth()<=width){super.onDraw(canvas);return;}
+            getPaint().setColor(getCurrentTextColor());getPaint().drawableState=getDrawableState();
+            float distance=fullLine.getWidth()-width;
+            float speed=30f*getResources().getDisplayMetrics().density;
+            float travel=distance/speed;
+            float time=(SystemClock.uptimeMillis()-began)/1000f%(travel+2.4f);
+            float offset=Math.min(distance,Math.max(0,time-1.2f)*speed);
+            if(fullLine.getParagraphDirection(0)<0)offset=distance-offset;
+            int top=getCompoundPaddingTop(),bottom=getHeight()-getCompoundPaddingBottom();
+            int gravity=getGravity()&android.view.Gravity.VERTICAL_GRAVITY_MASK;
+            float y=gravity==android.view.Gravity.CENTER_VERTICAL?top+(bottom-top-fullLine.getHeight())/2f:
+                gravity==android.view.Gravity.BOTTOM?bottom-fullLine.getHeight():top;
+            int save=canvas.save();canvas.clipRect(getCompoundPaddingLeft(),top,getWidth()-getCompoundPaddingRight(),bottom);
+            canvas.translate(getCompoundPaddingLeft()-offset,y);fullLine.draw(canvas);canvas.restoreToCount(save);
+        }
+    }
+    public static class BoldTextView extends BoundedTextView {
         private final Typeface bundled;
         public BoldTextView(Context context, Context owner) {
-            super(context); bundled = font(owner); refreshFont();
+            this(context,owner,false);
         }
+        BoldTextView(Context context,Context owner,boolean moving) { super(context,moving);bundled=font(owner);refreshFont(); }
         private void refreshFont() { if (bundled != null) setTypeface(factoryFontLanguage() ? bundled : null); }
         @Override protected void onMeasure(int w, int h) { refreshFont(); super.onMeasure(w,h); }
         @Override protected void onConfigurationChanged(Configuration c) { super.onConfigurationChanged(c); refreshFont(); }
@@ -40,7 +93,7 @@ public final class ClusterTextAssets {
     }
     public static final class MarqueeBoldTextView extends BoldTextView {
         public MarqueeBoldTextView(Context context,Context owner) {
-            super(context,owner); setEllipsize(TextUtils.TruncateAt.MARQUEE); setMarqueeRepeatLimit(-1); setSingleLine(true);
+            super(context,owner,true); setEllipsize(TextUtils.TruncateAt.MARQUEE); setMarqueeRepeatLimit(-1); setSingleLine(true);
         }
         @Override public boolean isFocused() { return true; }
         @Override protected void onFocusChanged(boolean focused,int direction,Rect old) {
@@ -48,9 +101,9 @@ public final class ClusterTextAssets {
         }
         @Override public void onWindowFocusChanged(boolean focused) { if(focused)super.onWindowFocusChanged(true); }
     }
-    public static final class MarqueeTextView extends TextView {
+    public static final class MarqueeTextView extends BoundedTextView {
         public MarqueeTextView(Context context) {
-            super(context); setEllipsize(TextUtils.TruncateAt.MARQUEE); setMarqueeRepeatLimit(-1); setSingleLine(true);
+            super(context,true); setEllipsize(TextUtils.TruncateAt.MARQUEE); setMarqueeRepeatLimit(-1); setSingleLine(true);
         }
         @Override public boolean isFocused() { return true; }
     }
@@ -69,7 +122,7 @@ public final class ClusterTextAssets {
             if(name.equals("MarqueeBoldTextView"))replacement=new MarqueeBoldTextView(old.getContext(),owner);
             else if(name.equals("MarqueeTextView"))replacement=new MarqueeTextView(old.getContext());
             else if(name.equals("BoldTextView"))replacement=new BoldTextView(old.getContext(),owner);
-            else replacement=new TextView(old.getContext());
+            else replacement=new BoundedTextView(old.getContext());
             replacement.setId(old.getId()); replacement.setLayoutParams(old.getLayoutParams());
             replacement.setTextSize(TypedValue.COMPLEX_UNIT_PX,old.getTextSize());
             replacement.setTextColor(old.getTextColors()); replacement.setGravity(old.getGravity());

@@ -32,7 +32,7 @@
         }
     .end annotation
 
-    .line 61
+    .line 62
     iput-object p1, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1;->val$service:Lcom/android/server/am/ActivityManagerService;
 
     iput-object p2, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1;->val$handler:Landroid/os/Handler;
@@ -45,9 +45,9 @@
 
 # virtual methods
 .method public run()V
-    .registers 8
+    .registers 7
 
-    .line 64
+    .line 65
     const-wide/16 v0, 0x7d0
 
     const/4 v2, 0x0
@@ -61,14 +61,14 @@
 
     move-result-object v3
 
-    .line 65
+    .line 66
     invoke-static {}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$000()Landroid/database/ContentObserver;
 
     move-result-object v4
 
     if-eqz v4, :cond_2
 
-    .line 66
+    .line 67
     invoke-static {}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$100()I
 
     move-result v4
@@ -86,7 +86,7 @@
     .catch Ljava/lang/RuntimeException; {:try_start_0 .. :try_end_0} :catch_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 81
+    .line 82
     :cond_0
     invoke-static {}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$500()Z
 
@@ -98,24 +98,22 @@
 
     invoke-virtual {v2, p0, v0, v1}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
 
-    .line 67
+    .line 68
     :cond_1
     return-void
 
-    .line 69
+    .line 70
     :cond_2
     :try_start_1
     new-instance v4, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;
 
     iget-object v5, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1;->val$handler:Landroid/os/Handler;
 
-    iget-object v6, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1;->val$service:Lcom/android/server/am/ActivityManagerService;
-
-    invoke-direct {v4, p0, v5, v6, v3}, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;-><init>(Lcom/android/server/am/VoyahIranLegacyDisplay$1;Landroid/os/Handler;Lcom/android/server/am/ActivityManagerService;Landroid/content/ContentResolver;)V
+    invoke-direct {v4, p0, v5, v3}, Lcom/android/server/am/VoyahIranLegacyDisplay$1$1;-><init>(Lcom/android/server/am/VoyahIranLegacyDisplay$1;Landroid/os/Handler;Landroid/content/ContentResolver;)V
 
     invoke-static {v4}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$002(Landroid/database/ContentObserver;)Landroid/database/ContentObserver;
 
-    .line 72
+    .line 73
     const-string v4, "voyah_iran_display_policy"
 
     invoke-static {v4}, Landroid/provider/Settings$Global;->getUriFor(Ljava/lang/String;)Landroid/net/Uri;
@@ -128,7 +126,7 @@
 
     invoke-virtual {v3, v4, v2, v5}, Landroid/content/ContentResolver;->registerContentObserver(Landroid/net/Uri;ZLandroid/database/ContentObserver;)V
 
-    .line 73
+    .line 74
     const-string v4, "voyah_iran_app_theme"
 
     invoke-static {v4}, Landroid/provider/Settings$Global;->getUriFor(Ljava/lang/String;)Landroid/net/Uri;
@@ -141,7 +139,7 @@
 
     invoke-virtual {v3, v4, v2, v5}, Landroid/content/ContentResolver;->registerContentObserver(Landroid/net/Uri;ZLandroid/database/ContentObserver;)V
 
-    .line 74
+    .line 75
     const-string v4, "voyah_iran_app_density"
 
     invoke-static {v4}, Landroid/provider/Settings$Global;->getUriFor(Ljava/lang/String;)Landroid/net/Uri;
@@ -154,7 +152,7 @@
 
     invoke-virtual {v3, v4, v2, v5}, Landroid/content/ContentResolver;->registerContentObserver(Landroid/net/Uri;ZLandroid/database/ContentObserver;)V
 
-    .line 75
+    .line 76
     const-string v4, "voyah_iran_app_density_packages"
 
     invoke-static {v4}, Landroid/provider/Settings$Global;->getUriFor(Ljava/lang/String;)Landroid/net/Uri;
@@ -167,7 +165,7 @@
 
     invoke-virtual {v3, v4, v2, v5}, Landroid/content/ContentResolver;->registerContentObserver(Landroid/net/Uri;ZLandroid/database/ContentObserver;)V
 
-    .line 76
+    .line 77
     iget-object v4, p0, Lcom/android/server/am/VoyahIranLegacyDisplay$1;->val$service:Lcom/android/server/am/ActivityManagerService;
 
     invoke-static {v4, v3}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$300(Lcom/android/server/am/ActivityManagerService;Landroid/content/ContentResolver;)V
@@ -175,7 +173,7 @@
     .catch Ljava/lang/RuntimeException; {:try_start_1 .. :try_end_1} :catch_0
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 81
+    .line 82
     invoke-static {}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$500()Z
 
     move-result v2
@@ -189,17 +187,17 @@
 
     goto :goto_1
 
-    .line 77
+    .line 78
     :catch_0
     move-exception v3
 
-    .line 78
+    .line 79
     :try_start_2
     invoke-static {v2}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$402(Z)Z
 
     invoke-static {v2}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$502(Z)Z
 
-    .line 79
+    .line 80
     const-string v2, "VI/DisplayPolicy9"
 
     const-string v4, "Initialization failed"
@@ -208,7 +206,7 @@
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
 
-    .line 81
+    .line 82
     invoke-static {}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$500()Z
 
     move-result v2
@@ -220,11 +218,11 @@
 
     invoke-virtual {v2, p0, v0, v1}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
 
-    .line 83
+    .line 84
     :cond_3
     return-void
 
-    .line 81
+    .line 82
     :goto_1
     invoke-static {}, Lcom/android/server/am/VoyahIranLegacyDisplay;->access$500()Z
 
@@ -236,7 +234,7 @@
 
     invoke-virtual {v3, p0, v0, v1}, Landroid/os/Handler;->postDelayed(Ljava/lang/Runnable;J)Z
 
-    .line 82
+    .line 83
     :cond_4
     throw v2
 .end method

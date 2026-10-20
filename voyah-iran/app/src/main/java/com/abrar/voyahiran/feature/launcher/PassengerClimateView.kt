@@ -33,10 +33,22 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
     private var touchedWheel:Int?=null
     private var airflow:ValueAnimator?=null
     private var airflowTime=0L
+    private var airReady=false
+    private fun prepareAir(){
+        val paths=buildList {
+            for(theme in listOf("dark","light")){
+                for(side in listOf("left","center","right"))for(i in 0..74)add("passenger/baked/air-$theme-face-$side-$i.png")
+                for(i in 0..29)add("passenger/baked/air-$theme-window-$i.png")
+                for(side in listOf("left","right"))add("passenger/baked/air-$theme-foot-$side.png")
+            }
+        }
+        PassengerArtworkCache.prepare(context,"climate-air",paths){images.putAll(it);airReady=true;animateAirflow();invalidate()}
+    }
     private val blowing get()=valid("getAirSWStatus",0..1)&&value("getAirSWStatus")==1&&valid("getAirWindSpeed",1..7)&&valid("getAirSupplyStatus",0..6)
     private val buttons=listOf("blow_window","blow_face","blow_foot","ac","switch","auto","front_defrost","rear_defrost","cycle")
     init {
         isClickable=true;contentDescription="Driver and passenger climate controls"
+        if(!isInEditMode)prepareAir()
         if(isInEditMode){
             light=attrs?.getAttributeValue("http://schemas.android.com/apk/res/android","tag")=="preview-light"
             state=JSONObject().put("fresh",true).put("getAirSWStatus",1).put("getAirWindSpeed",3)
@@ -53,7 +65,7 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
     }}
     private fun animateAirflow(){
         if(isInEditMode)return
-        if(isAttachedToWindow&&isShown&&windowVisibility==VISIBLE&&blowing&&ValueAnimator.areAnimatorsEnabled()){
+        if(airReady&&isAttachedToWindow&&isShown&&windowVisibility==VISIBLE&&blowing&&ValueAnimator.areAnimatorsEnabled()){
             if(airflow==null)airflow=ValueAnimator.ofInt(0,7499).apply{duration=7500;interpolator=LinearInterpolator();repeatCount=ValueAnimator.INFINITE
                 addUpdateListener{val t=(it.animatedValue as Int).toLong();if(t/50!=airflowTime/50){airflowTime=t;invalidate()}};start()}
         }else{airflow?.cancel();airflow=null;airflowTime=0}
@@ -87,7 +99,7 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
     }
     private fun pill(c:Canvas,r:RectF,tint:Int){paint.shader=null;paint.color=tint;c.drawRoundRect(r,30f,30f,paint)}
     private fun drawAirflow(c:Canvas){
-        if(!blowing)return
+        if(!blowing||(!airReady&&!isInEditMode))return
         fun frame(name:String,rect:RectF){
             val path="passenger/baked/air-${if(light)"light"else "dark"}-$name.png"
             val b=artwork(path)?:return

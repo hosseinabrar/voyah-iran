@@ -89,7 +89,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         container=FrameLayout(this).apply { setBackgroundColor(color); layoutDirection=View.LAYOUT_DIRECTION_LTR }
         startupCover=View(this).apply { setBackgroundColor(color); isClickable=true }
         container.addView(startupCover,FrameLayout.LayoutParams(-1,-1))
-        setContentView(container)
+        LauncherEntrance.install(this,container)
         // Post from an actual draw, not two arbitrary queue posts: the cheap cover gets a frame first.
         container.afterFrame {
             com.abrar.voyahiran.core.logging.AppLog.info("LauncherWake", "Startup cover frame drawn")

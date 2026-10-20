@@ -4,8 +4,8 @@
      x/y = top-left of PNG (including its transparent padding).
      Preserve width/height ratio when resizing. -->
 <resources>
-    <integer name="air_face_left_x">88</integer>
-    <integer name="air_face_left_y">82</integer>
+    <integer name="air_face_left_x">85</integer>
+    <integer name="air_face_left_y">90</integer>
     <integer name="air_face_left_width">160</integer>
     <integer name="air_face_left_height">160</integer>
 
@@ -15,7 +15,7 @@
     <integer name="air_face_center_height">160</integer>
 
     <integer name="air_face_right_x">525</integer>
-    <integer name="air_face_right_y">80</integer>
+    <integer name="air_face_right_y">88</integer>
     <integer name="air_face_right_width">160</integer>
     <integer name="air_face_right_height">160</integer>
 

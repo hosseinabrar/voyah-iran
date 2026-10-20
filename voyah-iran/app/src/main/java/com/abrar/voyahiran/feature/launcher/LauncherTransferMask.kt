@@ -50,6 +50,7 @@ internal class LauncherTransferMask(private val context: Context, private val pa
             attached = true
             handler.postDelayed(timeout, 20_000)
             val ready = withTimeoutOrNull(800) { drawn.await(); true } == true
+            com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap","mask drawn=$ready display=$displayId bounds=$bounds")
             if (!ready) remove()
             ready
         } catch (e: Exception) {
@@ -60,6 +61,7 @@ internal class LauncherTransferMask(private val context: Context, private val pa
     }
     fun finish(fade: Boolean) {
         if (!attached) return
+        com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap","mask finish display=$displayId fade=$fade")
         if (fade) view.animate().alpha(0f).setDuration(350).withEndAction { remove() }.start()
         else remove()
     }

@@ -23,7 +23,7 @@ const cShowMethod={call:()=>cShow++},cHandler={call:(_,p,a,v)=>calls.push(v)};
 const cEnv={console,VI_PASSENGER_HOME_VISIBLE:()=>cHome,setInterval:f=>tick=f,Java:{perform:f=>f(),scheduleOnMainThread:f=>f(),retain:x=>x,cast:x=>x,choose:(_,callbacks)=>{callbacks.onMatch(cModel);callbacks.onComplete()},use:n=>{
  if(n.endsWith('NavigationBarController'))throw Error('not in C');
  if(n.endsWith('NavigationBar'))return {show:{overload:()=>cShowMethod}};
- if(n.endsWith('LauncherModel'))return {handleUpdateSecondNavigationBar:{overload:()=>cHandler}};
+ if(n.endsWith('LauncherModel'))return {handleUpdateSecondNavigationBar:{overload:()=>cHandler},onReceive:{overload:()=>({call(){}})}};
  throw Error(n);
 }}};
 vm.runInNewContext(read('core/bridge/PassengerBarScript.kt').split('"""')[1],cEnv);

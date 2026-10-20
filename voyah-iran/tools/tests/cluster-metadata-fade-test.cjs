@@ -1,0 +1,12 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict'),path=require('path');
+const s=fs.readFileSync(path.resolve(__dirname,'../../app/src/main/java/com/abrar/voyahiran/core/bridge/ClusterMusicScript.kt'),'utf8').split('"""')[1].replaceAll("${'$'}",'$');
+new vm.Script(s);
+const env={};vm.createContext(env);vm.runInContext(s.slice(s.indexOf('function musicIdentity('),s.indexOf('function drawMusic(')),env);
+const d={package:'apple',title:'Tamasha',artist:'Shadmehr',cover:'cover-A',playing:true,position:100};
+const key=env.musicIdentity(d);
+assert(env.sameMusic(key,env.musicIdentity({...d,position:5000,playing:false})));
+for(const field of ['package','source','oemSource','title','artist','cover'])assert(!env.sameMusic(key,env.musicIdentity({...d,[field]:'changed'})),field);
+assert(!env.sameMusic(key,env.musicIdentity({idle:true})));
+assert(env.sameMusic(env.musicIdentity(null),env.musicIdentity({idle:true})));
+assert(!env.sameMusic(null,key));
+console.log('PASS: metadata changes fade; position/pause do not; idle transition and script syntax');

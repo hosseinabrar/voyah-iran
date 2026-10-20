@@ -113,7 +113,7 @@ open class LauncherAppsActivity : ComponentActivity() {
         content.setOnClickListener { if(editing)finishEditing() }
         root.addView(content)
         root.addOnLayoutChangeListener { _,_,_,_,_,_,_,_,_ -> layoutSafeArea() }
-        setContentView(root)
+        LauncherEntrance.install(this,root)
         @Suppress("DEPRECATION")
         if(android.os.Build.VERSION.SDK_INT>=33) registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT").apply {addAction("theme_loaded")},Context.RECEIVER_EXPORTED)
         else registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT").apply {addAction("theme_loaded")})

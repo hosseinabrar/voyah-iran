@@ -39,6 +39,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
         withContext(Dispatchers.IO){
         load("seat_bg_high_level_97c")
         load("seat_day_baked")
+        for(side in listOf("left","right"))for(kind in listOf("vent","hot"))load("seat_effect_${kind}_${side}")
         for(s in listOf("left","right"))for(f in listOf("vent","heat","massage"))for(level in 0..3){
             val name="seat_${s}_${f}_${level}_normal";control(name,false);control(name,true)
         }
@@ -82,7 +83,8 @@ internal class PassengerSeatsView(context:Context):View(context) {
     private fun image(c:Canvas,name:String,r:RectF){val b=cached(name)?:return;paint.shader=null;paint.color=Color.WHITE;paint.colorFilter=null;c.drawBitmap(b,null,r,paint)}
     private fun overlay(c:Canvas,key:String,name:String?,r:RectF){
         if(name!=null)cached(name)?.let{fadingArtwork[key]=it}
-        val alpha=motion.value(key,if(name!=null)1f else 0f)
+        // Do not consume the fade-in while the first image is still decoding.
+        val alpha=motion.value(key,if(name!=null&&fadingArtwork[key]!=null)1f else 0f)
         if(alpha<=0f){fadingArtwork.remove(key);return}
         fadingArtwork[key]?.let{b->paint.shader=null;paint.colorFilter=null;paint.color=Color.WHITE;paint.alpha=(alpha*255).toInt();c.drawBitmap(b,null,r,paint);paint.alpha=255}
     }
@@ -97,7 +99,9 @@ internal class PassengerSeatsView(context:Context):View(context) {
         c.save();c.translate(75f,27f);c.clipRect(if(side==0)-75f else 0f,0f,188f,181f);c.scale(1.1f,1.1f);c.translate(if(side==0)-210f else -353f,-63f)
         c.save();if(side==0)c.clipRect(0f,0f,353.6f,237.6f)
         image(c,if(light)"seat_day_baked"else "seat_bg_high_level_97c",RectF(0f,0f,633.6f,237.6f))
-        // Offline-rendered lighting on the approved upholstery; no runtime relighting.
+        // The base above is unconditional and never swapped for an active-state seat.
+        // Photoshop-cut transparent backrest/cushion layers share its coordinates;
+        // only these overlays fade. No runtime masking, tinting or relighting.
         for(feature in listOf("vent","heat")){val kind=if(feature=="vent")"vent"else "hot"
             overlay(c,"back-$side-$feature",if(active(side,feature))"seat_effect_${kind}_${s}"else null,RectF(0f,0f,633.6f,237.6f))
         }

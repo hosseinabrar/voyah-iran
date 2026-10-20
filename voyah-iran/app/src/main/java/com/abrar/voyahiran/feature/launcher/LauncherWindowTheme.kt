@@ -12,6 +12,7 @@ internal object LauncherWindowTheme {
     @Suppress("DEPRECATION")
     fun apply(window: Window, light: Boolean) {
         val color=background(light)
+        LauncherEntrance.theme(window,color)
         if(window.statusBarColor!=color) window.statusBarColor=color
         if(window.navigationBarColor!=color) window.navigationBarColor=color
         val flags=View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR

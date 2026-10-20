@@ -23,6 +23,24 @@ class PassengerFragranceRenderTest {
     @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     private fun sample(tone:Int=2,on:Boolean=true)=JSONObject().put("fresh",true).put("IVI_FRAG_TASTE_FB",PassengerFragranceMapping.channel(tone))
         .put("FCM_SW_REQ_FB",if(on)2 else 1).put("IVI_FRAG_CONCERNTION_FB",2).put("FCM_DURATION_CONTROL",1)
+    @Test fun renderEmissionForegroundFrame(){
+        preparePassengerArtwork("fragrance-wide")
+        val view=PassengerFragranceView(RuntimeEnvironment.getApplication());view.layout(0,0,770,280)
+        val ready=view.javaClass.getDeclaredField("artReady").apply{isAccessible=true}
+        val deadline=System.nanoTime()+10_000_000_000L
+        while(!ready.getBoolean(view)&&System.nanoTime()<deadline){Thread.sleep(25);shadowOf(Looper.getMainLooper()).idle()}
+        assertTrue("Complete fragrance art must be ready",ready.getBoolean(view))
+        view.update(sample())
+        view.javaClass.getDeclaredField("pulse").apply{isAccessible=true}.setFloat(view,.5f)
+        val output=File("build/reports/passenger-fragrance").apply{mkdirs()}
+        for(light in listOf(false,true)){
+            view.light=light
+            val bitmap=Bitmap.createBitmap(770,280,Bitmap.Config.ARGB_8888)
+            view.draw(Canvas(bitmap))
+            File(output,"emission-frame-${if(light)"light"else "dark"}.png").outputStream().use{bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}
+            bitmap.recycle()
+        }
+    }
     @Test fun renderAllScentsInBothThemesAndPowerStates(){
         preparePassengerArtwork("fragrance-wide")
         val view=PassengerFragranceView(RuntimeEnvironment.getApplication());view.layout(0,0,770,280)

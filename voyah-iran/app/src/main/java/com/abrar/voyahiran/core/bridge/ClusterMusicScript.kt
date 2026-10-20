@@ -126,7 +126,7 @@ function restore(){
     m.saved.forEach(x=>dispose(x.view));
     m.image.setImageDrawable(null);
     [m.image,m.panel,m.window,m.music,m.empty,m.canvas,m.outputCanvas,m.paint,m.addPaint,m.mapSrc,m.mapDst].forEach(dispose);
-    recycle(m.musicBitmap);recycle(m.outputBitmap);recycle(m.coverBitmap);
+    recycle(m.musicBitmap);recycle(m.outputBitmap);recycle(m.coverBitmap);recycle(m.previousMusic);
     blendFrom=0;blendTo=0;blendAt=0;mapAlpha=0;
     log('released image; factory restored');
 }
@@ -147,6 +147,7 @@ function mount(a,p){
     mounted={panel:Java.retain(p),window:Java.retain(window),image:Java.retain(image),
         theme:theme,music:music,empty:empty,saved:[],paint:Java.retain(paint),addPaint:Java.retain(add),
         musicBitmap:null,canvas:null,outputBitmap:null,outputCanvas:null,w:0,h:0,cover:null,coverBitmap:null,pkg:null,
+        previousMusic:null,musicIdentity:null,musicFadeAt:0,musicDrawn:false,
         location:Java.array('int',[0,0]),mapSrc:Java.retain(Rect.${'$'}new(0,0,1920,720)),
         mapDst:Java.retain(Rect.${'$'}new(0,0,1920,720)),ready:false,frames:0,maxDrawMs:0};
     p.addView(image,Java.use('android.widget.FrameLayout${'$'}LayoutParams').${'$'}new(-1,-1));
@@ -164,12 +165,14 @@ function refreshMusic(p){
     dispose(m.music);dispose(m.empty);dispose(m.panel);recycle(m.coverBitmap);
     m.music=music;m.empty=empty;m.panel=Java.retain(p);m.theme=theme;m.textDiagnostics=false;
     m.cover=null;m.coverBitmap=null;m.pkg=null;
+    recycle(m.previousMusic);m.previousMusic=null;m.musicIdentity=null;m.musicDrawn=false;
     log('theme/panel refreshed; SAME image and Surface theme='+theme);
 }
 function geometry(m){
     const w=m.panel.getWidth(),h=m.panel.getHeight();if(w<=0||h<=0)return false;
     if(w!==m.w||h!==m.h){
         m.image.setImageDrawable(null);
+        recycle(m.previousMusic);m.previousMusic=null;m.musicIdentity=null;m.musicDrawn=false;
         recycle(m.musicBitmap);recycle(m.outputBitmap);dispose(m.canvas);dispose(m.outputCanvas);m.w=w;m.h=h;
         m.musicBitmap=Java.retain(Bitmap.createBitmap(w,h,Java.use('android.graphics.Bitmap${'$'}Config').ARGB_8888.value));
         m.canvas=Java.retain(Canvas.${'$'}new(m.musicBitmap));
@@ -222,6 +225,33 @@ function progress(m){
         else{const bar=Java.cast(node,Java.use('android.widget.ProgressBar'));bar.setMax(duration);bar.setProgress(position);}}
     text(m.music,'music_tv_play_time',show?time(position):'');text(m.music,'music_tv_total_time',show?time(duration):'');
 }
+function musicIdentity(d){
+    if(!d||d.idle)return ['idle'];
+    // Playback ticks, pause/resume and navigation changes are not track changes.
+    return [d.package||'',d.oemSource||'',d.source||'',d.title||'',d.artist||'',d.cover||''];
+}
+function sameMusic(a,b){return a!==null&&a.length===b.length&&a.every((v,i)=>v===b[i]);}
+function drawMusic(m,enabled){
+    if(!enabled){recycle(m.previousMusic);m.previousMusic=null;m.musicIdentity=null;m.musicDrawn=false;m.canvas.drawColor(0,Porter.CLEAR.value);return;}
+    const identity=musicIdentity(packet.frame),at=now();
+    if(!sameMusic(m.musicIdentity,identity)){
+        recycle(m.previousMusic);m.previousMusic=null;
+        // Snapshot the last displayed blend, so rapid skips do not jump back.
+        if(m.musicDrawn){m.previousMusic=Java.retain(m.musicBitmap.copy(Java.use('android.graphics.Bitmap${'$'}Config').ARGB_8888.value,false));m.musicFadeAt=at;}
+        m.musicIdentity=identity;
+    }
+    const t=Math.max(0,Math.min(1,(at-m.musicFadeAt)/320)),mix=m.previousMusic?t*t*(3-2*t):1;
+    m.canvas.drawColor(0,Porter.CLEAR.value);
+    const view=packet.frame&&!packet.frame.idle?m.music:m.empty;
+    if(mix>=1){view.draw(m.canvas);recycle(m.previousMusic);m.previousMusic=null;}
+    else {
+        const layer=m.canvas.saveLayerAlpha(0,0,m.w,m.h,Math.round(255*mix));
+        view.draw(m.canvas);m.canvas.restoreToCount(layer);
+        // Weighted premultiplied sum preserves brightness, including shared pixels.
+        m.addPaint.setAlpha(255-Math.round(255*mix));m.canvas.drawBitmap(m.previousMusic,0,0,m.addPaint);
+    }
+    m.musicDrawn=true;
+}
 function renderFrame(){
     const m=mounted;if(!m)return;
     const started=now();
@@ -238,8 +268,7 @@ function renderFrame(){
         originals(true);m.image.setVisibility(0);progress(m);
     }
     // Always clear old pixels, including text and artwork from the previous song.
-    m.canvas.drawColor(0,Porter.CLEAR.value);
-    if(musicEnabled)(packet.frame&&!packet.frame.idle?m.music:m.empty).draw(m.canvas);
+    drawMusic(m,musicEnabled);
     selectMap(mapVisible);mapAlpha=alpha(now());
     const c=m.outputCanvas,x=Number(m.location[0]),y=Number(m.location[1]);
     m.mapDst.set(-x,-y,1920-x,720-y);

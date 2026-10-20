@@ -45,6 +45,7 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
     var compass=LauncherCompassState()
         set(v){
             if(field==v)return
+            motion.updated()
             if(transitioning){field=v;return}
             val previous=field
             if(field.bearing?.roundToInt()!=v.bearing?.roundToInt()) {
@@ -118,6 +119,16 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
             hits+=Hit(RectF(x+i*cell,y,x+(i+1)*cell,y+78),op,value,active)
         }
     }
+    override fun dispatchDraw(c:Canvas) {
+        super.dispatchDraw(c)
+        // Draw the fixed pointer after the rotating dial and all of its labels.
+        c.save();c.scale(width/1775f,height/660f)
+        val cx=878.5f
+        p.style=Paint.Style.FILL
+        p.color=0xffff3c58.toInt();c.drawPath(Path().apply{moveTo(cx,117f);lineTo(cx-9,137f);lineTo(cx,132f);lineTo(cx+9,137f);close()},p)
+        p.color=fg;p.strokeWidth=2f;c.drawLine(cx,138f,cx,177f,p)
+        c.restore()
+    }
     override fun onDraw(c:Canvas) {
         super.onDraw(c);hits.clear();c.save();c.scale(width/1775f,height/660f)
         val w=575f;card(c,0f,w);card(c,591f,w);card(c,1182f,w)
@@ -138,17 +149,22 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         for(i in 0..2) {p.color=motion.color("recovery-bar-$i",i<(state.recovery?.minus(1) ?: 0),if(lightTheme)0xffc5d4e9.toInt() else 0xff4a587b.toInt(),cyan);c.drawRoundRect(420f+i*34,535f-(i+1)*27,442f+i*34,535f,5f,5f,p)}
         selector(c,32f,560f,511f,listOf("2" to "Low","3" to "Medium","4" to "High"),state.recovery?.toString(),"recovery",state.fresh && state.recovery in 2..4)
         fun degrees(n:Double?)=n?.let {String.format(Locale.US,"%.0f°",it)} ?: "—"
-        text(c,"Slope ${degrees(compass.slope)}",622f,54f,23f)
-        text(c,"Inclination ${degrees(compass.inclination)}",928f,54f,23f)
+        // Sensor values may retarget faster than a fade. Crossfade rather than fading
+        // through zero, so live readings never disappear while the car is turning.
+        fun reading(key:String,value:String,x:Float,y:Float,size:Float=23f,center:Boolean=false){
+            motion.content(key,value,c,RectF(if(center)x-90f else x-4f,y-size-8f,if(center)x+90f else x+270f,y+8f)){
+                text(c,it,x,y,size,center)
+            }
+        }
+        reading("slope","Slope ${degrees(compass.slope)}",622f,54f)
+        reading("inclination","Inclination ${degrees(compass.inclination)}",928f,54f)
         val cx=878.5f;val cy=329f
-        // The independently rotating dial is a child view, as in CCC.
-        p.color=0xffff3c58.toInt();c.drawPath(Path().apply{moveTo(cx,117f);lineTo(cx-9,137f);lineTo(cx,132f);lineTo(cx+9,137f);close()},p)
-        p.color=fg;p.strokeWidth=2f;c.drawLine(cx,138f,cx,177f,p)
+        // The dial is a child view; its fixed pointer is drawn last in dispatchDraw.
         val bearing=compass.bearing
-        text(c,if(bearing==null)"—" else listOf("N","NE","E","SE","S","SW","W","NW")[((bearing+22.5f)/45).toInt()%8],cx,316f,30f,true)
-        text(c,if(bearing==null)"—°" else String.format(Locale.US,"%.0f°",bearing),cx,360f,27f,true)
-        text(c,"Altitude ${compass.altitude?.let {String.format(Locale.US,"%.0f",it)} ?: "—"} m",622f,621f,23f)
-        text(c,"Air Pressure ${state.pressure?.takeIf{it>0}?.let{it.toString()} ?: "—"} hPa",911f,621f,23f)
+        reading("direction",if(bearing==null)"—" else listOf("N","NE","E","SE","S","SW","W","NW")[((bearing+22.5f)/45).toInt()%8],cx,316f,30f,true)
+        reading("bearing",if(bearing==null)"—°" else String.format(Locale.US,"%.0f°",bearing),cx,360f,27f,true)
+        reading("altitude","Altitude ${compass.altitude?.let {String.format(Locale.US,"%.0f",it)} ?: "—"} m",622f,621f)
+        reading("pressure","Air Pressure ${state.pressure?.takeIf{it>0}?.let{it.toString()} ?: "—"} hPa",911f,621f)
         text(c,"Suspension height",1214f,54f)
         p.color=cyan;c.drawRoundRect(1214f,70f,1223f,120f,4f,4f,p)
         motion.text("height-label",state.heightLabel,c,RectF(1235f,70f,1750f,120f)){text(c,it,1240f,108f,32f,bold=true)}

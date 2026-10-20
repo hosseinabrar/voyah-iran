@@ -27,7 +27,7 @@ public final class VoyahIranDisplayPolicy {
         if (raw != null) for (String entry : raw.split(";")) {
             String[] pair = entry.split("=");
             if (pair.length == 2 && pair[0].length() <= 255 && pair[0].matches("[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+") &&
-                    (pair[1].equals("120") || pair[1].equals("140") || pair[1].equals("160") || pair[1].equals("180") || pair[1].equals("200")))
+                    (pair[1].equals("120") || pair[1].equals("140") || pair[1].equals("160") || pair[1].equals("180") || pair[1].equals("200") || pair[1].equals("240")))
                 result.put(pair[0], Integer.valueOf(pair[1]));
         }
         return java.util.Collections.unmodifiableMap(result);
@@ -44,6 +44,7 @@ public final class VoyahIranDisplayPolicy {
         if ("140".equals(value)) return 140;
         if ("180".equals(value)) return 180;
         if ("200".equals(value)) return 200;
+        if ("240".equals(value)) return 240;
         return 160;
     }
 

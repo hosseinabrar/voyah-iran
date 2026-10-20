@@ -105,14 +105,17 @@ internal class PassengerMusicView(context:Context):View(context){
         paint.strokeWidth=3f;paint.color=if(light)0xffcdd9e8.toInt()else 0x26ffffff;c.drawLine(173f,126f,534f,126f,paint)
         paint.color=if(light)0xff668cce.toInt()else 0xffc9d7f9.toInt();c.drawLine(173f,126f,173f+361*progress,126f,paint);c.drawCircle(173f+361*progress,126f,5f,paint)
         text(c,if(state.duration>0)clock(elapsed)else "—",173f,152f,17f,muted)
-        val duration=if(state.duration>0)clock(state.duration)else "—";paint.textSize=17f;text(c,duration,534f-paint.measureText(duration),152f,17f,muted)
+        motion.text("duration",if(state.duration>0)clock(state.duration)else "—",c,RectF(470f,130f,537f,157f)){
+            paint.textSize=17f;paint.typeface=font;text(c,it,534f-paint.measureText(it),152f,17f,muted)
+        }
         val n=if(drag==1)previewVolume else volume
         val smoothVolume=motion.value("volume",n.toFloat())
         paint.color=if(light)0xffdce5f2.toInt()else 0xff202c47.toInt();c.drawRoundRect(RectF(17f,167.6f,90f,234f),20f,20f,paint);c.drawRoundRect(RectF(103f,167.6f,443f,234f),20f,20f,paint)
         c.save();c.clipPath(Path().apply{addRoundRect(RectF(103f,167.6f,443f,234f),20f,20f,Path.Direction.CW)});paint.color=0xff389cff.toInt();c.drawRect(103f,167.6f,103f+340*(if(drag==1)n.toFloat()else smoothVolume)/30f,234f,paint);c.restore()
         staticArtwork.draw(c,"volume-note-${if(light)"light"else "dark"}",RectF(256f,183.8f,290f,217.8f))
         motion.content("mute",(n==0).toString(),c,RectF(17f,167.6f,90f,234f)){speaker(c,it=="true")}
-        text(c,n.toString(),460f,210f,27f,fg);text(c,"/ 30",495f,206f,15f,muted)
+        motion.content("volume-label",n.toString(),c,RectF(456f,178f,495f,218f)){text(c,it,460f,210f,27f,fg)}
+        text(c,"/ 30",495f,206f,15f,muted)
         c.restore()
     }
     private fun speaker(c:Canvas,off:Boolean){

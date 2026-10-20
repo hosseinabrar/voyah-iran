@@ -41,6 +41,8 @@ Java.perform(function(){
         Java.choose('com.qinggan.app.launcher.LauncherModel',{onMatch:function(v){model=Java.retain(v);return 'stop';},onComplete:schedule});
         const receive=Model.onReceive.overload('android.content.Context','android.content.Intent');
         receive.implementation=function(ctx,intent){
+            const passengerEvent=String(intent.getAction())==='android.intent.action.TOP_ACTIVITY_CHANGED' && intent.getIntExtra('displayId',-1)===1;
+            if(passengerEvent && typeof globalThis.VI_PASSENGER_FOREGROUND==='function')globalThis.VI_PASSENGER_FOREGROUND(intent);
             const result=receive.call(this,ctx,intent);
             if(String(intent.getAction())==='android.intent.action.TOP_ACTIVITY_CHANGED' && intent.getIntExtra('displayId',-1)===1){
                 if(model===null)model=Java.retain(this);
