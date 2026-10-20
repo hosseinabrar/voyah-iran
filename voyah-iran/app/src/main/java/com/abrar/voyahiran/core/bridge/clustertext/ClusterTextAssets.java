@@ -18,6 +18,9 @@ import java.util.Locale;
 /** Local source ports of the factory Bold/Marquee widgets. Android-only: loaded in the
  * cluster process without starting our Application or depending on its protection runtime. */
 public final class ClusterTextAssets {
+    public static void installSourceBadge(android.widget.ImageView icon) {
+        ClusterRoundedImageView.replaceBadge(icon);
+    }
     public static void installCover(android.widget.ImageView cover,int theme) {
         ClusterRoundedImageView.replace(cover,theme);
     }

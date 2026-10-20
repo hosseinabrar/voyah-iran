@@ -17,6 +17,10 @@ public final class ClusterRoundedImageView extends ImageView {
     private final float[] radii;
 
     public ClusterRoundedImageView(Context context, int theme) {
+        this(context,theme,-1);
+    }
+
+    private ClusterRoundedImageView(Context context, int theme, float radiusPixels) {
         super(context);
         float density = context.getResources().getDisplayMetrics().density;
         float radius = theme == 1 ? 74 : theme == 4 ? 24 : 10;
@@ -24,6 +28,7 @@ public final class ClusterRoundedImageView extends ImageView {
         radii = theme == 2 ? new float[]{18,18,4,4,18,18,4,4}
                 : new float[]{radius,radius,radius,radius,radius,radius,radius,radius};
         for(int i=0;i<radii.length;i++) radii[i] *= density;
+        if(radiusPixels>=0) java.util.Arrays.fill(radii,radiusPixels);
         erase.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
     }
 
@@ -43,10 +48,18 @@ public final class ClusterRoundedImageView extends ImageView {
     }
 
     public static void replace(ImageView old,int theme) {
+        replace(old,theme,-1);
+    }
+
+    public static void replaceBadge(ImageView old) {
+        replace(old,4,4f);
+    }
+
+    private static void replace(ImageView old,int theme,float radiusPixels) {
         if(old instanceof ClusterRoundedImageView)return;
         ViewGroup parent=(ViewGroup)old.getParent();
         int index=parent.indexOfChild(old);
-        ClusterRoundedImageView view=new ClusterRoundedImageView(old.getContext(),theme);
+        ClusterRoundedImageView view=new ClusterRoundedImageView(old.getContext(),theme,radiusPixels);
         view.setId(old.getId()); view.setLayoutParams(old.getLayoutParams());
         view.setScaleType(old.getScaleType()); view.setImageDrawable(old.getDrawable());
         view.setPadding(old.getPaddingLeft(),old.getPaddingTop(),old.getPaddingRight(),old.getPaddingBottom());

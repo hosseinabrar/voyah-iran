@@ -260,17 +260,9 @@ class VoyahLauncherActivity : ComponentActivity() {
         val screen=window.decorView.display?.displayId ?:0
         com.abrar.voyahiran.core.logging.AppLog.info("LauncherHome","resume enabled=$enabled subscription=$subscribed display=$screen")
         if(!enabled || !subscribed || screen!=0) {finish();return}
-        val returning=!visible
         visible=true
         if(contentFrameReady) {
-            if(returning) {
-                startupCover.animate().cancel()
-                startupCover.alpha=1f
-                startupCover.setBackgroundColor(if(LauncherTheme.isLight())Color.WHITE else Color.BLACK)
-                if(startupCover.parent==null)container.addView(startupCover,FrameLayout.LayoutParams(-1,-1))
-                startupCover.bringToFront()
-                container.afterFrame { if(visible && !isFinishing && !isDestroyed)fadeStartupCover() }
-            }
+            // Warm returns already have a complete frame; never cover it again.
             startVisibleWork()
         }
     }

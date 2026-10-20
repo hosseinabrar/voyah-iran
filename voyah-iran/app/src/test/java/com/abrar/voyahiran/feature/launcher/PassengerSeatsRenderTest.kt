@@ -87,7 +87,8 @@ class PassengerSeatsRenderTest {
             view.update(state)
             val names=PassengerSeatsView::class.java.getDeclaredMethod("names").apply{isAccessible=true}.invoke(view) as List<*>
             assertFalse("Old OEM upholstery must never cover our seat",names.any{it.toString().startsWith("seatfront_")})
-            assertEquals(if(feature=="MASS")2 else 4,names.size)
+            assertEquals(if(feature=="VENTILATION")4 else 2,names.size)
+            assertFalse(names.any{it.toString().matches(Regex("seat_hot_(left|right)_\\d+"))})
             kotlinx.coroutines.runBlocking{view.prepareArtwork()}
             val bitmap=Bitmap.createBitmap(556,228,Bitmap.Config.ARGB_8888);view.draw(Canvas(bitmap))
             File(output,"seats-${if(light)"light"else "dark"}-${feature.lowercase()}.png").outputStream().use{bitmap.compress(Bitmap.CompressFormat.PNG,100,it)}

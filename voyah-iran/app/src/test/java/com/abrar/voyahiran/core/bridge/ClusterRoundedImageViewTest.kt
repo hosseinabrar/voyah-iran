@@ -19,6 +19,22 @@ import java.io.File
 @Config(sdk=[30],application=Application::class,qualifiers="en-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class ClusterRoundedImageViewTest {
+    @Test fun sourceBadgeHasSmallSoftwareSafeCorners() {
+        val context=RuntimeEnvironment.getApplication()
+        val parent=FrameLayout(context)
+        val old=ImageView(context).apply {id=456;setImageDrawable(ColorDrawable(Color.BLUE))}
+        parent.addView(old,FrameLayout.LayoutParams(34,34))
+        ClusterRoundedImageView.replaceBadge(old)
+        val view=parent.getChildAt(0)
+        assertEquals(456,view.id)
+        view.layout(0,0,34,34)
+        val result=Bitmap.createBitmap(34,34,Bitmap.Config.ARGB_8888)
+        view.draw(Canvas(result))
+        assertEquals(0,Color.alpha(result.getPixel(0,0)))
+        assertEquals(255,Color.alpha(result.getPixel(4,4)))
+        assertEquals(Color.BLUE,result.getPixel(17,17))
+        result.recycle()
+    }
     @Test fun masksAllThemesOnSoftwareCanvasAndKeepsConstraints() {
         val context=RuntimeEnvironment.getApplication()
         for(theme in listOf(1,2,4,5)) {

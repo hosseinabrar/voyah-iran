@@ -61,6 +61,7 @@ function styleMusic(v,theme){
     if(theme===5){visibility(v,'view_1',4);visibility(v,'view_2',4);}
     const titleNode=find(v,'music_tv_title');if(titleNode){const title=Java.cast(titleNode,Text);title.setTextSize(0,title.getTextSize()*0.8);
         title.setSingleLine(true);title.setEllipsize(Java.use('android.text.TextUtils${'$'}TruncateAt').END.value);title.setSelected(false);}
+    if(theme===4){const sourceBadge=find(v,'music_iv_type');if(sourceBadge)ownText.installSourceBadge(Java.cast(sourceBadge,Image));}
     const icon=find(v,'music_iv_type');
     if(icon&&theme===4){
         const lp=Java.cast(icon.getLayoutParams(),Java.use('androidx.constraintlayout.widget.ConstraintLayout${'$'}LayoutParams'));
@@ -73,6 +74,7 @@ function styleMusic(v,theme){
         lp.endToEnd.value=coverId;lp.bottomToBottom.value=coverId;icon.setLayoutParams(lp);
         // Default View pivot is its center: shrink visually without moving the badge.
         icon.setScaleX(0.90);icon.setScaleY(0.90);
+        icon.setTranslationX(-2);icon.setTranslationY(-2);
     }
     const cover=find(v,'music_iv_cover');if(cover)Java.cast(cover,Image).setScaleType(Java.use('android.widget.ImageView${'$'}ScaleType').CENTER_CROP.value);
     ['loading_group','loading_cover','loading','music_tv_disconnect'].forEach(name=>visibility(v,name,8));

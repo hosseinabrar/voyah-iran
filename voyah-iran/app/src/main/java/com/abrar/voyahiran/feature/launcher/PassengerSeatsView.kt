@@ -58,7 +58,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
     private fun control(name:String,day:Boolean):Bitmap = load(if(day)"light-$name"else name)
     private fun names():List<String> = buildList {
         for(side in 0..1){val s=if(side==0)"left"else "right"
-            for(feature in listOf("vent","heat"))if(active(side,feature)){val kind=if(feature=="vent")"vent"else "hot";add("seat_effect_${kind}_${s}");add("seat_${kind}_${s}_${frame%89}")}
+            for(feature in listOf("vent","heat"))if(active(side,feature)){val kind=if(feature=="vent")"vent"else "hot";add("seat_effect_${kind}_${s}");if(feature=="vent")add("seat_vent_${s}_${frame%89}")}
             if(active(side,"massage"))add("seat_${if(side==0)"main"else "co"}_massage_${if(level(side,"mode")==2)"rolling"else "waving"}_${frame%91}")
         }
     }
@@ -69,7 +69,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
         invalidate();prepare();animateIfNeeded()
     }
     private fun animateIfNeeded(){
-        val moving=(0..1).any{s->listOf("vent","heat","massage").any{active(s,it)}}
+        val moving=(0..1).any{s->listOf("vent","massage").any{active(s,it)}}
         if(!isAttachedToWindow||!isShown||windowVisibility!=VISIBLE||!moving||!android.animation.ValueAnimator.areAnimatorsEnabled()){animation?.cancel();animation=null;return}
         if(animation?.isActive==true)return
         animation=scope?.launch {while(isActive){delay(50);val nextFrame=frame+1;val previous=frame;frame=nextFrame;val required=names();frame=previous
@@ -106,7 +106,7 @@ internal class PassengerSeatsView(context:Context):View(context) {
             overlay(c,"back-$side-$feature",if(active(side,feature))"seat_effect_${kind}_${s}"else null,RectF(0f,0f,633.6f,237.6f))
         }
         c.restore()
-        for(feature in listOf("vent","heat")){val x=if(side==0)159.72f else 355.08f;val kind=if(feature=="vent")"vent"else "hot"
+        for(feature in listOf("vent")){val x=if(side==0)159.72f else 355.08f;val kind="vent"
             overlay(c,"air-$side-$feature",if(active(side,feature))"seat_${kind}_${s}_${frame%89}"else null,RectF(x,70.95f,x+165f,235.95f))
         }
         for(mode in 1..2){val x=if(side==0)248.49f else 376.53f;c.save();c.rotate(if(side==0)5f else -2f,x+24.75f,138.6f)

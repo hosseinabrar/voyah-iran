@@ -23,6 +23,11 @@ class LauncherEntranceTest {
         val activity=controller.get();val content=FrameLayout(activity)
         LauncherEntrance.install(activity,content)
         controller.start().resume()
+        fun focus() {
+            android.view.ViewTreeObserver::class.java.getDeclaredMethod("dispatchOnWindowFocusChange",Boolean::class.javaPrimitiveType)
+                .apply{isAccessible=true}.invoke(activity.window.decorView.viewTreeObserver,true)
+        }
+        focus()
         val backdrop=content.parent as View
         for(light in listOf(true,false)) {
             LauncherWindowTheme.apply(activity.window,light)
@@ -40,8 +45,12 @@ class LauncherEntranceTest {
         animation.getTransformation(300,frame);frame.matrix.getValues(matrix)
         assertEquals(1f,matrix[Matrix.MSCALE_X],.001f)
         assertEquals(1f,frame.alpha,.001f)
-        controller.pause().stop()
+        controller.pause()
         assertNull(content.animation)
+        controller.resume()
+        focus()
+        assertNotNull("Warm resume without onStart must animate",content.animation)
+        controller.pause().stop()
         controller.destroy()
     }
 }
