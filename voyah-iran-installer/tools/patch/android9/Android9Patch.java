@@ -33,9 +33,34 @@ class Android9Patch {
             out.append(t.replace("const-string/jumbo ","const-string ")).append('\n');
         }return out.toString();
     }
+    // Normalize only register-count notation; never discard counts or instructions.
+    static String registerNotation(String method) {
+        String header = method.substring(0, method.indexOf('\n'));
+        int start = header.indexOf('('), end = header.indexOf(')', start);
+        if (start < 0 || end < start) throw new IllegalStateException("Invalid method descriptor");
+        int slots = header.matches(".*\\bstatic\\b.*") ? 0 : 1;
+        String args = header.substring(start + 1, end);
+        for (int i = 0; i < args.length();) {
+            boolean array = false;
+            while (i < args.length() && args.charAt(i) == '[') { array = true; i++; }
+            if (i == args.length()) throw new IllegalStateException("Invalid array descriptor");
+            char type = args.charAt(i++);
+            if (type == 'L') {
+                int semicolon = args.indexOf(';', i);
+                if (semicolon < 0) throw new IllegalStateException("Invalid object descriptor");
+                i = semicolon + 1;
+            } else if ("ZBSCIFJD".indexOf(type) < 0) throw new IllegalStateException("Invalid parameter type");
+            slots += !array && (type == 'J' || type == 'D') ? 2 : 1;
+        }
+        Matcher directive = Pattern.compile("(?m)^([ \\t]*)\\.registers[ \\t]+(\\d+)[ \\t]*$").matcher(method);
+        if (!directive.find()) return method;
+        int locals = Integer.parseInt(directive.group(2)) - slots;
+        if (locals < 0) throw new IllegalStateException("Register count below parameter slots");
+        return directive.replaceFirst(Matcher.quoteReplacement(directive.group(1) + ".locals " + locals));
+    }
     static String canonical(String s) {
         var methods=new TreeMap<String,String>();var m=METHOD.matcher(s);
-        while(m.find())check(methods.put(m.group(1),normalize(m.group()))==null,"duplicate method");
+        while(m.find())check(methods.put(m.group(1),normalize(registerNotation(m.group())))==null,"duplicate method");
         return normalize(METHOD.matcher(s).replaceAll(""))+methods;
     }
     static Map<String,Path> classes(Path root)throws Exception {
