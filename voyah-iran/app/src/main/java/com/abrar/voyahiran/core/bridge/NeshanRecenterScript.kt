@@ -7,6 +7,7 @@ let recenterSession=null;
 function cancelRecenterSession(){if(recenterSession)recenterSession.stop('cancelled');}
 function recenterCard(display,token,deadline) {
     cancelRecenterSession();
+    Java.scheduleOnMainThread(function(){dismissCardSurveys();});
     const received=Date.now();
     let finished=false,root=null,down=false,downAt=0,x=0,y=0,attempt=0,method='setup',buttonSeen=false;
     function call(o,n,...args){method=n;return o[n](...args);}

@@ -208,7 +208,7 @@ internal class NeshanHookManager {
                 return
             }
             prepareFiles(); pid = target; ready = false; failure = null; routeEnabled = wantsRoute
-            NeshanConfig.save(script, "const NESHAN_ROUTE_ENABLED = $routeEnabled;\nconst NESHAN_PROFILE = " + profile.json.toString() + ";\n" + NeshanRecenterScript.source + "\n" + NeshanHookScript.source)
+            NeshanConfig.save(script, "const NESHAN_ROUTE_ENABLED = $routeEnabled;\nconst NESHAN_PROFILE = " + profile.json.toString() + ";\n" + NeshanSurveyScript.source + "\n" + NeshanRecenterScript.source + "\n" + NeshanHookScript.source)
             val process = ProcessBuilder(injectorCommand() + listOf(executable.path, "-p", target, "-s", script.path, "-i")).redirectErrorStream(true).start()
             child = process
             thread(name = "voyah-neshan-output", isDaemon = true) {

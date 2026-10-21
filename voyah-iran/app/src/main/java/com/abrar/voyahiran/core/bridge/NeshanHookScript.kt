@@ -89,6 +89,7 @@ function disable() {
     Java.scheduleOnMainThread(cancelRecenterSession);
     enabled = false; clear();
     restoreAds();
+    restoreSurvey();
     if (hook) hook.implementation = null;
     if (resetHook) resetHook.implementation = null;
     console.log('VI_NESHAN_DISABLED');
@@ -106,6 +107,7 @@ rpc.exports = {
 Java.perform(function() {
     try {
         installAdSuppression();
+        installSurveyDismissal();
         if (!routeEnabled) {
             console.log('VI_NESHAN_READY profile=' + profile.id + ' source=ad-ui-only');
             return;
