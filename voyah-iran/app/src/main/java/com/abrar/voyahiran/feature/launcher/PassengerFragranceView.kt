@@ -103,6 +103,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
         image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",RectF(467f,46f,707f,242f),alpha=(191+64*motion.value("power",if(on)1f else 0f)).toInt())
         val label=if(light)color(when(tone){1->"#707985";2->"#747970";else->"#7c7182"}) else Color.WHITE
         text(c,listOf("","Watery mist","Fresh bamboo","Peony scarlet")[tone],587f,37f,20f,label)
+        c.save();c.scale(1.1f,1.1f,215f,158f)
         for(row in 0..1){
             val y=if(row==0)94f else 193f
             c.save();c.scale(1.2f,1.2f,215f,y+24f)
@@ -119,6 +120,7 @@ internal class PassengerFragranceView(context:Context):View(context) {
                 text(c,(if(row==0)listOf("Low","Medium","High") else listOf("30 min","60 min","Unlimited"))[i],119f+i*96,y+30f,17f,if(on)Color.WHITE else 0xffc6cbd0.toInt())}
             c.restore()
         }
+        c.restore()
         listOf(2,3,1).forEachIndexed{i,n->
             // Both scene layers share one control target during the background crossfade.
             val active=on&&scent==n
@@ -143,11 +145,13 @@ internal class PassengerFragranceView(context:Context):View(context) {
             MotionEvent.ACTION_DOWN->{downX=x;downY=y;return true}
             MotionEvent.ACTION_UP->{
                 if(abs(x-downX)>24||abs(y-downY)>24)return true
+                val controlX=215f+(x-215f)/1.1f
+                val controlY=158f+(y-158f)/1.1f
                 if(y in 237f..302f&&x in 469f..697f&&valid("IVI_FRAG_TASTE_FB",1..3)&&valid("FCM_SW_REQ_FB",1..2)){
                     val n=listOf(2,3,1)[((x-469)/82).toInt().coerceIn(0,2)];onCommand("scent",if(on&&scent==n)"0" else PassengerFragranceMapping.channel(n).toString())
-                }else if(on&&x in 42.2f..387.8f){val i=((x-42.2f)/115.2f).toInt().coerceIn(0,2)
-                    if(y in 89.2f..146.8f&&valid("IVI_FRAG_CONCERNTION_FB",1..3))onCommand("intensity",(i+1).toString())
-                    if(y in 188.2f..245.8f&&valid("FCM_DURATION_CONTROL",0..2))onCommand("duration",listOf(1,2,0)[i].toString())
+                }else if(on&&controlX in 42.2f..387.8f){val i=((controlX-42.2f)/115.2f).toInt().coerceIn(0,2)
+                    if(controlY in 89.2f..146.8f&&valid("IVI_FRAG_CONCERNTION_FB",1..3))onCommand("intensity",(i+1).toString())
+                    if(controlY in 188.2f..245.8f&&valid("FCM_DURATION_CONTROL",0..2))onCommand("duration",listOf(1,2,0)[i].toString())
                 }
                 performClick();return true
             }

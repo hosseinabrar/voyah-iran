@@ -56,6 +56,8 @@ class PassengerFragranceRenderTest {
                 Thread.sleep(25);shadowOf(Looper.getMainLooper()).idle()
             } while(System.nanoTime()<deadline)
             assertEquals("Landscape must be loaded before snapshot",255,android.graphics.Color.alpha(b.getPixel(10,100)))
+            // Theme-specific icons may still be queued after the background arrives.
+            repeat(20){Thread.sleep(25);shadowOf(Looper.getMainLooper()).idle();view.draw(Canvas(b))}
             File(output,"fragrance-${if(light)"light" else "dark"}-$tone-${if(on)"on" else "off"}.png").outputStream().use{b.compress(Bitmap.CompressFormat.PNG,100,it)}
             assertNotEquals(b.getPixel(300,10),b.getPixel(300,260));b.recycle()
         }
@@ -71,6 +73,8 @@ class PassengerFragranceRenderTest {
         view.update(sample(tone=1));tap(500f,270f);assertEquals("scent" to "1",commands.last())
         tap(310f,115f);assertEquals("intensity" to "3",commands.last())
         tap(310f,210f);assertEquals("duration" to "0",commands.last())
+        tap(30f,85f);assertEquals("intensity" to "1",commands.last())
+        tap(400f,250f);assertEquals("duration" to "0",commands.last())
         view.update(sample(on=false));val count=commands.size;tap(310f,115f);assertEquals(count,commands.size)
         view.update(JSONObject().put("fresh",false));tap(500f,270f);assertEquals(count,commands.size)
     }
