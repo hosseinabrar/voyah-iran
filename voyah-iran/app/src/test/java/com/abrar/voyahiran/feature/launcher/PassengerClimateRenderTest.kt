@@ -47,6 +47,8 @@ class PassengerClimateRenderTest {
         tap(540f,260f);assertTrue(writes.isEmpty())
         view.update(sample());tap(540f,260f);assertEquals("fan" to "4",writes.last())
         tap(110f,255f);assertEquals("sync" to "1",writes.last())
+        tap(25f,255f);assertEquals("sync" to "1",writes.last())
+        val beforeOldSyncEdge=writes.size;tap(150f,255f);assertEquals(beforeOldSyncEdge,writes.size)
         tap(90f,105f);assertEquals("driver-temp" to "225",writes.last())
         view.update(JSONObject().put("fresh",false));val count=writes.size;tap(540f,260f);assertEquals(count,writes.size)
     }

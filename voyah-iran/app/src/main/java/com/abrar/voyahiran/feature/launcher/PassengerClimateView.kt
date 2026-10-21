@@ -26,6 +26,8 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
     private val font=Typeface.createFromAsset(context.assets,"passenger/fonts/Roboto-Regular.ttf")
     private val images=HashMap<String,Bitmap>()
     private var downX=0f;private var downY=0f
+    // Match the left edge of the bottom controls after their 1.1x scaling.
+    private val driverOffset=384.5f+(51f-384.5f)*1.1f-55f
     private val wheels=Array(2){side->PassengerTemperatureWheel(this){n->
         if(valid(if(side==0)"getAirLeftTemperature" else "getAirRightTemperature",155..305))
             onCommand(if(side==0)"driver-temp" else "passenger-temp",n.toString())
@@ -128,13 +130,13 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
         c.clipPath(Path().apply{addRoundRect(RectF(0f,0f,770f,370f),16f,16f,Path.Direction.CW)})
         staticArtwork.draw(c,"climate-${if(light)"light"else "dark"}",RectF(0f,0f,770f,370f))
         drawAirflow(c)
-        temperature(c,"Driver","getAirLeftTemperature",67f,96f)
+        temperature(c,"Driver","getAirLeftTemperature",67f+driverOffset,96f+driverOffset)
         temperature(c,"Passenger","getAirRightTemperature",646f,674f)
         val sync=valid("getAirDUALStatus",0..1)&&value("getAirDUALStatus")==0
-        val syncRect=RectF(55f,240f,166f,273.5f)
+        val syncRect=RectF(55f+driverOffset,240f,166f+driverOffset,273.5f)
         if(light)pill(c,syncRect,motion.color("sync-bg",sync,color("#dce5f2"),color("#cee3fb")))
         else motion.content("sync",if(sync)"air_ic_sync_on_normal" else "air_ic_sync_off_normal",c,syncRect){image(c,it,syncRect)}
-        text(c,"Front Sync",110.5f,263f,17.65f,motion.color("sync-text",sync,color(if(light)"#536780" else "#bfc9de"),color("#389cff")),true)
+        text(c,"Front Sync",110.5f+driverOffset,263f,17.65f,motion.color("sync-text",sync,color(if(light)"#536780" else "#bfc9de"),color("#389cff")),true)
         val fan=if(valid("getAirWindSpeed",0..7))value("getAirWindSpeed") else 0
         val inactive=if(light)color("#303030") else Color.WHITE
         // Optical alignment with the fan bars (y=257), not the OEM PNG bounds.
@@ -208,7 +210,7 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
                     val fanX=375f+(x-375f)/1.1f;val fanY=257f+(y-257f)/1.1f
                     val buttonX=384.5f+(x-384.5f)/1.1f;val buttonY=326f+(y-326f)/1.1f
                     when{
-                        y in 235f..280f&&x in 55f..166f&&valid("getAirDUALStatus",0..1)->onCommand("sync",if(value("getAirDUALStatus")==0)"0" else "1")
+                        y in 235f..280f&&x in (55f+driverOffset)..(166f+driverOffset)&&valid("getAirDUALStatus",0..1)->onCommand("sync",if(value("getAirDUALStatus")==0)"0" else "1")
                         fanY in 228f..286f&&fanX in 191f..559f&&valid("getAirWindSpeed",0..7)->{
                             val n=if(fanX<249)value("getAirWindSpeed")-1 else if(fanX>501)value("getAirWindSpeed")+1 else ((fanX-252)/250*7).roundToInt()
                             onCommand("fan",n.coerceIn(0,7).toString())
