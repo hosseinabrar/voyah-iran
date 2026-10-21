@@ -101,14 +101,24 @@ function recenterCard(display,token,deadline) {
         if(buttonSeen){schedule(tick,200);return;}
         if(root.isLayoutRequested()||root.getWidth()<100||root.getHeight()<100){schedule(tick,200);return;}
         x=root.getWidth()/2;y=root.getHeight()/2;
-        const distance=Math.max(24,Number(Java.use('android.view.ViewConfiguration').get(root.getContext()).getScaledTouchSlop())*2+4);
+        // CARTO handles taps in native onInputEvent, independently of Android touchSlop.
+        // Use a substantial density-aware swipe, not a minimal Android-slop nudge.
+        const density=Number(root.getResources().getDisplayMetrics().density.value);
+        const slop=Number(Java.use('android.view.ViewConfiguration').get(root.getContext()).getScaledTouchSlop());
+        const distance=Math.max(35*density,slop*8);
+        if(distance>root.getWidth()*0.4)return stop('insufficient_drag_space');
         const direction=attempt%2?1:-1;
         downAt=Java.use('android.os.SystemClock').uptimeMillis();down=true;
         if(!touch(0))return stop('touch_rejected');
-        console.log('VI_NESHAN_RECENTER_PHASE '+token+' drag attempt='+attempt);
-        schedule(function(){x+=direction*distance;touch(2);
-            schedule(function(){touch(1);down=false;schedule(tick,Math.max(0,200-(Date.now()-started)));},40);
-        },40);
+        console.log('VI_NESHAN_RECENTER_PHASE '+token+' drag attempt='+attempt+' distancePx='+distance+' density='+density+' touchSlop='+slop);
+        function move(step){
+            schedule(function(){
+                x+=direction*distance/3;touch(2);
+                if(step<3)move(step+1);
+                else schedule(function(){touch(1);down=false;schedule(tick,Math.max(0,200-(Date.now()-started)));},40);
+            },40);
+        }
+        move(1);
     }
     // Acceptance is separate from completion: do not block the bridge/heartbeat for ten seconds.
     console.log('VI_NESHAN_RECENTER_RESULT '+token+' accepted');

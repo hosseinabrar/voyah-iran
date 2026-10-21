@@ -18,29 +18,48 @@ internal object LauncherEntrance {
             setBackgroundColor(LauncherWindowTheme.background(LauncherTheme.isLight()))
             addView(content,FrameLayout.LayoutParams(-1,-1))
         }
+        // A stopped HOME can become visible below the exiting OEM app before resume.
+        // Keep only its opaque backdrop visible until the entrance is armed.
+        content.alpha=0f
         activity.setContentView(backdrop)
-        var pending=false
+        var resumed=false
+        var focused=content.hasWindowFocus()
+        var hidden=true
+        fun hide() {
+            hidden=true
+            content.alpha=0f
+            content.clearAnimation()
+        }
         fun enter() {
-            if(!pending)return
-            pending=false
+            if(!resumed || !focused || !hidden)return
+            hidden=false
             content.clearAnimation()
             if(android.animation.ValueAnimator.areAnimatorsEnabled())
                 content.startAnimation(AnimationUtils.loadAnimation(activity,R.anim.launcher_c_enter))
+            // Arm the zero-alpha first animation frame BEFORE exposing the content.
+            content.alpha=1f
         }
-        val focus=android.view.ViewTreeObserver.OnWindowFocusChangeListener { focused->if(focused)enter() }
-        activity.window.decorView.viewTreeObserver.addOnWindowFocusChangeListener(focus)
+        val observer=activity.window.decorView.viewTreeObserver
+        val focus=android.view.ViewTreeObserver.OnWindowFocusChangeListener {
+            focused=it
+            if(it)enter() else hide()
+        }
+        observer.addOnWindowFocusChangeListener(focus)
         activity.lifecycle.addObserver(object:DefaultLifecycleObserver {
             @Suppress("DEPRECATION")
             override fun onResume(owner:LifecycleOwner) {
                 // A source application's transition must not scale our whole window.
                 activity.overridePendingTransition(0,0)
                 LauncherWindowTheme.apply(activity.window,LauncherTheme.isLight())
-                pending=true
-                if(content.hasWindowFocus())enter()
+                resumed=true
+                focused=focused || content.hasWindowFocus()
+                enter()
             }
-            override fun onPause(owner:LifecycleOwner) {pending=false;content.clearAnimation()}
+            override fun onPause(owner:LifecycleOwner) {resumed=false;focused=false;hide()}
+            override fun onStop(owner:LifecycleOwner) {hide()}
             override fun onDestroy(owner:LifecycleOwner) {
-                activity.window.decorView.viewTreeObserver.removeOnWindowFocusChangeListener(focus)
+                if(observer.isAlive)observer.removeOnWindowFocusChangeListener(focus)
+                else activity.window.decorView.viewTreeObserver.removeOnWindowFocusChangeListener(focus)
             }
         })
     }

@@ -9,14 +9,14 @@ for(const profile of profiles){
   const display={getDisplayId:()=>o.leave&&now>=1040?0:7,getName:()=> 'VoyahIran.MapPreview'};
   const button={isShown:()=>ups>=(o.after??1),getVisibility:()=>ups>=(o.after??1)?0:8,isAttachedToWindow:()=>true,isEnabled:()=>!o.disabled,isClickable:()=>!o.notClickable,hasOnClickListeners:()=>!o.noListener,performClick:()=>{clicks++;return !o.rejectClick;}};
   const root={getDisplay:()=>display,isShown:()=>true,isAttachedToWindow:()=>true,isLayoutRequested:()=>false,
-   getWidth:()=>871,getHeight:()=>654,getContext:()=>({}),getResources:()=>({getIdentifier:name=>{assert.equal(name,'back_to_navigation_button');return o.noId?0:1;}}),findViewById:()=>o.missing?null:button,
-   dispatchTouchEvent:e=>{events.push({action:e.action,at:now});if(e.action===1)ups++;return true;}};
+   getWidth:()=>o.width||871,getHeight:()=>654,getContext:()=>({}),getResources:()=>({getDisplayMetrics:()=>({density:{value:o.density||1}}),getIdentifier:name=>{assert.equal(name,'back_to_navigation_button');return o.noId?0:1;}}),findViewById:()=>o.missing?null:button,
+   dispatchTouchEvent:e=>{events.push({action:e.action,at:now,x:e.x,y:e.y});if(e.action===1)ups++;return true;}};
   const rs=profile.hook.routeState,route={[rs.activeMethod]:()=>!o.inactive,[rs.engineMethod]:()=>({})};
   const wm={getClass:()=>({getDeclaredField:()=>({setAccessible(){},get:()=>({size:()=>1,get:()=>root})})})};
   const types={
    [rs.ownerClass]:{[rs.instanceField]:{value:route}},'android.view.WindowManagerGlobal':{getInstance:()=>wm},
-   'android.view.MotionEvent':{obtain:{overload:()=>({call:(s,d,t,action)=>({action,setSource(){},recycle(){}})})}},
-   'android.os.SystemClock':{uptimeMillis:()=>now},'android.view.ViewConfiguration':{get:()=>({getScaledTouchSlop:()=>8})}
+   'android.view.MotionEvent':{obtain:{overload:()=>({call:(s,d,t,action,x,y)=>({action,x,y,setSource(){},recycle(){}})})}},
+   'android.os.SystemClock':{uptimeMillis:()=>now},'android.view.ViewConfiguration':{get:()=>({getScaledTouchSlop:()=>o.slop||8})}
   };
   const ctx={NESHAN_PROFILE:profile,enabled:true,heartbeat:1000,Date:{now:()=>now},console:{log:x=>logs.push(x)},
    setTimeout:(f,ms)=>queue.push({f,at:now+ms}),Java:{perform:f=>f(),scheduleOnMainThread:f=>f(),cast:v=>v,use:n=>types[n]||{},
@@ -26,7 +26,15 @@ for(const profile of profiles){
   assert.equal(held,freed);assert(logs.some(x=>x.endsWith('accepted')));
   return {events,clicks,logs,now};
  }
- let r=run();assert.equal(r.clicks,1);assert.deepEqual(r.events.map(e=>e.action),[0,2,1]);checks++;
+ let r=run();assert.equal(r.clicks,1);assert.deepEqual(r.events.map(e=>e.action),[0,2,2,2,1]);checks++;
+ for(const [density,slop,distance] of [[1,8,64],[1.5,12,96],[2,16,128],[1,20,160]]){
+  r=run({density,slop});assert.equal(r.clicks,1);
+  assert(Math.abs(r.events.at(-1).x-r.events[0].x-distance)<0.001);
+  assert.equal(r.events.at(-1).at-r.events[0].at,160);
+  for(let i=1;i<=3;i++)assert(r.events[i].x>r.events[i-1].x);
+  assert.equal(r.events.at(-1).x,r.events[3].x);checks++;
+ }
+ r=run({width:200,density:2,slop:16});assert.equal(r.events.length,0);assert(r.logs.at(-1).endsWith('insufficient_drag_space'));checks++;
  r=run({after:3});assert.equal(r.clicks,1);assert.deepEqual(r.events.filter(e=>e.action===0).map(e=>e.at),[1000,1200,1400]);checks++;
  r=run({after:1000});assert.equal(r.clicks,0);assert.equal(r.events.filter(e=>e.action===0).length,50);assert(r.logs.at(-1).endsWith('request_expired'));checks++;
  r=run({after:0});assert.equal(r.clicks,1);assert.equal(r.events.length,0);checks++;

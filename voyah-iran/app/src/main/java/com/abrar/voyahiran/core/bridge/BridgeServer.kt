@@ -23,6 +23,7 @@ object BridgeServer {
     private val neshan = NeshanHookManager()
     @JvmStatic fun main(args: Array<String>) {
         check(Process.myUid() == 0) { "Bridge must be started by the installer/init as root" }
+        BridgeSystemLiveness.start()
         val token = File("/data/local/tmp/voyahiran-bridge/bridge.token").readText().trim()
         check(token.matches(Regex("[a-f0-9]{64}")))
         val runner = ProcessCommandRunner(useBridge = false)
