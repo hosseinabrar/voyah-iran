@@ -3,7 +3,6 @@ package com.abrar.voyahiran.feature.launcher
 import android.content.Context
 import android.view.SurfaceView
 import android.view.SurfaceHolder
-import android.view.View
 import com.abrar.voyahiran.core.shell.ProcessCommandRunner
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
@@ -276,7 +275,6 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         if(active && !fullscreen && monitor?.isActive==true)return
         active=true
         fullscreen=false
-        view.visibility=View.VISIBLE
         runCatching {embedded.active(true)}.onFailure {error("نقشه در دسترس نیست")}
         if(holder!=null)attachSurface()
         if(monitor?.isActive==true)return
@@ -333,7 +331,8 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         if(fullscreen || closed) {mapInCard=false;refreshCluster()}
         active=false;monitor?.cancel();monitor=null
         runCatching {embedded.active(false)}
-        view.visibility=View.INVISIBLE
+        // Stopping status checks must not destroy an otherwise live card surface.
+        // Window lifecycle callbacks still park/reconnect it when Android requires it.
     }
     fun hostStopped() {
         // Opening a task may briefly pause/stop HOME while the system reparents it.

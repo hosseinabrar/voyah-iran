@@ -18,10 +18,16 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
     private var relay: MapFrameRelay?=null
     private var relayFailed=false
     private var cardHolder: SurfaceHolder?=null
+    private var cardSurfaceGeneration=-1
     var attached=false;private set
     val displayId get()=display?.display?.displayId
     fun attach(holder:SurfaceHolder,width:Int,height:Int) {
         require(width>0 && height>0 && holder.surface.isValid)
+        val generation=holder.surface.generationId
+        // surfaceCreated, surfaceChanged and onResume can report the same output.
+        // Reconnecting it would tear down the relay's EGL window and discard its frame.
+        if(attached && cardHolder===holder && cardSurfaceGeneration==generation &&
+            bufferWidth==width && bufferHeight==height)return
         cardHolder=holder
         val manager=context.getSystemService(DisplayManager::class.java)
         if(display==null) {
@@ -35,6 +41,7 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         bufferWidth=width;bufferHeight=height
         background?.close();background=null
         attached=true
+        cardSurfaceGeneration=generation
         relay?.let {it.resize(width,height);it.card(holder.surface,width,height)}
     }
     fun cluster(inCard: Boolean) {
