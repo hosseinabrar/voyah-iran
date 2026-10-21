@@ -19,6 +19,7 @@ class NeshanDrivingService : AccessibilityService() {
     private var menuClicked = false
     private var rootIsCard = false
     private var cardRetryAt = 0L
+    private var cardFollowRetryAt = 0L
     private val cardVisible get() = com.abrar.voyahiran.feature.launcher.VoyahLauncherActivity.mapPageVisible &&
         com.abrar.voyahiran.feature.launcher.LauncherEmbeddedMapSurface.automationDisplayId != null
     private val cardWatch = object : Runnable {
@@ -103,7 +104,19 @@ class NeshanDrivingService : AccessibilityService() {
     /** Re-arm only on a recognizable idle map, never on a destination/route preview. */
     private fun maintainCardDriving(root: AccessibilityNodeInfo, now: Long) {
         val profile = NeshanConfigStore.profile ?: return
-        if ((profile.labels("routeIds") + profile.labels("activeIds")).any { visible(root, it) }) {
+        // Route guidance owns its existing drag + back-to-route flow. Never click
+        // the free-driving follow control over an active route.
+        val routing = profile.labels("routeIds").any { visible(root, it) }
+        val driving = profile.labels("activeIds").any { visible(root, it) }
+        val followVisible = visible(root, "followButton")
+        val action = NeshanCardDrivingPolicy.action(routing, driving, followVisible)
+        if (action != NeshanCardDrivingPolicy.Action.ENTER_DRIVING) {
+            if (action == NeshanCardDrivingPolicy.Action.FOLLOW && now >= cardFollowRetryAt) {
+                cardFollowRetryAt = now + 1500L
+                if (clickVisibleId(root, "followButton"))
+                    AppLog.info(TAG, "card free-driving follow clicked")
+            }
+            if (!followVisible) cardFollowRetryAt = 0L
             if (verifyUntil != 0L) AppLog.info(TAG, "card driving confirmed")
             session.consume(); verifyUntil = 0L; menuClicked = false; cardRetryAt = 0L
             return
@@ -241,6 +254,13 @@ class NeshanDrivingService : AccessibilityService() {
         val nodes = root.findAccessibilityNodeInfosByViewId("${NavigationPreferences.NESHAN}:id/$id")
         return try { nodes.any { it.isVisibleToUser } } finally { nodes.forEach { it.recycle() } }
     }
+    private fun clickVisibleId(root: AccessibilityNodeInfo, id: String): Boolean {
+        val nodes = root.findAccessibilityNodeInfosByViewId("${NavigationPreferences.NESHAN}:id/$id")
+        return try {
+            nodes.any { it.isVisibleToUser && it.isEnabled && it.isClickable &&
+                it.performAction(AccessibilityNodeInfo.ACTION_CLICK) }
+        } finally { nodes.forEach { it.recycle() } }
+    }
     /** Click nodes in the app itself, never inject a gesture through the launcher card. */
     private fun automationRoot(): AccessibilityNodeInfo? {
         rootIsCard = false
@@ -281,7 +301,7 @@ class NeshanDrivingService : AccessibilityService() {
         } finally { candidates.forEach { it.recycle() } }
     }
     private fun reset() {
-        handler.removeCallbacks(tick); tickPending = false; session.leave(); verifyUntil = 0L; menuClicked = false
+        handler.removeCallbacks(tick); tickPending = false; session.leave(); verifyUntil = 0L; menuClicked = false; cardFollowRetryAt = 0L
     }
     override fun onInterrupt() { NeshanVoiceNavigation.pending?.failure = "Accessibility interrupted"; reset() }
     override fun onDestroy() {
