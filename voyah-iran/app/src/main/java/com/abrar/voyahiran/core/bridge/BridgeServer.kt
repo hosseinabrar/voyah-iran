@@ -33,6 +33,7 @@ object BridgeServer {
         roa.start()
         neshan.start()
         OemNavigationManager.start()
+        LauncherBackdropBridge.start()
         val execution = java.util.concurrent.locks.ReentrantLock()
         DowAmbientBridge.start(comfortLocks.dow)
         val pool = ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(16))
