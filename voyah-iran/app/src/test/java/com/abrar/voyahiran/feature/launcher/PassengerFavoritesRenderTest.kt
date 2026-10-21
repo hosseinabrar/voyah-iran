@@ -34,7 +34,12 @@ class PassengerFavoritesRenderTest {
             view.beginEdit();tap(x,y);assertFalse("Blank point $x,$y must dismiss edit",view.editing)
         }
         assertEquals(0,opened);assertEquals(0,picked)
-        view.beginEdit();tap(399f,533f);assertFalse(view.editing);assertEquals(1,drawer)
+        view.beginEdit();tap(399f,533f);assertFalse(view.editing);assertEquals(0,drawer)
+        tap(399f,533f);assertEquals(1,drawer)
+        view.beginEdit();tap(145f,151f);assertFalse(view.editing);assertEquals(0,opened)
+        view.bind(apps(),List(5){""})
+        view.beginEdit();tap(145f,151f);assertFalse(view.editing);assertEquals(0,picked)
+        tap(145f,151f);assertEquals(1,picked)
     }
     private val context get()=RuntimeEnvironment.getApplication()
     private fun apps()=listOf("Neshan" to "neshan.webp","Apple Music" to "apple-music.jpeg","Namava" to "namava.jpeg","Video" to "video.png","Music player" to "audio.png").mapIndexed{i,p->
@@ -65,10 +70,13 @@ class PassengerFavoritesRenderTest {
         fun tap(x:Float,y:Float){event(0,x,y);event(1,x,y)}
         tap(145f,151f);assertEquals("app0",opened)
         view.beginEdit();tap(202f,94f);assertEquals("",saved[0]);assertEquals(listOf("app0"),view.availableApps().map{it.id})
+        tap(145f,151f);assertFalse(view.editing);assertEquals(-1,pick)
         tap(145f,151f);assertEquals(0,pick);view.select(0,"app0");assertEquals("app0",saved[0])
+        view.beginEdit()
         event(0,145f,151f);event(2,399f,151f);event(1,399f,151f);assertEquals(listOf("app1","app0"),saved.take(2))
         view.select(2,"app0");assertEquals("app2",view.selections()[2])
-        tap(399f,533f);assertEquals(1,drawer);assertFalse(view.editing)
+        tap(399f,533f);assertEquals(0,drawer);assertFalse(view.editing)
+        tap(399f,533f);assertEquals(1,drawer)
         view.bind(apps.drop(1),saved);assertFalse(view.selections().contains("app0"))
         view.bind(emptyList(),saved);assertEquals(List(5){""},view.selections())
     }

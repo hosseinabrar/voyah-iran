@@ -104,7 +104,6 @@ internal class PassengerFavoritesView(context:Context):View(context) {
         when(e.actionMasked){
             MotionEvent.ACTION_DOWN->{down=hit(x,y);downX=x;downY=y;dragX=x;dragY=y;held=false;dragging=false
                 if(down<0){dismissEdit();return true}
-                if(down==5&&editing){dismissEdit();down=5}
                 if(down in 0..4)postDelayed(hold,550);return true}
             MotionEvent.ACTION_MOVE->{if(hypot(x-downX,y-downY)>12){removeCallbacks(hold);if(editing&&down in 0..4){dragging=true;dragX=x;dragY=y;invalidate()}};return true}
             MotionEvent.ACTION_CANCEL->{removeCallbacks(hold);down=-1;dragging=false;invalidate();return true}
@@ -112,10 +111,11 @@ internal class PassengerFavoritesView(context:Context):View(context) {
                 if(dragging&&down in 0..4&&target in 0..4){ids=ids.toMutableList().apply{val a=get(down);set(down,get(target));set(target,a)};onSave(ids)}
                 else if(!held&&hypot(x-downX,y-downY)<12&&target==down){
                     when{
-                        down==5->{dismissEdit();onAllApps()}
+                        down==5->{if(editing)dismissEdit() else onAllApps()}
                         down in 0..4->{val i=down
                             if(editing&&ids[i].isNotEmpty()&&hypot(x-(cx(i)+57),y-(cy(i)-57))<=26){ids=ids.toMutableList().apply{set(i,"")};onSave(ids)}
-                            else if(ids[i].isEmpty())onPick(i) else if(!editing)onOpen(ids[i])
+                            else if(editing)dismissEdit()
+                            else if(ids[i].isEmpty())onPick(i) else onOpen(ids[i])
                         }
                     }
                 };down=-1;dragging=false;performClick();invalidate();return true
