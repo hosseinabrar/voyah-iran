@@ -18,6 +18,56 @@ import org.robolectric.annotation.Config
 @Config(sdk=[30],application=Application::class)
 @org.robolectric.annotation.LooperMode(org.robolectric.annotation.LooperMode.Mode.PAUSED)
 class LauncherEntranceTest {
+    @Test fun avmRoundTripsKeepContentVisibleWithoutReplayingEntrance() {
+        val controller=Robolectric.buildActivity(ComponentActivity::class.java).create()
+        val activity=controller.get();val content=FrameLayout(activity)
+        var camera=false
+        LauncherEntrance.install(activity,content) {camera}
+        fun focus(value:Boolean) {
+            android.view.ViewTreeObserver::class.java.getDeclaredMethod("dispatchOnWindowFocusChange",Boolean::class.javaPrimitiveType)
+                .apply{isAccessible=true}.invoke(activity.window.decorView.viewTreeObserver,value)
+        }
+        controller.start().resume();focus(true)
+        assertNotNull(content.animation)
+        repeat(3) {
+            camera=true;focus(false)
+            assertEquals(1f,content.alpha,0f)
+            assertNull(content.animation)
+            controller.pause().stop()
+            assertEquals(1f,content.alpha,0f)
+            camera=false
+            controller.restart().start().resume();focus(true)
+            assertEquals(1f,content.alpha,0f)
+            assertNull(content.animation)
+        }
+        // Ordinary app transitions still hide and animate.
+        focus(false);controller.pause().stop()
+        assertEquals(0f,content.alpha,0f)
+        controller.restart().start().resume();focus(true)
+        assertNotNull(content.animation)
+        controller.pause().stop().destroy()
+    }
+
+    @Test fun cameraDoesNotSkipColdEntranceOrHideRealAppSwitch() {
+        val controller=Robolectric.buildActivity(ComponentActivity::class.java).create()
+        val activity=controller.get();val content=FrameLayout(activity)
+        var camera=true
+        LauncherEntrance.install(activity,content) {camera}
+        fun focus(value:Boolean) {
+            android.view.ViewTreeObserver::class.java.getDeclaredMethod("dispatchOnWindowFocusChange",Boolean::class.javaPrimitiveType)
+                .apply{isAccessible=true}.invoke(activity.window.decorView.viewTreeObserver,value)
+        }
+        controller.start().resume();focus(false)
+        assertEquals(0f,content.alpha,0f)
+        camera=false;focus(true);assertNotNull(content.animation)
+        camera=true;focus(false);controller.pause()
+        // Camera closes while a different app takes over; onStop must re-arm.
+        camera=false;controller.stop()
+        assertEquals(0f,content.alpha,0f)
+        controller.restart().start().resume();focus(true)
+        assertNotNull(content.animation)
+        controller.pause().stop().destroy()
+    }
     @Test fun onlyContentScalesWhileBackdropRemainsOpaqueInBothThemes() {
         val controller=Robolectric.buildActivity(ComponentActivity::class.java).create()
         val activity=controller.get();val content=FrameLayout(activity)
