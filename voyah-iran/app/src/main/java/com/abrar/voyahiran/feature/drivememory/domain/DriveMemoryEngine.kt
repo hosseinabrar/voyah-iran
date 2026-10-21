@@ -72,7 +72,7 @@ class DriveMemoryEngine(private val store: DriveMemoryStore, private val allowed
             }
             if (phase == DrivePhase.FAILED) return null
             if (sentAt != null) {
-                phase = if (now - sentAt!! >= 10_000) DrivePhase.FAILED else DrivePhase.RESTORING
+                phase = if (now - sentAt!! >= 3_000) DrivePhase.FAILED else DrivePhase.RESTORING
                 return null
             }
             phase = DrivePhase.WAITING
@@ -99,7 +99,7 @@ class DriveMemoryEngine(private val store: DriveMemoryStore, private val allowed
         val sent = sentAt ?: return false
         if (!memory.enabled || !memory.pending || phase != DrivePhase.FAILED || attempts >= 3 ||
             !observed || !sample.powered || !valid(sample.mode) || !valid(memory.mode) ||
-            sample.mode == memory.mode || now - sent < 15_000) return false
+            sample.mode == memory.mode || now - sent < 5_000) return false
         sentAt = null; phase = DrivePhase.WAITING
         return true
     }

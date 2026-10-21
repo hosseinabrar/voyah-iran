@@ -11,7 +11,7 @@ import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.locks.ReentrantLock
 
-/** Resident worker: no shell/bridge requests per pulse; same write lock as other vehicle commands. */
+/** Resident worker: no shell/bridge requests per pulse; shares the dedicated DOW command lock. */
 internal object DowAmbientBridge {
     @Volatile private var until = 0L
     private val manualTest = DowManualTest() // Accessed under the bridge execution lock.

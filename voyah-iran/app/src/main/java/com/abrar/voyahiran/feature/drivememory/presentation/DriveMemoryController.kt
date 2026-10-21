@@ -35,6 +35,9 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val context = context.applicationContext
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val mutex = Mutex()
+    private val dowMutex = Mutex()
+    private val shadeMutex = Mutex()
+    private var dowRenewing = false
     private val engine = DriveMemoryEngine(store)
     private val recoveryEngine = DriveMemoryEngine(recoveryStore, 2..4)
     private val aebEngine = DriveMemoryEngine(aebStore, 1..2)
@@ -48,31 +51,53 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private var dowDoorOnly = dowPreferences.getBoolean("door_only", true)
     private var dowError = false
     private var nextDowHeartbeat = 0L
-    private fun dowCommand(enabled: Boolean) {
+    private fun dowCommand(enabled: Boolean, doorOnly: Boolean = dowDoorOnly) {
         val result = ProcessCommandRunner().run(listOf("su", "0", "dow-light",
-            if (!enabled) "disable" else if (dowDoorOnly) "enable" else "enable-always"), 3)
+            if (!enabled) "disable" else if (doorOnly) "enable" else "enable-always"), 3)
         check(!result.timedOut && result.exitCode == 0 && result.output.trim() == "DOW_ACCEPTED") { "DOW runtime unavailable" }
     }
     private fun renewDow() {
         val now = SystemClock.elapsedRealtime()
-        if (!dowEnabled || now < nextDowHeartbeat) return
+        if (!dowEnabled || dowRenewing || now < nextDowHeartbeat) return
         nextDowHeartbeat = now + 5000
-        dowError = runCatching {
-            dowCommand(true)
-            val result = ProcessCommandRunner().run(listOf("su", "0", "dow-light", "status"), 3)
-            check(!result.timedOut && result.exitCode == 0 && !result.output.startsWith("error:"))
-        }.isFailure
+        dowRenewing = true
+        scope.launch {
+            try {
+                dowMutex.withLock {
+                    val mode = mutex.withLock { if (running && dowEnabled && access.permits()) dowDoorOnly else null }
+                    if (mode != null) {
+                        val failed = runCatching {
+                            dowCommand(true, mode)
+                            val result = ProcessCommandRunner().run(listOf("su", "0", "dow-light", "status"), 3)
+                            check(!result.timedOut && result.exitCode == 0 && !result.output.startsWith("error:"))
+                        }.isFailure
+                        mutex.withLock { dowError = failed; publish() }
+                    }
+                }
+            } finally { mutex.withLock { dowRenewing = false } }
+        }
     }
-    suspend fun setDowEnabled(enabled: Boolean) = withContext(Dispatchers.IO) { mutex.withLock { protect {
+    suspend fun setDowEnabled(enabled: Boolean) = withContext(Dispatchers.IO) { dowMutex.withLock {
+        val permitted = mutex.withLock { access.permits() }
+        if (!permitted) return@withLock false
+        try {
         if (enabled) { writer.checkAccess(); dowCommand(true) }
+        else dowCommand(false)
+        mutex.withLock {
         check(dowPreferences.edit().putBoolean("enabled", enabled).commit())
         dowEnabled = enabled; dowError = false; nextDowHeartbeat = 0
         if (enabled) running = true else {
-            dowError = runCatching { dowCommand(false) }.isFailure
             if (!hasActiveMemory) { running = false; gateway.close() }
         }
         publish()
-    } } }
+        }
+        true
+        } catch (error: Exception) {
+            mutex.withLock { dowError = true; publish() }
+            com.abrar.voyahiran.core.logging.AppLog.error("DOW", "setting failed", error)
+            false
+        }
+    } }
     private val shadePreferences = this.context.getSharedPreferences("sunshade_departure", Context.MODE_PRIVATE)
     suspend fun setDowDoorOnly(value: Boolean) = withContext(Dispatchers.IO) { mutex.withLock { protect {
         check(access.permits()) { "VIP inactive" }
@@ -94,11 +119,15 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
     private val access get() = MemoryAccess(subscriptions.allowed, subscriptions.vipAllowed)
     val hasActiveMemory: Boolean get() = access.permits() && (dowEnabled || shadeEnabled || shadeReadyEnabled || engine.memory.enabled || recoveryEngine.memory.enabled || aebEngine.memory.enabled || pedestrianEngine.memory.enabled || energyModeEngine.memory.enabled)
     private val recoveryWriter = RecoveryLevelWriter(ProcessCommandRunner())
-    private val restoreSequence = MemoryRestoreSequence(mapOf(
+    private val memoryEngines = mapOf(
         MemorySetting.DRIVE to engine, MemorySetting.RECOVERY to recoveryEngine,
         MemorySetting.ENERGY_MODE to energyModeEngine, MemorySetting.AEB to aebEngine,
         MemorySetting.PEDESTRIAN to pedestrianEngine
-    )) { com.abrar.voyahiran.core.logging.AppLog.changed("MemoryRestore", it) }
+    )
+    private val memoryInFlight = mutableSetOf<MemorySetting>()
+    private var commandGeneration = 0L
+    private var powerWasOff = false
+    private val restoreSequence = MemoryRestoreSequence(memoryEngines) { com.abrar.voyahiran.core.logging.AppLog.changed("MemoryRestore", it) }
     private val events = Channel<CanSignal>(Channel.UNLIMITED)
     private val gateway = CanDriveGateway(context) { events.trySend(it) }
     private val writer = OemDriveModeWriter(ProcessCommandRunner())
@@ -126,7 +155,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         scope.launch {
             for (event in events) mutex.withLock {
                 if (running) protect {
-                    if (event.field == CanField.DISCONNECTED) { engine.start(boot); recoveryEngine.start(boot); aebEngine.start(boot); pedestrianEngine.start(boot); energyModeEngine.start(boot); shadePolicy.reset(); shadeReadyPolicy.reset() }
+                    if (event.field == CanField.DISCONNECTED) { commandGeneration++; engine.start(boot); recoveryEngine.start(boot); aebEngine.start(boot); pedestrianEngine.start(boot); energyModeEngine.start(boot); shadePolicy.reset(); shadeReadyPolicy.reset() }
                     sample = when (event.field) {
                         CanField.PEDESTRIAN -> sample.copy(pedestrian = event.value)
                         CanField.ENERGY_MODE -> sample.copy(energyMode = event.value)
@@ -297,22 +326,47 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
 
     private fun closeShadeOnDeparture() {
         if (!shadePolicy.observe(sample.ready, sample.speed, shadeEnabled, access.permits())) return
+        launchShade(false)
+    }
+
+    // Only opposite commands to the same physical motor share a lane. Neither
+    // command holds the state mutex while waiting for OEM feedback.
+    private fun launchShade(open: Boolean) {
+        val generation = commandGeneration
+        scope.launch { shadeMutex.withLock {
+            val permitted = mutex.withLock {
+                val valid = generation == commandGeneration && running && access.permits() && sample.speed == 0 &&
+                    if (open) shadeReadyEnabled && sample.acc == 2 && sample.ready == 1
+                    else shadeEnabled && sample.ready == 0
+                if (valid) {
+                    if (open) { shadeOpening = true; shadeReadyError = false }
+                    else { shadeClosing = true; shadeError = false }
+                    publish()
+                }
+                valid
+            }
+            if (!permitted) return@withLock
         val power = context.getSystemService(android.os.PowerManager::class.java)
-        val wake = power.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "VoyahIran:SunshadeDeparture")
-        shadeClosing = true; shadeError = false; publish()
+        val tag = if (open) "SunshadeReady" else "SunshadeDeparture"
+        val wake = power.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "VoyahIran:$tag")
+        var failed = false
         try {
             // Short CPU hold only; never an unbounded wake lock or a retry after shutdown.
             wake.acquire(12_000)
-            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeDeparture", "READY 1->0; close once per edge")
-            shadeWriter.close()
-            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeDeparture", "closed feedback confirmed")
+            if (open) shadeReadyWriter.open() else shadeWriter.close()
+            com.abrar.voyahiran.core.logging.AppLog.info(tag, "feedback confirmed")
         } catch (error: Exception) {
-            shadeError = true
-            com.abrar.voyahiran.core.logging.AppLog.error("SunshadeDeparture", "not confirmed; no replay", error)
+            failed = true
+            com.abrar.voyahiran.core.logging.AppLog.error(tag, "not confirmed; no replay", error)
         } finally {
             if (wake.isHeld) wake.release()
-            shadeClosing = false; publish()
+            mutex.withLock {
+                if (open) { shadeOpening = false; shadeReadyError = failed }
+                else { shadeClosing = false; shadeError = failed }
+                publish()
+            }
         }
+        } }
     }
 
     suspend fun setShadeReadyEnabled(enabled: Boolean) = withContext(Dispatchers.IO) { mutex.withLock { protect {
@@ -333,31 +387,24 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
 
     private fun openShadeOnReady() {
         if (!shadeReadyPolicy.observe(sample.acc, sample.ready, sample.speed, shadeReadyEnabled, access.permits())) return
-        val power = context.getSystemService(android.os.PowerManager::class.java)
-        val wake = power.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "VoyahIran:SunshadeReady")
-        shadeOpening = true; shadeReadyError = false; publish()
-        try {
-            // Short CPU hold only; never an unbounded wake lock or a retry after shutdown.
-            wake.acquire(12_000)
-            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeReady", "entered READY; open once")
-            shadeReadyWriter.open()
-            com.abrar.voyahiran.core.logging.AppLog.info("SunshadeReady", "opened feedback confirmed")
-        } catch (error: Exception) {
-            shadeReadyError = true
-            com.abrar.voyahiran.core.logging.AppLog.error("SunshadeReady", "not confirmed; no replay", error)
-        } finally {
-            if (wake.isHeld) wake.release()
-            shadeOpening = false; publish()
+        launchShade(true)
+    }
+
+    suspend fun detach() = withContext(Dispatchers.IO) {
+        mutex.withLock {
+        nextDowHeartbeat = 0
+        commandGeneration++
+        running = false; restorationStarted = false; gateway.close(); shadePolicy.reset(); shadeReadyPolicy.reset()
+        }
+        dowMutex.withLock {
+            if (mutex.withLock { !running }) runCatching { dowCommand(false) }
         }
     }
 
-    suspend fun detach() = withContext(Dispatchers.IO) { mutex.withLock {
-        runCatching { dowCommand(false) }; nextDowHeartbeat = 0
-        running = false; restorationStarted = false; gateway.close(); shadePolicy.reset(); shadeReadyPolicy.reset()
-    } }
-
     private fun process(modeObserved: Boolean, recoveryObserved: Boolean, aebObserved: Boolean = true, pedestrianObserved: Boolean = true, energyModeObserved: Boolean = true) {
         if (!access.permits()) { shadePolicy.reset(); shadeReadyPolicy.reset(); return }
+        if(sample.off && !powerWasOff) commandGeneration++
+        powerWasOff = sample.off
         closeShadeOnDeparture()
         openShadeOnReady()
         val now = SystemClock.elapsedRealtime()
@@ -368,9 +415,19 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
             if(aebObserved)add(MemorySetting.AEB)
             if(pedestrianObserved)add(MemorySetting.PEDESTRIAN)
         }
-        restoreSequence.process(sample,now,observed) { key,value ->
+        restoreSequence.process(sample,now,observed,memoryInFlight) { key,value ->
             publish()
+            val generation = commandGeneration
+            memoryInFlight.add(key)
+            scope.launch {
+            var failed = false
             try {
+                val permitted = mutex.withLock {
+                    val memory = memoryEngines.getValue(key).memory
+                    generation == commandGeneration && running && access.permits() && sample.powered &&
+                        memory.enabled && memory.pending && memory.mode == value
+                }
+                if (!permitted) return@launch
                 when(key) {
                     MemorySetting.DRIVE -> writer.apply(value)
                     MemorySetting.RECOVERY -> recoveryWriter.apply(value)
@@ -379,8 +436,17 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
                     MemorySetting.PEDESTRIAN -> pedestrianWriter.apply(value)
                 }
             } catch(error:Exception) {
+                failed = true
                 com.abrar.voyahiran.core.logging.AppLog.error("MemoryRestore","apply failed step=$key target=$value; bounded automatic retry scheduled",error)
-                throw error
+            } finally {
+                mutex.withLock {
+                    memoryInFlight.remove(key)
+                    val target = memoryEngines.getValue(key)
+                    if (failed && generation == commandGeneration && target.memory.pending && target.memory.mode == value)
+                        target.requestFailed()
+                    publish()
+                }
+            }
             }
         }
         publish()
@@ -414,6 +480,7 @@ class DriveMemoryController(context: Context, store: DriveMemoryStore, recoveryS
         gateway.read().also { com.abrar.voyahiran.core.logging.AppLog.info("DriveMemory", "stage=read-vehicle end sample=$it") }
     }
     catch (error: Exception) {
+        commandGeneration++
         sample = VehicleSample()
         shadePolicy.reset(); shadeReadyPolicy.reset()
         if (engine.memory.enabled) engine.start(boot.ifBlank { bootIdentity() })

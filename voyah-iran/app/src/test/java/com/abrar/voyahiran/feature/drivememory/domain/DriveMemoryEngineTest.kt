@@ -111,7 +111,9 @@ class DriveMemoryEngineTest {
     @Test fun failedConfirmationDoesNotOverwriteMemoryOrKeepSending() {
         val store = enabledStore(); val engine = DriveMemoryEngine(store)
         engine.start("new"); assertEquals(2, engine.observe(vehicle(1), 0, true))
-        assertNull(engine.observe(vehicle(1), 10_001, true))
+        assertNull(engine.observe(vehicle(1), 2_999, true))
+        assertEquals(DrivePhase.RESTORING, engine.phase)
+        assertNull(engine.observe(vehicle(1), 3_000, true))
         assertEquals(DrivePhase.FAILED, engine.phase)
         assertNull(engine.observe(vehicle(1), 20_000, true))
         assertEquals(2, store.value.mode)

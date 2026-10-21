@@ -34,7 +34,7 @@ object BridgeServer {
         neshan.start()
         OemNavigationManager.start()
         val execution = java.util.concurrent.locks.ReentrantLock()
-        DowAmbientBridge.start(execution)
+        DowAmbientBridge.start(comfortLocks.dow)
         val pool = ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(16))
         ServerSocket(BridgePolicy.PORT, 8, InetAddress.getByName("127.0.0.1")).use { server ->
             AppLog.info("BridgeServer", "ready protocol=1 uid=${Process.myUid()} port=${BridgePolicy.PORT}")
@@ -46,6 +46,8 @@ object BridgeServer {
         }
     }
 
+    private val comfortLocks = ComfortExecutionLocks()
+
     private fun handle(socket: Socket, token: String, runner: ProcessCommandRunner, execution: java.util.concurrent.locks.ReentrantLock) {
         var handedOff=false
         try {
@@ -56,6 +58,7 @@ object BridgeServer {
                 val parsed = BridgeProtocol.read(input, token)
                 val request = parsed.id
                 val command = BridgePolicy.resolve(parsed.arguments, android.os.Build.VERSION.SDK_INT)
+                val operationLock = comfortLocks.forOperation(command?.firstOrNull().orEmpty(), execution)
                 if(command!=null && command.take(2)==listOf("launcher-vehicle","watch")) {
                     try {
                         watchPool.execute {
@@ -88,7 +91,7 @@ object BridgeServer {
                 // Subscription session writes have their own serialization, and do not move tasks.
                 else if (command.first() == "subscription-session") BridgeSubscriptionSession.update(command[1].toInt())
                 else if (command.first() == "subscription-vip-session") BridgeSubscriptionSession.updateVip(command[1].toInt(), command[2].toInt())
-                else if (!execution.tryLock()) CommandResult(75, "Bridge busy; no command executed")
+                else if (!operationLock.tryLock()) CommandResult(75, "Bridge busy; no command executed")
                 else try {
                     AppLog.info("BridgeServer", "request=$request operation=${command.first()} accepted")
                     when (command.first()) {
@@ -142,7 +145,7 @@ object BridgeServer {
                         "roa-config" -> RearCameraConfiguration.enable()
                         else -> runner.run(command, parsed.timeout)
                     }
-                } finally { execution.unlock() }
+                } finally { operationLock.unlock() }
                 reply(output,request,result)
             } catch (error: Exception) {
                 AppLog.error("BridgeServer", "request-failed no-replay", error)
