@@ -2,6 +2,11 @@ package com.abrar.voyahiran.feature.launcher
 
 enum class ClusterMapMode {
     OFF, AUTO, ON;
+    internal fun showsMap(nearManeuver: Boolean, mediaHasContent: Boolean?) = when (this) {
+        OFF -> false
+        ON -> true
+        AUTO -> nearManeuver || mediaHasContent == false
+    }
     fun effective(neshan: Boolean) = if (this == AUTO && !neshan) ON else this
     fun next(neshan: Boolean): ClusterMapMode = when (effective(neshan)) {
         OFF -> ON

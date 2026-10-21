@@ -19,6 +19,9 @@ internal object LauncherClusterMap {
     private var retryAt=0L
     private var lastBlend=""
     private var mapInCard=false
+    @Volatile private var mediaHasContent: Boolean? = null
+    // Same observation that supplies the cluster's "open multimedia" frame.
+    fun mediaContent(value: Boolean?) { mediaHasContent = value }
     private var surfaceDeadline=0L
     fun cardPresence(relay:MapFrameRelay,inCard:Boolean) {
         if(renderer!==relay || mapInCard==inCard)return
@@ -28,11 +31,8 @@ internal object LauncherClusterMap {
     val autoPolicy=ClusterMapAutoPolicy {AppLog.info("ClusterMapAuto",it)}
     fun available(c:Context)=LauncherPreferences.enabled(c) && LauncherPreferences.clusterMap(c) &&
         (c.applicationContext as VoyahIranApplication).subscriptions.vipAllowed
-    fun allowed(c:Context)=available(c) && when(LauncherPreferences.clusterMapMode(c)) {
-        ClusterMapMode.OFF->false
-        ClusterMapMode.ON->true
-        ClusterMapMode.AUTO->autoPolicy.show(android.os.SystemClock.elapsedRealtime())
-    }
+    fun allowed(c:Context)=available(c) && LauncherPreferences.clusterMapMode(c).showsMap(
+        autoPolicy.show(android.os.SystemClock.elapsedRealtime()), mediaHasContent)
     private suspend fun command(action:String,id:String)=withContext(Dispatchers.IO) {
         ProcessCommandRunner().run(listOf("su","0","cluster-map",action,id),3)
     }

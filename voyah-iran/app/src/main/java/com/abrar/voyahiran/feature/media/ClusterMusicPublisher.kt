@@ -36,7 +36,11 @@ internal class ClusterMusicPublisher(private val context: Context, private val s
     fun start() {
         stop()
         preferences.registerOnSharedPreferenceChangeListener(preferenceListener)
-        observer = LauncherMediaObserver(context, scope) { state = it; observedAt = SystemClock.elapsedRealtime(); updates.trySend(Unit) }.also { it.start() }
+        observer = LauncherMediaObserver(context, scope) {
+            state = it
+            LauncherClusterMap.mediaContent(it.hasContent)
+            observedAt = SystemClock.elapsedRealtime(); updates.trySend(Unit)
+        }.also { it.start() }
         job = scope.launch {
             while (isActive) {
                 val value = state
@@ -109,5 +113,6 @@ internal class ClusterMusicPublisher(private val context: Context, private val s
         observer?.stop(); observer = null; job?.cancel(); job = null
         // The bridge and OEM adapter independently expire the last frame after five seconds.
         state = LauncherMediaState(); sent = false
+        LauncherClusterMap.mediaContent(null)
     }
 }

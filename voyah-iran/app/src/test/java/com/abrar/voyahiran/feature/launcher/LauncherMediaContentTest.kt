@@ -4,6 +4,17 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class LauncherMediaContentTest {
+    @Test fun smartShowsMapForEmptyMediaButNotForPausedContentAwayFromTurn() {
+        assertTrue(ClusterMapMode.AUTO.showsMap(false, LauncherMediaState().hasContent))
+        val paused=LauncherMediaState(title="Tamasha",playing=false)
+        assertFalse(ClusterMapMode.AUTO.showsMap(false,paused.hasContent))
+        assertTrue(ClusterMapMode.AUTO.showsMap(true,paused.hasContent))
+        assertFalse(ClusterMapMode.AUTO.showsMap(false,LauncherMediaState(radio=true).hasContent))
+        assertFalse(ClusterMapMode.AUTO.showsMap(false,null))
+        assertTrue(ClusterMapMode.AUTO.showsMap(true,null))
+        assertFalse(ClusterMapMode.OFF.showsMap(true,false))
+        assertTrue(ClusterMapMode.ON.showsMap(false,true))
+    }
     @Test fun pauseKeepsLauncherContentForCluster() {
         val memory=LauncherMediaMemory()
         memory.remember(LauncherMediaState(title="Tamasha",artist="Shadmehr Aghili",
