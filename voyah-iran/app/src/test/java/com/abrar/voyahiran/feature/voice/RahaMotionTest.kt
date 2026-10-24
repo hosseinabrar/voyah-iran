@@ -3,6 +3,16 @@ import com.abrar.raha.feedback.RahaMotion
 import org.junit.Assert.*
 import org.junit.Test
 class RahaMotionTest {
+ @Test fun silenceReturnsImmediatelyToDots() {
+  for(i in 0..6)for(t in listOf(0f,.2f,1f,10f))assertEquals(8f,RahaMotion.barHeight(i,t,0f),0f)
+ }
+ @Test fun readinessHeartbeatNeverReturnsDuringCommandPauses() {
+  val gate=com.abrar.raha.feedback.RahaReadyHeartbeat()
+  gate.begin();gate.text("رها");assertTrue(gate.allowed)
+  gate.text("رها درها رو قفل کن");assertFalse(gate.allowed)
+  gate.text("");gate.text("رها");assertFalse(gate.allowed)
+  gate.begin();assertTrue(gate.allowed)
+ }
  @Test fun heartbeatHasTwoPeaksAndLongQuietGap() {
   assertEquals(1f,RahaMotion.heartbeat(.13f),.001f)
   assertEquals(.46f,RahaMotion.heartbeat(.24f),.001f)

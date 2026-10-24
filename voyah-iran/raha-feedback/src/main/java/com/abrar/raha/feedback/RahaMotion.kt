@@ -19,7 +19,7 @@ object RahaMotion {
     }
     fun barHeight(index: Int, seconds: Float, energy: Float): Float {
         val amplitude = .12f + .88f * (.5f + .5f * sin(seconds * rates[index] + phases[index]))
-        return 8f + 52f * amplitude * taper[index] * (.45f + .55f * energy.coerceIn(0f, 1f))
+        return 8f + 52f * amplitude * taper[index] * energy.coerceIn(0f, 1f)
     }
     fun lineStart(seconds: Float): Float = lineEndPoint(seconds, false)
     fun lineEnd(seconds: Float): Float = lineEndPoint(seconds, true)

@@ -50,7 +50,7 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
             val previous=field
             if(field.bearing?.roundToInt()!=v.bearing?.roundToInt()) {
                 val target=v.bearing?.roundToInt()?.toFloat() ?: 0f
-                dial.bearing(target,animationsEnabled && field.bearing!=null && v.bearing!=null)
+                dial.bearing(target)
             }
             field=v
             // CCC publishes integer values; sub-degree sensor noise must not redraw the page.
@@ -59,7 +59,7 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
                 shown(previous.slope)!=shown(v.slope) || shown(previous.inclination)!=shown(v.inclination) ||
                 shown(previous.altitude)!=shown(v.altitude))invalidate()
         }
-    fun stopAnimations(){groundAnimation?.cancel();ground=state.groundMm?.toFloat();dial.bearing(compass.bearing ?: 0f,false)}
+    fun stopAnimations(){groundAnimation?.cancel();ground=state.groundMm?.toFloat();dial.bearing(compass.bearing ?: 0f)}
     var busy=false
         set(v){field=v;invalidate()}
     var onCommand:(String,String)->Unit={_,_->}
@@ -149,12 +149,9 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         for(i in 0..2) {p.color=motion.color("recovery-bar-$i",i<(state.recovery?.minus(1) ?: 0),if(lightTheme)0xffc5d4e9.toInt() else 0xff4a587b.toInt(),cyan);c.drawRoundRect(420f+i*34,535f-(i+1)*27,442f+i*34,535f,5f,5f,p)}
         selector(c,32f,560f,511f,listOf("2" to "Low","3" to "Medium","4" to "High"),state.recovery?.toString(),"recovery",state.fresh && state.recovery in 2..4)
         fun degrees(n:Double?)=n?.let {String.format(Locale.US,"%.0f°",it)} ?: "—"
-        // Sensor values may retarget faster than a fade. Crossfade rather than fading
-        // through zero, so live readings never disappear while the car is turning.
+        // Live readings must remain fully visible on every sensor update.
         fun reading(key:String,value:String,x:Float,y:Float,size:Float=23f,center:Boolean=false){
-            motion.content(key,value,c,RectF(if(center)x-90f else x-4f,y-size-8f,if(center)x+90f else x+270f,y+8f)){
-                text(c,it,x,y,size,center)
-            }
+            text(c,value,x,y,size,center)
         }
         reading("slope","Slope ${degrees(compass.slope)}",622f,54f)
         reading("inclination","Inclination ${degrees(compass.inclination)}",928f,54f)

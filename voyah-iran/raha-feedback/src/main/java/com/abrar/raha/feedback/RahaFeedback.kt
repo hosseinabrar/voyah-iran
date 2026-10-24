@@ -19,9 +19,10 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     private var attachedType = 0
     private var interactionStarted = 0L
     private var heartbeatStartedAt: Long? = null
+    private val readyHeartbeat = RahaReadyHeartbeat()
     private fun playReady() {
         sounds.play(RahaSounds.Cue.READY)
-        heartbeatStartedAt = SystemClock.uptimeMillis()
+        heartbeatStartedAt = if(readyHeartbeat.allowed)SystemClock.uptimeMillis() else null
         orb?.heartbeatStartedAt = heartbeatStartedAt
     }
     private inline fun onMain(crossinline action: () -> Unit) {
@@ -176,6 +177,7 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         root?.apply { visibility=View.VISIBLE; animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(220).start() }
         interactionStarted = SystemClock.elapsedRealtime()
         heartbeatStartedAt = null
+        readyHeartbeat.begin()
         light=lightTheme(); themeCheckedAt=interactionStarted
         confirmation=false
         promptText=""; promptChoices=emptyList(); promptSelect=null; transcript=""; voiceActive=false; sounds.stop(); policy.cancel(); policy.begin(interactionStarted, !manual && !tentative)
@@ -187,12 +189,14 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     fun text(value: String): Unit = onMain {
         if(closed || value.isBlank() || !acquireAudio()) return@onMain
         transcript=value.take(2000)
+        readyHeartbeat.text(value)
+        if(!readyHeartbeat.allowed){heartbeatStartedAt=null;orb?.heartbeatStartedAt=null}
         policy.text(SystemClock.elapsedRealtime(),value); refresh()
     }
     fun level(percent: Int): Unit = onMain {
         orb?.level = percent / 100f
     }
-    fun speech(active: Boolean): Unit = onMain { voiceActive=active; policy.speech(SystemClock.elapsedRealtime(),active) }
+    fun speech(active: Boolean): Unit = onMain { voiceActive=active; policy.speech(SystemClock.elapsedRealtime(),active); render() }
     fun processing(): Unit = onMain { if(closed || !acquireAudio()) return@onMain; policy.processing(); refresh() }
     fun result(success: Boolean): Unit = onMain {
         if(closed || !acquireAudio()) return@onMain

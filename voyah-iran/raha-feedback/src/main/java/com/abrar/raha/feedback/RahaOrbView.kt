@@ -79,7 +79,7 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         val dt=if(previousFrame==0L)1f/60 else ((now-previousFrame)/1000f).coerceIn(0f,.05f)
         previousFrame=now
         val target=if(phase==FeedbackState.LISTENING)sqrt(level.coerceIn(0f,1f)) else 0f
-        energy+=(target-energy)*(1-exp(-dt/if(target>energy).045f else .18f))
+        energy=target
         val beat=heartbeatStartedAt?.let { RahaMotion.heartbeat((now-it).coerceAtLeast(0L)/1000f) } ?: 0f
         val pulseTarget=if(phase==FeedbackState.WAITING).94f+.10f*beat else 1.04f
         visualPulse+=(pulseTarget-visualPulse)*(1-exp(-dt/.10f))
@@ -123,7 +123,7 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 paint.style=Paint.Style.FILL;paint.shader=wave
                 for(i in 0..6) {
                     val targetHeight=if(phase==FeedbackState.LISTENING)RahaMotion.barHeight(i,now/1000f,energy) else 8f
-                    heights[i]+=(targetHeight-heights[i])*(1-exp(-dt/.075f))
+                    heights[i]=targetHeight
                     processingHeights[i]=heights[i]
                     val h=heights[i]
                     val x=(i-3)*13f;canvas.drawRoundRect(x-4,-h/2,x+4,h/2,4f,4f,paint) }

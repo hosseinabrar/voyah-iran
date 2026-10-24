@@ -1,6 +1,5 @@
 package com.abrar.voyahiran.feature.launcher
 
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -10,7 +9,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import kotlin.math.*
 
-/** CCC CompassCardView.rotateView: rotate the dial, counter-rotate its labels, 200ms. */
+/** Live sensor pose, without temporal interpolation; labels remain upright. */
 internal class LauncherCompassDial(context:Context):FrameLayout(context) {
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG)
     private val ticks=object:View(context){
@@ -29,22 +28,14 @@ internal class LauncherCompassDial(context:Context):FrameLayout(context) {
         gravity=Gravity.CENTER;includeFontPadding=false
         if(i>=12)setTypeface(typeface,android.graphics.Typeface.BOLD)
     } }
-    private var animator:ObjectAnimator?=null
     init {addView(ticks);labels.forEach{addView(it)};setWillNotDraw(true);theme(false)}
     fun theme(light:Boolean){
         paint.color=if(light)0xff6d7e99.toInt() else 0xffc0cbe0.toInt();ticks.invalidate()
         labels.forEach{it.setTextColor(if(light)0xff263651.toInt() else android.graphics.Color.WHITE)}
     }
-    fun bearing(value:Float,animate:Boolean){
-        animator?.cancel()
-        val target=-value
-        val delta=((target-rotation+540f)%360f)-180f
-        if(!animate){rotation=target;labels.forEach{it.rotation=-rotation};return}
-        animator=ObjectAnimator.ofFloat(this,"rotation",rotation,rotation+delta).apply {
-            duration=200;setAutoCancel(true)
-            addUpdateListener{labels.forEach{it.rotation=-rotation}}
-            start()
-        }
+    fun bearing(value:Float){
+        rotation=-value
+        labels.forEach{it.rotation=value}
     }
     override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
         ticks.layout(0,0,width,height)
@@ -58,5 +49,4 @@ internal class LauncherCompassDial(context:Context):FrameLayout(context) {
             v.layout((x-28*sx).toInt(),(y-18*sy).toInt(),(x+28*sx).toInt(),(y+18*sy).toInt())
         }
     }
-    override fun onDetachedFromWindow(){animator?.cancel();super.onDetachedFromWindow()}
 }
