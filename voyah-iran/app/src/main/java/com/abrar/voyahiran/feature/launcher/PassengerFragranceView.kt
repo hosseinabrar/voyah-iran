@@ -100,7 +100,9 @@ internal class PassengerFragranceView(context:Context):View(context) {
     private fun scene(c:Canvas,tone:Int){
         staticArtwork.draw(c,"fragrance-${if(light)"light"else "dark"}-$tone-$on${if(grayscale)"-gray"else ""}",RectF(0f,0f,770f,280f))
         c.save();c.translate(28.0464f,0f);c.scale(.927152f,.927152f)
-        image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",RectF(467f,46f,707f,242f),alpha=(191+64*motion.value("power",if(on)1f else 0f)).toInt())
+        // Offset in the 770x280 card coordinates, compensating for the scene scale.
+        val objectRect=RectF(467f,46f,707f,242f).apply{offset(10f/.927152f,3f/.927152f)}
+        image(c,"object-$tone"+if(light)if(tone==2)"-day-v2" else "-day-v1" else "",objectRect,alpha=(191+64*motion.value("power",if(on)1f else 0f)).toInt())
         val label=if(light)color(when(tone){1->"#707985";2->"#747970";else->"#7c7182"}) else Color.WHITE
         text(c,listOf("","Watery mist","Fresh bamboo","Peony scarlet")[tone],587f,37f,20f,label)
         c.save();c.scale(1.1f,1.1f,215f,158f)
