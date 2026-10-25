@@ -67,6 +67,14 @@ internal object NeshanConfig {
                 for(n in listOf("fragmentField","modelField","stateMethod","applyMethod","buttonId"))
                     require(camera.getString(n).matches(Regex("[A-Za-z_$][A-Za-z0-9_$]{0,99}")))
             }
+            p.optJSONObject("surveySuppression")?.let { survey ->
+                require(survey.get("enabled") is Boolean)
+                require(survey.getString("resourcePackage") == PACKAGE)
+                val ids = survey.getJSONArray("requiredViewIds")
+                require(ids.length() in 3..16)
+                for (j in 0 until ids.length())
+                    require(ids.getString(j).matches(Regex("[A-Za-z_][A-Za-z0-9_]{0,159}")))
+            }
             p.optJSONObject("adSuppression")?.let { ads ->
                 require(ads.get("enabled") is Boolean)
                 val ids = ads.getJSONArray("viewIds")

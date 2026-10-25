@@ -1,5 +1,9 @@
 # Feature subscription policy
 
+## Neshan version compatibility
+
+Keep every Neshan-specific class, method, field, resource selector, and other version-dependent identifier in the signed, APK-matched Neshan configuration, never hardcoded in the client hook. Verify selectors against each supported APK; omit unsupported contracts rather than guessing. Version/obfuscation-only changes must be deliverable through configuration without a Voyah Iran app update. Generic Android APIs and our own display identifiers are not Neshan selectors.
+
 ## Launcher artwork performance
 
 Bake fixed lighting, shadows, hue/saturation variants, theme tints, and decorative gradients into project assets offline. Do not reconstruct these in onDraw or at launcher startup. Load immutable artwork asynchronously and cache it. Keep runtime drawing for actual state, text, progress, and transitions; preserve approved geometry and verify both themes with render tests. Offline asset authoring tests must be disabled by default and never packaged in the app.

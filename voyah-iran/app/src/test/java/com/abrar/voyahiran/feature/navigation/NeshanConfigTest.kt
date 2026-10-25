@@ -12,6 +12,19 @@ import com.sun.net.httpserver.HttpServer
 import java.net.InetSocketAddress
 
 class NeshanConfigTest {
+    @Test fun surveySelectorsAreValidated() {
+        val doc=JSONObject(File("../../voyah-iran-subscription-server/configs/neshan.source.json").readText())
+        val published=NeshanConfig.verify(File("../../voyah-iran-subscription-server/deployment/configs/neshan.json").readText())
+        assertEquals(doc.getLong("revision"),published.revision)
+        assertTrue(published.profiles.all { it.json.getJSONObject("surveySuppression").getBoolean("enabled") })
+        assertEquals(3,NeshanConfig.verify(sign(doc),publicKey).profiles.size)
+        val survey=doc.getJSONArray("profiles").getJSONObject(0).getJSONObject("surveySuppression")
+        survey.getJSONArray("requiredViewIds").put(0,"bad;command")
+        rejects { NeshanConfig.verify(sign(doc),publicKey) }
+        survey.getJSONArray("requiredViewIds").put(0,"firstTitleTextView")
+        survey.put("resourcePackage","other.package")
+        rejects { NeshanConfig.verify(sign(doc),publicKey) }
+    }
     @Test fun cameraSelectorsAreValidatedForEveryProfile() {
         val doc=JSONObject(File("../../voyah-iran-subscription-server/configs/neshan.source.json").readText())
         assertEquals(3,NeshanConfig.verify(sign(doc),publicKey).profiles.size)

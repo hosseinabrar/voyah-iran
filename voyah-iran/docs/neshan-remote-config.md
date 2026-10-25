@@ -46,6 +46,20 @@ The Windows payload verifier now checks the generic config-engine marker.
 
 ## Verification
 
+Revision 10 adds optional `surveySuppression` per APK profile: `enabled`,
+`resourcePackage`, and `requiredViewIds` (all must match). Verified against the
+customer-satisfaction layout in 70789/70794 and 70799 (`res/Wd.xml`). No Neshan
+survey selector is embedded in the hook. Missing configuration disables suppression.
+The hook checks immediately after show and again after actual window attachment,
+outside attachment traversal. Temporarily, at the owner's request for hardware testing,
+suppression applies to all displays including fullscreen; restore the card-only display
+guard after owner approval. It never selects a rating. Tracked surveys are also rechecked on card arrival.
+Attachment listeners are removed on use/cleanup; there is no survey polling.
+Publish the newly signed configuration together with deployment of the updated hook;
+selector-only changes thereafter require a new signed revision, not an app release.
+
+Regression: `node tools/tests/neshan-survey-test.cjs` from the Android project.
+
 `NeshanConfigTest`: signature/schema/purpose checks, rollback/reused-revision rejection,
 body limit, real HTTP 200/304/503, unchanged cache on invalid update, and publication signature.
 Standalone published-file check: `-Dneshan.published=<path to deployment/configs/neshan.json>`.

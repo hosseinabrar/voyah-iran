@@ -1,11 +1,13 @@
 package com.abrar.voyahiran.core.bridge
 
-/** Close only the route-quality sheet on our non-interactive map display. */
+/** Close the route-quality sheet; temporarily all displays for hardware testing. */
 internal object NeshanSurveyScript {
     val source = """
 let restoreSurvey=function(){};
 let dismissCardSurveys=function(){};
 function installSurveyDismissal() {
+    const config=profile.surveySuppression;
+    if(!config || !config.enabled)return;
     const Dialog=Java.use('android.app.Dialog');
     const show=Dialog.show.overload();
     const tracked=Java.use('java.util.WeakHashMap').${'$'}new();
@@ -13,27 +15,46 @@ function installSurveyDismissal() {
         const window=dialog.getWindow();
         if(window===null)return false;
         const root=window.getDecorView(),resources=root.getResources();
-        // Stable resource names verified in 70789 and 70794, not obfuscated classes
-        // or generic dialog text. Require the entire three-choice survey signature.
-        return ['firstTitleTextView','badCardView','normalCardView','greatCardView','autoCloseTimerProgressBar'].every(function(name){
-            const id=resources.getIdentifier(name,'id','org.rajman.neshan.traffic.tehran.navigator');
+        return config.requiredViewIds.every(function(name){
+            const id=resources.getIdentifier(name,'id',config.resourcePackage);
             return id!==0 && root.findViewById(id)!==null;
         });
     }
-    function closeInCard(dialog) {
+    const pending=Java.use('java.util.WeakHashMap').${'$'}new();
+    const Listener=Java.registerClass({
+        name:'com.abrar.voyahiran.NeshanSurveyAttachListener',
+        implements:[Java.use('android.view.View${'$'}OnAttachStateChangeListener')],
+        methods:{
+            onViewAttachedToWindow:function(view){
+                // Defer dismissal out of the framework's attachment traversal.
+                view.removeOnAttachStateChangeListener(this);
+                pending.remove(view);
+                Java.scheduleOnMainThread(function(){dismissCardSurveys();});
+            },
+            onViewDetachedFromWindow:function(view){}
+        }
+    });
+    function closeSurvey(dialog) {
         if(!enabled || Date.now()-heartbeat>15000 || !dialog.isShowing())return;
         const root=dialog.getWindow().getDecorView(),display=root.getDisplay();
-        if(display===null || String(display.getName())!=='VoyahIran.MapPreview')return;
+        // Temporary test scope: all displays. Restore card-only filtering after approval.
+        if(!root.isAttachedToWindow())return;
         // Normal dismiss lifecycle, like tapping outside; never click a rating.
         dialog.dismiss();
-        console.log('VI_NESHAN_SURVEY_DISMISSED display='+display.getDisplayId());
+        console.log('VI_NESHAN_SURVEY_DISMISSED display='+(display===null?'unknown':display.getDisplayId()));
     }
     show.implementation=function(){
         const result=show.call(this);
         try {
             if(enabled && survey(this)) {
                 tracked.put(this,Java.use('java.lang.Boolean').TRUE.value);
-                closeInCard(this);
+                const root=this.getWindow().getDecorView();
+                if(!root.isAttachedToWindow() && !pending.containsKey(root)) {
+                    const listener=Listener.${'$'}new();
+                    pending.put(root,listener);
+                    root.addOnAttachStateChangeListener(listener);
+                }
+                closeSurvey(this);
             }
         }catch(e){console.log('VI_NESHAN_SURVEY_ERROR '+e);}
         return result;
@@ -42,10 +63,19 @@ function installSurveyDismissal() {
     dismissCardSurveys=function(){
         try {
             const dialogs=tracked.keySet().iterator();
-            while(dialogs.hasNext())closeInCard(Java.cast(dialogs.next(),Dialog));
+            while(dialogs.hasNext())closeSurvey(Java.cast(dialogs.next(),Dialog));
         }catch(e){console.log('VI_NESHAN_SURVEY_ERROR '+e);}
     };
-    restoreSurvey=function(){show.implementation=null;tracked.clear();dismissCardSurveys=function(){};};
+    restoreSurvey=function(){
+        show.implementation=null;
+        const entries=pending.entrySet().iterator();
+        while(entries.hasNext()) {
+            const entry=entries.next();
+            Java.cast(entry.getKey(),Java.use('android.view.View')).removeOnAttachStateChangeListener(
+                Java.cast(entry.getValue(),Java.use('android.view.View${'$'}OnAttachStateChangeListener')));
+        }
+        pending.clear();tracked.clear();dismissCardSurveys=function(){};
+    };
 }
 """.trimIndent()
 }
