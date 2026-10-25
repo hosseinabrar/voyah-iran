@@ -16,7 +16,19 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
     private var bufferWidth=0
     private var bufferHeight=0
     private var relay: MapFrameRelay?=null
-    private var relayFailed=false
+    private val retry=ClusterMapRetry()
+    private val handler=android.os.Handler(android.os.Looper.getMainLooper())
+    private var retryAt=0L
+    private var wanted=false
+    private var closed=false
+    private var generation=0
+    private val retryRun=Runnable { if(!closed && wanted) cluster(true) }
+    private fun retryRelay() {
+        val wait=retry.nextDelay()
+        retryAt=android.os.SystemClock.elapsedRealtime()+wait
+        handler.removeCallbacks(retryRun)
+        if(!closed && wanted)handler.postDelayed(retryRun,wait)
+    }
     private var cardHolder: SurfaceHolder?=null
     private var cardSurface:android.view.Surface?=null
     var attached=false;private set
@@ -45,16 +57,27 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         relay?.let {it.resize(width,height);it.card(holder.surface,width,height)}
     }
     fun cluster(inCard: Boolean) {
+        wanted=inCard
+        if(closed)return
+        if(!inCard)handler.removeCallbacks(retryRun)
         if(!LauncherClusterMap.available(context)) {relay?.let {LauncherClusterMap.hide(it,"feature_unavailable")};return}
         if(!inCard) {relay?.let {LauncherClusterMap.cardPresence(it,false)};return}
-        if(relay==null && !relayFailed && attached && bufferWidth>0 && bufferHeight>0) {
+        if(relay==null && android.os.SystemClock.elapsedRealtime()<retryAt) {
+            handler.removeCallbacks(retryRun)
+            handler.postDelayed(retryRun,(retryAt-android.os.SystemClock.elapsedRealtime()).coerceAtLeast(0))
+            return
+        }
+        if(relay==null && android.os.SystemClock.elapsedRealtime()>=retryAt && attached && bufferWidth>0 && bufferHeight>0) {
+            val attempt=++generation
             try {
                 val output=MapFrameRelay(context,bufferWidth,bufferHeight) { failure ->
                     android.os.Handler(android.os.Looper.getMainLooper()).post {
-                        relayFailed=true
+                        if(closed || attempt!=generation)return@post
+                        generation++
                         display?.surface=null
                         relay?.let {LauncherClusterMap.hide(it);it.close()};relay=null
                         display?.surface=cardHolder?.surface?.takeIf {it.isValid}
+                        retryRelay()
                         com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay failed; restored direct card: ${failure.message}",failure)
                     }
                 }
@@ -64,8 +87,9 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
                 display?.surface=output.source
                 output.card(cardHolder?.surface,bufferWidth,bufferHeight)
             } catch(e:Exception) {
-                relayFailed=true;relay?.close();relay=null
+                generation++;relay?.close();relay=null
                 display?.surface=cardHolder?.surface?.takeIf {it.isValid}
+                retryRelay()
                 com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay unavailable",e)
             }
         }
@@ -98,5 +122,5 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         try { display!!.surface=reader.surface;background=reader }
         catch(e:Exception) {reader.close();throw e}
     }
-    fun close() {relay?.let {LauncherClusterMap.hide(it,"owner_closed")};detach();display?.release();display=null;background?.close();background=null;relay?.close();relay=null}
+    fun close() {closed=true;generation++;handler.removeCallbacks(retryRun);relay?.let {LauncherClusterMap.hide(it,"owner_closed")};detach();display?.release();display=null;background?.close();background=null;relay?.close();relay=null}
 }

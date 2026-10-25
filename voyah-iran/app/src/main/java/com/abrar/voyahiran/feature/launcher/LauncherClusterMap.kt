@@ -17,6 +17,9 @@ internal object LauncherClusterMap {
     @Volatile private var ready=false
     @Volatile private var output:Surface?=null
     private var retryAt=0L
+    private var retryJob:Job?=null
+    private var retryRelay:MapFrameRelay?=null
+    private val retry=ClusterMapRetry()
     private var lastBlend=""
     private var mapInCard=false
     @Volatile private var mediaHasContent: Boolean? = null
@@ -24,6 +27,7 @@ internal object LauncherClusterMap {
     fun mediaContent(value: Boolean?) { mediaHasContent = value }
     private var surfaceDeadline=0L
     fun cardPresence(relay:MapFrameRelay,inCard:Boolean) {
+        if(!inCard && retryRelay===relay){retryJob?.cancel();retryJob=null;retryRelay=null}
         if(renderer!==relay || mapInCard==inCard)return
         mapInCard=inCard
         AppLog.info("ClusterMap","card presence=$inCard keeping session=$session")
@@ -39,23 +43,35 @@ internal object LauncherClusterMap {
     fun show(c:Context,relay:MapFrameRelay) {
         if(!available(c)){hide(relay);return}
         if(renderer===relay && task?.isActive==true){cardPresence(relay,true);leaving?.cancel();leaving=null;return}
-        if(android.os.SystemClock.elapsedRealtime()<retryAt)return
+        if(android.os.SystemClock.elapsedRealtime()<retryAt){
+            if(retryJob?.isActive!=true) {
+                retryRelay=relay
+                retryJob=scope.launch {
+                    delay((retryAt-android.os.SystemClock.elapsedRealtime()).coerceAtLeast(0))
+                    retryJob=null;retryRelay=null
+                    show(c,relay)
+                }
+            }
+            return
+        }
         release()
         renderer=relay;mapInCard=true
         val id=java.util.UUID.randomUUID().toString();session=id
         surfaceDeadline=android.os.SystemClock.elapsedRealtime()+12000
         task=scope.launch {
             var announced=false
+            var failed=false
             try {
                 while(isActive && session==id) {
                     // Keep the last map buffer alive until the single-image fade
                     // reaches music, even when the map checkbox itself is disabled.
                     if(!available(c))hide(relay,"feature_unavailable")
+                    check(!ready || output?.isValid==true){"OEM image Surface lost"}
                     check(ready || android.os.SystemClock.elapsedRealtime()<surfaceDeadline){"OEM image Surface not ready"}
                     val action=if(leaving!=null) "music" else if(!ready) "show" else if(!announced) "ready" else if(mapInCard && allowed(c)) "covered" else "music"
                     val result=command(action,id)
                     check(result.exitCode==0 && !result.timedOut){result.output}
-                    if(action=="ready")announced=true
+                    if(action=="ready"){announced=true;retry.reset()}
                     fun field(key:String)=Regex("(?:^| )$key=([^ ]+)").find(result.output)?.groupValues?.get(1)
                     field("theme")?.toIntOrNull()?.takeIf{it in setOf(1,2,4)}?.let{ClusterMapCalibration.themeId=it}
                     val target=field("target")?.toFloatOrNull()
@@ -71,14 +87,27 @@ internal object LauncherClusterMap {
                     delay(200)
                 }
             } catch(e:Exception){
-                if(e !is CancellationException){retryAt=android.os.SystemClock.elapsedRealtime()+3000;AppLog.error("ClusterMap","layers failed",e)}
+                if(e !is CancellationException){failed=true;retryAt=android.os.SystemClock.elapsedRealtime()+retry.nextDelay();AppLog.error("ClusterMap","layers failed",e)}
             } finally {
+                val recover=failed && session==id && mapInCard && leaving==null && available(c)
                 if(session==id){renderer?.cluster(null,0,0,null);renderer=null;session=null;ready=false;output=null}
+                if(recover) {
+                    retryRelay=relay
+                    retryJob=scope.launch {
+                        delay((retryAt-android.os.SystemClock.elapsedRealtime()).coerceAtLeast(0))
+                        if(retryRelay===relay && available(c)) {
+                            retryJob=null;retryRelay=null
+                            AppLog.info("ClusterMap","retrying failed image session")
+                            show(c,relay)
+                        }
+                    }
+                }
                 withContext(NonCancellable){runCatching{command("stop",id)}}
             }
         }
     }
     fun hide(relay:MapFrameRelay?=null,reason:String="map_left_card") {
+        if(relay==null || retryRelay===relay){retryJob?.cancel();retryJob=null;retryRelay=null}
         if(relay!=null && renderer!==relay)return
         if(leaving!=null)return
         val id=session ?: return
@@ -94,6 +123,7 @@ internal object LauncherClusterMap {
         }
     }
     private fun release(){
+        retryJob?.cancel();retryJob=null;retryRelay=null
         leaving?.cancel();leaving=null
         task?.cancel();task=null
         renderer?.cluster(null,0,0,null);renderer=null;session=null;ready=false;output=null;lastBlend="";mapInCard=false
