@@ -35,12 +35,11 @@ final class MapFrameRelay {
     private final FloatBuffer vertices = ByteBuffer.allocateDirect(32).order(ByteOrder.nativeOrder()).asFloatBuffer();
     private final Context app;
     private final java.util.function.Consumer<Throwable> failure;
-    MapFrameRelay(Context app, int width, int height, java.util.function.Consumer<Throwable> failure) {
+    MapFrameRelay(Context app, int width, int height, java.util.function.Consumer<Throwable> failure, java.util.function.Consumer<MapFrameRelay> initialized) {
         this.app=app.getApplicationContext();this.width=width;this.height=height;this.failure=failure;
         vertices.put(new float[]{-1,-1,1,-1,-1,1,1,1}).position(0);
         thread.start();handler=new Handler(thread.getLooper());
-        FutureTask<Void> init=new FutureTask<>(()->{initialize();return null;});handler.post(init);
-        try {init.get(4,TimeUnit.SECONDS);}catch(Exception e){close();throw new IllegalStateException("Map GPU initialization failed",e);}
+        post(()->{initialize();if(!closed)initialized.accept(this);});
     }
     Surface getSource(){return source;}
     void resize(int w,int h){post(()->{width=w;height=h;input.setDefaultBufferSize(w,h);});}
@@ -125,9 +124,17 @@ final class MapFrameRelay {
     private void current(EGLSurface s){require(EGL14.eglMakeCurrent(egl,s,s,context),"eglMakeCurrent");}
     private void destroy(EGLSurface s){if(s!=null&&s!=EGL14.EGL_NO_SURFACE){current(scratch);EGL14.eglDestroySurface(egl,s);}}
     private static void require(boolean condition,String message){if(!condition)throw new IllegalStateException(message);}
-    void close(){if(closed)return;closed=true;CountDownLatch done=new CountDownLatch(1);handler.post(()->{try{
-        if(input!=null)input.setOnFrameAvailableListener(null);
-        destroy(card);destroy(cluster);if(source!=null)source.release();if(input!=null)input.release();
-        if(egl!=null){EGL14.eglMakeCurrent(egl,EGL14.EGL_NO_SURFACE,EGL14.EGL_NO_SURFACE,EGL14.EGL_NO_CONTEXT);if(scratch!=null)EGL14.eglDestroySurface(egl,scratch);if(context!=null)EGL14.eglDestroyContext(egl,context);EGL14.eglTerminate(egl);}
-    }finally{done.countDown();thread.quitSafely();}});try{done.await(2,TimeUnit.SECONDS);}catch(InterruptedException e){Thread.currentThread().interrupt();}}
+    private void cleanup(Runnable action){try{action.run();}catch(Throwable e){android.util.Log.w("ClusterMap","GPU cleanup failed",e);}}
+    void close(){if(closed)return;closed=true;handler.post(()->{try{
+        cleanup(()->{if(input!=null)input.setOnFrameAvailableListener(null);});
+        // A lost context must not prevent releasing the remaining independent resources.
+        cleanup(()->{if(egl!=null)EGL14.eglMakeCurrent(egl,EGL14.EGL_NO_SURFACE,EGL14.EGL_NO_SURFACE,EGL14.EGL_NO_CONTEXT);});
+        cleanup(()->{if(card!=null)EGL14.eglDestroySurface(egl,card);});
+        cleanup(()->{if(cluster!=null)EGL14.eglDestroySurface(egl,cluster);});
+        cleanup(()->{if(source!=null)source.release();});
+        cleanup(()->{if(input!=null)input.release();});
+        cleanup(()->{if(scratch!=null)EGL14.eglDestroySurface(egl,scratch);});
+        cleanup(()->{if(context!=null)EGL14.eglDestroyContext(egl,context);});
+        cleanup(()->{if(egl!=null)EGL14.eglTerminate(egl);});
+    }finally{thread.quitSafely();}});}
 }

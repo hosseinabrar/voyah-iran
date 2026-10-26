@@ -16,6 +16,23 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
     private var bufferWidth=0
     private var bufferHeight=0
     private var relay: MapFrameRelay?=null
+    private var initializing:MapFrameRelay?=null
+    private fun safeCleanup(action:()->Unit) { runCatching(action).onFailure {
+        com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","Recovery cleanup failed",it)
+    } }
+    private fun failed(attempt:Int,failure:Throwable) {
+        if(closed || attempt!=generation)return
+        generation++
+        val old=relay;relay=null
+        val pending=initializing;initializing=null
+        safeCleanup { display?.surface=null }
+        safeCleanup { old?.let {LauncherClusterMap.hide(it)} }
+        safeCleanup { old?.close() }
+        safeCleanup { pending?.close() }
+        safeCleanup { display?.surface=cardHolder?.surface?.takeIf {it.isValid} ?: background?.surface }
+        retryRelay()
+        com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay failed; recovery scheduled",failure)
+    }
     private val retry=ClusterMapRetry()
     private val handler=android.os.Handler(android.os.Looper.getMainLooper())
     private var retryAt=0L
@@ -67,30 +84,26 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
             handler.postDelayed(retryRun,(retryAt-android.os.SystemClock.elapsedRealtime()).coerceAtLeast(0))
             return
         }
-        if(relay==null && android.os.SystemClock.elapsedRealtime()>=retryAt && attached && bufferWidth>0 && bufferHeight>0) {
+        if(relay==null && initializing==null && android.os.SystemClock.elapsedRealtime()>=retryAt && attached && bufferWidth>0 && bufferHeight>0) {
             val attempt=++generation
             try {
-                val output=MapFrameRelay(context,bufferWidth,bufferHeight) { failure ->
-                    android.os.Handler(android.os.Looper.getMainLooper()).post {
-                        if(closed || attempt!=generation)return@post
-                        generation++
-                        display?.surface=null
-                        relay?.let {LauncherClusterMap.hide(it);it.close()};relay=null
-                        display?.surface=cardHolder?.surface?.takeIf {it.isValid}
-                        retryRelay()
-                        com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay failed; restored direct card: ${failure.message}",failure)
-                    }
-                }
-                // Disconnect the original producer before EGL connects to the card Surface.
-                display?.surface=null
-                relay=output
-                display?.surface=output.source
-                output.card(cardHolder?.surface,bufferWidth,bufferHeight)
+                initializing=MapFrameRelay(context,bufferWidth,bufferHeight,
+                    { failure -> handler.post { failed(attempt,failure) } },
+                    { output -> handler.post {
+                        if(closed || attempt!=generation || !wanted || !attached || !LauncherClusterMap.available(context)) {
+                            if(initializing===output)initializing=null
+                            safeCleanup {output.close()}
+                        } else try {
+                            display?.surface=null
+                            relay=output;initializing=null
+                            output.resize(bufferWidth,bufferHeight)
+                            display?.surface=output.source
+                            output.card(cardHolder?.surface,bufferWidth,bufferHeight)
+                            LauncherClusterMap.show(context.applicationContext,output)
+                        } catch(e:Exception) {failed(attempt,e)}
+                    } })
             } catch(e:Exception) {
-                generation++;relay?.close();relay=null
-                display?.surface=cardHolder?.surface?.takeIf {it.isValid}
-                retryRelay()
-                com.abrar.voyahiran.core.logging.AppLog.error("ClusterMap","GPU relay unavailable",e)
+                failed(attempt,e)
             }
         }
         relay?.let {LauncherClusterMap.show(context.applicationContext,it)}
@@ -105,7 +118,7 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         relay?.card(null,0,0);cardHolder=null;cardSurface=null
         attached=false
         active(false)
-        display?.surface=null
+        safeCleanup {display?.surface=null}
     }
     fun park() {
         cardHolder=null;cardSurface=null
@@ -122,5 +135,13 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         try { display!!.surface=reader.surface;background=reader }
         catch(e:Exception) {reader.close();throw e}
     }
-    fun close() {closed=true;generation++;handler.removeCallbacks(retryRun);relay?.let {LauncherClusterMap.hide(it,"owner_closed")};detach();display?.release();display=null;background?.close();background=null;relay?.close();relay=null}
+    fun close() {
+        closed=true;generation++;handler.removeCallbacks(retryRun)
+        safeCleanup {relay?.let {LauncherClusterMap.hide(it,"owner_closed")}}
+        safeCleanup {detach()}
+        safeCleanup {display?.release()};display=null
+        safeCleanup {background?.close()};background=null
+        safeCleanup {relay?.close()};relay=null
+        safeCleanup {initializing?.close()};initializing=null
+    }
 }

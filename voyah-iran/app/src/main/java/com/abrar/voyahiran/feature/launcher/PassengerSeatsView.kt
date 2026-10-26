@@ -23,6 +23,8 @@ internal class PassengerSeatsView(context:Context):View(context) {
     private val cache=object:LruCache<String,Bitmap>(12*1024*1024){override fun sizeOf(key:String,value:Bitmap)=value.allocationByteCount}
     // Animation churn must never evict the static seats or their controls.
     private val artwork=java.util.concurrent.ConcurrentHashMap<String,Bitmap>()
+    private val failedArtwork=java.util.concurrent.ConcurrentHashMap.newKeySet<String>()
+    private val blank=Bitmap.createBitmap(1,1,Bitmap.Config.ARGB_8888)
     private fun cached(name:String)=artwork[name]?:cache.get(name)
     private fun retain(name:String,b:Bitmap){if(name.lastOrNull()?.isDigit()==true)cache.put(name,b)else artwork[name]=b}
     private var scope:CoroutineScope?=null
@@ -52,7 +54,19 @@ internal class PassengerSeatsView(context:Context):View(context) {
     }
     private fun load(name:String):Bitmap {
         cached(name)?.let{return it}
-        val b=context.assets.open("passenger/oem-x/${if(name=="seat_bg_high_level_97c")"seat_dark_baked"else name}.png").use{BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{if(name.endsWith("bg_97c")&&name!="seat_bg_high_level_97c")inSampleSize=2})!!}
+        if(name in failedArtwork)return blank
+        val b=try {
+            context.assets.open("passenger/oem-x/${if(name=="seat_bg_high_level_97c")"seat_dark_baked"else name}.png").use{requireNotNull(BitmapFactory.decodeStream(it,null,BitmapFactory.Options().apply{if(name.endsWith("bg_97c")&&name!="seat_bg_high_level_97c")inSampleSize=2}))}
+        } catch(e:Exception) {
+            failedArtwork.add(name)
+            com.abrar.voyahiran.core.logging.AppLog.error("PassengerSeats","Artwork unavailable: $name",e)
+            return blank
+        } catch(e:OutOfMemoryError) {
+            failedArtwork.add(name)
+            cache.evictAll()
+            com.abrar.voyahiran.core.logging.AppLog.error("PassengerSeats","Artwork memory exhausted: $name",e)
+            return blank
+        }
         retain(name,b);return b
     }
     private fun control(name:String,day:Boolean):Bitmap = load(if(day)"light-$name"else name)
