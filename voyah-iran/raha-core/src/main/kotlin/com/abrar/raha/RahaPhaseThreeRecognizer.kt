@@ -17,7 +17,8 @@ internal object RahaPhaseThreeRecognizer {
     val vent = "حالت تهویه|وضعیت تهویه|تهویه|ونت|vent|لای|لای شیشه"
     val small = "یکم|یه کم|1 کم|کمی|کم ای|کم یه|یه مقدار|1 مقدار|یک مقدار|مقداری|کمه|اندکی|کم"
     val full = "تا انتها|تا آخر|تا ته|کاملا|کامل|تمام"
-    val vocabulary = listOf(doors, "قفل|آنلاک|باز", windows, roof, shade, trunk, charge, fuel, opening, closing, vent, small, full, "بیشتر|تا نصف|تا نیمه|ببر",
+    private const val half = "تا نصفه|تا نصف|تا نیمه|تا نیم|نصفه|نصف|نیمه|نیم"
+    val vocabulary = listOf(doors, "قفل|آنلاک|باز", windows, roof, shade, trunk, charge, fuel, opening, closing, vent, small, full, half, "بیشتر|تا نصف|تا نیمه|ببر",
         "قفل کودک|قفل بچه|چپ|راست|راننده|شاگرد|همراه|جلو|عقب|پشت|همه|هر دو|چهارتا|هر چهار|نصف|نیمه|درصد|کامل|تمام|تا آخر|صد|پنجاه|هفتاد|هشتاد|نود")
 
     fun recognize(text: String): Recognition.Matched? {
@@ -105,7 +106,7 @@ internal object RahaPhaseThreeRecognizer {
     private fun RahaCommandRecognizer.Scan.motion(openWords:String,closeWords:String,allowWindowAsrClose:Boolean=false):Motion? {
         val smallStep=take(small)
         if(smallStep) take("دیگه|دیگر")
-        val half=take("تا نصف|تا نیمه|تا نیم|نصف|نیمه|نیم")
+        val half=take(RahaPhaseThreeRecognizer.half)
         val isFull=take(full)
         val more=take("بیشتر")
         val percentUnit=take("درصد")
