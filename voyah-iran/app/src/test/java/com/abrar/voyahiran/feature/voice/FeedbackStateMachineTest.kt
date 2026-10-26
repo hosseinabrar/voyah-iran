@@ -5,6 +5,20 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class FeedbackStateMachineTest {
+    @Test fun misunderstoodAndFailedExecutionAreDifferentResults() {
+        val state=FeedbackStateMachine()
+        state.begin(0);state.text(100,"فرمان نامفهوم")
+        state.unrecognized(200)
+        assertEquals(FeedbackState.UNRECOGNIZED,state.state)
+        assertFalse(state.tick(1499))
+        assertEquals(FeedbackState.UNRECOGNIZED,state.state)
+        state.tick(1500)
+        assertEquals(FeedbackState.HIDDEN,state.state)
+        state.begin(2000);state.processing();state.result(2100,false)
+        assertEquals(FeedbackState.FAILURE,state.state)
+        state.result(2200,true)
+        assertEquals(FeedbackState.SUCCESS,state.state)
+    }
     @Test fun wakeAlonePlaysOnlyOnceAfterTwoSeconds() {
         val state=FeedbackStateMachine(); state.begin(0)
         assertFalse(state.tick(1999)); assertTrue(state.tick(2000)); assertFalse(state.tick(4000))

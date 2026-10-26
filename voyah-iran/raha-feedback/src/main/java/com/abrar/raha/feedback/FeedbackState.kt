@@ -1,6 +1,6 @@
 package com.abrar.raha.feedback
 
-enum class FeedbackState { HIDDEN, WAITING, LISTENING, PROCESSING, SUCCESS, FAILURE }
+enum class FeedbackState { HIDDEN, WAITING, LISTENING, PROCESSING, SUCCESS, FAILURE, UNRECOGNIZED }
 
 /** Monotonic, deterministic timing; independent of overlays, microphone and audio playback. */
 class FeedbackStateMachine {
@@ -26,6 +26,10 @@ class FeedbackStateMachine {
     fun result(now: Long, success: Boolean) {
         state = if (success) FeedbackState.SUCCESS else FeedbackState.FAILURE
         readyAt = Long.MAX_VALUE; hideAt = now + 1300
+    }
+    fun unrecognized(now:Long) {
+        state=FeedbackState.UNRECOGNIZED
+        readyAt=Long.MAX_VALUE;hideAt=now+1300
     }
     fun tick(now: Long): Boolean {
         if (now >= hideAt) cancel()

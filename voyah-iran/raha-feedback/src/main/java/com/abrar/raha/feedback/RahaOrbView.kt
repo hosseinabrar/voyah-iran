@@ -53,11 +53,14 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private fun alpha(value: Int, a: Int) = (value and 0x00ffffff) or (a shl 24)
     private fun updateShaders() {
         val success=phase==FeedbackState.SUCCESS; val failure=phase==FeedbackState.FAILURE
+        val unknown=phase==FeedbackState.UNRECOGNIZED
         accent=color(if(success) { if(light) "#1ab58d" else "#72dec2" }
             else if(failure) { if(light) "#c84f52" else "#f79798" }
+            else if(unknown) { if(light) "#d47916" else "#ffb45e" }
             else if(light) "#3983fa" else "#73caff")
         val tones=if(success) { if(light) arrayOf("#f1faf6","#e3f5ed","#d2efe3") else arrayOf("#173834","#174039","#20594d") }
             else if(failure) { if(light) arrayOf("#fff7f5","#fbe8e6","#f7dddb") else arrayOf("#352530","#422b36","#5c3540") }
+            else if(unknown) { if(light) arrayOf("#fff9ef","#ffedd5","#f9dcb5") else arrayOf("#342b22","#463323","#604225") }
             else if(light) arrayOf("#f8fbff","#f0f6ff","#e1edff") else arrayOf("#17263e","#182941","#243c60")
         face=LinearGradient(0f,-87f,0f,87f,tones.map(::color).toIntArray(),floatArrayOf(0f,.65f,1f),Shader.TileMode.CLAMP)
         glow=RadialGradient(0f,0f,121f,intArrayOf(alpha(accent,0),alpha(accent,if(light)64 else 96),alpha(accent,0)),floatArrayOf(0f,86f/121f,1f),Shader.TileMode.CLAMP)
@@ -116,7 +119,7 @@ class RahaOrbView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 paint.strokeWidth=9f;glyph.reset();glyph.moveTo(-25f,0f);glyph.lineTo(-7f,18f);glyph.lineTo(29f,-22f)
                 val scale=.9f+.1f*(age*3).coerceAtMost(1f);canvas.save();canvas.scale(scale,scale);canvas.drawPath(glyph,paint);canvas.restore()
             }
-            FeedbackState.FAILURE -> {
+            FeedbackState.FAILURE, FeedbackState.UNRECOGNIZED -> {
                 paint.strokeWidth=9f;canvas.drawLine(0f,-25f,0f,9f,paint);paint.style=Paint.Style.FILL;canvas.drawCircle(0f,28f,5f,paint)
             }
             else -> {

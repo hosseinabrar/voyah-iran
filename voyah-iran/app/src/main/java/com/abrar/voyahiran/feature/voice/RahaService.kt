@@ -245,7 +245,11 @@ class RahaService : Service() {
         AppLog.info("Raha", "final transcript=$text")
         feedback.text(text)
         when (val result = recognizer.recognize(text)) {
-            is Recognition.Unknown -> { AppLog.info("Raha", "unrecognized reason=${result.reason}"); feedback.dismiss() }
+            is Recognition.Unknown -> {
+                AppLog.info("Raha", "unrecognized reason=${result.reason}")
+                if(com.abrar.raha.RahaIgnoredSpeech.matches(text))feedback.dismiss()
+                else feedback.unrecognized()
+            }
             is Recognition.Matched -> {
                 executing = true
                 val command = result.command

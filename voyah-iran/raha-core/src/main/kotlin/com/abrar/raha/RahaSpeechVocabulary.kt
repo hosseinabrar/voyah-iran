@@ -33,6 +33,9 @@ object RahaSpeechVocabulary {
         "همه هر دو طرف آروم آرومتر آرامتر تندتر کاهش افزایش بیشترین کمترین آخر"
     )
     fun phrases(): List<String> = buildSet {
+        for(target in listOf("سردکن صندلی", "هشدار عابر پیاده", "رادار نقطه کور", "نقطه کور"))
+            for(verb in listOf("روشن کن", "فعال کن", "خاموش کن", "غیر فعال کن"))
+                add("$target رو $verb")
         for(target in listOf("گرمکن صندلی", "گرم کن صندلی", "گرمکن صندلی راننده", "گرمکن صندلی شاگرد"))
             add("$target رو خاموش کن")
         for(verb in listOf("بده پایین", "بکش پایین"))add("شیشه رو تا نصفه $verb")
