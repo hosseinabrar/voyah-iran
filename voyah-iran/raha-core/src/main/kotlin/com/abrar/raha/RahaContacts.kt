@@ -13,8 +13,8 @@ object RahaContacts {
     private val marks = Regex("[ًٌٍَُِّْـ]")
     private val whitespace = Regex("\\s+")
     fun normalize(value: String) = buildString(value.length) {
-        for (c in value) append(when(c) {
-            'ي' -> 'ی'; 'ك' -> 'ک'; '\u200c' -> ' '
+        for (c in RahaInputText.spaces(value)) append(when(c) {
+            'ي' -> 'ی'; 'ك' -> 'ک'
             in '۰'..'۹' -> '0'+(c-'۰'); in '٠'..'٩' -> '0'+(c-'٠'); else -> c
         })
     }.replace(marks, "").replace(whitespace, " ").trim()

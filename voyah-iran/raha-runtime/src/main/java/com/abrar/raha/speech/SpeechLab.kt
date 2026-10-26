@@ -190,7 +190,7 @@ class SpeechLab(context: Context) : AutoCloseable {
                         if(gate.expire(now)) {confirmation.reset();decoder.reset();previous="";resetAt=now+30000}
                         val endpoint=decoder.acceptWaveForm(pcm,count)
                         val payload=org.json.JSONObject(if(endpoint)decoder.result else decoder.partialResult)
-                        val text=payload.optString(if(endpoint)"text" else "partial")
+                        val text=com.abrar.raha.RahaInputText.spaces(payload.optString(if(endpoint)"text" else "partial"))
                         val words=payload.optJSONArray(if(endpoint)"result" else "partial_result")
                         val first=words?.optJSONObject(0)
                         val confidence=if(first?.optString("word")=="رها" && first.has("conf"))

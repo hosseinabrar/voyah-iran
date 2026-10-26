@@ -197,6 +197,8 @@ object RahaSpeechVocabulary {
         }
     }.map { it.replace("عطرپاش", "عطر پاش").replace("نازبو", "ناز بو").replace("سانشید", "سان شید").replace("کامفرت", "کام فرت").replace("اوتینگ", "اوت ینگ").replace("آوتینگ", "آوت ینگ").replace("اتوهلد", "اتو هلد").replace("اتوهولد", "اتو هولد").replace("برفپاککن", "برف پاک کن").replace("نوربالای", "نور بالای").replace("مهشکن", "مه شکن").replace("دیلایت", "دی لایت").replace("امبینت", "ام بینت").replace("آمبینت", "آم بینت").replace("پرفورمانس", "پرفورمنس").replace("ایندیویجوال", "ایندی وی جوال").replace("ایندیویژوال", "ایندی ویژوال").replace("اندیویجوال", "اندی وی جوال") }.distinct().filterNot { phrase -> phrase.split(' ').any { it in excludedWords } }
 
+        .map(RahaInputText::spaces).distinct()
+
     /** Joined utterances supply wake-to-command transitions to Vosk's domain graph. */
     fun wakePhrases(): List<String> = buildSet {
         val base=phrases()

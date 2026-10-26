@@ -32,11 +32,12 @@ enum class RahaAction {
  */
 class RahaCommandRecognizer {
     fun recognize(raw: String): Recognition {
-        if (RahaIgnoredSpeech.matches(raw)) return Recognition.Unknown("ignored non-command speech")
-        RahaPhaseTwoRecognizer.memoryRestriction(normalize(raw))?.let { return Recognition.Unknown(it) }
-        val whole = recognizeSingle(raw)
+        val input=RahaInputText.spaces(raw)
+        if (RahaIgnoredSpeech.matches(input)) return Recognition.Unknown("ignored non-command speech")
+        RahaPhaseTwoRecognizer.memoryRestriction(normalize(input))?.let { return Recognition.Unknown(it) }
+        val whole = recognizeSingle(input)
         if (whole is Recognition.Matched) return whole
-        val words = normalize(raw).split(' ')
+        val words = normalize(input).split(' ')
         // Find a complete leading command followed by another complete command.
         // Numbers are normalized first; choose the earliest complete command boundary.
         // Do not split a valid single command such as «باد به صورت و پا».
@@ -395,8 +396,8 @@ class RahaCommandRecognizer {
         )
         private val filler=setOf("رها","لطفا","خواهشا","میشه","می","شه","کنی","کن","کنید","کنین","کنن","بکن","بکنید","رو","را","ر","و","برای","به","در","روی","تو","از","حالت","مد","مود","دکمه","قرار","انتخاب","تنظیم","تنظیمات","سمت","جهت","طرف","بده","بذار","بزار","بگذار","بشه","بشود","باشه","باشد","بیار","ببر","کردن","کرد","خیلی","اینجا","میخوام","میخواهم","خوام","خواهم","میخواهیم","میخوایم","بخوره","بچرخه","بیاد","کار","کنه","هم","دیگه","فقط","بگیر","ها","های")
         fun normalize(raw:String):String {
-            var s=raw.lowercase().replace('ي','ی').replace('ك','ک').replace('ۀ','ه')
-                .replace(Regex("[\\u064B-\\u065F\\u0670]"),"").replace(Regex("[\\u200c\\u200e\\u200f]")," ")
+            var s=RahaInputText.spaces(raw).lowercase().replace('ي','ی').replace('ك','ک').replace('ۀ','ه')
+                .replace(Regex("[\\u064B-\\u065F\\u0670]"),"").replace(Regex("[\\u200e\\u200f]")," ")
             s=s.map {when(it){in '۰'..'۹'->'0'+(it-'۰');in '٠'..'٩'->'0'+(it-'٠');'٫'->'.';else->it}}.joinToString("")
             s=s.replace(Regex("[،,!?؟؛:]+|(?<!\\d)\\.|\\.(?!\\d)")," ").replace(Regex("\\s+")," ").trim()
             s=s.replace("دی اکتیو","غیر فعال").replace("دیاکتیو","غیر فعال").replace("دیز اکتیو","غیر فعال")
