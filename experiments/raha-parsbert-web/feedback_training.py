@@ -12,9 +12,9 @@ from full_model import frame,encode_value
 from contact_extraction import learn_pattern,extract_contact
 
 class FeedbackTrainer:
-    def __init__(self, root, model, tokenizer, dataset_path=None, checkpoint_name='feedback-head'):
+    def __init__(self, root, model, tokenizer, dataset_path=None, checkpoint_name='feedback-head', checkpoint_path=None):
         self.model, self.tokenizer = model, tokenizer
-        self.path = root/'artifacts'/f'{checkpoint_name}.safetensors'
+        self.path = checkpoint_path if checkpoint_path is not None else root/'artifacts'/f'{checkpoint_name}.safetensors'
         self.rows = []
         self.contact_rules = []
         self.replay = None

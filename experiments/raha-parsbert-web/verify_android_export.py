@@ -1,5 +1,5 @@
 """Check portable graph against the exact trained heads before deployment."""
-import json,time,sys
+import json,time,sys,math
 import numpy as np
 import onnxruntime as ort
 import torch
@@ -37,7 +37,12 @@ def main():
         expected=model.decode(frames,slots)[0]
         actual=model.decode(torch.from_numpy(outputs[0]),{k:torch.from_numpy(outputs[j+1]) for j,k in enumerate(model.schema['slots'])})[0]
         max_error=max(max_error,float(np.max(np.abs(outputs[0]-frames.numpy()))))
-        if any(a['action']!=b['action'] or a['parameters']!=b['parameters'] for a,b in zip(expected,actual)):
+        def gate(candidates):
+            return (candidates[0]['action']!='UNKNOWN' and
+                    math.floor(candidates[0]['score']*100+.5)==100 and
+                    candidates[0]['score']-candidates[1]['score']>=.15)
+        if (any(a['action']!=b['action'] or a['parameters']!=b['parameters'] or abs(a['score']-b['score'])>.0002 for a,b in zip(expected,actual))
+                or gate(expected)!=gate(actual)):
             failures.append(dict(text=text,expected=expected,actual=actual))
         fixtures.append(dict(text=text,ids=batch['input_ids'][0].tolist(),expected=expected[0]))
         if i%100==0:print(f'Checked {i}/{len(texts)}',flush=True)

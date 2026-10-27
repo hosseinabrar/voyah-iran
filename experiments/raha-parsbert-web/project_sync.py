@@ -35,7 +35,9 @@ class ProjectSync:
 
     def installed(self):
         path=self.root.parents[1]/'voyah-iran/raha-runtime/src/main/assets/raha-intent/manifest.json'
-        try:return json.loads(path.read_text()).get('feedback_sha256')
+        try:
+            manifest=json.loads(path.read_text())
+            return manifest.get('feedback_sha256') if manifest.get('snapshot_loader_version')==2 else None
         except (OSError,ValueError):return None
 
     def run_script(self,name,env,log,*args):

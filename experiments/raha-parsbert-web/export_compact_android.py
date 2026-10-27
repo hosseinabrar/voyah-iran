@@ -37,7 +37,7 @@ def main():
     (OUT/'contact-rules.json').write_text(json.dumps(trainer.contact_rules,ensure_ascii=False))
     (OUT/'provenance.json').write_text(json.dumps(dict(source=str(source.relative_to(ROOT)),
         base_sha256=sha(source/'model.safetensors'),feedback_sha256=feedback_sha,
-        feedback_count=len(trainer.rows),outputs=[n for n,_ in heads],max_tokens=48,
+        feedback_count=len(trainer.rows),snapshot_loader_version=2,outputs=[n for n,_ in heads],max_tokens=48,
         precision='int8-encoder-fp32-heads',graph='model.compact.onnx',encoder_sha256=sha(encoder)),indent=2))
     print('Exported',len(trainer.rows),'feedback records;', (OUT/'model.compact.onnx').stat().st_size,'bytes',flush=True)
 

@@ -36,7 +36,11 @@ def load_active():
     tokenizer = AutoTokenizer.from_pretrained(source, local_files_only=True)
     checkpoint = OUT/'feedback-snapshot.safetensors'
     before = sha(checkpoint)
-    trainer = FeedbackTrainer(ROOT,model,tokenizer,checkpoint_name='android/feedback-snapshot')
+    # Export and parity verification must load the immutable snapshot in OUT,
+    # including when the worker uses a unique temporary directory.
+    trainer = FeedbackTrainer(ROOT,model,tokenizer,checkpoint_path=checkpoint)
+    if trainer.path.resolve()!=checkpoint.resolve():
+        raise RuntimeError('Exporter loaded a different feedback checkpoint')
     if sha(checkpoint)!=before:
         raise RuntimeError('Feedback changed during export; retry after training finishes')
     return model.eval(),tokenizer,trainer,source,before
