@@ -15,6 +15,7 @@ internal object LauncherClusterMap {
     private var leaving:Job?=null
     @Volatile private var session:String?=null
     @Volatile private var ready=false
+    private val readiness=ClusterMapReadiness()
     @Volatile private var output:Surface?=null
     private var retryAt=0L
     private var retryJob:Job?=null
@@ -59,7 +60,6 @@ internal object LauncherClusterMap {
         val id=java.util.UUID.randomUUID().toString();session=id
         surfaceDeadline=android.os.SystemClock.elapsedRealtime()+12000
         task=scope.launch {
-            var announced=false
             var failed=false
             try {
                 while(isActive && session==id) {
@@ -68,11 +68,15 @@ internal object LauncherClusterMap {
                     if(!available(c))hide(relay,"feature_unavailable")
                     check(!ready || output?.isValid==true){"OEM image Surface lost"}
                     check(ready || android.os.SystemClock.elapsedRealtime()<surfaceDeadline){"OEM image Surface not ready"}
-                    val action=if(leaving!=null) "music" else if(!ready) "show" else if(!announced) "ready" else if(mapInCard && allowed(c)) "covered" else "music"
+                    val sentGeneration=readiness.generation
+                    val action=if(leaving!=null) "music" else if(!ready) "show" else if(!readiness.acknowledged) "ready" else if(mapInCard && allowed(c)) "covered" else "music"
                     val result=command(action,id)
                     check(result.exitCode==0 && !result.timedOut){result.output}
-                    if(action=="ready"){announced=true;retry.reset()}
                     fun field(key:String)=Regex("(?:^| )$key=([^ ]+)").find(result.output)?.groupValues?.get(1)
+                    // The bridge may restart with the same lease ID. Its explicit
+                    // acknowledgement, not a successful command exit, is authoritative.
+                    readiness.reply(sentGeneration,ready,field("frameReady")=="1")
+                    if(action=="ready" && readiness.acknowledged)retry.reset()
                     field("theme")?.toIntOrNull()?.takeIf{it in setOf(1,2,4)}?.let{ClusterMapCalibration.themeId=it}
                     val target=field("target")?.toFloatOrNull()
                     val from=field("from")?.toFloatOrNull()
@@ -123,6 +127,7 @@ internal object LauncherClusterMap {
         }
     }
     private fun release(){
+        readiness.invalidate()
         retryJob?.cancel();retryJob=null;retryRelay=null
         leaving?.cancel();leaving=null
         task?.cancel();task=null
@@ -131,8 +136,10 @@ internal object LauncherClusterMap {
     fun valid(c:Context,id:String?)=id!=null && session==id && renderer!=null && available(c)
     fun surface(id:String,surface:Surface?,w:Int,h:Int){
         if(session!=id)return
+        readiness.invalidate()
         output=surface;ready=false;lastBlend=""
+        val generation=readiness.generation
         surfaceDeadline=android.os.SystemClock.elapsedRealtime()+12000
-        renderer?.cluster(surface,w,h,if(surface==null)null else Runnable{if(session==id && output===surface)ready=true})
+        renderer?.cluster(surface,w,h,if(surface==null)null else Runnable{if(session==id && output===surface && readiness.generation==generation)ready=true})
     }
 }

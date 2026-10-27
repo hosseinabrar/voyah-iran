@@ -71,7 +71,7 @@ internal object ClusterMapBridge {
                     .scheduleWithFixedDelay(::tick,0,100,TimeUnit.MILLISECONDS)
             }
             val theme=runCatching {api?.theme()}.getOrNull()
-            return CommandResult(0,"Map lease renewed theme=${theme ?: -1} reveal=${if(revealed) 1 else 0} musicReady=${if(ClusterMusicBridge.musicReady) 1 else 0} target=${if(presenting)1 else 0} from=$blendFrom start=$blendStart")
+            return CommandResult(0,"Map lease renewed theme=${theme ?: -1} reveal=${if(revealed) 1 else 0} musicReady=${if(ClusterMusicBridge.musicReady) 1 else 0} frameReady=${if(hasFrame)1 else 0} target=${if(presenting)1 else 0} from=$blendFrom start=$blendStart")
         } catch(e:Exception) {stop("command_error action=$action error=${e.cause ?: e}");return CommandResult(1,"Cluster map unavailable: ${e.cause ?: e}")}
     }
     @Synchronized private fun tick() {
