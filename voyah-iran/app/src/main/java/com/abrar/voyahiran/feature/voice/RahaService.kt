@@ -35,7 +35,7 @@ class RahaService : Service() {
     private val main = Handler(Looper.getMainLooper())
     private val prefs by lazy { VoicePreferences(this) }
     private val keys get() = (application as VoyahIranApplication).steeringKeys
-    private val recognizer by lazy { RahaIntentModel(this) }
+    private val recognizer by lazy { RahaIntentModel(this) { AppLog.info("Raha",it) } }
     private lateinit var speech: SpeechLab
     private lateinit var feedback: RahaFeedback
     private var captureEpoch = 0L

@@ -16,7 +16,7 @@ import kotlin.math.round
 /** One model, one CPU session. Caller must prepare/infer/close off the UI thread.
  * No legacy intent recognizer or network fallback exists here.
  */
-class RahaIntentModel(context: Context) : AutoCloseable {
+class RahaIntentModel(context: Context, private val diagnostic: (String) -> Unit = {}) : AutoCloseable {
     private val app = context.applicationContext
     private val protectedAssets = RahaProtectedAssets(app)
     private var session: OrtSession? = null
@@ -100,7 +100,19 @@ class RahaIntentModel(context: Context) : AutoCloseable {
                         val ranked=scores.indices.sortedByDescending { scores[it] }
                         val frame=frames[ranked[0]];val action=frame.substringBefore('|')
                         fun rounded(value:Double)=round(value*10000)/10000
-                        if(action=="UNKNOWN" || !RahaExecutionConfidence.isDisplayedHundred(scores[ranked[0]]) || rounded(scores[ranked[0]])-rounded(scores[ranked[1]])<.15)
+                        val top=scores[ranked[0]]
+                        val second=scores[ranked[1]]
+                        val margin=rounded(top)-rounded(second)
+                        val rejection=when {
+                            action=="UNKNOWN" -> "unknown_action"
+                            !RahaExecutionConfidence.isDisplayedHundred(top) -> "below_displayed_100"
+                            margin<.15 -> "ambiguous_margin"
+                            else -> "none"
+                        }
+                        // Log every inference, including rejections, before slot validation.
+                        // No additional transcript, contact name or destination is logged here.
+                        runCatching { diagnostic("intent best=$frame score=$top displayed=${kotlin.math.floor(rounded(top)*100+.5).toInt()}/100 runnerUp=${frames[ranked[1]]} runnerUpScore=$second margin=$margin frameGate=$rejection") }
+                        if(rejection!="none")
                             return Recognition.Unknown("منظور فرمان مشخص نیست")
                         val params=linkedMapOf<String,Any>();val confidences=mutableMapOf<String,Double>()
                         val allowed=mutableMapOf<String,List<Any>>()
@@ -114,6 +126,7 @@ class RahaIntentModel(context: Context) : AutoCloseable {
                             allowed[key]=indices.map { values.getValue(key)[it] }
                         }
                         val grounded=RahaIntentGrounding.apply(text,action,params,allowed)
+                        runCatching { diagnostic("intent slots action=$action confidence=$confidences grounded=${grounded.grounded} groundingError=${grounded.error ?: "none"}") }
                         grounded.error?.let { return Recognition.Unknown(it) }
                         if(confidences.any { (key,score) -> key !in grounded.grounded && score<.65 })return Recognition.Unknown("یکی از مقادیر فرمان مشخص نیست")
                         val result=grounded.parameters.toMutableMap()
