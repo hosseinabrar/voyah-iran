@@ -253,6 +253,10 @@ object RahaVehicleBridge {
                 field(airType, write.field)
                 api.getMethod("setAirConditionState", airType, Int::class.javaPrimitiveType)
                 api.getMethod("getAirCondition").returnType.getMethod(getter)
+                if(write.field=="AC_AUTO" && write.value==0) {
+                    field(airType,"AC_BLOWER")
+                    api.getMethod("getAirCondition").returnType.getMethod("getAirWindSpeed")
+                }
                 return
             }
             if (write.family == "window-position") {
@@ -274,7 +278,8 @@ object RahaVehicleBridge {
                 ClimateStateController(
                     { airValue(it).toInt() },
                     { field -> write(RahaWrite("air", field, 1)) },
-                    { AppLog.info("RahaVehicle", "climate $it") }
+                    { AppLog.info("RahaVehicle", "climate $it") },
+                    manualFan = { value -> write(RahaWrite("air", "AC_BLOWER", value)) }
                 ).set(write.field, write.value)
                 return
             }
