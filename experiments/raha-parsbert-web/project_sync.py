@@ -62,7 +62,13 @@ class ProjectSync:
                 with (self.directory/'last-run.log').open('w') as log:
                     self.run_script('export_compact_android.py',env,log)
                     self.update(state='verifying')
-                    self.run_script('verify_android_export.py',env,log,'model.compact.onnx')
+                    try:
+                        self.run_script('verify_android_export.py',env,log,'model.compact.onnx')
+                    finally:
+                        # Keep failure evidence too, before the temporary snapshot is removed.
+                        report=job/'parity-report.json'
+                        if report.exists():
+                            shutil.copyfile(report,self.directory/'last-parity-report.json')
                     if digest(self.checkpoint)!=captured:
                         self.update(state='pending');self.request();return
                     if self.stopping.is_set():return
