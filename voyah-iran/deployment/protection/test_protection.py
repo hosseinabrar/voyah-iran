@@ -1,5 +1,5 @@
 import unittest
-from protect_raha import choose_targets, choose_app_targets, validate_coverage, BRIDGE
+from protect_raha import choose_targets, choose_app_targets, validate_coverage, validate_raha_targets, validate_sealed_assets, BRIDGE
 
 
 class ProtectionSelectionTests(unittest.TestCase):
@@ -22,10 +22,10 @@ class ProtectionSelectionTests(unittest.TestCase):
         targets, _ = choose_targets(mapping, self.strings, self.inventory | {"Lnav;": []})
         self.assertIn("Lnav;", targets)
 
-    def test_navigation_keep_rule_covers_nested_comparators(self):
+    def test_current_intent_keep_rule_preserves_protection_boundaries(self):
         from pathlib import Path
         rules = (Path(__file__).resolve().parents[2] / "app/proguard-rules.pro").read_text()
-        self.assertIn("-keep,allowobfuscation class com.abrar.raha.RahaNavigationRecognizer** { *; }", rules)
+        self.assertIn("-keep,allowobfuscation class com.abrar.raha.intent.** { *; }", rules)
 
     def test_rejects_navigation_comparator_merged_into_shared_class(self):
         self.inventory["Lak;"] = []
@@ -170,6 +170,45 @@ class ProtectionCoverageTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "coverage collapsed"):
             validate_coverage({}, {})
 
+
+class RahaSealingProtectionTests(unittest.TestCase):
+    def test_both_publish_platforms_require_new_checks(self):
+        from pathlib import Path
+        repo=Path(__file__).resolve().parents[3]
+        for relative in ["voyah-iran/deployment/protection/Sign-Raha.ps1",
+                         "voyah-iran-installer/build/Prepare-Payload.ps1",
+                         "voyah-iran-installer-osx/build/publish.py"]:
+            text=(repo/relative).read_text(encoding='utf-8-sig')
+            for field in ["raha_sensitive_classes_checked","raha_sealed_assets_checked"]:
+                self.assertIn(field,text,relative)
+
+    def test_requires_every_sensitive_class_and_rejects_helpers_outside_protection(self):
+        names=["RahaIntentModel","RahaProtectedAssets","RahaAssetKey","RahaSealedCodec","RahaExecutionConfidence"]
+        targets={n:["com.abrar.raha.intent."+n] for n in names}
+        validate_raha_targets(targets,{})
+        for name in names:
+            with self.assertRaisesRegex(RuntimeError,"missing"):
+                validate_raha_targets({k:v for k,v in targets.items() if k!=name},{})
+        with self.assertRaisesRegex(RuntimeError,"excluded"):
+            validate_raha_targets(targets,{"x":{"classes":["com.abrar.raha.intent.RahaWordPiece"]}})
+
+    def test_plaintext_missing_and_truncated_assets_fail(self):
+        import tempfile,zipfile,struct
+        from pathlib import Path
+        entries={"assets/raha-intent/"+n+".sealed":b"RAH1"+struct.pack(">I",1)+bytes(29)
+                 for n in ["model.onnx","schema.json","manifest.json","vocab.txt","contact-rules.json"]}
+        with tempfile.TemporaryDirectory() as temporary:
+            path=Path(temporary)/"test.apk"
+            def write(items):
+                with zipfile.ZipFile(path,"w") as z:
+                    for name,data in items.items():z.writestr(name,data)
+            write(entries);validate_sealed_assets(path)
+            write(entries|{"assets/raha-intent/model.onnx":b"plaintext"})
+            with self.assertRaisesRegex(RuntimeError,"Plaintext"):validate_sealed_assets(path)
+            write({k:v for k,v in entries.items() if not k.endswith("vocab.txt.sealed")})
+            with self.assertRaisesRegex(RuntimeError,"missing"):validate_sealed_assets(path)
+            write(entries|{"assets/raha-intent/model.onnx.sealed":entries["assets/raha-intent/model.onnx.sealed"][:-1]})
+            with self.assertRaisesRegex(RuntimeError,"Truncated"):validate_sealed_assets(path)
 
 if __name__ == "__main__":
     unittest.main()

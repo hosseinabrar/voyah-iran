@@ -319,10 +319,46 @@ def validate_coverage(targets, exclusions):
         "com.abrar.voyahiran.VoyahIranApplication",
         "com.abrar.voyahiran.feature.subscription.SubscriptionRepository",
         "com.abrar.voyahiran.feature.voice.RahaService",
-        "com.abrar.raha.RahaCommandRecognizer",
+        "com.abrar.raha.intent.RahaIntentModel",
+        "com.abrar.raha.intent.RahaExecutionConfidence",
+        "com.abrar.raha.intent.RahaProtectedAssets",
+        "com.abrar.raha.intent.RahaAssetKey",
+        "com.abrar.raha.intent.RahaSealedCodec",
     }
     leaked = android_only & {name for entry in exclusions.values() for name in entry["classes"]}
     require(not leaked, "Android-only implementation entered root exclusions: " + ", ".join(sorted(leaked)))
+
+
+def validate_raha_targets(targets, exclusions):
+    selected = {name for names in targets.values() for name in names}
+    required = {"com.abrar.raha.intent." + name for name in
+                ("RahaIntentModel", "RahaProtectedAssets", "RahaAssetKey", "RahaSealedCodec", "RahaExecutionConfidence")}
+    require(required <= selected, "Sensitive Raha classes missing from protection: " + ", ".join(sorted(required-selected)))
+    leaks = {name for entry in exclusions.values() for name in entry["classes"]
+             if name.startswith("com.abrar.raha.intent.")}
+    require(not leaks, "Raha intent implementation excluded: " + ", ".join(sorted(leaks)))
+
+
+def validate_sealed_assets(apk):
+    expected = {"model.onnx", "schema.json", "manifest.json", "vocab.txt", "contact-rules.json"}
+    with zipfile.ZipFile(apk) as archive:
+        names = archive.namelist()
+        require(len(names) == len(set(names)), "Duplicate APK entries")
+        for name in expected:
+            path = "assets/raha-intent/" + name
+            require(path not in names, "Plaintext Raha asset packaged: " + name)
+            require(path + ".sealed" in names, "Sealed Raha asset missing: " + name)
+            with archive.open(path + ".sealed") as stream:
+                header = stream.read(8)
+            require(len(header) == 8 and header[:4] == b"RAH1", "Invalid sealed asset header")
+            length = struct.unpack(">I",header[4:])[0]
+            require(0 < length <= 160*1024*1024, "Invalid sealed asset length")
+            require(archive.getinfo(path + ".sealed").file_size == 8 + length + ((length+65535)//65536)*28,
+                    "Truncated sealed asset")
+        unexpected = [n for n in names if n.startswith("assets/raha-intent/") and not n.endswith("/")
+                      and n.split('/')[-1] not in {x+".sealed" for x in expected}
+                      and n.split('/')[-1] not in {"LICENSE-APACHE-2.0.txt","NOTICE.txt","ONNXRUNTIME-NOTICE.txt"}]
+        require(not unexpected, "Unexpected Raha asset: " + ", ".join(unexpected))
 
 
 def main():
@@ -335,6 +371,7 @@ def main():
     args = parser.parse_args()
     apk, java = args.apk.resolve(), args.java.resolve()
     require(apk.is_file() and java.is_file(), "Input APK or Java executable missing")
+    validate_sealed_assets(apk)
     inventory, strings = apk_inventory(apk)
     mapping = args.mapping.read_text(encoding="utf-8")
     output = (args.output or ROOT / "build/raha-protected" /
@@ -353,6 +390,7 @@ def main():
         "root_dependency_closure": root_closure,
     }, indent=2), encoding="utf-8")
     validate_coverage(targets, exclusions)
+    validate_raha_targets(targets, exclusions)
     # Java regex matches the whole descriptor. Everything except these classes is excluded.
     rules = output / "exclude.rules"
     rules.write_text("(?!(?:" + "|".join(re.escape(t) for t in sorted(targets)) + ")$).*\n", encoding="utf-8")
@@ -381,19 +419,22 @@ def main():
                 require(name in protected.namelist() and original.read(name) == protected.read(name),
                         "Existing model/native asset changed: " + name)
     require(digest(apk.read_bytes()) == source_hash, "Original APK changed")
+    validate_sealed_assets(unsigned)
     report = {"dpt_version": VERSION, "upstream_archive_sha256": ARCHIVE_SHA,
               "patched_tool_sha256": digest(tool.read_bytes()), "r8_mapping_id": map_id,
               "input_sha256": source_hash, "unsigned_sha256": digest(unsigned.read_bytes()),
               "protected_classes": targets, "preserved_classes": len(inventory) - len(targets),
               "static_checks": "passed", "r8_boundaries_checked": True,
               "protection_scope": "application-v2", "root_dependency_closure_checked": True,
+              "raha_sensitive_classes_checked": True, "raha_sealed_assets_checked": True,
               "first_party_exclusions": exclusions,
               "root_dependency_closure": root_closure,
               "shared_synthetic_classes_preserved": sorted((synthetic_descriptors(mapping) & inventory.keys()) - targets.keys()),
               "runtime_tested": False, "signed": False,
               "limitations": ["No runtime compatibility or anti-extraction guarantee",
                               "Static mapping checks are not a proof against runtime extraction",
-                              "Assets and app-process dependency closure remain outside DPT",
+                              "Sealed Raha assets use a local key protected by DPT, not remote attestation",
+                              "Other assets and app-process dependency closure remain outside DPT",
                               "DPT runtime signature verification is not enabled"]}
     (output / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print("STATIC CHECKS PASSED; unsigned, NOT ready to install:", unsigned)

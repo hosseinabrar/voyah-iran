@@ -77,8 +77,29 @@ missing root entries or altered unprotected class structures. Checks verify:
 
 Signing and installer packaging require `application-v2` reports with successful
 dependency checks; old Raha-only runs cannot silently enter a new Publish.
-Assets, resources, protocol constants and root implementations are not encrypted
-by this step. APK protection is not a guarantee against runtime extraction.
+Raha's model, manifest, schema, vocabulary and learned contact rules are sealed
+before packaging with AES-256-GCM in authenticated 64 KiB chunks. Each regenerated
+asset set gets a new random key and per-chunk nonce. The key is split in generated
+Java code and that class, the reader, inference and execution-confidence classes
+must all be inside the DPT selection. Splitting is only obfuscation, not a secret
+independent of the app. No plaintext fallback is allowed. The model is decrypted
+in RAM for ONNX session creation and the Java buffer is wiped in finally; legacy
+plaintext model cache files are removed when Raha initializes. This incurs about
+115 MiB additional temporary Java heap, plus native initialization allocations.
+Vehicle memory/cold-start testing is mandatory; OOM fails closed, not to plaintext.
+
+Publish/sign/package on Windows and macOS reject old reports without the sealed
+asset and sensitive-class checks. Other assets, resources, protocol constants and
+root implementations remain outside this sealing step. Debug/unprotected test
+builds contain recoverable key code, so sealing alone is not DPT protection.
+Offline keys and live model weights can still be recovered by a sufficiently
+privileged runtime observer; no anti-extraction guarantee is made. Root rejection
+is deliberately not enabled because the vehicle application relies on root.
+
+Generated keys/tool classes live only under ignored `raha-runtime/build/` and
+must not be distributed. The original assets remain private source inputs,
+not APK assets; automatic web training still updates those inputs and the next
+Gradle build reseals them. No signing key or password is used for encryption.
 
 Run selection regression tests:
 

@@ -273,7 +273,8 @@ def build_android(args, work, env, version, code, prefs):
         run([sys.executable, ANDROID / "deployment/protection/protect_raha.py", "--java", java,
              "--apk", release, "--mapping", mapping, "--output", protected], env=no_secrets)
         report = json.loads((protected / "report.json").read_text())
-        require(report.get("static_checks") == "passed" and report.get("r8_boundaries_checked") is True and
+        require(report.get("raha_sensitive_classes_checked") is True and report.get("raha_sealed_assets_checked") is True and
+                report.get("static_checks") == "passed" and report.get("r8_boundaries_checked") is True and
                 report.get("protection_scope") == "application-v2" and report.get("root_dependency_closure_checked") is True,
                 "Protection checks failed")
         unsigned = protected / "raha-protected-unsigned.apk"

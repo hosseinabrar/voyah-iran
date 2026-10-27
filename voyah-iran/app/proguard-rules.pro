@@ -39,6 +39,9 @@
 # Manifest/root entry points retained by keep/keepnames keep their required names.
 -repackageclasses com.abrar.voyahiran.obfuscated
 -keep,allowshrinking,allowobfuscation class com.abrar.** { *; }
+# Keep protection boundaries/auditable class identities, but obfuscate names.
+# Generated sealing key and reader must be selected into DPT, never plain root DEX.
+-keep,allowobfuscation class com.abrar.raha.intent.** { *; }
 # JNA resolves these custom native interfaces and their method names reflectively.
 -keep interface * extends com.sun.jna.Library { *; }
 

@@ -8,7 +8,6 @@ import com.abrar.voicecommands.Recognition
 import com.abrar.voicecommands.VehicleCommand
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
 import java.nio.LongBuffer
 import java.security.MessageDigest
 import kotlin.math.exp
@@ -19,6 +18,7 @@ import kotlin.math.round
  */
 class RahaIntentModel(context: Context) : AutoCloseable {
     private val app = context.applicationContext
+    private val protectedAssets = RahaProtectedAssets(app)
     private var session: OrtSession? = null
     private lateinit var tokenizer: RahaWordPiece
     private lateinit var schema: JSONObject
@@ -43,17 +43,21 @@ class RahaIntentModel(context: Context) : AutoCloseable {
             serializedValues[key]=strings
             values[key]=strings.map { JSONArray("[$it]").get(0) }
         }
-        contactRules=app.assets.open("raha-intent/contact-rules.json").bufferedReader().use { reader ->
-            val array=JSONArray(reader.readText())
+        contactRules=run {
+            val array=JSONArray(protectedAssets.text("contact-rules.json"))
             (0 until array.length()).map { array.getJSONObject(it).let { rule -> rule.getString("before") to rule.getString("after") } }
         }
-        tokenizer=app.assets.open("raha-intent/vocab.txt").bufferedReader().use { RahaWordPiece(it.readLines()) }
-        val model=install(manifest.getString("model_sha256"))
+        tokenizer=RahaWordPiece(protectedAssets.text("vocab.txt").trimEnd('\r','\n').lines())
+        protectedAssets.removeLegacyPlaintextCache()
         OrtSession.SessionOptions().use { options ->
             options.setIntraOpNumThreads(2)
             options.setInterOpNumThreads(1)
             options.setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
-            val created=OrtEnvironment.getEnvironment().createSession(model.absolutePath,options)
+            val model=protectedAssets.read("model.onnx")
+            val created=try {
+                check(MessageDigest.getInstance("SHA-256").digest(model).joinToString(""){"%02x".format(it)}==manifest.getString("model_sha256")) { "Intent model checksum mismatch" }
+                OrtEnvironment.getEnvironment().createSession(model,options)
+            } finally { model.fill(0) }
             try {
                 require(created.inputNames==setOf("input_ids","attention_mask","token_type_ids"))
                 require(created.outputNames==manifest.getJSONArray("outputs").strings().toSet())
@@ -129,26 +133,7 @@ class RahaIntentModel(context: Context) : AutoCloseable {
             }
         }
     }
-    private fun json(name:String)=app.assets.open("raha-intent/$name").bufferedReader().use { JSONObject(it.readText()) }
+    private fun json(name:String)=JSONObject(protectedAssets.text(name))
     private fun JSONArray.strings()=(0 until length()).map(::getString)
-    private fun install(hash:String):File {
-        require(hash.matches(Regex("[a-f0-9]{64}")))
-        val root=File(app.noBackupFilesDir,"raha-intent").apply { check(mkdirs() || isDirectory) }
-        val target=File(root,"$hash.onnx")
-        // Content-addressed immutable file; installation is atomic. No huge byte[] copy.
-        if(target.isFile)return target
-        val temporary=File.createTempFile("install-",".tmp",root)
-        try {
-            val digest=MessageDigest.getInstance("SHA-256")
-            app.assets.open("raha-intent/model.onnx").use { input -> temporary.outputStream().buffered().use { out ->
-                val buffer=ByteArray(64*1024)
-                while(true) { val n=input.read(buffer);if(n<0)break;digest.update(buffer,0,n);out.write(buffer,0,n) }
-            } }
-            check(digest.digest().joinToString(""){"%02x".format(it)}==hash) { "Intent model checksum mismatch" }
-            check(temporary.renameTo(target)) { "Intent model install failed" }
-            root.listFiles()?.filter { it!=target && it.extension=="onnx" }?.forEach { it.delete() }
-            return target
-        } finally { temporary.delete() }
-    }
     @Synchronized override fun close() { closed=true;session?.close();session=null }
 }

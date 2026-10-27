@@ -23,7 +23,8 @@ if (-not $Apk) {
     $signReport = Get-Content -LiteralPath $signed.FullName -Raw | ConvertFrom-Json
     $protection = Get-Content -LiteralPath (Join-Path $run 'report.json') -Raw | ConvertFrom-Json
     $Apk = Join-Path $run 'raha-protected.apk'
-    if ($protection.static_checks -ne 'passed' -or $protection.r8_boundaries_checked -ne $true -or
+    if ($protection.raha_sensitive_classes_checked -ne $true -or $protection.raha_sealed_assets_checked -ne $true -or
+        $protection.static_checks -ne 'passed' -or $protection.r8_boundaries_checked -ne $true -or
         $protection.protection_scope -ne 'application-v2' -or $protection.root_dependency_closure_checked -ne $true) {
         throw 'Protected APK checks have not passed.'
     }

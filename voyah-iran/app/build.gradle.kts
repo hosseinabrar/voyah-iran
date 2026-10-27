@@ -31,7 +31,7 @@ android {
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }
     buildFeatures { viewBinding = true; buildConfig = true }
-    androidResources { noCompress += "onnx" }
+    androidResources { noCompress += listOf("onnx", "sealed") }
     testOptions { unitTests.isIncludeAndroidResources = true }
     // Publish credentials live only in the invoking process environment.
     val publishStore = System.getenv("VI_PUBLISH_KEYSTORE")

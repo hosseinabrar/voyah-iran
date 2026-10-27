@@ -12,6 +12,7 @@ $runPath = (Resolve-Path -LiteralPath $RunDirectory).Path
 $keyPath = (Resolve-Path -LiteralPath $Keystore).Path
 $report = Get-Content -LiteralPath (Join-Path $runPath 'report.json') -Raw | ConvertFrom-Json
 if ($report.static_checks -ne 'passed') { throw 'Static protection checks have not passed.' }
+if ($report.raha_sensitive_classes_checked -ne $true -or $report.raha_sealed_assets_checked -ne $true) { throw 'Rebuild protection: sealed Raha assets and sensitive class checks are required.' }
 if ($report.r8_boundaries_checked -ne $true) { throw 'Rebuild and protect again: this old trial did not check R8 inlining boundaries.' }
 if ($report.protection_scope -ne 'application-v2' -or $report.root_dependency_closure_checked -ne $true) { throw 'Rebuild protection: application-wide dependency checks are required.' }
 $unsigned = Join-Path $runPath 'raha-protected-unsigned.apk'

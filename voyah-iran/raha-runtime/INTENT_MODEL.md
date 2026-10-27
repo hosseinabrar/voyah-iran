@@ -20,6 +20,18 @@ are discarded after cancellation, service shutdown, preference disablement or
 VIP expiry. Native resources are serialized and closed after outstanding work.
 No model load/inference failure falls back to the removed recognizer.
 
+## Sealed packaging
+
+Gradle packages the five intent assets only as authenticated `.sealed` files.
+The generated sealing key and the complete `com.abrar.raha.intent` code must
+remain in the application's DPT-protected selection; publishing fails otherwise.
+The model is opened in RAM, authenticated, SHA-256 checked, passed to ONNX, then
+the Java input buffer is cleared. No plaintext ONNX cache is written. Previous
+content-addressed plaintext caches are removed at preparation. Budget additional
+temporary Java heap of about 115 MiB and test initialization on the vehicle.
+Debug builds are not a protected distribution; the offline key can ultimately
+be recovered from code/runtime. See deployment/protection/README.md.
+
 Vehicle execution requires the action score to display as 100/100 using the
 web's four-decimal score then whole-percent rounding. Existing parameter
 confidence and consistency checks still apply; displayed 100 is necessary,
