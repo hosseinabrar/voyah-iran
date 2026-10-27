@@ -66,8 +66,10 @@ snapshot and never alters the live web-training checkpoint.
   coexistence and cold startup still require testing on the actual device.
 - No APK was assembled or installed as part of this migration.
 
-Java JNI 1.19.2 shares Sherpa's existing newer ORT native runtime; the older
-duplicate native library is deliberately absent. See `libs/onnxruntime-java-NOTICE.txt`
+Java JNI 1.19.2 uses its matching native runtime, isolated as `librahaortcore.so`.
+Sherpa's existing runtime remains untouched. Sharing it failed on the vehicle
+with an unresolved `OrtGetApiBase`; a newer version string is not ABI proof.
+See `libs/onnxruntime-java-NOTICE.txt`
 and the reproducible repacking script. Do not use Gradle `pickFirst` to conceal
 duplicate runtime libraries.
 

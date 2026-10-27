@@ -4,9 +4,14 @@ Maven artifact: com.microsoft.onnxruntime:onnxruntime-android:1.19.2
 Original AAR SHA256: 84737dd1fdb715f0ee695c0a9864f6949b66ecb4c46ca733bc9211bf0c2a7b5f
 
 Repacked by experiments/raha-parsbert-web/package_ort_java.py:
-only jni/*/libonnxruntime.so removed. Java classes and JNI bridge unchanged.
-The existing sherpa-onnx-1.13.8.aar supplies the single newer native ORT runtime
-(version string 1.28.2); JNI requests the backward-compatible C API version 19.
+Java classes unchanged. Official native runtime retained as librahaortcore.so.
+Only same-length ELF dynamic strings are edited: runtime SONAME and the JNI
+DT_NEEDED / version dependency filenames reference librahaortcore.so.
+Sherpa's libonnxruntime.so remains untouched and is NOT used for Java inference.
+The historical '-shared.aar' filename is retained for build path compatibility;
+its contents now contain an isolated, matching JNI/runtime pair (1.19.2).
+The previous assumption that Sherpa exported the compatible API was disproved
+by the vehicle's OrtGetApiBase loader failure on 2026-10-27.
 Do not replace this with an unfiltered AAR or use order-dependent pickFirst.
 Verify ASR/VAD plus intent inference together on Android before release.
 
