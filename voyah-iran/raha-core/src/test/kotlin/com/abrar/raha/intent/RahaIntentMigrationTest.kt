@@ -61,4 +61,17 @@ class RahaIntentMigrationTest {
     @Test fun halfSpacesAreNormalizedBeforeTokenization() {
         assertEquals("گرم کن صندلی",RahaWordPiece.normalize(" گرم\u200cکن  صندلي "))
     }
+    @Test fun unicodeWhitespaceAndPersianWordBoundariesRemainSupported() {
+        assertEquals("دمای کابین سه",RahaWordPiece.normalize("دمای\u00a0کابین\u0085\u202fسه"))
+        assertEquals("بهزاد",RahaContactSpan.extract("یه زنگ به بهزاد بزن",emptyList()))
+        assertEquals("رویا",RahaContactSpan.extract("به رویا زنگ بزن",emptyList()))
+        assertEquals(15.0,RahaIntentGrounding.quantities("صدا رو روی ۱۵ بذار").single().value,0.0)
+    }
+    @Test fun productionPatternsDoNotUseUnsupportedAndroidUnicodeFlag() {
+        for(root in listOf(File("src/main"),File("../raha-runtime/src/main/java"))) {
+            root.walkTopDown().filter { it.isFile && it.extension in setOf("kt","java") }.forEach {
+                assertFalse("Unsupported Android regex flag in $it",it.readText().contains("(?U)"))
+            }
+        }
+    }
 }

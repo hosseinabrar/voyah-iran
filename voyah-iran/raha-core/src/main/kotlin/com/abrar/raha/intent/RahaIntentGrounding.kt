@@ -6,11 +6,11 @@ object RahaIntentGrounding {
     private val numericKeys = setOf("degreesC", "percent", "reservePercent", "delta", "deltaPercent", "minutes", "durationMinutes", "level", "intensity", "slot")
     private val units = linkedMapOf("صفر" to 0.0,"یک" to 1.0,"یه" to 1.0,"دو" to 2.0,"سه" to 3.0,"چهار" to 4.0,"پنج" to 5.0,"شش" to 6.0,"هفت" to 7.0,"هشت" to 8.0,"نه" to 9.0,"ده" to 10.0,"یازده" to 11.0,"دوازده" to 12.0,"سیزده" to 13.0,"چهارده" to 14.0,"پانزده" to 15.0,"شانزده" to 16.0,"هفده" to 17.0,"هجده" to 18.0,"نوزده" to 19.0,"بیست" to 20.0,"سی" to 30.0,"چهل" to 40.0,"پنجاه" to 50.0,"شصت" to 60.0,"هفتاد" to 70.0,"هشتاد" to 80.0,"نود" to 90.0,"صد" to 100.0)
     private val words = units + mapOf("یکی" to 1.0,"شیش" to 6.0,"نیم" to .5,"نصف" to .5,"نصفه" to .5)
-    private fun has(text: String, pattern: String) = Regex("(?U)\\b(?:$pattern)\\b").containsMatchIn(text)
+    private fun has(text: String, pattern: String) = Regex("(?<![\\p{L}\\p{M}\\p{N}_])(?:$pattern)(?![\\p{L}\\p{M}\\p{N}_])").containsMatchIn(text)
     private fun digits(text: String) = text.map { when(it) { in '۰'..'۹' -> '0'+(it-'۰'); in '٠'..'٩' -> '0'+(it-'٠'); '٫' -> '.'; else -> it } }.joinToString("")
     data class Quantity(val value: Double, val unit: String, val word: String)
     fun quantities(text: String): List<Quantity> {
-        val tokens=Regex("(?U)-?\\d+(?:\\.\\d+)?|[^\\W\\d_]+").findAll(digits(text)).map { it.value }.toList()
+        val tokens=Regex("-?[0-9]+(?:\\.[0-9]+)?|[\\p{L}\\p{M}]+").findAll(digits(text)).map { it.value }.toList()
         val found=mutableListOf<Quantity>();var i=0
         while(i<tokens.size) {
             val word=tokens[i]

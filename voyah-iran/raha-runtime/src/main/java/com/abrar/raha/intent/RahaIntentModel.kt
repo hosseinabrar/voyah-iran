@@ -80,7 +80,7 @@ class RahaIntentModel(context: Context) : AutoCloseable {
         val modelText=customPlaces.fold(text) { value,(_,name) -> value.replace(name,"شاهپری") }
         val encoded=tokenizer.encode(modelText)
         if(encoded.count>48)return Recognition.Unknown("یک فرمان کوتاه بگو")
-        if(Regex("(?U)\\b(?:نکن|نبند|نذار|اگر|اگه|آیا|چرا)\\b").containsMatchIn(text) || '?' in text || '؟' in text)
+        if(Regex("(?<![\\p{L}\\p{M}\\p{N}_])(?:نکن|نبند|نذار|اگر|اگه|آیا|چرا)(?![\\p{L}\\p{M}\\p{N}_])").containsMatchIn(text) || '?' in text || '؟' in text)
             return Recognition.Unknown("فرمان منفی، شرطی یا پرسشی مشخص نیست")
         val env=OrtEnvironment.getEnvironment()
         val shape=longArrayOf(1,encoded.ids.size.toLong())

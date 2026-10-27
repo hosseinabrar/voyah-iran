@@ -2,7 +2,7 @@ package com.abrar.raha.intent
 
 /** Entity extraction after CALL_CONTACT is selected by the trained model. */
 object RahaContactSpan {
-    private fun valid(name:String)=name.isNotBlank() && name.length<=80 && !Regex("(?U)\\b(?:یه|یک|زنگ|تماس|بزن|بزنی|بگیر|بگیری|رو|را|به|با|بعد|اگر|اگه)\\b").containsMatchIn(name)
+    private fun valid(name:String)=name.isNotBlank() && name.length<=80 && !Regex("(?<![\\p{L}\\p{M}\\p{N}_])(?:یه|یک|زنگ|تماس|بزن|بزنی|بگیر|بگیری|رو|را|به|با|بعد|اگر|اگه)(?![\\p{L}\\p{M}\\p{N}_])").containsMatchIn(name)
     fun extract(raw:String, learned:List<Pair<String,String>>):String? {
         var text=RahaWordPiece.normalize(raw).trim(' ','.','،','؟','!')
         for((before,after) in learned.asReversed()) {

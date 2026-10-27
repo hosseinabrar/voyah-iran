@@ -50,6 +50,6 @@ class RahaWordPiece(vocabulary: List<String>) {
         cp in 0x2a700..0x2b73f || cp in 0x2b740..0x2b81f || cp in 0x2b820..0x2ceaf || cp in 0xf900..0xfaff || cp in 0x2f800..0x2fa1f
     companion object {
         fun normalize(text: String) = text.replace('\u200c', ' ').replace('ي', 'ی').replace('ك', 'ک')
-            .replace(Regex("(?U)\\s+"), " ").trim()
+            .replace(Regex("[\\p{Z}\\t\\n\\u000B\\f\\r\\u0085]+"), " ").trim()
     }
 }
