@@ -96,7 +96,7 @@ class RahaIntentModel(context: Context) : AutoCloseable {
                         val ranked=scores.indices.sortedByDescending { scores[it] }
                         val frame=frames[ranked[0]];val action=frame.substringBefore('|')
                         fun rounded(value:Double)=round(value*10000)/10000
-                        if(action=="UNKNOWN" || rounded(scores[ranked[0]])<.65 || rounded(scores[ranked[0]])-rounded(scores[ranked[1]])<.15)
+                        if(action=="UNKNOWN" || !RahaExecutionConfidence.isDisplayedHundred(scores[ranked[0]]) || rounded(scores[ranked[0]])-rounded(scores[ranked[1]])<.15)
                             return Recognition.Unknown("منظور فرمان مشخص نیست")
                         val params=linkedMapOf<String,Any>();val confidences=mutableMapOf<String,Double>()
                         val allowed=mutableMapOf<String,List<Any>>()

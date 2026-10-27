@@ -20,6 +20,12 @@ are discarded after cancellation, service shutdown, preference disablement or
 VIP expiry. Native resources are serialized and closed after outstanding work.
 No model load/inference failure falls back to the removed recognizer.
 
+Vehicle execution requires the action score to display as 100/100 using the
+web's four-decimal score then whole-percent rounding. Existing parameter
+confidence and consistency checks still apply; displayed 100 is necessary,
+not sufficient. Web training acceptance thresholds are unchanged. Automatic
+model updates replace assets, not this execution policy.
+
 ## Reproducible export
 
 In `experiments/raha-parsbert-web`, use its Python environment:
