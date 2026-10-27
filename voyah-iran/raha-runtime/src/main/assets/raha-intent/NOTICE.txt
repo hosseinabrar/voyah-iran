@@ -1,0 +1,7 @@
+Raha intent model derives from HooshvareLab/bert-fa-zwnj-base (ParsBERT v3).
+Upstream: https://huggingface.co/HooshvareLab/bert-fa-zwnj-base
+Authors: Mehrdad Farahani, Mohammad Gharachorloo, Marzieh Farahani, Mohammad Manthouri.
+Upstream model license: Apache License 2.0 (included).
+Modified for Voyah Iran: trained semantic-frame and parameter heads,
+fine-tuning and user-feedback adaptation, exported to ONNX for offline inference.
+Model provenance and feedback snapshot digest are recorded in manifest.json.

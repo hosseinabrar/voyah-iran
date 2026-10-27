@@ -22,12 +22,6 @@
 -keep class com.abrar.voyahiran.core.bridge.clustertext.** { *; }
 -renamesourcefileattribute SourceFile
 
-# Retain recognizer implementations used to construct runtime vocabularies.
-# Names can still be obfuscated; application-wide boundaries follow below.
--keep,allowobfuscation class com.abrar.raha.RahaCommandRecognizer** { *; }
--keep,allowobfuscation class com.abrar.raha.RahaNavigationRecognizer** { *; }
--keep,allowobfuscation class com.abrar.raha.RahaPhase*Recognizer** { *; }
--keep,allowobfuscation class com.abrar.raha.Raha*Vocabulary** { *; }
 
 -keep class com.abrar.voyahiran.core.bridge.AppInventory { public static void main(java.lang.String[]); }
 

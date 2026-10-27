@@ -25,4 +25,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
     implementation(project(":raha-runtime"))
     implementation(files("../../voyah-iran/raha-runtime/libs/sherpa-onnx-1.13.8.aar"))
+    implementation(files("../../voyah-iran/raha-runtime/libs/onnxruntime-java-1.19.2-shared.aar"))
 }

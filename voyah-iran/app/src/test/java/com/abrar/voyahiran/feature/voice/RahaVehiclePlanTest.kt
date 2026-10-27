@@ -1,8 +1,6 @@
 package com.abrar.voyahiran.feature.voice
 
 import com.abrar.raha.RahaAction
-import com.abrar.raha.RahaCommandRecognizer
-import com.abrar.voicecommands.Recognition
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -31,59 +29,57 @@ class RahaVehiclePlanTest {
         override fun overseas() = oversea
     }
     private val snapshot = Snapshot()
-    private fun plan(text: String): List<RahaWrite> {
-        val match = RahaCommandRecognizer().recognize(text) as Recognition.Matched
-        return RahaVehiclePlan(snapshot).create(RahaAction.valueOf(match.command.action), match.command.parameters)
-    }
+    private fun plan(action:RahaAction, params:Map<String,Any>):List<RahaWrite> =
+        RahaVehiclePlan(snapshot).create(action,params)
     @Test fun suspensionUsesOemDriveModeRoute() {
-        assertEquals(listOf(RahaWrite("drive", "mode", 4)), plan("ارتفاع رو تا ته زیاد کن"))
-        assertEquals(listOf(RahaWrite("drive", "mode", 3)), plan("ارتفاع رو تا ته کم کن"))
+        assertEquals(listOf(RahaWrite("drive", "mode", 4)), plan(RahaAction.SET_SUSPENSION_HEIGHT, mapOf("level" to "high")))
+        assertEquals(listOf(RahaWrite("drive", "mode", 3)), plan(RahaAction.SET_SUSPENSION_HEIGHT, mapOf("level" to "low")))
         for(mode in listOf(1,2,5,6)) {
             snapshot.values["DRIVING_MODE_SET"]=mode
-            assertEquals(listOf(RahaWrite("drive","mode",mode)),plan("ارتفاع متوسط"))
+            assertEquals(listOf(RahaWrite("drive","mode",mode)),plan(RahaAction.SET_SUSPENSION_HEIGHT, mapOf("level" to "medium")))
         }
         for(mode in listOf(3,4,-1)) {
             snapshot.values["DRIVING_MODE_SET"]=mode
-            assertEquals(listOf(RahaWrite("drive","mode",2)),plan("ارتفاع متوسط"))
+            assertEquals(listOf(RahaWrite("drive","mode",2)),plan(RahaAction.SET_SUSPENSION_HEIGHT, mapOf("level" to "medium")))
         }
     }
     @Test fun highHeightRespectsOemSpeedLimit() {
         for(speed in listOf(-1,40,90)) {
             snapshot.velocity=speed
-            assertThrows(IllegalArgumentException::class.java) { plan("ارتفاع بالا") }
+            assertThrows(IllegalArgumentException::class.java) { plan(RahaAction.SET_SUSPENSION_HEIGHT, mapOf("level" to "high")) }
         }
         snapshot.velocity=39
-        assertEquals(4,plan("ارتفاع بالا").single().value)
+        assertEquals(4,plan(RahaAction.SET_SUSPENSION_HEIGHT, mapOf("level" to "high")).single().value)
         assertThrows(IllegalArgumentException::class.java) {
             RahaVehiclePlan(snapshot).create(RahaAction.SET_SUSPENSION_HEIGHT,mapOf("level" to "lowest"))
         }
     }
     @Test fun coolingCapsOnlyWarmerZone() {
-        val writes = plan("کولر رو روشن کن")
+        val writes = plan(RahaAction.SET_CLIMATE_POWER, mapOf("enabled" to true,"zone" to "front","acEnabled" to true,"temperatureMaxC" to 23.0))
         assertTrue(writes.contains(RahaWrite("air-state", "AC_POWER_SWITCH", 1)))
         assertTrue(writes.contains(RahaWrite("air-state", "AC_SWITCH", 1)))
         assertEquals(listOf(RahaWrite("air", "AC_LEFT_TEMP", 230)), writes.filter { it.field.endsWith("TEMP") })
     }
     @Test fun heatingRaisesOnlyColderZone() {
-        val writes = plan("بخاری رو روشن کن")
+        val writes = plan(RahaAction.SET_CLIMATE_POWER, mapOf("enabled" to true,"zone" to "front","acEnabled" to false,"temperatureMinC" to 26.0))
         assertEquals(listOf(RahaWrite("air", "AC_RIGHT_TEMP", 260)), writes.filter { it.field.endsWith("TEMP") })
     }
     @Test fun coolingStrengthReducesBothTemperatures() {
-        val writes = plan("کولر رو زیاد کن")
+        val writes = plan(RahaAction.ADJUST_CABIN_TEMPERATURE, mapOf("delta" to -1.0,"zone" to "front"))
         assertEquals(listOf(260, 190), writes.map { it.value })
     }
     @Test fun driverSeatDoesNotTouchPassenger() {
-        assertEquals(listOf(RahaWrite("vehicle", "FRONT_SEAT_VENTILATION_COMMAND_LEFT", 2)), plan("سردکن صندلی رو روشن کن"))
+        assertEquals(listOf(RahaWrite("vehicle", "FRONT_SEAT_VENTILATION_COMMAND_LEFT", 2)), plan(RahaAction.SET_SEAT_VENTILATION, mapOf("enabled" to true,"seat" to "driver")))
     }
     @Test fun fogAlreadyOnNeverTogglesOff() {
         snapshot.fog = 1
-        assertTrue(plan("مه شکن عقب رو روشن کن").isEmpty())
+        assertTrue(plan(RahaAction.SET_REAR_FOG_LIGHT, mapOf("enabled" to true)).isEmpty())
         snapshot.fog = 0
-        assertEquals(listOf(RahaWrite("vehicle", "REAR_FOG_LIGHT_SWITCH", 1)), plan("مه شکن عقب رو روشن کن"))
+        assertEquals(listOf(RahaWrite("vehicle", "REAR_FOG_LIGHT_SWITCH", 1)), plan(RahaAction.SET_REAR_FOG_LIGHT, mapOf("enabled" to true)))
     }
     @Test fun driveModesUseOemSnowAndPersonalValues() {
-        assertEquals(6, plan("حالت برفی رو فعال کن").single().value)
-        assertEquals(5, plan("حالت پرسونال رو فعال کن").single().value)
+        assertEquals(6, plan(RahaAction.SET_DRIVE_MODE, mapOf("mode" to "snow")).single().value)
+        assertEquals(5, plan(RahaAction.SET_DRIVE_MODE, mapOf("mode" to "personal")).single().value)
     }
     @Test fun fractureFreeRelativeShadeClampsAtLimit() {
         snapshot.values["ROLL_OPEN_PERCENT"] = 97
@@ -92,7 +88,7 @@ class RahaVehiclePlanTest {
     }
     @Test fun windowHalfUsesPositionController() {
         assertEquals(listOf(RahaWrite("window-position", "DRIVER_WINDOW_CONTROL", 40)),
-            plan("شیشه رو تا نصف باز کن"))
+            plan(RahaAction.SET_WINDOW_POSITION, mapOf("window" to "driver","percent" to 50)))
     }
     @Test fun relativeWindowsUseTheirOwnCurrentPosition() {
         snapshot.values["BCM_FLWindowHorizontalSts"] = 20
@@ -103,15 +99,15 @@ class RahaVehiclePlanTest {
     }
     @Test fun childLockDirectionsUseTheCombinedControl() {
         for (side in listOf("", "شاگرد", "راننده", "چپ", "راست")) {
-            assertEquals(listOf(RahaWrite("vehicle", "CHILD_LOCK_CONTROL", 2)), plan("قفل کودک $side رو فعال کن"))
-            assertEquals(listOf(RahaWrite("vehicle", "CHILD_LOCK_CONTROL", 1)), plan("قفل کودک $side رو غیر فعال کن"))
+            assertEquals(listOf(RahaWrite("vehicle", "CHILD_LOCK_CONTROL", 2)), plan(RahaAction.SET_CHILD_LOCK, mapOf("enabled" to true,"side" to "both")))
+            assertEquals(listOf(RahaWrite("vehicle", "CHILD_LOCK_CONTROL", 1)), plan(RahaAction.SET_CHILD_LOCK, mapOf("enabled" to false,"side" to "both")))
         }
     }
     @Test fun massagePatternsUseTheOemControls() {
-        assertEquals(listOf(RahaWrite("vehicle", "FRONT_SEAT_MASS_COMMAND_LEFT", 1)), plan("ماساژ موجی"))
-        assertEquals(listOf(RahaWrite("vehicle", "FRONT_SEAT_MASS_COMMAND_LEFT", 2)), plan("ماساژ رولینگ"))
+        assertEquals(listOf(RahaWrite("vehicle", "FRONT_SEAT_MASS_COMMAND_LEFT", 1)), plan(RahaAction.SET_SEAT_MASSAGE_PATTERN, mapOf("pattern" to "wave","seat" to "driver")))
+        assertEquals(listOf(RahaWrite("vehicle", "FRONT_SEAT_MASS_COMMAND_LEFT", 2)), plan(RahaAction.SET_SEAT_MASSAGE_PATTERN, mapOf("pattern" to "rolling","seat" to "driver")))
         for (alias in listOf("چرخشی", "چرخش", "دایره ای", "غلتکی", "غلطکی")) {
-            assertEquals(listOf(RahaWrite("vehicle", "FRONT_SEAT_MASS_COMMAND_LEFT", 2)), plan("ماساژ $alias"))
+            assertEquals(listOf(RahaWrite("vehicle", "FRONT_SEAT_MASS_COMMAND_LEFT", 2)), plan(RahaAction.SET_SEAT_MASSAGE_PATTERN, mapOf("pattern" to "rolling","seat" to "driver")))
         }
     }
     @Test fun repeatedButtonWorksWithoutDownEvents() {
@@ -136,14 +132,14 @@ class RahaVehiclePlanTest {
         for ((spoken, expected) in cases) for (current in 0..3) {
             snapshot.values["LAMP_SWITCH_POSITION_FB"] = current
             assertEquals(spoken, if (current == expected.first) emptyList<RahaWrite>()
-                else listOf(RahaWrite("vehicle", expected.second, 1)), plan(spoken))
+                else listOf(RahaWrite("vehicle", expected.second, 1)), plan(RahaAction.SET_HEADLIGHT_MODE,mapOf("mode" to listOf("auto","lowBeam","position","off")[expected.first])))
         }
     }
     @Test fun acUsesDesiredStateInsteadOfRawToggle() {
-        assertEquals(listOf(RahaWrite("air-state", "AC_POWER_SWITCH", 1), RahaWrite("air-state", "AC_SWITCH", 1)), plan("ای سی روشن کن"))
-        assertEquals(listOf(RahaWrite("air-state", "AC_SWITCH", 0)), plan("ای سی خاموش کن"))
-        assertTrue(plan("کولر روشن کن").contains(RahaWrite("air-state", "AC_SWITCH", 1)))
-        assertTrue(plan("تهویه روشن کن").contains(RahaWrite("air-state", "AC_SWITCH", 0)))
+        assertEquals(listOf(RahaWrite("air-state", "AC_POWER_SWITCH", 1), RahaWrite("air-state", "AC_SWITCH", 1)), plan(RahaAction.SET_AC_POWER, mapOf("enabled" to true)))
+        assertEquals(listOf(RahaWrite("air-state", "AC_SWITCH", 0)), plan(RahaAction.SET_AC_POWER, mapOf("enabled" to false)))
+        assertTrue(plan(RahaAction.SET_CLIMATE_POWER, mapOf("enabled" to true,"zone" to "front","acEnabled" to true,"temperatureMaxC" to 23.0)).contains(RahaWrite("air-state", "AC_SWITCH", 1)))
+        assertTrue(plan(RahaAction.SET_CLIMATE_POWER, mapOf("enabled" to true,"acEnabled" to false)).contains(RahaWrite("air-state", "AC_SWITCH", 0)))
     }
     @Test fun parkingBrakeMatchesOemEngageAndReleaseValues() {
         for ((engaged,value) in listOf(true to 1,false to 2))
@@ -181,14 +177,14 @@ class RahaVehiclePlanTest {
         catch(_:IllegalArgumentException) {}
     }
     @Test fun autoHoldSelectsModesInsteadOfPower() {
-        assertEquals(1, plan("اتوهلد خودکار").single().value)
-        assertEquals(2, plan("اتوهلد با فشار عمیق پدال").single().value)
+        assertEquals(1, plan(RahaAction.SET_AUTO_HOLD, mapOf("mode" to "automatic")).single().value)
+        assertEquals(2, plan(RahaAction.SET_AUTO_HOLD, mapOf("mode" to "deepPedal")).single().value)
     }
     @Test fun espPhysicalMeaningDoesNotDependOnExportUi() {
         for (overseas in listOf(false,true)) {
             snapshot.oversea=overseas
-            assertEquals(2,plan("ای اس پی روشن کن").single().value)
-            assertEquals(1,plan("ای اس پی خاموش کن").single().value)
+            assertEquals(2,plan(RahaAction.SET_STABILITY_CONTROL, mapOf("enabled" to true)).single().value)
+            assertEquals(1,plan(RahaAction.SET_STABILITY_CONTROL, mapOf("enabled" to false)).single().value)
         }
     }
     @Test fun ambientRelativeCommandsMoveTwoLevelsAndClamp() {
@@ -207,9 +203,9 @@ class RahaVehiclePlanTest {
             assertEquals((raw+1+delta).coerceIn(1,8),writes.single { it.field=="AC_BLOWER" }.value)
         }
         snapshot.fanFeedback=4
-        assertEquals(6,plan("فن رو زیاد کن").last().value)
-        assertEquals(4,plan("فن رو کم کن").last().value)
-        assertEquals(6,plan("فن سطح پنج").last().value)
+        assertEquals(6,plan(RahaAction.ADJUST_FAN_SPEED, mapOf("delta" to 1,"zone" to "front")).last().value)
+        assertEquals(4,plan(RahaAction.ADJUST_FAN_SPEED, mapOf("delta" to -1,"zone" to "front")).last().value)
+        assertEquals(6,plan(RahaAction.SET_FAN_SPEED, mapOf("level" to 5,"zone" to "front")).last().value)
     }
     @Test fun smallWindowStepsAreHalvedInBothDirections() {
         for(current in listOf(0,3,50,97,100)) for(delta in listOf(-10,10)) {
@@ -218,26 +214,26 @@ class RahaVehiclePlanTest {
                 mapOf("window" to "driver","deltaPercent" to delta))
             assertEquals((current+delta/2).coerceIn(0,100),result.single().value)
         }
-        assertEquals(40,plan("شیشه رو تا نیمه بده پایین").single().value)
+        assertEquals(40,plan(RahaAction.SET_WINDOW_POSITION, mapOf("window" to "driver","percent" to 50)).single().value)
         assertEquals(50,RahaVehiclePlan(snapshot).create(RahaAction.SET_SUNSHADE_POSITION,mapOf("position" to 50)).single().value)
     }
     @Test fun sunroofSmallRequestsMoveTwentyAndVentUsesNativeAllWindows() {
         snapshot.values["SUNROOF_OPEN_PERCENT"]=50
-        assertEquals(70,plan("سانروف رو کمی باز کن").single().value)
-        assertEquals(30,plan("سانروف رو کمی ببند").single().value)
+        assertEquals(70,plan(RahaAction.ADJUST_SUNROOF_POSITION, mapOf("deltaPercent" to 10)).single().value)
+        assertEquals(30,plan(RahaAction.ADJUST_SUNROOF_POSITION, mapOf("deltaPercent" to -10)).single().value)
         snapshot.values["SUNROOF_OPEN_PERCENT"]=95
-        assertEquals(100,plan("سانروف رو یکم باز کن").single().value)
+        assertEquals(100,plan(RahaAction.ADJUST_SUNROOF_POSITION, mapOf("deltaPercent" to 10)).single().value)
         snapshot.values["SUNROOF_OPEN_PERCENT"]=5
-        assertEquals(0,plan("سانروف رو یکم ببند").single().value)
+        assertEquals(0,plan(RahaAction.ADJUST_SUNROOF_POSITION, mapOf("deltaPercent" to -10)).single().value)
         for(noun in listOf("شیشه ها","همه شیشه ها","پنجره ها"))
         for(request in listOf("رو ببر تو حالت تهویه","رو بذار روی حالت تهویه","رو تو وضعیت تهویه قرار بده",
             "حالت تهویه رو فعال کن","رو ونت کن","را در حالت تهویه قرار دهید")) {
-            assertEquals("$noun $request",listOf(RahaWrite("vehicle","ALL_WINDOW_CONTROL",6)),plan("$noun $request"))
+            assertEquals("$noun $request",listOf(RahaWrite("vehicle","ALL_WINDOW_CONTROL",6)),plan(RahaAction.VENT_WINDOW, mapOf("window" to "all")))
         }
     }
     @Test fun directFanLevelUsesSameOffsetAsFeedback() {
         val planner=RahaVehiclePlan(snapshot)
-        assertEquals(3,plan("دور فن رو روی ۲ تنظیم کن").last().value)
+        assertEquals(3,plan(RahaAction.SET_FAN_SPEED, mapOf("level" to 2,"zone" to "front")).last().value)
         for(level in 1..8) {
             val writes=planner.create(RahaAction.SET_FAN_SPEED,mapOf("zone" to "front","level" to level))
             assertEquals((level+1).coerceAtMost(8),writes.single { it.field=="AC_BLOWER" }.value)

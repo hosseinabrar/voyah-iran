@@ -31,6 +31,7 @@ android {
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }
     buildFeatures { viewBinding = true; buildConfig = true }
+    androidResources { noCompress += "onnx" }
     testOptions { unitTests.isIncludeAndroidResources = true }
     // Publish credentials live only in the invoking process environment.
     val publishStore = System.getenv("VI_PUBLISH_KEYSTORE")
@@ -70,6 +71,7 @@ dependencies {
     implementation(project(":raha-feedback"))
     implementation(project(":raha-runtime"))
     implementation(files("../raha-runtime/libs/sherpa-onnx-1.13.8.aar"))
+    implementation(files("../raha-runtime/libs/onnxruntime-java-1.19.2-shared.aar"))
     implementation(project(":command-core"))
     implementation(libs.androidx.activity)
     implementation(libs.androidx.lifecycle.viewmodel)

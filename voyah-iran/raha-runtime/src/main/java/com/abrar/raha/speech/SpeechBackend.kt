@@ -22,7 +22,7 @@ class VoskBackend(context: Context) : AutoCloseable {
     private var carGrammar = ""
     private var wakeGrammar = ""
     @Synchronized private fun grammar(wake: Boolean): String {
-        val revision="${com.abrar.raha.RahaNavigationRecognizer.revision}:${com.abrar.raha.RahaContacts.revision}"
+        val revision="${com.abrar.raha.RahaPlaces.revision}:${com.abrar.raha.RahaContacts.revision}"
         if(grammarRevision!=revision) {
             carGrammar=JSONArray(RahaSpeechVocabulary.phrases()).toString()
             wakeGrammar=JSONArray(RahaSpeechVocabulary.wakePhrases()).toString()

@@ -22,7 +22,9 @@ import com.abrar.raha.speech.EngineChoice
 import com.abrar.raha.speech.SpeechLab
 import com.abrar.raha.speech.SpeechResult
 import com.abrar.raha.feedback.RahaFeedback
-import com.abrar.raha.RahaCommandRecognizer
+import com.abrar.raha.intent.RahaIntentModel
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.*
 import com.abrar.voicecommands.Recognition
 import org.json.JSONObject
 
@@ -39,7 +41,8 @@ class MainActivity : ComponentActivity() {
     private var busy=false
     private var loaded=false
     private var foreground=false
-    private val commands=RahaCommandRecognizer()
+    private val commands by lazy { RahaIntentModel(this) }
+    private var recognizing=false
     private lateinit var feedback: FeedbackStore
     private var unknownSentence:String?=null
     private var feedbackDialog:AlertDialog?=null
@@ -81,9 +84,16 @@ class MainActivity : ComponentActivity() {
         visual=RahaFeedback(this,::cancel,showTranscript={ui.showTranscript.isChecked},host=window.decorView as ViewGroup)
         lab=SpeechLab(applicationContext)
         lab.prepare(EngineChoice.CAR_LIVE) { error ->
-            loaded=error==null;renderButtons()
-            ui.status.setText(if(loaded)R.string.ready else R.string.model_error)
-            ui.metrics.text=error?.javaClass?.simpleName.orEmpty();ensureWake()
+            lifecycleScope.launch {
+                val failure=if(error!=null)error else try { withContext(Dispatchers.IO){commands.prepare()};null }
+                    catch(e:CancellationException){throw e}
+                    catch(e:Exception){e}
+                    catch(e:LinkageError){e}
+                    catch(e:OutOfMemoryError){e}
+                loaded=failure==null;renderButtons()
+                ui.status.setText(if(loaded)R.string.ready else R.string.model_error)
+                ui.metrics.text=failure?.javaClass?.simpleName.orEmpty();ensureWake()
+            }
         }
         ui.listen.setOnClickListener {
             handler.removeCallbacks(clearResult)
@@ -118,12 +128,12 @@ class MainActivity : ComponentActivity() {
         }
     }
     private fun renderButtons() {
-        ui.listen.isEnabled=loaded
+        ui.listen.isEnabled=loaded && !recognizing
         ui.listen.setText(if(busy)R.string.cancel else R.string.start)
         ui.shareSamples.isEnabled=!busy && !watching
     }
     private fun ensureWake() {
-        if(!foreground || !loaded || busy || watching || wakeFailed || feedbackDialog!=null || wakePhrases().isEmpty())return
+        if(!foreground || !loaded || busy || recognizing || watching || wakeFailed || feedbackDialog!=null || wakePhrases().isEmpty())return
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED)return
         watching=true;lamp(false);renderButtons()
         val epoch=++generation
@@ -151,7 +161,7 @@ class MainActivity : ComponentActivity() {
         }, sensitivity=com.abrar.raha.WakeSensitivity.values()[ui.wakeSensitivity.selectedItemPosition.coerceIn(0,3)])
     }
     private fun start() {
-        if(!loaded || busy || watching || !foreground)return
+        if(!loaded || busy || recognizing || watching || !foreground)return
         handler.removeCallbacks(clearResult)
         busy=true;lamp(true);renderButtons();clearCommand();ui.metrics.text=""
         ui.status.setText(R.string.listening)
@@ -191,7 +201,14 @@ class MainActivity : ComponentActivity() {
     private fun clearCommand() {ui.commandSummary.setText(R.string.command_waiting);ui.commandDetails.text=""}
     private fun showCommand(text:String, silentUnknown:Boolean=false) {
         visual.text(text)
-        when(val result=commands.recognize(text)) {
+        if(recognizing)return
+        recognizing=true
+        val epoch=generation
+        lifecycleScope.launch {
+          try {
+            val result=withContext(Dispatchers.Default){commands.recognize(text)}
+            if(epoch!=generation || !foreground)return@launch
+            when(result) {
             is Recognition.Matched -> {
                 ui.commandSummary.text=result.command.description
                 ui.commandDetails.text=result.command.action+"\n"+JSONObject(result.command.parameters)
@@ -203,6 +220,12 @@ class MainActivity : ComponentActivity() {
                 if(silentUnknown)visual.dismiss() else visual.result(false)
                 if(text.isNotBlank()) {unknownSentence=text;ui.reviewUnknown.visibility=View.VISIBLE}
             }
+            }
+          } catch(e:CancellationException){throw e}
+            catch(e:Exception){ui.status.setText(R.string.error);visual.result(false)}
+            catch(e:LinkageError){ui.status.setText(R.string.error);visual.result(false)}
+            catch(e:OutOfMemoryError){ui.status.setText(R.string.error);visual.result(false)}
+          finally { recognizing=false;renderButtons();ensureWake() }
         }
     }
     private fun updateSampleCount() {
@@ -302,6 +325,7 @@ class MainActivity : ComponentActivity() {
         handler.removeCallbacksAndMessages(null)
         visual.close()
         lab.close()
+        CoroutineScope(Dispatchers.IO).launch { commands.close() }
         super.onDestroy()
     }
 }

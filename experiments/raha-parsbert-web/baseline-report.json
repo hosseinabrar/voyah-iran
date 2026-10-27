@@ -1,0 +1,238 @@
+{
+  "base_model": "HooshvareLab/bert-fa-zwnj-base",
+  "revision": "3880fac085e1a338e9564907cba0adeb9e14bc72",
+  "seed": 42,
+  "epochs": 12,
+  "train_count": 1572,
+  "trainable": "last 2 encoder layers + pooler + classifier",
+  "device": "mps",
+  "seconds": 106,
+  "accuracy": 0.75,
+  "evaluation": "Small synthetic development probe, NOT real-world accuracy or calibrated confidence",
+  "results": [
+    {
+      "text": "گرم کن صندلیم رو خاموش کن",
+      "expected": "seat_heat_off",
+      "predicted": "seat_heat_off",
+      "score": 0.9998,
+      "correct": true
+    },
+    {
+      "text": "رها لطف می کنی گرمکن صندلی رو روشن کنی",
+      "expected": "seat_heat_on",
+      "predicted": "seat_heat_on",
+      "score": 0.9996,
+      "correct": true
+    },
+    {
+      "text": "سردکن صندلی رو فعالش کن",
+      "expected": "seat_cool_on",
+      "predicted": "seat_cool_on",
+      "score": 0.9997,
+      "correct": true
+    },
+    {
+      "text": "دیگه نمی خوام سردکن صندلی کار کنه",
+      "expected": "seat_cool_off",
+      "predicted": "seat_cool_off",
+      "score": 0.9379,
+      "correct": true
+    },
+    {
+      "text": "ماساژور رو روشن کن",
+      "expected": "seat_massage_on",
+      "predicted": "unknown",
+      "score": 0.5046,
+      "correct": false
+    },
+    {
+      "text": "ماساژ صندلیم رو خاموشش کن",
+      "expected": "seat_massage_off",
+      "predicted": "seat_massage_off",
+      "score": 0.9994,
+      "correct": true
+    },
+    {
+      "text": "صدای هشدار عابر پیاده رو خاموشش کن",
+      "expected": "pedestrian_off",
+      "predicted": "pedestrian_off",
+      "score": 0.9988,
+      "correct": true
+    },
+    {
+      "text": "هشدار عابر رو فعالش کن",
+      "expected": "pedestrian_on",
+      "predicted": "pedestrian_on",
+      "score": 0.6494,
+      "correct": true
+    },
+    {
+      "text": "رادار نقطه کور رو غیر فعالش کن",
+      "expected": "blind_spot_off",
+      "predicted": "blind_spot_off",
+      "score": 0.999,
+      "correct": true
+    },
+    {
+      "text": "نقطه کور رو روشنش کن",
+      "expected": "blind_spot_on",
+      "predicted": "blind_spot_on",
+      "score": 0.9806,
+      "correct": true
+    },
+    {
+      "text": "کولر ماشین رو روشنش کن",
+      "expected": "climate_on",
+      "predicted": "climate_on",
+      "score": 0.5913,
+      "correct": true
+    },
+    {
+      "text": "سیستم تهویه رو خاموشش کن",
+      "expected": "climate_off",
+      "predicted": "climate_on",
+      "score": 0.7041,
+      "correct": false
+    },
+    {
+      "text": "خوشبو کننده ماشین رو روشنش کن",
+      "expected": "fragrance_on",
+      "predicted": "fragrance_on",
+      "score": 0.9966,
+      "correct": true
+    },
+    {
+      "text": "رایحه رو خاموشش کن",
+      "expected": "fragrance_off",
+      "predicted": "fragrance_on",
+      "score": 0.5759,
+      "correct": false
+    },
+    {
+      "text": "شیشه کنارم رو تا نیمه پایین بیار",
+      "expected": "window_half",
+      "predicted": "window_half",
+      "score": 0.9935,
+      "correct": true
+    },
+    {
+      "text": "پنجره سمت راننده رو کامل پایین بیار",
+      "expected": "window_open",
+      "predicted": "window_open",
+      "score": 0.902,
+      "correct": true
+    },
+    {
+      "text": "شیشه سمت شاگرد رو بالا ببر",
+      "expected": "window_close",
+      "predicted": "window_open",
+      "score": 0.4082,
+      "correct": false
+    },
+    {
+      "text": "همه درهای ماشین رو قفلشون کن",
+      "expected": "doors_lock",
+      "predicted": "doors_lock",
+      "score": 0.9639,
+      "correct": true
+    },
+    {
+      "text": "قفل در ماشین رو بازش کن",
+      "expected": "doors_unlock",
+      "predicted": "doors_unlock",
+      "score": 0.2911,
+      "correct": true
+    },
+    {
+      "text": "مصرف ماشین رو ببر روی هیبرید",
+      "expected": "hybrid",
+      "predicted": "hybrid",
+      "score": 0.8802,
+      "correct": true
+    },
+    {
+      "text": "می خوام مصرف ماشین برقی باشه",
+      "expected": "electric",
+      "predicted": "unknown",
+      "score": 0.938,
+      "correct": false
+    },
+    {
+      "text": "رانندگی رو ببر روی کامفورت",
+      "expected": "comfort",
+      "predicted": "comfort",
+      "score": 0.5493,
+      "correct": true
+    },
+    {
+      "text": "حالت ماشین رو بذار اقتصادی",
+      "expected": "eco",
+      "predicted": "unknown",
+      "score": 0.9926,
+      "correct": false
+    },
+    {
+      "text": "یه موسیقی برام پخش کن",
+      "expected": "play",
+      "predicted": "unknown",
+      "score": 0.9712,
+      "correct": false
+    },
+    {
+      "text": "آهنگی که پخشه رو متوقف کن",
+      "expected": "pause",
+      "predicted": "pause",
+      "score": 0.9327,
+      "correct": true
+    },
+    {
+      "text": "این آهنگ رو رد کن برو بعدی",
+      "expected": "next",
+      "predicted": "next",
+      "score": 0.9559,
+      "correct": true
+    },
+    {
+      "text": "برگرد به آهنگ قبلی",
+      "expected": "previous",
+      "predicted": "play",
+      "score": 0.3534,
+      "correct": false
+    },
+    {
+      "text": "فردا بارون میاد",
+      "expected": "unknown",
+      "predicted": "unknown",
+      "score": 0.9997,
+      "correct": true
+    },
+    {
+      "text": "چراغ پارکینگ رو روشن کن",
+      "expected": "unknown",
+      "predicted": "unknown",
+      "score": 0.9761,
+      "correct": true
+    },
+    {
+      "text": "گرمکن صندلی روشن است؟",
+      "expected": "unknown",
+      "predicted": "unknown",
+      "score": 0.9988,
+      "correct": true
+    },
+    {
+      "text": "قفل نکن",
+      "expected": "unknown",
+      "predicted": "unknown",
+      "score": 0.9995,
+      "correct": true
+    },
+    {
+      "text": "شیشه رو سی درصد پایین بیار",
+      "expected": "unknown",
+      "predicted": "unknown",
+      "score": 0.9874,
+      "correct": true
+    }
+  ]
+}

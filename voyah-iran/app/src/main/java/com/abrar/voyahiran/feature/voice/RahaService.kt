@@ -15,7 +15,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.provider.Settings
 import com.abrar.raha.feedback.RahaFeedback
-import com.abrar.raha.RahaCommandRecognizer
+import com.abrar.raha.intent.RahaIntentModel
 import com.abrar.voicecommands.Recognition
 import com.abrar.voyahiran.R
 import com.abrar.voyahiran.VoyahIranApplication
@@ -35,7 +35,7 @@ class RahaService : Service() {
     private val main = Handler(Looper.getMainLooper())
     private val prefs by lazy { VoicePreferences(this) }
     private val keys get() = (application as VoyahIranApplication).steeringKeys
-    private val recognizer = RahaCommandRecognizer()
+    private val recognizer by lazy { RahaIntentModel(this) }
     private lateinit var speech: SpeechLab
     private lateinit var feedback: RahaFeedback
     private var captureEpoch = 0L
@@ -61,7 +61,7 @@ class RahaService : Service() {
         RahaPhonebook.sync(this)
         try { com.abrar.voyahiran.feature.navigation.SavedPlacesStore(this).sync() }
         catch(e: Exception) { AppLog.error("Raha", "saved destinations unavailable", e) }
-        navigationRevision=com.abrar.raha.RahaNavigationRecognizer.revision
+        navigationRevision=com.abrar.raha.RahaPlaces.revision
         val manager = getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(NotificationChannel(CHANNEL, getString(R.string.raha_tab), NotificationManager.IMPORTANCE_LOW))
         val open = PendingIntent.getActivity(this, 43, Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
@@ -91,7 +91,7 @@ class RahaService : Service() {
                             contactsRevision=contactsNow
                             if(recording) cancelInteraction()
                         }
-                        val revision=com.abrar.raha.RahaNavigationRecognizer.revision
+                        val revision=com.abrar.raha.RahaPlaces.revision
                         if(revision!=navigationRevision && !manual && !manualPending && !executing && !feedback.receiving) {
                             navigationRevision=revision
                             if(recording) cancelInteraction()
@@ -116,12 +116,23 @@ class RahaService : Service() {
         preparing = true
         val startedAt = SystemClock.elapsedRealtime()
         AppLog.info("Raha", "model initialization started")
-        speech.prepare(EngineChoice.CAR_LIVE) { failure ->
-            preparing = false
-            ready = failure == null
-            error.value = failure != null
-            AppLog.info("Raha", "model initialization finished ready=$ready elapsedMs=${SystemClock.elapsedRealtime() - startedAt}")
-            if (failure != null) AppLog.error("Raha", "model initialization failed", failure)
+        scope.launch {
+            try {
+                withContext(Dispatchers.IO) { recognizer.prepare() }
+                if(closed)return@launch
+                speech.prepare(EngineChoice.CAR_LIVE) { failure ->
+                    if(!closed) {
+                        preparing = false
+                        ready = failure == null
+                        error.value = failure != null
+                        AppLog.info("Raha", "model initialization finished ready=$ready elapsedMs=${SystemClock.elapsedRealtime() - startedAt}")
+                        if (failure != null) AppLog.error("Raha", "model initialization failed", failure)
+                    }
+                }
+            } catch(e:CancellationException) { throw e }
+            catch(e:Exception) { preparing=false;error.value=true;AppLog.error("Raha","intent model initialization failed",e) }
+            catch(e:LinkageError) { preparing=false;error.value=true;AppLog.error("Raha","intent runtime unavailable",e) }
+            catch(e:OutOfMemoryError) { preparing=false;error.value=true;AppLog.error("Raha","intent model memory unavailable",e) }
         }
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -227,9 +238,27 @@ class RahaService : Service() {
     }
     private fun command(text: String) {
         if (closed || !prefs.enabled || executing) return
-        if (prefs.callsEnabled) {
-            val target=com.abrar.raha.RahaContacts.target(text)
-            if(target!=null) {
+        executing=true
+        val epoch=cancelledEpoch
+        feedback.text(text)
+        feedback.processing()
+        scope.launch {
+            try {
+                val result=withContext(Dispatchers.Default) { recognizer.recognize(text) }
+                executing=false
+                if(closed || epoch!=cancelledEpoch || !prefs.enabled || !(application as VoyahIranApplication).subscriptions.vipAllowed)return@launch
+                dispatchRecognition(text,result)
+            } catch(e:CancellationException) { throw e }
+            catch(e:Exception) { executing=false;error.value=true;if(epoch==cancelledEpoch)feedback.result(false);AppLog.error("Raha","intent inference failed",e) }
+            catch(e:LinkageError) { executing=false;error.value=true;if(epoch==cancelledEpoch)feedback.result(false);AppLog.error("Raha","intent runtime failed",e) }
+            catch(e:OutOfMemoryError) { executing=false;error.value=true;if(epoch==cancelledEpoch)feedback.result(false);AppLog.error("Raha","intent inference memory unavailable",e) }
+            finally { reconcile() }
+        }
+    }
+    private fun dispatchRecognition(text:String,result:Recognition) {
+        if(result is Recognition.Matched && result.command.action=="CALL_CONTACT") {
+            val target=result.command.parameters["contact_query"] as? String
+            if(prefs.callsEnabled && !target.isNullOrBlank()) {
                 val lookupStarted=android.os.SystemClock.elapsedRealtime()
                 val snapshot=RahaPhonebook.contacts()
                 val step=calls.begin(target,snapshot.map { com.abrar.raha.RahaCallDialog.Candidate(it.id,it.spoken) })
@@ -239,12 +268,13 @@ class RahaService : Service() {
                     advanceCall(step)
                     return
                 }
-                if(text.contains("تماس") || text.contains("زنگ")) { feedback.result(false); return }
             }
+            feedback.result(false)
+            return
         }
         AppLog.info("Raha", "final transcript=$text")
         feedback.text(text)
-        when (val result = recognizer.recognize(text)) {
+        when (result) {
             is Recognition.Unknown -> {
                 AppLog.info("Raha", "unrecognized reason=${result.reason}")
                 if(com.abrar.raha.RahaIgnoredSpeech.matches(text))feedback.dismiss()
@@ -349,6 +379,7 @@ class RahaService : Service() {
         feedback.close()
         speech.close()
         scope.cancel()
+        CoroutineScope(Dispatchers.IO).launch { recognizer.close() }
         // OEM restoration must complete even though the service's own jobs have been cancelled.
         CoroutineScope(Dispatchers.Main.immediate).launch {
             runCatching { keys.setVoiceListener(null) }.onFailure { AppLog.error("Raha", "voice hook release failed", it) }

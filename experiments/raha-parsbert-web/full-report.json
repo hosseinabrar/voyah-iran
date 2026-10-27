@@ -1,0 +1,3185 @@
+{
+  "base_model": "HooshvareLab/bert-fa-zwnj-base",
+  "revision": "3880fac085e1a338e9564907cba0adeb9e14bc72",
+  "seed": 73,
+  "epochs": 18,
+  "train_count": 15525,
+  "action_count": 111,
+  "frame_count": 134,
+  "device": "mps",
+  "seconds": 1434,
+  "action_accuracy": 0.8896551724137931,
+  "exact_accuracy": 0.8689655172413793,
+  "evaluation": "Synthetic unseen phrasing + small manual negative probe. Not a representative real-world benchmark; raw model accuracy before guards.",
+  "results": [
+    {
+      "text": "زحمتش رو بکش باتری رو برای ۳۰ دقیقه فعال نگه دار",
+      "action": "ACTIVATE_SCENE",
+      "parameters": {
+        "scene": "powerKeep",
+        "minutes": 30
+      },
+      "description": "فعال‌سازی سناریو: حفظ برق، 30 دقیقه",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ACTIVATE_SCENE",
+        "parameters": {
+          "minutes": 30,
+          "scene": "powerKeep"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "minutes": 0.9999,
+          "scene": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 52
+    },
+    {
+      "text": "زحمتش رو بکش حالت کمپ",
+      "action": "ACTIVATE_SCENE",
+      "parameters": {
+        "scene": "camp"
+      },
+      "description": "فعال‌سازی سناریو: کمپ",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "DEACTIVATE_SCENE",
+        "parameters": {
+          "scene": "current"
+        },
+        "score": 0.3565,
+        "slot_scores": {
+          "scene": 0.6508
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 43
+    },
+    {
+      "text": "زحمتش رو بکش نورپردازی داخلی رو بیشتر کن",
+      "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+      "parameters": {
+        "delta": 1
+      },
+      "description": "تغییر شدت نورپردازی داخلی: یک پله بیشتر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+        "parameters": {
+          "delta": 1
+        },
+        "score": 0.9995,
+        "slot_scores": {
+          "delta": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش صدا رو ۵ تا زیاد کن",
+      "action": "ADJUST_AUDIO_VOLUME",
+      "parameters": {
+        "channel": "media",
+        "delta": 5
+      },
+      "description": "صدای موسیقی: بیشتر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_AUDIO_VOLUME",
+        "parameters": {
+          "channel": "media",
+          "delta": 5
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "channel": 1.0,
+          "delta": 0.9926
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش دمای راننده رو دو درجه کم کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "driver",
+        "delta": -2.0
+      },
+      "description": "تغییر دما راننده (چپ): تغییر -2.0",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "delta": -2.0,
+          "zone": "driver"
+        },
+        "score": 0.9976,
+        "slot_scores": {
+          "delta": 0.5451,
+          "zone": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش سرعت فن زیاد",
+      "action": "ADJUST_FAN_SPEED",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "description": "تغییر سرعت فن دو سمت جلو: تغییر +1",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_FAN_SPEED",
+        "parameters": {
+          "delta": 1,
+          "zone": "front"
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "delta": 1.0,
+          "zone": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش شدت اسانس رو کم کن",
+      "action": "ADJUST_FRAGRANCE_INTENSITY",
+      "parameters": {
+        "delta": -1
+      },
+      "description": "تغییر شدت رایحه: -1 پله",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_FRAGRANCE_INTENSITY",
+        "parameters": {
+          "delta": -1
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "delta": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش بازیافت انرژی رو کمتر کن",
+      "action": "ADJUST_REGENERATION_LEVEL",
+      "parameters": {
+        "delta": -1
+      },
+      "description": "تغییر سطح بازیابی انرژی: یک سطح کمتر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_REGENERATION_LEVEL",
+        "parameters": {
+          "delta": -1
+        },
+        "score": 0.9998,
+        "slot_scores": {
+          "delta": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش گرم کن همراه بالا",
+      "action": "ADJUST_SEAT_HEATING",
+      "parameters": {
+        "seat": "passenger",
+        "delta": 1
+      },
+      "description": "تغییر شدت گرم‌کن صندلی شاگرد (راست): تغییر +1",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_SEAT_HEATING",
+        "parameters": {
+          "delta": 1,
+          "seat": "passenger"
+        },
+        "score": 0.9994,
+        "slot_scores": {
+          "delta": 0.9988,
+          "seat": 0.9922
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش ماساژ راننده پایین",
+      "action": "ADJUST_SEAT_MASSAGE",
+      "parameters": {
+        "seat": "driver",
+        "delta": -1
+      },
+      "description": "تغییر شدت ماساژ راننده (چپ): تغییر -1",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_SEAT_HEATING",
+        "parameters": {
+          "delta": -1,
+          "seat": "driver"
+        },
+        "score": 0.8921,
+        "slot_scores": {
+          "delta": 0.9997,
+          "seat": 1.0
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش سردکن صندلی رو کم کن",
+      "action": "ADJUST_SEAT_VENTILATION",
+      "parameters": {
+        "seat": "driver",
+        "delta": -1
+      },
+      "description": "تغییر شدت سردکن صندلی راننده (چپ): تغییر -1",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_SEAT_VENTILATION",
+        "parameters": {
+          "delta": -1,
+          "seat": "driver"
+        },
+        "score": 0.9595,
+        "slot_scores": {
+          "delta": 1.0,
+          "seat": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش سانروف رو بیشتر باز کن",
+      "action": "ADJUST_SUNROOF_POSITION",
+      "parameters": {
+        "deltaPercent": 10
+      },
+      "description": "تغییر باز بودن سانروف: ۱۰ درصد بازتر از حالت فعلی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_SUNROOF_POSITION",
+        "parameters": {
+          "deltaPercent": 10
+        },
+        "score": 0.9995,
+        "slot_scores": {
+          "deltaPercent": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش پرده رو بیشتر ببند",
+      "action": "ADJUST_SUNSHADE_POSITION",
+      "parameters": {
+        "deltaPercent": -10
+      },
+      "description": "تغییر باز بودن پرده: ۱۰ درصد بسته‌تر از حالت فعلی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_SUNSHADE_POSITION",
+        "parameters": {
+          "deltaPercent": -10
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "deltaPercent": 0.9922
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 42
+    },
+    {
+      "text": "زحمتش رو بکش لطفا شیشه ها رو یه کم باز کن",
+      "action": "ADJUST_WINDOW_POSITION",
+      "parameters": {
+        "window": "all",
+        "deltaPercent": 10
+      },
+      "description": "تغییر باز بودن شیشه: همه، ۱۰ درصد بازتر از حالت فعلی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_WINDOW_POSITION",
+        "parameters": {
+          "deltaPercent": 10,
+          "window": "all"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "deltaPercent": 1.0,
+          "window": 0.9998
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش حساسیت برفپاککن رو کمتر کن",
+      "action": "ADJUST_WIPER_SENSITIVITY",
+      "parameters": {
+        "delta": -1
+      },
+      "description": "تغییر حساسیت برف‌پاک‌کن: یک سطح کمتر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "ADJUST_WIPER_SENSITIVITY",
+        "parameters": {
+          "delta": -1
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "delta": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش سانروف رو ببند",
+      "action": "CLOSE_SUNROOF",
+      "parameters": {},
+      "description": "بستن سانروف",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_RAIN_SENSING_WIPERS",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 0.6997,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش صندوق عقب رو ببند",
+      "action": "CLOSE_TAILGATE",
+      "parameters": {},
+      "description": "بستن صندوق",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "CLOSE_TAILGATE",
+        "parameters": {},
+        "score": 0.6917,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش لطفا پنجره عقب شاگرد رو ببر بالا",
+      "action": "CLOSE_WINDOW",
+      "parameters": {
+        "window": "rearRight"
+      },
+      "description": "بستن شیشه: عقب راست",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "CLOSE_WINDOW",
+        "parameters": {
+          "window": "rearRight"
+        },
+        "score": 0.9997,
+        "slot_scores": {
+          "window": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش رایحه مه را برای سی دقیقه فعال نمایید",
+      "action": "CONFIGURE_FRAGRANCE",
+      "parameters": {
+        "channel": 3,
+        "durationMinutes": 30,
+        "enabled": true
+      },
+      "description": "انتخاب رایحه 3؛ مدت 30 دقیقه؛ روشن کردن خوشبوکننده",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "CONFIGURE_FRAGRANCE",
+        "parameters": {
+          "channel": 3,
+          "durationMinutes": 30,
+          "enabled": true
+        },
+        "score": 0.9998,
+        "slot_scores": {
+          "channel": 1.0,
+          "durationMinutes": 0.9999,
+          "enabled": 0.9995
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 37
+    },
+    {
+      "text": "زحمتش رو بکش رایحه بامبو سی دقیقه با حداکثر شدت روشن کن",
+      "action": "CONFIGURE_FRAGRANCE",
+      "parameters": {
+        "channel": 1,
+        "durationMinutes": 30,
+        "intensity": "high",
+        "enabled": true
+      },
+      "description": "انتخاب رایحه 1؛ مدت 30 دقیقه؛ شدت قوی؛ روشن کردن خوشبوکننده",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "CONFIGURE_FRAGRANCE",
+        "parameters": {
+          "channel": 1,
+          "durationMinutes": 30,
+          "enabled": true,
+          "intensity": "high"
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "channel": 0.9999,
+          "durationMinutes": 0.9998,
+          "enabled": 0.9994,
+          "intensity": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش عطر اسکارلت رو پخش کن",
+      "action": "CONFIGURE_FRAGRANCE",
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "description": "انتخاب رایحه 2؛ روشن کردن خوشبوکننده",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "CONFIGURE_FRAGRANCE",
+        "parameters": {
+          "channel": 2,
+          "enabled": true
+        },
+        "score": 0.9959,
+        "slot_scores": {
+          "channel": 0.9999,
+          "enabled": 0.9897
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش بوی گل رو روی حداکثر بذار",
+      "action": "CONFIGURE_FRAGRANCE",
+      "parameters": {
+        "channel": 2,
+        "intensity": "high"
+      },
+      "description": "انتخاب رایحه 2؛ شدت قوی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "CONFIGURE_FRAGRANCE",
+        "parameters": {
+          "channel": 2,
+          "intensity": "high"
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "channel": 1.0,
+          "intensity": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش خوشبوکننده سطح 3 رو خاموش کن",
+      "action": "CONFIGURE_FRAGRANCE",
+      "parameters": {
+        "intensity": "high",
+        "enabled": false
+      },
+      "description": "شدت قوی؛ خاموش کردن خوشبوکننده",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "CONFIGURE_FRAGRANCE",
+        "parameters": {
+          "enabled": false,
+          "intensity": "high"
+        },
+        "score": 0.9997,
+        "slot_scores": {
+          "enabled": 1.0,
+          "intensity": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش از سناریوی فعلی خارج شو",
+      "action": "DEACTIVATE_SCENE",
+      "parameters": {
+        "scene": "current"
+      },
+      "description": "خروج از سناریو: فعلی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "DEACTIVATE_SCENE",
+        "parameters": {
+          "scene": "current"
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "scene": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 42
+    },
+    {
+      "text": "زحمتش رو بکش لطفاً تعمیرگاه شاه پری را مسیریابی کنید",
+      "action": "NAVIGATE_TO_SAVED_PLACE",
+      "parameters": {
+        "destination": "shahpary"
+      },
+      "description": "مسیریابی به نمایندگی شاهپری پایا",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "NAVIGATE_TO_SAVED_PLACE",
+        "parameters": {
+          "destination": "shahpary"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "destination": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش موزیک متفاوت پخش کن",
+      "action": "NEXT_MEDIA",
+      "parameters": {},
+      "description": "رسانه بعدی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "NEXT_MEDIA",
+        "parameters": {},
+        "score": 1.0,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش بازکردن دوربین",
+      "action": "OPEN_CAMERA",
+      "parameters": {
+        "view": "default"
+      },
+      "description": "باز کردن دوربین",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_CAMERA",
+        "parameters": {
+          "view": "default"
+        },
+        "score": 0.9667,
+        "slot_scores": {
+          "view": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش درپوش شارژ رو باز کن",
+      "action": "OPEN_CHARGE_PORT",
+      "parameters": {},
+      "description": "باز کردن درپوش شارژ",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_CHARGE_PORT",
+        "parameters": {},
+        "score": 0.6134,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش برو به نقشه",
+      "action": "OPEN_DEFAULT_MAP",
+      "parameters": {},
+      "description": "باز کردن نقشهٔ پیش‌فرض",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_DEFAULT_MAP",
+        "parameters": {},
+        "score": 0.9927,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 42
+    },
+    {
+      "text": "زحمتش رو بکش نشان رو باز کن",
+      "action": "OPEN_DEFAULT_MAP",
+      "parameters": {
+        "requiredApp": "neshan"
+      },
+      "description": "باز کردن نقشهٔ پیش‌فرض",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_DEFAULT_MAP",
+        "parameters": {
+          "requiredApp": "neshan"
+        },
+        "score": 0.9916,
+        "slot_scores": {
+          "requiredApp": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش برنامه موزیک رو اجرا کن",
+      "action": "OPEN_DEFAULT_MUSIC",
+      "parameters": {},
+      "description": "باز کردن موزیک‌پلیر پیش‌فرض",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_DEFAULT_MUSIC",
+        "parameters": {},
+        "score": 0.9004,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش درپوش سوخت رو باز کن",
+      "action": "OPEN_FUEL_FLAP",
+      "parameters": {},
+      "description": "باز کردن درپوش سوخت",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_FUEL_FLAP",
+        "parameters": {},
+        "score": 0.9975,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش بازکردن رادیو",
+      "action": "OPEN_OEM_RADIO",
+      "parameters": {},
+      "description": "باز کردن رادیوی خودرو",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_OEM_RADIO",
+        "parameters": {},
+        "score": 0.9818,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش سان روف رو باز کن",
+      "action": "OPEN_SUNROOF",
+      "parameters": {},
+      "description": "باز کردن سانروف",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_SUNROOF",
+        "parameters": {},
+        "score": 0.5505,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش صندوق رو باز کن",
+      "action": "OPEN_TAILGATE",
+      "parameters": {},
+      "description": "باز کردن صندوق",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_TAILGATE",
+        "parameters": {},
+        "score": 0.8371,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش لطفا پنجره ها عقب شاگرد رو باز کن",
+      "action": "OPEN_WINDOW",
+      "parameters": {
+        "window": "rearRight"
+      },
+      "description": "باز کردن شیشه: عقب راست",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "OPEN_WINDOW",
+        "parameters": {
+          "window": "rearRight"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "window": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش موزیک رو استاپ کن",
+      "action": "PAUSE_MEDIA",
+      "parameters": {},
+      "description": "توقف موقت رسانه",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "PAUSE_MEDIA",
+        "parameters": {},
+        "score": 0.993,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش لطفا موسیقی را پخش کنید",
+      "action": "PLAY_MEDIA",
+      "parameters": {},
+      "description": "پخش رسانه",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "PAUSE_MEDIA",
+        "parameters": {},
+        "score": 0.5127,
+        "slot_scores": {}
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش آهنگ رو به قبلی عوض کن",
+      "action": "PREVIOUS_MEDIA",
+      "parameters": {},
+      "description": "رسانه قبلی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "PREVIOUS_MEDIA",
+        "parameters": {},
+        "score": 0.9986,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش حافظه صندلی ۳ رو لود کن",
+      "action": "RECALL_SEAT_POSITION",
+      "parameters": {
+        "seat": "driver",
+        "slot": "3"
+      },
+      "description": "بازیابی حافظهٔ صندلی راننده",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "RECALL_SEAT_POSITION",
+        "parameters": {
+          "seat": "driver",
+          "slot": "3"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "seat": 1.0,
+          "slot": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش حافظه صندلی ۲ رو به روز رسانی کن",
+      "action": "SAVE_SEAT_POSITION",
+      "parameters": {
+        "seat": "driver",
+        "slot": "2"
+      },
+      "description": "ذخیره یا به‌روزرسانی حافظهٔ صندلی راننده",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SAVE_SEAT_POSITION",
+        "parameters": {
+          "seat": "driver",
+          "slot": "2"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "seat": 1.0,
+          "slot": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش ای سی رو فعال کن",
+      "action": "SET_AC_POWER",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "کمپرسور کولر : روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AC_POWER",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "enabled": 0.9993
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش باد بخوره به صورتم",
+      "action": "SET_AIRFLOW_DIRECTION",
+      "parameters": {
+        "direction": "face",
+        "zone": "front"
+      },
+      "description": "جهت باد دو سمت جلو: صورت",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FAN_SPEED",
+        "parameters": {
+          "level": "max",
+          "zone": "front"
+        },
+        "score": 0.8955,
+        "slot_scores": {
+          "level": 0.756,
+          "zone": 0.9994
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش هوای بیرون میخوام",
+      "action": "SET_AIR_RECIRCULATION",
+      "parameters": {
+        "mode": "external"
+      },
+      "description": "گردش هوا : هوای بیرون",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AIR_RECIRCULATION",
+        "parameters": {
+          "mode": "external"
+        },
+        "score": 0.989,
+        "slot_scores": {
+          "mode": 0.9961
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش نورپردازی داخلی رو تا ته زیاد کن",
+      "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+      "parameters": {
+        "level": "max"
+      },
+      "description": "شدت نورپردازی داخلی: حداکثر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+        "parameters": {
+          "level": "max"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "level": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش نور داخل رو 0 درصد بذار",
+      "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+      "parameters": {
+        "percent": 0
+      },
+      "description": "شدت نورپردازی داخلی: 0 درصد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+        "parameters": {
+          "percent": 0
+        },
+        "score": 0.9992,
+        "slot_scores": {
+          "percent": 0.9989
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش نورپردازی موزیکال رو فعال کن",
+      "action": "SET_AMBIENT_LIGHT_MODE",
+      "parameters": {
+        "mode": "music",
+        "enabled": true
+      },
+      "description": "حالت نورپردازی داخلی: هماهنگ با موسیقی، فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AMBIENT_LIGHT_MODE",
+        "parameters": {
+          "enabled": true,
+          "mode": "music"
+        },
+        "score": 0.9998,
+        "slot_scores": {
+          "enabled": 0.9991,
+          "mode": 0.9988
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش نور داخل رو حالت رانندگی کن",
+      "action": "SET_AMBIENT_LIGHT_MODE",
+      "parameters": {
+        "mode": "driveMode"
+      },
+      "description": "حالت نورپردازی داخلی: هماهنگ با حالت رانندگی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AMBIENT_LIGHT_MODE",
+        "parameters": {
+          "mode": "driveMode"
+        },
+        "score": 0.9433,
+        "slot_scores": {
+          "mode": 0.9997
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش امبینت لایت رو روشن کن",
+      "action": "SET_AMBIENT_LIGHT_POWER",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "نورپردازی داخلی: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AMBIENT_LIGHT_POWER",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.988,
+        "slot_scores": {
+          "enabled": 0.9963
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش صدا رو آن میوت کن",
+      "action": "SET_AUDIO_MUTE",
+      "parameters": {
+        "channel": "media",
+        "enabled": false
+      },
+      "description": "صدای موسیقی: صدادار",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AUDIO_MUTE",
+        "parameters": {
+          "channel": "media",
+          "enabled": false
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "channel": 1.0,
+          "enabled": 0.9201
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش ولوم رو بذار رو ۱۰",
+      "action": "SET_AUDIO_VOLUME",
+      "parameters": {
+        "channel": "media",
+        "level": 10
+      },
+      "description": "صدای موسیقی: 10",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AUDIO_VOLUME",
+        "parameters": {
+          "channel": "media",
+          "level": 10
+        },
+        "score": 0.9924,
+        "slot_scores": {
+          "channel": 1.0,
+          "level": 0.999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش ترمز اظطراری رو ببند",
+      "action": "SET_AUTOMATIC_EMERGENCY_BRAKING",
+      "parameters": {
+        "enabled": false
+      },
+      "description": "ترمز اضطراری خودکار: غیرفعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AUTOMATIC_EMERGENCY_BRAKING",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 0.9969,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش نوربالا رو خودکار دی اکتیو کن",
+      "action": "SET_AUTO_HIGH_BEAM",
+      "parameters": {
+        "enabled": false
+      },
+      "description": "نوربالای خودکار: غیرفعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AUTO_HIGH_BEAM",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 37
+    },
+    {
+      "text": "زحمتش رو بکش نگهدارنده خودکار با فشار عمیق پدال",
+      "action": "SET_AUTO_HOLD",
+      "parameters": {
+        "mode": "deepPedal"
+      },
+      "description": "اتوهلد: فشار عمیق پدال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_AUTO_HOLD",
+        "parameters": {
+          "mode": "deepPedal"
+        },
+        "score": 0.9958,
+        "slot_scores": {
+          "mode": 0.9975
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش کنترل دمای باتری رو روشن کن",
+      "action": "SET_BATTERY_PRECONDITIONING",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "کنترل دمای باتری: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_BATTERY_PRECONDITIONING",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9992,
+        "slot_scores": {
+          "enabled": 0.9204
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش شارژ باتری رو روی 50 درصد بذار",
+      "action": "SET_BATTERY_RESERVE_TARGET",
+      "parameters": {
+        "percent": 50
+      },
+      "description": "حد حفظ شارژ: 50 درصد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_BATTERY_RESERVE_TARGET",
+        "parameters": {
+          "percent": 50
+        },
+        "score": 0.8855,
+        "slot_scores": {
+          "percent": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش نقطه کور رو فعال کن",
+      "action": "SET_BLIND_SPOT_MONITORING",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "پایش نقطه کور: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_BLIND_SPOT_MONITORING",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 0.9996
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 37
+    },
+    {
+      "text": "زحمتش رو بکش بیست و سه درجه",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "degreesC": 23.0
+      },
+      "description": "دمای کابین دو سمت جلو: 23.0 درجه",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "degreesC": 23.0,
+          "zone": "front"
+        },
+        "score": 0.9097,
+        "slot_scores": {
+          "degreesC": 0.9979,
+          "zone": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 42
+    },
+    {
+      "text": "زحمتش رو بکش لطفا دما رو مینیمم کن",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "temperatureLevel": "min"
+      },
+      "description": "دمای کابین دو سمت جلو: دما: حداقل",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "temperatureLevel": "min",
+          "zone": "front"
+        },
+        "score": 0.9979,
+        "slot_scores": {
+          "temperatureLevel": 0.9998,
+          "zone": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش قفل بچه هر دو رو روشن",
+      "action": "SET_CHILD_LOCK",
+      "parameters": {
+        "side": "both",
+        "enabled": true
+      },
+      "description": "قفل کودک: دو طرف، فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CHILD_LOCK",
+        "parameters": {
+          "enabled": true,
+          "side": "both"
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "enabled": 0.9509,
+          "side": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 37
+    },
+    {
+      "text": "زحمتش رو بکش فعال سازی تهویه خودکار",
+      "action": "SET_CLIMATE_AUTO",
+      "parameters": {
+        "enabled": true,
+        "zone": "front"
+      },
+      "description": "تهویه خودکار دو سمت جلو: روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CLIMATE_AUTO",
+        "parameters": {
+          "enabled": true,
+          "zone": "front"
+        },
+        "score": 0.991,
+        "slot_scores": {
+          "enabled": 0.9998,
+          "zone": 0.9998
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش اینجا خیلی سرده",
+      "action": "SET_CLIMATE_POWER",
+      "parameters": {
+        "enabled": true,
+        "zone": "front",
+        "acEnabled": true,
+        "temperatureLevel": "max"
+      },
+      "description": "تهویه دو سمت جلو: روشن، AC روشن، دما: حداکثر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CLIMATE_POWER",
+        "parameters": {
+          "acEnabled": true,
+          "enabled": true,
+          "temperatureLevel": "max",
+          "zone": "front"
+        },
+        "score": 0.7245,
+        "slot_scores": {
+          "acEnabled": 0.9992,
+          "enabled": 0.9933,
+          "temperatureLevel": 0.9999,
+          "zone": 0.9635
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش کولر روشن بشه",
+      "action": "SET_CLIMATE_POWER",
+      "parameters": {
+        "enabled": true,
+        "zone": "front",
+        "acEnabled": true,
+        "temperatureMaxC": 23.0
+      },
+      "description": "تهویه دو سمت جلو: روشن، AC روشن، دما فقط اگر بالاتر از 23.0 است به 23.0 برسد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CLIMATE_POWER",
+        "parameters": {
+          "acEnabled": true,
+          "enabled": true,
+          "temperatureMaxC": 23.0,
+          "zone": "front"
+        },
+        "score": 0.4174,
+        "slot_scores": {
+          "acEnabled": 0.9999,
+          "enabled": 0.9986,
+          "temperatureMaxC": 1.0,
+          "zone": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش بخاری رو فعال کن",
+      "action": "SET_CLIMATE_POWER",
+      "parameters": {
+        "enabled": true,
+        "zone": "front",
+        "acEnabled": true,
+        "temperatureMinC": 26.0
+      },
+      "description": "تهویه دو سمت جلو: روشن، AC روشن، دما فقط اگر پایین‌تر از 26.0 است به 26.0 برسد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CLIMATE_POWER",
+        "parameters": {
+          "acEnabled": true,
+          "enabled": true,
+          "temperatureMinC": 26.0,
+          "zone": "front"
+        },
+        "score": 0.8779,
+        "slot_scores": {
+          "acEnabled": 1.0,
+          "enabled": 0.9999,
+          "temperatureMinC": 1.0,
+          "zone": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش تهویه را راه بنداز",
+      "action": "SET_CLIMATE_POWER",
+      "parameters": {
+        "enabled": true,
+        "zone": "front",
+        "acEnabled": false
+      },
+      "description": "تهویه دو سمت جلو: روشن، AC خاموش",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CLIMATE_AUTO",
+        "parameters": {
+          "enabled": true,
+          "zone": "front"
+        },
+        "score": 0.5847,
+        "slot_scores": {
+          "enabled": 0.9997,
+          "zone": 1.0
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش کولر رو غیر فعال",
+      "action": "SET_CLIMATE_POWER",
+      "parameters": {
+        "enabled": false,
+        "zone": "front"
+      },
+      "description": "تهویه دو سمت جلو: خاموش",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_CLIMATE_POWER",
+        "parameters": {
+          "enabled": false,
+          "zone": "front"
+        },
+        "score": 0.7262,
+        "slot_scores": {
+          "enabled": 1.0,
+          "zone": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 44
+    },
+    {
+      "text": "زحمتش رو بکش دی لایت رو دی اکتیو کن",
+      "action": "SET_DAYTIME_RUNNING_LIGHTS",
+      "parameters": {
+        "enabled": false
+      },
+      "description": "چراغ روز: غیرفعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DAYTIME_RUNNING_LIGHTS",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 0.9932,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش نور مانیتور رو کم کن",
+      "action": "SET_DISPLAY_BRIGHTNESS",
+      "parameters": {
+        "display": "central",
+        "deltaPercent": -10
+      },
+      "description": "روشنایی نمایشگر مرکزی: کمتر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DISPLAY_BRIGHTNESS",
+        "parameters": {
+          "deltaPercent": -10,
+          "display": "central"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "deltaPercent": 1.0,
+          "display": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش نور نمایشگر رو روی پنجاه درصد بذار",
+      "action": "SET_DISPLAY_BRIGHTNESS",
+      "parameters": {
+        "display": "central",
+        "percent": 50
+      },
+      "description": "روشنایی نمایشگر مرکزی: 50 درصد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DISPLAY_BRIGHTNESS",
+        "parameters": {
+          "display": "central",
+          "percent": 50
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "display": 0.9997,
+          "percent": 0.999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش مانیتور اتوماتیک",
+      "action": "SET_DISPLAY_THEME_MODE",
+      "parameters": {
+        "mode": "auto"
+      },
+      "description": "حالت نمایشگر: خودکار",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DISPLAY_THEME_MODE",
+        "parameters": {
+          "mode": "auto"
+        },
+        "score": 0.9925,
+        "slot_scores": {
+          "mode": 0.9995
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش باز کردن در",
+      "action": "SET_DOOR_LOCK",
+      "parameters": {
+        "door": "all",
+        "locked": false
+      },
+      "description": "قفل درها: همه، باز کردن قفل",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DOOR_OPEN_WARNING",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 0.8873,
+        "slot_scores": {
+          "enabled": 0.5151
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش هشدار باز کردن در رو روشن کن",
+      "action": "SET_DOOR_OPEN_WARNING",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "هشدار باز کردن در: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DOOR_OPEN_WARNING",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 0.9995
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش تشخیص حرکت دست رو غیر فعال کن",
+      "action": "SET_DRIVER_GESTURES",
+      "parameters": {
+        "enabled": false
+      },
+      "description": "تشخیص حرکت دست راننده: غیرفعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DRIVER_GESTURES",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش تشخیص خستگی راننده رو روشن کن",
+      "action": "SET_DRIVER_MONITORING",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "پایش خستگی راننده: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DRIVER_MONITORING",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9995,
+        "slot_scores": {
+          "enabled": 0.9998
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش حساسیت پایش خستگی راننده حداکثر",
+      "action": "SET_DRIVER_MONITORING",
+      "parameters": {
+        "sensitivity": "max"
+      },
+      "description": "پایش خستگی راننده: حساسیت حداکثر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_DRIVER_MONITORING",
+        "parameters": {
+          "sensitivity": "max"
+        },
+        "score": 0.9992,
+        "slot_scores": {
+          "sensitivity": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش رها اسپورت",
+      "action": "SET_DRIVE_MODE",
+      "parameters": {
+        "mode": "sport"
+      },
+      "description": "حالت رانندگی: اسپورت",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "STOP_CHARGING",
+        "parameters": {},
+        "score": 0.4188,
+        "slot_scores": {}
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش ذخیره باتری رو به میزان ۵۰ درصد فعال کن",
+      "action": "SET_ENERGY_STRATEGY",
+      "parameters": {
+        "strategy": "save",
+        "reservePercent": 50
+      },
+      "description": "حالت مصرف انرژی: سیو باتری، 50",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_ENERGY_STRATEGY",
+        "parameters": {
+          "reservePercent": 50,
+          "strategy": "save"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "reservePercent": 0.9989,
+          "strategy": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش فقط برق استفاده کن",
+      "action": "SET_ENERGY_STRATEGY",
+      "parameters": {
+        "strategy": "electric"
+      },
+      "description": "حالت مصرف انرژی: اولویت برق",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_ENERGY_STRATEGY",
+        "parameters": {
+          "strategy": "electric"
+        },
+        "score": 0.9906,
+        "slot_scores": {
+          "strategy": 0.9995
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش فن رو روی سه بذار",
+      "action": "SET_FAN_SPEED",
+      "parameters": {
+        "zone": "front",
+        "level": 3
+      },
+      "description": "سرعت فن دو سمت جلو: شدت 3",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FAN_SPEED",
+        "parameters": {
+          "level": 3,
+          "zone": "front"
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "level": 0.9927,
+          "zone": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش سنسور برخورد جلو رو غیر فعال کن",
+      "action": "SET_FORWARD_COLLISION_WARNING",
+      "parameters": {
+        "enabled": false
+      },
+      "description": "هشدار برخورد جلو: غیرفعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FORWARD_COLLISION_WARNING",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش حساسیت هشدار برخورد جلو رو روی متوسط بذار",
+      "action": "SET_FORWARD_COLLISION_WARNING",
+      "parameters": {
+        "sensitivity": "medium"
+      },
+      "description": "هشدار برخورد جلو: حساسیت متوسط",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FORWARD_COLLISION_WARNING",
+        "parameters": {
+          "sensitivity": "medium"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "sensitivity": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 44
+    },
+    {
+      "text": "زحمتش رو بکش خوشبو کننده دوم رو انتخاب کن",
+      "action": "SET_FRAGRANCE_CHANNEL",
+      "parameters": {
+        "channel": 2
+      },
+      "description": "انتخاب رایحه 2",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FRAGRANCE_CHANNEL",
+        "parameters": {
+          "channel": 2
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "channel": 0.9993
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش عطر رو روی 30 دقیقه بذار",
+      "action": "SET_FRAGRANCE_DURATION",
+      "parameters": {
+        "durationMinutes": 30
+      },
+      "description": "مدت 30 دقیقه",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FRAGRANCE_DURATION",
+        "parameters": {
+          "durationMinutes": 30
+        },
+        "score": 0.9996,
+        "slot_scores": {
+          "durationMinutes": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش شدت رایحه رو مینیمم کن",
+      "action": "SET_FRAGRANCE_INTENSITY",
+      "parameters": {
+        "intensity": "low"
+      },
+      "description": "شدت ضعیف",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FRAGRANCE_INTENSITY",
+        "parameters": {
+          "intensity": "low"
+        },
+        "score": 0.999,
+        "slot_scores": {
+          "intensity": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش لطفا عطر رو روشن کن",
+      "action": "SET_FRAGRANCE_POWER",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "روشن کردن خوشبوکننده",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "PAUSE_MEDIA",
+        "parameters": {},
+        "score": 0.2211,
+        "slot_scores": {}
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش تهویه جلو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "همگام‌سازی تهویه جلو : روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9722,
+        "slot_scores": {
+          "enabled": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش هشدار ترافیک متقاطع جلو رو فعال کن",
+      "action": "SET_FRONT_CROSS_TRAFFIC_WARNING",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "هشدار ترافیک متقاطع جلو: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FRONT_CROSS_TRAFFIC_WARNING",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9987,
+        "slot_scores": {
+          "enabled": 0.9991
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 37
+    },
+    {
+      "text": "زحمتش رو بکش بخارگیر جلو روشن",
+      "action": "SET_FRONT_DEFROSTER",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "بخارزدای جلو : روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_FRONT_DEFROSTER",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 0.9992
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 43
+    },
+    {
+      "text": "زحمتش رو بکش نور پایین خاموش",
+      "action": "SET_HEADLIGHT_MODE",
+      "parameters": {
+        "mode": "position"
+      },
+      "description": "حالت چراغ جلو: چراغ کوچک",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_HEADLIGHT_MODE",
+        "parameters": {
+          "mode": "position"
+        },
+        "score": 0.996,
+        "slot_scores": {
+          "mode": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش تعلیق تطبیقی بزرگراه روشن",
+      "action": "SET_HIGHWAY_SUSPENSION_ADAPTATION",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "تعلیق تطبیقی بزرگراه: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_HIGHWAY_SUSPENSION_ADAPTATION",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9991,
+        "slot_scores": {
+          "enabled": 0.9173
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش اچ دی سی رو اکتیو کن",
+      "action": "SET_HILL_DESCENT_CONTROL",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "کنترل سرازیری: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_HILL_DESCENT_CONTROL",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9993,
+        "slot_scores": {
+          "enabled": 0.9598
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش هشدار رانندگی بین خطوط با صدا",
+      "action": "SET_LANE_DEPARTURE_ALERT_TYPE",
+      "parameters": {
+        "type": "voice"
+      },
+      "description": "هشدار خروج از خط: صدا",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_LANE_DEPARTURE_ALERT_TYPE",
+        "parameters": {
+          "type": "voice"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "type": 0.9968
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش حفظ خط رو فعال کن",
+      "action": "SET_LANE_SUPPORT_MODE",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "فعال کردن کمک بین خطوط",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_LANE_SUPPORT_MODE",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.7491,
+        "slot_scores": {
+          "enabled": 0.9902
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش رادار بین خطوط رو غیر فعال کن",
+      "action": "SET_LANE_SUPPORT_MODE",
+      "parameters": {
+        "mode": "off"
+      },
+      "description": "کمک حفظ خط: خاموش",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_LANE_SUPPORT_MODE",
+        "parameters": {
+          "mode": "off"
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "mode": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش رانندگی بین خطوط رو کم کن",
+      "action": "SET_LANE_SUPPORT_MODE",
+      "parameters": {
+        "sensitivity": "min"
+      },
+      "description": "حساسیت بین خطوط: حداقل",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_LANE_SUPPORT_MODE",
+        "parameters": {
+          "sensitivity": "min"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "sensitivity": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش هشدار حرکت ترافیک رو ببند",
+      "action": "SET_LEAD_VEHICLE_DEPARTURE_ALERT",
+      "parameters": {
+        "enabled": false
+      },
+      "description": "هشدار شروع حرکت خودروی جلو: غیرفعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_LEAD_VEHICLE_DEPARTURE_ALERT",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 0.9997,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش کولر رو تا انتها زیاد کن",
+      "action": "SET_MAX_COOLING",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "سرمایش حداکثری : روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_MAX_COOLING",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9979,
+        "slot_scores": {
+          "enabled": 0.9995
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش آینه شاگرد رو جمع کن",
+      "action": "SET_MIRROR_FOLD",
+      "parameters": {
+        "side": "passenger",
+        "folded": true
+      },
+      "description": "جمع یا باز کردن آینه‌ها: شاگرد، جمع",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_MIRROR_FOLD",
+        "parameters": {
+          "folded": true,
+          "side": "passenger"
+        },
+        "score": 0.7767,
+        "slot_scores": {
+          "folded": 0.9994,
+          "side": 0.9819
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 37
+    },
+    {
+      "text": "زحمتش رو بکش ای پی بی رو بخوابون",
+      "action": "SET_PARKING_BRAKE",
+      "parameters": {
+        "engaged": false
+      },
+      "description": "ترمز پارک: آزاد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_PARKING_BRAKE",
+        "parameters": {
+          "engaged": false
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "engaged": 0.999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش هشدار عابر پیاده رو فعال کن",
+      "action": "SET_PEDESTRIAN_WARNING_SOUND",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "صدای هشدار عابر پیاده: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_PEDESTRIAN_WARNING_SOUND",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9998,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش مدت حفظ برق رو روی 30 دقیقه تنظیم کن",
+      "action": "SET_POWER_KEEP_DURATION",
+      "parameters": {
+        "minutes": 30
+      },
+      "description": "زمان حفظ برق: 30 دقیقه",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_POWER_KEEP_DURATION",
+        "parameters": {
+          "minutes": 30
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "minutes": 0.9997
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش شارژ با موتور در حالت حفظ برق رو فعال کن",
+      "action": "SET_POWER_KEEP_ENGINE_CHARGING",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "شارژ با موتور در حالت حفظ برق: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_POWER_KEEP_ENGINE_CHARGING",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 0.9998
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش برف پاک کن خودکار رو اکتیو کن",
+      "action": "SET_RAIN_SENSING_WIPERS",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "برف‌پاک‌کن خودکار باران: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_RAIN_SENSING_WIPERS",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "enabled": 0.8006
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش هشدار برخورد عقب رو باز کن",
+      "action": "SET_REAR_COLLISION_WARNING",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "هشدار برخورد عقب: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_REAR_COLLISION_WARNING",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 0.9891
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش rcta رو ببند",
+      "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+      "parameters": {
+        "enabled": false
+      },
+      "description": "هشدار ترافیک عقب: غیرفعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 38
+    },
+    {
+      "text": "زحمتش رو بکش بخار زدایی شیشه عقب",
+      "action": "SET_REAR_DEFROSTER",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "بخارزدای عقب : روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_REAR_DEFROSTER",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "enabled": 0.9989
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش نمایشگر عقب رو ببند",
+      "action": "SET_REAR_DISPLAY_LOCK",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "قفل نمایشگر عقب",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_REAR_DISPLAY_LOCK",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 0.9996,
+        "slot_scores": {
+          "enabled": 0.9704
+        }
+      },
+      "action_correct": true,
+      "exact_correct": false,
+      "latency_ms": 42
+    },
+    {
+      "text": "زحمتش رو بکش فاگ لایت رو خاموش کن",
+      "action": "SET_REAR_FOG_LIGHT",
+      "parameters": {
+        "enabled": false
+      },
+      "description": "مه‌شکن عقب: غیرفعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_REAR_FOG_LIGHT",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 0.9997,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش بازیافت انرژی رو روی متوسط بذار",
+      "action": "SET_REGENERATION_LEVEL",
+      "parameters": {
+        "level": "medium"
+      },
+      "description": "سطح بازیابی انرژی: متوسط",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_REGENERATION_LEVEL",
+        "parameters": {
+          "level": "medium"
+        },
+        "score": 0.9986,
+        "slot_scores": {
+          "level": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش رها گرم کن صندلی رو خاموش کن",
+      "action": "SET_SEAT_HEATING",
+      "parameters": {
+        "seat": "driver",
+        "enabled": false,
+        "level": 0
+      },
+      "description": "گرم‌کن صندلی راننده (چپ): خاموش، شدت 0",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SEAT_HEATING",
+        "parameters": {
+          "enabled": false,
+          "level": 0,
+          "seat": "driver"
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "enabled": 1.0,
+          "level": 0.9993,
+          "seat": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش صندلیم رو گرم کن",
+      "action": "SET_SEAT_HEATING",
+      "parameters": {
+        "seat": "driver",
+        "enabled": true
+      },
+      "description": "گرم‌کن صندلی راننده (چپ): روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SEAT_HEATING",
+        "parameters": {
+          "enabled": true,
+          "level": "max",
+          "seat": "driver"
+        },
+        "score": 0.5818,
+        "slot_scores": {
+          "enabled": 0.9725,
+          "level": 0.5217,
+          "seat": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": false,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش ماساژ صندلی رو موجی کن",
+      "action": "SET_SEAT_MASSAGE_PATTERN",
+      "parameters": {
+        "seat": "driver",
+        "pattern": "wave"
+      },
+      "description": "الگوی ماساژ راننده (چپ): موجی",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SEAT_MASSAGE_PATTERN",
+        "parameters": {
+          "pattern": "wave",
+          "seat": "driver"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "pattern": 0.997,
+          "seat": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش ماساژ سطح ۳",
+      "action": "SET_SEAT_MASSAGE",
+      "parameters": {
+        "seat": "driver",
+        "enabled": true,
+        "level": 3
+      },
+      "description": "ماساژ صندلی راننده (چپ): روشن، شدت 3",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SEAT_MASSAGE",
+        "parameters": {
+          "enabled": true,
+          "level": 3,
+          "seat": "driver"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 0.9289,
+          "level": 0.9996,
+          "seat": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 42
+    },
+    {
+      "text": "زحمتش رو بکش ماساژم بده",
+      "action": "SET_SEAT_MASSAGE",
+      "parameters": {
+        "seat": "driver",
+        "enabled": true
+      },
+      "description": "ماساژ صندلی راننده (چپ): روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SEAT_MASSAGE_PATTERN",
+        "parameters": {
+          "pattern": "wave",
+          "seat": "driver"
+        },
+        "score": 0.4598,
+        "slot_scores": {
+          "pattern": 0.9865,
+          "seat": 1.0
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 42
+    },
+    {
+      "text": "زحمتش رو بکش سردکن رو دی اکتیو کن",
+      "action": "SET_SEAT_VENTILATION",
+      "parameters": {
+        "seat": "driver",
+        "enabled": false,
+        "level": 0
+      },
+      "description": "تهویه صندلی راننده (چپ): خاموش، شدت 0",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SEAT_VENTILATION",
+        "parameters": {
+          "enabled": false,
+          "level": 0,
+          "seat": "driver"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "enabled": 1.0,
+          "level": 0.9975,
+          "seat": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش سردکن صندلی راننده رو روشن کن",
+      "action": "SET_SEAT_VENTILATION",
+      "parameters": {
+        "seat": "driver",
+        "enabled": true
+      },
+      "description": "تهویه صندلی راننده (چپ): روشن",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SEAT_VENTILATION",
+        "parameters": {
+          "enabled": true,
+          "seat": "driver"
+        },
+        "score": 0.993,
+        "slot_scores": {
+          "enabled": 0.9995,
+          "seat": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش کنترل پایداری رو اکتیو کن",
+      "action": "SET_STABILITY_CONTROL",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "کنترل پایداری: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_STABILITY_CONTROL",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.9696,
+        "slot_scores": {
+          "enabled": 0.8354
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش سانروف رو تا نیمه باز کن",
+      "action": "SET_SUNROOF_POSITION",
+      "parameters": {
+        "percent": 50
+      },
+      "description": "میزان باز بودن سانروف: 50 درصد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SUNROOF_POSITION",
+        "parameters": {
+          "percent": 50
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "percent": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش پرده سانروف رو صد درصد باز کن",
+      "action": "SET_SUNSHADE_POSITION",
+      "parameters": {
+        "position": 100
+      },
+      "description": "میزان باز بودن پرده سقف: 100 درصد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SUNSHADE_POSITION",
+        "parameters": {
+          "position": 100
+        },
+        "score": 0.9989,
+        "slot_scores": {
+          "position": 0.9229
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 37
+    },
+    {
+      "text": "زحمتش رو بکش ارتفاع تعلیق متوسط",
+      "action": "SET_SUSPENSION_HEIGHT",
+      "parameters": {
+        "level": "medium"
+      },
+      "description": "ارتفاع تعلیق: متوسط",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_SUSPENSION_HEIGHT",
+        "parameters": {
+          "level": "medium"
+        },
+        "score": 0.9994,
+        "slot_scores": {
+          "level": 0.9999
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش تشخیص علائم راهنمایی رو روشن کن",
+      "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+      "parameters": {
+        "enabled": true
+      },
+      "description": "شناسایی تابلوها: فعال",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+        "parameters": {
+          "enabled": true
+        },
+        "score": 0.5672,
+        "slot_scores": {
+          "enabled": 0.9991
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش پنجره رو تا نصف باز کن",
+      "action": "SET_WINDOW_POSITION",
+      "parameters": {
+        "window": "driver",
+        "percent": 50
+      },
+      "description": "میزان باز بودن شیشه: راننده، 50 درصد",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_WINDOW_POSITION",
+        "parameters": {
+          "percent": 50,
+          "window": "driver"
+        },
+        "score": 0.9991,
+        "slot_scores": {
+          "percent": 1.0,
+          "window": 0.9977
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش حساسیت برف پاک کن رو حداکثر کن",
+      "action": "SET_WIPER_SENSITIVITY",
+      "parameters": {
+        "level": "max"
+      },
+      "description": "حساسیت برف‌پاک‌کن: حداکثر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SET_WIPER_SENSITIVITY",
+        "parameters": {
+          "level": "max"
+        },
+        "score": 1.0,
+        "slot_scores": {
+          "level": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش فیلم بگیر",
+      "action": "START_VIDEO_RECORDING",
+      "parameters": {
+        "view": "default"
+      },
+      "description": "شروع فیلم‌برداری",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "STOP_VIDEO_RECORDING",
+        "parameters": {},
+        "score": 0.9981,
+        "slot_scores": {}
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 40
+    },
+    {
+      "text": "زحمتش رو بکش شارژ رو قطع کن",
+      "action": "STOP_CHARGING",
+      "parameters": {},
+      "description": "توقف شارژ",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "STOP_CHARGING",
+        "parameters": {},
+        "score": 1.0,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 44
+    },
+    {
+      "text": "زحمتش رو بکش فیلم برداری رو متوقف کن",
+      "action": "STOP_VIDEO_RECORDING",
+      "parameters": {},
+      "description": "توقف فیلم‌برداری",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "STOP_VIDEO_RECORDING",
+        "parameters": {},
+        "score": 1.0,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش برنامه ها را با هم عوض کنید",
+      "action": "SWAP_DISPLAY_APPS",
+      "parameters": {},
+      "description": "جابه‌جایی برنامه‌ها بین دو نمایشگر",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SWAP_DISPLAY_APPS",
+        "parameters": {},
+        "score": 0.9991,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "زحمتش رو بکش لطفا دوربین را تغییر دهید",
+      "action": "SWITCH_CAMERA",
+      "parameters": {},
+      "description": "تعویض دوربین",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "SWITCH_CAMERA",
+        "parameters": {},
+        "score": 0.9988,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "زحمتش رو بکش لطفا عکس بگیرید",
+      "action": "TAKE_PHOTO",
+      "parameters": {
+        "view": "default"
+      },
+      "description": "گرفتن عکس",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "TAKE_PHOTO",
+        "parameters": {
+          "view": "default"
+        },
+        "score": 0.8844,
+        "slot_scores": {
+          "view": 1.0
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 42
+    },
+    {
+      "text": "زحمتش رو بکش لطفا شیشه چپ رو حالت تهویه",
+      "action": "VENT_WINDOW",
+      "parameters": {
+        "window": "driver"
+      },
+      "description": "حالت تهویه شیشه: راننده",
+      "source": "held-out:polite-prefix-family",
+      "predicted": {
+        "action": "VENT_WINDOW",
+        "parameters": {
+          "window": "driver"
+        },
+        "score": 0.8998,
+        "slot_scores": {
+          "window": 0.9983
+        }
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 39
+    },
+    {
+      "text": "لطف می کنی با سارا تماس بگیری",
+      "action": "CALL_CONTACT",
+      "parameters": {},
+      "source": "held-out:contact",
+      "predicted": {
+        "action": "CALL_CONTACT",
+        "parameters": {},
+        "score": 0.9998,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 45
+    },
+    {
+      "text": "چراغ راهروی خونه رو خاموش کن",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "UNKNOWN",
+        "parameters": {},
+        "score": 0.7831,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 43
+    },
+    {
+      "text": "فردا صبح هوا سرد میشه",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "UNKNOWN",
+        "parameters": {},
+        "score": 0.5365,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 41
+    },
+    {
+      "text": "دیروز بابام شیشه رو باز کرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "OPEN_WINDOW",
+        "parameters": {
+          "window": "driver"
+        },
+        "score": 0.9493,
+        "slot_scores": {
+          "window": 0.9999
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 41
+    },
+    {
+      "text": "هشدار نقطه کور چرا خاموش شده",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "SET_BLIND_SPOT_MONITORING",
+        "parameters": {
+          "enabled": false
+        },
+        "score": 0.9999,
+        "slot_scores": {
+          "enabled": 1.0
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 42
+    },
+    {
+      "text": "درهای ماشین رو قفل نکن",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "UNKNOWN",
+        "parameters": {},
+        "score": 1.0,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "گرمکن صندلی را روشن نکن",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "UNKNOWN",
+        "parameters": {},
+        "score": 1.0,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "آیا شیشه شاگرد بسته است",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "UNKNOWN",
+        "parameters": {},
+        "score": 1.0,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 42
+    },
+    {
+      "text": "برای من تاکسی بگیر",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "SET_ENERGY_STRATEGY",
+        "parameters": {
+          "strategy": "fuel"
+        },
+        "score": 0.6729,
+        "slot_scores": {
+          "strategy": 0.9782
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 41
+    },
+    {
+      "text": "یه پیتزا می خوام",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "ACTIVATE_SCENE",
+        "parameters": {
+          "scene": "quickWarm"
+        },
+        "score": 0.8784,
+        "slot_scores": {
+          "scene": 0.261
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 40
+    },
+    {
+      "text": "من می خوام برم خرید",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "ACTIVATE_SCENE",
+        "parameters": {
+          "scene": "camp"
+        },
+        "score": 0.8734,
+        "slot_scores": {
+          "scene": 0.7517
+        }
+      },
+      "action_correct": false,
+      "exact_correct": false,
+      "latency_ms": 41
+    },
+    {
+      "text": "آره تماس بگیر",
+      "action": "CONFIRM_CALL",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "CONFIRM_CALL",
+        "parameters": {},
+        "score": 0.9995,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "نه اشتباهه",
+      "action": "CANCEL_DIALOG",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "CANCEL_DIALOG",
+        "parameters": {},
+        "score": 1.0,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 34
+    },
+    {
+      "text": "رها لطف می کنی با سارا تماس بگیری",
+      "action": "CALL_CONTACT",
+      "parameters": {},
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "CALL_CONTACT",
+        "parameters": {},
+        "score": 0.998,
+        "slot_scores": {}
+      },
+      "action_correct": true,
+      "exact_correct": true,
+      "latency_ms": 40
+    },
+    {
+      "text": "میشه درجه حرارت کابین رو روی ۲۴ بذاری",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "degreesC": 24.0
+      },
+      "source": "independent-manual-probe",
+      "predicted": {
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "degreesC": 22.0,
+          "zone": "front"
+        },
+        "score": 0.9081,
+        "slot_scores": {
+          "degreesC": 0.3872,
+          "zone": 0.9541
+        }
+      },
+      "action_correct": true,
+      "exact_correct": false,
+      "latency_ms": 41
+    }
+  ],
+  "evaluation_count": 145,
+  "negative_count": 10
+}
