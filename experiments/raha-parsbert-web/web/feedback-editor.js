@@ -25,12 +25,21 @@ export async function initializeEditor(){
 function renderFields(current){
  const variants=schema[$('expected').value]??[{}];fields=variants[Number($('parameter-variant').value)]??{};
  $('parameter-fields').replaceChildren();
- for(const [key,options] of Object.entries(fields)){
+ for(const [key,originalOptions] of Object.entries(fields)){
+  const seatToggle=['SET_SEAT_HEATING','SET_SEAT_VENTILATION','SET_SEAT_MASSAGE'].includes($('expected').value);
+  const options=seatToggle&&key==='enabled'?[true,false]:originalOptions;
   const label=document.createElement('label');label.textContent=parameterName(key);
   const control=document.createElement(options===null?'input':'select');control.id='parameter-'+key;control.dataset.key=key;
   if(options===null){control.type='text';control.maxLength=80;control.value=current[key]??'';control.placeholder='مثلاً علی';}
   else{for(const value of options){const opt=document.createElement('option');opt.value=JSON.stringify(value);opt.textContent=parameterValue(value);control.append(opt);}if(options.some(v=>v===current[key]))control.value=JSON.stringify(current[key]);}
   label.append(control);$('parameter-fields').append(label);
+  if(seatToggle&&key==='enabled')control.onchange=()=>{
+   const values=readParameters();
+   if(values.enabled===false)values.level=0;
+   else if(values.level===0)delete values.level;
+   showEditor($('expected').value,values);
+  };
+  if(seatToggle&&key==='level'&&current.enabled===false){control.value='0';control.disabled=true;}
  }
 }
 export function showEditor(action,current){
