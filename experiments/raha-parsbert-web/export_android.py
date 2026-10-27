@@ -6,6 +6,7 @@ assets should be copied into Android. Run with this experiment's virtualenv.
 import hashlib
 import json
 import shutil
+import os
 from pathlib import Path
 import torch
 from transformers import AutoTokenizer
@@ -14,7 +15,7 @@ from feedback_training import FeedbackTrainer
 from temperature_schema import expand_temperature
 
 ROOT = Path(__file__).resolve().parent
-OUT = ROOT / 'artifacts/android'
+OUT = Path(os.environ.get('RAHA_EXPORT_DIR', str(ROOT / 'artifacts/android')))
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()

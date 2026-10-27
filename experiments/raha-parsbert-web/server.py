@@ -89,7 +89,12 @@ async def lifespan(app):
     vocabulary = extend_grammar(vocabulary, engine['asr'])
     engine['grammar'] = json.dumps(vocabulary, ensure_ascii=False)
     predict('سلام')
+    if engine.get('precision','').startswith('int8') and json.loads((ROOT/'web-runtime.json').read_text()).get('auto_sync_project',False):
+        from project_sync import ProjectSync
+        engine['project_sync']=ProjectSync(ROOT,engine['trainer'].path)
+        engine['project_sync'].start()
     yield
+    if engine.get('project_sync'):engine['project_sync'].close()
     engine.clear()
 
 app=FastAPI(lifespan=lifespan)
@@ -180,6 +185,7 @@ def learn_feedback(req):
     try:
         with lock:
             outcome=engine['trainer'].train(req.text,req.action) if req.parameters is None else engine['trainer'].train(req.text,req.action,req.parameters)
+            if engine.get('project_sync'):engine['project_sync'].request()
     except ValueError as e:
         raise HTTPException(status_code=422,detail=str(e))
     return {**outcome,'result':predict(req.text)}
@@ -193,6 +199,11 @@ async def feedback(req:FeedbackRequest):
 @app.post('/api/intent')
 async def intent(req:Request):
     return await asyncio.to_thread(predict, req.text)
+
+@app.get('/api/project-sync')
+def project_sync_status():
+    sync=engine.get('project_sync')
+    return sync.status() if sync else {'state':'disabled'}
 
 @app.get('/api/status')
 def status():

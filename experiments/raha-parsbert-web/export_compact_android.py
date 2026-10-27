@@ -1,5 +1,6 @@
 """Freeze the exact web INT8 encoder and latest trained FP32 heads into one graph."""
-import json,shutil
+import json,shutil,os
+from pathlib import Path
 import numpy as np
 import onnx
 from onnx import helper as h, numpy_helper as nh, TensorProto as T
@@ -7,7 +8,7 @@ from export_android import ROOT,OUT,load_active,sha
 
 def main():
     OUT.mkdir(exist_ok=True)
-    checkpoint=ROOT/'artifacts/compact-web/feedback-head.safetensors'
+    checkpoint=Path(os.environ.get('RAHA_FEEDBACK_SOURCE',str(ROOT/'artifacts/compact-web/feedback-head.safetensors')))
     shutil.copyfile(checkpoint,OUT/'feedback-snapshot.safetensors')
     model,tokenizer,trainer,source,feedback_sha=load_active()
     encoder=ROOT/'artifacts/compact-web/encoder.int8.onnx'

@@ -2,6 +2,21 @@ import {microphone} from './microphone.js?v=persistent-ack-2';
 import {describeParameters} from './parameters.js';
 import {initializeEditor,showEditor,readParameters} from './feedback-editor.js';
 const $=id=>document.getElementById(id);
+const syncNote=document.createElement('p');syncNote.className='note';
+document.querySelector('header').after(syncNote);
+async function updateProjectSync(){
+ try {
+  const r=await fetch('/api/project-sync');if(!r.ok)throw Error();
+  const s=await r.json();
+  syncNote.textContent=({synced:'آموزش‌های ذخیره‌شده به پروژهٔ اصلی منتقل شدند. برای خودرو باید نسخهٔ جدید ساخته و نصب شود.',
+   checking:'در حال بررسی انتقال آموزش‌ها…',pending:'آموزش جدید در انتظار انتقال به پروژه…',
+   exporting:'در حال آماده‌سازی آموزش‌ها برای پروژهٔ اصلی…',verifying:'در حال بررسی تطابق مدل پیش از انتقال…',
+   installing:'در حال به‌روزرسانی مدل پروژهٔ اصلی…',error:'آموزش ذخیره شد، ولی انتقال به پروژه ناموفق بود؛ دوباره تلاش می‌شود.',
+   disabled:'انتقال خودکار آموزش‌ها غیرفعال است.'})[s.state]||'';
+ }catch{syncNote.textContent='وضعیت انتقال آموزش‌ها فعلاً در دسترس نیست.';}
+ setTimeout(updateProjectSync,5000);
+}
+updateProjectSync();
 fetch('/api/status').then(r=>r.json()).then(s=>{
  if(s.precision?.startsWith('int8')){
   document.querySelector('header > .tag').textContent='نسخهٔ کم‌حجم · قابل آموزش';

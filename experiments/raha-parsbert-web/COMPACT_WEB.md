@@ -16,3 +16,21 @@ evaluation report describes the original model, not this experimental variant.
 Dependencies include `requirements-android-export.txt`. Launch the existing
 uvicorn server on port 18766. Set precision to `fp32` to return to the original
 experiment without discarding either checkpoint.
+
+## Automatic project updates
+
+`auto_sync_project: true` enables a background worker on web-server startup and
+after every saved feedback update. It snapshots the latest checkpoint, exports
+the compact graph, verifies all feedback plus the held-out corpus against the
+web model, and only then replaces project assets. New feedback arriving during
+verification supersedes that pending export. Failed exports keep the previous
+model and retry; restart also catches up any saved training not yet transferred.
+
+The web page shows progress via `/api/project-sync`. Logs and the last parity
+report are under `artifacts/project-sync/`. Every run has a separate temporary
+workspace. Model files are replaced atomically (no partially written ONNX).
+Wait for the synced message before starting an Android build: multiple asset
+files and the manifest are updated sequentially, not in one filesystem transaction.
+This never builds, installs, commits or pushes. An already installed car app
+does not change until a newly built APK is installed. Only saved feedback is
+transferred; simply saying a command without submitting feedback is not training.
