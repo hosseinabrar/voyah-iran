@@ -12,6 +12,12 @@ def main():
     assert provenance['feedback_sha256']==feedback_sha, 'Feedback changed: export again'
     options=ort.SessionOptions();options.intra_op_num_threads=2
     graph=sys.argv[1] if len(sys.argv)>1 else 'model.fp32.onnx'
+    if graph=='model.compact.onnx':
+        from compact_model import CompactEncoder
+        from export_android import sha
+        encoder=ROOT/'artifacts/compact-web/encoder.int8.onnx'
+        assert sha(encoder)==provenance['encoder_sha256']
+        model.bert=CompactEncoder(encoder)
     session=ort.InferenceSession(str(OUT/graph),options,providers=['CPUExecutionProvider'])
     rows=trainer.rows
     # Every saved user correction, plus held-out examples and edge tokenization.
@@ -35,11 +41,12 @@ def main():
             failures.append(dict(text=text,expected=expected,actual=actual))
         fixtures.append(dict(text=text,ids=batch['input_ids'][0].tolist(),expected=expected[0]))
         if i%100==0:print(f'Checked {i}/{len(texts)}',flush=True)
-    report=dict(count=len(texts),failures=failures,max_frame_logit_error=max_error,
+    from export_android import sha
+    report=dict(count=len(texts),failures=failures,max_frame_logit_error=max_error,model_sha256=sha(OUT/graph),
         median_ms=float(np.median(latencies)),p95_ms=float(np.percentile(latencies,95)),
         feedback_sha256=feedback_sha,device='macOS host CPU, not vehicle')
-    (OUT/('parity-report.json' if graph=='model.fp32.onnx' else 'int8-parity-report.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2))
-    if graph=='model.fp32.onnx':(OUT/'parity-fixtures.json').write_text(json.dumps(fixtures,ensure_ascii=False))
+    (OUT/('parity-report.json' if graph in ['model.fp32.onnx','model.compact.onnx'] else 'int8-parity-report.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2))
+    if graph in ['model.fp32.onnx','model.compact.onnx']:(OUT/'parity-fixtures.json').write_text(json.dumps(fixtures,ensure_ascii=False))
     print(json.dumps({k:v for k,v in report.items() if k!='failures'},ensure_ascii=False),flush=True)
     assert not failures, f'{len(failures)} graph parity failures'
 

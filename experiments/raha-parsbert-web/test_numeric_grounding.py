@@ -4,6 +4,41 @@ from numeric_grounding import ground_numbers
 from practice_data import number_name
 
 class NumericTests(unittest.TestCase):
+    def test_seat_memory_symbolic_slots(self):
+        for action in ['SAVE_SEAT_POSITION','RECALL_SEAT_POSITION']:
+            schema={'allowed':{action+'|seat,slot':{'slot':['"driver"','"2"','"3"']}}}
+            for word,expected in [('یک','driver'),('دو','2'),('سه','3'),('۲','2'),('3','3')]:
+                out,keys,error=ground_numbers(f'مموری صندلی {word} رو آپدیت کن',action,{'seat':'driver','slot':'driver'},schema)
+                self.assertIsNone(error)
+                self.assertEqual(out,{'seat':'driver','slot':expected})
+                self.assertEqual(keys,{'slot'})
+            self.assertIsNotNone(ground_numbers('حافظه صندلی چهار رو ذخیره کن',action,{'seat':'driver','slot':'2'},schema)[2])
+
+    def test_colloquial_degrees(self):
+        for action,extra in [('ADJUST_AUDIO_VOLUME',{'channel':'media'}),('ADJUST_FAN_SPEED',{'zone':'front'})]:
+            params={**extra,'delta':1}
+            schema={'allowed':{action+'|'+','.join(sorted(params)):{'delta':['-4','4']}}}
+            for verb,expected in [('زیاد',4),('کم',-4)]:
+                out,keys,error=ground_numbers(f'صدا رو چهار درجه {verb} کن',action,params,schema)
+                self.assertIsNone(error)
+                self.assertEqual(out['delta'],expected)
+                self.assertEqual(keys,{'delta'})
+            self.assertIsNotNone(ground_numbers('صدا رو صد درجه زیاد کن',action,params,schema)[2])
+
+    def test_temperature_comparatives(self):
+        action='ADJUST_CABIN_TEMPERATURE'
+        schema={'allowed':{action+'|delta,zone':{'delta':['-3','3']}}}
+        for separator in ['', ' ', '\u200c']:
+            for word,expected in [('گرم',3),('سرد',-3),('خنک',-3)]:
+                text=f'اتاق رو سه درجه {word}{separator}تر کن'
+                out,keys,error=ground_numbers(text,action,{'delta':6,'zone':'front'},schema)
+                self.assertIsNone(error,text)
+                self.assertEqual(out,{'delta':expected,'zone':'front'})
+                self.assertEqual(keys,{'delta'})
+        for text in ['اتاق رو سه درجه گرم تر و سرد تر کن','اتاق رو سه درجه گرم تر کم کن']:
+            self.assertIsNotNone(ground_numbers(text,action,{'delta':3,'zone':'front'},schema)[2])
+        self.assertIsNotNone(ground_numbers('اتاق رو سه درجه گرم تر کن','SET_CABIN_TEMPERATURE',{'degreesC':23,'zone':'front'},schema)[2])
+
     def test_ranges(self):
         count=0
         for action,key,values,extra,template in [

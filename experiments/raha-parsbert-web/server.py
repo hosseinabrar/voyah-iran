@@ -64,6 +64,15 @@ async def lifespan(app):
         engine['trainer'] = FeedbackTrainer(ROOT, engine['model'], engine['tokenizer'],
             dataset_path=ART/'practice/dataset.json' if practice else None,
             checkpoint_name='feedback-head-practice-v3' if practice else 'feedback-head')
+        config = ROOT/'web-runtime.json'
+        engine['precision'] = 'fp32'
+        if config.exists() and json.loads(config.read_text()).get('precision') == 'int8':
+            from compact_model import activate
+            checkpoint = activate(engine['model'], ROOT, engine['trainer'].path)
+            engine['trainer'] = FeedbackTrainer(ROOT, engine['model'], engine['tokenizer'],
+                dataset_path=ART/'practice/dataset.json' if practice else None,
+                checkpoint_name=checkpoint)
+            engine['precision'] = 'int8 encoder / trainable fp32 heads'
     asr = ART/'vosk-model-small-fa-0.42'
     if not asr.exists():
         archive = ROOT.parents[1]/'voyah-iran/raha-runtime/src/main/assets/persian-model.zip'
@@ -187,7 +196,7 @@ async def intent(req:Request):
 
 @app.get('/api/status')
 def status():
-    return dict(model=MODEL, version=engine['report'].get('version',2 if engine['full'] else 1), labels=engine['titles'], report={k:v for k,v in engine['report'].items() if k!='results'}, asr='Vosk small-fa-0.42 · local · Raha vehicle vocabulary', audio_stored=False)
+    return dict(model=MODEL, precision=engine.get('precision','fp32'), feedback_count=len(engine['trainer'].rows) if engine.get('trainer') else 0, version=engine['report'].get('version',2 if engine['full'] else 1), labels=engine['titles'], report={k:v for k,v in engine['report'].items() if k!='results'}, asr='Vosk small-fa-0.42 · local · Raha vehicle vocabulary', audio_stored=False)
 
 @app.get('/api/catalog')
 def catalog():

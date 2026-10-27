@@ -33,20 +33,33 @@ def ground_numbers(text,action,params,schema):
     if value<0:return result,set(),'مقدار را مثبت بگو و جهت کم یا زیاد شدن را مشخص کن'
     down=bool(re.search(r'\b(کم|کمتر|کاهش|پایین|ببند)\b',text))
     up=bool(re.search(r'\b(زیاد|بیشتر|افزایش|بالا|باز)\b',text))
+    temperature=action in ['SET_CABIN_TEMPERATURE','ADJUST_CABIN_TEMPERATURE']
+    warmer=temperature and bool(re.search(r'\bگرم[\s\u200c]*تر\b',text))
+    colder=temperature and bool(re.search(r'\b(?:سرد|خنک)[\s\u200c]*تر\b',text))
+    up=up or warmer
+    down=down or colder
     if key in ['delta','deltaPercent']:
         if up==down:return result,set(),'جهت افزایش یا کاهش مقدار مشخص نیست'
         value*=1 if up else -1
-    elif re.search(r'\b(کم کن|کمتر کن|زیاد کن|بیشتر کن|افزایش|کاهش)\b',text):
+    elif warmer or colder or re.search(r'\b(کم کن|کمتر کن|زیاد کن|بیشتر کن|افزایش|کاهش)\b',text):
         return result,set(),'درخواست تغییر نسبی است ولی مدل تنظیم مقدار ثابت را برداشت کرده'
     if unit=='ساعت':
         if key not in ['minutes','durationMinutes']:return result,set(),'واحد زمان با فرمان تشخیص‌داده‌شده سازگار نیست'
         value*=60
-    if unit=='درجه' and action not in ['SET_CABIN_TEMPERATURE','ADJUST_CABIN_TEMPERATURE']:return result,set(),'واحد درجه با فرمان سازگار نیست'
+    # Colloquial "degrees" also means steps for volume, fan, etc.
+    # Keep the model's action and validate the quantity against its own range.
     if unit=='دقیقه' and key not in ['minutes','durationMinutes']:return result,set(),'واحد زمان با فرمان سازگار نیست'
     if unit=='درصد' and key not in ['percent','reservePercent','deltaPercent']:return result,set(),'واحد درصد با فرمان سازگار نیست'
     if word in ['نصف','نصفه'] and key in ['percent','deltaPercent']:value*=100
     frame=action+'|'+','.join(sorted(params))
     allowed=schema.get('allowed',{}).get(frame,{}).get(key,[])
+    if key=='slot' and action in ['SAVE_SEAT_POSITION','RECALL_SEAT_POSITION']:
+        # Seat memory uses symbolic strings, not JSON numbers. The first
+        # profile is named "driver" in the vehicle command contract.
+        slot={1:'driver',2:'2',3:'3'}.get(value)
+        if slot is not None and json.dumps(slot) in allowed:
+            result[key]=slot
+            return result,{key},None
     matches=[json.loads(v) for v in allowed if isinstance(json.loads(v),(int,float)) and not isinstance(json.loads(v),bool) and json.loads(v)==value]
     if not matches:
         return result,set(),'عدد گفته‌شده در محدودهٔ مجاز این فرمان نیست؛ مقدار دیگری حدس زده نمی‌شود'

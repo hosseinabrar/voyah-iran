@@ -35,20 +35,27 @@ object RahaIntentGrounding {
             if(has(text,"یا|منفی") || found.size!=1 || keys.size!=1) return reject("عدد یا کاربرد آن در جمله مبهم است")
             val quantity=found.single();var value=quantity.value;val key=keys.single()
             if(value<0) return reject("مقدار را مثبت بگو و جهت تغییر را مشخص کن")
-            val down=has(text,"کم|کمتر|کاهش|پایین|ببند");val up=has(text,"زیاد|بیشتر|افزایش|بالا|باز")
+            val temperature=action in setOf("SET_CABIN_TEMPERATURE","ADJUST_CABIN_TEMPERATURE")
+            val warmer=temperature && has(text,"گرم[\\s\u200c]*تر")
+            val colder=temperature && has(text,"(?:سرد|خنک)[\\s\u200c]*تر")
+            val down=has(text,"کم|کمتر|کاهش|پایین|ببند") || colder
+            val up=has(text,"زیاد|بیشتر|افزایش|بالا|باز") || warmer
             if(key in setOf("delta","deltaPercent")) {
                 if(up==down) return reject("جهت افزایش یا کاهش مشخص نیست")
                 if(down)value = -value
-            } else if(has(text,"کم کن|کمتر کن|زیاد کن|بیشتر کن|افزایش|کاهش")) return reject("برداشت مقدار ثابت با درخواست تغییر نسبی سازگار نیست")
+            } else if(warmer || colder || has(text,"کم کن|کمتر کن|زیاد کن|بیشتر کن|افزایش|کاهش")) return reject("برداشت مقدار ثابت با درخواست تغییر نسبی سازگار نیست")
             if(quantity.unit=="ساعت") {
                 if(key !in setOf("minutes","durationMinutes")) return reject("واحد زمان با فرمان سازگار نیست")
                 value*=60
             }
-            if(quantity.unit=="درجه" && action !in setOf("SET_CABIN_TEMPERATURE","ADJUST_CABIN_TEMPERATURE")) return reject("واحد درجه با فرمان سازگار نیست")
+            // "درجه" also means steps colloquially (volume, fan, etc.).
             if(quantity.unit=="دقیقه" && key !in setOf("minutes","durationMinutes")) return reject("واحد زمان با فرمان سازگار نیست")
             if(quantity.unit=="درصد" && key !in setOf("percent","reservePercent","deltaPercent")) return reject("واحد درصد با فرمان سازگار نیست")
             if(quantity.word in setOf("نصف","نصفه") && key in setOf("percent","deltaPercent")) value*=100
-            val exact=allowed[key]?.firstOrNull { it is Number && it.toDouble()==value }
+            val memorySlot=if(key=="slot" && action in setOf("SAVE_SEAT_POSITION","RECALL_SEAT_POSITION")) {
+                when(value) { 1.0 -> "driver"; 2.0 -> "2"; 3.0 -> "3"; else -> null }
+            } else null
+            val exact=allowed[key]?.firstOrNull { (it is Number && it.toDouble()==value) || (memorySlot!=null && it==memorySlot) }
                 ?: return reject("عدد گفته شده خارج از محدوده این فرمان است")
             out[key]=exact;grounded+=key
         }

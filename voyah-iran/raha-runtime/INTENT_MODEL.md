@@ -4,7 +4,7 @@ The Android client uses one trained ParsBERT frame/slot model. There is no
 legacy rule-parser fallback. Existing Vosk ASR, endpoint detection, subscription
 gating, assistant preferences and vehicle command executors remain in place.
 
-The immutable snapshot includes 850 saved feedback records' trained heads,
+The immutable snapshot includes 1,503 saved feedback records' trained heads,
 the expanded slot schema and learned contact-span patterns. Training records,
 Python, the web server and FP32/INT8 experimental alternatives are not packaged.
 Provenance is in `src/main/assets/raha-intent/manifest.json`.
@@ -24,8 +24,9 @@ No model load/inference failure falls back to the removed recognizer.
 
 In `experiments/raha-parsbert-web`, use its Python environment:
 
-1. `export_android.py` snapshots the active feedback heads and exports ONNX.
-2. `verify_android_export.py` compares the graph with the captured trained model.
+1. `export_compact_android.py` snapshots the compact web feedback heads and combines
+   the exact frozen INT8 encoder with the trained FP32 heads into one ONNX graph.
+2. `verify_android_export.py model.compact.onnx` compares with the captured compact web model.
 3. `install_android_assets.py` refuses an unverified snapshot and copies assets.
 4. `export_guard_fixtures.py` emits cross-language numeric fixtures.
 
@@ -36,12 +37,14 @@ snapshot and never alters the live web-training checkpoint.
 
 ## Validation and remaining device checks
 
-- FP32 graph: 1,835 examples, including all 979 held-out final cases, identical top-three action/parameter selections.
-- Kotlin tokenizer: exact input IDs on those 1,835 examples.
-- Kotlin numeric grounding/guards: 2,363 cases against Python, without direction correction.
-- Core tests, Raha app unit tests and both Android projects' Kotlin compilation pass.
-- INT8 was evaluated but rejected because it changed ranked predictions.
-- FP32 model is about 451 MiB. Android native peak memory, latency, VAD/ASR
+- Compact graph: 2,488 examples, including all 979 held-out final cases, identical top-three action/parameter selections to the trained compact web model.
+- Tokenizer fixtures cover those 2,488 examples.
+- Numeric grounding/guard fixtures cover 3,035 cases against Python, without direction correction.
+- The deployed graph preserves the compact web encoder unchanged and uses its latest
+  trained full-precision heads. It does not requantize the updated heads.
+- The single model is 120,874,241 bytes (about 115 MiB), replacing the 451 MiB
+  FP32 model at the same asset path; no alternative intent model is packaged.
+- Android native peak memory, latency, VAD/ASR
   coexistence and cold startup still require testing on the actual device.
 - No APK was assembled or installed as part of this migration.
 

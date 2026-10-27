@@ -2,6 +2,14 @@ import {microphone} from './microphone.js?v=persistent-ack-2';
 import {describeParameters} from './parameters.js';
 import {initializeEditor,showEditor,readParameters} from './feedback-editor.js';
 const $=id=>document.getElementById(id);
+fetch('/api/status').then(r=>r.json()).then(s=>{
+ if(s.precision?.startsWith('int8')){
+  document.querySelector('header > .tag').textContent='نسخهٔ کم‌حجم · قابل آموزش';
+  const note=document.createElement('p');note.className='note';
+  note.textContent=`نسخهٔ کم‌حجم با ${s.feedback_count.toLocaleString('fa-IR')} بازخورد قبلی فعال است. اصلاح‌های جدید جداگانه ذخیره می‌شوند. آمار ارزیابی قبلی مربوط به نسخهٔ اصلی است، نه این نسخه.`;
+  document.querySelector('header').after(note);
+ }
+}).catch(()=>{});
 let last=null,records=[],labels={};
 function message(t){$('status').textContent=t;}
 function display(r){last=r;$('result').textContent=r.prediction.title;$('result').className='result '+(r.accepted?'good':'bad');$('reason').textContent=r.accepted?'برداشت آزمایشی پذیرفته شد — اجرا نمی‌شود':r.reason;$('timing').textContent=`زمان فهم متن: ${r.latency_ms.toLocaleString('fa-IR')} میلی‌ثانیه · امتیاز مدل: ${Math.round(r.prediction.score*100).toLocaleString('fa-IR')} از ۱۰۰ (نه دقت واقعی)`;$('slots').style.direction='rtl';$('slots').style.textAlign='right';$('slots').textContent=describeParameters(r.slots);$('raw').textContent=JSON.stringify(r.candidates,null,2);$('correct').disabled=false;$('wrong').disabled=false;$('correction').hidden=true;}
