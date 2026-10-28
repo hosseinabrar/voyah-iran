@@ -306,10 +306,16 @@ class RahaService : Service() {
                             }
                         } else if (command.action in setOf("SAVE_SEAT_POSITION", "RECALL_SEAT_POSITION")) {
                             OemSeatMemory.execute(this@RahaService, command)
-                        } else withContext(Dispatchers.IO) {
-                            ProcessCommandRunner().run(listOf("su", "0", "raha-command", command.action, JSONObject(command.parameters).toString()), 20)
+                        } else RahaBusyRetry.run(
+                            now=SystemClock::elapsedRealtime,
+                            allowed={ !closed && resultEpoch==cancelledEpoch && prefs.enabled && (application as VoyahIranApplication).subscriptions.vipAllowed },
+                            onRetry={attempt,elapsed->AppLog.info("Raha","bridge admission retry action=${command.action} attempt=$attempt elapsedMs=$elapsed previous=busy-not-executed")},
+                        ) {
+                            withContext(Dispatchers.IO) {
+                                ProcessCommandRunner().run(listOf("su", "0", "raha-command", command.action, JSONObject(command.parameters).toString()), 20)
+                            }
                         }
-                        error.value = outcome.exitCode != 0
+                        error.value = outcome.exitCode != 0 || outcome.timedOut
                         if(resultEpoch == cancelledEpoch) feedback.result(outcome.exitCode == 0 && !outcome.timedOut)
                         AppLog.info("Raha", "result action=${command.action} exit=${outcome.exitCode} timeout=${outcome.timedOut} detail=${outcome.output}")
                     } catch (e: CancellationException) {

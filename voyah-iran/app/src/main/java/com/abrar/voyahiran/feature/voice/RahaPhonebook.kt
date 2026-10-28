@@ -62,7 +62,7 @@ object RahaPhonebook {
     }
     fun sync(context: Context) { RahaContacts.update(if(VoicePreferences(context).callsEnabled) contacts().map { it.spoken } else emptyList()) }
     private fun request(vararg parts:String): JSONObject {
-        // Reads may retry a busy bridge; a dial operation is deliberately never retried.
+        // Read retries are separate from dial's explicit no-dispatch admission retry below.
         var response=ProcessCommandRunner().run(listOf("su","0","raha-phone")+parts, 8)
         repeat(3) { attempt ->
             if(response.exitCode==75) {
@@ -147,7 +147,13 @@ object RahaPhonebook {
             contacts().none { it.id==contact.id && it.number==contact.number }) return@withContext false
         val targetDevice=if(contact.builtIn) runCatching { readDevice() }.getOrNull() ?: return@withContext false else contact.device
         if(cancelled()) return@withContext false
-        val result=ProcessCommandRunner().run(listOf("su","0","raha-phone","dial",targetDevice,contact.number),8)
+        val result=RahaBusyRetry.run(
+            now=android.os.SystemClock::elapsedRealtime,
+            allowed={ !cancelled() && VoicePreferences(context).enabled && VoicePreferences(context).callsEnabled &&
+                (context.applicationContext as VoyahIranApplication).subscriptions.vipAllowed &&
+                contacts().any { it.id==contact.id && it.number==contact.number } },
+            onRetry={attempt,elapsed->AppLog.info("RahaContacts","dial admission retry attempt=$attempt elapsedMs=$elapsed previous=busy-not-executed")},
+        ) { ProcessCommandRunner().run(listOf("su","0","raha-phone","dial",targetDevice,contact.number),8) }
         result.exitCode==0 && !result.timedOut && result.output.trim()=="CALL_DISPATCHED"
     }
 }
