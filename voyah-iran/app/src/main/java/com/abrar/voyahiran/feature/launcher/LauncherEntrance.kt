@@ -35,10 +35,12 @@ internal object LauncherEntrance {
             content.alpha=0f
             content.clearAnimation()
         }
-        fun loseFocus() {
-            // Camera overlays are transparent to an already-presented launcher.
-            // A cold/hidden launcher must still perform its initial entrance.
-            if(!hidden && !otherForeground && cameraVisible()) {
+        fun loseFocus(windowOnly:Boolean = false) {
+            // OEM quick panels are WindowManager overlays: they take window focus
+            // without pausing the Activity. Keep the presented content beneath them.
+            // Real app transitions still hide on pause/top-activity change; AVM retains
+            // its existing exception even when it pauses the Activity.
+            if(LauncherEntrancePolicy.keepVisible(hidden,otherForeground,windowOnly && resumed,cameraVisible())) {
                 cameraCover=true
                 content.clearAnimation()
                 content.alpha=1f
@@ -62,7 +64,7 @@ internal object LauncherEntrance {
         val observer=activity.window.decorView.viewTreeObserver
         val focus=android.view.ViewTreeObserver.OnWindowFocusChangeListener {
             focused=it
-            if(it)enter() else loseFocus()
+            if(it)enter() else loseFocus(windowOnly=true)
         }
         val foreground = object : android.content.BroadcastReceiver() {
             override fun onReceive(c:android.content.Context,intent:android.content.Intent) {
