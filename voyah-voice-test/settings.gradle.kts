@@ -8,6 +8,3 @@ include(":app")
 include(":command-core", ":raha-runtime")
 project(":command-core").projectDir = file("../voyah-iran/raha-core")
 project(":raha-runtime").projectDir = file("../voyah-iran/raha-runtime")
-
-include(":raha-feedback")
-project(":raha-feedback").projectDir = file("../voyah-iran/raha-feedback")

@@ -7,11 +7,10 @@ android {
         applicationId = "com.abrar.voyahvoicetest"
         minSdk = 26
         targetSdk = 36
-        versionCode = 7
-        versionName = "0.6.1"
+        versionCode = 8
+        versionName = "0.7.0"
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86") }
     }
-    buildFeatures { viewBinding = true }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -19,7 +18,6 @@ android {
     androidResources { noCompress += listOf("zip", "onnx") }
 }
 dependencies {
-    implementation(project(":raha-feedback"))
     implementation(project(":command-core"))
     implementation("androidx.activity:activity-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")

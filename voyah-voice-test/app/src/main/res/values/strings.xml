@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Raha</string>
+    <string name="app_name">تمرین رها</string>
     <string name="title">رها — آزمایش دستیار صوتی</string>
     <string name="subtitle">دکمه را بزنید و یک جمله بگویید.</string>
     <string name="loading">بارگذاری موتور؛ کمی صبر کنید…</string>
