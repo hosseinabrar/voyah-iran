@@ -15,12 +15,17 @@ public class VerifyRahaAssets {
                 try(var in=Files.newInputStream(encrypted)){plain=RahaSealedCodec.open(in,key,name);}
                 try {
                     MessageDigest expected=MessageDigest.getInstance("SHA-256");
-                    try(var in=new DigestInputStream(Files.newInputStream(source),expected)) { in.transferTo(java.io.OutputStream.nullOutputStream()); }
+                    if(name.equals("model.onnx")) {
+                        byte[] restored=RahaModelDelta.restore(source.getParent());
+                        expected.update(restored);Arrays.fill(restored,(byte)0);
+                    } else try(var in=new DigestInputStream(Files.newInputStream(source),expected)) { in.transferTo(java.io.OutputStream.nullOutputStream()); }
                     if(!MessageDigest.isEqual(expected.digest(),MessageDigest.getInstance("SHA-256").digest(plain))) throw new SecurityException("Round trip failed: "+name);
                     System.out.println("Verified sealed asset: "+name+" ("+plain.length+" bytes)");
                 } finally { Arrays.fill(plain,(byte)0); }
                 if(Files.exists(Path.of(args[1],"raha-intent",name)))throw new SecurityException("Plaintext still packaged");
             }
+            for(String name:List.of("model.base.onnx","model.delta"))
+                if(Files.exists(Path.of(args[1],"raha-intent",name)))throw new SecurityException("Build-only model input packaged");
         } finally { Arrays.fill(key,(byte)0); }
     }
 }

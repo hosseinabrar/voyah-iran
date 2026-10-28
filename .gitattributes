@@ -1,2 +1,4 @@
 voyah-voice-test/app/src/main/assets/shenava/koochik/model.int8.onnx filter=lfs diff=lfs merge=lfs -text
 voyah-iran/raha-runtime/src/main/assets/raha-intent/model.onnx filter=lfs diff=lfs merge=lfs -text
+voyah-iran/raha-runtime/src/main/assets/raha-intent/model.base.onnx filter=lfs diff=lfs merge=lfs -text
+voyah-iran/raha-runtime/src/main/assets/raha-intent/model.delta filter=lfs diff=lfs merge=lfs -text

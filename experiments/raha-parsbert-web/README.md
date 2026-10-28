@@ -1,5 +1,24 @@
 # Raha / ParsBERT isolated browser pilot
 
+## Production model storage (October 2026)
+
+The Android source now keeps an immutable `model.base.onnx` plus `model.delta`
+under `raha-runtime/src/main/assets/raha-intent`. Both use LFS. The base is a
+one-time copy of an already verified full model, not a file regenerated on every
+training update. The delta contains only changed 64 KiB blocks, source/target
+SHA-256 hashes and lengths. It contains no training records.
+
+After export/parity checks, `install_android_assets.py` updates only the delta
+and metadata. During Gradle asset sealing, the JDK-only `RahaModelDelta` tool
+reconstructs the exact full graph, verifies its hash against the verified
+manifest, and encrypts it. Neither the base nor delta is packaged. Runtime
+inference and its single encrypted ONNX graph are unchanged. Builds require
+LFS objects but no Python, ONNX tooling or experiment checkpoint.
+
+Do not rotate the base on ordinary training; a different encoder/graph layout
+can make deltas large and should be treated as an explicit base migration.
+Old historical LFS objects are not removed by this change.
+
 ## Expanded experiment (version 2)
 
 The active server prefers `artifacts/full-intent` when trained. Version 1 is kept

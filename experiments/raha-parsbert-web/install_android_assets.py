@@ -31,8 +31,18 @@ def main():
     for name in ['schema.json','contact-rules.json']:
         atomic_copy(OUT/name,target/name)
     atomic_copy(OUT/'tokenizer/vocab.txt',target/'vocab.txt')
-    atomic_copy(graph,target/'model.onnx')
-    manifest['model_sha256']=hashlib.sha256((target/'model.onnx').read_bytes()).hexdigest()
+    from model_delta import encode,decode
+    base=(target/'model.base.onnx').read_bytes()
+    model=graph.read_bytes()
+    delta=encode(base,model)
+    assert decode(base,delta)==model
+    fd,name=tempfile.mkstemp(prefix='.raha-delta-',dir=target)
+    try:
+        with os.fdopen(fd,'wb') as out:out.write(delta)
+        os.replace(name,target/'model.delta')
+    finally:
+        if os.path.exists(name):os.unlink(name)
+    manifest['model_sha256']=hashlib.sha256(model).hexdigest()
     manifest.setdefault('precision','fp32')
     atomic_text(target/'manifest.json',json.dumps(manifest,indent=2))
     grammar=json.loads((ROOT/'speech-grammar.json').read_text())['phrases']

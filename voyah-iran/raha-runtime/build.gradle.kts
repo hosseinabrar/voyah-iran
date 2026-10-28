@@ -6,7 +6,8 @@ val sealRahaAssets = tasks.register("sealRahaAssets") {
     val source = layout.projectDirectory.dir("src/main/assets")
     val codec = project(":command-core").file("src/main/java/com/abrar/raha/intent/RahaSealedCodec.java")
     val tool = file("tools/SealRahaAssets.java")
-    inputs.dir(source); inputs.files(codec, tool)
+    val deltaTool = file("tools/RahaModelDelta.java")
+    inputs.dir(source); inputs.files(codec, tool, deltaTool)
     outputs.dir(sealedRoot)
     doLast {
         val output = sealedRoot.get().asFile
@@ -18,7 +19,7 @@ val sealRahaAssets = tasks.register("sealRahaAssets") {
             check(ProcessBuilder(*command).inheritIO().start().waitFor() == 0) { "Raha asset sealing failed" }
         }
         val bin = File(System.getProperty("java.home"), "bin")
-        runTool(bin.resolve("javac$suffix").path,"--release","17","-d",classes.path,codec.path,tool.path)
+        runTool(bin.resolve("javac$suffix").path,"--release","17","-d",classes.path,codec.path,tool.path,deltaTool.path)
         runTool(bin.resolve("java$suffix").path,"-cp",classes.path,"SealRahaAssets",source.asFile.path,
             output.resolve("assets").path,output.resolve("java").path)
     }

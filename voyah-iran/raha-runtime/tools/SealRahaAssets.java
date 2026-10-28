@@ -11,11 +11,21 @@ public class SealRahaAssets {
         byte[] key=new byte[32], share=new byte[32];
         SecureRandom rng=new SecureRandom();rng.nextBytes(key);rng.nextBytes(share);
         Set<String> sealed=Set.of("model.onnx","schema.json","manifest.json","vocab.txt","contact-rules.json");
-        for(String name:sealed) if(!Files.isRegularFile(source.resolve("raha-intent/"+name))) throw new IOException("Missing intent input: "+name);
+        for(String name:sealed) if(!name.equals("model.onnx") && !Files.isRegularFile(source.resolve("raha-intent/"+name))) throw new IOException("Missing intent input: "+name);
+        byte[] model=RahaModelDelta.restore(source.resolve("raha-intent"));
+        String manifest=Files.readString(source.resolve("raha-intent/manifest.json"));
+        var match=java.util.regex.Pattern.compile("\"model_sha256\"\\s*:\\s*\"([a-f0-9]{64})\"").matcher(manifest);
+        if(!match.find() || !match.group(1).equals(HexFormat.of().formatHex(RahaModelDelta.hash(model))))throw new IOException("Model does not match verified manifest");
+        Files.createDirectories(target.resolve("raha-intent"));
+        try(var in=new ByteArrayInputStream(model);var out=Files.newOutputStream(target.resolve("raha-intent/model.onnx.sealed"))) {
+            RahaSealedCodec.seal(in,out,model.length,key,"model.onnx");
+        } finally {Arrays.fill(model,(byte)0);}
         try(var paths=Files.walk(source)) {
             for(Path path:(Iterable<Path>)paths.filter(Files::isRegularFile)::iterator) {
                 Path relative=source.relativize(path);
                 String normalized=relative.toString().replace('\\','/');
+                if(normalized.equals("raha-intent/model.base.onnx") || normalized.equals("raha-intent/model.delta"))continue;
+                if(normalized.equals("raha-intent/model.onnx"))throw new IOException("Unexpected legacy model input");
                 boolean encrypt=normalized.startsWith("raha-intent/") && sealed.contains(path.getFileName().toString());
                 Path output=target.resolve(relative.toString()+(encrypt?".sealed":""));
                 Files.createDirectories(output.getParent());
