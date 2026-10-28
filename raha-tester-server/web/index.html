@@ -1,0 +1,13 @@
+<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تمرین رها</title><link rel="stylesheet" href="./web/style.css"></head><body>
+<main>
+<form id="welcome" hidden><label for="name">اسمت چیه؟</label><input id="name" maxlength="60" required autocomplete="name"><p>متن و اصلاحاتت برای بررسی ذخیره می‌شود؛ صدا ذخیره نمی‌شود.</p><button>شروع</button></form>
+<section id="trainer" hidden>
+<label for="text">متن شنیده شده:</label><textarea id="text" rows="3" maxlength="500" readonly></textarea>
+<div class="buttons"><button id="mic">شروع شنود</button></div>
+<div class="meter"><div id="level"></div></div>
+<article id="result" hidden><div class="heading"><strong id="action"></strong><span id="score"></span></div><pre id="parameters"></pre><small id="personal" hidden>اصلاح شخصی</small></article>
+<div class="buttons" id="feedback" hidden><button id="confirm">تأیید</button><button id="correct">اصلاح</button></div>
+<section id="correction" hidden><input id="action-search" placeholder="جست‌وجوی فرمان" aria-label="جست‌وجوی فرمان"><select id="expected" aria-label="فرمان"></select><select id="parameter-variant" aria-label="پارامترها"></select><div id="parameter-fields"></div><button id="save">ذخیرهٔ اصلاح</button><button id="cancel">انصراف</button></section>
+</section><p id="message" role="status"></p>
+<section id="capabilities" hidden aria-labelledby="capabilities-title"><h2 id="capabilities-title">کارهایی که رها می‌تواند انجام بدهد</h2><ul id="capabilities-list"></ul></section>
+</main><script type="module" src="./web/app.js"></script></body></html>

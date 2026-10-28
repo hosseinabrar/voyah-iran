@@ -1,0 +1,19 @@
+services:
+  raha-train:
+    build: .
+    restart: unless-stopped
+    ports: ["127.0.0.1:18767:18767"]
+    environment:
+      PUBLIC_ORIGIN: https://voyah-iran.ir
+      SESSION_SECRET: ${SESSION_SECRET:?Set a persistent random session secret}
+      TESTER_DATA: /data
+    volumes:
+      - ./bundle:/app/bundle:ro
+      - ./data:/data
+    read_only: true
+    tmpfs: ["/tmp:size=64m"]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    mem_limit: 2g
+    cpus: 2
+    pids_limit: 128
