@@ -78,9 +78,13 @@ internal class PassengerFragranceView(context:Context):View(context) {
     private fun color(s:String)=gray(Color.parseColor(s))
     private fun asset(n:String):Bitmap?=images[n] ?: PassengerArtworkCache.get(context,"passenger/fragrance-wide/$n.png",this)?.also{images[n]=it}
     private fun image(c:Canvas,n:String,r:RectF,cover:Boolean=false,alpha:Int=255){
-        val b=asset(if(grayscale)"$n-gray"else n) ?: return;val scale=if(cover)max(r.width()/b.width,r.height()/b.height) else min(r.width()/b.width,r.height()/b.height)
+        val b=asset(if(grayscale)"$n-gray"else n) ?: return
+        // Keep the approved export aspect exactly, independent of rounded resized PNG dimensions.
+        val artWidth=if(n.startsWith("object-"))1263 else b.width
+        val artHeight=if(n.startsWith("object-"))1246 else b.height
+        val scale=if(cover)max(r.width()/artWidth,r.height()/artHeight) else min(r.width()/artWidth,r.height()/artHeight)
         paint.shader=null;paint.color=Color.WHITE;paint.alpha=alpha;paint.colorFilter=null
-        c.drawBitmap(b,null,RectF(r.centerX()-b.width*scale/2,r.centerY()-b.height*scale/2,r.centerX()+b.width*scale/2,r.centerY()+b.height*scale/2),paint)
+        c.drawBitmap(b,null,RectF(r.centerX()-artWidth*scale/2,r.centerY()-artHeight*scale/2,r.centerX()+artWidth*scale/2,r.centerY()+artHeight*scale/2),paint)
         paint.colorFilter=null;paint.alpha=255
     }
     private fun text(c:Canvas,s:String,x:Float,y:Float,size:Float,tint:Int){
