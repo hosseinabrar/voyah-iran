@@ -93,7 +93,8 @@ internal class PassengerFragranceView(context:Context):View(context) {
         grayscale=!on&&power<=0f
         val offLayer=if(!grayscale&&power<1f){paint.color=Color.WHITE;paint.colorFilter=ColorMatrixColorFilter(ColorMatrix().apply{setSaturation(power)});c.saveLayer(0f,0f,770f,280f,paint).also{paint.colorFilter=null}}else -1
         if(blend<1f)scene(c,oldScent)
-        val layer=c.saveLayerAlpha(0f,0f,770f,280f,(blend*255).toInt());scene(c,scent);c.restoreToCount(layer)
+        if(blend>=1f)scene(c,scent)
+        else {val layer=c.saveLayerAlpha(0f,0f,770f,280f,(blend*255).toInt());scene(c,scent);c.restoreToCount(layer)}
         if(offLayer>=0)c.restoreToCount(offLayer)
         c.restore()
     }

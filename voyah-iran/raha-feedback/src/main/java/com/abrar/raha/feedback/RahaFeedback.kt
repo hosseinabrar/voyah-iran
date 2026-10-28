@@ -15,6 +15,7 @@ import android.util.Log
 class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
     private val showTranscript: () -> Boolean = { false }, private val host: ViewGroup? = null,
     private val lightTheme: () -> Boolean = { false }) : AutoCloseable {
+    init { RahaArtwork.warm(context) }
     private var attachedWindows: WindowManager? = null
     private var attachedType = 0
     private var interactionStarted = 0L

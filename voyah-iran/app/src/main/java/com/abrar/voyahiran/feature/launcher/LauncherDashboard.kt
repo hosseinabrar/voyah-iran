@@ -139,12 +139,6 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
     var onMedia: (Int) -> Unit = {}
     var onOpenMusic: () -> Unit = {}
     var onSeek: (Long) -> Unit = {}
-    private val loadingDark = SweepGradient(435f,500f,
-        intArrayOf(0x00354b78,0xff354b78.toInt(),0xff6385bf.toInt(),0xffa9c6ed.toInt(),0x00a9c6ed),
-        floatArrayOf(0f,.28f,.60f,.8333f,1f))
-    private val loadingLight = SweepGradient(435f,500f,
-        intArrayOf(0x00243860,0xff47628f.toInt(),0xff304b79.toInt(),0xff203656.toInt(),0x00203656),
-        floatArrayOf(0f,.28f,.60f,.8333f,1f))
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val staticArtwork=StaticLauncherArtwork(this)
     private val defaultCover get() = bitmaps.get(R.drawable.launcher_album_default)
@@ -190,12 +184,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
             c.save()
             val angle=(android.os.SystemClock.uptimeMillis()%1200L)*.3f
             c.rotate(angle,435f,500f)
-            paint.color=Color.WHITE; paint.style=Paint.Style.STROKE; paint.strokeWidth=18f
-            paint.strokeCap=Paint.Cap.BUTT; paint.shader=if(lightTheme)loadingLight else loadingDark
-            c.drawArc(388f,453f,482f,547f,0f,300f,false,paint)
-            paint.shader=null; paint.style=Paint.Style.FILL
-            paint.color=if(lightTheme)0xff203656.toInt() else 0xffa9c6ed.toInt()
-            c.drawCircle(458.5f,459.297f,9f,paint)
+            staticArtwork.draw(c,"loading-${if(lightTheme)"light"else "dark"}",RectF(375f,440f,495f,560f))
             c.restore()
             if(isShown) postInvalidateOnAnimation()
         } else if(mapMessage.isNotEmpty()) {

@@ -29,4 +29,17 @@ class StaticLauncherArtworkContractTest {
         val helper=File(sources,"StaticLauncherArtwork.kt").readText()
         assertFalse(helper.contains("BitmapFactory"));assertTrue(helper.contains("PassengerArtworkCache.get"))
     }
+    @Test fun newlyBakedArtNeverReturnsToRuntime(){
+        val weather=File(sources,"LauncherWeatherArtwork.kt").readText()
+        for(effect in listOf("getPixels(","Canvas(","createBitmap("))assertFalse(weather.contains(effect))
+        for(name in listOf("LauncherLoadingView","LauncherDashboard"))assertFalse(File(sources,"$name.kt").readText().contains("SweepGradient("))
+        val orb=File("../raha-feedback/src/main/java/com/abrar/raha/feedback/RahaOrbView.kt").readText()
+        assertFalse(orb.contains("RadialGradient("))
+        assertFalse(orb.contains("for(i in 0 until 40)"))
+        for(theme in listOf("light","dark")){
+            assertTrue(File("src/main/assets/passenger/baked/loading-$theme.png").length()>0)
+            for(state in listOf("normal","success","failure","unknown","processing"))
+                assertTrue(File("../raha-feedback/src/main/assets/raha/baked/$state-$theme.png").length()>0)
+        }
+    }
 }

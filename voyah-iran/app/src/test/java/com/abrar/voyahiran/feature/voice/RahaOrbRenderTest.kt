@@ -19,6 +19,10 @@ import java.io.File
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class RahaOrbRenderTest {
  @Test fun rendersAllStatesInBothThemes() {
+  RahaArtwork.warm(RuntimeEnvironment.getApplication())
+  val deadline=System.nanoTime()+10_000_000_000L
+  while(!RahaArtwork.ready&&System.nanoTime()<deadline){Thread.sleep(5);org.robolectric.Shadows.shadowOf(android.os.Looper.getMainLooper()).idle()}
+  assertTrue(RahaArtwork.ready)
   val image=Bitmap.createBitmap(1280,512,Bitmap.Config.ARGB_8888)
   val c=Canvas(image)
   for((row,light) in listOf(false,true).withIndex()) {
