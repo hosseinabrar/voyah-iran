@@ -14,7 +14,7 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
     private val dial=LauncherCompassDial(context)
     init {setWillNotDraw(false);addView(dial)}
     override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
-        dial.layout((658.5f*width/1775).toInt(),(109f*height/660).toInt(),(1098.5f*width/1775).toInt(),(549f*height/660).toInt())
+        dial.layout((678.5f*width/1775).toInt(),(116f*height/660).toInt(),(1078.5f*width/1775).toInt(),(516f*height/660).toInt())
     }
     private val motion=LauncherMotion(this)
     var animationsEnabled=true
@@ -123,10 +123,8 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         super.dispatchDraw(c)
         // Draw the fixed pointer after the rotating dial and all of its labels.
         c.save();c.scale(width/1775f,height/660f)
-        val cx=878.5f
-        p.style=Paint.Style.FILL
-        p.color=0xffff3c58.toInt();c.drawPath(Path().apply{moveTo(cx,117f);lineTo(cx-9,137f);lineTo(cx,132f);lineTo(cx+9,137f);close()},p)
-        p.color=fg;p.strokeWidth=2f;c.drawLine(cx,138f,cx,177f,p)
+        // OEM fixed indicator is a separate 400px bitmap, centered in the 652px card.
+        staticArtwork.draw(c,"compass-oem-indicator${if(lightTheme)"-light" else ""}",RectF(678.5f,126f,1078.5f,526f))
         c.restore()
     }
     override fun onDraw(c:Canvas) {
@@ -151,15 +149,18 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         fun degrees(n:Double?)=n?.let {String.format(Locale.US,"%.0f°",it)} ?: "—"
         // Live readings must remain fully visible on every sensor update.
         fun reading(key:String,value:String,x:Float,y:Float,size:Float=23f,center:Boolean=false){
-            text(c,value,x,y,size,center)
+            val color=if((key=="direction"||key=="bearing")&&compass.bearing==null) {
+                if(lightTheme)0x4d263651 else 0x4dffffff
+            } else fg
+            text(c,value,x,y,size,center,color)
         }
         reading("slope","Slope ${degrees(compass.slope)}",622f,54f)
         reading("inclination","Inclination ${degrees(compass.inclination)}",928f,54f)
         val cx=878.5f;val cy=329f
         // The dial is a child view; its fixed pointer is drawn last in dispatchDraw.
         val bearing=compass.bearing
-        reading("direction",if(bearing==null)"—" else listOf("N","NE","E","SE","S","SW","W","NW")[((bearing+22.5f)/45).toInt()%8],cx,316f,30f,true)
-        reading("bearing",if(bearing==null)"—°" else String.format(Locale.US,"%.0f°",bearing),cx,360f,27f,true)
+        reading("direction",if(bearing==null)"--" else listOf("N","NE","E","SE","S","SW","W","NW")[((bearing+22.5f)/45).toInt()%8],cx,304f,40f,true)
+        reading("bearing",if(bearing==null)" --°" else String.format(Locale.US," %.0f°",bearing),cx,352f,40f,true)
         reading("altitude","Altitude ${compass.altitude?.let {String.format(Locale.US,"%.0f",it)} ?: "—"} m",622f,621f)
         reading("pressure","Air Pressure ${state.pressure?.takeIf{it>0}?.let{it.toString()} ?: "—"} hPa",911f,621f)
         text(c,"Suspension height",1214f,54f)
