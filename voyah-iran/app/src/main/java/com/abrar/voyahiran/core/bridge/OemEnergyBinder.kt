@@ -12,7 +12,7 @@ import java.io.File
 
 /** Read installed menu capabilities, then use the same Binder bundle as setPowerMode(). */
 internal object OemEnergyBinder {
-    val actions=setOf("SET_ENERGY_STRATEGY","SET_BATTERY_RESERVE_TARGET","SET_BATTERY_PRECONDITIONING")
+    val actions=setOf("SET_ENERGY_STRATEGY","SET_BATTERY_RESERVE_TARGET","SET_BATTERY_PRECONDITIONING","SET_SCHEDULED_CHARGING")
     fun execute(action: String, parameters: Map<String,Any>) {
         try { executeInstalled(action,parameters) }
         catch(error:LinkageError) {throw IllegalStateException("Installed energy SDK could not be loaded",error)}
@@ -74,7 +74,7 @@ internal object OemEnergyBinder {
             override fun validate(field:String,bundle:Boolean) {
                 field(field)
                 check(!legacyMenu || field != "SREV_SOC_SET") { "This factory energy menu cannot set a reserve percentage" }
-                if(bundle && !legacyMenu)api.getMethod("setVehicleAndAirConditionBundleState",Bundle::class.java,Bundle::class.java)
+                if(bundle && (!legacyMenu || field == "HUM_CHARGEMODE"))api.getMethod("setVehicleAndAirConditionBundleState",Bundle::class.java,Bundle::class.java)
                 else api.getMethod("setVehicleState",stateType,Int::class.javaPrimitiveType)
             }
             override fun write(field:String,value:Int,bundle:Boolean) {
@@ -83,7 +83,8 @@ internal object OemEnergyBinder {
                     check(api.getMethod("getAccStatus").invoke(remote) == 2) { "Vehicle not powered" }
                 }
                 AppLog.info("RahaEnergy","write field=$field value=$value bundle=$bundle")
-                val result=if(bundle && !legacyMenu) {
+                // Both supplied H97A and H97X charge switches use the bundle API.
+                val result=if(bundle && (!legacyMenu || field == "HUM_CHARGEMODE")) {
                     val values=Bundle().apply {putInt(field(field).toString(),value)}
                     api.getMethod("setVehicleAndAirConditionBundleState",Bundle::class.java,Bundle::class.java).invoke(remote,null,values)
                 } else api.getMethod("setVehicleState",stateType,Int::class.javaPrimitiveType).invoke(remote,field(field),value)

@@ -28,6 +28,18 @@ class EnergyCommandExecutor(private val port: EnergyCommandPort) {
             return n.toInt()
         }
         when(action) {
+            "SET_SCHEDULED_CHARGING" -> {
+                require(p.keys == setOf("enabled") && p["enabled"] is Boolean)
+                // OEM ChargeFragment/CommonSwitch: scheduled=2, immediate=1.
+                // Never write appointment start/end times or stop-charge requests.
+                val field = "HUM_CHARGEMODE"
+                val value = if (p["enabled"] == true) 2 else 1
+                port.validate(field, true)
+                val current = port.read(field)
+                require(current in 1..2) { "Charge mode feedback unavailable" }
+                if (current != value) port.write(field, value, true)
+                port.confirm(field, value)
+            }
             "SET_ENERGY_STRATEGY" -> {
                 require(p.keys==setOf("strategy") || p.keys==setOf("strategy","reservePercent"))
                 val name=p["strategy"] as? String ?: error("Missing strategy")
