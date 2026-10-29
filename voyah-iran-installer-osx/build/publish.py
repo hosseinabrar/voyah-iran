@@ -442,6 +442,8 @@ def publish(args, toolchain, version, code, label, prefs, host_runtime, cache):
     app = work / (stem + ".app")
     macos, resources = app / "Contents/MacOS", app / "Contents/Resources"
     macos.mkdir(parents=True); resources.mkdir(parents=True)
+    # Package the exact fonts used by the Android client, for both CPU slices.
+    shutil.copytree(ROOT.parent / "voyah-iran/app/src/main/assets/passenger/fonts", resources / "Fonts")
     slices = []
     for arch in targets.values():
         executable = work / ("VoyahIranInstaller-" + arch)

@@ -2,6 +2,6 @@
 <Grid Margin="24"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
 <TextBlock x:Name="Heading" Text="نصب APK" FontSize="26" Margin="0,0,0,20"/>
 <StackPanel Grid.Row="1"><StackPanel Orientation="Horizontal"><Button x:Name="PickButton" Content="انتخاب فایل APK" Click="Pick"/><Button x:Name="InstallButton" Content="نصب" Click="Install" IsEnabled="False" Style="{StaticResource PrimaryButton}" Margin="12,0"/></StackPanel><TextBlock x:Name="FileLabel" Text="فایلی انتخاب نشده است" Margin="0,12" TextWrapping="Wrap" FlowDirection="LeftToRight"/></StackPanel>
-<TextBox Grid.Row="2" x:Name="LogText" IsReadOnly="True" FlowDirection="LeftToRight" FontFamily="Consolas" Background="#0D1219" Foreground="#C5D5E4" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+<TextBox Grid.Row="2" x:Name="LogText" IsReadOnly="True" FlowDirection="LeftToRight" FontFamily="{StaticResource LatinFont}" Background="{DynamicResource PanelBrush}" Foreground="{DynamicResource TextBrush}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
 <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,16,0,0"><Button Content="کپی گزارش" Click="Copy"/><Button Content="بازگشت" x:Name="BackButton" Click="Back" Margin="12,0"/></StackPanel>
 </Grid></Window>

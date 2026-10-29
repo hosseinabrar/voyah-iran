@@ -10,6 +10,31 @@ NS = {"w": "http://schemas.microsoft.com/winfx/2006/xaml/presentation"}
 
 
 class WindowsVisualContractTests(unittest.TestCase):
+    def test_both_themes_use_android_palette(self):
+        android = ROOT.parent / "voyah-iran/app/src/main/res"
+        theme = (WINDOWS / "InstallerTheme.cs").read_text()
+        for folder in ("values", "values-night"):
+            colors = {c.attrib["name"]: c.text.upper() for c in ET.parse(android / folder / "colors.xml").getroot() if c.tag == "color"}
+            for token in ("background", "surface", "surface_elevated", "stroke", "accent", "text_primary", "text_secondary", "control_track"):
+                value = colors[token]
+                self.assertIn(value, theme)
+                self.assertIn(value.replace("#", "0x"), SOURCE)
+
+    def test_fonts_and_shapes_match_client(self):
+        xaml = (WINDOWS / "App.xaml").read_text()
+        self.assertIn('CornerRadius="35"', xaml)
+        self.assertIn('CornerRadius="20"', xaml)
+        self.assertIn('cornerRadius: 35', SOURCE)
+        self.assertIn('cornerRadius: 20', SOURCE)
+        self.assertIn('assets/passenger/fonts', (WINDOWS / "VoyahIran.Installer.csproj").read_text())
+        for family in ("IRANSansX", "Roboto"):
+            self.assertIn(family, SOURCE)
+            self.assertIn(family, (WINDOWS / "InstallerTheme.cs").read_text())
+
+    def test_all_windows_are_valid_xml(self):
+        for path in WINDOWS.glob("*.xaml"):
+            ET.parse(path)
+
     def test_macos12_and_runtime_selection_contract(self):
         self.assertIn(".macOS(.v12)", (ROOT / "Package.swift").read_text())
         self.assertNotIn("struct ButtonWrap: Layout", SOURCE)

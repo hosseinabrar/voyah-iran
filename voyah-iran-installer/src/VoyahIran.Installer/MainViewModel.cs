@@ -28,13 +28,13 @@ public sealed class StepViewModel(string title) : Observable
     public string Title { get; } = title;
     public string Symbol { get; private set; } = "○";
     public bool IsRunning { get; private set; }
-    public Brush Color { get; private set; } = Brushes.SlateGray;
+    public Brush Color { get; private set; } = InstallerTheme.Brush("MutedBrush");
     public void Set(PhaseState? state)
     {
         IsRunning = state == PhaseState.Running;
         Notify(nameof(IsRunning));
         Symbol = state switch { PhaseState.Running => "◌", PhaseState.Succeeded => "✓", PhaseState.Failed => "✕", _ => "○" };
-        Color = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(state switch { PhaseState.Running => "#F3C969", PhaseState.Succeeded => "#53D3AE", PhaseState.Failed => "#FF8B8B", _ => "#8393A5" }));
+        Color = InstallerTheme.Brush(state switch { PhaseState.Running => "AccentBrush", PhaseState.Succeeded => "SuccessBrush", PhaseState.Failed => "ErrorBrush", _ => "MutedBrush" });
         Notify(nameof(Symbol)); Notify(nameof(Color));
     }
 }
@@ -53,7 +53,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
     public bool Busy { get; private set; }
     public bool CanLeave => !Busy;
     public string ConnectionText { get; private set; } = "در حال آماده‌سازی…";
-    public Brush ConnectionBrush { get; private set; } = Brushes.SlateGray;
+    public Brush ConnectionBrush { get; private set; } = InstallerTheme.Brush("MutedBrush");
     public string VersionText { get; private set; } = "در حال بررسی فایل‌های نصب…";
     public string ProgressTitle { get; private set; } = "نصب وویا ایران";
     public string ProgressSubtitle { get; private set; } = "کابل را تا پایان عملیات جدا نکنید.";
@@ -140,9 +140,9 @@ public sealed partial class MainViewModel : Observable, IDisposable
             device = result.ExitCode == 0 ? DeviceParser.SingleReady(devices) : null;
             var text = result.ExitCode == 0 ? DeviceParser.Describe(devices) : "خطا در ارتباط ADB؛ راهنمای اتصال را ببینید";
             if (text != ConnectionText) { log.Write($"Connection: {text}\n{result.Output.Trim()}"); ConnectionText = text; Notify(nameof(ConnectionText)); }
-            ConnectionBrush = device != null ? new SolidColorBrush(Color.FromRgb(83, 211, 174)) : Brushes.SlateGray; Notify(nameof(ConnectionBrush));
+            ConnectionBrush = device != null ? InstallerTheme.Brush("SuccessBrush") : InstallerTheme.Brush("MutedBrush"); Notify(nameof(ConnectionBrush));
         }
-        catch (Exception e) { device = null; ConnectionText = "ارتباط خودرو در دسترس نیست"; ConnectionBrush = Brushes.SlateGray; Notify(nameof(ConnectionText)); Notify(nameof(ConnectionBrush)); log.Write(e.Message); }
+        catch (Exception e) { device = null; ConnectionText = "ارتباط خودرو در دسترس نیست"; ConnectionBrush = InstallerTheme.Brush("MutedBrush"); Notify(nameof(ConnectionText)); Notify(nameof(ConnectionBrush)); log.Write(e.Message); }
         finally { scanning = false; }
     }
     private async Task InstallAsync()
@@ -165,7 +165,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
                 if (update.State == PhaseState.Running && update.Phase is InstallPhase.Reboot or InstallPhase.Verify)
                 {
                     ConnectionText = update.Phase == InstallPhase.Reboot ? "در انتظار راه‌اندازی مجدد خودرو…" : "خودرو دوباره متصل شد";
-                    ConnectionBrush = update.Phase == InstallPhase.Reboot ? Brushes.Goldenrod : new SolidColorBrush(Color.FromRgb(83, 211, 174));
+                    ConnectionBrush = update.Phase == InstallPhase.Reboot ? InstallerTheme.Brush("WarningBrush") : InstallerTheme.Brush("SuccessBrush");
                     Notify(nameof(ConnectionText)); Notify(nameof(ConnectionBrush));
                 }
             });
@@ -258,7 +258,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
             Busy = true; timer.Stop(); PagesChanged();
             if (!RebootPrompt.Confirm(Application.Current.MainWindow)) return;
             ConnectionText = "در انتظار راه‌اندازی مجدد نمایشگر…";
-            ConnectionBrush = Brushes.Goldenrod;
+            ConnectionBrush = InstallerTheme.Brush("WarningBrush");
             Notify(nameof(ConnectionText)); Notify(nameof(ConnectionBrush));
             await RebootPrompt.RunAsync(Application.Current.MainWindow, adb, log, serial);
         }

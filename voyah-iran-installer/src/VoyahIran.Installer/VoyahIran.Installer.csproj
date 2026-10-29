@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="../VoyahIran.Installer.Core/VoyahIran.Installer.Core.csproj" />
     <Resource Include="Assets\voyah-iran.ico" />
+    <Resource Include="../../../voyah-iran/app/src/main/assets/passenger/fonts/*.ttf" Link="Assets/Fonts/%(Filename)%(Extension)" />
     <EmbeddedResource Include="../../payload/bundle.zip" LogicalName="VoyahIran.Payload.zip" />
   </ItemGroup>
   <!-- Refresh before resource embedding, not BeforePublish (which is too late). -->

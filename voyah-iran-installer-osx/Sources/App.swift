@@ -1,6 +1,7 @@
 import SwiftUI
 import AppKit
 import UniformTypeIdentifiers
+import CoreText
 
 struct PermissionItem: Identifiable {
     let id: Int
@@ -64,6 +65,10 @@ struct VehicleApp: Identifiable {
     }
     func start() {
         guard process == nil else { return }
+        if uiPreview {
+            ready = true; serial = "preview"; connection = "خودرو شناسایی شد"; version = "3.0.0"
+            return
+        }
         guard let resources = Bundle.main.resourceURL else { fail("فایل‌های برنامه پیدا نشد."); return }
         let backend = resources.appendingPathComponent("backend/\(Self.runtime)/VoyahIran.Installer.Mac")
         let payload = resources.appendingPathComponent("payloads/\(Self.runtime).zip")
@@ -152,6 +157,7 @@ struct VehicleApp: Identifiable {
     }
     func fail(_ text: String) { message = text; showMessage = true }
     func send(_ command: String, extra: [String: Any] = [:]) {
+        guard !uiPreview else { return } // Preview bundles never communicate with a vehicle.
         guard ready, !busy else { return }
         var request = extra; request["command"] = command; request["serial"] = serial
         do {
@@ -215,21 +221,63 @@ struct VehicleApp: Identifiable {
     }
 }
 
-// Windows XAML is the visual source of truth; do not use adaptive system colors.
+// Shared visual contract: Android colors.xml, bg_button.xml and dimens.xml.
 enum InstallerTheme {
-    static func color(_ hex: UInt32) -> Color { Color(red: Double((hex >> 16) & 255) / 255, green: Double((hex >> 8) & 255) / 255, blue: Double(hex & 255) / 255) }
-    static let background = color(0x12171E), panel = color(0x1C2430), border = color(0x303C4B)
-    static let muted = color(0xA6B4C5), accent = color(0x53D3AE), text = color(0xEDF3F8)
-    static let button = color(0x283544), primary = color(0x21634F), log = color(0x0D1219)
+    static func color(_ hex: UInt32) -> Color { Color(nsColor: native(hex)) }
+    private static func native(_ hex: UInt32) -> NSColor { NSColor(srgbRed: Double((hex >> 16) & 255) / 255, green: Double((hex >> 8) & 255) / 255, blue: Double(hex & 255) / 255, alpha: 1) }
+    static func adaptive(_ light: UInt32, _ dark: UInt32) -> Color {
+        Color(nsColor: NSColor(name: nil) { appearance in
+            native(appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua ? dark : light)
+        })
+    }
+    static let background = adaptive(0xF1F3F6, 0x191D25), panel = adaptive(0xFFFFFF, 0x23272F)
+    static let elevated = adaptive(0xE8ECF1, 0x2D3442), border = adaptive(0xCDD3DC, 0x373F4A)
+    static let muted = adaptive(0x53606E, 0xCACACA), accent = adaptive(0x247ED4, 0x4099F3)
+    static let text = adaptive(0x202732, 0xFFFFFF), accentSurface = adaptive(0xDCECFB, 0x263F59)
+    static let button = adaptive(0xE3E8EF, 0x373F4A), switchTrack = adaptive(0xAEB7C2, 0x808894)
+    static let error = adaptive(0xB3261E, 0xFFB4AB), success = color(0x277FCF)
+    static let warning = adaptive(0x8A5700, 0xF3C969)
+    static let primary = accent, log = panel
+    static func registerFonts() {
+        guard let resources = Bundle.main.resourceURL else { return }
+        for name in ["Roboto-Regular.ttf", "Roboto-Bold.ttf", "iransansx_regular.ttf", "iransansx_bold.ttf"] {
+            CTFontManagerRegisterFontsForURL(resources.appendingPathComponent("Fonts/" + name) as CFURL, .process, nil)
+        }
+    }
+    static func font(size: CGFloat, weight: Font.Weight = .regular) -> Font {
+        let bold = weight == .bold || weight == .semibold
+        let persian = NSFontDescriptor(name: bold ? "IRANSansX-Bold" : "IRANSansX-Regular", size: size)
+        let descriptor = NSFontDescriptor(name: bold ? "Roboto-Bold" : "Roboto-Regular", size: size)
+            .addingAttributes([.cascadeList: [persian]])
+        return Font(NSFont(descriptor: descriptor, size: size) ?? NSFont.systemFont(ofSize: size))
+    }
+    static func applyAppearance(_ choice: String) {
+        NSApp.appearance = choice == "dark" ? NSAppearance(named: .darkAqua) : choice == "light" ? NSAppearance(named: .aqua) : nil
+    }
+}
+struct InstallerToggleStyle: ToggleStyle {
+    @Environment(\.isEnabled) private var enabled
+    func makeBody(configuration: Configuration) -> some View {
+        Button { configuration.isOn.toggle() } label: {
+            HStack(spacing: 12) {
+                ZStack(alignment: configuration.isOn ? .trailing : .leading) {
+                    Capsule().fill(configuration.isOn ? InstallerTheme.accent : InstallerTheme.switchTrack)
+                    Circle().fill(Color.white).frame(width: 18, height: 18).padding(3)
+                }.frame(width: 42, height: 24).environment(\.layoutDirection, .leftToRight)
+                configuration.label
+            }.foregroundStyle(InstallerTheme.text).opacity(enabled ? 1 : 0.4)
+        }.buttonStyle(.plain).accessibilityValue(configuration.isOn ? "روشن" : "خاموش")
+    }
 }
 struct WindowsButtonStyle: ButtonStyle {
     var primary = false
     @Environment(\.isEnabled) private var enabled
     @State private var hovering = false
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.font(.system(size: 14, weight: primary ? .semibold : .regular))
-            .padding(.horizontal, primary ? 36 : 20).padding(.vertical, primary ? 16 : 12)
-            .background(primary ? InstallerTheme.primary : InstallerTheme.button, in: RoundedRectangle(cornerRadius: 9))
+        configuration.label.font(InstallerTheme.font(size: 14, weight: primary ? .bold : .regular))
+            .foregroundStyle(primary ? Color.white : InstallerTheme.text)
+            .padding(.horizontal, primary ? 36 : 24).padding(.vertical, primary ? 16 : 12)
+            .background(primary ? InstallerTheme.primary : InstallerTheme.button, in: RoundedRectangle(cornerRadius: 35, style: .circular))
             .opacity(enabled ? (configuration.isPressed || hovering ? 0.85 : 1) : 0.4)
             .onHover { hovering = $0 }
     }
@@ -239,17 +287,20 @@ struct Card<Content: View>: View {
     var background: Color = InstallerTheme.panel
     @ViewBuilder var content: () -> Content
     var body: some View {
-        content().padding(padding).background(background, in: RoundedRectangle(cornerRadius: 16))
-            .overlay(RoundedRectangle(cornerRadius: 16).stroke(InstallerTheme.border, lineWidth: 1))
+        content().padding(padding).background(background, in: RoundedRectangle(cornerRadius: 20, style: .circular))
     }
 }
 struct InstallerSurface<Content: View>: View {
+    @AppStorage("installerAppearance") private var appearance = "system"
     @ViewBuilder var content: () -> Content
     var body: some View {
-        content().font(.system(size: 14)).foregroundStyle(InstallerTheme.text)
+        content().font(InstallerTheme.font(size: 14)).foregroundStyle(InstallerTheme.text)
             .buttonStyle(WindowsButtonStyle()).tint(InstallerTheme.accent)
             .frame(maxWidth: .infinity, maxHeight: .infinity).background(InstallerTheme.background)
-            .environment(\.layoutDirection, .rightToLeft).preferredColorScheme(.dark)
+            .environment(\.layoutDirection, .rightToLeft)
+            .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
+            .onAppear { InstallerTheme.applyAppearance(appearance) }
+            .onChange(of: appearance) { InstallerTheme.applyAppearance($0) }
     }
 }
 @MainActor final class InstallerWindow: NSObject, NSWindowDelegate {
@@ -263,12 +314,13 @@ struct InstallerSurface<Content: View>: View {
         window.title = title; window.isReleasedWhenClosed = false
         window.minSize = key == "apk" ? NSSize(width: 700, height: 500) : size
         window.contentView = NSHostingView(rootView: InstallerSurface { content })
-        window.appearance = NSAppearance(named: .darkAqua); window.delegate = self; window.center()
+        window.appearance = nil; window.delegate = self; window.center()
     }
     func windowShouldClose(_ sender: NSWindow) -> Bool { model?.busy != true }
     func windowWillClose(_ notification: Notification) { model?.windows.removeValue(forKey: key) }
 }
 @main struct VoyahInstallerApp: App {
+    init() { InstallerTheme.registerFonts() }
     @StateObject private var model = InstallerModel()
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     var body: some Scene {
@@ -357,28 +409,32 @@ struct ButtonWrap: View {
     }
 }
 struct InstallerView: View {
+    @AppStorage("installerAppearance") private var appearance = "system"
     @ObservedObject var model: InstallerModel
     var body: some View {
         VStack(spacing: 0) {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
-                    Text("وویا ایران").font(.system(size: 25, weight: .bold))
+                    Text("وویا ایران").font(InstallerTheme.font(size: 25, weight: .bold))
                     Text("نصب و راه‌اندازی روی خودرو").foregroundStyle(InstallerTheme.muted)
                 }
                 Spacer()
                 HStack(spacing: 9) {
-                    Circle().fill(model.serial == nil ? InstallerTheme.muted : InstallerTheme.accent).frame(width: 9, height: 9)
+                    Circle().fill(model.serial == nil ? InstallerTheme.muted : InstallerTheme.success).frame(width: 9, height: 9)
                     Text(model.connection).lineLimit(2)
                 }.padding(.horizontal, 16).padding(.vertical, 10)
-                    .background(InstallerTheme.color(0x242E3A), in: RoundedRectangle(cornerRadius: 20))
-            }.padding(.horizontal, 32).frame(height: 100).background(InstallerTheme.color(0x1A212B))
+                    .background(InstallerTheme.elevated, in: RoundedRectangle(cornerRadius: 20))
+                Button(appearance == "light" ? "تم: روشن" : appearance == "dark" ? "تم: تیره" : "تم: سیستم") {
+                    appearance = appearance == "system" ? "light" : appearance == "light" ? "dark" : "system"
+                }.accessibilityLabel("تغییر تم")
+            }.padding(.horizontal, 32).frame(height: 100).background(InstallerTheme.background)
             Rectangle().fill(InstallerTheme.border).frame(height: 1)
             Group { if model.progressPage { progress } else { home } }
                 .disabled(!model.windows.isEmpty)
                 .padding(.horizontal, 32).padding(.vertical, 28).frame(maxWidth: .infinity, maxHeight: .infinity)
             Rectangle().fill(InstallerTheme.border).frame(height: 1)
             Text("ابتدا USB debugging را روی ماشین فعال کنید و ماشین را با کابل USB به لپ‌تاپ متصل کنید.")
-                .font(.system(size: 12)).foregroundStyle(InstallerTheme.muted)
+                .font(InstallerTheme.font(size: 12)).foregroundStyle(InstallerTheme.muted)
                 .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 32).frame(height: 58)
         }
         .alert("وویا ایران", isPresented: $model.showMessage) { Button("باشه", role: .cancel) {} } message: { Text(model.message) }
@@ -388,7 +444,7 @@ struct InstallerView: View {
             Card {
                 HStack {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("وویا ایران").font(.system(size: 24, weight: .semibold))
+                        Text("وویا ایران").font(InstallerTheme.font(size: 24, weight: .semibold))
                         Text(model.version.isEmpty ? "نسخهٔ توسعه" : "نسخهٔ " + model.version).foregroundStyle(InstallerTheme.accent)
                     }
                     Spacer()
@@ -419,20 +475,20 @@ struct InstallerView: View {
     var progress: some View {
         VStack(alignment: .leading, spacing: 20) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(model.progressTitle).font(.system(size: 26, weight: .semibold))
+                Text(model.progressTitle).font(InstallerTheme.font(size: 26, weight: .semibold))
                 Text(model.progressSubtitle).foregroundStyle(InstallerTheme.muted)
             }
             HStack(spacing: 20) {
                 Card(padding: 18) {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 24) {
-                            Text("مراحل نصب").font(.system(size: 17, weight: .semibold))
+                            Text("مراحل نصب").font(InstallerTheme.font(size: 17, weight: .semibold))
                             ForEach(0..<8, id: \.self) { i in
                                 HStack(spacing: 4) {
                                     if model.phases[i] == "Running" { ProgressView().controlSize(.small).frame(width: 26) }
-                                    else { Text(model.phases[i] == "Succeeded" ? "✓" : model.phases[i] == "Failed" ? "✕" : "○").font(.system(size: 18)).frame(width: 26) }
+                                    else { Text(model.phases[i] == "Succeeded" ? "✓" : model.phases[i] == "Failed" ? "✕" : "○").font(InstallerTheme.font(size: 18)).frame(width: 26) }
                                     Text(model.phaseTitles[i]).frame(maxWidth: .infinity, alignment: .leading)
-                                }.foregroundStyle(model.phases[i] == "Failed" ? InstallerTheme.color(0xFF8B8B) : model.phases[i] == "Succeeded" ? InstallerTheme.accent : InstallerTheme.muted)
+                                }.foregroundStyle(model.phases[i] == "Failed" ? InstallerTheme.error : model.phases[i] == "Succeeded" ? InstallerTheme.success : InstallerTheme.muted)
                             }
                         }
                     }
@@ -459,12 +515,12 @@ struct LogView: View {
             ScrollViewReader { proxy in
                 ScrollView([.horizontal, .vertical]) {
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(model.logs).font(.system(size: 12, design: .monospaced)).textSelection(.enabled).fixedSize()
+                        Text(model.logs).font(InstallerTheme.font(size: 12)).textSelection(.enabled).fixedSize()
                         Color.clear.frame(width: 1, height: 1).id("end")
                     }.frame(minWidth: geometry.size.width, minHeight: geometry.size.height, alignment: .topLeading)
                 }.onChange(of: model.logs) { _ in proxy.scrollTo("end", anchor: .bottomLeading) }
             }
-        }.foregroundStyle(InstallerTheme.color(0xC5D5E4)).background(InstallerTheme.log)
+        }.foregroundStyle(InstallerTheme.text).background(InstallerTheme.log)
             .environment(\.layoutDirection, .leftToRight).frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
@@ -473,7 +529,7 @@ struct ApkView: View {
     let bundled: String?
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text(model.apkTitle).font(.system(size: 26))
+            Text(model.apkTitle).font(InstallerTheme.font(size: 26))
             if bundled == nil {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack(spacing: 12) {
@@ -497,7 +553,7 @@ struct PermissionsView: View {
     @ObservedObject var model: InstallerModel
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("برنامه نصب شد").font(.system(size: 24))
+            Text("برنامه نصب شد").font(InstallerTheme.font(size: 24))
             Text("دسترسی‌های موردنیاز را روشن یا خاموش کنید.").padding(.vertical, 12)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), alignment: .leading), count: 3), alignment: .leading, spacing: 28) {
                 ForEach(model.permissions) { p in
@@ -509,7 +565,7 @@ struct PermissionsView: View {
                     return !known.isEmpty && known.allSatisfy { $0.enabled == true }
                 }, set: { model.send("set-all-permissions", extra: ["enabled": $0]) }))
                     .disabled(!model.canOperate || !model.permissions.contains { $0.available && $0.enabled != nil })
-            }.toggleStyle(.checkbox)
+            }.toggleStyle(InstallerToggleStyle())
             Spacer()
             Text(model.permissions.contains(where: { $0.available && $0.enabled == nil }) ? "خواندن بعضی دسترسی‌ها ناموفق بود؛ گزارش نصب را بررسی کنید." : "تغییر هر گزینه بلافاصله اعمال می‌شود.")
                 .foregroundStyle(InstallerTheme.muted)
@@ -525,7 +581,7 @@ struct UninstallView: View {
     @State private var selection = ""
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("انتخاب برنامه برای حذف").font(.system(size: 24))
+            Text("انتخاب برنامه برای حذف").font(InstallerTheme.font(size: 24))
             HStack(spacing: 12) {
                 Menu {
                     ForEach(model.apps) { app in
@@ -542,10 +598,10 @@ struct UninstallView: View {
                         } else { Text("انتخاب برنامه") }
                         Spacer()
                     }.padding(8).frame(maxWidth: .infinity, minHeight: 56)
-                }.menuStyle(.borderlessButton).foregroundStyle(.black).background(.white)
-                    .environment(\.colorScheme, .light).disabled(!model.canOperate)
+                }.menuStyle(.borderlessButton).foregroundStyle(InstallerTheme.text)
+                    .background(InstallerTheme.panel, in: RoundedRectangle(cornerRadius: 20)).disabled(!model.canOperate)
                 Button("حذف برنامه") { model.confirm("حذف برنامه", text: "برنامه و داده‌های آن حذف می‌شوند.", command: "remove", extra: ["package": selection]) }
-                    .foregroundStyle(InstallerTheme.color(0xFF8B8B)).disabled(selection.isEmpty || !model.canOperate)
+                    .foregroundStyle(InstallerTheme.error).disabled(selection.isEmpty || !model.canOperate)
             }
             Text(model.busy ? "در حال انجام عملیات…" : "").foregroundStyle(InstallerTheme.muted)
             Spacer()
@@ -569,22 +625,22 @@ struct ConnectionHelpView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             VStack(alignment: .leading, spacing: 8) {
-                Text("اتصال خودرو به نصاب").font(.system(size: 26, weight: .semibold))
-                Text("این مراحل را روی نمایشگر خودرو انجام دهید.").foregroundStyle(Color(white: 0.2))
+                Text("اتصال خودرو به نصاب").font(InstallerTheme.font(size: 26, weight: .semibold))
+                Text("این مراحل را روی نمایشگر خودرو انجام دهید.").foregroundStyle(InstallerTheme.muted)
             }
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Card(padding: 18) {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("پیش از وارد کردن رمز: تاریخ و ساعت خودرو باید درست باشد.").font(.system(size: 17, weight: .bold)).foregroundStyle(InstallerTheme.accent)
-                            Text("اگر تاریخ یا ساعت تنظیم نیست، خودرو را از طریق Wi-Fi به اینترنت متصل کنید تا تاریخ و ساعت به‌صورت خودکار تنظیم شوند؛ سپس رمز را وارد کنید.").font(.system(size: 16))
-                        }.foregroundStyle(.white).frame(maxWidth: .infinity, alignment: .leading)
+                            Text("پیش از وارد کردن رمز: تاریخ و ساعت خودرو باید درست باشد.").font(InstallerTheme.font(size: 17, weight: .bold)).foregroundStyle(InstallerTheme.accent)
+                            Text("اگر تاریخ یا ساعت تنظیم نیست، خودرو را از طریق Wi-Fi به اینترنت متصل کنید تا تاریخ و ساعت به‌صورت خودکار تنظیم شوند؛ سپس رمز را وارد کنید.").font(InstallerTheme.font(size: 16))
+                        }.foregroundStyle(InstallerTheme.text).frame(maxWidth: .infinity, alignment: .leading)
                     }
                     Card(padding: 20) {
                         VStack(spacing: 8) {
-                            Text("رمز منوی مخفی").font(.system(size: 18)).foregroundStyle(.white)
+                            Text("رمز منوی مخفی").font(InstallerTheme.font(size: 18)).foregroundStyle(InstallerTheme.text)
                             TimelineView(.periodic(from: .now, by: 1)) { context in
-                                Text(Self.password(at: context.date)).font(.system(size: 64, weight: .bold))
+                                Text(Self.password(at: context.date)).font(InstallerTheme.font(size: 64, weight: .bold))
                                     .foregroundStyle(InstallerTheme.accent).environment(\.layoutDirection, .leftToRight)
                             }
                         }.frame(maxWidth: .infinity)
@@ -595,12 +651,12 @@ struct ConnectionHelpView: View {
                         Text("۳. رمز بزرگِ بالای این صفحه را وارد کنید تا منوی مخفی باز شود.")
                         Text("۴. در صفحهٔ بازشده، گزینهٔ USB debugging را پیدا و فعال کنید.")
                         Text("۵. خودرو را با کابل USB دارای قابلیت انتقال داده به لپ‌تاپ وصل کنید. کابل را حتماً به پورت USB-A سمت راست زیر داشبورد متصل کنید؛ از پورت تایپ‌سی (USB-C) استفاده نکنید.")
-                        Text("۶. این راهنما را ببندید. وقتی وضعیت اتصال بالای نصاب سبز شد، نصب را شروع کنید.")
-                    }.font(.system(size: 17))
-                    Text("رمز ساعت ۱۹:۳۰ به وقت ایران تغییر می‌کند. اگر پذیرفته نشد، تاریخ و ساعت خودرو و لپ‌تاپ را بررسی کنید.").foregroundStyle(Color(white: 0.2))
+                        Text("۶. این راهنما را ببندید. وقتی بالای نصاب «خودرو شناسایی شد» نمایش داده شد، نصب را شروع کنید.")
+                    }.font(InstallerTheme.font(size: 17))
+                    Text("رمز ساعت ۱۹:۳۰ به وقت ایران تغییر می‌کند. اگر پذیرفته نشد، تاریخ و ساعت خودرو و لپ‌تاپ را بررسی کنید.").foregroundStyle(InstallerTheme.muted)
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }
             Button("متوجه شدم") { model.close("help") }.buttonStyle(WindowsButtonStyle(primary: true)).foregroundStyle(.white)
-        }.padding(28).foregroundStyle(.black).background(.white)
+        }.padding(28).foregroundStyle(InstallerTheme.text).background(InstallerTheme.background)
     }
 }

@@ -7,6 +7,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent(); DataContext = model;
+        ThemeButton.Content = InstallerTheme.Caption;
         model.StepProgressed += index => Dispatcher.BeginInvoke(
             System.Windows.Threading.DispatcherPriority.Loaded, new Action(() =>
             {
@@ -21,6 +22,11 @@ public partial class MainWindow : Window
             LogBox.AppendText(line);
             if (following) LogBox.ScrollToEnd();
         }));
+    }
+    private void ChangeTheme(object sender, RoutedEventArgs e)
+    {
+        InstallerTheme.Cycle();
+        ThemeButton.Content = InstallerTheme.Caption;
     }
     private async void WindowLoaded(object sender, RoutedEventArgs e)
     {
