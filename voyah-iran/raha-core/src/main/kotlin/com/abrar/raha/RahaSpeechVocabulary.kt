@@ -7,6 +7,14 @@ object RahaSpeechVocabulary {
     }
     fun phrases():List<String> = buildSet {
         addAll(base)
+        for (noun in listOf("ورود آسان", "خروج آسان", "ورود راحت", "خروج راحت", "ایزی اگزیت", "ایزی انتری", "ایزی اینتری",
+            "شارژ زمانبندی شده", "زمان بندی شارژ", "شارژ برنامه ریزی شده", "شارژ سر ساعت", "شارژ در ساعت مشخص", "اسک جول شارژ")) {
+            add(noun); addAll(noun.split(' '))
+            for (state in listOf("روشن", "خاموش", "فعال", "غیر فعال")) {
+                add("$noun رو $state کن")
+                add("$noun رو بذار تو حالت $state")
+            }
+        }
         addAll(RahaContacts.vocabulary())
         for(names in RahaPlaces.aliases.values) for(name in names) {
             add(name);addAll(name.split(' '))

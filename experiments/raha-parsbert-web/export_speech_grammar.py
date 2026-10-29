@@ -2,10 +2,18 @@
 import hashlib
 import json
 import subprocess
-from prepare_full import ROOT, CORE, teacher_setup
+import os
+from pathlib import Path
+from prepare_full import ROOT, CORE, JAVA
 
 def main():
-    phrases = subprocess.check_output(teacher_setup() + ['vocabulary'], encoding='utf-8').splitlines()
+    jar = CORE / 'build/libs/command-core-0.1.0.jar'
+    libs = [p for p in (Path.home()/'.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib').glob('*/**/kotlin-stdlib-*.jar')
+            if not p.name.endswith(('-sources.jar','-javadoc.jar'))]
+    if not libs or not jar.exists():
+        raise RuntimeError('Build :command-core:jar before exporting vocabulary')
+    phrases = subprocess.check_output([JAVA+'java','-Dfile.encoding=UTF-8','--class-path',
+        os.pathsep.join(map(str,[jar,sorted(libs)[-1]])),str(ROOT/'SpeechVocabularyExport.java')], encoding='utf-8').splitlines()
     if not phrases or '[unk]' not in phrases:
         raise RuntimeError('Production grammar export is incomplete')
     jar = CORE / 'build/libs/command-core-0.1.0.jar'
