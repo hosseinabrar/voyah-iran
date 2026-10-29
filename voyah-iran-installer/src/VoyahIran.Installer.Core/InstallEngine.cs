@@ -171,8 +171,8 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             {
                 const string vdexRemote = "/system/framework/oat/arm64/services.vdex";
                 legacyVdexHash = FirstWord(await Root(30, "sha256sum", vdexRemote));
-                if (!Android9Firmware.IsSupportedVdex(legacyVdexHash))
-                    throw new InvalidDataException("فریم‌ور اندروید ۹ با نسخهٔ بررسی‌شده متفاوت است. فایل‌های خودرو تغییر نکردند؛ گزارش را برای پشتیبانی بفرستید.");
+                if (!Android9Firmware.IsValidVdexHash(legacyVdexHash))
+                    throw new InvalidDataException("هش فایل سیستم خوانده نشد. فایل‌های خودرو تغییر نکردند.");
                 legacyVdex = Path.Combine(directory, "services.vdex");
                 await Command(90, "pull", vdexRemote, legacyVdex);
                 if (PayloadBundle.Digest(legacyVdex) != legacyVdexHash) throw new InvalidDataException("بکاپ VDEX با فایل خودرو مطابقت ندارد.");

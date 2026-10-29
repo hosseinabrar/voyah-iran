@@ -9,6 +9,10 @@ public sealed record VehicleInstallProfile(string Name, bool PatchFramework, boo
             throw new InvalidDataException("نسخهٔ اندروید خودرو خوانده نشد؛ نصب شروع نشد.");
         var h97a = System.Text.RegularExpressions.Regex.IsMatch(systemFingerprint + " " + vendorFingerprint,
             @"(?i)(?:^|[^a-z0-9])h97a(?:$|[^a-z0-9])");
+        // This H97A firmware uses the product/device identity instead of an H97A build label.
+        // Match the complete fingerprint prefix, not arbitrary mentions of f0506h.
+        h97a |= new[] { systemFingerprint, vendorFingerprint }.Any(fingerprint =>
+            fingerprint.Trim().StartsWith("qti/f0506h/f0506h:9/", StringComparison.OrdinalIgnoreCase));
         // H97A SELinux denies system_server access to shell_data_file even with adbd root.
         // Streaming passes the APK through stdin rather than opening /data/local/tmp/app.apk.
         if (sdk == 28 && h97a) return new("H97A Android 9 (verified VDEX reconstruction)", true, StreamApk: true, LegacyFramework: true);

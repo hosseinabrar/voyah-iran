@@ -31,12 +31,23 @@ await LogcatCaptureTests.Run(root);
 await InstallationStorageTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);
 var passed = 0;
-Check(Android9Firmware.IsSupportedVdex("a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06"), "Original H97A firmware remains supported");
-Check(Android9Firmware.IsSupportedVdex("664c053504beb67f977132419b2a8080b207965f958530b9366d84758ead7299"), "Reviewed H97A OTA7 firmware accepted");
-Check(!Android9Firmware.IsSupportedVdex(new string('0',64)), "Unknown VDEX rejected");
-Check(!Android9Firmware.IsSupportedVdex(""), "Missing VDEX hash rejected");
+Check(Android9Firmware.IsValidVdexHash("a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06"), "Original H97A hash accepted");
+Check(Android9Firmware.IsValidVdexHash("91ae620de745e2f39a5ff59753cb286be6711e5e6a28da4ce1292c7142b8c68a"), "New H97A revision proceeds to structural verification");
+Check(!Android9Firmware.IsValidVdexHash("not-a-hash"), "Malformed VDEX hash rejected");
+Check(!Android9Firmware.IsValidVdexHash(""), "Missing VDEX hash rejected");
 Check(VehicleInstallProfile.Detect("28", "qti/f0506h:9", "jenkins-PRJ_H97a_8155_OTA_1010-9").LegacyFramework, "H97A selects verified Android 9 reconstruction, not Android 11 patch");
 Check(VehicleInstallProfile.Detect("30", "h97x", "").PatchFramework, "Android 11 retains exact patch verification");
+const string f0506hFingerprint="qti/f0506h/f0506h:9/PQ3B.190801.002/35:user/jenkins-35,test-keys";
+foreach (var fingerprints in new[] { (f0506hFingerprint,f0506hFingerprint), (f0506hFingerprint,""), ("",f0506hFingerprint) }) {
+    var profile=VehicleInstallProfile.Detect("28",fingerprints.Item1,fingerprints.Item2);
+    Check(profile.LegacyFramework && profile.StreamApk && profile.PatchFramework,
+        "H97A f0506h build 35 retains verified legacy framework and streaming installation");
+}
+foreach (var fingerprint in new[] { "qti/f0506hx/f0506h:9/test", "qti/f0506h/other:9/test", "other/f0506h/f0506h:9/test", "qti/f0506h/f0506h:10/test", "unknown f0506h" }) {
+    bool rejected=false;
+    try { VehicleInstallProfile.Detect("28",fingerprint,""); } catch(InvalidDataException) { rejected=true; }
+    Check(rejected,"Unverified product identity rejected: "+fingerprint);
+}
 foreach (var sdk in new[] { "", "27", "29", "31", "28" }) {
     bool rejected=false;
     try { VehicleInstallProfile.Detect(sdk, "unknown", ""); } catch(InvalidDataException) { rejected=true; }

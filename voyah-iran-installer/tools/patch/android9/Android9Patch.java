@@ -136,9 +136,10 @@ class Android9Patch {
         if(reconstructed) {
             check(originalHash.equals("1c16f5976318fadcf7add92c518a93896f99e2a78f742b7347d8539103264882"),"Unsupported stripped JAR");
             String expectedDex=REVIEWED_DEX.get(hash(vdex));
-            check(expectedDex!=null,"Unsupported Android 9 VDEX; no vehicle changes made");
             H97Unquicken.main(new String[]{vdex.toString(),dex.toString()});
-            check(hash(dex).equals(expectedDex),"Reconstructed DEX differs from verified firmware");
+            // Known fixtures retain their extra reconstruction regression check.
+            // New revisions must pass the same exact target-method and full round-trip checks below.
+            if(expectedDex!=null)check(hash(dex).equals(expectedDex),"Reconstructed DEX differs from verified firmware");
         }else Files.write(dex,entries.get("classes.dex"));
         System.out.println("ANDROID9 decoding verified framework...");
         Path source=job.resolve("source");decode(dex,source);
