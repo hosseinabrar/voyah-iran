@@ -5,6 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>VoyahIran.Installer.Mac</AssemblyName>
+    <Version>3.0.0</Version>
+    <InformationalVersion>3.0.0</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../voyah-iran-installer/src/VoyahIran.Installer.Core/VoyahIran.Installer.Core.csproj" />
