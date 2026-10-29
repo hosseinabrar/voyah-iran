@@ -16,6 +16,7 @@ Java.perform(function () {
         const Launch = Java.use('com.qinggan.launcher.base.utils.AppLauncher');
         const excluded = new Set(__EXCLUDED__);
         function allowed() {
+            if(typeof globalThis.VI_LAUNCHER_SCREEN_UP==='function' && !globalThis.VI_LAUNCHER_SCREEN_UP())return false;
             const now = Date.now();
             return Global.getInt(ctx.getContentResolver(), 'voyah_iran_launcher_home', 0) === 1 &&
                 ['voyah_iran_launcher_lease', 'voyah_iran_launcher_vip_lease'].every(function (key) {

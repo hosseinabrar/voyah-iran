@@ -8,6 +8,7 @@ Java.perform(function () {
     const Intent = Java.use('android.content.Intent');
     const Options = Java.use('android.app.ActivityOptions');
     function allowed(ctx) {
+        if(typeof globalThis.VI_LAUNCHER_SCREEN_UP==='function' && !globalThis.VI_LAUNCHER_SCREEN_UP())return false;
         const until = Number(Global.getString(ctx.getContentResolver(), 'voyah_iran_launcher_lease'));
         const remaining = until - Date.now();
         const vipRemaining = Number(Global.getString(ctx.getContentResolver(), 'voyah_iran_launcher_vip_lease')) - Date.now();

@@ -24,6 +24,7 @@ Java.perform(function () {
     }
     function show() {
         try {
+            if(typeof globalThis.VI_LAUNCHER_SCREEN_UP==='function' && !globalThis.VI_LAUNCHER_SCREEN_UP()){remove();return;}
             if (activity === null || !enabled() || (!valid() && Number(Clock.elapsedRealtime()) >= wakeUntil)) return;
             if (Number(activity.getWindowManager().getDefaultDisplay().getDisplayId()) !== 0 ||
                 Number(Java.use('com.qinggan.launcher.base.BaseApplication').getMainPagePosition()) !== 0) { remove(); return; }
