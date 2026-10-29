@@ -1,6 +1,8 @@
 package com.abrar.voyahiran.feature.launcher
 
 import android.content.Context
+import android.animation.ValueAnimator
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.graphics.Canvas
 import android.graphics.RectF
 import android.view.Gravity
@@ -8,7 +10,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 
-/** Live sensor pose, without temporal interpolation; labels remain upright. */
+/** H97C CompassCardView.rotateView: 200 ms rotation, counter-rotated labels. */
 internal class LauncherCompassDial(context:Context):FrameLayout(context) {
     private var light=false
     private val ticks=object:View(context){
@@ -29,9 +31,33 @@ internal class LauncherCompassDial(context:Context):FrameLayout(context) {
         this.light=light;ticks.invalidate()
         labels.forEachIndexed{i,v->v.setTextColor(if(light)0xff263651.toInt() else if(i<12)0x99ffffff.toInt() else 0xcdffffff.toInt())}
     }
-    fun bearing(value:Float){
-        rotation=-value
-        labels.forEach{it.rotation=value}
+    private var turn:ValueAnimator?=null
+    private var heading:Int?=null
+    fun bearing(value:Float,animate:Boolean=true){
+        val next=value.toInt()
+        if(animate && heading==next)return
+        heading=next
+        turn?.cancel();turn=null
+        val target=if(next>=180)360f-next else -next.toFloat()
+        var from=rotation
+        // Same seam handling as the OEM view (also avoids a full turn at north).
+        if(from < -90f && target > 90f)from+=360f
+        else if(from > 90f && target < -90f)from-=360f
+        if(!animate){pose(target);return}
+        turn=ValueAnimator.ofFloat(from,target).apply {
+            duration=200
+            interpolator=AccelerateDecelerateInterpolator()
+            addUpdateListener{pose(it.animatedValue as Float)}
+            start()
+        }
+    }
+    private fun pose(value:Float){
+        rotation=value
+        labels.forEach{it.rotation=-value}
+    }
+    override fun onDetachedFromWindow(){
+        turn?.cancel();turn=null
+        super.onDetachedFromWindow()
     }
     override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
         ticks.layout(0,0,width,height)

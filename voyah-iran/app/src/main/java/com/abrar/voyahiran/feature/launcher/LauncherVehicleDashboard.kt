@@ -48,18 +48,18 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
             motion.updated()
             if(transitioning){field=v;return}
             val previous=field
-            if(field.bearing?.roundToInt()!=v.bearing?.roundToInt()) {
-                val target=v.bearing?.roundToInt()?.toFloat() ?: 0f
-                dial.bearing(target)
+            if(field.bearing?.toInt()!=v.bearing?.toInt()) {
+                val target=v.bearing?.toInt()?.toFloat() ?: 0f
+                dial.bearing(target,animate=animationsEnabled)
             }
             field=v
             // CCC publishes integer values; sub-degree sensor noise must not redraw the page.
             fun shown(n:Double?)=n?.roundToInt()
-            if(previous.bearing?.roundToInt()!=v.bearing?.roundToInt() ||
+            if(previous.bearing?.toInt()!=v.bearing?.toInt() ||
                 shown(previous.slope)!=shown(v.slope) || shown(previous.inclination)!=shown(v.inclination) ||
                 shown(previous.altitude)!=shown(v.altitude))invalidate()
         }
-    fun stopAnimations(){groundAnimation?.cancel();ground=state.groundMm?.toFloat();dial.bearing(compass.bearing ?: 0f)}
+    fun stopAnimations(){groundAnimation?.cancel();ground=state.groundMm?.toFloat();dial.bearing(compass.bearing ?: 0f,animate=false)}
     var busy=false
         set(v){field=v;invalidate()}
     var onCommand:(String,String)->Unit={_,_->}
@@ -158,9 +158,9 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         reading("inclination","Inclination ${degrees(compass.inclination)}",928f,54f)
         val cx=878.5f;val cy=329f
         // The dial is a child view; its fixed pointer is drawn last in dispatchDraw.
-        val bearing=compass.bearing
+        val bearing=compass.bearing?.toInt()
         reading("direction",if(bearing==null)"--" else listOf("N","NE","E","SE","S","SW","W","NW")[((bearing+22.5f)/45).toInt()%8],cx,304f,40f,true)
-        reading("bearing",if(bearing==null)" --°" else String.format(Locale.US," %.0f°",bearing),cx,352f,40f,true)
+        reading("bearing",if(bearing==null)" --°" else " $bearing°",cx,352f,40f,true)
         reading("altitude","Altitude ${compass.altitude?.let {String.format(Locale.US,"%.0f",it)} ?: "—"} m",622f,621f)
         reading("pressure","Air Pressure ${state.pressure?.takeIf{it>0}?.let{it.toString()} ?: "—"} hPa",911f,621f)
         text(c,"Suspension height",1214f,54f)

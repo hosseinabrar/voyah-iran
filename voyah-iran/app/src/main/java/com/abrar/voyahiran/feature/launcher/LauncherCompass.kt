@@ -36,8 +36,9 @@ class LauncherCompass(context:Context, private val changed:(LauncherCompassState
     private fun emit() { if(running)changed(state) }
     override fun onLocationChanged(location:Location) {
         lastFix=SystemClock.elapsedRealtime()
-        state=state.copy(altitude=if(location.hasAltitude())location.altitude else null,
-            bearing=if(location.hasBearing() && (speed ?: -1)>=4)location.bearing else state.bearing)
+        // H97C uses Location only for altitude. Mixing its bearing with RMC
+        // can alternate between two headings for the same GNSS fix.
+        state=state.copy(altitude=if(location.hasAltitude())location.altitude else null)
         emit()
     }
     override fun onNmeaMessage(message:String,timestamp:Long) {
