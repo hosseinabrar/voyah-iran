@@ -1,6 +1,7 @@
 """Ground explicit quantities without changing the model's action or guessing ambiguous roles."""
 import json,re
 from validation import UNITS
+from middle_values import VALUES, is_middle
 
 KEYS={'degreesC','percent','reservePercent','delta','deltaPercent','minutes','durationMinutes','level','intensity','slot'}
 WORDS={**UNITS,'یکی':1,'شیش':6,'نیم':.5,'نصف':.5,'نصفه':.5}
@@ -23,6 +24,12 @@ def quantities(text):
     return found
 
 def ground_numbers(text,action,params,schema):
+    if is_middle(text) and action in VALUES:
+        key,value=VALUES[action]
+        frame=action+'|'+','.join(sorted(params))
+        allowed=[json.loads(v) for v in schema.get('allowed',{}).get(frame,{}).get(key,[])]
+        if key not in params or value not in allowed:return dict(params),set(),'برداشت مدل پارامتر مناسب برای مقدار میانی ندارد'
+        return dict(params,**{key:value}),{key},None
     result=dict(params);keys=set(params)&KEYS
     if not keys:return result,set(),None
     found=quantities(text)

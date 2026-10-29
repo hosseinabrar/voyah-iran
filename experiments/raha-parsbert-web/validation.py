@@ -1,5 +1,6 @@
 """Transparent consistency guards, never replacements for the model prediction."""
 import re
+from middle_values import VALUES, is_middle
 
 UNITS={'صفر':0,'یک':1,'یه':1,'دو':2,'سه':3,'چهار':4,'پنج':5,'شش':6,'هفت':7,'هشت':8,'نه':9,'ده':10,'یازده':11,'دوازده':12,'سیزده':13,'چهارده':14,'پانزده':15,'شانزده':16,'هفده':17,'هجده':18,'نوزده':19,'بیست':20,'سی':30,'چهل':40,'پنجاه':50,'شصت':60,'هفتاد':70,'هشتاد':80,'نود':90,'صد':100}
 NUMERIC_KEYS={'degreesC','percent','reservePercent','delta','deltaPercent','minutes','durationMinutes','level','slot','channel','intensity'}
@@ -29,6 +30,9 @@ def consistency_reason(text,action,params):
         if off and on:return 'هم روشن و هم خاموش گفته شده؛ نیاز به روشن‌کردن منظور است'
         if (off and params['enabled'] is True) or (on and params['enabled'] is False):
             return 'برداشت مدل با روشن/خاموش گفته‌شده سازگار نیست'
+    if is_middle(text) and action in VALUES:
+        key,value=VALUES[action]
+        return None if params.get(key)==value else 'مقدار برداشت شده با مقدار میانی سازگار نیست'
     requested=explicit_numbers(text)
     if action=='SET_CABIN_TEMPERATURE' and requested and any(n<16 or n>32 for n in requested):
         return 'دمای قابل تنظیم از ۱۶ تا ۳۲ درجه است'

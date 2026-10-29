@@ -2,6 +2,19 @@ package com.abrar.raha.intent
 
 /** Only explicit quantities constrain model output; directions remain learned. */
 object RahaIntentGrounding {
+    private val middleValues: Map<String, Pair<String, Any>> = mapOf(
+        "SET_AUDIO_VOLUME" to ("level" to 15), "SET_AMBIENT_LIGHT_BRIGHTNESS" to ("percent" to 50),
+        "SET_DISPLAY_BRIGHTNESS" to ("percent" to 50), "SET_WINDOW_POSITION" to ("percent" to 50),
+        "SET_SUNROOF_POSITION" to ("percent" to 50), "SET_SUNSHADE_POSITION" to ("position" to 50),
+        "SET_CABIN_TEMPERATURE" to ("degreesC" to 24), "SET_FAN_SPEED" to ("level" to 4),
+        "SET_SEAT_HEATING" to ("level" to 2), "SET_SEAT_VENTILATION" to ("level" to 2),
+        "SET_SEAT_MASSAGE" to ("level" to 2), "SET_WIPER_SENSITIVITY" to ("level" to 2),
+        "SET_FRAGRANCE_INTENSITY" to ("intensity" to "medium"), "SET_REGENERATION_LEVEL" to ("level" to "medium"),
+        "SET_SUSPENSION_HEIGHT" to ("level" to "medium"), "SET_BATTERY_RESERVE_TARGET" to ("percent" to 50))
+    private fun isMiddle(text: String): Boolean = has(text,"نصف|نصفه|وسط|متوسط|میانه") &&
+        !has(text,"(?:نصف|نصفه)\\s+(?:درجه|ساعت|دقیقه|درصد|پله)") &&
+        !Regex("[0-9۰-۹٠-٩]").containsMatchIn(text) &&
+        !has(text,"صفر|یک|دو|سه|چهار|پنج|شش|هفت|هشت|نه|ده|بیست|سی|چهل|پنجاه|شصت|هفتاد|هشتاد|نود|صد|فعلی|الان")
     data class Result(val parameters: Map<String, Any>, val grounded: Set<String>, val error: String?)
     private val numericKeys = setOf("degreesC", "percent", "reservePercent", "delta", "deltaPercent", "minutes", "durationMinutes", "level", "intensity", "slot")
     private val units = linkedMapOf("صفر" to 0.0,"یک" to 1.0,"یه" to 1.0,"دو" to 2.0,"سه" to 3.0,"چهار" to 4.0,"پنج" to 5.0,"شش" to 6.0,"هفت" to 7.0,"هشت" to 8.0,"نه" to 9.0,"ده" to 10.0,"یازده" to 11.0,"دوازده" to 12.0,"سیزده" to 13.0,"چهارده" to 14.0,"پانزده" to 15.0,"شانزده" to 16.0,"هفده" to 17.0,"هجده" to 18.0,"نوزده" to 19.0,"بیست" to 20.0,"سی" to 30.0,"چهل" to 40.0,"پنجاه" to 50.0,"شصت" to 60.0,"هفتاد" to 70.0,"هشتاد" to 80.0,"نود" to 90.0,"صد" to 100.0)
@@ -29,6 +42,13 @@ object RahaIntentGrounding {
     fun apply(text: String, action: String, params: Map<String,Any>, allowed: Map<String,List<Any>>): Result {
         val out=params.toMutableMap();val grounded=mutableSetOf<String>()
         fun reject(reason:String)=Result(out,grounded,reason)
+        if(isMiddle(text) && action in middleValues) {
+            val (key,value)=middleValues.getValue(action)
+            val exact=allowed[key]?.firstOrNull { it==value || (it is Number && value is Number && it.toDouble()==value.toDouble()) }
+            if(key !in params || exact==null)return reject("برداشت مدل پارامتر مناسب برای مقدار میانی ندارد")
+            out[key]=exact;grounded+=key
+            return Result(out,grounded,consistency(text,action,out))
+        }
         val keys=params.keys.intersect(numericKeys)
         val found=quantities(text)
         if(keys.isNotEmpty() && found.isNotEmpty()) {
@@ -66,6 +86,10 @@ object RahaIntentGrounding {
         if("enabled" in params) {
             val off=Regex("خاموش|غیر\\s*فعال").containsMatchIn(text);val on="روشن" in text
             if(off && on || off && params["enabled"]==true || on && params["enabled"]==false)return "برداشت روشن یا خاموش با درخواست سازگار نیست"
+        }
+        if(isMiddle(text) && action in middleValues) {
+            val (key,value)=middleValues.getValue(action);val actual=params[key]
+            return if(actual==value || (actual is Number && value is Number && actual.toDouble()==value.toDouble())) null else "مقدار برداشت شده با مقدار میانی سازگار نیست"
         }
         val requested=explicitNumbers(text)
         if(action=="SET_CABIN_TEMPERATURE" && requested.any { it<16 || it>32 })return "دمای قابل تنظیم از ۱۶ تا ۳۲ است"

@@ -22,6 +22,8 @@ from feedback_training import FeedbackTrainer
 from speech_extras import extend_grammar
 from contact_extraction import extract_contact
 from numeric_grounding import ground_numbers
+from command_evidence import check as check_command_evidence
+from evidence_feedback import evaluate as evaluate_evidence, save as save_evidence
 from typing import Optional
 
 ROOT = Path(__file__).resolve().parent
@@ -171,7 +173,12 @@ def predict_full(raw):
         reason='پاسخ مربوط به گفتگوی تماس است؛ این صفحه تماس در انتظاری ندارد'
     consistency=consistency_reason(text,top['label'],params)
     if consistency:reason=consistency
-    return dict(text=text,accepted=reason is None,reason=reason,prediction=top,candidates=candidates,slots=params,slot_scores={k:v for k,v in top['slot_scores'].items() if k not in grounded_keys},slot_method='عدد صریح: استخراج دقیق از متن؛ سمت و سایر پارامترها: مدل آموزش‌دیده' if grounded_keys else 'پارامترهای خودرو: سرهای آموزش‌دیدهٔ ParsBERT؛ نام مخاطب: استخراج متنی',latency_ms=round((time.perf_counter()-start)*1000),executes_vehicle=False)
+    model_reason=reason
+    evidence=evaluate_evidence(text,top['label'],params)
+    evidence['model_accepted']=model_reason is None
+    evidence['model_reason']=model_reason
+    if evidence['error']:reason=evidence['error']
+    return dict(text=text,accepted=reason is None,reason=reason,prediction=top,candidates=candidates,slots=params,slot_scores={k:v for k,v in top['slot_scores'].items() if k not in grounded_keys},evidence=evidence,slot_method='عدد صریح: استخراج دقیق از متن؛ سمت و سایر پارامترها: مدل آموزش‌دیده' if grounded_keys else 'پارامترهای خودرو: سرهای آموزش‌دیدهٔ ParsBERT؛ نام مخاطب: استخراج متنی',latency_ms=round((time.perf_counter()-start)*1000),executes_vehicle=False)
 
 class Request(BaseModel):
     text: str = Field(max_length=500)
@@ -180,6 +187,20 @@ class FeedbackRequest(BaseModel):
     text: str = Field(min_length=1,max_length=500)
     action: str = Field(max_length=100)
     parameters: Optional[dict] = None
+
+class EvidenceFeedbackRequest(BaseModel):
+    text: str = Field(min_length=1,max_length=500)
+    action: str = Field(max_length=100)
+    parameters: dict
+    allowed: bool
+    note: str = Field(default='',max_length=1000)
+
+@app.post('/api/evidence-feedback')
+async def evidence_feedback(req:EvidenceFeedbackRequest):
+    if req.action not in engine.get('titles',{}):
+        raise HTTPException(status_code=422,detail='فرمان نامعتبر است')
+    await asyncio.to_thread(save_evidence,req.text,req.action,req.parameters,req.allowed,req.note)
+    return {'evidence':evaluate_evidence(req.text,req.action,req.parameters)}
 
 def learn_feedback(req):
     try:
