@@ -47,6 +47,8 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort, 
         }
 
         private val toggles = mapOf(
+            "SET_EASY_ENTRY" to "AUTO_EASY_ENTER_SET",
+            "SET_EASY_EXIT" to "DSCU_EASY_ENTER_SET",
             "SET_PEDESTRIAN_WARNING_SOUND" to "HUM_VSP_FUNCTION_SW",
             "SET_DOOR_OPEN_WARNING" to "DOW_SYSTEM_SWITCH",
             "SET_FORWARD_COLLISION_WARNING" to "FCW_SWITCH",
@@ -96,6 +98,11 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort, 
             require(p.keys == setOf("enabled") && p["enabled"] is Boolean)
             val enabled = p["enabled"] as Boolean
             val field = toggles.getValue(action)
+            // Entry is the suspension preference; exit is the OEM seat-courtesy
+            // checkbox (SeatFrontManager.setEasyEnter). Both use 2=on, 1=off
+            // and same-field feedback, never immediate movement requests.
+            if (action == "SET_EASY_ENTRY" || action == "SET_EASY_EXIT")
+                return listOf(Change(field, if (enabled) 2 else 1))
             // Camera control: 2=on, 1=off; camera STATUS: 1=on, 0=off.
             if (action == "SET_DRIVER_MONITORING") return listOf(Change(field, if (enabled) 2 else 1,
                 "DMS_CAMERA_STATUS", if (enabled) 1 else 0, 0..1))

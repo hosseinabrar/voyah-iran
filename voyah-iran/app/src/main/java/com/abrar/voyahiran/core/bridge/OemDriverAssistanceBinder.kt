@@ -48,6 +48,8 @@ internal object OemDriverAssistanceBinder {
         fun field(name:String):Any = checkNotNull(try {facade.getField(name).get(null)} catch(_:NoSuchFieldException){stateType.getField(name).get(null)})
         // Only consult the specific factory feature flags; no screen or Fragment is initialized.
         val capability = when(action) {
+            // Seat courtesy is independent of air-suspension availability.
+            "SET_EASY_ENTRY" -> "isSupportASC"
             "SET_DOOR_OPEN_WARNING" -> "isSupportDOW"
             "SET_REAR_CROSS_TRAFFIC_WARNING" -> "isSupportRCTA"
             "SET_AUTOMATIC_EMERGENCY_BRAKING" -> "isSupportAEB"
