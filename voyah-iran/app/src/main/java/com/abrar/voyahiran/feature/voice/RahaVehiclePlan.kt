@@ -60,6 +60,7 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
             }
         }
         when (action) {
+            RahaAction.SET_EASY_ENTRY, RahaAction.SET_EASY_EXIT, RahaAction.SET_SCHEDULED_CHARGING -> error("This action uses the direct OEM CAN binder")
             RahaAction.OPEN_DEFAULT_MAP, RahaAction.OPEN_DEFAULT_MUSIC, RahaAction.OPEN_OEM_RADIO -> error("App launch is handled in the application")
             RahaAction.NAVIGATE_TO_SAVED_PLACE -> error("Navigation uses the selected map app, not CAN")
             RahaAction.SET_CLIMATE_POWER -> {
