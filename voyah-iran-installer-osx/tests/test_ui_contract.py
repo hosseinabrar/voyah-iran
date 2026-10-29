@@ -22,7 +22,12 @@ class WindowsVisualContractTests(unittest.TestCase):
 
     def test_fonts_and_shapes_match_client(self):
         xaml = (WINDOWS / "App.xaml").read_text()
-        self.assertIn('CornerRadius="35"', xaml)
+        self.assertNotIn('CornerRadius="35"', xaml)
+        self.assertIn('Converter="{StaticResource ButtonCornerRadius}"', xaml)
+        self.assertIn('Path="ActualWidth"', xaml)
+        self.assertIn('Path="ActualHeight"', xaml)
+        converter = (WINDOWS / "ButtonCornerRadiusConverter.cs").read_text()
+        self.assertIn('Math.Min(35, Math.Min(width, height) / 2)', converter)
         self.assertIn('CornerRadius="20"', xaml)
         self.assertIn('cornerRadius: 35', SOURCE)
         self.assertIn('cornerRadius: 20', SOURCE)

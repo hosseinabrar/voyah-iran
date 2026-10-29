@@ -1,5 +1,6 @@
-<Application x:Class="VoyahIran.Installer.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="MainWindow.xaml">
+<Application x:Class="VoyahIran.Installer.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:VoyahIran.Installer" StartupUri="MainWindow.xaml">
  <Application.Resources>
+  <local:ButtonCornerRadiusConverter x:Key="ButtonCornerRadius"/>
   <!-- Android colors.xml, bg_button.xml and dimens.xml are the source of truth. -->
   <SolidColorBrush x:Key="BackgroundBrush" Color="#F1F3F6"/><SolidColorBrush x:Key="PanelBrush" Color="#FFFFFF"/>
   <SolidColorBrush x:Key="ElevatedBrush" Color="#E8ECF1"/><SolidColorBrush x:Key="BorderBrush" Color="#CDD3DC"/>
@@ -19,7 +20,7 @@
   </Style>
   <Style TargetType="Button">
    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/><Setter Property="Background" Value="{DynamicResource ControlBrush}"/><Setter Property="Padding" Value="24,12"/><Setter Property="MinHeight" Value="44"/><Setter Property="Cursor" Value="Hand"/><Setter Property="BorderThickness" Value="0"/><Setter Property="FontSize" Value="14"/>
-   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border x:Name="Surface" CornerRadius="35" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/></Border><ControlTemplate.Triggers>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Border x:Name="Surface" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"><Border.CornerRadius><MultiBinding Converter="{StaticResource ButtonCornerRadius}"><Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/><Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/></MultiBinding></Border.CornerRadius><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/></Border><ControlTemplate.Triggers>
     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Opacity" Value="0.85"/></Trigger><Trigger Property="IsPressed" Value="True"><Setter TargetName="Surface" Property="Opacity" Value="0.7"/></Trigger><Trigger Property="IsEnabled" Value="False"><Setter TargetName="Surface" Property="Opacity" Value="0.4"/></Trigger>
     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/><Setter TargetName="Surface" Property="BorderThickness" Value="2"/></Trigger>
    </ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
