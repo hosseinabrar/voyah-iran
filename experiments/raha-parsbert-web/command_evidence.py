@@ -11,6 +11,9 @@ from middle_values import is_middle
 
 # Synonyms name entities, not lists of accepted/rejected complete sentences.
 ENTITIES = {
+    'scheduled_charge': ['شارژ زمانبندی شده', 'شارژ زمان بندی شده', 'زمانبندی شارژ', 'زمان بندی شارژ', 'شارژ برنامه ریزی شده', 'شارژ سر ساعت', 'اسکجول شارژ', 'اسک جول شارژ', 'اسکجولد شارژ'],
+    'easy_entry': ['ورود آسان', 'ورود راحت', 'ایزی انتری', 'ایزی اینتری', 'easy entry'],
+    'easy_exit': ['خروج آسان', 'خروج راحت', 'ایزی اگزیت', 'easy exit'],
     'sunroof': ['سانروف', 'سان روف', 'سقف شیشه ای'],
     'sunshade': ['پرده سانروف', 'پرده سقف', 'پرده', 'سایبان'],
     'window': ['شیشه', 'پنجره'],
@@ -31,6 +34,9 @@ ENTITIES = {
 }
 
 CAPABILITIES = {
+    'scheduled_charge': ['SET_SCHEDULED_CHARGING'],
+    'easy_entry': ['SET_EASY_ENTRY'],
+    'easy_exit': ['SET_EASY_EXIT'],
     'sunroof': ['OPEN_SUNROOF','CLOSE_SUNROOF','SET_SUNROOF_POSITION','ADJUST_SUNROOF_POSITION'],
     'sunshade': ['SET_SUNSHADE_POSITION','ADJUST_SUNSHADE_POSITION'],
     'window': ['OPEN_WINDOW','CLOSE_WINDOW','SET_WINDOW_POSITION','ADJUST_WINDOW_POSITION','VENT_WINDOW','SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER'],
@@ -47,7 +53,7 @@ CAPABILITIES = {
     'mirror': ['SET_MIRROR_FOLD'],
     'display': ['SET_DISPLAY_','SWAP_DISPLAY_APPS','SET_REAR_DISPLAY_LOCK'],
     'ambient': ['SET_AMBIENT_LIGHT_','ADJUST_AMBIENT_LIGHT_'],
-    'battery': ['SET_BATTERY_','SET_ENERGY_STRATEGY','OPEN_CHARGE_PORT','STOP_CHARGING'],
+    'battery': ['SET_BATTERY_','SET_ENERGY_STRATEGY','OPEN_CHARGE_PORT','STOP_CHARGING','SET_SCHEDULED_CHARGING'],
 }
 
 OPERATIONS = {

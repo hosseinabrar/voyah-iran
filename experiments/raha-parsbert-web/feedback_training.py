@@ -11,6 +11,12 @@ from data import normalize
 from full_model import frame,encode_value
 from contact_extraction import learn_pattern,extract_contact
 
+def frame_loss(logp, exact, labels, partial):
+    total=-logp[exact,labels].sum() if exact else logp.sum()*0
+    for ids,choices in partial:
+        total=total-torch.logsumexp(logp[ids][:,choices],dim=1).sum()
+    return total/logp.shape[0]
+
 class FeedbackTrainer:
     def __init__(self, root, model, tokenizer, dataset_path=None, checkpoint_name='feedback-head', checkpoint_path=None):
         self.model, self.tokenizer = model, tokenizer
@@ -23,13 +29,20 @@ class FeedbackTrainer:
         if self.path.exists():
             with safe_open(str(self.path), framework='pt') as f:
                 meta = f.metadata()
-            if json.loads(meta['frames']) != model.schema['frames']:
+            saved_frames = json.loads(meta['frames'])
+            if saved_frames != model.schema['frames'][:len(saved_frames)]:
                 raise RuntimeError('Feedback checkpoint does not match model schema')
             self.rows = json.loads(meta['feedback'])
             self.contact_rules=json.loads(meta.get('contact_rules','[]'))
             state=load_file(str(self.path))
             if meta.get('format')=='2':
-                model.frame_head.load_state_dict({k[6:]:v for k,v in state.items() if k.startswith('frame.')})
+                loaded_frame = {k[6:]:v for k,v in state.items() if k.startswith('frame.')}
+                current_frame = model.frame_head.state_dict()
+                for key, value in loaded_frame.items():
+                    if value.shape[0] != len(saved_frames) or value.shape[1:] != current_frame[key].shape[1:]:
+                        raise RuntimeError('Incompatible feedback frame shape')
+                    current_frame[key][:len(saved_frames)] = value
+                model.frame_head.load_state_dict(current_frame)
                 loaded={k[6:]:v for k,v in state.items() if k.startswith('slots.')}
                 current=model.slot_heads.state_dict()
                 for key,value in loaded.items():
@@ -50,7 +63,7 @@ class FeedbackTrainer:
                 chunks.append(((hidden*mask).sum(1)/mask.sum(1)).detach())
         return torch.cat(chunks)
 
-    def train(self, text, action, parameters=None, extra_records=None):
+    def train(self, text, action, parameters=None, extra_records=None, steps=None):
         text=normalize(text)
         if not text or action not in self.actions:
             raise ValueError('متن یا نوع فرمان معتبر نیست')
@@ -92,20 +105,27 @@ class FeedbackTrainer:
         slots=copy.deepcopy(self.model.slot_heads)
         trainable=list(head.parameters())+list(slots.parameters())
         optimizer=torch.optim.AdamW(trainable,lr=.001,weight_decay=.01)
+        # Targets are immutable during this update. Cache indices and gather the
+        # supervised rows together instead of building thousands of graph nodes.
+        target_cache={}
         def loss(x, records):
             logp=head(x).log_softmax(-1)
-            terms=[]
-            for i,r in enumerate(records):
-                if 'parameters' not in r or r['action']=='CALL_CONTACT':terms.append(-torch.logsumexp(logp[i,[j for j,a in enumerate(self.actions) if a==r['action']]],0))
-                else:terms.append(-logp[i,self.model.schema['frames'].index(frame(r))])
+            key=tuple((r['action'],json.dumps(r.get('parameters'),sort_keys=True,ensure_ascii=False)) for r in records)
+            if key not in target_cache:
+                exact=[];labels=[];partial={}
+                for i,r in enumerate(records):
+                    if 'parameters' not in r or r['action']=='CALL_CONTACT':partial.setdefault(r['action'],[]).append(i)
+                    else:exact.append(i);labels.append(self.model.schema['frames'].index(frame(r)))
+                target_cache[key]=(exact,labels,[(ids,[j for j,a in enumerate(self.actions) if a==action]) for action,ids in partial.items()])
+            exact,labels,partial=target_cache[key]
             slotloss=[]
             for k,values in self.model.schema['slots'].items():
                 ids=[i for i,r in enumerate(records) if k in r.get('parameters',{})]
                 if ids:
                     truth=torch.tensor([values.index(encode_value(records[i]['parameters'][k])) for i in ids])
                     slotloss.append(torch.nn.functional.cross_entropy(slots['slot_'+k](x[ids]),truth))
-            return torch.stack(terms).mean()+(torch.stack(slotloss).mean() if slotloss else 0)
-        for step in range(600 if extras else 160):
+            return frame_loss(logp,exact,labels,partial)+(torch.stack(slotloss).mean() if slotloss else 0)
+        for step in range(steps if steps is not None else (600 if extras else 160)):
             optimizer.zero_grad()
             objective=loss(features,recent)+2*loss(features[-1:],[record])+.7*loss(*self.replay)
             objective.backward()

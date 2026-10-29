@@ -25,6 +25,8 @@ def load_active():
     if not source.is_relative_to((ROOT/'artifacts').resolve()):
         raise ValueError('Checkpoint outside artifacts')
     model = FullModel.load(source)
+    from easy_access_schema import expand_easy_access
+    expand_easy_access(model)
     schema = model.schema
     schema['allowed']['SET_AUDIO_VOLUME|channel,level']['level'] = [str(i) for i in range(31)]
     schema['allowed']['SET_AMBIENT_LIGHT_MODE|enabled,mode']['mode'] = ['"normal"','"music"','"driveMode"']

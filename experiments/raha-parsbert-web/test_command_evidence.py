@@ -2,6 +2,11 @@ import unittest
 from command_evidence import check, ENTITIES, CAPABILITIES
 
 class EvidenceTests(unittest.TestCase):
+    def test_scheduled_charge_retains_explicit_battery_target(self):
+        self.assertIsNone(check('باتری ماشین رو سر ساعت شارژ کن',
+                               'SET_SCHEDULED_CHARGING', {'enabled':True})['error'])
+        self.assertIsNone(check('زمان بندی شارژ رو خاموش کن',
+                               'SET_SCHEDULED_CHARGING', {'enabled':False})['error'])
     def test_seat_intensity_word_is_a_modifier_not_an_unknown_target(self):
         for feature in ['گرم کن صندلی','سردکن صندلی','تهویه صندلی']:
             action='SET_SEAT_HEATING' if feature.startswith('گرم') else 'SET_SEAT_VENTILATION'

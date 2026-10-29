@@ -45,6 +45,9 @@ async def lifespan(app):
     engine['tokenizer'] = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
     engine['full']=(model_path/'schema.json').exists()
     engine['model'] = FullModel.load(model_path) if engine['full'] else AutoModelForSequenceClassification.from_pretrained(model_path, local_files_only=True).eval()
+    if engine['full']:
+        from easy_access_schema import expand_easy_access
+        expand_easy_access(engine['model'])
     engine['titles']=clean_titles(engine['model'].schema['titles']) if engine['full'] else TITLES
     engine['report'] = json.loads((model_path/'report.json').read_text())
     if engine['full']:
