@@ -20,6 +20,7 @@ internal object LauncherVehicleBridge {
     private val audioRevision=java.util.concurrent.atomic.AtomicLong()
     internal fun audioChanged() { audioRevision.incrementAndGet();cached?.externalChange() }
     private val leaseTimer=java.util.concurrent.Executors.newSingleThreadScheduledExecutor { r -> Thread(r,"LauncherCanLease").apply {isDaemon=true} }
+    private val pressureTimer=java.util.concurrent.Executors.newSingleThreadScheduledExecutor { r -> Thread(r,"LauncherPressureRecovery").apply {isDaemon=true} }
     init { leaseTimer.scheduleWithFixedDelay({
         synchronized(this) {
             cached?.takeIf {SystemClock.elapsedRealtime()-it.lastRead>10000}?.let {it.close();cached=null}
@@ -142,7 +143,16 @@ internal object LauncherVehicleBridge {
         private val values=HashMap<String,Int?>()
         private val lock=java.lang.Object()
         private var revision=0L
-        private fun update(name:String,value:Int) {synchronized(lock) {if(values[name]!=value || !values.containsKey(name)){values[name]=value;revision++;lock.notifyAll()}}}
+        private val pressureRecovery=PressureRecovery(pressureTimer,
+            read={if(listening && binder.isBinderAlive)read("AMBIENT_AIR_PRESSURE") else null},
+            recovered={value->storeValue("AMBIENT_AIR_PRESSURE",value)})
+        private fun storeValue(name:String,value:Int) {synchronized(lock) {if(values[name]!=value || !values.containsKey(name)){values[name]=value;revision++;lock.notifyAll()}}}
+        private fun update(name:String,value:Int) {
+            if(name=="AMBIENT_AIR_PRESSURE") synchronized(pressureRecovery) {
+                pressureRecovery.observed(value)
+                storeValue(name,value)
+            } else storeValue(name,value)
+        }
         @Volatile var lastRead=SystemClock.elapsedRealtime();private set
         private val callbackType=loader.loadClass("com.qinggan.canbus.ICanBusServiceCallback")
         private val callbackStub=loader.loadClass("com.qinggan.canbus.ICanBusServiceCallback\$Stub")
@@ -186,10 +196,14 @@ internal object LauncherVehicleBridge {
                     synchronized(lock){if(!values.containsKey(n))values[n]=value}
                 }
                 runCatching {acceptAir(api.getMethod("getAirCondition").invoke(remote),true)}
+                synchronized(pressureRecovery) {
+                    pressureRecovery.observed(synchronized(lock){values["AMBIENT_AIR_PRESSURE"]})
+                }
                 AppLog.info("LauncherVehicle","CAN listener attached; initial snapshot loaded")
             } catch(e:Exception) {close();throw e}
         }
         fun close() {
+            pressureRecovery.close()
             val wasListening=listening
             listening=false
             synchronized(lock){lock.notifyAll()}
@@ -214,6 +228,9 @@ internal object LauncherVehicleBridge {
             val before=synchronized(lock){revision}
             val air=runCatching{api.getMethod("getAirCondition").invoke(remote)}.getOrNull()
             synchronized(lock){if(revision==before)acceptAir(air)}
+            synchronized(pressureRecovery) {
+                pressureRecovery.observed(synchronized(lock){values["AMBIENT_AIR_PRESSURE"]})
+            }
         }
         fun externalChange() { synchronized(lock) { revision++;lock.notifyAll() } }
         fun readAll(after:Long?=null):JSONObject {
