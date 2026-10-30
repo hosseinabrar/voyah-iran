@@ -211,14 +211,24 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             // Keep the user's saved launcher preference.
             await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
             // Newer units require push installation; H97A cannot open shell-labelled staging files.
-            // Select the transport before installation; never retry timeouts or ambiguous commits.
+            // Keep the same transport on recovery; verify installed bytes before a bounded retry.
             var apkTransport = platform.StreamApk ? "--streaming" : "--no-streaming";
             log.Write(platform.StreamApk
                 ? "Installing APK with streaming for H97A: bypassing shell_data_file staging via PackageManager stdin. Keep USB connected."
                 : "Installing APK without streaming; transfer and package installation are separate. Keep USB connected.");
             await appGuard.Verify();
-            var apkResult = await adb.RunAsync(serial,
-                ["install", apkTransport, "-r", "--user", "0", bundle.File("app.apk")], 600);
+            var apkResult = await new ApkInstallRecovery(adb, log.Write).Run(serial, apkTransport,
+                bundle.File("app.apk"), bundle.Manifest.Files["app.apk"], async () => {
+                    await PrepareWritableSystem();
+                    if (await Root(15, "getprop", "ro.build.fingerprint") != fingerprint)
+                        throw new IOException("نسخهٔ سیستم خودرو تغییر کرده است؛ نصب ادامه پیدا نکرد.");
+                    await VerifyHash("/system/framework/services.jar", currentHash);
+                    if (legacyVdexHash.Length != 0) await VerifyHash("/system/framework/oat/arm64/services.vdex", legacyVdexHash);
+                    await accessibility.Suspend();
+                    await appGuard.Capture();
+                    await StopLauncherForInstall(appGuard);
+                    await appGuard.Verify();
+                });
             if (apkResult.ExitCode != 0 || !apkResult.Output.Split('\n').Any(l => l.Trim() == "Success"))
             {
                 log.Write($"APK install failed: exit={apkResult.ExitCode}; output={apkResult.Output}");

@@ -27,6 +27,7 @@ if (args.Length == 2 && args[0] == "--verify-payload") {
     } finally { Directory.Delete(root, true); }
     return;
 }
+await ApkInstallRecoveryTests.Run();
 await LogcatCaptureTests.Run(root);
 await InstallationStorageTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);

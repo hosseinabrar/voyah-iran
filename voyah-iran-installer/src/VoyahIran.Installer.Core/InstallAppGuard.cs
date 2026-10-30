@@ -20,6 +20,7 @@ public sealed class InstallAppGuard(Func<string[], Task<string>> command, string
     private async Task<int> State() => ReadState(await command(["/system/bin/dumpsys", "package", Package]));
     public async Task Capture()
     {
+        if (original != null) return;
         var path = await command(["/system/bin/pm", "list", "packages", "--user", "0", Package]);
         if (!path.Split('\n').Any(l => l.Trim() == "package:" + Package)) return;
         original = await State();
