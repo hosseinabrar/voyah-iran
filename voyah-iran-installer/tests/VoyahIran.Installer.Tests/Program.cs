@@ -31,6 +31,35 @@ await LogcatCaptureTests.Run(root);
 await InstallationStorageTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);
 var passed = 0;
+foreach (var initial in new[] { "null", "", "other.app/.Reader", "com.abrar.voyahiran/.Service", "other.app/.Reader:com.abrar.voyahiran/.First:com.abrar.voyahiran/com.abrar.raha.feedback.RahaOverlayService" })
+{
+    var setting=initial;
+    var writes=0;
+    var toggle="1";
+    var guard=new InstallAccessibility(a => {
+        if(a.Contains("accessibility_enabled")) { if(a.Contains("put")) toggle=a.Last(); return Task.FromResult(toggle); }
+        if(a.Contains("put")) { writes++; setting=a.Last()[1..^1]; if(setting=="") toggle="0"; }
+        return Task.FromResult(setting);
+    });
+    await guard.Suspend();
+    Check(!setting.Contains("com.abrar.voyahiran/"), "Suspend only own accessibility components");
+    if(initial.Contains("other.app")) Check(setting.Contains("other.app/.Reader"), "Preserve other accessibility services");
+    await guard.Suspend();
+    if(initial.Contains("com.abrar.voyahiran")) setting += (setting.Length>0?":":"")+"new.app/.Reader";
+    await guard.Restore();
+    Check(toggle=="1", "Restore original enabled toggle after removing last service");
+    foreach(var component in initial.Split(':').Where(v=>v.StartsWith("com.abrar.voyahiran/")))
+        Check(setting.Split(':').Contains(component), "Restore every previously enabled own component");
+    if(initial.Contains("com.abrar.voyahiran")) Check(setting.Contains("new.app/.Reader"), "Restoration merges concurrent changes");
+    else Check(writes==0, "No settings writes when our services were disabled");
+}
+{
+    var guard=new InstallAccessibility(a=>Task.FromResult("com.abrar.voyahiran/.Service"));
+    var rejected=false;
+    try { await guard.Suspend(); } catch(IOException) { rejected=true; }
+    Check(rejected, "Failed accessibility suspension blocks installation");
+}
+
 Check(Android9Firmware.IsValidVdexHash("a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06"), "Original H97A hash accepted");
 Check(Android9Firmware.IsValidVdexHash("91ae620de745e2f39a5ff59753cb286be6711e5e6a28da4ce1292c7142b8c68a"), "New H97A revision proceeds to structural verification");
 Check(!Android9Firmware.IsValidVdexHash("not-a-hash"), "Malformed VDEX hash rejected");
@@ -203,6 +232,10 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     var leaseIndex = fake.Calls.FindIndex(c => c.SequenceEqual(new[] { "shell", "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0" }));
     var lastLeaseIndex = fake.Calls.FindLastIndex(c => c.SequenceEqual(new[] { "shell", "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0" }));
     Check(leaseIndex >= 0 && stopIndex > leaseIndex && lastLeaseIndex > stopIndex && installIndex > lastLeaseIndex, "Expire Home hook before stop and after pending heartbeat, before APK replacement");
+    var suspendIndex=fake.Calls.FindIndex(c=>c.Contains("enabled_accessibility_services") && c.Contains("put") && c.Last()=="'other.app/.Reader'");
+    var restoreIndex=fake.Calls.FindLastIndex(c=>c.Contains("enabled_accessibility_services") && c.Contains("put") && c.Last().Contains("com.abrar.voyahiran/.Service"));
+    Check(suspendIndex>leaseIndex && suspendIndex<stopIndex && stopIndex<installIndex, "Accessibility suspension precedes app stop and APK copy");
+    Check(restoreIndex>installIndex && restoreIndex<launchIndex, "Accessibility restored before launching verified app");
     var operations = fake.Calls.Select(c => c[0]).ToList();
     Check(operations.IndexOf("root") < operations.IndexOf("wait-for-device") &&
         operations.IndexOf("wait-for-device") < operations.IndexOf("remount") &&
@@ -361,12 +394,18 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
     public bool WaitEntered;
     public string? PostPatchWaitSerial;
     public int PostPatchWaitTimeout;
+    private string accessibility="other.app/.Reader:com.abrar.voyahiran/.Service";
     private bool patched;
     private int remounts;
     public List<IReadOnlyList<string>> Calls { get; } = [];
     public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
     {
         Calls.Add(args);
+        if (args.Contains("enabled_accessibility_services")) {
+            if(args.Contains("put")) accessibility=args.Last()[1..^1];
+            return Task.FromResult(new CommandResult(0, accessibility));
+        }
+        if (args.Contains("accessibility_enabled")) return Task.FromResult(new CommandResult(0, "1"));
         if (args[0] == "wait-for-device" && Calls.Any(c => c[0] == "pull") && !Calls.Any(c => c[0] == "reboot"))
         {
             WaitEntered = true; PostPatchWaitSerial = serial; PostPatchWaitTimeout = timeoutSeconds;

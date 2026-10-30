@@ -138,6 +138,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         var stageCreated = false;
         var uncertain = false;
         FileStream? backupLease = null;
+        var accessibility = new InstallAccessibility(args => Root(15, args));
         try
         {
             Begin(InstallPhase.Device);
@@ -197,7 +198,11 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             log.Write("Stopping Voyah Iran before APK replacement.");
             // Disable interception before force-stop can reveal HOME and reopen our app.
             await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
+            log.Write("Suspending Voyah Iran accessibility services before stopping the app.");
+            await accessibility.Suspend();
             await StopLauncherForInstall();
+            // Catch an in-flight enable request from the old process before copying the APK.
+            await accessibility.Suspend();
             // Clear again in case an in-flight heartbeat renewed it while stopping.
             // Keep the user's saved launcher preference.
             await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
@@ -304,6 +309,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             var apk = packages.Split('\n').Select(l => l.Trim()).FirstOrDefault(l => l.StartsWith("package:/", StringComparison.Ordinal))?[8..];
             if (apk == null || apk.Any(c => !(char.IsAsciiLetterOrDigit(c) || "/._-=+~".Contains(c)))) throw new InvalidDataException("مسیر APK نصب‌شده معتبر نیست.");
             await VerifyHash(apk, bundle.Manifest.Files["app.apk"]);
+            await accessibility.Restore();
             await PostBootAppLauncher.LaunchAsync(adb, serial, log.Write);
             // Only after reboot, service readiness and all installed hashes were verified.
             // A cleanup failure must not turn a verified installation into a rollback.
@@ -322,6 +328,8 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         }
         finally
         {
+            try { await accessibility.Restore(); }
+            catch (Exception e) { log.Write($"WARNING: accessibility restoration failed; previous settings need recovery: {e.Message}"); }
             backupLease?.Dispose();
             try { if (File.Exists(tokenPath)) File.Delete(tokenPath); }
             catch (Exception e) { log.Write($"Local credential cleanup failed: {e.Message}"); }
