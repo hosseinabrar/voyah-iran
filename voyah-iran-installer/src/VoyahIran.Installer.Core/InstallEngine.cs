@@ -18,39 +18,40 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         result.Output.Contains("PackageManagerInternal.freeStorage(", StringComparison.Ordinal) &&
         result.Output.Contains("StorageManagerService.allocateBytes(", StringComparison.Ordinal) &&
         result.Output.Contains("PackageInstallerSession.doWriteInternal(", StringComparison.Ordinal);
-    private async Task StopLauncherForInstall()
+    private async Task StopLauncherForInstall(InstallAppGuard guard)
     {
-        var displays = LauncherInstallPreparation.PreviewDisplays(await Root(15, "dumpsys", "display"));
-        if (displays.Count == 0)
-        {
-            await Root(15, "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran");
-            return;
-        }
-        // Keep the display owner alive, but stop its watchdog from reopening map tasks.
+        // Freeze before inspecting displays, otherwise the app can create a new preview
+        // between the inspection and PackageManager disabling it.
         var result = await adb.RunAsync(serial, ["shell", "pidof", "com.abrar.voyahiran"], 15);
         var pids = result.Output.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (result.ExitCode != 0 || pids.Length == 0 || pids.Any(p => !int.TryParse(p, out var id) || id <= 1))
+        if ((result.ExitCode != 0 && !(result.ExitCode == 1 && pids.Length == 0)) ||
+            pids.Any(p => !int.TryParse(p, out var id) || id <= 1))
             throw new IOException("Cannot identify launcher before display cleanup.");
         var suspended = new List<string>();
         try
         {
             foreach (var pid in pids) { await Root(15, "kill", "-STOP", pid); suspended.Add(pid); }
-            var packages = LauncherInstallPreparation.PreviewPackages(await Root(15, "/system/bin/am", "stack", "list"), displays);
-            foreach (var package in packages)
+            var displays = LauncherInstallPreparation.PreviewDisplays(await Root(15, "dumpsys", "display"));
+            if (displays.Count > 0 && pids.Length == 0)
+                throw new IOException("Preview owner changed during preparation; installation cancelled.");
+            if (displays.Count > 0)
             {
-                log.Write($"Stopping embedded map before launcher display removal: {package}");
-                await Root(15, "/system/bin/am", "force-stop", "--user", "0", package);
+                var packages = LauncherInstallPreparation.PreviewPackages(await Root(15, "/system/bin/am", "stack", "list"), displays);
+                foreach (var package in packages)
+                {
+                    log.Write($"Stopping embedded map before launcher display removal: {package}");
+                    await Root(15, "/system/bin/am", "force-stop", "--user", "0", package);
+                }
+                if (LauncherInstallPreparation.PreviewPackages(await Root(15, "/system/bin/am", "stack", "list"), displays).Count != 0)
+                    throw new IOException("Map tasks remain on preview; installation stopped before APK replacement.");
             }
-            if (LauncherInstallPreparation.PreviewPackages(await Root(15, "/system/bin/am", "stack", "list"), displays).Count != 0)
-                throw new IOException("Map tasks remain on preview; installation stopped before APK replacement.");
+            await guard.Block();
             await Root(15, "/system/bin/am", "force-stop", "--user", "0", "com.abrar.voyahiran");
         }
         finally
         {
             foreach (var pid in suspended)
             {
-                // adb shell already invokes the remote shell. A nested sh -c loses
-                // the script boundary when adb joins its arguments on the device.
                 try { await Root(15, $"for p in $(pidof com.abrar.voyahiran); do if [ \"$p\" = \"{pid}\" ]; then kill -CONT {pid}; fi; done"); }
                 catch (Exception e) { log.Write($"Launcher resume check failed: {e.Message}"); }
             }
@@ -138,6 +139,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         var stageCreated = false;
         var uncertain = false;
         FileStream? backupLease = null;
+        InstallAppGuard? appGuard = null;
         var accessibility = new InstallAccessibility(args => Root(15, args));
         try
         {
@@ -200,7 +202,9 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             await Root(15, "/system/bin/settings", "put", "global", "voyah_iran_launcher_lease", "0");
             log.Write("Suspending Voyah Iran accessibility services before stopping the app.");
             await accessibility.Suspend();
-            await StopLauncherForInstall();
+            appGuard = new InstallAppGuard(args => Root(15, args), Path.Combine(directory, "app-enabled-state.txt"));
+            await appGuard.Capture();
+            await StopLauncherForInstall(appGuard);
             // Catch an in-flight enable request from the old process before copying the APK.
             await accessibility.Suspend();
             // Clear again in case an in-flight heartbeat renewed it while stopping.
@@ -212,6 +216,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             log.Write(platform.StreamApk
                 ? "Installing APK with streaming for H97A: bypassing shell_data_file staging via PackageManager stdin. Keep USB connected."
                 : "Installing APK without streaming; transfer and package installation are separate. Keep USB connected.");
+            await appGuard.Verify();
             var apkResult = await adb.RunAsync(serial,
                 ["install", apkTransport, "-r", "--user", "0", bundle.File("app.apk")], 600);
             if (apkResult.ExitCode != 0 || !apkResult.Output.Split('\n').Any(l => l.Trim() == "Success"))
@@ -233,6 +238,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
                     throw new IOException("سرویس ذخیره‌سازی اندروید هنگام نصب خطای داخلی freeStorage داده است. نصب خودکار تکرار نشد؛ گزارش کامل را برای بررسی بفرستید.");
                 throw new IOException($"نصب APK ناموفق بود (کد {apkResult.ExitCode}). اتصال USB و گزارش نصب را بررسی کنید.\n{apkResult.Output.Trim()}");
             }
+            await appGuard.Verify();
             Done();
             Begin(InstallPhase.Bridge);
             await Root(15, "mkdir", "-m", "700", stage); stageCreated = true;
@@ -309,8 +315,9 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             var apk = packages.Split('\n').Select(l => l.Trim()).FirstOrDefault(l => l.StartsWith("package:/", StringComparison.Ordinal))?[8..];
             if (apk == null || apk.Any(c => !(char.IsAsciiLetterOrDigit(c) || "/._-=+~".Contains(c)))) throw new InvalidDataException("مسیر APK نصب‌شده معتبر نیست.");
             await VerifyHash(apk, bundle.Manifest.Files["app.apk"]);
+            await appGuard.Restore();
             await accessibility.Restore();
-            await PostBootAppLauncher.LaunchAsync(adb, serial, log.Write);
+            if (appGuard.CanLaunch) await PostBootAppLauncher.LaunchAsync(adb, serial, log.Write);
             // Only after reboot, service readiness and all installed hashes were verified.
             // A cleanup failure must not turn a verified installation into a rollback.
             try { log.Write(await Root(120, InstallationStorage.RemoteCleanup)); }
@@ -328,8 +335,25 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
         }
         finally
         {
-            try { await accessibility.Restore(); }
-            catch (Exception e) { log.Write($"WARNING: accessibility restoration failed; previous settings need recovery: {e.Message}"); }
+            // A framework restart can temporarily remove settings/package services.
+            // Retry restoration only; never repeat an ambiguous APK installation.
+            var recoveryDeadline = DateTime.UtcNow.AddSeconds(60);
+            while (true)
+            {
+                Exception? recoveryError = null;
+                try { if (appGuard != null) await appGuard.Restore(); }
+                catch (Exception e) { recoveryError = e; }
+                try { await accessibility.Restore(); }
+                catch (Exception e) { recoveryError ??= e; }
+                if (recoveryError == null) break;
+                if (DateTime.UtcNow >= recoveryDeadline)
+                {
+                    log.Write($"WARNING: settings recovery incomplete; package recovery command is in the installation backup: {recoveryError.Message}");
+                    break;
+                }
+                log.Write("Waiting for Android services to restore pre-install settings; APK installation will not be retried.");
+                await Task.Delay(2000);
+            }
             backupLease?.Dispose();
             try { if (File.Exists(tokenPath)) File.Delete(tokenPath); }
             catch (Exception e) { log.Write($"Local credential cleanup failed: {e.Message}"); }

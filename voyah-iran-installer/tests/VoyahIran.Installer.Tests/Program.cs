@@ -60,6 +60,34 @@ foreach (var initial in new[] { "null", "", "other.app/.Reader", "com.abrar.voya
     Check(rejected, "Failed accessibility suspension blocks installation");
 }
 
+foreach(var prior in Enumerable.Range(0,5)) {
+    var state=prior;
+    var calls=new List<string[]>();
+    var file=Path.Combine(root,"guard-state-"+prior+".txt");
+    var guard=new InstallAppGuard(a=>{
+        calls.Add(a);
+        if(a.Contains("packages")) return Task.FromResult("package:com.abrar.voyahiran");
+        var verbs=new[]{"default-state","enable","disable","disable-user","disable-until-used"};
+        for(var i=0;i<verbs.Length;i++) if(a.Contains(verbs[i]))state=i;
+        return Task.FromResult("  User 0: installed=true enabled="+state);
+    },file);
+    await guard.Capture();await guard.Block();
+    Check(state==3 && File.ReadAllText(file).Contains("OriginalEnabledState="+prior), "Block restarts and persist recovery state "+prior);
+    await guard.Verify();await guard.Restore();
+    Check(state==prior, "Restore exact package state "+prior);
+}
+{
+    var guard=new InstallAppGuard(a=>Task.FromResult(a.Contains("packages")?"package:com.abrar.voyahiran":"User 0: enabled=0"),Path.Combine(root,"guard-failed.txt"));
+    await guard.Capture();var rejected=false;
+    try { await guard.Block(); } catch(IOException) { rejected=true; }
+    Check(rejected,"Failed disable verification blocks APK replacement");
+}
+{
+    var calls=new List<string[]>();
+    var guard=new InstallAppGuard(a=>{calls.Add(a);return Task.FromResult("");},Path.Combine(root,"guard-new.txt"));
+    await guard.Capture();await guard.Block();await guard.Verify();await guard.Restore();
+    Check(calls.Count==1,"Fresh installation does not disable a nonexistent package");
+}
 Check(Android9Firmware.IsValidVdexHash("a9303263150cc12ee9e941c9d295a3bf0aa8282284b9c5b15adc6efd59c41c06"), "Original H97A hash accepted");
 Check(Android9Firmware.IsValidVdexHash("91ae620de745e2f39a5ff59753cb286be6711e5e6a28da4ce1292c7142b8c68a"), "New H97A revision proceeds to structural verification");
 Check(!Android9Firmware.IsValidVdexHash("not-a-hash"), "Malformed VDEX hash rejected");
@@ -187,6 +215,7 @@ foreach (var failure in new[] { "root", "remount", "remount-empty", "firmware", 
     Check(failed && !fake.Calls.Any(c => c.SequenceEqual(new[] { "reboot" })), $"{failure} failure never reboots");
     Check(!fake.Calls.Any(c=>c.Contains(InstallationStorage.RemoteCleanup)), $"{failure} retains rollback backups");
     if (failure is "root" or "remount" or "remount-reboot" or "remount-empty" or "firmware" or "patch") Check(!fake.Calls.Any(c => c[0] == "install"), $"{failure} rejected before APK changes");
+    if(fake.Calls.Any(c=>c.Contains("disable-user"))) Check(fake.Calls.Any(c=>c.Contains("default-state")), "Failure restores package state: "+failure);
     if (failure == "timeout") Check(!fake.Calls.Any(c => c.Contains("rm")), "Uncertain remote write keeps staging");
     if (failure is "apk" or "apk-timeout") Check(fake.Calls.Count(c => c[0] == "install") == 1, "Do not retry ambiguous or unrelated APK failure");
 }
@@ -236,6 +265,9 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     var restoreIndex=fake.Calls.FindLastIndex(c=>c.Contains("enabled_accessibility_services") && c.Contains("put") && c.Last().Contains("com.abrar.voyahiran/.Service"));
     Check(suspendIndex>leaseIndex && suspendIndex<stopIndex && stopIndex<installIndex, "Accessibility suspension precedes app stop and APK copy");
     Check(restoreIndex>installIndex && restoreIndex<launchIndex, "Accessibility restored before launching verified app");
+    var blockIndex=fake.Calls.FindIndex(c=>c.Contains("disable-user"));
+    var unblockIndex=fake.Calls.FindIndex(c=>c.Contains("default-state"));
+    Check(blockIndex>suspendIndex && blockIndex<stopIndex && unblockIndex>installIndex && unblockIndex<launchIndex, "Package stays disabled through APK replacement and reboot verification");
     var operations = fake.Calls.Select(c => c[0]).ToList();
     Check(operations.IndexOf("root") < operations.IndexOf("wait-for-device") &&
         operations.IndexOf("wait-for-device") < operations.IndexOf("remount") &&
@@ -395,12 +427,23 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
     public string? PostPatchWaitSerial;
     public int PostPatchWaitTimeout;
     private string accessibility="other.app/.Reader:com.abrar.voyahiran/.Service";
+    private int appEnabled;
     private bool patched;
     private int remounts;
     public List<IReadOnlyList<string>> Calls { get; } = [];
     public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
     {
         Calls.Add(args);
+        if(args.Contains("package") && args.Contains("/system/bin/dumpsys"))
+            return Task.FromResult(new CommandResult(0, "  User 0: installed=true enabled="+appEnabled));
+        if(args.Contains("/system/bin/pm") && args.Contains("packages")) return Task.FromResult(new CommandResult(0,"package:com.abrar.voyahiran"));
+        if(args.Contains("/system/bin/pm")) {
+            var verbs=new[] {"default-state","enable","disable","disable-user","disable-until-used"};
+            for(var i=0;i<verbs.Length;i++) if(args.Contains(verbs[i])) {
+                appEnabled=i; return Task.FromResult(new CommandResult(0, "Package state changed"));
+            }
+        }
+        if(args.Contains("pidof") && !failure.StartsWith("preview")) return Task.FromResult(new CommandResult(1, ""));
         if (args.Contains("enabled_accessibility_services")) {
             if(args.Contains("put")) accessibility=args.Last()[1..^1];
             return Task.FromResult(new CommandResult(0, accessibility));
@@ -447,8 +490,9 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
         else if (args.Contains("init.svc.voyahiran_bridge")) text = "running";
         else if (args.Contains("resolve-activity")) text = "com.abrar.voyahiran/.ui.MainActivity";
         else if (args.Contains("am") && args.Contains("start")) text = "Starting: Intent { cmp=com.abrar.voyahiran/.ui.MainActivity }";
-        else if (args.Contains("pm")) text = "package:/data/app/com.abrar.voyahiran/base.apk";
+        else if (args.Contains("pm") || args.Contains("/system/bin/pm")) text = "package:/data/app/com.abrar.voyahiran/base.apk";
         else if (args[0] == "install") {
+            if(appEnabled != 3) throw new Exception("App was not blocked during APK replacement");
             text = "Success"; if (failure == "apk") exit = 1;
             if (failure == "apk-timeout") throw new TimeoutException("Uncertain package write");
             if (failure == "apk-storage-persistent" || (failure == "apk-storage-transient" && Calls.Count(c => c[0] == "install") < 3)) {
