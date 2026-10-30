@@ -75,6 +75,13 @@ missing root entries or altered unprotected class structures. Checks verify:
 - Original assets and native libraries are byte-identical.
 - The original APK is unchanged.
 
+Dependency inventory covers only root `classes*.dex`, matching Android's APK
+class path and the protection inventory. The isolated cluster presentation DEX
+in `assets/cluster/renderer/` is loaded in the OEM process, not by the application's
+protected class loader. It stays outside this inventory; the byte-for-byte asset
+preservation check still covers it. Do not weaken inventory equality to accommodate
+asset DEX files.
+
 Signing and installer packaging require `application-v2` reports with successful
 dependency checks; old Raha-only runs cannot silently enter a new Publish.
 Raha's model, manifest, schema, vocabulary and learned contact rules are sealed

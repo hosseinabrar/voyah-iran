@@ -45,6 +45,10 @@ public final class DexDependencies {
         var container = DexFileFactory.loadDexContainer(new File(args[0]), Opcodes.getDefault());
         var classes = new TreeMap<String, ClassDef>();
         for (String name : container.getDexEntryNames()) {
+            // Match apk_inventory and Android's application class path. Asset DEX
+            // files are isolated payloads (e.g. the OEM cluster renderer), not
+            // classes loaded by the protected application's class loader.
+            if (!name.matches("classes\\d*\\.dex")) continue;
             for (ClassDef c : container.getEntry(name).getDexFile().getClasses()) {
                 if (classes.put(c.getType(), c) != null) throw new IllegalArgumentException("Duplicate class " + c.getType());
             }

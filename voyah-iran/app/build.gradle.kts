@@ -108,24 +108,27 @@ val clusterRendererJar by tasks.registering(Jar::class) {
     archiveFileName.set("cluster-renderer.jar")
     destinationDirectory.set(layout.buildDirectory.dir("cluster-renderer"))
 }
-val dexClusterRenderer by tasks.registering(JavaExec::class) {
+abstract class ClusterRendererDexTask : JavaExec() {
+    @get:OutputDirectory
+    abstract val assetDirectory: DirectoryProperty
+}
+val dexClusterRenderer by tasks.registering(ClusterRendererDexTask::class) {
     dependsOn(clusterRendererJar)
     val jar = clusterRendererJar.flatMap { it.archiveFile }
-    val output = clusterAssets.map { it.dir("cluster/renderer") }
+    assetDirectory.set(clusterAssets)
     classpath = files(androidComponents.sdkComponents.sdkDirectory.map { it.file("build-tools/${android.buildToolsVersion}/lib/d8.jar") })
     mainClass.set("com.android.tools.r8.D8")
     inputs.file(jar)
     inputs.files(androidComponents.sdkComponents.bootClasspath)
-    outputs.dir(output)
     doFirst {
-        output.get().asFile.mkdirs()
+        val output = assetDirectory.get().dir("cluster/renderer").asFile
+        output.mkdirs()
         args = listOf("--release", "--min-api", "28", "--lib", androidComponents.sdkComponents.bootClasspath.get().first().asFile.path,
-            "--output", output.get().asFile.path, jar.get().asFile.path)
+            "--output", output.path, jar.get().asFile.path)
     }
 }
-android.sourceSets.getByName("main").assets.srcDir(clusterAssets.get().asFile)
 android.sourceSets.getByName("test").java.srcDir(clusterSources)
-tasks.configureEach {
-    if (name.startsWith("merge") && name.endsWith("Assets")) dependsOn(dexClusterRenderer)
+androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(dexClusterRenderer) { it.assetDirectory }
 }
 
