@@ -1,5 +1,18 @@
 RAHA TESTER SERVER — separate from the owner's personal trainer
 
+Dedicated server deployment (2026-10-30):
+  Public URL: https://raha.voyah-iran.ir/raha-train/
+  Application/venv: /opt/raha-train
+  Feedback/session data: /var/lib/raha-train (service user raha-train)
+  Environment/secret: /etc/raha-train.env (root-only; never commit or rotate on update)
+  Unit: raha-train.service; nginx template: nginx-subdomain.conf
+  TLS: certbot webroot /var/www/raha-acme, automatic renewal and nginx reload hook.
+  systemctl status raha-train; journalctl -u raha-train
+  Update application and immutable bundle, then systemctl restart raha-train.
+  Preserve data and the session secret on every deployment. Download feedback via SSH
+  for explicit review/import; never copy server data into the public web directory.
+  The existing main-domain subscription server is separate and unchanged.
+
 Prepare on the laptop:
   ../experiments/raha-parsbert-web/.venv/bin/python prepare_bundle.py
 The ignored bundle is a read-only snapshot of the verified Android model, vocabulary,

@@ -20,7 +20,7 @@ def main():
     shutil.copyfile(REPO/'voyah-iran/raha-core/src/test/resources/intent-tokenizer-parity.json',target/'parity-fixtures.json')
     for name in ['manifest.json','schema.json','vocab.txt','contact-rules.json']:
         shutil.copyfile(assets/name,target/name)
-    for name in ['data.py','validation.py','numeric_grounding.py','contact_extraction.py','presentation.py']:
+    for name in ['data.py','validation.py','numeric_grounding.py','middle_values.py','contact_extraction.py','presentation.py']:
         shutil.copyfile(PERSONAL/name,target/name)
     grammar=(REPO/'voyah-iran/raha-core/src/main/resources/raha-speech-phrases.txt').read_text().splitlines()
     (target/'grammar.json').write_text(json.dumps(list(dict.fromkeys(grammar)),ensure_ascii=False))

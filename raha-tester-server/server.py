@@ -2,6 +2,7 @@ import asyncio,json,os,time
 from collections import OrderedDict
 from contextlib import asynccontextmanager
 from pathlib import Path
+from urllib.parse import urlsplit
 from fastapi import FastAPI,Request,WebSocket,WebSocketDisconnect,HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel,Field
@@ -34,7 +35,10 @@ def create_app(runtime=None,store=None,origin=None):
     app=FastAPI(lifespan=lifespan,docs_url=None,redoc_url=None,openapi_url=None)
     app.state.runtime=runtime
     app.state.store=store or Store(os.environ.get('TESTER_DATA',str(HERE/'data')),os.environ.get('SESSION_SECRET',''))
-    app.add_middleware(TrustedHostMiddleware,allowed_hosts=['voyah-iran.ir','127.0.0.1','localhost','testserver'])
+    public=urlsplit(origin)
+    if public.scheme not in ('http','https') or not public.hostname or public.path not in ('','/'):
+        raise ValueError('PUBLIC_ORIGIN must be an HTTP(S) origin')
+    app.add_middleware(TrustedHostMiddleware,allowed_hosts=[public.hostname,'127.0.0.1','localhost','testserver'])
     buckets=OrderedDict();connections=set();max_connections=4
     def identity(token):
         user=app.state.store.identity(token)

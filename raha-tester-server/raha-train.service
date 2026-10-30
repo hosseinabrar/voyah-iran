@@ -1,0 +1,24 @@
+[Unit]
+Description=Raha tester training portal
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=raha-train
+Group=raha-train
+WorkingDirectory=/opt/raha-train
+EnvironmentFile=/etc/raha-train.env
+ExecStart=/opt/raha-train/venv/bin/uvicorn server:create_app --factory --host 127.0.0.1 --port 18767 --workers 1 --ws-max-size 65536 --limit-concurrency 32 --no-access-log
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/raha-train
+MemoryMax=1400M
+TasksMax=128
+
+[Install]
+WantedBy=multi-user.target

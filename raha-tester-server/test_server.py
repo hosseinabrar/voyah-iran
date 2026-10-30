@@ -42,6 +42,11 @@ class Tests(unittest.TestCase):
         self.assertNotIn('/',user['folder']);self.assertNotIn('..',user['folder'])
         self.assertEqual(self.a.get('/raha-train/web/model.onnx').status_code,404)
         self.assertEqual(self.a.get('/raha-train/api/project-sync').status_code,404)
+    def test_configured_subdomain_and_foreign_host(self):
+        app=create_app(FakeRuntime(),self.store,'https://raha.voyah-iran.ir')
+        client=TestClient(app,base_url='https://raha.voyah-iran.ir')
+        self.assertEqual(client.get('/raha-train/').status_code,200)
+        self.assertEqual(client.get('/raha-train/',headers={'host':'other.example'}).status_code,400)
     def test_large_body_rejected(self):
         self.assertEqual(self.a.post('/raha-train/api/session',content='x'*9000,headers=self.headers).status_code,413)
     def test_websocket_requires_session_and_origin(self):
