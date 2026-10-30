@@ -325,6 +325,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             var apk = packages.Split('\n').Select(l => l.Trim()).FirstOrDefault(l => l.StartsWith("package:/", StringComparison.Ordinal))?[8..];
             if (apk == null || apk.Any(c => !(char.IsAsciiLetterOrDigit(c) || "/._-=+~".Contains(c)))) throw new InvalidDataException("مسیر APK نصب‌شده معتبر نیست.");
             await VerifyHash(apk, bundle.Manifest.Files["app.apk"]);
+            await VoyahPermissions.GrantAsync(adb, serial, log.Write);
             await appGuard.Restore();
             await accessibility.Restore();
             if (appGuard.CanLaunch) await PostBootAppLauncher.LaunchAsync(adb, serial, log.Write);

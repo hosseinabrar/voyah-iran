@@ -127,6 +127,10 @@ try {
                     case "launch":
                         await Shell(serial, "am", "start", "--user", "0", "-n", "com.abrar.voyahiran/.ui.MainActivity"); break;
                     case "clock": await MacOperations.SetClock(adb, serial); break;
+                    case "voyah-permissions":
+                        await VoyahPermissions.GrantAsync(adb, serial, log.Write);
+                        Emit(new { type = "message", text = "دسترسی‌های وویا ایران با موفقیت اعطا شدند." });
+                        break;
                     case "reboot": await new DeviceRebooter(adb, log).RebootAsync(serial); break;
                     case "start-log":
                         capture = await LogcatCapture.StartAsync(adbPath, serial, ReportPath("logcat"), adb);

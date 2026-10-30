@@ -31,6 +31,7 @@
               <Button Content="{Binding CaptureLogTitle}" Command="{Binding CaptureLogCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
               <Button Content="اجرای وویا ایران" Command="{Binding LaunchAppCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
               <Button Content="تنظیم تاریخ و ساعت" Command="{Binding SetClockCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
+              <Button Content="اعطای دسترسی وویا ایران" Command="{Binding PermissionsCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
               <Button Content="راه‌اندازی مجدد نمایشگر" Command="{Binding RebootCommand}" Margin="0,0,12,12" VerticalAlignment="Top"/>
             </WrapPanel>
           </StackPanel>

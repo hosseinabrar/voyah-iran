@@ -68,6 +68,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
     public ActionCommand NeshanCommand { get; }
     public ActionCommand LaunchAppCommand { get; }
     public ActionCommand SetClockCommand { get; }
+    public ActionCommand PermissionsCommand { get; }
     public ActionCommand RebootCommand { get; }
     public ActionCommand HelpCommand { get; }
     public ActionCommand CopyCommand { get; }
@@ -95,6 +96,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
         GboardCommand = new ActionCommand(async () => await OpenApkAsync("gboard"), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         LaunchAppCommand = new ActionCommand(async () => await LaunchAppAsync(), () => !Busy && !starting && !captureChanging && !CanBusy && bundle != null);
         SetClockCommand = new ActionCommand(async () => await SetClockAsync(), () => !Busy && !starting && !captureChanging && !CanBusy && bundle != null);
+        PermissionsCommand = new ActionCommand(async () => await GrantPermissionsAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         RebootCommand = new ActionCommand(async () => await RebootAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         InstallCommand = new ActionCommand(async () => await InstallAsync(), () => !Busy && !captureChanging && !CanBusy && bundle != null);
         HelpCommand = new ActionCommand(() => new ConnectionHelpWindow { Owner = Application.Current.MainWindow }.ShowDialog());
@@ -120,7 +122,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
             adb = new AdbClient(bundle.File("adb.exe"), log);
             VersionText = "نسخهٔ " + Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion; Notify(nameof(VersionText));
             log.Write($"Embedded payload verified; app={bundle.Manifest.AppVersion}; APK SHA256={bundle.Manifest.Files["app.apk"]}");
-            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
+            InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); PermissionsCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
             await ScanAsync(); timer.Start();
         }
         catch (Exception e)
@@ -245,6 +247,23 @@ public sealed partial class MainViewModel : Observable, IDisposable
         catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(Application.Current.MainWindow, e.Message, "اجرای وویا ایران"); }
         finally { starting = false; Busy = false; PagesChanged(); timer.Start(); }
     }
+    private async Task GrantPermissionsAsync()
+    {
+        if (Busy || starting || adb == null) return;
+        starting = true;
+        try
+        {
+            while (scanning) await Task.Delay(50);
+            await ScanAsync();
+            if (device == null) { HelpCommand.Execute(null); return; }
+            var serial = device.Serial;
+            Busy = true; timer.Stop(); PagesChanged();
+            await VoyahPermissions.GrantAsync(adb, serial, log.Write);
+            MessageBox.Show(Application.Current.MainWindow, "دسترسی‌های وویا ایران با موفقیت اعطا شدند.", "اعطای دسترسی وویا ایران", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception e) { log.Write(e.ToString()); MessageBox.Show(Application.Current.MainWindow, "اعطای دسترسی کامل نشد؛ اتصال خودرو را بررسی کنید و دوباره تلاش کنید.\n" + e.Message, "اعطای دسترسی وویا ایران", MessageBoxButton.OK, MessageBoxImage.Warning); }
+        finally { starting = false; Busy = false; PagesChanged(); await ScanAsync(); timer.Start(); }
+    }
     private async Task RebootAsync()
     {
         if (Busy || starting || adb == null) return;
@@ -270,7 +289,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
         Notify(nameof(CaptureLogTitle));
         CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh();
         InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh();
-        MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh();
+        MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); PermissionsCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh();
     }
     private async Task ToggleCaptureAsync()
     {
@@ -346,7 +365,7 @@ public sealed partial class MainViewModel : Observable, IDisposable
     private void PagesChanged()
     {
         foreach (var name in new[] { nameof(HomeVisibility), nameof(ProgressVisibility), nameof(ProgressTitle), nameof(ProgressSubtitle), nameof(CanLeave) }) Notify(name);
-        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh(); HomeCommand.Refresh();
+        InstallCommand.Refresh(); ApkCommand.Refresh(); UninstallCommand.Refresh(); MyketCommand.Refresh(); GboardCommand.Refresh(); NeshanCommand.Refresh(); RebootCommand.Refresh(); PermissionsCommand.Refresh(); SetClockCommand.Refresh(); LaunchAppCommand.Refresh(); CaptureLogCommand.Refresh(); CanTraceCommand?.Refresh(); CanMarkCommand?.Refresh(); HomeCommand.Refresh();
     }
     public void Dispose() {
         disposed = true; timer.Stop(); capture?.Dispose();

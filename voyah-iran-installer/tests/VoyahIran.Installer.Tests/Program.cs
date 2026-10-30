@@ -27,6 +27,7 @@ if (args.Length == 2 && args[0] == "--verify-payload") {
     } finally { Directory.Delete(root, true); }
     return;
 }
+await VoyahPermissionsTests.Run();
 await ApkInstallRecoveryTests.Run();
 await LogcatCaptureTests.Run(root);
 await InstallationStorageTests.Run(root);
@@ -435,8 +436,9 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
     public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
     {
         Calls.Add(args);
-        if(args.Contains("package") && args.Contains("/system/bin/dumpsys"))
-            return Task.FromResult(new CommandResult(0, "  User 0: installed=true enabled="+appEnabled));
+        if(args.Contains("package") && (args.Contains("/system/bin/dumpsys") || args.Contains("dumpsys")))
+            return Task.FromResult(new CommandResult(0, "  User 0: installed=true enabled="+appEnabled+"\n"+string.Join("\n",new[]{"ACCESS_COARSE_LOCATION","ACCESS_FINE_LOCATION","RECORD_AUDIO","READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"}.Select(p=>"android.permission."+p+": granted=true"))));
+        if(args.Contains("appops") && args.Contains("get")) return Task.FromResult(new CommandResult(0,args.Last()+": allow"));
         if(args.Contains("/system/bin/pm") && args.Contains("packages")) return Task.FromResult(new CommandResult(0,"package:com.abrar.voyahiran"));
         if(args.Contains("/system/bin/pm")) {
             var verbs=new[] {"default-state","enable","disable","disable-user","disable-until-used"};

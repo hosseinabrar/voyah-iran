@@ -466,6 +466,7 @@ struct InstallerView: View {
                             .disabled(model.busy || !model.ready || (model.capture != "log" && !model.canOperate))
                         Button("اجرای وویا ایران") { model.send("launch") }.disabled(!model.canOperate)
                         Button("تنظیم تاریخ و ساعت") { model.confirm("تنظیم ساعت", text: "ساعت خودرو با این مک هماهنگ و زمان خودکار خاموش می‌شود.", command: "clock") }.disabled(!model.canOperate)
+                        Button("اعطای دسترسی وویا ایران") { model.send("voyah-permissions") }.disabled(!model.canOperate)
                         Button("راه‌اندازی مجدد نمایشگر") { model.confirm("راه‌اندازی مجدد نمایشگر", text: "نمایشگر خودرو دوباره راه‌اندازی می‌شود.", command: "reboot") }.disabled(!model.canOperate)
                     }
                 }.frame(maxWidth: .infinity, alignment: .leading)
