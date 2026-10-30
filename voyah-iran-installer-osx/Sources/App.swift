@@ -66,7 +66,7 @@ struct VehicleApp: Identifiable {
     func start() {
         guard process == nil else { return }
         if uiPreview {
-            ready = true; serial = "preview"; connection = "خودرو شناسایی شد"; version = "3.0.0"
+            ready = true; serial = "preview"; connection = "خودرو شناسایی شد"; version = "3.0.1"
             return
         }
         guard let resources = Bundle.main.resourceURL else { fail("فایل‌های برنامه پیدا نشد."); return }
