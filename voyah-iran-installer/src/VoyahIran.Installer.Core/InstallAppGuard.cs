@@ -43,6 +43,23 @@ public sealed class InstallAppGuard(Func<string[], Task<string>> command, string
         0 => "default-state", 1 => "enable", 2 => "disable", 3 => "disable-user", 4 => "disable-until-used",
         _ => throw new ArgumentOutOfRangeException(nameof(state))
     };
+    // Only after system-file installation is finished. Preserve deliberately disabled apps.
+    public async Task WithEnabled(Func<Task> operation)
+    {
+        var prior = await State();
+        try {
+            if (prior is not (0 or 1)) {
+                await command(["/system/bin/pm", "enable", "--user", "0", Package]);
+                if (await State() != 1) throw new IOException("Cannot enable credential receiver.");
+            }
+            await operation();
+        } finally {
+            if (prior is not (0 or 1)) {
+                await command(["/system/bin/pm", RestoreVerb(prior), "--user", "0", Package]);
+                if (await State() != prior) throw new IOException("Cannot restore package after credential provisioning.");
+            }
+        }
+    }
     public async Task Restore()
     {
         if (!changed) return;

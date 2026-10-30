@@ -53,7 +53,7 @@ public sealed class ApkInstallRecovery(IAdbClient adb, Action<string> log, Func<
             log("APK مورد انتظار نصب نشده؛ یک بار دیگر نصب انجام می‌شود.");
         }
     }
-    private async Task Ready(string serial)
+    public async Task Ready(string serial)
     {
         var clock=Stopwatch.StartNew();
         string? previous=null;
