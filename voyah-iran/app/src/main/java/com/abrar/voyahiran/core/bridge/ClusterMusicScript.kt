@@ -44,8 +44,18 @@ function inflate(c,p,name){
     const root=Java.use('android.widget.FrameLayout').${'$'}new(c);
     Inflater.from(c).inflate(id,root,true);
     if(!ownText){
-        ownContext=Java.retain(c.createPackageContext('com.abrar.voyahiran',3));
-        ownText=Java.ClassFactory.get(ownContext.getClassLoader()).use('com.abrar.voyahiran.core.bridge.clustertext.ClusterTextAssets');
+        // Resources only: INCLUDE_CODE would instantiate the protected APK's shell
+        // in the OEM UID and fail on our private native-library directory.
+        ownContext=Java.retain(c.createPackageContext('com.abrar.voyahiran',0));
+        const stream=ownContext.getAssets().open('cluster/renderer/classes.dex');
+        const bytes=Java.use('java.io.ByteArrayOutputStream').${'$'}new();
+        try {
+            const buffer=Java.array('byte',new Array(8192).fill(0));
+            let count;while((count=stream.read(buffer))!==-1)bytes.write(buffer,0,count);
+            const dex=Java.use('java.nio.ByteBuffer').wrap(bytes.toByteArray());
+            const loader=Java.use('dalvik.system.InMemoryDexClassLoader').${'$'}new(dex,c.getClassLoader());
+            ownText=Java.ClassFactory.get(loader).use('com.abrar.voyahiran.core.bridge.clustertext.ClusterTextAssets');
+        } finally {stream.close();bytes.close();}
     }
     const count=ownText.install(root,ownContext);
     log('local text installed layout='+name+' count='+count+' font=cluster/text/semibold.ttf');

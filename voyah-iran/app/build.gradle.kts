@@ -90,3 +90,42 @@ configurations.matching { it.name.endsWith("UnitTestRuntimeClasspath") }.configu
         "org.ow2.asm:asm-commons:9.9", "org.ow2.asm:asm-analysis:9.9", "org.ow2.asm:asm-util:9.9")
 }
 
+// Loaded inside the OEM process: never load our protected APK's ClassLoader there.
+// Only these Android-only presentation widgets are exposed, not application logic.
+val clusterSources = rootProject.file("cluster-renderer/src")
+val clusterClasses = layout.buildDirectory.dir("cluster-renderer/classes")
+val clusterAssets = layout.buildDirectory.dir("generated/cluster-renderer/assets")
+val compileClusterRenderer by tasks.registering(JavaCompile::class) {
+    source(fileTree(clusterSources) { include("**/*.java") })
+    classpath = files(androidComponents.sdkComponents.bootClasspath)
+    destinationDirectory.set(clusterClasses)
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+}
+val clusterRendererJar by tasks.registering(Jar::class) {
+    dependsOn(compileClusterRenderer)
+    from(clusterClasses)
+    archiveFileName.set("cluster-renderer.jar")
+    destinationDirectory.set(layout.buildDirectory.dir("cluster-renderer"))
+}
+val dexClusterRenderer by tasks.registering(JavaExec::class) {
+    dependsOn(clusterRendererJar)
+    val jar = clusterRendererJar.flatMap { it.archiveFile }
+    val output = clusterAssets.map { it.dir("cluster/renderer") }
+    classpath = files(androidComponents.sdkComponents.sdkDirectory.map { it.file("build-tools/${android.buildToolsVersion}/lib/d8.jar") })
+    mainClass.set("com.android.tools.r8.D8")
+    inputs.file(jar)
+    inputs.files(androidComponents.sdkComponents.bootClasspath)
+    outputs.dir(output)
+    doFirst {
+        output.get().asFile.mkdirs()
+        args = listOf("--release", "--min-api", "28", "--lib", androidComponents.sdkComponents.bootClasspath.get().first().asFile.path,
+            "--output", output.get().asFile.path, jar.get().asFile.path)
+    }
+}
+android.sourceSets.getByName("main").assets.srcDir(clusterAssets.get().asFile)
+android.sourceSets.getByName("test").java.srcDir(clusterSources)
+tasks.configureEach {
+    if (name.startsWith("merge") && name.endsWith("Assets")) dependsOn(dexClusterRenderer)
+}
+
