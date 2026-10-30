@@ -61,6 +61,10 @@ object OemScreenSwapManager {
         }
         return try {
             if (!enabled(operation == "execute")) { prepared = emptyList(); return CommandResult(0, "OEM") }
+            if (PassengerDisplayPower.isOff()) {
+                prepared = emptyList()
+                return CommandResult(0, "PASSENGER_OFF")
+            }
             api = Class.forName(contract.owner).getMethod("getService").invoke(null)
             val stacks = snapshot(api!!)
             val moves = ScreenSwapPlan.moves(stacks)
@@ -88,6 +92,7 @@ object OemScreenSwapManager {
                 check(live != null && live.display == s.display && live.pkg == s.pkg && live.activity == s.activity)
             }
             for (s in moves) {
+                check(!PassengerDisplayPower.isOff()) { "Passenger powered off during transfer preparation" }
                 // Record intent before Binder call: an exception may arrive after the move happened.
                 moved += s
                 move(s, 1 - s.display)

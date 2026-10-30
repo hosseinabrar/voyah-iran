@@ -11,7 +11,7 @@ class StarBackTransportTest {
             val event = policy.route(SteeringKeys.STAR, StarEventPolicy.SHORT, display = display).events.single()
             assertEquals(0, event.display)
             assertTrue(StarBackTransport.directCenter(28, event))
-            assertFalse(StarBackTransport.directCenter(30, event))
+            assertTrue(StarBackTransport.directCenter(30, event))
             assertTrue(policy.route(SteeringKeys.STAR, StarEventPolicy.SHORT, display = display).events.isEmpty())
         }
     }
@@ -28,7 +28,7 @@ class StarBackTransportTest {
 
     @Test fun checksOnlyTheMappingsThatWillActuallyBeReplayed() {
         assertEquals(listOf(0x41), StarBackTransport.replayTargets(28, 0x41))
-        assertEquals(listOf(0x41, SteeringKeys.BACK), StarBackTransport.replayTargets(30, 0x41))
+        assertEquals(listOf(0x41), StarBackTransport.replayTargets(30, 0x41))
         assertEquals(listOf(SteeringKeys.BACK), StarBackTransport.replayTargets(28, SteeringKeys.BACK))
         assertTrue(StarBackTransport.replayTargets(28, SteeringKeys.STAR).isEmpty())
     }

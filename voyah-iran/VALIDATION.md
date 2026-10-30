@@ -56,3 +56,36 @@
 - مسیر جدید نوشتن سطح بازیابی انرژی و تأیید بازخورد آن هنوز روی خودرو آزمایش نشده‌اند.
 
 برنامهٔ آزمون خودرو: [ساعت](docs/DEVICE_TEST.md)، [دکمهٔ فرمان](docs/STEERING_BACK.md)، [حافظهٔ رانندگی](docs/DRIVE_MEMORY.md) و [حافظهٔ بازیابی انرژی](docs/RECOVERY_MEMORY.md).
+
+### Passenger physical power button (2026-10-30)
+
+OEM H97X PowerManager `VoyahPolicy` (decoded `bd`, lines 699–705) sets
+`persist.second.screen.disable=true` and installs its `m` allowed-key list when
+central stays on and passenger enters display-off. That list includes STAR
+(`0xad`) but omits QG BACK (`0x21`). KeyManagerSinkCollector.push drops restricted
+keys before sink delivery. Replaying synthesized Back through QG therefore loses
+it; changing its display ID alone cannot fix this. The authenticated bridge now
+injects only our synthetic short Back directly on display 0 (API 28 and 30).
+Other original/long-press actions keep their OEM transport and restrictions.
+Android 11 uses KeyEvent.setDisplayId, matching KtAndroidSink.Companion.
+
+The same OEM property prevents our swap from sending apps to the powered-off
+passenger display, including revalidation immediately before moves. PASSENGER_OFF
+is consumed rather than falling through to the OEM swap. Startup, passenger Home,
+drawer and screen-lift redirects defer while off. A physical power-on transition
+reconciles only passenger Home/drawer; it does not replace a foreground app or
+navigate the central display. This property is independent of global SCREEN_ON
+and of the motorized display lift state.
+
+Verification: targeted StarBackTransport/StarEventPolicy/ScreenSwap JVM tests and
+`node deployment/tests/passenger-power.test.js`. The latter executes the shipped
+injected scripts for off, wake to Home, wake to drawer, repeated wake checks and
+wake over another app. Vehicle verification remains required: center Back with
+passenger off, denied swap, and passenger off/on from Home, drawer and another app.
+
+Screensaver follow-up: OEM H97X StandbyUIForVoyah (`by`) creates two
+WindowManager windows, type 2021, titled PowerManager-StandbyUI-1/2 and adds/removes
+views; it does not create or move an activity stack. Our swap uses activity-stack
+inventory, not the focused overlay window. No screensaver-only transfer block was
+added: source inspection found no stack-transfer conflict. Physical vehicle
+validation of transfers behind that overlay remains outstanding.

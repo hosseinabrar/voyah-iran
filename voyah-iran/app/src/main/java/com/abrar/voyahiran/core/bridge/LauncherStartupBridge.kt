@@ -18,6 +18,11 @@ internal object LauncherStartupBridge {
         // must not reopen the central HOME after the user has already left it.
         for(display in listOf(0,1)) {
             if(display in handledDisplays)continue
+            if(display==1 && PassengerDisplayPower.isOff()) {
+                reports.add("display=1 powered off; defer to passenger wake hook")
+                handledDisplays.add(display)
+                continue
+            }
             val top=stacks.filterNotNull().firstOrNull {
                 it.javaClass.getField("displayId").getInt(it)==display && it.javaClass.getField("visible").getBoolean(it)
             }?.let {it.javaClass.getField("topActivity").get(it) as? ComponentName}

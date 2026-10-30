@@ -20,6 +20,7 @@ Java.perform(function(){
     }
     function activity(top){const parts=top.split('/');let a=parts[parts.length-1];return a.charAt(0)==='.'?parts[0]+a:a;}
     function open(screen,drawer,stock){
+        if(screen===1 && Java.use('android.os.SystemProperties').getBoolean('persist.second.screen.disable',false))return;
         const key=stock+':'+drawer, now=Date.now();
         if(pending[screen] && pending[screen].key===key && now-pending[screen].at<1500)return;
         const i=Intent.__DOLLAR__new('android.intent.action.MAIN');
@@ -41,9 +42,10 @@ Java.perform(function(){
         try{ctx.startActivity(i,options.toBundle());}catch(e){pending[screen]=null;throw e;}
         console.log('VI_LIFT_SWITCH display='+screen+' stock='+stock+' drawer='+drawer);
     }
-    function reconcile(){const expected=generation;Java.scheduleOnMainThread(function(){
+    function reconcile(onlyScreen){const expected=generation;Java.scheduleOnMainThread(function(){
         if(expected!==generation || !enabled())return;
         for(let screen=0;screen<2;screen++)try{
+            if(onlyScreen!==undefined && screen!==onlyScreen)continue;
             const a=activity(String(Displays.getDpyTopAppInfo(ctx,screen,4)));
             if(state===1){
                 const prefix='com.abrar.voyahiran.feature.launcher.';
@@ -58,6 +60,7 @@ Java.perform(function(){
             }
         }catch(e){console.log('VI_LIFT_SWITCH_ERROR '+e);}
     });}
+    globalThis.VI_LIFT_RECONCILE=reconcile;
     try{
         const Receiver=Java.registerClass({name:'com.abrar.voyahiran.bridge.LauncherLiftReceiver',superClass:Java.use('android.content.BroadcastReceiver'),methods:{onReceive:{returnType:'void',argumentTypes:['android.content.Context','android.content.Intent'],implementation:function(c,i){
             if(String(i.getAction())==='action.qg.layout.changed'){

@@ -14,25 +14,29 @@ import com.abrar.voyahiran.feature.steering.domain.StarBackTransport
 object LegacySteeringBack {
     @Synchronized
     fun press(): CommandResult {
-        if (Build.VERSION.SDK_INT != 28) return CommandResult(1, "STAR_BACK_UNSUPPORTED_PLATFORM")
+        if (Build.VERSION.SDK_INT !in listOf(28, 30)) return CommandResult(1, "STAR_BACK_UNSUPPORTED_PLATFORM")
         if (!BridgeSubscriptionSession.active) return CommandResult(1, "SUBSCRIPTION_REQUIRED")
         return try {
             val managerType = Class.forName("android.hardware.input.InputManager")
             val manager = managerType.getMethod("getInstance").invoke(null)
             val inject = managerType.getMethod("injectInputEvent", InputEvent::class.java, Int::class.javaPrimitiveType)
+            val setDisplay = if (Build.VERSION.SDK_INT >= 30)
+                KeyEvent::class.java.getMethod("setDisplayId", Int::class.javaPrimitiveType) else null
             val downTime = SystemClock.uptimeMillis()
             // Verified in the supplied API-28 InputManagerService: this overload calls
             // injectInputEventInternal(event, /*displayId=*/0, mode). No last-task cache.
             val accepted = StarBackTransport.press { action ->
                 val event = KeyEvent(downTime, SystemClock.uptimeMillis(), action, KeyEvent.KEYCODE_BACK,
                     0, 0, KeyCharacterMap.VIRTUAL_KEYBOARD, 0, 0, InputDevice.SOURCE_KEYBOARD)
+                // Android 11 otherwise uses the globally focused display, which may be passenger.
+                setDisplay?.invoke(event, 0)
                 // ASYNC avoids waiting for app/UI dispatch while an OEM callback is active.
                 inject.invoke(manager, event, 0) == true
             }
-            AppLog.info("StarEvent", "backend=android9-input display=0 downUpAccepted=$accepted")
+            AppLog.info("StarEvent", "backend=direct-input display=0 downUpAccepted=$accepted")
             CommandResult(if (accepted) 0 else 1, if (accepted) "STAR_BACK_CENTER_ACCEPTED" else "STAR_BACK_REJECTED")
         } catch (error: Exception) {
-            AppLog.error("StarEvent", "backend=android9-input display=0 failed; no replay", error)
+            AppLog.error("StarEvent", "backend=direct-input display=0 failed; no replay", error)
             CommandResult(1, "STAR_BACK_INJECTION_FAILED")
         }
     }

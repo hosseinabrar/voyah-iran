@@ -24,7 +24,7 @@ class ScreenSwapControl(private val app: VoyahIranApplication) {
                 if (enabled()) {
                     operations.withLock {
                         val result = runner.run(listOf("su", "0", "screen-swap-runtime", "prepare"), 3)
-                        readyUntil = if (result.exitCode == 0 && !result.timedOut && result.output.trim() in listOf("READY", "EMPTY"))
+                        readyUntil = if (result.exitCode == 0 && !result.timedOut && result.output.trim() in listOf("READY", "EMPTY", "PASSENGER_OFF"))
                             SystemClock.elapsedRealtime() + 1200 else 0
                         if (result.exitCode != 0 || result.timedOut)
                             AppLog.changed("ScreenSwap", "prepare failed=${result.exitCode} ${result.output}")

@@ -8,7 +8,10 @@ Java.perform(function(){
     const Options=Java.use('android.app.ActivityOptions');
     const ctx=Java.use('android.app.ActivityThread').currentApplication();
     const Apps=Java.use('com.qinggan.launcher.base.utils.AppUtils');
+    const Properties=Java.use('android.os.SystemProperties');
+    function poweredOff(){return Properties.getBoolean('persist.second.screen.disable',false);}
     function allowed(){
+        if(poweredOff())return false;
         if(typeof globalThis.VI_LAUNCHER_SCREEN_UP==='function' && !globalThis.VI_LAUNCHER_SCREEN_UP())return false;
         const now=Date.now();
         return Global.getInt(ctx.getContentResolver(),'voyah_iran_launcher_home',0)===1 &&
@@ -57,6 +60,15 @@ Java.perform(function(){
         const o=Java.retain(Observer.__DOLLAR__new(Java.use('android.os.Handler').__DOLLAR__new(Java.use('android.os.Looper').getMainLooper())));
         ['voyah_iran_launcher_home','voyah_iran_launcher_lease','voyah_iran_launcher_vip_lease'].forEach(k=>ctx.getContentResolver().registerContentObserver(Global.getUriFor(k),false,o));
     }catch(e){console.log('VI_PASSENGER_HOME_OBSERVER '+e);}
+    // Physical passenger power is not Android's global SCREEN_ON/OFF. The
+    // persisted flag may change without recreating/resuming the stock Home.
+    let wasOff=poweredOff();
+    setInterval(function(){Java.perform(function(){try{
+        const off=poweredOff();
+        if(wasOff && !off){foregroundHint='';foregroundUntil=0;last=0;
+            if(typeof globalThis.VI_LIFT_RECONCILE==='function')globalThis.VI_LIFT_RECONCILE(1);else check();}
+        wasOff=off;
+    }catch(e){console.log('VI_PASSENGER_POWER '+e);}});},500);
     check();
 });
 """.trimIndent().replace("__DOLLAR__","$")

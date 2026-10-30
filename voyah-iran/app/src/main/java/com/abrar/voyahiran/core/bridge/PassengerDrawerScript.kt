@@ -30,6 +30,7 @@ Java.perform(function () {
             implements: [Java.use('android.view.View__DOLLAR__OnClickListener')],
             methods: {onClick: function (view) {
                 try {
+                    if(Java.use('android.os.SystemProperties').getBoolean('persist.second.screen.disable',false))return;
                     const ctx = view.getContext();
                     if(typeof globalThis.VI_PASSENGER_OPEN==='function' && globalThis.VI_PASSENGER_OPEN(true))return;
                     if (Global.getInt(ctx.getContentResolver(), 'voyah_iran_passenger_apps', 1) !== 1) return;
