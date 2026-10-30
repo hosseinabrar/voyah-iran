@@ -3,7 +3,8 @@ const root=path.join(__dirname,'../../main/java/com/abrar/voyahiran/core/bridge'
 const source=fs.readFileSync(path.join(root,'LauncherScreenLiftScript.kt'),'utf8').split('"""')[1].replaceAll('__DOLLAR__','$');
 const own='com.abrar.voyahiran/.feature.launcher.';
 const stock='com.qinggan.app.launcher/';
-function setup(initial=2){
+function setup(initial=2,queued=false){
+ const queue=[];
  const calls=[],tops=[own+'VoyahLauncherActivity',own+'PassengerAppsActivity'];let receive,page=0,active=true;
  const ctx={getContentResolver(){return{}},registerReceiver(r){receive=r.onReceive},startActivity(i,o){calls.push({name:i.name,display:o.display,extras:i.extras});tops[o.display]=i.pkg+'/'+i.name}};
  const Intent={$new(){const i={extras:{},setClassName(pkg,name){this.pkg=pkg;this.name=name},addFlags(){}};i.putExtra={overload(){return{call(self,k,v){self.extras[k]=v}}}};return i}};
@@ -17,9 +18,9 @@ function setup(initial=2){
   'android.app.ActivityOptions':{makeBasic(){return{setLaunchDisplayId(d){this.display=d},toBundle(){return this}}}},
   'android.content.BroadcastReceiver':{},'android.content.IntentFilter':{$new:()=>({addAction(){}})}
  };
- const context={console,Date,Java:{perform:f=>f(),scheduleOnMainThread:f=>f(),use:n=>{assert(n in types,n);return types[n]},retain:r=>r,registerClass:c=>({$new:()=>c.methods})}};
+ const context={console,Date,Java:{perform:f=>f(),scheduleOnMainThread:f=>queued?queue.push(f):f(),use:n=>{assert(n in types,n);return types[n]},retain:r=>r,registerClass:c=>({$new:()=>c.methods})}};
  vm.runInNewContext(source,context);
- return {calls,tops,context,event(n,action='action.qg.layout.changed'){receive(ctx,{getAction:()=>action,getIntExtra:()=>n})},setPage:n=>page=n,disable:()=>active=false};
+ return {calls,tops,context,flush(){while(queue.length)queue.shift()()},event(n,action='action.qg.layout.changed'){receive(ctx,{getAction:()=>action,getIntExtra:()=>n})},setPage:n=>page=n,disable:()=>active=false};
 }
 {
  const s=setup();s.event(1);
@@ -47,7 +48,28 @@ function setup(initial=2){
  s.calls.length=0;s.event(0);assert.equal(s.calls.length,0,'ignore unknown states');
  s.disable();s.event(2);assert.equal(s.calls.length,0,'respect entitlement and preference');
 }
+{
+ const s=setup();s.tops[0]=stock+'com.qinggan.app.launcher.activity.MainActivity';
+ s.tops[1]=stock+'com.qinggan.secondlauncher.activity.SecondMainActivity';
+ for(let i=0;i<20;i++)s.event(2);
+ assert.equal(s.calls.length,0,'duplicate raised boot broadcasts must not navigate');
+ s.event(1);s.event(2);assert.equal(s.calls.length,2,'real lift restores both homes');
+ s.calls.length=0;s.tops[0]=stock+'com.qinggan.app.launcher.activity.MainActivity';s.event(2);
+ assert.equal(s.calls.length,0,'repeated raised state must not steal focus');
+}
+{
+ const s=setup();s.event(1);s.calls.length=0;
+ s.tops[0]=own+'VoyahLauncherActivity';s.tops[1]=own+'PassengerAppsActivity';
+ for(let i=0;i<20;i++)s.event(0,'android.intent.action.TOP_ACTIVITY_CHANGED');
+ assert.equal(s.calls.length,0,'stale top-task notifications must not repeat pending launches');
+}
+{
+ const s=setup(2,true);s.event(1);s.event(2);s.flush();
+ assert.equal(s.calls.length,0,'queued lowered callback must expire after raise');
+ s.event(1);s.event(2);s.event(1);s.flush();
+ assert.equal(s.calls.length,2,'only latest transition may navigate');
+}
 for(const file of ['LauncherHomeScript.kt','PassengerHomeScript.kt','LauncherAppsScript.kt','LauncherWakeCoverScript.kt']){
  assert(fs.readFileSync(path.join(root,file),'utf8').includes('!globalThis.VI_LAUNCHER_SCREEN_UP()'),file+' must yield when lowered');
 }
-console.log('Screen lift routing: 4 scenarios and 4 entry-point guards passed');
+console.log('Screen lift routing: 7 scenarios and 4 entry-point guards passed');

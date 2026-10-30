@@ -10,6 +10,8 @@ Java.perform(function(){
     const Displays=Java.use('com.qinggan.os.ServiceManager');
     const Intent=Java.use('android.content.Intent');
     let state=2;
+    let generation=0;
+    const pending=[null,null];
     try{state=Number(Java.use('com.qinggan.utils.ScreenLiftUtils').getScreenLiftState());}catch(e){console.log('VI_LIFT_STATE '+e);}
     globalThis.VI_LAUNCHER_SCREEN_UP=function(){return state!==1;};
     function enabled(){
@@ -18,6 +20,8 @@ Java.perform(function(){
     }
     function activity(top){const parts=top.split('/');let a=parts[parts.length-1];return a.charAt(0)==='.'?parts[0]+a:a;}
     function open(screen,drawer,stock){
+        const key=stock+':'+drawer, now=Date.now();
+        if(pending[screen] && pending[screen].key===key && now-pending[screen].at<1500)return;
         const i=Intent.__DOLLAR__new('android.intent.action.MAIN');
         if(stock){
             i.setClassName('com.qinggan.app.launcher',screen===0?'com.qinggan.app.launcher.activity.MainActivity':
@@ -33,11 +37,12 @@ Java.perform(function(){
         }
         i.addFlags(0x10000000|0x04000000);
         const options=Java.use('android.app.ActivityOptions').makeBasic();options.setLaunchDisplayId(screen);
-        ctx.startActivity(i,options.toBundle());
+        pending[screen]={key:key,at:now};
+        try{ctx.startActivity(i,options.toBundle());}catch(e){pending[screen]=null;throw e;}
         console.log('VI_LIFT_SWITCH display='+screen+' stock='+stock+' drawer='+drawer);
     }
-    function reconcile(){Java.scheduleOnMainThread(function(){
-        if(!enabled())return;
+    function reconcile(){const expected=generation;Java.scheduleOnMainThread(function(){
+        if(expected!==generation || !enabled())return;
         for(let screen=0;screen<2;screen++)try{
             const a=activity(String(Displays.getDpyTopAppInfo(ctx,screen,4)));
             if(state===1){
@@ -57,7 +62,9 @@ Java.perform(function(){
         const Receiver=Java.registerClass({name:'com.abrar.voyahiran.bridge.LauncherLiftReceiver',superClass:Java.use('android.content.BroadcastReceiver'),methods:{onReceive:function(c,i){
             if(String(i.getAction())==='action.qg.layout.changed'){
                 const next=i.getIntExtra('type',0);if(next!==1&&next!==2)return;
-                state=next;
+                // Boot can repeat the current layout; only a real lift transition owns navigation.
+                if(next===state)return;
+                state=next;generation++;pending[0]=pending[1]=null;
                 if(state===1 && typeof globalThis.VI_HOME_UNCOVER==='function')globalThis.VI_HOME_UNCOVER();
                 reconcile();
             }else if(state===1){reconcile();}
