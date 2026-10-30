@@ -18,7 +18,7 @@ function setup(initial=2,queued=false){
   'android.app.ActivityOptions':{makeBasic(){return{setLaunchDisplayId(d){this.display=d},toBundle(){return this}}}},
   'android.content.BroadcastReceiver':{},'android.content.IntentFilter':{$new:()=>({addAction(){}})}
  };
- const context={console,Date,Java:{perform:f=>f(),scheduleOnMainThread:f=>queued?queue.push(f):f(),use:n=>{assert(n in types,n);return types[n]},retain:r=>r,registerClass:c=>({$new:()=>c.methods})}};
+ const context={console,Date,Java:{perform:f=>f(),scheduleOnMainThread:f=>queued?queue.push(f):f(),use:n=>{assert(n in types,n);return types[n]},retain:r=>r,registerClass:c=>{assert.deepEqual(Array.from(c.methods.onReceive.argumentTypes),['android.content.Context','android.content.Intent']);assert.equal(c.methods.onReceive.returnType,'void');return {$new:()=>({onReceive:c.methods.onReceive.implementation})}}}};
  vm.runInNewContext(source,context);
  return {calls,tops,context,flush(){while(queue.length)queue.shift()()},event(n,action='action.qg.layout.changed'){receive(ctx,{getAction:()=>action,getIntExtra:()=>n})},setPage:n=>page=n,disable:()=>active=false};
 }

@@ -55,10 +55,8 @@ Java.perform(function () {
     globalThis.VI_HOME_COVER = show;
     globalThis.VI_HOME_UNCOVER = remove;
     try {
-        const Lifecycle = Java.registerClass({
-            name: 'com.abrar.voyahiran.bridge.HomeWakeLifecycle',
-            implements: [Java.use('android.app.Application' + String.fromCharCode(36) + 'ActivityLifecycleCallbacks')],
-            methods: {
+        const lifecycleMethods = {
+
                 onActivityCreated: function(a, state) { remember(a); },
                 onActivityStarted: function(a) {},
                 onActivityResumed: function(a) {
@@ -75,13 +73,26 @@ Java.perform(function () {
                 onActivityDestroyed: function(a) {
                     if (activity !== null && activity.equals(a)) { remove(); activity.${'$'}dispose(); activity = null; }
                 }
-            }
+        };
+        // Android 10+ adds default pre/post methods; Frida requires implementations too.
+        for (const phase of ['Pre','Post']) for (const event of ['Created','Started','Resumed','Paused','Stopped','SaveInstanceState','Destroyed']) {
+            lifecycleMethods['onActivity'+phase+event]=function() {};
+        }
+        for (const name of Object.keys(lifecycleMethods)) {
+            const args=['android.app.Activity'];
+            if(name.endsWith('Created') || name.endsWith('SaveInstanceState'))args.push('android.os.Bundle');
+            lifecycleMethods[name]={returnType:'void',argumentTypes:args,implementation:lifecycleMethods[name]};
+        }
+        const Lifecycle=Java.registerClass({
+            name:'com.abrar.voyahiran.bridge.HomeWakeLifecycle',
+            implements:[Java.use('android.app.Application'+String.fromCharCode(36)+'ActivityLifecycleCallbacks')],
+            methods:lifecycleMethods
         });
         app.registerActivityLifecycleCallbacks(Lifecycle.${'$'}new());
         const Receiver = Java.registerClass({
             name: 'com.abrar.voyahiran.bridge.HomeWakeReceiver',
             superClass: Java.use('android.content.BroadcastReceiver'),
-            methods: { onReceive: function(ctx, intent) {
+            methods: { onReceive: {returnType:'void',argumentTypes:['android.content.Context','android.content.Intent'],implementation:function(ctx, intent) {
                 const action = String(intent.getAction());
                 if (action === 'android.intent.action.SCREEN_OFF') {
                     eligibleAtSleep = valid();
@@ -92,7 +103,7 @@ Java.perform(function () {
                     show();
                     if (typeof globalThis.VI_HOME_WAKE_CHECK === 'function') globalThis.VI_HOME_WAKE_CHECK();
                 }
-            } }
+            } } }
         });
         const filter = Java.use('android.content.IntentFilter').${'$'}new('android.intent.action.SCREEN_OFF');
         filter.addAction('android.intent.action.SCREEN_ON');

@@ -59,7 +59,7 @@ Java.perform(function(){
         }catch(e){console.log('VI_LIFT_SWITCH_ERROR '+e);}
     });}
     try{
-        const Receiver=Java.registerClass({name:'com.abrar.voyahiran.bridge.LauncherLiftReceiver',superClass:Java.use('android.content.BroadcastReceiver'),methods:{onReceive:function(c,i){
+        const Receiver=Java.registerClass({name:'com.abrar.voyahiran.bridge.LauncherLiftReceiver',superClass:Java.use('android.content.BroadcastReceiver'),methods:{onReceive:{returnType:'void',argumentTypes:['android.content.Context','android.content.Intent'],implementation:function(c,i){
             if(String(i.getAction())==='action.qg.layout.changed'){
                 const next=i.getIntExtra('type',0);if(next!==1&&next!==2)return;
                 // Boot can repeat the current layout; only a real lift transition owns navigation.
@@ -68,7 +68,7 @@ Java.perform(function(){
                 if(state===1 && typeof globalThis.VI_HOME_UNCOVER==='function')globalThis.VI_HOME_UNCOVER();
                 reconcile();
             }else if(state===1){reconcile();}
-        }}});
+        }}}});
         const filter=Java.use('android.content.IntentFilter').__DOLLAR__new('action.qg.layout.changed');
         filter.addAction('android.intent.action.TOP_ACTIVITY_CHANGED');
         const receiver=Java.retain(Receiver.__DOLLAR__new());ctx.registerReceiver(receiver,filter);

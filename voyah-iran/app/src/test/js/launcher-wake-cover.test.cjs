@@ -22,7 +22,12 @@ const classes={
   'android.content.IntentFilter':{$new:()=>({addAction(){}})}
 };
 const sandbox={Java:{perform:f=>f(),use:n=>{assert(classes[n],n);return classes[n]},retain:v=>v,cast:v=>v,array:(t,v)=>v,
-  scheduleOnMainThread:f=>main.push(f),registerClass:d=>({$new:()=>d.methods}),
+  scheduleOnMainThread:f=>main.push(f),registerClass:d=>{
+    if(d.implements) for(const phase of ['Pre','Post']) for(const event of ['Created','Started','Resumed','Paused','Stopped','SaveInstanceState','Destroyed']) assert(d.methods['onActivity'+phase+event]);
+    else assert.deepEqual(Array.from(d.methods.onReceive.argumentTypes),['android.content.Context','android.content.Intent']);
+    for(const m of Object.values(d.methods)){assert.equal(m.returnType,'void');assert(Array.isArray(m.argumentTypes));}
+    return {$new:()=>Object.fromEntries(Object.entries(d.methods).map(([k,v])=>[k,v.implementation]))};
+  },
   choose:(n,c)=>{c.onMatch(activity);c.onComplete()}},Date:{now:()=>now},console,
   setTimeout:f=>{timers.set(++timerId,f);return timerId},clearTimeout:id=>timers.delete(id),
   VI_HOME_WAKE_CHECK:()=>wakes++};
