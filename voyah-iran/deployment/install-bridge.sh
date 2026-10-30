@@ -112,8 +112,12 @@ chmod 700 "$dest/roa/frida-inject"
 restorecon -RF "$dest"
 # The app writes its own private credential. No access to app_data_file from shell
 # and no global SELinux change is required. Receiver requires INSTALL_PACKAGES.
+if [ "${3:-}" = "defer-provision" ]; then
+    echo "VOYAH_CREDENTIAL_DEFERRED: installer will provision after reboot and package restoration"
+else
 provision=$(am broadcast --user 0 --include-stopped-packages -n "$package/.core.bridge.BridgeProvisionReceiver" --es token "$(cat "$stage.token")")
 echo "$provision" | grep -q 'result=200' || { echo 'App credential provisioning failed'; exit 21; }
+fi
 if [ "$(getprop ro.build.version.sdk)" = 28 ] &&
     { getprop ro.build.fingerprint; getprop ro.vendor.build.fingerprint; } | grep -Eiq '(^|[^a-z0-9])h97a([^a-z0-9]|$)'; then
     # H97A permits shell_exec as the shell domain entrypoint, but not zygote_exec.

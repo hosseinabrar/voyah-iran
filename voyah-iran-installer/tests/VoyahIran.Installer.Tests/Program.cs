@@ -27,6 +27,7 @@ if (args.Length == 2 && args[0] == "--verify-payload") {
     } finally { Directory.Delete(root, true); }
     return;
 }
+await FrameworkServiceRecoveryTests.Run();
 await VoyahPermissionsTests.Run();
 await ApkInstallRecoveryTests.Run();
 await LogcatCaptureTests.Run(root);
@@ -75,8 +76,17 @@ foreach(var prior in Enumerable.Range(0,5)) {
     },file);
     await guard.Capture();await guard.Block();
     Check(state==3 && File.ReadAllText(file).Contains("OriginalEnabledState="+prior), "Block restarts and persist recovery state "+prior);
-    await guard.Verify();await guard.Restore();
+    await guard.Verify();
+    state=0; // Successful OEM package replacement resets disabled-user.
+    await guard.Capture();await guard.Block();await guard.Verify();
+    Check(state==3 && File.ReadAllText(file).Contains("OriginalEnabledState="+prior),
+        "Re-block after APK replacement preserves original state "+prior);
+    await guard.Restore();
     Check(state==prior, "Restore exact package state "+prior);
+    await guard.WithEnabled(() => { Check(state is 0 or 1, "Credential receiver enabled "+prior); return Task.CompletedTask; });
+    Check(state==prior, "Credential provisioning preserves prior state "+prior);
+    try { await guard.WithEnabled(() => throw new IOException("receiver failed")); } catch(IOException) { }
+    Check(state==prior, "Failed provisioning restores prior state "+prior);
 }
 {
     var guard=new InstallAppGuard(a=>Task.FromResult(a.Contains("packages")?"package:com.abrar.voyahiran":"User 0: enabled=0"),Path.Combine(root,"guard-failed.txt"));
@@ -267,6 +277,9 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     var restoreIndex=fake.Calls.FindLastIndex(c=>c.Contains("enabled_accessibility_services") && c.Contains("put") && c.Last().Contains("com.abrar.voyahiran/.Service"));
     Check(suspendIndex>leaseIndex && suspendIndex<stopIndex && stopIndex<installIndex, "Accessibility suspension precedes app stop and APK copy");
     Check(restoreIndex>installIndex && restoreIndex<launchIndex, "Accessibility restored before launching verified app");
+    var provisionIndex=fake.Calls.FindIndex(a=>a.Contains("com.abrar.voyahiran/.core.bridge.BridgeProvisionReceiver"));
+    var grantIndex=fake.Calls.FindIndex(a=>a.Contains("grant"));
+    Check(provisionIndex>=0 && grantIndex>provisionIndex,"Bridge credential delivered before optional permission stage");
     var blockIndex=fake.Calls.FindIndex(c=>c.Contains("disable-user"));
     var unblockIndex=fake.Calls.FindIndex(c=>c.Contains("default-state"));
     Check(blockIndex>suspendIndex && blockIndex<stopIndex && unblockIndex>installIndex && unblockIndex<launchIndex, "Package stays disabled through APK replacement and reboot verification");
@@ -436,6 +449,11 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
     public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
     {
         Calls.Add(args);
+        if(args.Contains("com.abrar.voyahiran/.core.bridge.BridgeProvisionReceiver")) {
+            if(appEnabled is not (0 or 1) || !Calls.Any(c=>c[0]=="reboot"))
+                throw new IOException("Provisioning must follow reboot and enabling receiver");
+            return Task.FromResult(new CommandResult(0,"Broadcast completed: result=200"));
+        }
         if(args.Contains("package") && (args.Contains("/system/bin/dumpsys") || args.Contains("dumpsys")))
             return Task.FromResult(new CommandResult(0, "  User 0: installed=true enabled="+appEnabled+"\n"+string.Join("\n",new[]{"ACCESS_COARSE_LOCATION","ACCESS_FINE_LOCATION","RECORD_AUDIO","READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"}.Select(p=>"android.permission."+p+": granted=true"))));
         if(args.Contains("appops") && args.Contains("get")) return Task.FromResult(new CommandResult(0,args.Last()+": allow"));

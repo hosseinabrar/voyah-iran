@@ -61,7 +61,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
     private void Done() { log.Write($"PHASE {phase}: succeeded"); Progress?.Invoke(new(phase, PhaseState.Succeeded)); }
     private async Task<string> Command(int timeout, params string[] args)
     {
-        var result = await adb.RunAsync(serial, args, timeout);
+        var result = await new FrameworkServiceRecovery(adb, log.Write).Run(serial, args, timeout);
         if (result.ExitCode != 0) throw new IOException($"فرمان نصب ناموفق بود (کد {result.ExitCode}). جزئیات در گزارش ثبت شده است.");
         return result.Output.Trim();
     }
@@ -248,6 +248,12 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
                     throw new IOException("سرویس ذخیره‌سازی اندروید هنگام نصب خطای داخلی freeStorage داده است. نصب خودکار تکرار نشد؛ گزارش کامل را برای بررسی بفرستید.");
                 throw new IOException($"نصب APK ناموفق بود (کد {apkResult.ExitCode}). اتصال USB و گزارش نصب را بررسی کنید.\n{apkResult.Output.Trim()}");
             }
+            // PackageManager may reset disabled-user to DEFAULT during a successful
+            // replacement. Re-establish the guard using the same freeze/map-cleanup
+            // sequence before touching bridge/framework files; retain the pre-install state.
+            log.Write("APK installed; re-establishing app restart prevention after package replacement.");
+            await appGuard.Capture();
+            await StopLauncherForInstall(appGuard);
             await appGuard.Verify();
             Done();
             Begin(InstallPhase.Bridge);
@@ -266,7 +272,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
                 await Command(90, "push", bundle.File(local), prefix + suffix);
                 await VerifyHash(prefix + suffix, bundle.Manifest.Files[local]);
             }
-            var bridge = await Root(120, "/system/bin/sh", prefix + ".sh", prefix, bundle.Manifest.Files["app.apk"]);
+            var bridge = await Root(120, "/system/bin/sh", prefix + ".sh", prefix, bundle.Manifest.Files["app.apk"], "defer-provision");
             if (!bridge.Contains("VOYAH_BRIDGE_INSTALLED", StringComparison.Ordinal)) throw new IOException("نصب واسط تأیید نشد.");
             Done();
             Begin(InstallPhase.Framework);
@@ -325,8 +331,16 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             var apk = packages.Split('\n').Select(l => l.Trim()).FirstOrDefault(l => l.StartsWith("package:/", StringComparison.Ordinal))?[8..];
             if (apk == null || apk.Any(c => !(char.IsAsciiLetterOrDigit(c) || "/._-=+~".Contains(c)))) throw new InvalidDataException("مسیر APK نصب‌شده معتبر نیست.");
             await VerifyHash(apk, bundle.Manifest.Files["app.apk"]);
-            await VoyahPermissions.GrantAsync(adb, serial, log.Write);
             await appGuard.Restore();
+            await appGuard.WithEnabled(async () => {
+                var provision = await Root(30, "/system/bin/am", "broadcast", "--user", "0",
+                    "--include-stopped-packages", "-n", "com.abrar.voyahiran/.core.bridge.BridgeProvisionReceiver",
+                    "--es", "token", token);
+                if (!System.Text.RegularExpressions.Regex.IsMatch(provision, @"\bresult=200\b"))
+                    throw new IOException("تحویل کلید اتصال واسط به برنامه تأیید نشد.");
+                log.Write("App bridge credential provisioned after reboot and verified package restoration.");
+            });
+            await VoyahPermissions.GrantAsync(adb, serial, log.Write);
             await accessibility.Restore();
             if (appGuard.CanLaunch) await PostBootAppLauncher.LaunchAsync(adb, serial, log.Write);
             // Only after reboot, service readiness and all installed hashes were verified.
