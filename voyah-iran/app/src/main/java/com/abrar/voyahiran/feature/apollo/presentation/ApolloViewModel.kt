@@ -47,7 +47,7 @@ class ApolloViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
     fun setExperiment(setting: com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment, value: Int) {
-        if (mutable.value.busy || !com.abrar.voyahiran.feature.apollo.data.ApolloControl.checked(getApplication())) return
+        if (mutable.value.busy) return
         mutable.value = mutable.value.copy(busy = true, error = null)
         viewModelScope.launch {
             var failure: String? = null

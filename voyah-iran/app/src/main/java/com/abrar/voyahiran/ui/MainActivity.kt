@@ -84,10 +84,8 @@ class MainActivity : ComponentActivity() {
                     Regex("APOLLO_CAPABILITY available=(\\d+)").find(result.output)?.groupValues?.get(1)?.toIntOrNull() else null
                 if (available != null) {
                     apolloAvailable = available == 1
-                    binding.apolloTab.visibility = if (apolloAvailable) View.VISIBLE else View.GONE
                     binding.comfortPage.avmTurnCard.visibility = if (apolloAvailable) View.VISIBLE else View.GONE
                     if (apolloAvailable) updateAvmTurn("read")
-                    if (!apolloAvailable && selectedTab == Tab.APOLLO) selectTab(Tab.SETTINGS)
                     return@launch
                 }
                 if (attempt < 4) delay(1500)
@@ -207,8 +205,9 @@ class MainActivity : ComponentActivity() {
         binding.voiceTab.setOnClickListener { selectTab(Tab.VOICE) }
         binding.settingsTab.setOnClickListener { selectTab(Tab.SETTINGS) }
         binding.comfortTab.setOnClickListener { selectTab(Tab.COMFORT) }
-        binding.apolloTab.visibility = View.GONE
-        binding.apolloTab.setOnClickListener { if (apolloAvailable) { selectTab(Tab.APOLLO); apollo.refresh() } }
+        // Experimental branch: expose Apollo controls on all vehicle variants.
+        binding.apolloTab.visibility = View.VISIBLE
+        binding.apolloTab.setOnClickListener { selectTab(Tab.APOLLO); apollo.refresh() }
         apolloControls().forEach { (box, feature, _) ->
             box.setOnClickListener { apollo.setFeature(feature, box.isChecked) }
         }
@@ -498,7 +497,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun selectTab(tab: Tab) {
-        if (tab == Tab.APOLLO && !apolloAvailable) { selectTab(Tab.SETTINGS); return }
         if (tab == Tab.ABOUT) { selectTab(Tab.SETTINGS); return }
         com.abrar.voyahiran.core.logging.AppLog.info("UI", "tab=$tab")
         if (selectedTab == Tab.DIAGNOSTICS || tab == Tab.DIAGNOSTICS) diagnostics.reset()
@@ -757,26 +755,26 @@ class MainActivity : ComponentActivity() {
         state.error?.let { android.widget.Toast.makeText(this@MainActivity, it, android.widget.Toast.LENGTH_LONG).show() }
         apolloControls().forEach { (box, feature, title) ->
             show(box, title, state.report.features[feature])
-            box.isEnabled = subscription.isChecked && !state.busy && state.report.features[feature] != null
-            box.alpha = if (subscription.isChecked) 1f else 0.45f
+            box.isEnabled = !state.busy
+            box.alpha = 1f
         }
         experiments.visibility = View.GONE
         val speedState = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED]
         show(intelligentSpeed, R.string.apollo_intelligent_speed, when (speedState) { 1 -> true; 2 -> false; else -> null })
-        intelligentSpeed.isEnabled = subscription.isChecked && !state.busy && speedState in 1..2
-        intelligentSpeed.alpha = if (subscription.isChecked && speedState in 1..2) 1f else 0.45f
+        intelligentSpeed.isEnabled = !state.busy
+        intelligentSpeed.alpha = 1f
         val warningState = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_WARNING]
         val warningEnabled = warningState == 2
         show(speedWarningEnabled, R.string.apollo_speed_warning, when (warningState) { 1 -> false; 2 -> true; else -> null })
-        speedWarningEnabled.isEnabled = subscription.isChecked && !state.busy && warningState in 1..2
-        speedWarningEnabled.alpha = if (subscription.isChecked && warningState in 1..2) 1f else 0.45f
+        speedWarningEnabled.isEnabled = !state.busy
+        speedWarningEnabled.alpha = 1f
         speedWarningModes.visibility = if (warningEnabled) View.VISIBLE else View.GONE
         val speedStyle = state.report.experiments[com.abrar.voyahiran.feature.apollo.domain.ApolloExperiment.SPEED_OFFSET]
         speedWarningExact.isChecked = speedStyle == 1
         speedWarningPercent.isChecked = speedStyle == 2
         listOf(speedWarningExact, speedWarningPercent).forEach {
-            it.isEnabled = subscription.isChecked && warningEnabled && !state.busy && speedStyle in 1..2
-            it.alpha = if (subscription.isChecked && speedStyle in 1..2) 1f else 0.45f
+            it.isEnabled = !state.busy
+            it.alpha = 1f
         }
         progress.visibility = if (state.busy) View.VISIBLE else View.GONE
         refresh.isEnabled = !state.busy

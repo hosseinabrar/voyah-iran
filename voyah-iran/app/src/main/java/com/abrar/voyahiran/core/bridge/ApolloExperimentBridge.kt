@@ -54,8 +54,8 @@ internal object ApolloExperimentBridge {
             CommandResult(0, json.toString())
         } else {
             val key = state(setting)
-            val before = (getter.invoke(remote, key) as Number).toInt()
-            check(setting.accepts(before)) { "Unsupported current state: $before" }
+            // Experimental branch: an unavailable/currently unsupported report must not
+            // prevent sending a valid requested value to the installed CAN service.
             val result = api.getMethod("setVehicleState", type, Int::class.javaPrimitiveType).invoke(remote, key, value)
             check(result !is Number || result.toInt() >= 0) { "OEM rejected: $result" }
             val deadline = SystemClock.elapsedRealtime() + 2000
@@ -64,7 +64,7 @@ internal object ApolloExperimentBridge {
                 Thread.sleep(100)
                 actual = (getter.invoke(remote, key) as Number).toInt()
             }
-            AppLog.info("ApolloTest", "field=${setting.field} before=$before requested=$value actual=$actual result=$result")
+            AppLog.info("ApolloTest", "field=${setting.field} requested=$value actual=$actual result=$result")
             check(actual == value) { "Vehicle feedback mismatch: expected=$value actual=$actual" }
             CommandResult(0, "${setting.field}=$actual")
         }
