@@ -1,0 +1,967 @@
+{
+  "count": 1368,
+  "covered_actions": 114,
+  "known_normalized_text_count": 30907,
+  "exact_overlap": 0,
+  "distinct_new_seed_families": 836,
+  "checkpoint_sha256": "2e8bf6744aed35f30a336639ed07500900fef494753e1612705e442862b68b7d",
+  "notes": "Blind text test. No learning or semantic review changes made. 12 unseen normalized sentences per action. Some sentences share a synonym seed; no claim of 1368 independent semantic families.",
+  "baseline": {
+    "all": {
+      "count": 1368,
+      "correct": 594,
+      "unsafe": 28,
+      "executed_correct": 594,
+      "rejected": 746,
+      "semantic_correct": 1068
+    },
+    "clear": {
+      "count": 1368,
+      "correct": 594,
+      "unsafe": 28,
+      "executed_correct": 594,
+      "rejected": 746,
+      "semantic_correct": 1068
+    },
+    "noisy": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    },
+    "invalid": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    },
+    "holdout": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    }
+  },
+  "raw_action_correct": 851,
+  "raw_action_and_parameters_correct": 821,
+  "by_action": {
+    "ACTIVATE_SCENE": {
+      "count": 12,
+      "correct": 11,
+      "unsafe": 0,
+      "executed_correct": 11,
+      "rejected": 1,
+      "semantic_correct": 12
+    },
+    "ADJUST_AMBIENT_LIGHT_BRIGHTNESS": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "ADJUST_AUDIO_VOLUME": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "ADJUST_CABIN_TEMPERATURE": {
+      "count": 12,
+      "correct": 8,
+      "unsafe": 0,
+      "executed_correct": 8,
+      "rejected": 4,
+      "semantic_correct": 12
+    },
+    "ADJUST_FAN_SPEED": {
+      "count": 12,
+      "correct": 10,
+      "unsafe": 0,
+      "executed_correct": 10,
+      "rejected": 2,
+      "semantic_correct": 12
+    },
+    "ADJUST_FRAGRANCE_INTENSITY": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "ADJUST_REGENERATION_LEVEL": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "ADJUST_SEAT_HEATING": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "ADJUST_SEAT_MASSAGE": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "ADJUST_SEAT_VENTILATION": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "ADJUST_SUNROOF_POSITION": {
+      "count": 12,
+      "correct": 7,
+      "unsafe": 0,
+      "executed_correct": 7,
+      "rejected": 5,
+      "semantic_correct": 7
+    },
+    "ADJUST_SUNSHADE_POSITION": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "ADJUST_WINDOW_POSITION": {
+      "count": 12,
+      "correct": 4,
+      "unsafe": 0,
+      "executed_correct": 4,
+      "rejected": 8,
+      "semantic_correct": 8
+    },
+    "ADJUST_WIPER_SENSITIVITY": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "CALL_CONTACT": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 12
+    },
+    "CANCEL_DIALOG": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "CLOSE_SUNROOF": {
+      "count": 12,
+      "correct": 7,
+      "unsafe": 0,
+      "executed_correct": 7,
+      "rejected": 5,
+      "semantic_correct": 9
+    },
+    "CLOSE_TAILGATE": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "CLOSE_WINDOW": {
+      "count": 12,
+      "correct": 8,
+      "unsafe": 0,
+      "executed_correct": 8,
+      "rejected": 4,
+      "semantic_correct": 8
+    },
+    "CONFIGURE_FRAGRANCE": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 0,
+      "executed_correct": 5,
+      "rejected": 7,
+      "semantic_correct": 12
+    },
+    "CONFIRM_CALL": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 0,
+      "executed_correct": 3,
+      "rejected": 9,
+      "semantic_correct": 12
+    },
+    "DEACTIVATE_SCENE": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 0,
+      "executed_correct": 3,
+      "rejected": 9,
+      "semantic_correct": 8
+    },
+    "NAVIGATE_TO_SAVED_PLACE": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "NEXT_MEDIA": {
+      "count": 12,
+      "correct": 2,
+      "unsafe": 0,
+      "executed_correct": 2,
+      "rejected": 10,
+      "semantic_correct": 12
+    },
+    "OPEN_CAMERA": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "OPEN_CHARGE_PORT": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 0,
+      "executed_correct": 5,
+      "rejected": 7,
+      "semantic_correct": 12
+    },
+    "OPEN_DEFAULT_MAP": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "OPEN_DEFAULT_MUSIC": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 0,
+      "executed_correct": 3,
+      "rejected": 9,
+      "semantic_correct": 12
+    },
+    "OPEN_FUEL_FLAP": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "OPEN_OEM_RADIO": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "OPEN_SUNROOF": {
+      "count": 12,
+      "correct": 4,
+      "unsafe": 0,
+      "executed_correct": 4,
+      "rejected": 8,
+      "semantic_correct": 5
+    },
+    "OPEN_TAILGATE": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 0,
+      "executed_correct": 3,
+      "rejected": 9,
+      "semantic_correct": 12
+    },
+    "OPEN_WINDOW": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 4,
+      "executed_correct": 6,
+      "rejected": 2,
+      "semantic_correct": 12
+    },
+    "PAUSE_MEDIA": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "PLAY_MEDIA": {
+      "count": 12,
+      "correct": 7,
+      "unsafe": 0,
+      "executed_correct": 7,
+      "rejected": 5,
+      "semantic_correct": 12
+    },
+    "PREVIOUS_MEDIA": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "RECALL_SEAT_POSITION": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "SAVE_SEAT_POSITION": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "SET_AC_POWER": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_AIRFLOW_DIRECTION": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "SET_AIR_RECIRCULATION": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 1,
+      "executed_correct": 3,
+      "rejected": 8,
+      "semantic_correct": 12
+    },
+    "SET_AMBIENT_LIGHT_BRIGHTNESS": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "SET_AMBIENT_LIGHT_MODE": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_AMBIENT_LIGHT_POWER": {
+      "count": 12,
+      "correct": 2,
+      "unsafe": 0,
+      "executed_correct": 2,
+      "rejected": 10,
+      "semantic_correct": 4
+    },
+    "SET_AUDIO_MUTE": {
+      "count": 12,
+      "correct": 1,
+      "unsafe": 0,
+      "executed_correct": 1,
+      "rejected": 11,
+      "semantic_correct": 12
+    },
+    "SET_AUDIO_VOLUME": {
+      "count": 12,
+      "correct": 7,
+      "unsafe": 0,
+      "executed_correct": 7,
+      "rejected": 5,
+      "semantic_correct": 12
+    },
+    "SET_AUTOMATIC_EMERGENCY_BRAKING": {
+      "count": 12,
+      "correct": 7,
+      "unsafe": 0,
+      "executed_correct": 7,
+      "rejected": 5,
+      "semantic_correct": 12
+    },
+    "SET_AUTO_HIGH_BEAM": {
+      "count": 12,
+      "correct": 10,
+      "unsafe": 0,
+      "executed_correct": 10,
+      "rejected": 2,
+      "semantic_correct": 12
+    },
+    "SET_AUTO_HOLD": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "SET_BATTERY_PRECONDITIONING": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 0,
+      "executed_correct": 5,
+      "rejected": 7,
+      "semantic_correct": 6
+    },
+    "SET_BATTERY_RESERVE_TARGET": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_BLIND_SPOT_MONITORING": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_CABIN_TEMPERATURE": {
+      "count": 12,
+      "correct": 10,
+      "unsafe": 2,
+      "executed_correct": 10,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_CHILD_LOCK": {
+      "count": 12,
+      "correct": 8,
+      "unsafe": 0,
+      "executed_correct": 8,
+      "rejected": 4,
+      "semantic_correct": 12
+    },
+    "SET_CLIMATE_AUTO": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "SET_CLIMATE_POWER": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 0,
+      "executed_correct": 3,
+      "rejected": 9,
+      "semantic_correct": 12
+    },
+    "SET_DAYTIME_RUNNING_LIGHTS": {
+      "count": 12,
+      "correct": 1,
+      "unsafe": 0,
+      "executed_correct": 1,
+      "rejected": 11,
+      "semantic_correct": 12
+    },
+    "SET_DISPLAY_BRIGHTNESS": {
+      "count": 12,
+      "correct": 8,
+      "unsafe": 2,
+      "executed_correct": 8,
+      "rejected": 2,
+      "semantic_correct": 12
+    },
+    "SET_DISPLAY_THEME_MODE": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 2,
+      "executed_correct": 6,
+      "rejected": 4,
+      "semantic_correct": 12
+    },
+    "SET_DOOR_LOCK": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_DOOR_OPEN_WARNING": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "SET_DRIVER_GESTURES": {
+      "count": 12,
+      "correct": 8,
+      "unsafe": 1,
+      "executed_correct": 8,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "SET_DRIVER_MONITORING": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "SET_DRIVE_MODE": {
+      "count": 12,
+      "correct": 11,
+      "unsafe": 0,
+      "executed_correct": 11,
+      "rejected": 1,
+      "semantic_correct": 12
+    },
+    "SET_EASY_ENTRY": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 0,
+      "executed_correct": 3,
+      "rejected": 9,
+      "semantic_correct": 12
+    },
+    "SET_EASY_EXIT": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 8
+    },
+    "SET_ENERGY_STRATEGY": {
+      "count": 12,
+      "correct": 10,
+      "unsafe": 0,
+      "executed_correct": 10,
+      "rejected": 2,
+      "semantic_correct": 12
+    },
+    "SET_FAN_SPEED": {
+      "count": 12,
+      "correct": 8,
+      "unsafe": 0,
+      "executed_correct": 8,
+      "rejected": 4,
+      "semantic_correct": 12
+    },
+    "SET_FORWARD_COLLISION_WARNING": {
+      "count": 12,
+      "correct": 7,
+      "unsafe": 0,
+      "executed_correct": 7,
+      "rejected": 5,
+      "semantic_correct": 12
+    },
+    "SET_FRAGRANCE_CHANNEL": {
+      "count": 12,
+      "correct": 1,
+      "unsafe": 0,
+      "executed_correct": 1,
+      "rejected": 11,
+      "semantic_correct": 6
+    },
+    "SET_FRAGRANCE_DURATION": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_FRAGRANCE_INTENSITY": {
+      "count": 12,
+      "correct": 2,
+      "unsafe": 0,
+      "executed_correct": 2,
+      "rejected": 10,
+      "semantic_correct": 12
+    },
+    "SET_FRAGRANCE_POWER": {
+      "count": 12,
+      "correct": 1,
+      "unsafe": 0,
+      "executed_correct": 1,
+      "rejected": 11,
+      "semantic_correct": 4
+    },
+    "SET_FRONT_CLIMATE_SYNC": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 0,
+      "executed_correct": 5,
+      "rejected": 7,
+      "semantic_correct": 12
+    },
+    "SET_FRONT_CROSS_TRAFFIC_WARNING": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 12
+    },
+    "SET_FRONT_DEFROSTER": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "SET_HEADLIGHT_MODE": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 2,
+      "executed_correct": 5,
+      "rejected": 5,
+      "semantic_correct": 12
+    },
+    "SET_HIGHWAY_SUSPENSION_ADAPTATION": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 0,
+      "executed_correct": 3,
+      "rejected": 9,
+      "semantic_correct": 12
+    },
+    "SET_HILL_DESCENT_CONTROL": {
+      "count": 12,
+      "correct": 1,
+      "unsafe": 0,
+      "executed_correct": 1,
+      "rejected": 11,
+      "semantic_correct": 12
+    },
+    "SET_LANE_DEPARTURE_ALERT_TYPE": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_LANE_SUPPORT_MODE": {
+      "count": 12,
+      "correct": 12,
+      "unsafe": 0,
+      "executed_correct": 12,
+      "rejected": 0,
+      "semantic_correct": 12
+    },
+    "SET_LEAD_VEHICLE_DEPARTURE_ALERT": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 0,
+      "executed_correct": 5,
+      "rejected": 7,
+      "semantic_correct": 12
+    },
+    "SET_MAX_COOLING": {
+      "count": 12,
+      "correct": 2,
+      "unsafe": 4,
+      "executed_correct": 2,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "SET_MIRROR_FOLD": {
+      "count": 12,
+      "correct": 2,
+      "unsafe": 2,
+      "executed_correct": 2,
+      "rejected": 8,
+      "semantic_correct": 12
+    },
+    "SET_PARKING_BRAKE": {
+      "count": 12,
+      "correct": 7,
+      "unsafe": 1,
+      "executed_correct": 7,
+      "rejected": 4,
+      "semantic_correct": 12
+    },
+    "SET_PEDESTRIAN_WARNING_SOUND": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 0,
+      "executed_correct": 5,
+      "rejected": 7,
+      "semantic_correct": 12
+    },
+    "SET_POWER_KEEP_DURATION": {
+      "count": 12,
+      "correct": 10,
+      "unsafe": 0,
+      "executed_correct": 10,
+      "rejected": 2,
+      "semantic_correct": 12
+    },
+    "SET_POWER_KEEP_ENGINE_CHARGING": {
+      "count": 12,
+      "correct": 4,
+      "unsafe": 0,
+      "executed_correct": 4,
+      "rejected": 8,
+      "semantic_correct": 8
+    },
+    "SET_RAIN_SENSING_WIPERS": {
+      "count": 12,
+      "correct": 3,
+      "unsafe": 0,
+      "executed_correct": 3,
+      "rejected": 9,
+      "semantic_correct": 4
+    },
+    "SET_REAR_COLLISION_WARNING": {
+      "count": 12,
+      "correct": 1,
+      "unsafe": 1,
+      "executed_correct": 1,
+      "rejected": 10,
+      "semantic_correct": 12
+    },
+    "SET_REAR_CROSS_TRAFFIC_WARNING": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 2,
+      "executed_correct": 0,
+      "rejected": 10,
+      "semantic_correct": 12
+    },
+    "SET_REAR_DEFROSTER": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "SET_REAR_DISPLAY_LOCK": {
+      "count": 12,
+      "correct": 8,
+      "unsafe": 0,
+      "executed_correct": 8,
+      "rejected": 4,
+      "semantic_correct": 12
+    },
+    "SET_REAR_FOG_LIGHT": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "SET_REGENERATION_LEVEL": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 3,
+      "executed_correct": 0,
+      "rejected": 9,
+      "semantic_correct": 0
+    },
+    "SET_SCHEDULED_CHARGING": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 1,
+      "executed_correct": 5,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "SET_SEAT_HEATING": {
+      "count": 12,
+      "correct": 2,
+      "unsafe": 0,
+      "executed_correct": 2,
+      "rejected": 10,
+      "semantic_correct": 2
+    },
+    "SET_SEAT_MASSAGE": {
+      "count": 12,
+      "correct": 2,
+      "unsafe": 0,
+      "executed_correct": 2,
+      "rejected": 10,
+      "semantic_correct": 2
+    },
+    "SET_SEAT_MASSAGE_PATTERN": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "SET_SEAT_VENTILATION": {
+      "count": 12,
+      "correct": 1,
+      "unsafe": 0,
+      "executed_correct": 1,
+      "rejected": 11,
+      "semantic_correct": 1
+    },
+    "SET_STABILITY_CONTROL": {
+      "count": 12,
+      "correct": 5,
+      "unsafe": 0,
+      "executed_correct": 5,
+      "rejected": 7,
+      "semantic_correct": 12
+    },
+    "SET_SUNROOF_POSITION": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 6
+    },
+    "SET_SUNSHADE_POSITION": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    },
+    "SET_SUSPENSION_HEIGHT": {
+      "count": 12,
+      "correct": 4,
+      "unsafe": 0,
+      "executed_correct": 4,
+      "rejected": 8,
+      "semantic_correct": 12
+    },
+    "SET_TRAFFIC_SIGN_RECOGNITION": {
+      "count": 12,
+      "correct": 4,
+      "unsafe": 0,
+      "executed_correct": 4,
+      "rejected": 8,
+      "semantic_correct": 12
+    },
+    "SET_WINDOW_POSITION": {
+      "count": 12,
+      "correct": 2,
+      "unsafe": 0,
+      "executed_correct": 2,
+      "rejected": 10,
+      "semantic_correct": 6
+    },
+    "SET_WIPER_SENSITIVITY": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 6
+    },
+    "START_VIDEO_RECORDING": {
+      "count": 12,
+      "correct": 4,
+      "unsafe": 0,
+      "executed_correct": 4,
+      "rejected": 8,
+      "semantic_correct": 12
+    },
+    "STOP_CHARGING": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "STOP_VIDEO_RECORDING": {
+      "count": 12,
+      "correct": 6,
+      "unsafe": 0,
+      "executed_correct": 6,
+      "rejected": 6,
+      "semantic_correct": 12
+    },
+    "SWAP_DISPLAY_APPS": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 12
+    },
+    "SWITCH_CAMERA": {
+      "count": 12,
+      "correct": 7,
+      "unsafe": 0,
+      "executed_correct": 7,
+      "rejected": 5,
+      "semantic_correct": 12
+    },
+    "TAKE_PHOTO": {
+      "count": 12,
+      "correct": 9,
+      "unsafe": 0,
+      "executed_correct": 9,
+      "rejected": 3,
+      "semantic_correct": 12
+    },
+    "VENT_WINDOW": {
+      "count": 12,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 12,
+      "semantic_correct": 0
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "feedback_sha256": "acdc55c8423adebf1709194bbcf9408614d1a62758f0fae683d821962141067d",
+  "feedback_count": 33488,
+  "semantic_review_count": 8623,
+  "note": "Semantic reviews are exact-case web reviews, not Android rules. Trained weights are committed in the Android model delta."
+}

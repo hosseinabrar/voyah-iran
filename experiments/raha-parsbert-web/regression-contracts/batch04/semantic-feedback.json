@@ -1,0 +1,2156 @@
+[
+  {
+    "text": "پخش رو ببر روی آهنگ",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "سانروف رو باز کم",
+    "action": "ADJUST_SUNROOF_POSITION",
+    "parameters": {
+      "deltaPercent": 10
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "سقف شیشه ای رو باز کم",
+    "action": "ADJUST_SUNROOF_POSITION",
+    "parameters": {
+      "deltaPercent": 10
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه سقف رو باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه سقف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه سقف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه سقف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "سانروف رو کامل باز کم",
+    "action": "SET_SUNROOF_POSITION",
+    "parameters": {
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "سانروف ماشین رو باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "سانروف ماشین باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا سانروف ماشین باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها سانروف ماشین باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "سقف پانوراما رو باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "برو سانروف رو باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "برو سانروف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا برو سانروف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها برو سانروف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "می خوام سانروف رو باز کنی",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "می خوام سانروف باز کنی",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا می خوام سانروف باز کنی",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها می خوام سانروف باز کنی",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "باز کردن صندوق عقب رو انجام نده",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام باز کردن صندوق عقب انجام بشه",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن صندوق عقب رو اجرا نکن",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن صندوق عقب یعنی چی؟",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره باز کردن صندوق عقب توضیح بده",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا باز کردن صندوق عقب ممکنه؟",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد باز کردن صندوق عقب رو انجام بده",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم باز کردن صندوق عقب رو اجرا کن",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز باز کردن صندوق عقب رو انجام دادم",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا باز کردن صندوق عقب انجام شده بود",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت باز کردن صندوق عقب رو انجام داده",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره باز کردن صندوق عقب حرف می زدم",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن صندوق عقب رو بخور",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن صندوق عقب رو مثل پیتزا بپز",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن صندوق عقب رو هم انجام بده هم انجام نده",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای باز کردن صندوق عقب یه شعر بگو",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه راننده رو باز کم",
+    "action": "ADJUST_WINDOW_POSITION",
+    "parameters": {
+      "deltaPercent": 10,
+      "window": "driver"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه شاگرد رو باز کم",
+    "action": "ADJUST_WINDOW_POSITION",
+    "parameters": {
+      "deltaPercent": 10,
+      "window": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه عقب چپ رو باز کم",
+    "action": "ADJUST_WINDOW_POSITION",
+    "parameters": {
+      "deltaPercent": 10,
+      "window": "rearLeft"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه عقب راست رو باز کم",
+    "action": "ADJUST_WINDOW_POSITION",
+    "parameters": {
+      "deltaPercent": 10,
+      "window": "rearRight"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه همراه رو باز کم",
+    "action": "ADJUST_WINDOW_POSITION",
+    "parameters": {
+      "deltaPercent": 10,
+      "window": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه جلوی ماشین رو باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه جلوی ماشین باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه جلوی ماشین باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه جلوی ماشین باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه عقب ماشین رو باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rear"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه عقب ماشین باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rear"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه عقب ماشین باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rear"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه عقب ماشین باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rear"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه پشت سر راننده رو باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rearLeft"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه پشت سر راننده باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rearLeft"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه پشت سر راننده باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rearLeft"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه پشت سر راننده باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rearLeft"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "توقف پخش موسیقی رو انجام نده",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام توقف پخش موسیقی انجام بشه",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف پخش موسیقی رو اجرا نکن",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف پخش موسیقی یعنی چی؟",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره توقف پخش موسیقی توضیح بده",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا توقف پخش موسیقی ممکنه؟",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد توقف پخش موسیقی رو انجام بده",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم توقف پخش موسیقی رو اجرا کن",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز توقف پخش موسیقی رو انجام دادم",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا توقف پخش موسیقی انجام شده بود",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت توقف پخش موسیقی رو انجام داده",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره توقف پخش موسیقی حرف می زدم",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف پخش موسیقی رو بخور",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف پخش موسیقی رو مثل پیتزا بپز",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف پخش موسیقی رو هم انجام بده هم انجام نده",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای توقف پخش موسیقی یه شعر بگو",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی رو شروع کم",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی رو انجام نده",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام پخش موسیقی انجام بشه",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی رو اجرا نکن",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی یعنی چی؟",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره پخش موسیقی توضیح بده",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا پخش موسیقی ممکنه؟",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد پخش موسیقی رو انجام بده",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم پخش موسیقی رو اجرا کن",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز پخش موسیقی رو انجام دادم",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا پخش موسیقی انجام شده بود",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت پخش موسیقی رو انجام داده",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره پخش موسیقی حرف می زدم",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی رو بخور",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی رو مثل پیتزا بپز",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی رو هم انجام بده هم انجام نده",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای پخش موسیقی یه شعر بگو",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ قبلی رو انجام نده",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام رفتن به آهنگ قبلی انجام بشه",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ قبلی رو اجرا نکن",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ قبلی یعنی چی؟",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره رفتن به آهنگ قبلی توضیح بده",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا رفتن به آهنگ قبلی ممکنه؟",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد رفتن به آهنگ قبلی رو انجام بده",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم رفتن به آهنگ قبلی رو اجرا کن",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز رفتن به آهنگ قبلی رو انجام دادم",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا رفتن به آهنگ قبلی انجام شده بود",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت رفتن به آهنگ قبلی رو انجام داده",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره رفتن به آهنگ قبلی حرف می زدم",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ قبلی رو بخور",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ قبلی رو مثل پیتزا بپز",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ قبلی رو هم انجام بده هم انجام نده",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای رفتن به آهنگ قبلی یه شعر بگو",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مموری صندلی یک رو اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری صندلی یک اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا مموری صندلی یک اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها مموری صندلی یک اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حافظه صندلی دو رو فراخوانی کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حافظه صندلی دو فراخوانی کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا حافظه صندلی دو فراخوانی کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها حافظه صندلی دو فراخوانی کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حالت ذخیره شده سه صندلی رو اعمال کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حالت ذخیره شده سه صندلی اعمال کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا حالت ذخیره شده سه صندلی اعمال کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها حالت ذخیره شده سه صندلی اعمال کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "پوزیشن دو صندلی رو اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "پوزیشن دو صندلی اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا پوزیشن دو صندلی اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها پوزیشن دو صندلی اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "وضعیت حافظه یک صندلی رو برگردون",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "وضعیت حافظه یک صندلی برگردون",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا وضعیت حافظه یک صندلی برگردون",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها وضعیت حافظه یک صندلی برگردون",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری سه صندلی راننده رو اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری سه صندلی راننده اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا مموری سه صندلی راننده اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها مموری سه صندلی راننده اجرا کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری صندلی یک رو آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری صندلی یک آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا مموری صندلی یک آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها مموری صندلی یک آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "صندلی رو تو حافظه سه ذخیره کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "صندلی تو حافظه سه ذخیره کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا صندلی تو حافظه سه ذخیره کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها صندلی تو حافظه سه ذخیره کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری دو صندلی رو به روز کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری دو صندلی به روز کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا مموری دو صندلی به روز کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها مموری دو صندلی به روز کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "وضعیت صندلی رو روی حافظه سه ثبت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "وضعیت صندلی روی حافظه سه ثبت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا وضعیت صندلی روی حافظه سه ثبت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها وضعیت صندلی روی حافظه سه ثبت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "پوزیشن صندلی رو در حافظه دو ذخیره کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "پوزیشن صندلی در حافظه دو ذخیره کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا پوزیشن صندلی در حافظه دو ذخیره کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها پوزیشن صندلی در حافظه دو ذخیره کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حافظه سه صندلی راننده رو آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حافظه سه صندلی راننده آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا حافظه سه صندلی راننده آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها حافظه سه صندلی راننده آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "روشن کردن کولر رو انجام نده",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام روشن کردن کولر انجام بشه",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشن کردن کولر رو اجرا نکن",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشن کردن کولر یعنی چی؟",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره روشن کردن کولر توضیح بده",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا روشن کردن کولر ممکنه؟",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد روشن کردن کولر رو انجام بده",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم روشن کردن کولر رو اجرا کن",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز روشن کردن کولر رو انجام دادم",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا روشن کردن کولر انجام شده بود",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت روشن کردن کولر رو انجام داده",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره روشن کردن کولر حرف می زدم",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشن کردن کولر رو بخور",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشن کردن کولر رو مثل پیتزا بپز",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشن کردن کولر رو هم انجام بده هم انجام نده",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای روشن کردن کولر یه شعر بگو",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جهت باد رو بذار روی صورت کم",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "feet",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جهت باد رو بذار روی شیشه جلو",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "جهت باد بذار روی شیشه جلو",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا جهت باد بذار روی شیشه جلو",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها جهت باد بذار روی شیشه جلو",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "باد تهویه رو به پا",
+    "action": "SET_AIR_RECIRCULATION",
+    "parameters": {
+      "mode": "external"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باد تهویه رو به پا بزن کم",
+    "action": "SET_AIR_RECIRCULATION",
+    "parameters": {
+      "mode": "external"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باد تهویه رو به شیشه جلو بزن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "باد تهویه به شیشه جلو بزن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا باد تهویه به شیشه جلو بزن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها باد تهویه به شیشه جلو بزن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "جهت باد تهویه رو بذار روی صورت و پا کم",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "acEnabled": true,
+      "enabled": true,
+      "temperatureLevel": "max",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو انجام نده",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو انجام نده",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم جهت باد تهویه انجام بشه",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم جهت باد تهویه انجام بشه",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو اجرا نکن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه یعنی چی؟",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم جهت باد تهویه توضیح بده",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم جهت باد تهویه توضیح بده",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "acEnabled": true,
+      "enabled": true,
+      "temperatureMaxC": 23.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم جهت باد تهویه ممکنه؟",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم جهت باد تهویه رو انجام بده",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم جهت باد تهویه رو اجرا کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم جهت باد تهویه رو انجام دادم",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم جهت باد تهویه انجام شده بود",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم جهت باد تهویه رو انجام داده",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم جهت باد تهویه رو انجام داده",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم جهت باد تهویه حرف می زدم",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو بخور",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو بخور",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "windshield",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو مثل پیتزا بپز",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو هم انجام بده هم انجام نده",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم جهت باد تهویه یه شعر بگو",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دریچه سانروف رو باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "دریچه سانروف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا دریچه سانروف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها دریچه سانروف باز کن",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "بی زحمت باز کن سانروف رو",
+    "action": "OPEN_SUNROOF",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "چرا باز کردن صندوق عقب انجام نشد؟",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم باز کردن صندوق عقب رو انجام بده",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن صندوق عقب رو سرخ کن",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن صندوق عقب رو به رنگ خوشحالی بو کن",
+    "action": "OPEN_TAILGATE",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه همه درها رو باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "all"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه همه درها باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "all"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه همه درها باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "all"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه همه درها باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "all"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه پشت سر شاگرد رو باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه پشت سر شاگرد باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه پشت سر شاگرد باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه پشت سر شاگرد باز کن",
+    "action": "OPEN_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "چرا توقف پخش موسیقی انجام نشد؟",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم توقف پخش موسیقی رو انجام بده",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف پخش موسیقی رو سرخ کن",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف پخش موسیقی رو به رنگ خوشحالی بو کن",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا پخش موسیقی انجام نشد؟",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم پخش موسیقی رو انجام بده",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی رو سرخ کن",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش موسیقی رو به رنگ خوشحالی بو کن",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا رفتن به آهنگ قبلی انجام نشد؟",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم رفتن به آهنگ قبلی رو انجام بده",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ قبلی رو سرخ کن",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ قبلی رو به رنگ خوشحالی بو کن",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حافظه دو صندلی راننده رو اعمال کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حافظه دو صندلی راننده اعمال کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا حافظه دو صندلی راننده اعمال کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها حافظه دو صندلی راننده اعمال کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حالت صندلی راننده رو تو حافظه یک نگه دار",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حالت صندلی راننده تو حافظه یک نگه دار",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا حالت صندلی راننده تو حافظه یک نگه دار",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها حالت صندلی راننده تو حافظه یک نگه دار",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری دو صندلی راننده رو ثبت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "مموری دو صندلی راننده ثبت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا مموری دو صندلی راننده ثبت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها مموری دو صندلی راننده ثبت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "چرا روشن کردن کولر انجام نشد؟",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم روشن کردن کولر رو انجام بده",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشن کردن کولر رو سرخ کن",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشن کردن کولر رو به رنگ خوشحالی بو کن",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جهت باد رو بذار روی همه دریچه",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جهت باد رو بذار روی همه دریچه ها کم",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم جهت باد تهویه انجام نشد؟",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم جهت باد تهویه رو انجام بده",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو سرخ کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم جهت باد تهویه رو به رنگ خوشحالی بو کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  }
+]

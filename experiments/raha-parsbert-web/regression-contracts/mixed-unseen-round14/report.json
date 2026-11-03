@@ -1,0 +1,315 @@
+{
+  "model_sha256": "0d3d5c15c393ca4ff592dab0fecd5fbaa62f1fc6b5fa22676567505b89d32056",
+  "count": 1000,
+  "unique_texts": 1000,
+  "metrics": {
+    "current": {
+      "all": {
+        "count": 1000,
+        "correct_accepted": 508,
+        "rejected": 443,
+        "wrong_accepted": 49,
+        "passed": 695,
+        "raw_exact": 765
+      },
+      "correct": {
+        "count": 800,
+        "correct_accepted": 508,
+        "rejected": 256,
+        "wrong_accepted": 36,
+        "passed": 508,
+        "raw_exact": 654
+      },
+      "reject": {
+        "count": 200,
+        "correct_accepted": 0,
+        "rejected": 187,
+        "wrong_accepted": 13,
+        "passed": 187,
+        "raw_exact": 111
+      },
+      "correct_or_reject": {
+        "count": 0,
+        "correct_accepted": 0,
+        "rejected": 0,
+        "wrong_accepted": 0,
+        "passed": 0,
+        "raw_exact": 0
+      }
+    },
+    "no_semantic": {
+      "all": {
+        "count": 1000,
+        "correct_accepted": 563,
+        "rejected": 356,
+        "wrong_accepted": 81,
+        "passed": 718,
+        "raw_exact": 765
+      },
+      "correct": {
+        "count": 800,
+        "correct_accepted": 563,
+        "rejected": 201,
+        "wrong_accepted": 36,
+        "passed": 563,
+        "raw_exact": 654
+      },
+      "reject": {
+        "count": 200,
+        "correct_accepted": 0,
+        "rejected": 155,
+        "wrong_accepted": 45,
+        "passed": 155,
+        "raw_exact": 111
+      },
+      "correct_or_reject": {
+        "count": 0,
+        "correct_accepted": 0,
+        "rejected": 0,
+        "wrong_accepted": 0,
+        "passed": 0,
+        "raw_exact": 0
+      }
+    },
+    "no_guards_keep_numbers": {
+      "all": {
+        "count": 1000,
+        "correct_accepted": 585,
+        "rejected": 313,
+        "wrong_accepted": 102,
+        "passed": 732,
+        "raw_exact": 765
+      },
+      "correct": {
+        "count": 800,
+        "correct_accepted": 585,
+        "rejected": 166,
+        "wrong_accepted": 49,
+        "passed": 585,
+        "raw_exact": 654
+      },
+      "reject": {
+        "count": 200,
+        "correct_accepted": 0,
+        "rejected": 147,
+        "wrong_accepted": 53,
+        "passed": 147,
+        "raw_exact": 111
+      },
+      "correct_or_reject": {
+        "count": 0,
+        "correct_accepted": 0,
+        "rejected": 0,
+        "wrong_accepted": 0,
+        "passed": 0,
+        "raw_exact": 0
+      }
+    },
+    "raw_model": {
+      "all": {
+        "count": 1000,
+        "correct_accepted": 578,
+        "rejected": 318,
+        "wrong_accepted": 104,
+        "passed": 725,
+        "raw_exact": 761
+      },
+      "correct": {
+        "count": 800,
+        "correct_accepted": 578,
+        "rejected": 171,
+        "wrong_accepted": 51,
+        "passed": 578,
+        "raw_exact": 650
+      },
+      "reject": {
+        "count": 200,
+        "correct_accepted": 0,
+        "rejected": 147,
+        "wrong_accepted": 53,
+        "passed": 147,
+        "raw_exact": 111
+      },
+      "correct_or_reject": {
+        "count": 0,
+        "correct_accepted": 0,
+        "rejected": 0,
+        "wrong_accepted": 0,
+        "passed": 0,
+        "raw_exact": 0
+      }
+    }
+  },
+  "last_round": {
+    "current": {
+      "all": {
+        "count": 1000,
+        "correct_accepted": 508,
+        "rejected": 443,
+        "wrong_accepted": 49,
+        "passed": 695,
+        "raw_exact": 765
+      },
+      "correct": {
+        "count": 800,
+        "correct_accepted": 508,
+        "rejected": 256,
+        "wrong_accepted": 36,
+        "passed": 508,
+        "raw_exact": 654
+      },
+      "reject": {
+        "count": 200,
+        "correct_accepted": 0,
+        "rejected": 187,
+        "wrong_accepted": 13,
+        "passed": 187,
+        "raw_exact": 111
+      },
+      "correct_or_reject": {
+        "count": 0,
+        "correct_accepted": 0,
+        "rejected": 0,
+        "wrong_accepted": 0,
+        "passed": 0,
+        "raw_exact": 0
+      }
+    },
+    "no_semantic": {
+      "all": {
+        "count": 1000,
+        "correct_accepted": 563,
+        "rejected": 356,
+        "wrong_accepted": 81,
+        "passed": 718,
+        "raw_exact": 765
+      },
+      "correct": {
+        "count": 800,
+        "correct_accepted": 563,
+        "rejected": 201,
+        "wrong_accepted": 36,
+        "passed": 563,
+        "raw_exact": 654
+      },
+      "reject": {
+        "count": 200,
+        "correct_accepted": 0,
+        "rejected": 155,
+        "wrong_accepted": 45,
+        "passed": 155,
+        "raw_exact": 111
+      },
+      "correct_or_reject": {
+        "count": 0,
+        "correct_accepted": 0,
+        "rejected": 0,
+        "wrong_accepted": 0,
+        "passed": 0,
+        "raw_exact": 0
+      }
+    },
+    "no_guards_keep_numbers": {
+      "all": {
+        "count": 1000,
+        "correct_accepted": 585,
+        "rejected": 313,
+        "wrong_accepted": 102,
+        "passed": 732,
+        "raw_exact": 765
+      },
+      "correct": {
+        "count": 800,
+        "correct_accepted": 585,
+        "rejected": 166,
+        "wrong_accepted": 49,
+        "passed": 585,
+        "raw_exact": 654
+      },
+      "reject": {
+        "count": 200,
+        "correct_accepted": 0,
+        "rejected": 147,
+        "wrong_accepted": 53,
+        "passed": 147,
+        "raw_exact": 111
+      },
+      "correct_or_reject": {
+        "count": 0,
+        "correct_accepted": 0,
+        "rejected": 0,
+        "wrong_accepted": 0,
+        "passed": 0,
+        "raw_exact": 0
+      }
+    },
+    "raw_model": {
+      "all": {
+        "count": 1000,
+        "correct_accepted": 578,
+        "rejected": 318,
+        "wrong_accepted": 104,
+        "passed": 725,
+        "raw_exact": 761
+      },
+      "correct": {
+        "count": 800,
+        "correct_accepted": 578,
+        "rejected": 171,
+        "wrong_accepted": 51,
+        "passed": 578,
+        "raw_exact": 650
+      },
+      "reject": {
+        "count": 200,
+        "correct_accepted": 0,
+        "rejected": 147,
+        "wrong_accepted": 53,
+        "passed": 147,
+        "raw_exact": 111
+      },
+      "correct_or_reject": {
+        "count": 0,
+        "correct_accepted": 0,
+        "rejected": 0,
+        "wrong_accepted": 0,
+        "passed": 0,
+        "raw_exact": 0
+      }
+    }
+  },
+  "notes": "New unseen text samples, 500 cores with two phrasings each; no training or microphone/vehicle test. Same score threshold and checkpoint. no_semantic disables semantic evidence including exact reviews only. no_guards_keep_numbers also bypasses numeric/consistency/negation guards but retains numeric parameter rewriting. raw_model also removes numeric rewriting. UNKNOWN, confidence/slot certainty and contact/dialogue prerequisites retained.",
+  "changes": {
+    "current": {
+      "rescued": 0,
+      "new_wrong": 0
+    },
+    "no_semantic": {
+      "rescued": 55,
+      "new_wrong": 32
+    },
+    "no_guards_keep_numbers": {
+      "rescued": 77,
+      "new_wrong": 53
+    },
+    "raw_model": {
+      "rescued": 75,
+      "new_wrong": 55
+    }
+  },
+  "gold_review": {
+    "texts": [
+      "صدای سیستم صوتی رو در سطح سه نگه دار",
+      "رها لطفا صدای سیستم صوتی رو در سطح سه نگه دار",
+      "صدای سیستم صوتی رو در سطح هشت نگه دار",
+      "رها لطفا صدای سیستم صوتی رو در سطح هشت نگه دار",
+      "صدای سیستم صوتی رو در سطح پانزده نگه دار",
+      "رها لطفا صدای سیستم صوتی رو در سطح پانزده نگه دار",
+      "صدای سیستم صوتی رو در سطح بیست و دو نگه دار",
+      "رها لطفا صدای سیستم صوتی رو در سطح بیست و دو نگه دار",
+      "صدای سیستم صوتی رو در سطح سی نگه دار",
+      "رها لطفا صدای سیستم صوتی رو در سطح سی نگه دار"
+    ],
+    "reason": "Ten audio-system sentences do not explicitly name music; accept either media or system channel. First-pass frozen separately; model unchanged."
+  }
+}

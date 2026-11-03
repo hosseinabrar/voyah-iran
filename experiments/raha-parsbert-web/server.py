@@ -18,6 +18,7 @@ from data import LABELS, TITLES, MODEL, normalize
 from full_model import FullModel
 from presentation import titles as clean_titles
 from validation import consistency_reason
+from command_clauses import blocked_form
 from feedback_training import FeedbackTrainer
 from speech_extras import extend_grammar
 from contact_extraction import extract_contact
@@ -63,6 +64,7 @@ async def lifespan(app):
         expand_temperature(engine['model'])
         schema['allowed']['SET_FAN_SPEED|level,zone']['level']=[str(i) for i in range(8)]+['"min"','"max"']
         schema['allowed']['ADJUST_FAN_SPEED|delta,zone']['delta']=[next(v for v in schema['slots']['delta'] if json.loads(v)==i) for i in range(-7,8) if i]
+        schema['allowed']['ADJUST_AUDIO_VOLUME|channel,delta']['delta'] = [next(v for v in schema['slots']['delta'] if json.loads(v)==i) for i in range(-10,11) if i]
         for feature in ['HEATING','VENTILATION']:
             schema['allowed'][f'ADJUST_SEAT_{feature}|delta,seat']['delta']=[str(i) for i in [-3,-2,-1,1,2,3]]
         practice=engine['report'].get('version')==3
@@ -131,7 +133,7 @@ def predict(raw):
         reason='فرمان در دامنهٔ این آزمایش تشخیص داده نشد'
     elif top['score']<.65 or top['score']-candidates[1]['score']<.20:
         reason='مدل مطمئن نیست؛ نیاز به توضیح بیشتر'
-    elif re.search(r'\b(نکن|نبند|نذار|اگر|اگه|آیا|چرا)\b',text) or '?' in text or '؟' in text:
+    elif blocked_form(text):
         reason='جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد'
     # Slots are explicitly rules, not claimed as a trained slot model.
     slots={}
@@ -166,7 +168,7 @@ def predict_full(raw):
     elif top['score']<.65 or top['score']-candidates[1]['score']<.15:reason='نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن'
     elif any(v<.65 for k,v in top['slot_scores'].items() if k not in grounded_keys):reason='مدل دربارهٔ یکی از پارامترها مطمئن نیست'
     if numeric_error:reason=numeric_error
-    if re.search(r'\b(نکن|نبند|نذار|اگر|اگه|آیا|چرا)\b',text) or '?' in text or '؟' in text:
+    if blocked_form(text):
         reason='جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد'
     if top['label']=='CALL_CONTACT':
         target=contact_target(text)

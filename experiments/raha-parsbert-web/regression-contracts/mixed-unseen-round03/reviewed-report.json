@@ -1,0 +1,91 @@
+{
+  "total": {
+    "count": 1000,
+    "passed": 503,
+    "unsafe": 70,
+    "executed": 399,
+    "raw_exact": 618,
+    "rejected": 601
+  },
+  "clear": {
+    "count": 800,
+    "passed": 329,
+    "unsafe": 44,
+    "executed": 373,
+    "raw_exact": 502,
+    "rejected": 427
+  },
+  "reject": {
+    "count": 200,
+    "passed": 174,
+    "unsafe": 26,
+    "executed": 26,
+    "raw_exact": 116,
+    "rejected": 174
+  },
+  "exact_overlap": 0,
+  "known_texts": 34275,
+  "base_phrasings": 120,
+  "categories": 9,
+  "actions": [
+    "ADJUST_CABIN_TEMPERATURE",
+    "CLOSE_WINDOW",
+    "NEXT_MEDIA",
+    "OPEN_WINDOW",
+    "PAUSE_MEDIA",
+    "PLAY_MEDIA",
+    "PREVIOUS_MEDIA",
+    "SET_AIRFLOW_DIRECTION",
+    "SET_AIR_RECIRCULATION",
+    "SET_AMBIENT_LIGHT_MODE",
+    "SET_AUDIO_MUTE",
+    "SET_CABIN_TEMPERATURE",
+    "SET_DRIVE_MODE",
+    "SET_EASY_ENTRY",
+    "SET_EASY_EXIT",
+    "SET_FRAGRANCE_POWER",
+    "SET_SCHEDULED_CHARGING",
+    "SET_SEAT_HEATING",
+    "SET_SEAT_MASSAGE",
+    "SET_SEAT_VENTILATION",
+    "SET_WINDOW_POSITION"
+  ],
+  "model_sha256": "659005e10f58b3fa8dd6a9fd241c158636b39b68fe622cb377babee7dbbf6920",
+  "trained_on_this_set": false,
+  "notes": "1000 compositional sentences: 800 positive, 200 reject. Template/context/target/amount combinations are correlated, not 1000 independent scenarios. Frozen gold before inference. Text only. No training or semantic feedback.",
+  "equivalence_review": [
+    {
+      "text": "نور داخل همراه ریتم آهنگ عوض بشه حالت موزیک نورپردازی رو بذار رها",
+      "reason": "enabled=true is equivalent to omitted enabled: RahaVehiclePlan.kt SET_AMBIENT_LIGHT_MODE switches on unless enabled is explicitly false. Gold mode unchanged."
+    },
+    {
+      "text": "لطف کن نورهای داخل با موسیقی هماهنگ بشن",
+      "reason": "enabled=true is equivalent to omitted enabled: RahaVehiclePlan.kt SET_AMBIENT_LIGHT_MODE switches on unless enabled is explicitly false. Gold mode unchanged."
+    },
+    {
+      "text": "همین الان نورهای داخل با موسیقی هماهنگ بشن",
+      "reason": "enabled=true is equivalent to omitted enabled: RahaVehiclePlan.kt SET_AMBIENT_LIGHT_MODE switches on unless enabled is explicitly false. Gold mode unchanged."
+    },
+    {
+      "text": "رها زحمت بکش نورهای داخل با موسیقی هماهنگ بشن",
+      "reason": "enabled=true is equivalent to omitted enabled: RahaVehiclePlan.kt SET_AMBIENT_LIGHT_MODE switches on unless enabled is explicitly false. Gold mode unchanged."
+    },
+    {
+      "text": "نورهای داخل با موسیقی هماهنگ بشن ممنونم",
+      "reason": "enabled=true is equivalent to omitted enabled: RahaVehiclePlan.kt SET_AMBIENT_LIGHT_MODE switches on unless enabled is explicitly false. Gold mode unchanged."
+    },
+    {
+      "text": "خب لطف کن نورهای داخل با موسیقی هماهنگ بشن",
+      "reason": "enabled=true is equivalent to omitted enabled: RahaVehiclePlan.kt SET_AMBIENT_LIGHT_MODE switches on unless enabled is explicitly false. Gold mode unchanged."
+    },
+    {
+      "text": "الان لطفا نورهای داخل با موسیقی هماهنگ بشن",
+      "reason": "enabled=true is equivalent to omitted enabled: RahaVehiclePlan.kt SET_AMBIENT_LIGHT_MODE switches on unless enabled is explicitly false. Gold mode unchanged."
+    }
+  ],
+  "diagnostics": {
+    "accepted_wrong_action": 21,
+    "accepted_wrong_parameters": 23,
+    "correct_prediction_rejected": 173
+  }
+}

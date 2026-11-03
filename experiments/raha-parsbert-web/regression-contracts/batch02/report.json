@@ -1,0 +1,402 @@
+{
+  "rounds": [
+    {
+      "stage": "batch02-heldout",
+      "round": 0,
+      "summary": {
+        "all": {
+          "count": 600,
+          "intent_exact": 590,
+          "semantic_correct": 558,
+          "end_to_end": 574
+        },
+        "valid": {
+          "count": 300,
+          "intent_exact": 293,
+          "semantic_correct": 288,
+          "end_to_end": 274
+        },
+        "invalid": {
+          "count": 300,
+          "intent_exact": 297,
+          "semantic_correct": 270,
+          "end_to_end": 300
+        },
+        "original_holdout": {
+          "count": 120,
+          "intent_exact": 110,
+          "semantic_correct": 78,
+          "end_to_end": 99
+        }
+      }
+    },
+    {
+      "stage": "batch02-heldout",
+      "round": 1,
+      "summary": {
+        "all": {
+          "count": 600,
+          "intent_exact": 593,
+          "semantic_correct": 558,
+          "end_to_end": 583
+        },
+        "valid": {
+          "count": 300,
+          "intent_exact": 296,
+          "semantic_correct": 288,
+          "end_to_end": 283
+        },
+        "invalid": {
+          "count": 300,
+          "intent_exact": 297,
+          "semantic_correct": 270,
+          "end_to_end": 300
+        },
+        "original_holdout": {
+          "count": 120,
+          "intent_exact": 113,
+          "semantic_correct": 78,
+          "end_to_end": 103
+        }
+      }
+    },
+    {
+      "stage": "batch02-complete",
+      "round": 0,
+      "summary": {
+        "all": {
+          "count": 600,
+          "intent_exact": 593,
+          "semantic_correct": 558,
+          "end_to_end": 583
+        },
+        "valid": {
+          "count": 300,
+          "intent_exact": 296,
+          "semantic_correct": 288,
+          "end_to_end": 283
+        },
+        "invalid": {
+          "count": 300,
+          "intent_exact": 297,
+          "semantic_correct": 270,
+          "end_to_end": 300
+        },
+        "original_holdout": {
+          "count": 120,
+          "intent_exact": 113,
+          "semantic_correct": 78,
+          "end_to_end": 103
+        }
+      }
+    },
+    {
+      "stage": "batch02-complete",
+      "round": 1,
+      "summary": {
+        "all": {
+          "count": 600,
+          "intent_exact": 600,
+          "semantic_correct": 600,
+          "end_to_end": 599
+        },
+        "valid": {
+          "count": 300,
+          "intent_exact": 300,
+          "semantic_correct": 300,
+          "end_to_end": 299
+        },
+        "invalid": {
+          "count": 300,
+          "intent_exact": 300,
+          "semantic_correct": 300,
+          "end_to_end": 300
+        },
+        "original_holdout": {
+          "count": 120,
+          "intent_exact": 120,
+          "semantic_correct": 120,
+          "end_to_end": 120
+        }
+      }
+    },
+    {
+      "stage": "batch02-complete",
+      "round": 2,
+      "summary": {
+        "all": {
+          "count": 600,
+          "intent_exact": 600,
+          "semantic_correct": 600,
+          "end_to_end": 600
+        },
+        "valid": {
+          "count": 300,
+          "intent_exact": 300,
+          "semantic_correct": 300,
+          "end_to_end": 300
+        },
+        "invalid": {
+          "count": 300,
+          "intent_exact": 300,
+          "semantic_correct": 300,
+          "end_to_end": 300
+        },
+        "original_holdout": {
+          "count": 120,
+          "intent_exact": 120,
+          "semantic_correct": 120,
+          "end_to_end": 120
+        }
+      }
+    }
+  ],
+  "notes": "Final 1200 samples were all trained; not an unseen benchmark. Semantic corrections are exact-case web reviews. Numeric postprocessing fixes are included in after results. CANCEL_DIALOG is checked in pending-call context. No speech recognition or vehicle CAN execution.",
+  "batch02-heldout_baseline": {
+    "all": {
+      "count": 600,
+      "intent_exact": 356,
+      "semantic_correct": 391,
+      "end_to_end": 369
+    },
+    "valid": {
+      "count": 300,
+      "intent_exact": 101,
+      "semantic_correct": 241,
+      "end_to_end": 74
+    },
+    "invalid": {
+      "count": 300,
+      "intent_exact": 255,
+      "semantic_correct": 150,
+      "end_to_end": 295
+    },
+    "original_holdout": {
+      "count": 120,
+      "intent_exact": 61,
+      "semantic_correct": 78,
+      "end_to_end": 67
+    }
+  },
+  "batch02-heldout_after": {
+    "all": {
+      "count": 600,
+      "intent_exact": 593,
+      "semantic_correct": 558,
+      "end_to_end": 583
+    },
+    "valid": {
+      "count": 300,
+      "intent_exact": 296,
+      "semantic_correct": 288,
+      "end_to_end": 283
+    },
+    "invalid": {
+      "count": 300,
+      "intent_exact": 297,
+      "semantic_correct": 270,
+      "end_to_end": 300
+    },
+    "original_holdout": {
+      "count": 120,
+      "intent_exact": 113,
+      "semantic_correct": 78,
+      "end_to_end": 103
+    }
+  },
+  "batch02-complete_baseline": {
+    "all": {
+      "count": 600,
+      "intent_exact": 593,
+      "semantic_correct": 558,
+      "end_to_end": 583
+    },
+    "valid": {
+      "count": 300,
+      "intent_exact": 296,
+      "semantic_correct": 288,
+      "end_to_end": 283
+    },
+    "invalid": {
+      "count": 300,
+      "intent_exact": 297,
+      "semantic_correct": 270,
+      "end_to_end": 300
+    },
+    "original_holdout": {
+      "count": 120,
+      "intent_exact": 113,
+      "semantic_correct": 78,
+      "end_to_end": 103
+    }
+  },
+  "batch02-complete_after": {
+    "all": {
+      "count": 600,
+      "intent_exact": 600,
+      "semantic_correct": 600,
+      "end_to_end": 600
+    },
+    "valid": {
+      "count": 300,
+      "intent_exact": 300,
+      "semantic_correct": 300,
+      "end_to_end": 300
+    },
+    "invalid": {
+      "count": 300,
+      "intent_exact": 300,
+      "semantic_correct": 300,
+      "end_to_end": 300
+    },
+    "original_holdout": {
+      "count": 120,
+      "intent_exact": 120,
+      "semantic_correct": 120,
+      "end_to_end": 120
+    }
+  },
+  "final_batch01": {
+    "all": {
+      "count": 600,
+      "intent_exact": 600,
+      "semantic_correct": 600,
+      "end_to_end": 600
+    },
+    "valid": {
+      "count": 300,
+      "intent_exact": 300,
+      "semantic_correct": 300,
+      "end_to_end": 300
+    },
+    "invalid": {
+      "count": 300,
+      "intent_exact": 300,
+      "semantic_correct": 300,
+      "end_to_end": 300
+    },
+    "original_holdout": {
+      "count": 119,
+      "intent_exact": 119,
+      "semantic_correct": 119,
+      "end_to_end": 119
+    }
+  },
+  "final_batch02": {
+    "all": {
+      "count": 600,
+      "intent_exact": 600,
+      "semantic_correct": 600,
+      "end_to_end": 600
+    },
+    "valid": {
+      "count": 300,
+      "intent_exact": 300,
+      "semantic_correct": 300,
+      "end_to_end": 300
+    },
+    "invalid": {
+      "count": 300,
+      "intent_exact": 300,
+      "semantic_correct": 300,
+      "end_to_end": 300
+    },
+    "original_holdout": {
+      "count": 120,
+      "intent_exact": 120,
+      "semantic_correct": 120,
+      "end_to_end": 120
+    }
+  },
+  "regression": {
+    "count": 200,
+    "before": 200,
+    "after": 200,
+    "new_failures": []
+  },
+  "guidance": {
+    "1": {
+      "intent": [],
+      "semantic": []
+    },
+    "2": {
+      "intent": [
+        "به سارا زنگ بزن",
+        "درب صندوق باید بسته بشه",
+        "درباره بستن شیشه خودرو توضیح بده",
+        "درباره بستن صندوق عقب توضیح بده",
+        "رها این تماس رو کنسل کن",
+        "رها درخواست تماس رو لغو کن",
+        "رها شیشه سقف رو کامل ببند",
+        "سانروف باید بسته بشه",
+        "سایه بان سقف رو یه کم باز کن",
+        "سایه بان سقف رو یک پله بسته کن",
+        "شدت رایحه بامبو رو کم بذار",
+        "شدت رایحه واتری میست رو کم بذار",
+        "شدت رایحه پیونی رو کم بذار",
+        "شیشه سقف رو یه کم باز کن",
+        "شیشه سقف رو یک پله باز کن",
+        "شیشه سقف رو یک پله بسته کن",
+        "شیشه همراه کاملا بسته بشه",
+        "لغو درخواست تماس رو دانلود کن",
+        "منصرف شدم",
+        "می خوام سانروف یه ذره بسته بشه",
+        "می خوام شیشه راننده رو ببندی",
+        "می خوام شیشه سقف بسته بشه",
+        "می خوام شیشه همه درها رو ببندی",
+        "می خوام پرده سقف یه ذره بسته بشه",
+        "پرده سانروف رو ده درصد بیشتر باز کن",
+        "یه زنگ به سارا بزن"
+      ],
+      "semantic": [
+        "اگه بچه خوابید بستن صندوق عقب رو انجام بده",
+        "اگه بچه خوابید تماس با علی رو انجام بده",
+        "اگه بچه خوابید تنظیم حساسیت برف پاک کن رو انجام بده",
+        "اگه بچه خوابید تنظیم رایحه بامبو رو انجام بده",
+        "اگه بچه خوابید لغو درخواست تماس رو انجام بده",
+        "بستن صندوق عقب رو دانلود کن",
+        "تماس با علی رو دانلود کن",
+        "تنظیم حساسیت برف پاک کن رو دانلود کن",
+        "تنظیم رایحه بامبو رو دانلود کن",
+        "درباره بستن صندوق عقب توضیح بده",
+        "درباره تماس با علی توضیح بده",
+        "درباره تنظیم حساسیت برف پاک کن توضیح بده",
+        "درباره تنظیم رایحه بامبو توضیح بده",
+        "درباره لغو درخواست تماس توضیح بده",
+        "رها شیشه سقف رو کامل ببند",
+        "سانروف باید بسته بشه",
+        "سایه بان سقف رو یه کم باز کن",
+        "سایه بان سقف رو یک پله بسته کن",
+        "شیشه سقف رو یه کم باز کن",
+        "شیشه سقف رو یک پله بسته کن",
+        "شیشه همراه کاملا بسته بشه",
+        "لغو درخواست تماس رو دانلود کن",
+        "من داشتم خواب بستن صندوق عقب رو می دیدم",
+        "من داشتم خواب تماس با علی رو می دیدم",
+        "من داشتم خواب تنظیم حساسیت برف پاک کن رو می دیدم",
+        "من داشتم خواب تنظیم رایحه بامبو رو می دیدم",
+        "من داشتم خواب لغو درخواست تماس رو می دیدم",
+        "می خوام سانروف یه ذره بسته بشه",
+        "می خوام شیشه راننده رو ببندی",
+        "می خوام شیشه سقف بسته بشه",
+        "می خوام شیشه همه درها رو ببندی",
+        "می خوام پرده سقف یه ذره بسته بشه",
+        "نمی خوام الان بستن صندوق عقب انجام بشه",
+        "نمی خوام الان تماس با علی انجام بشه",
+        "نمی خوام الان تنظیم حساسیت برف پاک کن انجام بشه",
+        "نمی خوام الان تنظیم رایحه بامبو انجام بشه",
+        "نمی خوام الان لغو درخواست تماس انجام بشه",
+        "یادم هست بستن صندوق عقب رو انجام داده بودم",
+        "یادم هست تماس با علی رو انجام داده بودم",
+        "یادم هست تنظیم حساسیت برف پاک کن رو انجام داده بودم",
+        "یادم هست تنظیم رایحه بامبو رو انجام داده بودم",
+        "یادم هست لغو درخواست تماس رو انجام داده بودم"
+      ]
+    }
+  },
+  "fresh_process": true,
+  "batch02_initial_guidance": {
+    "intent_or_confidence": 271,
+    "semantic": 209
+  }
+}

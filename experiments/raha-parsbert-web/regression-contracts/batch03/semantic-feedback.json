@@ -1,0 +1,1833 @@
+[
+  {
+    "text": "آره زنگ",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "outing"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "همین شماره رو بگیر کم",
+    "action": "CANCEL_DIALOG",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شماره انتخاب شده رو بگیر کم",
+    "action": "CANCEL_DIALOG",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تاییدش",
+    "action": "CANCEL_DIALOG",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو انجام نده",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو انجام نده",
+    "action": "CANCEL_DIALOG",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تایید تماس انجام بشه",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تایید تماس انجام بشه",
+    "action": "CANCEL_DIALOG",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو اجرا نکن",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس یعنی چی؟",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تایید تماس توضیح بده",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تایید تماس ممکنه؟",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تایید تماس رو انجام بده",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تایید تماس رو اجرا کن",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تایید تماس رو انجام دادم",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تایید تماس انجام شده بود",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تایید تماس رو انجام داده",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تایید تماس حرف می زدم",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو بخور",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو بخور",
+    "action": "CANCEL_DIALOG",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو مثل پیتزا بپز",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو هم انجام بده هم انجام نده",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تایید تماس یه شعر بگو",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خروج از سناریو رو انجام نده",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام خروج از سناریو انجام بشه",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خروج از سناریو رو اجرا نکن",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خروج از سناریو یعنی چی؟",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره خروج از سناریو توضیح بده",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا خروج از سناریو ممکنه؟",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد خروج از سناریو رو انجام بده",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم خروج از سناریو رو اجرا کن",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز خروج از سناریو رو انجام دادم",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا خروج از سناریو انجام شده بود",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت خروج از سناریو رو انجام داده",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره خروج از سناریو حرف می زدم",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خروج از سناریو رو بخور",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خروج از سناریو رو مثل پیتزا بپز",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خروج از سناریو رو هم انجام بده هم انجام نده",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای خروج از سناریو یه شعر بگو",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "بریم نمایندگی مرکزی",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "carWash"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مسیریابی به مقصد ذخیره شده رو انجام نده",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام مسیریابی به مقصد ذخیره شده انجام بشه",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مسیریابی به مقصد ذخیره شده رو اجرا نکن",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مسیریابی به مقصد ذخیره شده یعنی چی؟",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره مسیریابی به مقصد ذخیره شده توضیح بده",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا مسیریابی به مقصد ذخیره شده ممکنه؟",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد مسیریابی به مقصد ذخیره شده رو انجام بده",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم مسیریابی به مقصد ذخیره شده رو اجرا کن",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز مسیریابی به مقصد ذخیره شده رو انجام دادم",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا مسیریابی به مقصد ذخیره شده انجام شده بود",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت مسیریابی به مقصد ذخیره شده رو انجام داده",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره مسیریابی به مقصد ذخیره شده حرف می زدم",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مسیریابی به مقصد ذخیره شده رو بخور",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مسیریابی به مقصد ذخیره شده رو مثل پیتزا بپز",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مسیریابی به مقصد ذخیره شده رو هم انجام بده هم انجام نده",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای مسیریابی به مقصد ذخیره شده یه شعر بگو",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "این آهنگ رو رد کم",
+    "action": "PAUSE_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ بعدی رو انجام نده",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام رفتن به آهنگ بعدی انجام بشه",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ بعدی رو اجرا نکن",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ بعدی یعنی چی؟",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره رفتن به آهنگ بعدی توضیح بده",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا رفتن به آهنگ بعدی ممکنه؟",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد رفتن به آهنگ بعدی رو انجام بده",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم رفتن به آهنگ بعدی رو اجرا کن",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز رفتن به آهنگ بعدی رو انجام دادم",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا رفتن به آهنگ بعدی انجام شده بود",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت رفتن به آهنگ بعدی رو انجام داده",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره رفتن به آهنگ بعدی حرف می زدم",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ بعدی رو بخور",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ بعدی رو مثل پیتزا بپز",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ بعدی رو هم انجام بده هم انجام نده",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای رفتن به آهنگ بعدی یه شعر بگو",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تصویر دوربین رو بیار کم",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برو تو دوربین کم",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": -1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دوربین ماشین رو بیار بالا کم",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برنامه دوربین رو اجرا کم",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن دوربین خودرو رو انجام نده",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام باز کردن دوربین خودرو انجام بشه",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن دوربین خودرو رو اجرا نکن",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن دوربین خودرو یعنی چی؟",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره باز کردن دوربین خودرو توضیح بده",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا باز کردن دوربین خودرو ممکنه؟",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد باز کردن دوربین خودرو رو انجام بده",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم باز کردن دوربین خودرو رو اجرا کن",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز باز کردن دوربین خودرو رو انجام دادم",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا باز کردن دوربین خودرو انجام شده بود",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت باز کردن دوربین خودرو رو انجام داده",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره باز کردن دوربین خودرو حرف می زدم",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن دوربین خودرو رو بخور",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن دوربین خودرو رو مثل پیتزا بپز",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن دوربین خودرو رو هم انجام بده هم انجام نده",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای باز کردن دوربین خودرو یه شعر بگو",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درب شارژ خودرو رو باز کن",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "درب شارژ خودرو باز کن",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا درب شارژ خودرو باز کن",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها درب شارژ خودرو باز کن",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "باز کردن درگاه شارژ رو انجام نده",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام باز کردن درگاه شارژ انجام بشه",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن درگاه شارژ رو اجرا نکن",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن درگاه شارژ یعنی چی؟",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره باز کردن درگاه شارژ توضیح بده",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا باز کردن درگاه شارژ ممکنه؟",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد باز کردن درگاه شارژ رو انجام بده",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم باز کردن درگاه شارژ رو اجرا کن",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز باز کردن درگاه شارژ رو انجام دادم",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا باز کردن درگاه شارژ انجام شده بود",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت باز کردن درگاه شارژ رو انجام داده",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره باز کردن درگاه شارژ حرف می زدم",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن درگاه شارژ رو بخور",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن درگاه شارژ رو مثل پیتزا بپز",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن درگاه شارژ رو هم انجام بده هم انجام نده",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای باز کردن درگاه شارژ یه شعر بگو",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه نقشه رو انجام نده",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام باز کردن برنامه نقشه انجام بشه",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه نقشه رو اجرا نکن",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه نقشه یعنی چی؟",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره باز کردن برنامه نقشه توضیح بده",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا باز کردن برنامه نقشه ممکنه؟",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد باز کردن برنامه نقشه رو انجام بده",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم باز کردن برنامه نقشه رو اجرا کن",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز باز کردن برنامه نقشه رو انجام دادم",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا باز کردن برنامه نقشه انجام شده بود",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت باز کردن برنامه نقشه رو انجام داده",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره باز کردن برنامه نقشه حرف می زدم",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه نقشه رو بخور",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه نقشه رو مثل پیتزا بپز",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه نقشه رو هم انجام بده هم انجام نده",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای باز کردن برنامه نقشه یه شعر بگو",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه موسیقی رو انجام نده",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام باز کردن برنامه موسیقی انجام بشه",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه موسیقی رو اجرا نکن",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه موسیقی یعنی چی؟",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره باز کردن برنامه موسیقی توضیح بده",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا باز کردن برنامه موسیقی ممکنه؟",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد باز کردن برنامه موسیقی رو انجام بده",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم باز کردن برنامه موسیقی رو اجرا کن",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز باز کردن برنامه موسیقی رو انجام دادم",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا باز کردن برنامه موسیقی انجام شده بود",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت باز کردن برنامه موسیقی رو انجام داده",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره باز کردن برنامه موسیقی حرف می زدم",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه موسیقی رو بخور",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه موسیقی رو مثل پیتزا بپز",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه موسیقی رو هم انجام بده هم انجام نده",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای باز کردن برنامه موسیقی یه شعر بگو",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درب باک بنزین رو باز کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "درب باک بنزین باز کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا درب باک بنزین باز کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها درب باک بنزین باز کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "می خوام بنزین بزنم کم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درپوش باک رو باز",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درب سوخت خودرو رو باز کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "درب سوخت خودرو باز کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا درب سوخت خودرو باز کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها درب سوخت خودرو باز کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "باز کردن در باک رو انجام نده",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام باز کردن در باک انجام بشه",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن در باک رو اجرا نکن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن در باک یعنی چی؟",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره باز کردن در باک توضیح بده",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا باز کردن در باک ممکنه؟",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد باز کردن در باک رو انجام بده",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم باز کردن در باک رو اجرا کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز باز کردن در باک رو انجام دادم",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا باز کردن در باک انجام شده بود",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت باز کردن در باک رو انجام داده",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره باز کردن در باک حرف می زدم",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن در باک رو بخور",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن در باک رو مثل پیتزا بپز",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن در باک رو هم انجام بده هم انجام نده",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای باز کردن در باک یه شعر بگو",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن رادیو رو انجام نده",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام باز کردن رادیو انجام بشه",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن رادیو رو اجرا نکن",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن رادیو یعنی چی؟",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره باز کردن رادیو توضیح بده",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا باز کردن رادیو ممکنه؟",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد باز کردن رادیو رو انجام بده",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم باز کردن رادیو رو اجرا کن",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز باز کردن رادیو رو انجام دادم",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا باز کردن رادیو انجام شده بود",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت باز کردن رادیو رو انجام داده",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره باز کردن رادیو حرف می زدم",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن رادیو رو بخور",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن رادیو رو مثل پیتزا بپز",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن رادیو رو هم انجام بده هم انجام نده",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای باز کردن رادیو یه شعر بگو",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرمکن رو خاموش کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": 1,
+      "seat": "driver"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرمکن خاموش کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": -1,
+      "seat": "driver"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرمکن خاموش",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": -1,
+      "seat": "driver"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرمکن خاموش کم",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": -1,
+      "seat": "driver"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تماس رو تایید کم",
+    "action": "CANCEL_DIALOG",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "بله همین مخاطب رو بگیر کم",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تایید تماس انجام نشد؟",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تایید تماس رو انجام بده",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو سرخ کن",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تایید تماس رو به رنگ خوشحالی بو کن",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "سناریوی فعال رو ببند",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "سناریوی فعال ببند",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا سناریوی فعال ببند",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها سناریوی فعال ببند",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "چرا خروج از سناریو انجام نشد؟",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم خروج از سناریو رو انجام بده",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خروج از سناریو رو سرخ کن",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خروج از سناریو رو به رنگ خوشحالی بو کن",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "منو ببر نمایندگی مرکزی",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا مسیریابی به مقصد ذخیره شده انجام نشد؟",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم مسیریابی به مقصد ذخیره شده رو انجام بده",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مسیریابی به مقصد ذخیره شده رو سرخ کن",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مسیریابی به مقصد ذخیره شده رو به رنگ خوشحالی بو کن",
+    "action": "NAVIGATE_TO_SAVED_PLACE",
+    "parameters": {
+      "destination": "shahpary"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پخش رو ببر روی آهنگ",
+    "action": "PLAY_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا رفتن به آهنگ بعدی انجام نشد؟",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم رفتن به آهنگ بعدی رو انجام بده",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ بعدی رو سرخ کن",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رفتن به آهنگ بعدی رو به رنگ خوشحالی بو کن",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا باز کردن دوربین خودرو انجام نشد؟",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم باز کردن دوربین خودرو رو انجام بده",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن دوربین خودرو رو سرخ کن",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن دوربین خودرو رو به رنگ خوشحالی بو کن",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا باز کردن درگاه شارژ انجام نشد؟",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم باز کردن درگاه شارژ رو انجام بده",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن درگاه شارژ رو سرخ کن",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن درگاه شارژ رو به رنگ خوشحالی بو کن",
+    "action": "OPEN_CHARGE_PORT",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا باز کردن برنامه نقشه انجام نشد؟",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم باز کردن برنامه نقشه رو انجام بده",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه نقشه رو سرخ کن",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه نقشه رو به رنگ خوشحالی بو کن",
+    "action": "OPEN_DEFAULT_MAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا باز کردن برنامه موسیقی انجام نشد؟",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم باز کردن برنامه موسیقی رو انجام بده",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه موسیقی رو سرخ کن",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن برنامه موسیقی رو به رنگ خوشحالی بو کن",
+    "action": "OPEN_DEFAULT_MUSIC",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "می خوام سوخت گیری کمم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا باز کردن در باک انجام نشد؟",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم باز کردن در باک رو انجام بده",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن در باک رو سرخ کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن در باک رو به رنگ خوشحالی بو کن",
+    "action": "OPEN_FUEL_FLAP",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا باز کردن رادیو انجام نشد؟",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم باز کردن رادیو رو انجام بده",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن رادیو رو سرخ کن",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "باز کردن رادیو رو به رنگ خوشحالی بو کن",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  }
+]

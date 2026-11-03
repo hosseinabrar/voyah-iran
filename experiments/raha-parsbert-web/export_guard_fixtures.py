@@ -34,6 +34,21 @@ def main():
     for action in ['SAVE_SEAT_POSITION','RECALL_SEAT_POSITION']:
         for word in ['یک','دو','سه','چهار','۲','3']:
             add(f'مموری صندلی {word} رو آپدیت کن',action,{'seat':'driver','slot':'driver'},{'slot':['"driver"','"2"','"3"']})
+    for action in ['ADJUST_WINDOW_POSITION','ADJUST_SUNROOF_POSITION','ADJUST_SUNSHADE_POSITION']:
+        for text in ['سانروف رو ده درصد بیشتر بسته کن','سانروف رو ده درصد بیشتر باز کن','سانروف رو یک پله بسته کن','سانروف رو یک پله باز کن','سانروف رو ده درصد باز و بسته کن']:
+            add(text,action,{'deltaPercent':999},{'deltaPercent':['-10','10']})
+    add('رایحه بامبو رو نیم ساعت با شدت زیاد روشن کن','CONFIGURE_FRAGRANCE',
+        {'channel':1,'durationMinutes':60,'enabled':True,'intensity':'high'}, {'durationMinutes':['30','60']})
+    for text in ['چراغ روشنایی روز رو خاموش کن','چراغ روشنایی روز رو روشن کن','چراغ روز رو روشن و خاموش کن','روشن، کن']:
+        for enabled in [False,True]:
+            add(text,'SET_DAYTIME_RUNNING_LIGHTS',{'enabled':enabled},{})
+    for text in ['عطر گل صد تومنی رو انتخاب کن','رایحه صدتومنی رو انتخاب کن','عطر گل صد تومانی رو انتخاب کن','رایحه گل صد تومنی شماره سه رو انتخاب کن']:
+        add(text,'SET_FRAGRANCE_CHANNEL',{'channel':2},{})
+    add('گل صد تومنی رو برای سی دقیقه فعال کن','CONFIGURE_FRAGRANCE',{'channel':2,'durationMinutes':60,'enabled':True,'intensity':'high'},{'durationMinutes':['30','60']})
+    for text in ['زمان حفظ برق رو روی صد و بیست دقیقه بذار','زمان حفظ برق رو صد و پنجاه دقیقه کن','زمان حفظ برق رو صد و هشتاد دقیقه کن','زمان حفظ برق رو صد و بیست و پنج دقیقه کن','زمان حفظ برق رو سی و شصت دقیقه کن']:
+        add(text,'SET_POWER_KEEP_DURATION',{'minutes':30},{'minutes':['30','60','90','120','150','180','-1']})
+    for text in ['پرده سانروف رو سی درصد باز کن','پرده سانروف رو تا نصف باز کن','پرده سانروف رو صد و بیست درصد باز کن','پرده سانروف رو سی دقیقه باز کن']:
+        add(text,'SET_SUNSHADE_POSITION',{'position':90},{'position':[str(n) for n in range(101)]})
     target=ROOT.parents[1]/'voyah-iran/raha-core/src/test/resources/intent-grounding-parity.json'
     target.write_text(json.dumps(rows,ensure_ascii=False))
     print('Guard parity cases:',len(rows))

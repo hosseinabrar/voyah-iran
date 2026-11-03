@@ -1,9 +1,9 @@
 """Ground explicit quantities without changing the model's action or guessing ambiguous roles."""
 import json,re
-from validation import UNITS
+from validation import UNITS, quantity_text, change_direction
 from middle_values import VALUES, is_middle
 
-KEYS={'degreesC','percent','reservePercent','delta','deltaPercent','minutes','durationMinutes','level','intensity','slot'}
+KEYS={'degreesC','percent','position','reservePercent','delta','deltaPercent','minutes','durationMinutes','level','intensity','slot'}
 WORDS={**UNITS,'یکی':1,'شیش':6,'نیم':.5,'نصف':.5,'نصفه':.5}
 
 def quantities(text):
@@ -18,7 +18,7 @@ def quantities(text):
         value=float(w) if numeric else WORDS[w];start=i;i+=1
         while i+1<len(words) and words[i]=='و' and words[i+1] in WORDS:
             part=WORDS[words[i+1]]
-            if not (part==.5 or (value>=20 and value%10==0 and 0<part<10)) :break
+            if not (part==.5 or (value>=100 and value%100==0 and 0<part<100) or (value>=20 and value%10==0 and 0<part<10)) :break
             value+=part;i+=2
         found.append((value,words[i] if i<len(words) else '',words[start]))
     return found
@@ -31,20 +31,25 @@ def ground_numbers(text,action,params,schema):
         if key not in params or value not in allowed:return dict(params),set(),'برداشت مدل پارامتر مناسب برای مقدار میانی ندارد'
         return dict(params,**{key:value}),{key},None
     result=dict(params);keys=set(params)&KEYS
+    if isinstance(params.get("intensity"),str):keys.discard("intensity")
     if not keys:return result,set(),None
-    found=quantities(text)
+    found=quantities(quantity_text(text,action))
     if not found:return result,set(),None
     if re.search(r'\b(یا|منفی)\b',text) or len(found)!=1 or len(keys)!=1:
         return result,set(),'عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو'
     value,unit,word=found[0];key=next(iter(keys))
     if value<0:return result,set(),'مقدار را مثبت بگو و جهت کم یا زیاد شدن را مشخص کن'
-    down=bool(re.search(r'\b(کم|کمتر|کاهش|پایین|ببند)\b',text))
-    up=bool(re.search(r'\b(زیاد|بیشتر|افزایش|بالا|باز)\b',text))
-    temperature=action in ['SET_CABIN_TEMPERATURE','ADJUST_CABIN_TEMPERATURE']
-    warmer=temperature and bool(re.search(r'\bگرم[\s\u200c]*تر\b',text))
-    colder=temperature and bool(re.search(r'\b(?:سرد|خنک)[\s\u200c]*تر\b',text))
-    up=up or warmer
-    down=down or colder
+    up,down,warmer,colder=change_direction(text,action in ['SET_CABIN_TEMPERATURE','ADJUST_CABIN_TEMPERATURE'])
+    if action=='ADJUST_AUDIO_VOLUME':down=down or bool(re.search(r'\b(?:آروم|آرام|آهسته)[\s\u200c]*تر(?:ش)?\b',text))
+    if action in ['ADJUST_AMBIENT_LIGHT_BRIGHTNESS','ADJUST_DISPLAY_BRIGHTNESS']:down=down or bool(re.search(r'\bملایم[\s\u200c]*تر(?:ش)?\b',text))
+    if key=='deltaPercent':
+        opening=bool(re.search(r'\bباز\b',text))
+        closing=bool(re.search(r'\b(بسته|ببند)\b',text))
+        if opening and closing:return result,set(),'جهت باز یا بسته شدن مبهم است'
+        # Ground magnitude only: opening/closing direction remains model-trained.
+        signed=params[key]
+        up,down=signed>0,signed<0
+        if unit=='پله':value*=10
     if key in ['delta','deltaPercent']:
         if up==down:return result,set(),'جهت افزایش یا کاهش مقدار مشخص نیست'
         value*=1 if up else -1
@@ -56,7 +61,7 @@ def ground_numbers(text,action,params,schema):
     # Colloquial "degrees" also means steps for volume, fan, etc.
     # Keep the model's action and validate the quantity against its own range.
     if unit=='دقیقه' and key not in ['minutes','durationMinutes']:return result,set(),'واحد زمان با فرمان سازگار نیست'
-    if unit=='درصد' and key not in ['percent','reservePercent','deltaPercent']:return result,set(),'واحد درصد با فرمان سازگار نیست'
+    if unit=='درصد' and key not in ['percent','position','reservePercent','deltaPercent']:return result,set(),'واحد درصد با فرمان سازگار نیست'
     if word in ['نصف','نصفه'] and key in ['percent','deltaPercent']:value*=100
     frame=action+'|'+','.join(sorted(params))
     allowed=schema.get('allowed',{}).get(frame,{}).get(key,[])

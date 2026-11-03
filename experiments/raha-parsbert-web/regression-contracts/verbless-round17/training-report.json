@@ -1,0 +1,178 @@
+{
+  "before": {
+    "all": {
+      "count": 660,
+      "passed": 502,
+      "unsafe": 6,
+      "raw_exact": 534,
+      "rejected": 304
+    },
+    "positive": {
+      "count": 506,
+      "passed": 350,
+      "unsafe": 4,
+      "raw_exact": 406,
+      "rejected": 152
+    },
+    "negative": {
+      "count": 154,
+      "passed": 152,
+      "unsafe": 2,
+      "raw_exact": 128,
+      "rejected": 152
+    }
+  },
+  "after": {
+    "all": {
+      "count": 660,
+      "passed": 660,
+      "unsafe": 0,
+      "raw_exact": 660,
+      "rejected": 154
+    },
+    "positive": {
+      "count": 506,
+      "passed": 506,
+      "unsafe": 0,
+      "raw_exact": 506,
+      "rejected": 0
+    },
+    "negative": {
+      "count": 154,
+      "passed": 154,
+      "unsafe": 0,
+      "raw_exact": 154,
+      "rejected": 154
+    }
+  },
+  "history": [
+    {
+      "all": {
+        "count": 660,
+        "passed": 649,
+        "unsafe": 0,
+        "raw_exact": 660,
+        "rejected": 165
+      },
+      "positive": {
+        "count": 506,
+        "passed": 495,
+        "unsafe": 0,
+        "raw_exact": 506,
+        "rejected": 11
+      },
+      "negative": {
+        "count": 154,
+        "passed": 154,
+        "unsafe": 0,
+        "raw_exact": 154,
+        "rejected": 154
+      }
+    },
+    {
+      "all": {
+        "count": 660,
+        "passed": 660,
+        "unsafe": 0,
+        "raw_exact": 660,
+        "rejected": 154
+      },
+      "positive": {
+        "count": 506,
+        "passed": 506,
+        "unsafe": 0,
+        "raw_exact": 506,
+        "rejected": 0
+      },
+      "negative": {
+        "count": 154,
+        "passed": 154,
+        "unsafe": 0,
+        "raw_exact": 154,
+        "rejected": 154
+      }
+    }
+  ],
+  "intent_examples": [
+    "رها شیشه شاگرد بسته",
+    "رها پرده باز",
+    "رها پرده سانروف باز",
+    "رها پرده سانروف بسته",
+    "رها پرده سانروف کاملا بسته",
+    "رها کولر خاموش",
+    "نور داخل ماشین روشن",
+    "نورپردازی داخلی روشن",
+    "پرده باز",
+    "کولر خاموش",
+    "کولر روشن"
+  ],
+  "semantic_examples": [],
+  "prior16000": {
+    "all": {
+      "count": 16000,
+      "passed": 15995,
+      "unsafe": 0,
+      "raw_exact": 16000,
+      "rejected": 3205
+    },
+    "positive": {
+      "count": 12800,
+      "passed": 12795,
+      "unsafe": 0,
+      "raw_exact": 12800,
+      "rejected": 5
+    },
+    "negative": {
+      "count": 3200,
+      "passed": 3200,
+      "unsafe": 0,
+      "raw_exact": 3200,
+      "rejected": 3200
+    }
+  },
+  "prior1200": 1200,
+  "prior7540": {
+    "all": {
+      "count": 7540,
+      "correct": 7540,
+      "unsafe": 0,
+      "executed_correct": 4417,
+      "rejected": 3123,
+      "semantic_correct": 7540
+    },
+    "clear": {
+      "count": 3761,
+      "correct": 3761,
+      "unsafe": 0,
+      "executed_correct": 3761,
+      "rejected": 0,
+      "semantic_correct": 3761
+    },
+    "noisy": {
+      "count": 1899,
+      "correct": 1899,
+      "unsafe": 0,
+      "executed_correct": 656,
+      "rejected": 1243,
+      "semantic_correct": 1899
+    },
+    "invalid": {
+      "count": 1880,
+      "correct": 1880,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 1880,
+      "semantic_correct": 1880
+    },
+    "holdout": {
+      "count": 1503,
+      "correct": 1503,
+      "unsafe": 0,
+      "executed_correct": 864,
+      "rejected": 639,
+      "semantic_correct": 1503
+    }
+  },
+  "model_sha256": "e54c74373e47e254e2e4743a7ba0fb2b6a3684a1de4373825d48214673b46558",
+  "notes": "In-sample after teaching. Exact-case semantic feedback is web-only. Original baseline unchanged. Text-only, no vehicle execution."
+}

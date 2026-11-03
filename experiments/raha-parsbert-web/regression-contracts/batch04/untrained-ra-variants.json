@@ -1,0 +1,240 @@
+[
+  {
+    "text": "همین شماره را بگیر",
+    "expected_action": "CONFIRM_CALL",
+    "expected_parameters": {},
+    "actual_action": "CONFIRM_CALL",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": false,
+    "wrong_at_100": false
+  },
+  {
+    "text": "سناریو فعلی را خاموش کن",
+    "expected_action": "DEACTIVATE_SCENE",
+    "expected_parameters": {
+      "scene": "current"
+    },
+    "actual_action": "DEACTIVATE_SCENE",
+    "actual_parameters": {
+      "scene": "current"
+    },
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "تعمیرگاه شاه پری را مسیریابی کن",
+    "expected_action": "NAVIGATE_TO_SAVED_PLACE",
+    "expected_parameters": {
+      "destination": "shahpary"
+    },
+    "actual_action": "NAVIGATE_TO_SAVED_PLACE",
+    "actual_parameters": {
+      "destination": "shahpary"
+    },
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "آهنگ بعدی را پخش کن",
+    "expected_action": "NEXT_MEDIA",
+    "expected_parameters": {},
+    "actual_action": "NEXT_MEDIA",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "دوربین را باز کن",
+    "expected_action": "OPEN_CAMERA",
+    "expected_parameters": {
+      "view": "default"
+    },
+    "actual_action": "OPEN_CAMERA",
+    "actual_parameters": {
+      "view": "default"
+    },
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "درگاه شارژ را باز کن",
+    "expected_action": "OPEN_CHARGE_PORT",
+    "expected_parameters": {},
+    "actual_action": "OPEN_CHARGE_PORT",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "برنامه نقشه را باز کن",
+    "expected_action": "OPEN_DEFAULT_MAP",
+    "expected_parameters": {},
+    "actual_action": "OPEN_DEFAULT_MAP",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "برنامه موزیک را باز کن",
+    "expected_action": "OPEN_DEFAULT_MUSIC",
+    "expected_parameters": {},
+    "actual_action": "OPEN_DEFAULT_MUSIC",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "در باک را باز کن",
+    "expected_action": "OPEN_FUEL_FLAP",
+    "expected_parameters": {},
+    "actual_action": "OPEN_FUEL_FLAP",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "رادیو را باز کن",
+    "expected_action": "OPEN_OEM_RADIO",
+    "expected_parameters": {},
+    "actual_action": "OPEN_OEM_RADIO",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "سانروف را باز کن",
+    "expected_action": "OPEN_SUNROOF",
+    "expected_parameters": {},
+    "actual_action": "OPEN_SUNROOF",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "صندوق عقب را باز کن",
+    "expected_action": "OPEN_TAILGATE",
+    "expected_parameters": {},
+    "actual_action": "OPEN_TAILGATE",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "شیشه راننده را باز کن",
+    "expected_action": "OPEN_WINDOW",
+    "expected_parameters": {
+      "window": "driver"
+    },
+    "actual_action": "OPEN_WINDOW",
+    "actual_parameters": {
+      "window": "driver"
+    },
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "موزیک را پاز کن",
+    "expected_action": "PAUSE_MEDIA",
+    "expected_parameters": {},
+    "actual_action": "PAUSE_MEDIA",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "موزیک را پخش کن",
+    "expected_action": "PLAY_MEDIA",
+    "expected_parameters": {},
+    "actual_action": "PLAY_MEDIA",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "آهنگ قبلی را پخش کن",
+    "expected_action": "PREVIOUS_MEDIA",
+    "expected_parameters": {},
+    "actual_action": "PREVIOUS_MEDIA",
+    "actual_parameters": {},
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "مموری صندلی یک را اجرا کن",
+    "expected_action": "RECALL_SEAT_POSITION",
+    "expected_parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "actual_action": "RECALL_SEAT_POSITION",
+    "actual_parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "score": 1.0,
+    "accepted": false,
+    "wrong_at_100": false
+  },
+  {
+    "text": "مموری صندلی یک را آپدیت کن",
+    "expected_action": "SAVE_SEAT_POSITION",
+    "expected_parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "actual_action": "SAVE_SEAT_POSITION",
+    "actual_parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "score": 1.0,
+    "accepted": false,
+    "wrong_at_100": false
+  },
+  {
+    "text": "ای سی را روشن کن",
+    "expected_action": "SET_AC_POWER",
+    "expected_parameters": {
+      "enabled": true
+    },
+    "actual_action": "SET_AC_POWER",
+    "actual_parameters": {
+      "enabled": true
+    },
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  },
+  {
+    "text": "جهت باد را بذار روی صورت",
+    "expected_action": "SET_AIRFLOW_DIRECTION",
+    "expected_parameters": {
+      "zone": "front",
+      "direction": "face"
+    },
+    "actual_action": "SET_AIRFLOW_DIRECTION",
+    "actual_parameters": {
+      "direction": "face",
+      "zone": "front"
+    },
+    "score": 1.0,
+    "accepted": true,
+    "wrong_at_100": false
+  }
+]

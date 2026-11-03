@@ -1,0 +1,821 @@
+﻿text,group,policy,kind,initial_split,expected_action,expected_parameters,before_action,before_parameters,before_score,before_unsafe,before_pass,after_action,after_parameters,after_score,after_executed,after_unsafe,after_pass
+بله تماس بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+لطفا بله تماس بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+رها بله تماس بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بی زحمت بله تماس بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بله تماس,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بله تماس بگیر کم,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},UNKNOWN,{},0.7075,False,True,UNKNOWN,{},1.0,False,False,True
+آره زنگ بزن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+لطفا آره زنگ بزن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+رها آره زنگ بزن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بی زحمت آره زنگ بزن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},0.8611,False,False,CONFIRM_CALL,{},1.0,True,False,True
+آره زنگ,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},SET_DRIVE_MODE,"{""mode"": ""outing""}",0.7127,False,True,UNKNOWN,{},1.0,False,False,True
+آره زنگ بزن کم,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+بله تایید می کنم,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+لطفا بله تایید می کنم,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+رها بله تایید می کنم,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بی زحمت بله تایید می کنم,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بله تایید می,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بله تایید می کمم,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},UNKNOWN,{},0.9664,False,True,UNKNOWN,{},1.0,False,False,True
+همین شماره رو بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CALL_CONTACT,"{""contact_query"": ""همین شماره""}",1.0,True,False,CONFIRM_CALL,{},1.0,True,False,True
+همین شماره بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},UNKNOWN,{},1.0,False,False,CONFIRM_CALL,{},1.0,True,False,True
+لطفا همین شماره بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},UNKNOWN,{},0.9915,False,False,CONFIRM_CALL,{},1.0,True,False,True
+رها همین شماره بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},UNKNOWN,{},0.9999,False,False,CONFIRM_CALL,{},1.0,True,False,True
+همین شماره رو,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},UNKNOWN,{},0.999,False,True,UNKNOWN,{},1.0,False,False,True
+همین شماره رو بگیر کم,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},CANCEL_DIALOG,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+تماس رو تایید کن,CONFIRM_CALL,correct,particle-variant,holdout,CONFIRM_CALL,{},CONFIRM_CALL,{},0.7149,False,False,CONFIRM_CALL,{},1.0,True,False,True
+تماس تایید کن,CONFIRM_CALL,correct,particle-variant,holdout,CONFIRM_CALL,{},CONFIRM_CALL,{},0.9995,False,True,CONFIRM_CALL,{},1.0,True,False,True
+لطفا تماس تایید کن,CONFIRM_CALL,correct,particle-variant,holdout,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+رها تماس تایید کن,CONFIRM_CALL,correct,particle-variant,holdout,CONFIRM_CALL,{},CONFIRM_CALL,{},0.9997,False,True,CONFIRM_CALL,{},1.0,True,False,True
+تماس رو تایید,CONFIRM_CALL,correct_or_reject,asr-noise,holdout,CONFIRM_CALL,{},CANCEL_DIALOG,{},0.9589,False,True,UNKNOWN,{},1.0,False,False,True
+تماس رو تایید کم,CONFIRM_CALL,correct_or_reject,asr-noise,holdout,CONFIRM_CALL,{},CANCEL_DIALOG,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+بله زنگ بزن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+لطفا بله زنگ بزن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+رها بله زنگ بزن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},0.9999,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بی زحمت بله زنگ بزن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بله زنگ,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},CONFIRM_CALL,{},0.7725,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بله زنگ بزن کم,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+آره تماس بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+لطفا آره تماس بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+رها آره تماس بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بی زحمت آره تماس بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+آره تماس,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+آره تماس بگیر کم,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},CONFIRM_CALL,{},0.9425,False,True,CONFIRM_CALL,{},1.0,True,False,True
+شماره انتخاب شده رو بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},UNKNOWN,{},1.0,False,False,CONFIRM_CALL,{},1.0,True,False,True
+شماره انتخاب شده بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},UNKNOWN,{},1.0,False,False,CONFIRM_CALL,{},1.0,True,False,True
+لطفا شماره انتخاب شده بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},UNKNOWN,{},1.0,False,False,CONFIRM_CALL,{},1.0,True,False,True
+رها شماره انتخاب شده بگیر,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},UNKNOWN,{},1.0,False,False,CONFIRM_CALL,{},1.0,True,False,True
+شماره انتخاب شده رو,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+شماره انتخاب شده رو بگیر کم,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},CANCEL_DIALOG,{},0.7659,False,True,UNKNOWN,{},1.0,False,False,True
+تاییدش کن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CANCEL_DIALOG,{},0.9999,False,False,CONFIRM_CALL,{},1.0,True,False,True
+لطفا تاییدش کن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CANCEL_DIALOG,{},0.9858,False,False,CONFIRM_CALL,{},1.0,True,False,True
+رها تاییدش کن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CANCEL_DIALOG,{},0.9997,False,False,CONFIRM_CALL,{},1.0,True,False,True
+بی زحمت تاییدش کن,CONFIRM_CALL,correct,particle-variant,train,CONFIRM_CALL,{},CANCEL_DIALOG,{},1.0,False,False,CONFIRM_CALL,{},1.0,True,False,True
+تاییدش,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},CANCEL_DIALOG,{},0.8077,False,True,UNKNOWN,{},0.9997,False,False,True
+تاییدش کم,CONFIRM_CALL,correct_or_reject,asr-noise,train,CONFIRM_CALL,{},UNKNOWN,{},0.9997,False,True,UNKNOWN,{},1.0,False,False,True
+بله همین مخاطب رو بگیر,CONFIRM_CALL,correct,particle-variant,holdout,CONFIRM_CALL,{},CALL_CONTACT,"{""contact_query"": ""بله همین مخاطب""}",1.0,True,False,CONFIRM_CALL,{},1.0,True,False,True
+بله همین مخاطب بگیر,CONFIRM_CALL,correct,particle-variant,holdout,CONFIRM_CALL,{},CONFIRM_CALL,{},1.0,False,True,CONFIRM_CALL,{},1.0,True,False,True
+لطفا بله همین مخاطب بگیر,CONFIRM_CALL,correct,particle-variant,holdout,CONFIRM_CALL,{},CONFIRM_CALL,{},0.9999,False,True,CONFIRM_CALL,{},1.0,True,False,True
+رها بله همین مخاطب بگیر,CONFIRM_CALL,correct,particle-variant,holdout,CONFIRM_CALL,{},CONFIRM_CALL,{},0.9984,False,True,CONFIRM_CALL,{},1.0,True,False,True
+بله همین مخاطب رو,CONFIRM_CALL,correct_or_reject,asr-noise,holdout,CONFIRM_CALL,{},SET_DRIVE_MODE,"{""mode"": ""outing""}",0.9116,False,True,UNKNOWN,{},1.0,False,False,True
+بله همین مخاطب رو بگیر کم,CONFIRM_CALL,correct_or_reject,asr-noise,holdout,CONFIRM_CALL,{},CALL_CONTACT,{},0.8644,False,True,UNKNOWN,{},1.0,False,False,True
+تایید تماس رو انجام نده,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},CANCEL_DIALOG,{},0.7814,False,True,UNKNOWN,{},1.0,False,False,True
+نمی خوام تایید تماس انجام بشه,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},CANCEL_DIALOG,{},0.9999,False,True,UNKNOWN,{},1.0,False,False,True
+تایید تماس رو اجرا نکن,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+تایید تماس یعنی چی؟,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا تایید تماس انجام نشد؟,CONFIRM_CALL,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره تایید تماس توضیح بده,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},CONFIRM_CALL,{},0.9241,False,True,UNKNOWN,{},1.0,False,False,True
+آیا تایید تماس ممکنه؟,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد تایید تماس رو انجام بده,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم تایید تماس رو اجرا کن,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم تایید تماس رو انجام بده,CONFIRM_CALL,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز تایید تماس رو انجام دادم,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا تایید تماس انجام شده بود,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت تایید تماس رو انجام داده,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+من درباره تایید تماس حرف می زدم,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+تایید تماس رو سرخ کن,CONFIRM_CALL,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+تایید تماس رو بخور,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},CANCEL_DIALOG,{},0.9347,False,True,UNKNOWN,{},1.0,False,False,True
+تایید تماس رو مثل پیتزا بپز,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+تایید تماس رو هم انجام بده هم انجام نده,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برای تایید تماس یه شعر بگو,CONFIRM_CALL,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+تایید تماس رو به رنگ خوشحالی بو کن,CONFIRM_CALL,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+سناریو فعلی رو خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.8565,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریو فعلی خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",UNKNOWN,{},0.9809,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا سناریو فعلی خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9985,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها سناریو فعلی خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9986,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریو فعلی رو خاموش,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریو فعلی رو خاموش کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از حالت کمپ خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا از حالت کمپ خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها از حالت کمپ خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+بی زحمت از حالت کمپ خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از حالت کمپ خارج,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از حالت کمپ خارج شو کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت کارواش رو غیر فعال کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9949,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت کارواش غیر فعال کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",0.8974,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا حالت کارواش غیر فعال کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",0.9285,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها حالت کارواش غیر فعال کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.5621,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت کارواش رو غیر فعال,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9552,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت کارواش رو غیر فعال کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریوی فعلی رو متوقف کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریوی فعلی متوقف کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا سناریوی فعلی متوقف کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9993,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها سناریوی فعلی متوقف کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریوی فعلی رو متوقف,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریوی فعلی رو متوقف کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت مراقبت از کودک رو خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت مراقبت از کودک خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا حالت مراقبت از کودک خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها حالت مراقبت از کودک خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت مراقبت از کودک رو خاموش,DEACTIVATE_SCENE,correct_or_reject,asr-noise,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت مراقبت از کودک رو خاموش کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از حالت مهمانی خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا از حالت مهمانی خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها از حالت مهمانی خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+بی زحمت از حالت مهمانی خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از حالت مهمانی خارج,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9976,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از حالت مهمانی خارج شو کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریو رو غیر فعال کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریو غیر فعال کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9988,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا سناریو غیر فعال کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9999,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها سناریو غیر فعال کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریو رو غیر فعال,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریو رو غیر فعال کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت چرت رو خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9997,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت چرت خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.995,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا حالت چرت خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.6392,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها حالت چرت خاموش کن,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",0.9017,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت چرت رو خاموش,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+حالت چرت رو خاموش کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از سناریوی کمپینگ خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا از سناریوی کمپینگ خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها از سناریوی کمپینگ خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+بی زحمت از سناریوی کمپینگ خارج شو,DEACTIVATE_SCENE,correct,particle-variant,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از سناریوی کمپینگ خارج,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+از سناریوی کمپینگ خارج شو کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,train,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریوی فعال رو ببند,DEACTIVATE_SCENE,correct,particle-variant,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریوی فعال ببند,DEACTIVATE_SCENE,correct,particle-variant,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",SET_DRIVE_MODE,"{""mode"": ""personal""}",0.661,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+لطفا سناریوی فعال ببند,DEACTIVATE_SCENE,correct,particle-variant,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",UNKNOWN,{},0.9955,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+رها سناریوی فعال ببند,DEACTIVATE_SCENE,correct,particle-variant,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",UNKNOWN,{},0.9489,False,False,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,True
+سناریوی فعال رو,DEACTIVATE_SCENE,correct_or_reject,asr-noise,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",UNKNOWN,{},0.9558,False,True,UNKNOWN,{},1.0,False,False,True
+سناریوی فعال رو ببند کم,DEACTIVATE_SCENE,correct_or_reject,asr-noise,holdout,DEACTIVATE_SCENE,"{""scene"": ""current""}",DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,True,DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,False,False,True
+خروج از سناریو رو انجام نده,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+نمی خوام خروج از سناریو انجام بشه,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.5316,False,True,UNKNOWN,{},1.0,False,False,True
+خروج از سناریو رو اجرا نکن,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+خروج از سناریو یعنی چی؟,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا خروج از سناریو انجام نشد؟,DEACTIVATE_SCENE,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره خروج از سناریو توضیح بده,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9898,False,True,UNKNOWN,{},1.0,False,False,True
+آیا خروج از سناریو ممکنه؟,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد خروج از سناریو رو انجام بده,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم خروج از سناریو رو اجرا کن,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9996,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم خروج از سناریو رو انجام بده,DEACTIVATE_SCENE,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز خروج از سناریو رو انجام دادم,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا خروج از سناریو انجام شده بود,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت خروج از سناریو رو انجام داده,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+من درباره خروج از سناریو حرف می زدم,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+خروج از سناریو رو سرخ کن,DEACTIVATE_SCENE,reject,invalid,holdout,UNKNOWN,{},DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,UNKNOWN,{},1.0,False,False,True
+خروج از سناریو رو بخور,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},DEACTIVATE_SCENE,"{""scene"": ""current""}",1.0,True,False,UNKNOWN,{},1.0,False,False,True
+خروج از سناریو رو مثل پیتزا بپز,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+خروج از سناریو رو هم انجام بده هم انجام نده,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برای خروج از سناریو یه شعر بگو,DEACTIVATE_SCENE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+خروج از سناریو رو به رنگ خوشحالی بو کن,DEACTIVATE_SCENE,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+تعمیرگاه شاه پری رو مسیریابی کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+تعمیرگاه شاه پری مسیریابی کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+لطفا تعمیرگاه شاه پری مسیریابی کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+رها تعمیرگاه شاه پری مسیریابی کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+تعمیرگاه شاه پری رو مسیریابی,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+تعمیرگاه شاه پری رو مسیریابی کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+مسیر تعمیرگاه شاه پری رو نشون بده,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+مسیر تعمیرگاه شاه پری نشون بده,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+لطفا مسیر تعمیرگاه شاه پری نشون بده,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+رها مسیر تعمیرگاه شاه پری نشون بده,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+مسیر تعمیرگاه شاه پری رو نشون,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+مسیر تعمیرگاه شاه پری رو نشون بده کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+بریم تعمیرگاه شاه پری,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+لطفا بریم تعمیرگاه شاه پری,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+رها بریم تعمیرگاه شاه پری,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+بی زحمت بریم تعمیرگاه شاه پری,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+بریم تعمیرگاه شاه,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+بریم تعمیرگاه شاه پری کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+مسیریابی به تعمیرگاه شاه پری رو شروع کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+مسیریابی به تعمیرگاه شاه پری شروع کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+لطفا مسیریابی به تعمیرگاه شاه پری شروع کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+رها مسیریابی به تعمیرگاه شاه پری شروع کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+مسیریابی به تعمیرگاه شاه پری رو شروع,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+مسیریابی به تعمیرگاه شاه پری رو شروع کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+منو ببر تعمیرگاه شاه پری,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+لطفا منو ببر تعمیرگاه شاه پری,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+رها منو ببر تعمیرگاه شاه پری,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+بی زحمت منو ببر تعمیرگاه شاه پری,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+منو ببر تعمیرگاه شاه,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+منو ببر تعمیرگاه شاه پری کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""shahpary""}",1.0,True,False,True
+نمایندگی مرکزی سروش رو مسیریابی کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+نمایندگی مرکزی سروش مسیریابی کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+لطفا نمایندگی مرکزی سروش مسیریابی کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+رها نمایندگی مرکزی سروش مسیریابی کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+نمایندگی مرکزی سروش رو مسیریابی,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+نمایندگی مرکزی سروش رو مسیریابی کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",0.939,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیر نمایندگی مرکزی سروش رو نشون بده,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیر نمایندگی مرکزی سروش نشون بده,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+لطفا مسیر نمایندگی مرکزی سروش نشون بده,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+رها مسیر نمایندگی مرکزی سروش نشون بده,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیر نمایندگی مرکزی سروش رو نشون,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیر نمایندگی مرکزی سروش رو نشون بده کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",0.9956,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+بریم نمایندگی مرکزی سروش,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+لطفا بریم نمایندگی مرکزی سروش,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+رها بریم نمایندگی مرکزی سروش,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+بی زحمت بریم نمایندگی مرکزی سروش,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+بریم نمایندگی مرکزی,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",0.6246,False,True,UNKNOWN,{},1.0,False,False,True
+بریم نمایندگی مرکزی سروش کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیریابی به نمایندگی مرکزی سروش رو شروع کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیریابی به نمایندگی مرکزی سروش شروع کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+لطفا مسیریابی به نمایندگی مرکزی سروش شروع کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+رها مسیریابی به نمایندگی مرکزی سروش شروع کن,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیریابی به نمایندگی مرکزی سروش رو شروع,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیریابی به نمایندگی مرکزی سروش رو شروع کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,train,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",0.9643,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+منو ببر نمایندگی مرکزی سروش,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+لطفا منو ببر نمایندگی مرکزی سروش,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+رها منو ببر نمایندگی مرکزی سروش,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+بی زحمت منو ببر نمایندگی مرکزی سروش,NAVIGATE_TO_SAVED_PLACE,correct,particle-variant,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+منو ببر نمایندگی مرکزی,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",0.9974,False,True,UNKNOWN,{},1.0,False,False,True
+منو ببر نمایندگی مرکزی سروش کم,NAVIGATE_TO_SAVED_PLACE,correct_or_reject,asr-noise,holdout,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",0.9999,False,True,NAVIGATE_TO_SAVED_PLACE,"{""destination"": ""soroush_central""}",1.0,True,False,True
+مسیریابی به مقصد ذخیره شده رو انجام نده,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+نمی خوام مسیریابی به مقصد ذخیره شده انجام بشه,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9277,False,True,UNKNOWN,{},1.0,False,False,True
+مسیریابی به مقصد ذخیره شده رو اجرا نکن,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+مسیریابی به مقصد ذخیره شده یعنی چی؟,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا مسیریابی به مقصد ذخیره شده انجام نشد؟,NAVIGATE_TO_SAVED_PLACE,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره مسیریابی به مقصد ذخیره شده توضیح بده,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9997,False,True,UNKNOWN,{},1.0,False,False,True
+آیا مسیریابی به مقصد ذخیره شده ممکنه؟,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد مسیریابی به مقصد ذخیره شده رو انجام بده,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم مسیریابی به مقصد ذخیره شده رو اجرا کن,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم مسیریابی به مقصد ذخیره شده رو انجام بده,NAVIGATE_TO_SAVED_PLACE,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز مسیریابی به مقصد ذخیره شده رو انجام دادم,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا مسیریابی به مقصد ذخیره شده انجام شده بود,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت مسیریابی به مقصد ذخیره شده رو انجام داده,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+من درباره مسیریابی به مقصد ذخیره شده حرف می زدم,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+مسیریابی به مقصد ذخیره شده رو سرخ کن,NAVIGATE_TO_SAVED_PLACE,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},0.9997,False,True,UNKNOWN,{},1.0,False,False,True
+مسیریابی به مقصد ذخیره شده رو بخور,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9003,False,True,UNKNOWN,{},1.0,False,False,True
+مسیریابی به مقصد ذخیره شده رو مثل پیتزا بپز,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+مسیریابی به مقصد ذخیره شده رو هم انجام بده هم انجام نده,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برای مسیریابی به مقصد ذخیره شده یه شعر بگو,NAVIGATE_TO_SAVED_PLACE,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9998,False,True,UNKNOWN,{},1.0,False,False,True
+مسیریابی به مقصد ذخیره شده رو به رنگ خوشحالی بو کن,NAVIGATE_TO_SAVED_PLACE,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+آهنگ بعدی رو پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+آهنگ بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+لطفا آهنگ بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+رها آهنگ بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+آهنگ بعدی رو پخش,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+آهنگ بعدی رو پخش کم,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+برو آهنگ بعدی,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+لطفا برو آهنگ بعدی,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+رها برو آهنگ بعدی,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+بی زحمت برو آهنگ بعدی,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+برو آهنگ,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برو آهنگ بعدی کم,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+ترک بعدی رو بذار,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+ترک بعدی بذار,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+لطفا ترک بعدی بذار,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},UNKNOWN,{},0.7125,False,False,NEXT_MEDIA,{},1.0,True,False,True
+رها ترک بعدی بذار,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},0.5572,False,False,NEXT_MEDIA,{},1.0,True,False,True
+ترک بعدی رو,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+ترک بعدی رو بذار کم,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9991,False,True,NEXT_MEDIA,{},1.0,True,False,True
+موزیک بعدی رو پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+موزیک بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+لطفا موزیک بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+رها موزیک بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+موزیک بعدی رو پخش,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+موزیک بعدی رو پخش کم,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+آهنگ رو ببر بعدی,NEXT_MEDIA,correct,particle-variant,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+آهنگ ببر بعدی,NEXT_MEDIA,correct,particle-variant,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+لطفا آهنگ ببر بعدی,NEXT_MEDIA,correct,particle-variant,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+رها آهنگ ببر بعدی,NEXT_MEDIA,correct,particle-variant,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+آهنگ رو ببر,NEXT_MEDIA,correct_or_reject,asr-noise,holdout,NEXT_MEDIA,{},PAUSE_MEDIA,{},0.9534,False,True,UNKNOWN,{},1.0,False,False,True
+آهنگ رو ببر بعدی کم,NEXT_MEDIA,correct_or_reject,asr-noise,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+این آهنگ رو رد کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},0.5333,False,False,NEXT_MEDIA,{},1.0,True,False,True
+این آهنگ رد کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},CANCEL_DIALOG,{},0.9157,False,False,NEXT_MEDIA,{},1.0,True,False,True
+لطفا این آهنگ رد کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},CANCEL_DIALOG,{},0.5832,False,False,NEXT_MEDIA,{},1.0,True,False,True
+رها این آهنگ رد کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},0.8182,False,False,NEXT_MEDIA,{},1.0,True,False,True
+این آهنگ رو رد,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},CANCEL_DIALOG,{},0.8563,False,True,UNKNOWN,{},1.0,False,False,True
+این آهنگ رو رد کم,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+برو ترک بعد,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},UNKNOWN,{},1.0,False,False,NEXT_MEDIA,{},1.0,True,False,True
+لطفا برو ترک بعد,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},UNKNOWN,{},1.0,False,False,NEXT_MEDIA,{},1.0,True,False,True
+رها برو ترک بعد,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},UNKNOWN,{},1.0,False,False,NEXT_MEDIA,{},1.0,True,False,True
+بی زحمت برو ترک بعد,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},UNKNOWN,{},1.0,False,False,NEXT_MEDIA,{},1.0,True,False,True
+برو ترک,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},UNKNOWN,{},0.9998,False,True,UNKNOWN,{},1.0,False,False,True
+برو ترک بعد کم,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قطعه بعدی رو پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+قطعه بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+لطفا قطعه بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+رها قطعه بعدی پخش کن,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+قطعه بعدی رو پخش,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+قطعه بعدی رو پخش کم,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+موسیقی بعدی رو بذار,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+موسیقی بعدی بذار,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+لطفا موسیقی بعدی بذار,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+رها موسیقی بعدی بذار,NEXT_MEDIA,correct,particle-variant,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+موسیقی بعدی رو,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+موسیقی بعدی رو بذار کم,NEXT_MEDIA,correct_or_reject,asr-noise,train,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+پخش رو ببر روی آهنگ بعد,NEXT_MEDIA,correct,particle-variant,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+پخش ببر روی آهنگ بعد,NEXT_MEDIA,correct,particle-variant,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+لطفا پخش ببر روی آهنگ بعد,NEXT_MEDIA,correct,particle-variant,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+رها پخش ببر روی آهنگ بعد,NEXT_MEDIA,correct,particle-variant,holdout,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,False,True,NEXT_MEDIA,{},1.0,True,False,True
+پخش رو ببر روی آهنگ,NEXT_MEDIA,correct_or_reject,asr-noise,holdout,NEXT_MEDIA,{},PLAY_MEDIA,{},0.9701,False,True,UNKNOWN,{},1.0,False,False,True
+پخش رو ببر روی آهنگ بعد کم,NEXT_MEDIA,correct_or_reject,asr-noise,holdout,NEXT_MEDIA,{},PAUSE_MEDIA,{},0.9921,False,True,UNKNOWN,{},1.0,False,False,True
+رفتن به آهنگ بعدی رو انجام نده,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+نمی خوام رفتن به آهنگ بعدی انجام بشه,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+رفتن به آهنگ بعدی رو اجرا نکن,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+رفتن به آهنگ بعدی یعنی چی؟,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا رفتن به آهنگ بعدی انجام نشد؟,NEXT_MEDIA,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره رفتن به آهنگ بعدی توضیح بده,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},0.9999,True,False,UNKNOWN,{},1.0,False,False,True
+آیا رفتن به آهنگ بعدی ممکنه؟,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد رفتن به آهنگ بعدی رو انجام بده,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم رفتن به آهنگ بعدی رو اجرا کن,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9999,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم رفتن به آهنگ بعدی رو انجام بده,NEXT_MEDIA,reject,invalid,holdout,UNKNOWN,{},NEXT_MEDIA,{},0.8852,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز رفتن به آهنگ بعدی رو انجام دادم,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},0.9992,True,False,UNKNOWN,{},1.0,False,False,True
+قبلا رفتن به آهنگ بعدی انجام شده بود,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+علی گفت رفتن به آهنگ بعدی رو انجام داده,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+من درباره رفتن به آهنگ بعدی حرف می زدم,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+رفتن به آهنگ بعدی رو سرخ کن,NEXT_MEDIA,reject,invalid,holdout,UNKNOWN,{},NEXT_MEDIA,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+رفتن به آهنگ بعدی رو بخور,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+رفتن به آهنگ بعدی رو مثل پیتزا بپز,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+رفتن به آهنگ بعدی رو هم انجام بده هم انجام نده,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},0.9979,True,False,UNKNOWN,{},1.0,False,False,True
+برای رفتن به آهنگ بعدی یه شعر بگو,NEXT_MEDIA,reject,invalid,train,UNKNOWN,{},NEXT_MEDIA,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+رفتن به آهنگ بعدی رو به رنگ خوشحالی بو کن,NEXT_MEDIA,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+دوربین رو باز کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین باز کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا دوربین باز کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها دوربین باز کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.9999,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین رو باز,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین رو باز کم,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.9996,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین ماشین رو نشون بده,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},0.9851,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین ماشین نشون بده,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.6719,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا دوربین ماشین نشون بده,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},0.9908,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها دوربین ماشین نشون بده,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.9423,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین ماشین رو نشون,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+دوربین ماشین رو نشون بده کم,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.7484,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+تصویر دوربین رو بیار,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",TAKE_PHOTO,"{""view"": ""default""}",0.7295,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+تصویر دوربین بیار,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",TAKE_PHOTO,"{""view"": ""default""}",1.0,True,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا تصویر دوربین بیار,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",TAKE_PHOTO,"{""view"": ""default""}",1.0,True,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها تصویر دوربین بیار,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",TAKE_PHOTO,"{""view"": ""default""}",1.0,True,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+تصویر دوربین رو,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+تصویر دوربین رو بیار کم,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",SWITCH_CAMERA,{},0.5464,False,True,UNKNOWN,{},1.0,False,False,True
+صفحه دوربین رو باز کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",SET_DISPLAY_BRIGHTNESS,"{""deltaPercent"": 10, ""display"": ""cluster""}",0.9608,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+صفحه دوربین باز کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",SET_DISPLAY_BRIGHTNESS,"{""deltaPercent"": 10, ""display"": ""cluster""}",0.9177,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا صفحه دوربین باز کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",SET_DISPLAY_BRIGHTNESS,"{""deltaPercent"": 10, ""display"": ""cluster""}",0.9993,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها صفحه دوربین باز کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",SET_DISPLAY_BRIGHTNESS,"{""deltaPercent"": 10, ""display"": ""cluster""}",0.9999,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+صفحه دوربین رو باز,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.988,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+صفحه دوربین رو باز کم,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",0.6918,False,True,UNKNOWN,{},1.0,False,False,True
+اپ دوربین خودرو رو باز کن,OPEN_CAMERA,correct,particle-variant,holdout,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},0.6356,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+اپ دوربین خودرو باز کن,OPEN_CAMERA,correct,particle-variant,holdout,OPEN_CAMERA,"{""view"": ""default""}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.6953,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا اپ دوربین خودرو باز کن,OPEN_CAMERA,correct,particle-variant,holdout,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.9949,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها اپ دوربین خودرو باز کن,OPEN_CAMERA,correct,particle-variant,holdout,OPEN_CAMERA,"{""view"": ""default""}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.8819,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+اپ دوربین خودرو رو باز,OPEN_CAMERA,correct_or_reject,asr-noise,holdout,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},0.7995,False,True,UNKNOWN,{},1.0,False,False,True
+اپ دوربین خودرو رو باز کم,OPEN_CAMERA,correct_or_reject,asr-noise,holdout,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.918,False,True,UNKNOWN,{},1.0,False,False,True
+برو تو دوربین,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا برو تو دوربین,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها برو تو دوربین,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+بی زحمت برو تو دوربین,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.9988,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+برو تو,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برو تو دوربین کم,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.5062,False,True,UNKNOWN,{},0.9986,False,False,True
+دوربین ماشین رو بیار بالا,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.999,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین ماشین بیار بالا,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",TAKE_PHOTO,"{""view"": ""default""}",0.6447,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا دوربین ماشین بیار بالا,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.7109,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها دوربین ماشین بیار بالا,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",TAKE_PHOTO,"{""view"": ""default""}",0.995,True,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین ماشین رو بیار,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+دوربین ماشین رو بیار بالا کم,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",SWITCH_CAMERA,{},0.9939,False,True,UNKNOWN,{},1.0,False,False,True
+نمای دوربین رو نشون بده,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+نمای دوربین نشون بده,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا نمای دوربین نشون بده,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},0.993,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها نمای دوربین نشون بده,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+نمای دوربین رو نشون,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+نمای دوربین رو نشون بده کم,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+برنامه دوربین رو اجرا کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+برنامه دوربین اجرا کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا برنامه دوربین اجرا کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها برنامه دوربین اجرا کن,OPEN_CAMERA,correct,particle-variant,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+برنامه دوربین رو اجرا,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+برنامه دوربین رو اجرا کم,OPEN_CAMERA,correct_or_reject,asr-noise,train,OPEN_CAMERA,"{""view"": ""default""}",SWITCH_CAMERA,{},0.9676,False,True,UNKNOWN,{},1.0,False,False,True
+دوربین خودرو رو نمایش بده,OPEN_CAMERA,correct,particle-variant,holdout,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.943,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین خودرو نمایش بده,OPEN_CAMERA,correct,particle-variant,holdout,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.9812,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+لطفا دوربین خودرو نمایش بده,OPEN_CAMERA,correct,particle-variant,holdout,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},0.9985,False,False,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+رها دوربین خودرو نمایش بده,OPEN_CAMERA,correct,particle-variant,holdout,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",0.9996,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+دوربین خودرو رو نمایش,OPEN_CAMERA,correct_or_reject,asr-noise,holdout,OPEN_CAMERA,"{""view"": ""default""}",UNKNOWN,{},0.9949,False,True,UNKNOWN,{},1.0,False,False,True
+دوربین خودرو رو نمایش بده کم,OPEN_CAMERA,correct_or_reject,asr-noise,holdout,OPEN_CAMERA,"{""view"": ""default""}",OPEN_CAMERA,"{""view"": ""default""}",1.0,False,True,OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,True
+باز کردن دوربین خودرو رو انجام نده,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,UNKNOWN,{},1.0,False,False,True
+نمی خوام باز کردن دوربین خودرو انجام بشه,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},OPEN_CAMERA,"{""view"": ""default""}",0.9997,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن دوربین خودرو رو اجرا نکن,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن دوربین خودرو یعنی چی؟,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا باز کردن دوربین خودرو انجام نشد؟,OPEN_CAMERA,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره باز کردن دوربین خودرو توضیح بده,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,UNKNOWN,{},1.0,False,False,True
+آیا باز کردن دوربین خودرو ممکنه؟,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد باز کردن دوربین خودرو رو انجام بده,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم باز کردن دوربین خودرو رو اجرا کن,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.97,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم باز کردن دوربین خودرو رو انجام بده,OPEN_CAMERA,reject,invalid,holdout,UNKNOWN,{},OPEN_CAMERA,"{""view"": ""default""}",0.8556,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز باز کردن دوربین خودرو رو انجام دادم,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا باز کردن دوربین خودرو انجام شده بود,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.998,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت باز کردن دوربین خودرو رو انجام داده,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,UNKNOWN,{},1.0,False,False,True
+من درباره باز کردن دوربین خودرو حرف می زدم,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن دوربین خودرو رو سرخ کن,OPEN_CAMERA,reject,invalid,holdout,UNKNOWN,{},OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن دوربین خودرو رو بخور,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},OPEN_CAMERA,"{""view"": ""default""}",1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن دوربین خودرو رو مثل پیتزا بپز,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن دوربین خودرو رو هم انجام بده هم انجام نده,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9998,False,True,UNKNOWN,{},1.0,False,False,True
+برای باز کردن دوربین خودرو یه شعر بگو,OPEN_CAMERA,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن دوربین خودرو رو به رنگ خوشحالی بو کن,OPEN_CAMERA,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},0.9998,False,True,UNKNOWN,{},1.0,False,False,True
+درگاه شارژ رو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+درگاه شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا درگاه شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها درگاه شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+درگاه شارژ رو باز,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+درگاه شارژ رو باز کم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.999,False,True,UNKNOWN,{},1.0,False,False,True
+در شارژر رو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9614,False,False,OPEN_CHARGE_PORT,{},1.0,True,False,True
+در شارژر باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.988,False,False,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا در شارژر باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.6545,False,False,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها در شارژر باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9993,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+در شارژر رو باز,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9613,False,True,UNKNOWN,{},1.0,False,False,True
+در شارژر رو باز کم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9994,False,True,UNKNOWN,{},1.0,False,False,True
+دریچه شارژ رو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9998,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+دریچه شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا دریچه شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9999,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها دریچه شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+دریچه شارژ رو باز,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.4957,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+دریچه شارژ رو باز کم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+می خوام ماشین رو شارژ کنم,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام ماشین شارژ کنم,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9999,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا می خوام ماشین شارژ کنم,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9999,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها می خوام ماشین شارژ کنم,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام ماشین رو شارژ,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.8844,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام ماشین رو شارژ کمم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+می خوام شارژر رو وصل کنم,OPEN_CHARGE_PORT,correct,particle-variant,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام شارژر وصل کنم,OPEN_CHARGE_PORT,correct,particle-variant,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9966,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا می خوام شارژر وصل کنم,OPEN_CHARGE_PORT,correct,particle-variant,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9936,False,False,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها می خوام شارژر وصل کنم,OPEN_CHARGE_PORT,correct,particle-variant,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9998,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام شارژر رو وصل,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام شارژر رو وصل کمم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},0.9965,False,True,UNKNOWN,{},1.0,False,False,True
+درپوش شارژ رو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+درپوش شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا درپوش شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها درپوش شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+درپوش شارژ رو باز,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+درپوش شارژ رو باز کم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+در پورت شارژ رو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+در پورت شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا در پورت شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها در پورت شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+در پورت شارژ رو باز,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+در پورت شارژ رو باز کم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9999,False,True,UNKNOWN,{},1.0,False,False,True
+می خوام باتری ماشین رو شارژ کنم,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام باتری ماشین شارژ کنم,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا می خوام باتری ماشین شارژ کنم,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها می خوام باتری ماشین شارژ کنم,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام باتری ماشین رو شارژ,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+می خوام باتری ماشین رو شارژ کمم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9987,False,True,UNKNOWN,{},1.0,False,False,True
+درب شارژ خودرو رو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9586,False,False,OPEN_CHARGE_PORT,{},1.0,True,False,True
+درب شارژ خودرو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9997,False,False,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا درب شارژ خودرو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.7857,False,False,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها درب شارژ خودرو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9993,False,False,OPEN_CHARGE_PORT,{},1.0,True,False,True
+درب شارژ خودرو رو باز,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9897,False,True,UNKNOWN,{},1.0,False,False,True
+درب شارژ خودرو رو باز کم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,train,OPEN_CHARGE_PORT,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+پورت شارژ رو باز کن,OPEN_CHARGE_PORT,correct,particle-variant,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+پورت شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+لطفا پورت شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+رها پورت شارژ باز کن,OPEN_CHARGE_PORT,correct,particle-variant,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+پورت شارژ رو باز,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,holdout,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,False,True,OPEN_CHARGE_PORT,{},1.0,True,False,True
+پورت شارژ رو باز کم,OPEN_CHARGE_PORT,correct_or_reject,asr-noise,holdout,OPEN_CHARGE_PORT,{},UNKNOWN,{},0.9998,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن درگاه شارژ رو انجام نده,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},OPEN_CHARGE_PORT,{},0.9784,False,True,UNKNOWN,{},1.0,False,False,True
+نمی خوام باز کردن درگاه شارژ انجام بشه,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9512,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن درگاه شارژ رو اجرا نکن,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن درگاه شارژ یعنی چی؟,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا باز کردن درگاه شارژ انجام نشد؟,OPEN_CHARGE_PORT,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره باز کردن درگاه شارژ توضیح بده,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},OPEN_CHARGE_PORT,{},0.9972,True,False,UNKNOWN,{},1.0,False,False,True
+آیا باز کردن درگاه شارژ ممکنه؟,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد باز کردن درگاه شارژ رو انجام بده,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم باز کردن درگاه شارژ رو اجرا کن,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم باز کردن درگاه شارژ رو انجام بده,OPEN_CHARGE_PORT,reject,invalid,holdout,UNKNOWN,{},OPEN_CHARGE_PORT,{},0.9981,True,False,UNKNOWN,{},1.0,False,False,True
+دیروز باز کردن درگاه شارژ رو انجام دادم,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا باز کردن درگاه شارژ انجام شده بود,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9962,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت باز کردن درگاه شارژ رو انجام داده,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},OPEN_CHARGE_PORT,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+من درباره باز کردن درگاه شارژ حرف می زدم,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن درگاه شارژ رو سرخ کن,OPEN_CHARGE_PORT,reject,invalid,holdout,UNKNOWN,{},OPEN_CHARGE_PORT,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن درگاه شارژ رو بخور,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},OPEN_CHARGE_PORT,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن درگاه شارژ رو مثل پیتزا بپز,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن درگاه شارژ رو هم انجام بده هم انجام نده,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برای باز کردن درگاه شارژ یه شعر بگو,OPEN_CHARGE_PORT,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن درگاه شارژ رو به رنگ خوشحالی بو کن,OPEN_CHARGE_PORT,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه نقشه رو باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه نقشه باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا برنامه نقشه باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها برنامه نقشه باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9999,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه نقشه رو باز,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه نقشه رو باز کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9983,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه رو بیار بالا,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه بیار بالا,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.8815,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا نقشه بیار بالا,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.8427,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها نقشه بیار بالا,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.8442,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه رو بیار,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.7918,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه رو بیار بالا کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+اپ نقشه رو اجرا کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+اپ نقشه اجرا کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا اپ نقشه اجرا کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها اپ نقشه اجرا کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+اپ نقشه رو اجرا,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+اپ نقشه رو اجرا کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برو تو برنامه نقشه,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.9573,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا برو تو برنامه نقشه,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها برو تو برنامه نقشه,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9823,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+بی زحمت برو تو برنامه نقشه,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برو تو برنامه,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برو تو برنامه نقشه کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.977,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه مسیریابی رو باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,holdout,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.8807,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه مسیریابی باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,holdout,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9437,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا برنامه مسیریابی باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,holdout,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.5995,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها برنامه مسیریابی باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,holdout,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.9853,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه مسیریابی رو باز,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,holdout,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.9392,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه مسیریابی رو باز کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,holdout,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.5239,False,True,UNKNOWN,{},1.0,False,False,True
+نقشه پیشفرض رو باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه پیشفرض باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9996,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا نقشه پیشفرض باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها نقشه پیشفرض باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.999,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه پیشفرض رو باز,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه پیشفرض رو باز کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه رو نشون بده,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.9617,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه نشون بده,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا نقشه نشون بده,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها نقشه نشون بده,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+نقشه رو نشون,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+نقشه رو نشون بده کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+اپ مسیریابی رو اجرا کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+اپ مسیریابی اجرا کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا اپ مسیریابی اجرا کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9863,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها اپ مسیریابی اجرا کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9891,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+اپ مسیریابی رو اجرا,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+اپ مسیریابی رو اجرا کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+صفحه نقشه رو باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+صفحه نقشه باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا صفحه نقشه باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها صفحه نقشه باز کن,OPEN_DEFAULT_MAP,correct,particle-variant,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+صفحه نقشه رو باز,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+صفحه نقشه رو باز کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9998,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه نقشه رو بیار,OPEN_DEFAULT_MAP,correct,particle-variant,holdout,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه نقشه بیار,OPEN_DEFAULT_MAP,correct,particle-variant,holdout,OPEN_DEFAULT_MAP,{},SET_DRIVE_MODE,"{""mode"": ""outing""}",0.65,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+لطفا برنامه نقشه بیار,OPEN_DEFAULT_MAP,correct,particle-variant,holdout,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.7786,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+رها برنامه نقشه بیار,OPEN_DEFAULT_MAP,correct,particle-variant,holdout,OPEN_DEFAULT_MAP,{},UNKNOWN,{},0.6007,False,False,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه نقشه رو,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,holdout,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},0.9999,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+برنامه نقشه رو بیار کم,OPEN_DEFAULT_MAP,correct_or_reject,asr-noise,holdout,OPEN_DEFAULT_MAP,{},OPEN_DEFAULT_MAP,{},1.0,False,True,OPEN_DEFAULT_MAP,{},1.0,True,False,True
+باز کردن برنامه نقشه رو انجام نده,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9999,False,True,UNKNOWN,{},1.0,False,False,True
+نمی خوام باز کردن برنامه نقشه انجام بشه,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه نقشه رو اجرا نکن,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه نقشه یعنی چی؟,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا باز کردن برنامه نقشه انجام نشد؟,OPEN_DEFAULT_MAP,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره باز کردن برنامه نقشه توضیح بده,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},OPEN_DEFAULT_MAP,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+آیا باز کردن برنامه نقشه ممکنه؟,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد باز کردن برنامه نقشه رو انجام بده,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم باز کردن برنامه نقشه رو اجرا کن,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم باز کردن برنامه نقشه رو انجام بده,OPEN_DEFAULT_MAP,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},0.8321,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز باز کردن برنامه نقشه رو انجام دادم,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا باز کردن برنامه نقشه انجام شده بود,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9953,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت باز کردن برنامه نقشه رو انجام داده,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9997,False,True,UNKNOWN,{},1.0,False,False,True
+من درباره باز کردن برنامه نقشه حرف می زدم,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه نقشه رو سرخ کن,OPEN_DEFAULT_MAP,reject,invalid,holdout,UNKNOWN,{},OPEN_DEFAULT_MAP,{},0.9614,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه نقشه رو بخور,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},OPEN_DEFAULT_MAP,{},0.9986,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه نقشه رو مثل پیتزا بپز,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه نقشه رو هم انجام بده هم انجام نده,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برای باز کردن برنامه نقشه یه شعر بگو,OPEN_DEFAULT_MAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه نقشه رو به رنگ خوشحالی بو کن,OPEN_DEFAULT_MAP,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه موزیک رو باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه موزیک باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا برنامه موزیک باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها برنامه موزیک باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه موزیک رو باز,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه موزیک رو باز کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اپ موسیقی رو بیار بالا,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+اپ موسیقی بیار بالا,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.9999,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا اپ موسیقی بیار بالا,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها اپ موسیقی بیار بالا,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.9998,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+اپ موسیقی رو بیار,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اپ موسیقی رو بیار بالا کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.7995,False,True,UNKNOWN,{},1.0,False,False,True
+برو تو برنامه موسیقی,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا برو تو برنامه موسیقی,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.7354,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها برو تو برنامه موسیقی,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.9998,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+بی زحمت برو تو برنامه موسیقی,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+خب برو تو برنامه,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برو تو برنامه موسیقی کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+موزیک پلیر رو باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+موزیک پلیر باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا موزیک پلیر باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها موزیک پلیر باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+موزیک پلیر رو باز,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+موزیک پلیر رو باز کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.9073,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه پخش موسیقی رو اجرا کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.879,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه پخش موسیقی اجرا کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,holdout,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.5487,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا برنامه پخش موسیقی اجرا کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,holdout,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.9128,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها برنامه پخش موسیقی اجرا کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,holdout,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.9252,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه پخش موسیقی رو اجرا,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.9999,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه پخش موسیقی رو اجرا کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اپ موزیک پیشفرض رو باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.5283,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+اپ موزیک پیشفرض باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},SET_DRIVE_MODE,"{""mode"": ""outing""}",0.8653,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا اپ موزیک پیشفرض باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},SET_DRIVE_MODE,"{""mode"": ""outing""}",0.5409,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها اپ موزیک پیشفرض باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",0.9828,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+اپ موزیک پیشفرض رو باز,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},SET_DRIVE_MODE,"{""mode"": ""outing""}",0.766,False,True,UNKNOWN,{},1.0,False,False,True
+اپ موزیک پیشفرض رو باز کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.9046,False,True,UNKNOWN,{},1.0,False,False,True
+صفحه برنامه موسیقی رو نشون بده,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+صفحه برنامه موسیقی نشون بده,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا صفحه برنامه موسیقی نشون بده,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها صفحه برنامه موسیقی نشون بده,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+صفحه برنامه موسیقی رو نشون,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+صفحه برنامه موسیقی رو نشون بده کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه موزیک رو اجرا کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.9924,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه موزیک اجرا کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.9695,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا برنامه موزیک اجرا کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.9956,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها برنامه موزیک اجرا کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},0.9792,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه موزیک رو اجرا,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.9971,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه موزیک رو اجرا کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اپ پخش آهنگ رو باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+اپ پخش آهنگ باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا اپ پخش آهنگ باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها اپ پخش آهنگ باز کن,OPEN_DEFAULT_MUSIC,correct,particle-variant,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+اپ پخش آهنگ رو باز,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},OPEN_DEFAULT_MUSIC,{},1.0,False,True,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+اپ پخش آهنگ رو باز کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,train,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.9999,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه موسیقی رو بیار,OPEN_DEFAULT_MUSIC,correct,particle-variant,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه موسیقی بیار,OPEN_DEFAULT_MUSIC,correct,particle-variant,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.5899,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+لطفا برنامه موسیقی بیار,OPEN_DEFAULT_MUSIC,correct,particle-variant,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+رها برنامه موسیقی بیار,OPEN_DEFAULT_MUSIC,correct,particle-variant,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,False,OPEN_DEFAULT_MUSIC,{},1.0,True,False,True
+برنامه موسیقی رو,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},0.9999,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه موسیقی رو بیار کم,OPEN_DEFAULT_MUSIC,correct_or_reject,asr-noise,holdout,OPEN_DEFAULT_MUSIC,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه موسیقی رو انجام نده,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+نمی خوام باز کردن برنامه موسیقی انجام بشه,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه موسیقی رو اجرا نکن,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه موسیقی یعنی چی؟,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا باز کردن برنامه موسیقی انجام نشد؟,OPEN_DEFAULT_MUSIC,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره باز کردن برنامه موسیقی توضیح بده,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+آیا باز کردن برنامه موسیقی ممکنه؟,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد باز کردن برنامه موسیقی رو انجام بده,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم باز کردن برنامه موسیقی رو اجرا کن,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم باز کردن برنامه موسیقی رو انجام بده,OPEN_DEFAULT_MUSIC,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز باز کردن برنامه موسیقی رو انجام دادم,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا باز کردن برنامه موسیقی انجام شده بود,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت باز کردن برنامه موسیقی رو انجام داده,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+من درباره باز کردن برنامه موسیقی حرف می زدم,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه موسیقی رو سرخ کن,OPEN_DEFAULT_MUSIC,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},0.9096,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه موسیقی رو بخور,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},OPEN_DEFAULT_MUSIC,{},0.9971,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه موسیقی رو مثل پیتزا بپز,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه موسیقی رو هم انجام بده هم انجام نده,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برای باز کردن برنامه موسیقی یه شعر بگو,OPEN_DEFAULT_MUSIC,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن برنامه موسیقی رو به رنگ خوشحالی بو کن,OPEN_DEFAULT_MUSIC,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+در باک رو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+در باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا در باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها در باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+در باک رو باز,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+در باک رو باز کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9342,False,True,UNKNOWN,{},1.0,False,False,True
+درب باک بنزین رو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+درب باک بنزین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا درب باک بنزین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها درب باک بنزین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+درب باک بنزین رو باز,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,False,False,True
+درب باک بنزین رو باز کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9978,False,True,UNKNOWN,{},1.0,False,False,True
+می خوام بنزین بزنم,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا می خوام بنزین بزنم,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها می خوام بنزین بزنم,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},0.9999,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+بی زحمت می خوام بنزین بزنم,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+می خوام بنزین,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9046,False,True,UNKNOWN,{},1.0,False,False,True
+می خوام بنزین بزنم کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},SET_DRIVE_MODE,"{""mode"": ""eco""}",0.996,True,False,UNKNOWN,{},1.0,False,False,True
+می خوام به ماشین بنزین بزنم,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا می خوام به ماشین بنزین بزنم,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها می خوام به ماشین بنزین بزنم,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+بی زحمت می خوام به ماشین بنزین بزنم,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},0.9998,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+می خوام به ماشین بنزین,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+می خوام به ماشین بنزین بزنم کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9989,False,True,UNKNOWN,{},1.0,False,False,True
+دریچه باک رو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,holdout,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+دریچه باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,holdout,OPEN_FUEL_FLAP,{},SET_AIR_RECIRCULATION,"{""mode"": ""external""}",0.7854,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا دریچه باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,holdout,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},0.9805,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها دریچه باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,holdout,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.817,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+دریچه باک رو باز,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,holdout,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+دریچه باک رو باز کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,holdout,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.977,False,True,UNKNOWN,{},1.0,False,False,True
+درپوش باک رو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_CHARGE_PORT,{},0.9979,True,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+درپوش باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_CHARGE_PORT,{},1.0,True,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا درپوش باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_CHARGE_PORT,{},0.9917,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها درپوش باک باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_CHARGE_PORT,{},1.0,True,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+درپوش باک رو باز,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},OPEN_CHARGE_PORT,{},0.9916,False,True,UNKNOWN,{},1.0,False,False,True
+درپوش باک رو باز کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درب سوخت خودرو رو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+درب سوخت خودرو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9974,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا درب سوخت خودرو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9863,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها درب سوخت خودرو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+درب سوخت خودرو رو باز,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9932,False,True,UNKNOWN,{},1.0,False,False,True
+درب سوخت خودرو رو باز کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باک بنزین رو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+باک بنزین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا باک بنزین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها باک بنزین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+باک بنزین رو باز,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+باک بنزین رو باز کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},0.9995,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+در باک ماشین رو باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.5122,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+در باک ماشین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},0.5839,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا در باک ماشین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},0.9942,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها در باک ماشین باز کن,OPEN_FUEL_FLAP,correct,particle-variant,train,OPEN_FUEL_FLAP,{},SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.9003,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+در باک ماشین رو باز,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},0.9844,False,True,OPEN_FUEL_FLAP,{},1.0,True,False,True
+در باک ماشین رو باز کم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,train,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+می خوام سوخت گیری کنم,OPEN_FUEL_FLAP,correct,particle-variant,holdout,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+لطفا می خوام سوخت گیری کنم,OPEN_FUEL_FLAP,correct,particle-variant,holdout,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+رها می خوام سوخت گیری کنم,OPEN_FUEL_FLAP,correct,particle-variant,holdout,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+بی زحمت می خوام سوخت گیری کنم,OPEN_FUEL_FLAP,correct,particle-variant,holdout,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9999,False,False,OPEN_FUEL_FLAP,{},1.0,True,False,True
+می خوام سوخت گیری,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,holdout,OPEN_FUEL_FLAP,{},SET_DRIVE_MODE,"{""mode"": ""sport""}",0.8256,False,True,UNKNOWN,{},1.0,False,False,True
+می خوام سوخت گیری کمم,OPEN_FUEL_FLAP,correct_or_reject,asr-noise,holdout,OPEN_FUEL_FLAP,{},SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن در باک رو انجام نده,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},OPEN_FUEL_FLAP,{},0.9813,False,True,UNKNOWN,{},1.0,False,False,True
+نمی خوام باز کردن در باک انجام بشه,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},0.9702,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن در باک رو اجرا نکن,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن در باک یعنی چی؟,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا باز کردن در باک انجام نشد؟,OPEN_FUEL_FLAP,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره باز کردن در باک توضیح بده,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},OPEN_FUEL_FLAP,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+آیا باز کردن در باک ممکنه؟,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد باز کردن در باک رو انجام بده,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم باز کردن در باک رو اجرا کن,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم باز کردن در باک رو انجام بده,OPEN_FUEL_FLAP,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},0.8693,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز باز کردن در باک رو انجام دادم,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا باز کردن در باک انجام شده بود,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت باز کردن در باک رو انجام داده,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},OPEN_FUEL_FLAP,{},0.9977,True,False,UNKNOWN,{},1.0,False,False,True
+من درباره باز کردن در باک حرف می زدم,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن در باک رو سرخ کن,OPEN_FUEL_FLAP,reject,invalid,holdout,UNKNOWN,{},OPEN_FUEL_FLAP,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن در باک رو بخور,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},OPEN_FUEL_FLAP,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن در باک رو مثل پیتزا بپز,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن در باک رو هم انجام بده هم انجام نده,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برای باز کردن در باک یه شعر بگو,OPEN_FUEL_FLAP,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن در باک رو به رنگ خوشحالی بو کن,OPEN_FUEL_FLAP,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+رادیو رو باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیو باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا رادیو باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها رادیو باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},0.9996,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیو رو باز,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیو رو باز کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},0.9979,False,True,UNKNOWN,{},1.0,False,False,True
+برنامه رادیو رو اجرا کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+برنامه رادیو اجرا کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا برنامه رادیو اجرا کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها برنامه رادیو اجرا کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+برنامه رادیو رو اجرا,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+برنامه رادیو رو اجرا کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},0.9855,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیوی ماشین رو بیار بالا,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیوی ماشین بیار بالا,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا رادیوی ماشین بیار بالا,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها رادیوی ماشین بیار بالا,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیوی ماشین رو بیار,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+رادیوی ماشین رو بیار بالا کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برو تو رادیو,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا برو تو رادیو,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها برو تو رادیو,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+بی زحمت برو تو رادیو,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+خب برو تو,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برو تو رادیو کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اپ رادیو رو باز کن,OPEN_OEM_RADIO,correct,particle-variant,holdout,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+اپ رادیو باز کن,OPEN_OEM_RADIO,correct,particle-variant,holdout,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},0.9265,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا اپ رادیو باز کن,OPEN_OEM_RADIO,correct,particle-variant,holdout,OPEN_OEM_RADIO,{},UNKNOWN,{},0.9398,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها اپ رادیو باز کن,OPEN_OEM_RADIO,correct,particle-variant,holdout,OPEN_OEM_RADIO,{},UNKNOWN,{},0.8011,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+اپ رادیو رو باز,OPEN_OEM_RADIO,correct_or_reject,asr-noise,holdout,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},0.9999,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+اپ رادیو رو باز کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,holdout,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+صفحه رادیو رو نشون بده,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},0.9947,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+صفحه رادیو نشون بده,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},0.7028,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا صفحه رادیو نشون بده,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها صفحه رادیو نشون بده,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},0.9801,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+صفحه رادیو رو نشون,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+صفحه رادیو رو نشون بده کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},0.9303,False,True,UNKNOWN,{},1.0,False,False,True
+رادیو خودرو رو اجرا کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیو خودرو اجرا کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا رادیو خودرو اجرا کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها رادیو خودرو اجرا کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیو خودرو رو اجرا,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیو خودرو رو اجرا کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},0.9995,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+برنامه رادیو رو بیار,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+برنامه رادیو بیار,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا برنامه رادیو بیار,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},0.9999,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها برنامه رادیو بیار,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},0.9963,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+برنامه رادیو رو,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},0.9999,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+برنامه رادیو رو بیار کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},0.6001,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیوی ماشین رو باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیوی ماشین باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا رادیوی ماشین باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها رادیوی ماشین باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,False,OPEN_OEM_RADIO,{},1.0,True,False,True
+رادیوی ماشین رو باز,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+رادیوی ماشین رو باز کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,train,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برو تو برنامه رادیو,OPEN_OEM_RADIO,correct,particle-variant,holdout,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+لطفا برو تو برنامه رادیو,OPEN_OEM_RADIO,correct,particle-variant,holdout,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+رها برو تو برنامه رادیو,OPEN_OEM_RADIO,correct,particle-variant,holdout,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+بی زحمت برو تو برنامه رادیو,OPEN_OEM_RADIO,correct,particle-variant,holdout,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+برو تو برنامه رادیو کم,OPEN_OEM_RADIO,correct_or_reject,asr-noise,holdout,OPEN_OEM_RADIO,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن رادیو رو انجام نده,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},OPEN_OEM_RADIO,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+نمی خوام باز کردن رادیو انجام بشه,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},OPEN_OEM_RADIO,{},0.7398,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن رادیو رو اجرا نکن,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن رادیو یعنی چی؟,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+چرا باز کردن رادیو انجام نشد؟,OPEN_OEM_RADIO,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+درباره باز کردن رادیو توضیح بده,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},OPEN_OEM_RADIO,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+آیا باز کردن رادیو ممکنه؟,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگر بارون اومد باز کردن رادیو رو انجام بده,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+اگه فردا خواستم باز کردن رادیو رو اجرا کن,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+وقتی رسیدیم باز کردن رادیو رو انجام بده,OPEN_OEM_RADIO,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},0.9718,False,True,UNKNOWN,{},1.0,False,False,True
+دیروز باز کردن رادیو رو انجام دادم,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+قبلا باز کردن رادیو انجام شده بود,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+علی گفت باز کردن رادیو رو انجام داده,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},OPEN_OEM_RADIO,{},0.9999,True,False,UNKNOWN,{},1.0,False,False,True
+من درباره باز کردن رادیو حرف می زدم,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن رادیو رو سرخ کن,OPEN_OEM_RADIO,reject,invalid,holdout,UNKNOWN,{},OPEN_OEM_RADIO,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن رادیو رو بخور,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},OPEN_OEM_RADIO,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن رادیو رو مثل پیتزا بپز,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+باز کردن رادیو رو هم انجام بده هم انجام نده,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+برای باز کردن رادیو یه شعر بگو,OPEN_OEM_RADIO,reject,invalid,train,UNKNOWN,{},OPEN_OEM_RADIO,{},1.0,True,False,UNKNOWN,{},1.0,False,False,True
+باز کردن رادیو رو به رنگ خوشحالی بو کن,OPEN_OEM_RADIO,reject,invalid,holdout,UNKNOWN,{},UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+الان رادیو رو باز کن,OPEN_OEM_RADIO,correct,particle-variant,train,OPEN_OEM_RADIO,{},OPEN_OEM_RADIO,{},1.0,False,True,OPEN_OEM_RADIO,{},1.0,True,False,True
+گرمکن رو روشن کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.5419,False,True,UNKNOWN,{},1.0,False,False,True
+گرمکن روشن کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.5398,False,True,UNKNOWN,{},1.0,False,False,True
+گرم کن رو روشن کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,True,SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,False,True
+گرم کن روشن کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,True,SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,True,False,True
+گرمکن رو روی روشن بذار,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",0.9968,False,True,SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,True,False,True
+گرمکن روی روشن بذار,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9782,False,True,UNKNOWN,{},1.0,False,False,True
+گرمکن روشن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,True,UNKNOWN,{},1.0,False,False,True
+گرمکن روشن کم,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.998,False,True,UNKNOWN,{},0.9999,False,False,True
+گرم کن روشن کم,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",0.9969,False,True,SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,True,False,True
+گرمکن رو روشن کم,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9579,False,True,UNKNOWN,{},1.0,False,False,True
+گرمکن صندلی روشن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",0.9996,False,True,SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,True,False,True
+گرمکن صندلی روشن کم,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.6355,False,True,UNKNOWN,{},0.9979,False,False,True
+گرمکن رو لطفا روشن کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9992,False,True,UNKNOWN,{},1.0,False,False,True
+لطفا گرمکن روشن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.8336,False,True,UNKNOWN,{},1.0,False,False,True
+گرمکن صندلی راننده رو روشن کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,True,SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,True,False,True
+گرمکن صندلی راننده روشن کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,True,SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",1.0,True,False,True
+گرمکن رو خاموش کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": false, ""level"": 0}",ADJUST_SEAT_HEATING,"{""delta"": 1, ""seat"": ""driver""}",0.7947,False,True,UNKNOWN,{},1.0,False,False,True
+گرمکن خاموش کن,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": false, ""level"": 0}",ADJUST_SEAT_HEATING,"{""delta"": -1, ""seat"": ""driver""}",0.7797,False,True,UNKNOWN,{},1.0,False,False,True
+گرمکن خاموش,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": false, ""level"": 0}",ADJUST_SEAT_HEATING,"{""delta"": -1, ""seat"": ""driver""}",0.8477,False,True,UNKNOWN,{},1.0,False,False,True
+گرمکن خاموش کم,SET_SEAT_HEATING,correct_or_reject,heater-not-climate,train,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": false, ""level"": 0}",ADJUST_SEAT_HEATING,"{""delta"": -1, ""seat"": ""driver""}",0.9996,True,False,UNKNOWN,{},1.0,False,False,True

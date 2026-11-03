@@ -1,0 +1,2387 @@
+[
+  {
+    "text": "سناریو کمپ رو فعال نکن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو تغییر نده",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو زیاد نکن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو کم نکن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "آیا سناریو کمپ روشنه؟",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ یعنی چی؟",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چرا سناریو کمپ کم شده؟",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چطور سناریو کمپ کار می کنه؟",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد سناریو کمپ رو زیاد کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگه فردا سرد شد سناریو کمپ رو کم کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم سناریو کمپ رو فعال کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم سناریو کمپ رو تغییر بده",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دیروز سناریو کمپ رو زیاد کردم",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "قبلا سناریو کمپ کمتر بود",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "او گفت سناریو کمپ رو زیاد کرده",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "یادم هست سناریو کمپ رو کم کرده بودم",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو بخور",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو به علی زنگ بزن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو آبی بشور",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو دانلود کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو هم زیاد کن هم کم کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو نه زیاد نه کم کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو شاید یه روزی تغییر بدم",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "party"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "نور محیط کابین رو یک پله کم کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": -1
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "نور محیط کابین رو یک پله زیاد کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "نور محیط کابین را یه مقدار کم کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": -1
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "نور محیط کابین را یه مقدار زیاد کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "نور محیط کابین رو یه درجه کم کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": -1
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "نور محیط کابین رو یه درجه زیاد کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "لطفا نور محیط کابین رو کمی کم کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": -1
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "لطفا نور محیط کابین رو کمی زیاد کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو فعال نکن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو تغییر نده",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو زیاد نکن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو کم نکن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "آیا شدت نورپردازی داخلی روشنه؟",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی یعنی چی؟",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چرا شدت نورپردازی داخلی کم شده؟",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چطور شدت نورپردازی داخلی کار می کنه؟",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد شدت نورپردازی داخلی رو زیاد کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگه فردا سرد شد شدت نورپردازی داخلی رو کم کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم شدت نورپردازی داخلی رو فعال کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم شدت نورپردازی داخلی رو تغییر بده",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دیروز شدت نورپردازی داخلی رو زیاد کردم",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "قبلا شدت نورپردازی داخلی کمتر بود",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "او گفت شدت نورپردازی داخلی رو زیاد کرده",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "یادم هست شدت نورپردازی داخلی رو کم کرده بودم",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو بخور",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو به علی زنگ بزن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو آبی بشور",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو دانلود کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو هم زیاد کن هم کم کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو نه زیاد نه کم کن",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو شاید یه روزی تغییر بدم",
+    "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو فعال نکن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو تغییر نده",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو زیاد نکن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو کم نکن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "آیا صدای موسیقی روشنه؟",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی یعنی چی؟",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چرا صدای موسیقی کم شده؟",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چطور صدای موسیقی کار می کنه؟",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد صدای موسیقی رو زیاد کن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگه فردا سرد شد صدای موسیقی رو کم کن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم صدای موسیقی رو فعال کن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم صدای موسیقی رو تغییر بده",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دیروز صدای موسیقی رو زیاد کردم",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "قبلا صدای موسیقی کمتر بود",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "او گفت صدای موسیقی رو زیاد کرده",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "یادم هست صدای موسیقی رو کم کرده بودم",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو بخور",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو به علی زنگ بزن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو آبی بشور",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو دانلود کن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو هم زیاد کن هم کم کن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو نه زیاد نه کم کن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو شاید یه روزی تغییر بدم",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو فعال نکن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو تغییر نده",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو زیاد نکن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو کم نکن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "آیا دمای کابین روشنه؟",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین یعنی چی؟",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چرا دمای کابین کم شده؟",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چطور دمای کابین کار می کنه؟",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد دمای کابین رو زیاد کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگه فردا سرد شد دمای کابین رو کم کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم دمای کابین رو فعال کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم دمای کابین رو تغییر بده",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دیروز دمای کابین رو زیاد کردم",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "قبلا دمای کابین کمتر بود",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "او گفت دمای کابین رو زیاد کرده",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "یادم هست دمای کابین رو کم کرده بودم",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو بخور",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو به علی زنگ بزن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو آبی بشور",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو دانلود کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو هم زیاد کن هم کم کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو نه زیاد نه کم کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو شاید یه روزی تغییر بدم",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو فعال نکن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو تغییر نده",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو زیاد نکن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو کم نکن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "آیا سرعت فن روشنه؟",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن یعنی چی؟",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چرا سرعت فن کم شده؟",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چطور سرعت فن کار می کنه؟",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد سرعت فن رو زیاد کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگه فردا سرد شد سرعت فن رو کم کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم سرعت فن رو فعال کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم سرعت فن رو تغییر بده",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دیروز سرعت فن رو زیاد کردم",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "قبلا سرعت فن کمتر بود",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "او گفت سرعت فن رو زیاد کرده",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "یادم هست سرعت فن رو کم کرده بودم",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو بخور",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو به علی زنگ بزن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو آبی بشور",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو دانلود کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو هم زیاد کن هم کم کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو نه زیاد نه کم کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو شاید یه روزی تغییر بدم",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو فعال نکن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو تغییر نده",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو زیاد نکن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو کم نکن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "آیا شدت رایحه روشنه؟",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه یعنی چی؟",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چرا شدت رایحه کم شده؟",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چطور شدت رایحه کار می کنه؟",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد شدت رایحه رو زیاد کن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگه فردا سرد شد شدت رایحه رو کم کن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم شدت رایحه رو فعال کن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم شدت رایحه رو تغییر بده",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دیروز شدت رایحه رو زیاد کردم",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "قبلا شدت رایحه کمتر بود",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "او گفت شدت رایحه رو زیاد کرده",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "یادم هست شدت رایحه رو کم کرده بودم",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو بخور",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو به علی زنگ بزن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو آبی بشور",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو دانلود کن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو هم زیاد کن هم کم کن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو نه زیاد نه کم کن",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو شاید یه روزی تغییر بدم",
+    "action": "ADJUST_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو فعال نکن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو تغییر نده",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو زیاد نکن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو کم نکن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "آیا سطح بازیابی انرژی روشنه؟",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی یعنی چی؟",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چرا سطح بازیابی انرژی کم شده؟",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "چطور سطح بازیابی انرژی کار می کنه؟",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد سطح بازیابی انرژی رو زیاد کن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "اگه فردا سرد شد سطح بازیابی انرژی رو کم کن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم سطح بازیابی انرژی رو فعال کن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم سطح بازیابی انرژی رو تغییر بده",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "دیروز سطح بازیابی انرژی رو زیاد کردم",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "قبلا سطح بازیابی انرژی کمتر بود",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "او گفت سطح بازیابی انرژی رو زیاد کرده",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "یادم هست سطح بازیابی انرژی رو کم کرده بودم",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو بخور",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو به علی زنگ بزن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو آبی بشور",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو دانلود کن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو هم زیاد کن هم کم کن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو نه زیاد نه کم کن",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو شاید یه روزی تغییر بدم",
+    "action": "ADJUST_REGENERATION_LEVEL",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت گرمکن صندلی راننده را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": -1,
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت گرمکن صندلی راننده را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": 1,
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت گرمکن صندلی شاگرد را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت گرمکن صندلی شاگرد را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت گرم کن صندلی همراه را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت گرم کن صندلی همراه را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت گرمکن صندلی راننده رو نه زیاد نه کم کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "قدرت ماساژ صندلی شاگرد رو یک پله کم کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "قدرت ماساژ صندلی شاگرد رو یک پله زیاد کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت ماساژ صندلی راننده را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": -1,
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت ماساژ صندلی راننده را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": 1,
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "قدرت ماساژ صندلی شاگرد را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "قدرت ماساژ صندلی شاگرد را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت ماساژور صندلی همراه را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت ماساژور صندلی همراه را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "قدرت ماساژ صندلی شاگرد رو یه درجه کم کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "قدرت ماساژ صندلی شاگرد رو یه درجه زیاد کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "لطفا قدرت ماساژ صندلی شاگرد رو کمی کم کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "لطفا قدرت ماساژ صندلی شاگرد رو کمی زیاد کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت ماساژ صندلی راننده رو نه زیاد نه کم کن",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "شدت سردکن صندلی راننده را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_VENTILATION",
+    "parameters": {
+      "delta": -1,
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت سردکن صندلی راننده را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_VENTILATION",
+    "parameters": {
+      "delta": 1,
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت تهویه صندلی شاگرد را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_VENTILATION",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت تهویه صندلی شاگرد را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_VENTILATION",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت سرد کن صندلی همراه را یه مقدار کم کن",
+    "action": "ADJUST_SEAT_VENTILATION",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت سرد کن صندلی همراه را یه مقدار زیاد کن",
+    "action": "ADJUST_SEAT_VENTILATION",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "دسته اول: درخواست معتبر"
+  },
+  {
+    "text": "شدت سردکن صندلی راننده رو نه زیاد نه کم کن",
+    "action": "ADJUST_SEAT_VENTILATION",
+    "parameters": {
+      "delta": 1,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: جمله غیردستوری یا نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو تغییر نده",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد سناریو کمپ رو زیاد کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم سناریو کمپ رو فعال کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم سناریو کمپ رو تغییر بده",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "قبلا سناریو کمپ کمتر بود",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "او گفت سناریو کمپ رو زیاد کرده",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "یادم هست سناریو کمپ رو کم کرده بودم",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو بخور",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو به علی زنگ بزن",
+    "action": "CALL_CONTACT",
+    "parameters": {},
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو آبی بشور",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو دانلود کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو هم زیاد کن هم کم کن",
+    "action": "DEACTIVATE_SCENE",
+    "parameters": {
+      "scene": "current"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو نه زیاد نه کم کن",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سناریو کمپ رو شاید یه روزی تغییر بدم",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "camp"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو تغییر نده",
+    "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "قبلا شدت نورپردازی داخلی کمتر بود",
+    "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو بخور",
+    "action": "SET_AMBIENT_LIGHT_MODE",
+    "parameters": {
+      "enabled": true,
+      "mode": "driveMode"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو آبی بشور",
+    "action": "SET_AMBIENT_LIGHT_MODE",
+    "parameters": {
+      "enabled": true,
+      "mode": "music"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو دانلود کن",
+    "action": "SET_AMBIENT_LIGHT_MODE",
+    "parameters": {
+      "enabled": true,
+      "mode": "driveMode"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت نورپردازی داخلی رو نه زیاد نه کم کن",
+    "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو تغییر نده",
+    "action": "SET_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "level": 15
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "قبلا صدای موسیقی کمتر بود",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": -1
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو بخور",
+    "action": "SET_AUDIO_MUTE",
+    "parameters": {
+      "channel": "media",
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو آبی بشور",
+    "action": "SET_AUDIO_MUTE",
+    "parameters": {
+      "channel": "media",
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو دانلود کن",
+    "action": "SET_AUDIO_MUTE",
+    "parameters": {
+      "channel": "media",
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "صدای موسیقی رو نه زیاد نه کم کن",
+    "action": "ADJUST_AUDIO_VOLUME",
+    "parameters": {
+      "channel": "media",
+      "delta": -1
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد دمای کابین رو زیاد کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "قبلا دمای کابین کمتر بود",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": -1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "او گفت دمای کابین رو زیاد کرده",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "یادم هست دمای کابین رو کم کرده بودم",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": -1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو بخور",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو به علی زنگ بزن",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 22.0,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو دانلود کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو هم زیاد کن هم کم کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "دمای کابین رو نه زیاد نه کم کن",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": -9.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "قبلا سرعت فن کمتر بود",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": -1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سرعت فن رو نه زیاد نه کم کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": -1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو تغییر نده",
+    "action": "SET_FRAGRANCE_POWER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد شدت رایحه رو زیاد کن",
+    "action": "SET_FRAGRANCE_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم شدت رایحه رو فعال کن",
+    "action": "SET_FRAGRANCE_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "قبلا شدت رایحه کمتر بود",
+    "action": "SET_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "intensity": "low"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "او گفت شدت رایحه رو زیاد کرده",
+    "action": "SET_FRAGRANCE_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو بخور",
+    "action": "SET_FRAGRANCE_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت رایحه رو نه زیاد نه کم کن",
+    "action": "SET_FRAGRANCE_INTENSITY",
+    "parameters": {
+      "intensity": "low"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد سطح بازیابی انرژی رو زیاد کن",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "بعد از پیاده شدنم سطح بازیابی انرژی رو تغییر بده",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "قبلا سطح بازیابی انرژی کمتر بود",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو بخور",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "high"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو به علی زنگ بزن",
+    "action": "CALL_CONTACT",
+    "parameters": {},
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو آبی بشور",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو دانلود کن",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو هم زیاد کن هم کم کن",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "high"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "سطح بازیابی انرژی رو نه زیاد نه کم کن",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "medium"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت گرمکن صندلی راننده رو نه زیاد نه کم کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": -1,
+      "seat": "driver"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت ماساژ صندلی راننده رو نه زیاد نه کم کن",
+    "action": "SET_SEAT_MASSAGE",
+    "parameters": {
+      "enabled": true,
+      "level": 2,
+      "seat": "driver"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  },
+  {
+    "text": "شدت سردکن صندلی راننده رو نه زیاد نه کم کن",
+    "action": "SET_SEAT_VENTILATION",
+    "parameters": {
+      "enabled": true,
+      "level": 2,
+      "seat": "driver"
+    },
+    "allowed": false,
+    "note": "دسته اول: برداشت اجرایی از جمله نامعتبر"
+  }
+]

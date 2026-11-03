@@ -1,0 +1,45 @@
+{
+  "total": {
+    "count": 1000,
+    "passed": 792,
+    "unsafe": 67,
+    "executed": 659,
+    "raw_exact": 876,
+    "rejected": 341
+  },
+  "clear": {
+    "count": 800,
+    "passed": 592,
+    "unsafe": 67,
+    "executed": 659,
+    "raw_exact": 678,
+    "rejected": 141
+  },
+  "reject": {
+    "count": 200,
+    "passed": 200,
+    "unsafe": 0,
+    "executed": 0,
+    "raw_exact": 198,
+    "rejected": 200
+  },
+  "exact_overlap": 0,
+  "known_texts": 47275,
+  "base_phrasings": 500,
+  "categories": 13,
+  "actions": [
+    "ACTIVATE_SCENE",
+    "ADJUST_CABIN_TEMPERATURE",
+    "SET_AUDIO_VOLUME",
+    "SET_CABIN_TEMPERATURE",
+    "SET_DRIVE_MODE",
+    "SET_ENERGY_STRATEGY",
+    "SET_FAN_SPEED",
+    "SET_MIRROR_FOLD",
+    "SET_REGENERATION_LEVEL",
+    "SET_WINDOW_POSITION"
+  ],
+  "model_sha256": "cf7879a09d2e61361bda133b2d36db86d10b57bea02d41162b679f5548dc507e",
+  "trained_on_this_set": false,
+  "notes": "1000 compositional sentences: 800 positive, 200 reject. Template/context/target/amount combinations are correlated, not 1000 independent scenarios. Frozen gold before inference. Text only. No training or semantic feedback."
+}

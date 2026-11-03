@@ -6,6 +6,7 @@ closed for the physical-control domains covered here; it never changes a model
 prediction into a different executable command.
 """
 import re
+from command_clauses import validation_text
 from data import normalize
 from middle_values import is_middle
 
@@ -82,7 +83,7 @@ def spans(text, vocabulary):
     return sorted(selected,key=lambda s:s['start'])
 
 def check(text, action, params):
-    text=normalize(text)
+    text=validation_text(normalize(text))
     targets=spans(text,ENTITIES)
     # Operations cannot be extracted from inside an entity (e.g. گرم کن صندلی).
     operations=[s for s in spans(text,OPERATIONS) if not any(s['start']<t['end'] and t['start']<s['end'] for t in targets)]

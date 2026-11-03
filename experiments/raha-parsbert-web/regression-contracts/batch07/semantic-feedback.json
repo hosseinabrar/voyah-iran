@@ -1,0 +1,2216 @@
+[
+  {
+    "text": "هشدار باز شدن در رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز شدن در روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا هشدار باز شدن در روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها هشدار باز شدن در روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز شدن در رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز شدن در خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا هشدار باز شدن در خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها هشدار باز شدن در خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "دی او دبلیو رو فعال کم",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دی او دبلیو رو غیر فعال",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دی او دبلیو رو غیر فعال کم",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "هشدار باز کردن درب رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز کردن درب خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا هشدار باز کردن درب خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها هشدار باز کردن درب خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز شدن در رو روی روشن بذار",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز شدن در روی روشن بذار",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا هشدار باز شدن در روی روشن بذار",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها هشدار باز شدن در روی روشن بذار",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز شدن در رو روی خاموش بذار",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز شدن در روی خاموش بذار",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا هشدار باز شدن در روی خاموش بذار",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها هشدار باز شدن در روی خاموش بذار",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "وارنینگ باز شدن در رو فعال کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "وارنینگ باز شدن در فعال کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا وارنینگ باز شدن در فعال کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها وارنینگ باز شدن در فعال کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "کمترل با ژست دست رو فعال کم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ژست حرکتی راننده رو خاموش",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": 12.5,
+      "zone": "driver"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست رو انجام نده",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست رو انجام نده",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن تشخیص حرکت دست انجام بشه",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست رو اجرا نکن",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست یعنی چی؟",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن تشخیص حرکت دست توضیح بده",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن تشخیص حرکت دست ممکنه؟",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن تشخیص حرکت دست رو انجام بده",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن تشخیص حرکت دست رو اجرا کن",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن تشخیص حرکت دست رو انجام دادم",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن تشخیص حرکت دست انجام شده بود",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن تشخیص حرکت دست رو انجام داده",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن تشخیص حرکت دست حرف می زدم",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست رو بخور",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست رو مثل پیتزا بپز",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست رو هم انجام بده هم انجام نده",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن تشخیص حرکت دست یه شعر بگو",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پایش راننده رو خاموش",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پایش راننده رو خاموش کم",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حساسیت پایش راننده رو متوسط",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "sensitivity": "max"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حساسیت پایش راننده رو متوسط کم",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "sensitivity": "min"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم پایش راننده رو انجام نده",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم پایش راننده انجام بشه",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم پایش راننده رو اجرا نکن",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم پایش راننده یعنی چی؟",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم پایش راننده توضیح بده",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم پایش راننده ممکنه؟",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم پایش راننده رو انجام بده",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم پایش راننده رو اجرا کن",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم پایش راننده رو انجام دادم",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم پایش راننده انجام شده بود",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم پایش راننده رو انجام داده",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم پایش راننده حرف می زدم",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم پایش راننده رو بخور",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم پایش راننده رو مثل پیتزا بپز",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم پایش راننده رو هم انجام بده هم انجام نده",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم پایش راننده یه شعر بگو",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ماشین رو تو حالت اسپرت بذار کم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حالت رانندگی رو برفی کم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حالت رانندگی رو شخصی کم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حالت رانندگی رو آسایش کم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مود رانندگی رو اسنو کم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر مود رانندگی رو انجام نده",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تغییر مود رانندگی انجام بشه",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر مود رانندگی رو اجرا نکن",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر مود رانندگی یعنی چی؟",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تغییر مود رانندگی توضیح بده",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تغییر مود رانندگی توضیح بده",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "sport"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تغییر مود رانندگی ممکنه؟",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تغییر مود رانندگی رو انجام بده",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تغییر مود رانندگی رو اجرا کن",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تغییر مود رانندگی رو اجرا کن",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تغییر مود رانندگی رو انجام دادم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تغییر مود رانندگی انجام شده بود",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تغییر مود رانندگی رو انجام داده",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تغییر مود رانندگی حرف می زدم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر مود رانندگی رو بخور",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر مود رانندگی رو مثل پیتزا بپز",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر مود رانندگی رو هم انجام بده هم انجام نده",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تغییر مود رانندگی یه شعر بگو",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن ورود آسان رو انجام نده",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن ورود آسان انجام بشه",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن ورود آسان رو اجرا نکن",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن ورود آسان یعنی چی؟",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن ورود آسان توضیح بده",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن ورود آسان ممکنه؟",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن ورود آسان رو انجام بده",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن ورود آسان رو اجرا کن",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن ورود آسان رو انجام دادم",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن ورود آسان انجام شده بود",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن ورود آسان رو انجام داده",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن ورود آسان حرف می زدم",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن ورود آسان رو بخور",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن ورود آسان رو مثل پیتزا بپز",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن ورود آسان رو هم انجام بده هم انجام نده",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن ورود آسان یه شعر بگو",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو انجام نده",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو انجام نده",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن خروج آسان انجام بشه",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن خروج آسان انجام بشه",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو اجرا نکن",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان یعنی چی؟",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن خروج آسان توضیح بده",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن خروج آسان ممکنه؟",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن خروج آسان رو انجام بده",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن خروج آسان رو اجرا کن",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن خروج آسان رو انجام دادم",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن خروج آسان انجام شده بود",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن خروج آسان رو انجام داده",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن خروج آسان حرف می زدم",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو بخور",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو بخور",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو مثل پیتزا بپز",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو هم انجام بده هم انجام نده",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن خروج آسان یه شعر بگو",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر راهبرد مصرف انرژی رو انجام نده",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تغییر راهبرد مصرف انرژی انجام بشه",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر راهبرد مصرف انرژی رو اجرا نکن",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر راهبرد مصرف انرژی یعنی چی؟",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تغییر راهبرد مصرف انرژی توضیح بده",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تغییر راهبرد مصرف انرژی ممکنه؟",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تغییر راهبرد مصرف انرژی رو انجام بده",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تغییر راهبرد مصرف انرژی رو اجرا کن",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تغییر راهبرد مصرف انرژی رو انجام دادم",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تغییر راهبرد مصرف انرژی انجام شده بود",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تغییر راهبرد مصرف انرژی رو انجام داده",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تغییر راهبرد مصرف انرژی حرف می زدم",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر راهبرد مصرف انرژی رو بخور",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر راهبرد مصرف انرژی رو مثل پیتزا بپز",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر راهبرد مصرف انرژی رو هم انجام بده هم انجام نده",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تغییر راهبرد مصرف انرژی یه شعر بگو",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فن کولر رو روی یک بذار کم",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": -1,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فن رو روی حداقل",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 4,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فن رو روی حداقل بذار کم",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 4,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم سرعت فن رو انجام نده",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم سرعت فن انجام بشه",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم سرعت فن رو اجرا نکن",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم سرعت فن یعنی چی؟",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم سرعت فن توضیح بده",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم سرعت فن ممکنه؟",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم سرعت فن رو انجام بده",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم سرعت فن رو اجرا کن",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم سرعت فن رو انجام دادم",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم سرعت فن انجام شده بود",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم سرعت فن رو انجام داده",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم سرعت فن حرف می زدم",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم سرعت فن رو بخور",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم سرعت فن رو مثل پیتزا بپز",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم سرعت فن رو هم انجام بده هم انجام نده",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم سرعت فن یه شعر بگو",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "هشدار برخورد جلو رو روشن",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حساسیت هشدار برخورد جلو رو متوسط",
+    "action": "OPEN_OEM_RADIO",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "هشدار تصادف از جلو رو غیر فعال کم",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": false,
+      "side": "left"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم هشدار برخورد جلو رو انجام نده",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم هشدار برخورد جلو انجام بشه",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم هشدار برخورد جلو رو اجرا نکن",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم هشدار برخورد جلو یعنی چی؟",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم هشدار برخورد جلو توضیح بده",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم هشدار برخورد جلو ممکنه؟",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم هشدار برخورد جلو رو انجام بده",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم هشدار برخورد جلو رو اجرا کن",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم هشدار برخورد جلو رو انجام دادم",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم هشدار برخورد جلو انجام شده بود",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم هشدار برخورد جلو رو انجام داده",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم هشدار برخورد جلو حرف می زدم",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم هشدار برخورد جلو رو بخور",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم هشدار برخورد جلو رو مثل پیتزا بپز",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم هشدار برخورد جلو رو هم انجام بده هم انجام نده",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم هشدار برخورد جلو یه شعر بگو",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "رایحه رو روی بامبو بذار کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "عطر گل صد تومنی رو انتخاب کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "انتخاب رایحه رو انجام نده",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام انتخاب رایحه انجام بشه",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "انتخاب رایحه رو اجرا نکن",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "انتخاب رایحه یعنی چی؟",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره انتخاب رایحه توضیح بده",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا انتخاب رایحه ممکنه؟",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد انتخاب رایحه رو انجام بده",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم انتخاب رایحه رو اجرا کن",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز انتخاب رایحه رو انجام دادم",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا انتخاب رایحه انجام شده بود",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت انتخاب رایحه رو انجام داده",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره انتخاب رایحه حرف می زدم",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "انتخاب رایحه رو بخور",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "انتخاب رایحه رو مثل پیتزا بپز",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "انتخاب رایحه رو هم انجام بده هم انجام نده",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای انتخاب رایحه یه شعر بگو",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "هشدار باز کردن درب رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "هشدار باز کردن درب روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا هشدار باز کردن درب روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها هشدار باز کردن درب روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "وارنینگ باز شدن در رو غیر فعال کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "وارنینگ باز شدن در غیر فعال کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا وارنینگ باز شدن در غیر فعال کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها وارنینگ باز شدن در غیر فعال کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "چرا فعال کردن تشخیص حرکت دست انجام نشد؟",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن تشخیص حرکت دست رو انجام بده",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست رو سرخ کن",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص حرکت دست رو به رنگ خوشحالی بو کن",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حساسیت پایش راننده رو حداکثر کم",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "sensitivity": "min"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم پایش راننده انجام نشد؟",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم پایش راننده رو انجام بده",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم پایش راننده رو سرخ کن",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم پایش راننده رو به رنگ خوشحالی بو کن",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مود رانندگی رو ایندیویجوال کم",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "eco"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تغییر مود رانندگی انجام نشد؟",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تغییر مود رانندگی رو انجام بده",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر مود رانندگی رو سرخ کن",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر مود رانندگی رو به رنگ خوشحالی بو کن",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "comfort"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن ورود آسان انجام نشد؟",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن ورود آسان رو انجام بده",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن ورود آسان رو سرخ کن",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن ورود آسان رو به رنگ خوشحالی بو کن",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن خروج آسان انجام نشد؟",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن خروج آسان رو انجام بده",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو سرخ کن",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن خروج آسان رو به رنگ خوشحالی بو کن",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تغییر راهبرد مصرف انرژی انجام نشد؟",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تغییر راهبرد مصرف انرژی رو انجام بده",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر راهبرد مصرف انرژی رو سرخ کن",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر راهبرد مصرف انرژی رو به رنگ خوشحالی بو کن",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "electric"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فن رو روی حداکثر بذار کم",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": "min",
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم سرعت فن انجام نشد؟",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم سرعت فن رو انجام بده",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم سرعت فن رو سرخ کن",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم سرعت فن رو به رنگ خوشحالی بو کن",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم هشدار برخورد جلو انجام نشد؟",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم هشدار برخورد جلو رو انجام بده",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم هشدار برخورد جلو رو سرخ کن",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم هشدار برخورد جلو رو به رنگ خوشحالی بو کن",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا انتخاب رایحه انجام نشد؟",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم انتخاب رایحه رو انجام بده",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "انتخاب رایحه رو سرخ کن",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "انتخاب رایحه رو به رنگ خوشحالی بو کن",
+    "action": "SET_FRAGRANCE_CHANNEL",
+    "parameters": {
+      "channel": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  }
+]

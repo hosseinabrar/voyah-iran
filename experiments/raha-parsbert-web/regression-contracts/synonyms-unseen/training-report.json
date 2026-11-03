@@ -1,0 +1,131 @@
+{
+  "before": {
+    "all": {
+      "count": 1356,
+      "correct": 590,
+      "unsafe": 28,
+      "executed_correct": 590,
+      "rejected": 738,
+      "semantic_correct": 1056
+    },
+    "clear": {
+      "count": 1356,
+      "correct": 590,
+      "unsafe": 28,
+      "executed_correct": 590,
+      "rejected": 738,
+      "semantic_correct": 1056
+    },
+    "noisy": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    },
+    "invalid": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    },
+    "holdout": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    }
+  },
+  "after": {
+    "all": {
+      "count": 1356,
+      "correct": 1255,
+      "unsafe": 0,
+      "executed_correct": 1255,
+      "rejected": 101,
+      "semantic_correct": 1356
+    },
+    "clear": {
+      "count": 1356,
+      "correct": 1255,
+      "unsafe": 0,
+      "executed_correct": 1255,
+      "rejected": 101,
+      "semantic_correct": 1356
+    },
+    "noisy": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    },
+    "invalid": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    },
+    "holdout": {
+      "count": 0,
+      "correct": 0,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 0,
+      "semantic_correct": 0
+    }
+  },
+  "prior_1200": 1200,
+  "previous": {
+    "all": {
+      "count": 7540,
+      "correct": 7540,
+      "unsafe": 0,
+      "executed_correct": 4419,
+      "rejected": 3121,
+      "semantic_correct": 7540
+    },
+    "clear": {
+      "count": 3761,
+      "correct": 3761,
+      "unsafe": 0,
+      "executed_correct": 3761,
+      "rejected": 0,
+      "semantic_correct": 3761
+    },
+    "noisy": {
+      "count": 1899,
+      "correct": 1899,
+      "unsafe": 0,
+      "executed_correct": 658,
+      "rejected": 1241,
+      "semantic_correct": 1899
+    },
+    "invalid": {
+      "count": 1880,
+      "correct": 1880,
+      "unsafe": 0,
+      "executed_correct": 0,
+      "rejected": 1880,
+      "semantic_correct": 1880
+    },
+    "holdout": {
+      "count": 1503,
+      "correct": 1503,
+      "unsafe": 0,
+      "executed_correct": 864,
+      "rejected": 639,
+      "semantic_correct": 1503
+    }
+  },
+  "previous_wrong_at_100": 0,
+  "notes": "Final saved checkpoint after interrupting additional fitting. Post-training results are in-sample. No guard relaxation. Assistance counters unavailable after interruption; not estimated."
+}

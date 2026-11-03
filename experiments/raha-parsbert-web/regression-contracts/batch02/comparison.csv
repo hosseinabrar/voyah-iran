@@ -1,0 +1,601 @@
+﻿text,command,valid,initial_split,expected_parameters,before_action,before_parameters,before_score,before_pass,after_action,after_parameters,after_score,after_pass,semantic_correct
+سانروف رو یه کم باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",0.9972,True,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سانروف رو یه کم بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",SET_SUNROOF_POSITION,"{""percent"": 50}",0.5652,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+سقف شیشه ای رو یه کم باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",0.8357,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سقف شیشه ای رو یه کم بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""all""}",0.9861,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+شیشه سقف رو یه کم باز کن,ADJUST_SUNROOF_POSITION,True,holdout,"{""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",1.0,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+شیشه سقف رو یه کم بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",1.0,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+سانروف رو ده درصد بیشتر باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNROOF_POSITION,"{""percent"": 10}",0.7812,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سانروف رو ده درصد بیشتر بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},0.9156,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+سقف شیشه ای رو ده درصد بیشتر باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.9125,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سقف شیشه ای رو ده درصد بیشتر بسته کن,ADJUST_SUNROOF_POSITION,True,holdout,"{""deltaPercent"": -10}",SET_DRIVE_MODE,"{""mode"": ""outing""}",0.9327,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+شیشه سقف رو ده درصد بیشتر باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.9999,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+شیشه سقف رو ده درصد بیشتر بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",1.0,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+لطفا سانروف رو کمی باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",0.603,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+لطفا سانروف رو کمی بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},1.0,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+لطفا سقف شیشه ای رو کمی باز کن,ADJUST_SUNROOF_POSITION,True,holdout,"{""deltaPercent"": 10}",UNKNOWN,{},0.7966,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+لطفا سقف شیشه ای رو کمی بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},1.0,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+لطفا شیشه سقف رو کمی باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",0.9929,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+لطفا شیشه سقف رو کمی بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},0.872,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+می خوام سانروف یه ذره باز بشه,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNROOF_POSITION,"{""percent"": 10}",1.0,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+می خوام سانروف یه ذره بسته بشه,ADJUST_SUNROOF_POSITION,True,holdout,"{""deltaPercent"": -10}",SET_SUNROOF_POSITION,"{""percent"": 50}",0.9996,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+می خوام سقف شیشه ای یه ذره باز بشه,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNROOF_POSITION,"{""percent"": 10}",0.9477,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+می خوام سقف شیشه ای یه ذره بسته بشه,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",SET_CLIMATE_POWER,"{""acEnabled"": true, ""enabled"": true, ""temperatureLevel"": ""max"", ""zone"": ""front""}",0.7216,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+می خوام شیشه سقف یه ذره باز بشه,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 15, ""zone"": ""front""}",0.995,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+می خوام شیشه سقف یه ذره بسته بشه,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 15, ""zone"": ""front""}",1.0,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+سانروف رو یک پله باز کن,ADJUST_SUNROOF_POSITION,True,holdout,"{""deltaPercent"": 10}",UNKNOWN,{},0.9999,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سانروف رو یک پله بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},0.9999,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+سقف شیشه ای رو یک پله باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.9399,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سقف شیشه ای رو یک پله بسته کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},0.9999,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+شیشه سقف رو یک پله باز کن,ADJUST_SUNROOF_POSITION,True,train,"{""deltaPercent"": 10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.9999,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+شیشه سقف رو یک پله بسته کن,ADJUST_SUNROOF_POSITION,True,holdout,"{""deltaPercent"": -10}",UNKNOWN,{},0.9484,False,ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+تنظیم مقدار باز بودن سانروف رو انجام نده,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اصلا تنظیم مقدار باز بودن سانروف رو نمی خوام,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا تنظیم مقدار باز بودن سانروف رو اجرا نکن,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف لازم نیست,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان تنظیم مقدار باز بودن سانروف انجام بشه,ADJUST_SUNROOF_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف یعنی چی؟,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا تنظیم مقدار باز بودن سانروف انجام نشد؟,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا تنظیم مقدار باز بودن سانروف ممکنه؟,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش تنظیم مقدار باز بودن سانروف چیه؟,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره تنظیم مقدار باز بودن سانروف توضیح بده,ADJUST_SUNROOF_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد تنظیم مقدار باز بودن سانروف رو انجام بده,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم تنظیم مقدار باز بودن سانروف رو اجرا کن,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم تنظیم مقدار باز بودن سانروف رو انجام بده,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم تنظیم مقدار باز بودن سانروف رو اجرا کن,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید تنظیم مقدار باز بودن سانروف رو انجام بده,ADJUST_SUNROOF_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+دیروز تنظیم مقدار باز بودن سانروف رو انجام دادم,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+قبلا تنظیم مقدار باز بودن سانروف انجام شده بود,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت تنظیم مقدار باز بودن سانروف رو انجام داده,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+من درباره تنظیم مقدار باز بودن سانروف حرف می زدم,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست تنظیم مقدار باز بودن سانروف رو انجام داده بودم,ADJUST_SUNROOF_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف رو سرخ کن,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف رو به سیاره مشتری بفرست,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف رو بخور,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},0.9998,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف رو مثل پیتزا بپز,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف رو دانلود کن,ADJUST_SUNROOF_POSITION,False,holdout,{},UNKNOWN,{},0.9999,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف رو هم انجام بده هم انجام نده,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای تنظیم مقدار باز بودن سانروف یه شعر بگو,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد تنظیم مقدار باز بودن سانروف رو بخوام,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن سانروف رو به رنگ خوشحالی بو کن,ADJUST_SUNROOF_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب تنظیم مقدار باز بودن سانروف رو می دیدم,ADJUST_SUNROOF_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+پرده سقف رو یه کم باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9999,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+پرده سقف رو یه کم بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",SET_SUNSHADE_POSITION,"{""position"": 50}",1.0,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+پرده سانروف رو یه کم باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9944,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+پرده سانروف رو یه کم بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9979,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+سایه بان سقف رو یه کم باز کن,ADJUST_SUNSHADE_POSITION,True,holdout,"{""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearRight""}",0.6194,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سایه بان سقف رو یه کم بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearRight""}",0.9437,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+پرده سقف رو ده درصد بیشتر باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",UNKNOWN,{},0.985,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+پرده سقف رو ده درصد بیشتر بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},0.9999,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+پرده سانروف رو ده درصد بیشتر باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",UNKNOWN,{},1.0,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+پرده سانروف رو ده درصد بیشتر بسته کن,ADJUST_SUNSHADE_POSITION,True,holdout,"{""deltaPercent"": -10}",UNKNOWN,{},1.0,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+سایه بان سقف رو ده درصد بیشتر باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.994,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سایه بان سقف رو ده درصد بیشتر بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",SET_DISPLAY_BRIGHTNESS,"{""deltaPercent"": 10, ""display"": ""all""}",0.7837,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+لطفا پرده سقف رو کمی باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNSHADE_POSITION,"{""position"": 50}",1.0,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+لطفا پرده سقف رو کمی بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",SET_SUNSHADE_POSITION,"{""position"": 0}",0.7996,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+لطفا پرده سانروف رو کمی باز کن,ADJUST_SUNSHADE_POSITION,True,holdout,"{""deltaPercent"": 10}",UNKNOWN,{},0.8371,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+لطفا پرده سانروف رو کمی بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},0.9998,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+لطفا سایه بان سقف رو کمی باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",ADJUST_SUNROOF_POSITION,"{""deltaPercent"": -10}",0.9984,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+لطفا سایه بان سقف رو کمی بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",UNKNOWN,{},0.9963,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+می خوام پرده سقف یه ذره باز بشه,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNSHADE_POSITION,"{""position"": 50}",1.0,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+می خوام پرده سقف یه ذره بسته بشه,ADJUST_SUNSHADE_POSITION,True,holdout,"{""deltaPercent"": -10}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9996,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+می خوام پرده سانروف یه ذره باز بشه,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNSHADE_POSITION,"{""position"": 50}",1.0,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+می خوام پرده سانروف یه ذره بسته بشه,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9983,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+می خوام سایه بان سقف یه ذره باز بشه,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNSHADE_POSITION,"{""position"": 100}",0.9507,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+می خوام سایه بان سقف یه ذره بسته بشه,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.6022,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+پرده سقف رو یک پله باز کن,ADJUST_SUNSHADE_POSITION,True,holdout,"{""deltaPercent"": 10}",SET_SUNSHADE_POSITION,"{""position"": 100}",0.9996,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+پرده سقف رو یک پله بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9945,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+پرده سانروف رو یک پله باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",SET_SUNSHADE_POSITION,"{""position"": 100}",0.9134,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+پرده سانروف رو یک پله بسته کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": -10}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9637,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+سایه بان سقف رو یک پله باز کن,ADJUST_SUNSHADE_POSITION,True,train,"{""deltaPercent"": 10}",UNKNOWN,{},0.7492,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",1.0,True,True
+سایه بان سقف رو یک پله بسته کن,ADJUST_SUNSHADE_POSITION,True,holdout,"{""deltaPercent"": -10}",UNKNOWN,{},0.9961,False,ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": -10}",1.0,True,True
+تنظیم مقدار باز بودن پرده سقف رو انجام نده,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اصلا تنظیم مقدار باز بودن پرده سقف رو نمی خوام,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا تنظیم مقدار باز بودن پرده سقف رو اجرا نکن,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف لازم نیست,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان تنظیم مقدار باز بودن پرده سقف انجام بشه,ADJUST_SUNSHADE_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف یعنی چی؟,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا تنظیم مقدار باز بودن پرده سقف انجام نشد؟,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا تنظیم مقدار باز بودن پرده سقف ممکنه؟,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش تنظیم مقدار باز بودن پرده سقف چیه؟,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره تنظیم مقدار باز بودن پرده سقف توضیح بده,ADJUST_SUNSHADE_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد تنظیم مقدار باز بودن پرده سقف رو انجام بده,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم تنظیم مقدار باز بودن پرده سقف رو اجرا کن,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم تنظیم مقدار باز بودن پرده سقف رو انجام بده,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم تنظیم مقدار باز بودن پرده سقف رو اجرا کن,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید تنظیم مقدار باز بودن پرده سقف رو انجام بده,ADJUST_SUNSHADE_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+دیروز تنظیم مقدار باز بودن پرده سقف رو انجام دادم,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+قبلا تنظیم مقدار باز بودن پرده سقف انجام شده بود,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت تنظیم مقدار باز بودن پرده سقف رو انجام داده,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+من درباره تنظیم مقدار باز بودن پرده سقف حرف می زدم,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست تنظیم مقدار باز بودن پرده سقف رو انجام داده بودم,ADJUST_SUNSHADE_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف رو سرخ کن,ADJUST_SUNSHADE_POSITION,False,train,{},SET_SUNSHADE_POSITION,"{""position"": 100}",0.8907,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف رو به سیاره مشتری بفرست,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف رو بخور,ADJUST_SUNSHADE_POSITION,False,train,{},SET_SUNSHADE_POSITION,"{""position"": 100}",1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف رو مثل پیتزا بپز,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف رو دانلود کن,ADJUST_SUNSHADE_POSITION,False,holdout,{},SET_SUNSHADE_POSITION,"{""position"": 100}",1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف رو هم انجام بده هم انجام نده,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای تنظیم مقدار باز بودن پرده سقف یه شعر بگو,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد تنظیم مقدار باز بودن پرده سقف رو بخوام,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم مقدار باز بودن پرده سقف رو به رنگ خوشحالی بو کن,ADJUST_SUNSHADE_POSITION,False,train,{},UNKNOWN,{},0.9988,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب تنظیم مقدار باز بودن پرده سقف رو می دیدم,ADJUST_SUNSHADE_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شیشه راننده رو یه کم باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""driver"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",0.9997,True,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",1.0,True,True
+شیشه راننده رو یه کم بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""driver"", ""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",0.9706,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""driver""}",1.0,True,True
+شیشه شاگرد رو یه کم باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,True
+شیشه شاگرد رو یه کم بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""passenger""}",1.0,True,True
+شیشه عقب چپ رو یه کم باز کن,ADJUST_WINDOW_POSITION,True,holdout,"{""window"": ""rearLeft"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearLeft""}",1.0,True,True
+شیشه عقب چپ رو یه کم بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearLeft"", ""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearLeft""}",1.0,True,True
+شیشه عقب راست رو یه کم باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearRight"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearRight""}",1.0,True,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearRight""}",1.0,True,True
+شیشه عقب راست رو یه کم بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearRight"", ""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearRight""}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearRight""}",1.0,True,True
+شیشه همراه رو یه کم باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,True
+شیشه همراه رو یه کم بسته کن,ADJUST_WINDOW_POSITION,True,holdout,"{""window"": ""passenger"", ""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""passenger""}",1.0,True,True
+شیشه راننده رو ده درصد بیشتر باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""driver"", ""deltaPercent"": 10}",UNKNOWN,{},0.9995,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",1.0,True,True
+شیشه راننده رو ده درصد بیشتر بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""driver"", ""deltaPercent"": -10}",UNKNOWN,{},0.9983,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""driver""}",1.0,True,True
+شیشه شاگرد رو ده درصد بیشتر باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": 10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,True
+شیشه شاگرد رو ده درصد بیشتر بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": -10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""passenger""}",1.0,True,True
+شیشه عقب چپ رو ده درصد بیشتر باز کن,ADJUST_WINDOW_POSITION,True,holdout,"{""window"": ""rearLeft"", ""deltaPercent"": 10}",SET_DRIVE_MODE,"{""mode"": ""personal""}",0.9849,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearLeft""}",1.0,True,True
+شیشه عقب چپ رو ده درصد بیشتر بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearLeft"", ""deltaPercent"": -10}",SET_DRIVE_MODE,"{""mode"": ""personal""}",0.7781,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearLeft""}",1.0,True,True
+شیشه عقب راست رو ده درصد بیشتر باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearRight"", ""deltaPercent"": 10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.9304,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearRight""}",1.0,True,True
+شیشه عقب راست رو ده درصد بیشتر بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearRight"", ""deltaPercent"": -10}",SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.9533,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearRight""}",1.0,True,True
+شیشه همراه رو ده درصد بیشتر باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": 10}",UNKNOWN,{},0.5097,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,True
+شیشه همراه رو ده درصد بیشتر بسته کن,ADJUST_WINDOW_POSITION,True,holdout,"{""window"": ""passenger"", ""deltaPercent"": -10}",SET_DISPLAY_BRIGHTNESS,"{""deltaPercent"": 10, ""display"": ""passenger""}",0.4984,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""passenger""}",1.0,True,True
+لطفا شیشه راننده رو کمی باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""driver"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",0.7562,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""driver""}",1.0,True,True
+لطفا شیشه راننده رو کمی بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""driver"", ""deltaPercent"": -10}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""driver""}",0.9652,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""driver""}",1.0,True,True
+لطفا شیشه شاگرد رو کمی باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,True
+لطفا شیشه شاگرد رو کمی بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""passenger""}",1.0,True,True
+لطفا شیشه عقب چپ رو کمی باز کن,ADJUST_WINDOW_POSITION,True,holdout,"{""window"": ""rearLeft"", ""deltaPercent"": 10}",UNKNOWN,{},0.9906,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearLeft""}",1.0,True,True
+لطفا شیشه عقب چپ رو کمی بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearLeft"", ""deltaPercent"": -10}",UNKNOWN,{},0.9999,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearLeft""}",1.0,True,True
+لطفا شیشه عقب راست رو کمی باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearRight"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearRight""}",1.0,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearRight""}",1.0,True,True
+لطفا شیشه عقب راست رو کمی بسته کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""rearRight"", ""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",0.9999,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearRight""}",1.0,True,True
+لطفا شیشه همراه رو کمی باز کن,ADJUST_WINDOW_POSITION,True,train,"{""window"": ""passenger"", ""deltaPercent"": 10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",1.0,True,True
+لطفا شیشه همراه رو کمی بسته کن,ADJUST_WINDOW_POSITION,True,holdout,"{""window"": ""passenger"", ""deltaPercent"": -10}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",0.6666,False,ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""passenger""}",1.0,True,True
+تغییر مقدار باز بودن شیشه رو انجام نده,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اصلا تغییر مقدار باز بودن شیشه رو نمی خوام,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا تغییر مقدار باز بودن شیشه رو اجرا نکن,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه لازم نیست,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان تغییر مقدار باز بودن شیشه انجام بشه,ADJUST_WINDOW_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه یعنی چی؟,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا تغییر مقدار باز بودن شیشه انجام نشد؟,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا تغییر مقدار باز بودن شیشه ممکنه؟,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش تغییر مقدار باز بودن شیشه چیه؟,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره تغییر مقدار باز بودن شیشه توضیح بده,ADJUST_WINDOW_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد تغییر مقدار باز بودن شیشه رو انجام بده,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم تغییر مقدار باز بودن شیشه رو اجرا کن,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم تغییر مقدار باز بودن شیشه رو انجام بده,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},0.9999,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم تغییر مقدار باز بودن شیشه رو اجرا کن,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید تغییر مقدار باز بودن شیشه رو انجام بده,ADJUST_WINDOW_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+دیروز تغییر مقدار باز بودن شیشه رو انجام دادم,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+قبلا تغییر مقدار باز بودن شیشه انجام شده بود,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت تغییر مقدار باز بودن شیشه رو انجام داده,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},0.9979,True,UNKNOWN,{},1.0,True,True
+من درباره تغییر مقدار باز بودن شیشه حرف می زدم,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست تغییر مقدار باز بودن شیشه رو انجام داده بودم,ADJUST_WINDOW_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه رو سرخ کن,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه رو به سیاره مشتری بفرست,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},0.9849,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه رو بخور,ADJUST_WINDOW_POSITION,False,train,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": 1.5, ""zone"": ""front""}",0.9988,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه رو مثل پیتزا بپز,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه رو دانلود کن,ADJUST_WINDOW_POSITION,False,holdout,{},UNKNOWN,{},0.8895,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه رو هم انجام بده هم انجام نده,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای تغییر مقدار باز بودن شیشه یه شعر بگو,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد تغییر مقدار باز بودن شیشه رو بخوام,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},0.9993,True,UNKNOWN,{},1.0,True,True
+تغییر مقدار باز بودن شیشه رو به رنگ خوشحالی بو کن,ADJUST_WINDOW_POSITION,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب تغییر مقدار باز بودن شیشه رو می دیدم,ADJUST_WINDOW_POSITION,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+حساسیت برف پاک کن رو یک پله کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",SET_DRIVE_MODE,"{""mode"": ""eco""}",0.682,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت برف پاک کن رو یک پله زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",SET_WIPER_SENSITIVITY,"{""level"": 1}",0.7301,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+حساسیت سنسور باران رو یک پله کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.9991,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت سنسور باران رو یک پله زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",ADJUST_FAN_SPEED,"{""delta"": 1, ""zone"": ""front""}",0.8718,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+حساسیت برف پاک کن اتوماتیک رو یک پله کم کن,ADJUST_WIPER_SENSITIVITY,True,holdout,"{""delta"": -1}",SET_WIPER_SENSITIVITY,"{""level"": ""min""}",0.9992,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت برف پاک کن اتوماتیک رو یک پله زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",SET_WIPER_SENSITIVITY,"{""level"": 2}",0.9976,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+حساسیت برف پاک کن را کمی کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت برف پاک کن را کمی زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",SET_WIPER_SENSITIVITY,"{""level"": 2}",0.9546,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+حساسیت سنسور باران را کمی کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.6674,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت سنسور باران را کمی زیاد کن,ADJUST_WIPER_SENSITIVITY,True,holdout,"{""delta"": 1}",ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",0.9857,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+حساسیت برف پاک کن اتوماتیک را کمی کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",0.9993,True,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت برف پاک کن اتوماتیک را کمی زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",SET_WIPER_SENSITIVITY,"{""level"": 2}",0.9996,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+لطفا حساسیت برف پاک کن رو کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+لطفا حساسیت برف پاک کن رو زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+لطفا حساسیت سنسور باران رو کم کن,ADJUST_WIPER_SENSITIVITY,True,holdout,"{""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.9766,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+لطفا حساسیت سنسور باران رو زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",ADJUST_FAN_SPEED,"{""delta"": 1, ""zone"": ""front""}",0.777,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+لطفا حساسیت برف پاک کن اتوماتیک رو کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+لطفا حساسیت برف پاک کن اتوماتیک رو زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",0.8468,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+می خوام حساسیت برف پاک کن یک سطح کم بشه,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",SET_WIPER_SENSITIVITY,"{""level"": 1}",1.0,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+می خوام حساسیت برف پاک کن یک سطح زیاد بشه,ADJUST_WIPER_SENSITIVITY,True,holdout,"{""delta"": 1}",SET_WIPER_SENSITIVITY,"{""level"": 1}",0.9999,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+می خوام حساسیت سنسور باران یک سطح کم بشه,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.9925,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+می خوام حساسیت سنسور باران یک سطح زیاد بشه,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",ADJUST_SEAT_HEATING,"{""delta"": 1, ""seat"": ""driver""}",0.4751,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+می خوام حساسیت برف پاک کن اتوماتیک یک سطح کم بشه,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",SET_WIPER_SENSITIVITY,"{""level"": 1}",1.0,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+می خوام حساسیت برف پاک کن اتوماتیک یک سطح زیاد بشه,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",SET_WIPER_SENSITIVITY,"{""level"": 1}",1.0,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+حساسیت برف پاک کن رو یه مقدار کم کن,ADJUST_WIPER_SENSITIVITY,True,holdout,"{""delta"": -1}",SET_WIPER_SENSITIVITY,"{""level"": ""min""}",1.0,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت برف پاک کن رو یه مقدار زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",SET_WIPER_SENSITIVITY,"{""level"": 2}",1.0,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+حساسیت سنسور باران رو یه مقدار کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.9061,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت سنسور باران رو یه مقدار زیاد کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": 1}",ADJUST_FAN_SPEED,"{""delta"": 1, ""zone"": ""front""}",0.8803,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+حساسیت برف پاک کن اتوماتیک رو یه مقدار کم کن,ADJUST_WIPER_SENSITIVITY,True,train,"{""delta"": -1}",SET_WIPER_SENSITIVITY,"{""level"": ""min""}",1.0,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": -1}",1.0,True,True
+حساسیت برف پاک کن اتوماتیک رو یه مقدار زیاد کن,ADJUST_WIPER_SENSITIVITY,True,holdout,"{""delta"": 1}",SET_WIPER_SENSITIVITY,"{""level"": 2}",1.0,False,ADJUST_WIPER_SENSITIVITY,"{""delta"": 1}",1.0,True,True
+تنظیم حساسیت برف پاک کن رو انجام نده,ADJUST_WIPER_SENSITIVITY,False,train,{},SET_WIPER_SENSITIVITY,"{""level"": ""min""}",1.0,False,UNKNOWN,{},1.0,True,True
+اصلا تنظیم حساسیت برف پاک کن رو نمی خوام,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا تنظیم حساسیت برف پاک کن رو اجرا نکن,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن لازم نیست,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان تنظیم حساسیت برف پاک کن انجام بشه,ADJUST_WIPER_SENSITIVITY,False,holdout,{},SET_WIPER_SENSITIVITY,"{""level"": ""min""}",0.5886,True,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن یعنی چی؟,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا تنظیم حساسیت برف پاک کن انجام نشد؟,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا تنظیم حساسیت برف پاک کن ممکنه؟,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش تنظیم حساسیت برف پاک کن چیه؟,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره تنظیم حساسیت برف پاک کن توضیح بده,ADJUST_WIPER_SENSITIVITY,False,holdout,{},UNKNOWN,{},0.9998,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد تنظیم حساسیت برف پاک کن رو انجام بده,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم تنظیم حساسیت برف پاک کن رو اجرا کن,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},0.9508,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم تنظیم حساسیت برف پاک کن رو انجام بده,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم تنظیم حساسیت برف پاک کن رو اجرا کن,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},0.9998,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید تنظیم حساسیت برف پاک کن رو انجام بده,ADJUST_WIPER_SENSITIVITY,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+دیروز تنظیم حساسیت برف پاک کن رو انجام دادم,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+قبلا تنظیم حساسیت برف پاک کن انجام شده بود,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت تنظیم حساسیت برف پاک کن رو انجام داده,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},0.8242,True,UNKNOWN,{},1.0,True,True
+من درباره تنظیم حساسیت برف پاک کن حرف می زدم,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست تنظیم حساسیت برف پاک کن رو انجام داده بودم,ADJUST_WIPER_SENSITIVITY,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن رو سرخ کن,ADJUST_WIPER_SENSITIVITY,False,train,{},SET_WIPER_SENSITIVITY,"{""level"": ""min""}",1.0,False,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن رو به سیاره مشتری بفرست,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن رو بخور,ADJUST_WIPER_SENSITIVITY,False,train,{},SET_WIPER_SENSITIVITY,"{""level"": ""min""}",1.0,False,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن رو مثل پیتزا بپز,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن رو دانلود کن,ADJUST_WIPER_SENSITIVITY,False,holdout,{},SET_WIPER_SENSITIVITY,"{""level"": ""min""}",1.0,False,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن رو هم انجام بده هم انجام نده,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای تنظیم حساسیت برف پاک کن یه شعر بگو,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد تنظیم حساسیت برف پاک کن رو بخوام,ADJUST_WIPER_SENSITIVITY,False,train,{},UNKNOWN,{},0.905,True,UNKNOWN,{},1.0,True,True
+تنظیم حساسیت برف پاک کن رو به رنگ خوشحالی بو کن,ADJUST_WIPER_SENSITIVITY,False,train,{},SET_DRIVE_MODE,"{""mode"": ""snow""}",0.9883,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب تنظیم حساسیت برف پاک کن رو می دیدم,ADJUST_WIPER_SENSITIVITY,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یه زنگ به علی بزن,CALL_CONTACT,True,train,"{""contact_query"": ""علی""}",CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,True
+یه زنگ به رضا بزن,CALL_CONTACT,True,train,"{""contact_query"": ""رضا""}",CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,True
+یه زنگ به مریم بزن,CALL_CONTACT,True,train,"{""contact_query"": ""مریم""}",CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,True
+یه زنگ به حسین بزن,CALL_CONTACT,True,train,"{""contact_query"": ""حسین""}",CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,True
+یه زنگ به سارا بزن,CALL_CONTACT,True,holdout,"{""contact_query"": ""سارا""}",UNKNOWN,{},0.5562,False,CALL_CONTACT,"{""contact_query"": ""سارا""}",1.0,True,True
+به علی زنگ بزن,CALL_CONTACT,True,train,"{""contact_query"": ""علی""}",CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,True
+به رضا زنگ بزن,CALL_CONTACT,True,train,"{""contact_query"": ""رضا""}",CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,True
+به مریم زنگ بزن,CALL_CONTACT,True,train,"{""contact_query"": ""مریم""}",CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,True
+به حسین زنگ بزن,CALL_CONTACT,True,train,"{""contact_query"": ""حسین""}",CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,True
+به سارا زنگ بزن,CALL_CONTACT,True,holdout,"{""contact_query"": ""سارا""}",UNKNOWN,{},0.8684,False,CALL_CONTACT,"{""contact_query"": ""سارا""}",1.0,True,True
+با علی تماس بگیر,CALL_CONTACT,True,train,"{""contact_query"": ""علی""}",CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,True
+با رضا تماس بگیر,CALL_CONTACT,True,train,"{""contact_query"": ""رضا""}",CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,True
+با مریم تماس بگیر,CALL_CONTACT,True,train,"{""contact_query"": ""مریم""}",CALL_CONTACT,"{""contact_query"": ""مریم""}",0.9611,False,CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,True
+با حسین تماس بگیر,CALL_CONTACT,True,train,"{""contact_query"": ""حسین""}",CONFIRM_CALL,{},0.9222,False,CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,True
+با سارا تماس بگیر,CALL_CONTACT,True,holdout,"{""contact_query"": ""سارا""}",CALL_CONTACT,"{""contact_query"": ""سارا""}",0.9997,True,CALL_CONTACT,"{""contact_query"": ""سارا""}",1.0,True,True
+شماره علی رو بگیر,CALL_CONTACT,True,train,"{""contact_query"": ""علی""}",CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,True
+شماره رضا رو بگیر,CALL_CONTACT,True,train,"{""contact_query"": ""رضا""}",CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,True
+شماره مریم رو بگیر,CALL_CONTACT,True,train,"{""contact_query"": ""مریم""}",CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,True
+شماره حسین رو بگیر,CALL_CONTACT,True,train,"{""contact_query"": ""حسین""}",CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,True
+شماره سارا رو بگیر,CALL_CONTACT,True,holdout,"{""contact_query"": ""سارا""}",CALL_CONTACT,"{""contact_query"": ""سارا""}",0.9916,False,CALL_CONTACT,"{""contact_query"": ""سارا""}",1.0,True,True
+لطفا به علی یه زنگ بزن,CALL_CONTACT,True,train,"{""contact_query"": ""علی""}",CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,True
+لطفا به رضا یه زنگ بزن,CALL_CONTACT,True,train,"{""contact_query"": ""رضا""}",CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,True
+لطفا به مریم یه زنگ بزن,CALL_CONTACT,True,train,"{""contact_query"": ""مریم""}",CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,True
+لطفا به حسین یه زنگ بزن,CALL_CONTACT,True,train,"{""contact_query"": ""حسین""}",CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,True
+لطفا به سارا یه زنگ بزن,CALL_CONTACT,True,holdout,"{""contact_query"": ""سارا""}",CALL_CONTACT,"{""contact_query"": ""سارا""}",0.4531,False,CALL_CONTACT,"{""contact_query"": ""سارا""}",1.0,True,True
+می خوام با علی تماس بگیری,CALL_CONTACT,True,train,"{""contact_query"": ""علی""}",CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""علی""}",1.0,True,True
+می خوام با رضا تماس بگیری,CALL_CONTACT,True,train,"{""contact_query"": ""رضا""}",CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""رضا""}",1.0,True,True
+می خوام با مریم تماس بگیری,CALL_CONTACT,True,train,"{""contact_query"": ""مریم""}",CALL_CONTACT,"{""contact_query"": ""مریم""}",0.9902,False,CALL_CONTACT,"{""contact_query"": ""مریم""}",1.0,True,True
+می خوام با حسین تماس بگیری,CALL_CONTACT,True,train,"{""contact_query"": ""حسین""}",CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""حسین""}",1.0,True,True
+می خوام با سارا تماس بگیری,CALL_CONTACT,True,holdout,"{""contact_query"": ""سارا""}",CALL_CONTACT,"{""contact_query"": ""سارا""}",1.0,True,CALL_CONTACT,"{""contact_query"": ""سارا""}",1.0,True,True
+تماس با علی رو انجام نده,CALL_CONTACT,False,train,{},CALL_CONTACT,{},0.8525,True,UNKNOWN,{},1.0,True,True
+اصلا تماس با علی رو نمی خوام,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا تماس با علی رو اجرا نکن,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تماس با علی لازم نیست,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان تماس با علی انجام بشه,CALL_CONTACT,False,holdout,{},CALL_CONTACT,{},1.0,True,UNKNOWN,{},0.9998,True,True
+تماس با علی یعنی چی؟,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا تماس با علی انجام نشد؟,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا تماس با علی ممکنه؟,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش تماس با علی چیه؟,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره تماس با علی توضیح بده,CALL_CONTACT,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد تماس با علی رو انجام بده,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم تماس با علی رو اجرا کن,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم تماس با علی رو انجام بده,CALL_CONTACT,False,train,{},UNKNOWN,{},0.9526,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم تماس با علی رو اجرا کن,CALL_CONTACT,False,train,{},OPEN_DEFAULT_MAP,{},0.5286,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید تماس با علی رو انجام بده,CALL_CONTACT,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+دیروز تماس با علی رو انجام دادم,CALL_CONTACT,False,train,{},UNKNOWN,{},0.9997,True,UNKNOWN,{},1.0,True,True
+قبلا تماس با علی انجام شده بود,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت تماس با علی رو انجام داده,CALL_CONTACT,False,train,{},CALL_CONTACT,{},1.0,True,UNKNOWN,{},1.0,True,True
+من درباره تماس با علی حرف می زدم,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست تماس با علی رو انجام داده بودم,CALL_CONTACT,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تماس با علی رو سرخ کن,CALL_CONTACT,False,train,{},UNKNOWN,{},0.6549,True,UNKNOWN,{},1.0,True,True
+تماس با علی رو به سیاره مشتری بفرست,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تماس با علی رو بخور,CALL_CONTACT,False,train,{},CALL_CONTACT,{},0.9999,True,UNKNOWN,{},1.0,True,True
+تماس با علی رو مثل پیتزا بپز,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تماس با علی رو دانلود کن,CALL_CONTACT,False,holdout,{},CALL_CONTACT,{},0.9887,True,UNKNOWN,{},1.0,True,True
+تماس با علی رو هم انجام بده هم انجام نده,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای تماس با علی یه شعر بگو,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد تماس با علی رو بخوام,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تماس با علی رو به رنگ خوشحالی بو کن,CALL_CONTACT,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب تماس با علی رو می دیدم,CALL_CONTACT,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+لغوش کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},0.9394,False,CANCEL_DIALOG,{},1.0,True,True
+لغو کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},0.9978,False,CANCEL_DIALOG,{},1.0,True,True
+تماس رو لغو کن,CANCEL_DIALOG,True,train,{},CANCEL_DIALOG,{},0.718,False,CANCEL_DIALOG,{},1.0,True,True
+تماس رو کنسل کن,CANCEL_DIALOG,True,holdout,{},UNKNOWN,{},0.9902,False,CANCEL_DIALOG,{},1.0,True,True
+منصرف شدم,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+بی خیال تماس,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},0.9998,True,True
+تماس نگیر,CANCEL_DIALOG,True,train,{},CANCEL_DIALOG,{},1.0,True,CANCEL_DIALOG,{},1.0,True,True
+نه زنگ نزن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},0.9997,True,True
+نه تماس نگیر,CANCEL_DIALOG,True,holdout,{},CANCEL_DIALOG,{},1.0,True,CANCEL_DIALOG,{},1.0,True,True
+درخواست تماس رو لغو کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},0.9908,False,CANCEL_DIALOG,{},1.0,True,True
+این تماس رو کنسل کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+بی خیالش شو,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},0.9998,True,True
+ولش کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+نمی خوام تماس بگیری,CANCEL_DIALOG,True,holdout,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+رها لغو,CANCEL_DIALOG,True,train,{},CANCEL_DIALOG,{},0.9981,True,CANCEL_DIALOG,{},1.0,True,True
+رها لغوش کن,CANCEL_DIALOG,True,train,{},CANCEL_DIALOG,{},1.0,True,CANCEL_DIALOG,{},1.0,True,True
+رها لغو کن,CANCEL_DIALOG,True,train,{},CANCEL_DIALOG,{},0.9999,True,CANCEL_DIALOG,{},1.0,True,True
+رها تماس رو لغو کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},0.6104,False,CANCEL_DIALOG,{},1.0,True,True
+رها تماس رو کنسل کن,CANCEL_DIALOG,True,holdout,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+رها منصرف شدم,CANCEL_DIALOG,True,train,{},UNKNOWN,{},0.6893,False,CANCEL_DIALOG,{},1.0,True,True
+رها بی خیال تماس,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+رها تماس نگیر,CANCEL_DIALOG,True,train,{},UNKNOWN,{},0.7218,False,CANCEL_DIALOG,{},1.0,True,True
+رها نه زنگ نزن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},0.9999,True,True
+رها نه تماس نگیر,CANCEL_DIALOG,True,holdout,{},CANCEL_DIALOG,{},1.0,True,CANCEL_DIALOG,{},1.0,True,True
+رها درخواست تماس رو لغو کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},0.9999,False,CANCEL_DIALOG,{},0.9999,True,True
+رها این تماس رو کنسل کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+رها بی خیالش شو,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+رها ولش کن,CANCEL_DIALOG,True,train,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+رها نمی خوام تماس بگیری,CANCEL_DIALOG,True,holdout,{},UNKNOWN,{},1.0,False,CANCEL_DIALOG,{},1.0,True,True
+لغو درخواست تماس رو انجام نده,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},0.9999,True,True
+اصلا لغو درخواست تماس رو نمی خوام,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا لغو درخواست تماس رو اجرا نکن,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس لازم نیست,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},0.9959,True,True
+نمی خوام الان لغو درخواست تماس انجام بشه,CANCEL_DIALOG,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس یعنی چی؟,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا لغو درخواست تماس انجام نشد؟,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا لغو درخواست تماس ممکنه؟,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش لغو درخواست تماس چیه؟,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره لغو درخواست تماس توضیح بده,CANCEL_DIALOG,False,holdout,{},UNKNOWN,{},0.9999,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد لغو درخواست تماس رو انجام بده,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم لغو درخواست تماس رو اجرا کن,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم لغو درخواست تماس رو انجام بده,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم لغو درخواست تماس رو اجرا کن,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید لغو درخواست تماس رو انجام بده,CANCEL_DIALOG,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+دیروز لغو درخواست تماس رو انجام دادم,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+قبلا لغو درخواست تماس انجام شده بود,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت لغو درخواست تماس رو انجام داده,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+من درباره لغو درخواست تماس حرف می زدم,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست لغو درخواست تماس رو انجام داده بودم,CANCEL_DIALOG,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس رو سرخ کن,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس رو به سیاره مشتری بفرست,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس رو بخور,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس رو مثل پیتزا بپز,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس رو دانلود کن,CANCEL_DIALOG,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس رو هم انجام بده هم انجام نده,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای لغو درخواست تماس یه شعر بگو,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد لغو درخواست تماس رو بخوام,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لغو درخواست تماس رو به رنگ خوشحالی بو کن,CANCEL_DIALOG,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب لغو درخواست تماس رو می دیدم,CANCEL_DIALOG,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+سانروف رو ببند,CLOSE_SUNROOF,True,train,{},CLOSE_SUNROOF,{},1.0,True,CLOSE_SUNROOF,{},1.0,True,True
+سقف شیشه ای رو ببند,CLOSE_SUNROOF,True,train,{},CLOSE_SUNROOF,{},1.0,True,CLOSE_SUNROOF,{},1.0,True,True
+شیشه سقف رو ببند,CLOSE_SUNROOF,True,train,{},CLOSE_WINDOW,"{""window"": ""driver""}",0.7979,False,CLOSE_SUNROOF,{},1.0,True,True
+سانروف را کامل ببند,CLOSE_SUNROOF,True,train,{},CLOSE_SUNROOF,{},0.879,False,CLOSE_SUNROOF,{},1.0,True,True
+سقف شیشه ای را کامل ببند,CLOSE_SUNROOF,True,holdout,{},OPEN_SUNROOF,{},0.768,False,CLOSE_SUNROOF,{},1.0,True,True
+شیشه سقف را کامل ببند,CLOSE_SUNROOF,True,train,{},CLOSE_WINDOW,"{""window"": ""driver""}",0.9749,False,CLOSE_SUNROOF,{},1.0,True,True
+لطفا سانروف بسته بشه,CLOSE_SUNROOF,True,train,{},UNKNOWN,{},0.8456,False,CLOSE_SUNROOF,{},1.0,True,True
+لطفا سقف شیشه ای بسته بشه,CLOSE_SUNROOF,True,train,{},OPEN_SUNROOF,{},0.5003,False,CLOSE_SUNROOF,{},1.0,True,True
+لطفا شیشه سقف بسته بشه,CLOSE_SUNROOF,True,train,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": -12.5, ""zone"": ""front""}",0.7889,False,CLOSE_SUNROOF,{},1.0,True,True
+ببند سانروف رو,CLOSE_SUNROOF,True,holdout,{},SET_SUNROOF_POSITION,"{""percent"": 10}",0.8968,False,CLOSE_SUNROOF,{},1.0,True,True
+ببند سقف شیشه ای رو,CLOSE_SUNROOF,True,train,{},OPEN_SUNROOF,{},0.7641,False,CLOSE_SUNROOF,{},1.0,True,True
+ببند شیشه سقف رو,CLOSE_SUNROOF,True,train,{},SET_EASY_EXIT,"{""enabled"": true}",0.9659,False,CLOSE_SUNROOF,{},1.0,True,True
+می خوام سانروف بسته بشه,CLOSE_SUNROOF,True,train,{},SET_SUNROOF_POSITION,"{""percent"": 10}",0.9911,False,CLOSE_SUNROOF,{},1.0,True,True
+می خوام سقف شیشه ای بسته بشه,CLOSE_SUNROOF,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.5747,False,CLOSE_SUNROOF,{},1.0,True,True
+می خوام شیشه سقف بسته بشه,CLOSE_SUNROOF,True,holdout,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": -5.5, ""zone"": ""front""}",1.0,False,CLOSE_SUNROOF,{},1.0,True,True
+سانروف رو ببندش,CLOSE_SUNROOF,True,train,{},CLOSE_SUNROOF,{},1.0,True,CLOSE_SUNROOF,{},1.0,True,True
+سقف شیشه ای رو ببندش,CLOSE_SUNROOF,True,train,{},CLOSE_SUNROOF,{},1.0,True,CLOSE_SUNROOF,{},1.0,True,True
+شیشه سقف رو ببندش,CLOSE_SUNROOF,True,train,{},CLOSE_WINDOW,"{""window"": ""driver""}",0.9973,False,CLOSE_SUNROOF,{},1.0,True,True
+سانروف رو کاملا بسته کن,CLOSE_SUNROOF,True,train,{},UNKNOWN,{},0.5162,False,CLOSE_SUNROOF,{},1.0,True,True
+سقف شیشه ای رو کاملا بسته کن,CLOSE_SUNROOF,True,holdout,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9988,False,CLOSE_SUNROOF,{},1.0,True,True
+شیشه سقف رو کاملا بسته کن,CLOSE_SUNROOF,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.999,False,CLOSE_SUNROOF,{},1.0,True,True
+بی زحمت سانروف رو ببند,CLOSE_SUNROOF,True,train,{},CLOSE_SUNROOF,{},1.0,False,CLOSE_SUNROOF,{},1.0,True,True
+بی زحمت سقف شیشه ای رو ببند,CLOSE_SUNROOF,True,train,{},CLOSE_SUNROOF,{},1.0,False,CLOSE_SUNROOF,{},1.0,True,True
+بی زحمت شیشه سقف رو ببند,CLOSE_SUNROOF,True,train,{},CLOSE_WINDOW,"{""window"": ""driver""}",0.9987,False,CLOSE_SUNROOF,{},1.0,True,True
+سانروف باید بسته بشه,CLOSE_SUNROOF,True,holdout,{},UNKNOWN,{},1.0,False,CLOSE_SUNROOF,{},1.0,True,True
+سقف شیشه ای باید بسته بشه,CLOSE_SUNROOF,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,False,CLOSE_SUNROOF,{},1.0,True,True
+شیشه سقف باید بسته بشه,CLOSE_SUNROOF,True,train,{},UNKNOWN,{},0.9999,False,CLOSE_SUNROOF,{},1.0,True,True
+رها سانروف رو کامل ببند,CLOSE_SUNROOF,True,train,{},CLOSE_SUNROOF,{},0.8847,False,CLOSE_SUNROOF,{},1.0,True,True
+رها سقف شیشه ای رو کامل ببند,CLOSE_SUNROOF,True,train,{},OPEN_SUNROOF,{},0.9491,False,CLOSE_SUNROOF,{},1.0,True,True
+رها شیشه سقف رو کامل ببند,CLOSE_SUNROOF,True,holdout,{},CLOSE_WINDOW,"{""window"": ""driver""}",1.0,False,CLOSE_SUNROOF,{},1.0,True,True
+بستن سانروف رو انجام نده,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},0.997,True,UNKNOWN,{},1.0,True,True
+اصلا بستن سانروف رو نمی خوام,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا بستن سانروف رو اجرا نکن,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن سانروف لازم نیست,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان بستن سانروف انجام بشه,CLOSE_SUNROOF,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن سانروف یعنی چی؟,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا بستن سانروف انجام نشد؟,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا بستن سانروف ممکنه؟,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش بستن سانروف چیه؟,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره بستن سانروف توضیح بده,CLOSE_SUNROOF,False,holdout,{},SET_EASY_ENTRY,"{""enabled"": true}",0.8289,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد بستن سانروف رو انجام بده,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم بستن سانروف رو اجرا کن,CLOSE_SUNROOF,False,train,{},SET_DRIVE_MODE,"{""mode"": ""eco""}",0.7064,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم بستن سانروف رو انجام بده,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم بستن سانروف رو اجرا کن,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید بستن سانروف رو انجام بده,CLOSE_SUNROOF,False,holdout,{},UNKNOWN,{},0.9999,True,UNKNOWN,{},1.0,True,True
+دیروز بستن سانروف رو انجام دادم,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+قبلا بستن سانروف انجام شده بود,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت بستن سانروف رو انجام داده,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+من درباره بستن سانروف حرف می زدم,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست بستن سانروف رو انجام داده بودم,CLOSE_SUNROOF,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن سانروف رو سرخ کن,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},0.9983,True,UNKNOWN,{},1.0,True,True
+بستن سانروف رو به سیاره مشتری بفرست,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن سانروف رو بخور,CLOSE_SUNROOF,False,train,{},SET_DRIVE_MODE,"{""mode"": ""snow""}",0.8774,True,UNKNOWN,{},0.9998,True,True
+بستن سانروف رو مثل پیتزا بپز,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن سانروف رو دانلود کن,CLOSE_SUNROOF,False,holdout,{},OPEN_SUNROOF,{},0.9763,True,UNKNOWN,{},1.0,True,True
+بستن سانروف رو هم انجام بده هم انجام نده,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای بستن سانروف یه شعر بگو,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد بستن سانروف رو بخوام,CLOSE_SUNROOF,False,train,{},UNKNOWN,{},0.9999,True,UNKNOWN,{},1.0,True,True
+بستن سانروف رو به رنگ خوشحالی بو کن,CLOSE_SUNROOF,False,train,{},SET_DRIVE_MODE,"{""mode"": ""comfort""}",0.989,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب بستن سانروف رو می دیدم,CLOSE_SUNROOF,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+صندوق عقب رو ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+درب صندوق رو ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},0.7592,False,CLOSE_TAILGATE,{},1.0,True,True
+در صندوق عقب رو ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+صندوق عقب را کامل ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+درب صندوق را کامل ببند,CLOSE_TAILGATE,True,holdout,{},CLOSE_TAILGATE,{},0.9998,True,CLOSE_TAILGATE,{},1.0,True,True
+در صندوق عقب را کامل ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+لطفا صندوق عقب بسته بشه,CLOSE_TAILGATE,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9986,False,CLOSE_TAILGATE,{},1.0,True,True
+لطفا درب صندوق بسته بشه,CLOSE_TAILGATE,True,train,{},UNKNOWN,{},0.9998,False,CLOSE_TAILGATE,{},1.0,True,True
+لطفا در صندوق عقب بسته بشه,CLOSE_TAILGATE,True,train,{},UNKNOWN,{},0.7474,False,CLOSE_TAILGATE,{},1.0,True,True
+ببند صندوق عقب رو,CLOSE_TAILGATE,True,holdout,{},SET_REAR_DEFROSTER,"{""enabled"": true}",0.9965,False,CLOSE_TAILGATE,{},1.0,True,True
+ببند درب صندوق رو,CLOSE_TAILGATE,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9998,False,CLOSE_TAILGATE,{},1.0,True,True
+ببند در صندوق عقب رو,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},0.941,False,CLOSE_TAILGATE,{},1.0,True,True
+می خوام صندوق عقب بسته بشه,CLOSE_TAILGATE,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.7151,False,CLOSE_TAILGATE,{},1.0,True,True
+می خوام درب صندوق بسته بشه,CLOSE_TAILGATE,True,train,{},UNKNOWN,{},1.0,False,CLOSE_TAILGATE,{},1.0,True,True
+می خوام در صندوق عقب بسته بشه,CLOSE_TAILGATE,True,holdout,{},UNKNOWN,{},1.0,False,CLOSE_TAILGATE,{},1.0,True,True
+صندوق عقب رو ببندش,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+درب صندوق رو ببندش,CLOSE_TAILGATE,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": false}",0.5337,False,CLOSE_TAILGATE,{},1.0,True,True
+در صندوق عقب رو ببندش,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+صندوق عقب رو کاملا بسته کن,CLOSE_TAILGATE,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9998,False,CLOSE_TAILGATE,{},1.0,True,True
+درب صندوق رو کاملا بسته کن,CLOSE_TAILGATE,True,holdout,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.8992,False,CLOSE_TAILGATE,{},1.0,True,True
+در صندوق عقب رو کاملا بسته کن,CLOSE_TAILGATE,True,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9884,False,CLOSE_TAILGATE,{},1.0,True,True
+بی زحمت صندوق عقب رو ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+بی زحمت درب صندوق رو ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+بی زحمت در صندوق عقب رو ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+صندوق عقب باید بسته بشه,CLOSE_TAILGATE,True,holdout,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.8896,False,CLOSE_TAILGATE,{},1.0,True,True
+درب صندوق باید بسته بشه,CLOSE_TAILGATE,True,train,{},UNKNOWN,{},1.0,False,CLOSE_TAILGATE,{},1.0,True,True
+در صندوق عقب باید بسته بشه,CLOSE_TAILGATE,True,train,{},UNKNOWN,{},0.9923,False,CLOSE_TAILGATE,{},1.0,True,True
+رها صندوق عقب رو کامل ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},0.9484,False,CLOSE_TAILGATE,{},1.0,True,True
+رها درب صندوق رو کامل ببند,CLOSE_TAILGATE,True,train,{},CLOSE_TAILGATE,{},0.9999,True,CLOSE_TAILGATE,{},1.0,True,True
+رها در صندوق عقب رو کامل ببند,CLOSE_TAILGATE,True,holdout,{},CLOSE_TAILGATE,{},1.0,True,CLOSE_TAILGATE,{},1.0,True,True
+بستن صندوق عقب رو انجام نده,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اصلا بستن صندوق عقب رو نمی خوام,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا بستن صندوق عقب رو اجرا نکن,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب لازم نیست,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان بستن صندوق عقب انجام بشه,CLOSE_TAILGATE,False,holdout,{},UNKNOWN,{},0.9997,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب یعنی چی؟,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا بستن صندوق عقب انجام نشد؟,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا بستن صندوق عقب ممکنه؟,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش بستن صندوق عقب چیه؟,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره بستن صندوق عقب توضیح بده,CLOSE_TAILGATE,False,holdout,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9992,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد بستن صندوق عقب رو انجام بده,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم بستن صندوق عقب رو اجرا کن,CLOSE_TAILGATE,False,train,{},SET_EASY_EXIT,"{""enabled"": true}",0.6717,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم بستن صندوق عقب رو انجام بده,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},0.9981,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم بستن صندوق عقب رو اجرا کن,CLOSE_TAILGATE,False,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": false}",0.9035,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید بستن صندوق عقب رو انجام بده,CLOSE_TAILGATE,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+دیروز بستن صندوق عقب رو انجام دادم,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+قبلا بستن صندوق عقب انجام شده بود,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت بستن صندوق عقب رو انجام داده,CLOSE_TAILGATE,False,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9967,True,UNKNOWN,{},1.0,True,True
+من درباره بستن صندوق عقب حرف می زدم,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست بستن صندوق عقب رو انجام داده بودم,CLOSE_TAILGATE,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب رو سرخ کن,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},0.7738,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب رو به سیاره مشتری بفرست,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب رو بخور,CLOSE_TAILGATE,False,train,{},SET_REAR_DEFROSTER,"{""enabled"": false}",0.9856,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب رو مثل پیتزا بپز,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب رو دانلود کن,CLOSE_TAILGATE,False,holdout,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9547,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب رو هم انجام بده هم انجام نده,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای بستن صندوق عقب یه شعر بگو,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد بستن صندوق عقب رو بخوام,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},0.999,True,UNKNOWN,{},1.0,True,True
+بستن صندوق عقب رو به رنگ خوشحالی بو کن,CLOSE_TAILGATE,False,train,{},UNKNOWN,{},0.9967,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب بستن صندوق عقب رو می دیدم,CLOSE_TAILGATE,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شیشه راننده رو ببند,CLOSE_WINDOW,True,train,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",1.0,True,CLOSE_WINDOW,"{""window"": ""driver""}",1.0,True,True
+شیشه همراه رو ببند,CLOSE_WINDOW,True,train,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+شیشه عقب چپ رو ببند,CLOSE_WINDOW,True,train,"{""window"": ""rearLeft""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,CLOSE_WINDOW,"{""window"": ""rearLeft""}",1.0,True,True
+شیشه عقب راست رو ببند,CLOSE_WINDOW,True,train,"{""window"": ""rearRight""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,True,CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,True,True
+شیشه شاگرد رو ببند,CLOSE_WINDOW,True,holdout,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+شیشه همه درها رو ببند,CLOSE_WINDOW,True,train,"{""window"": ""all""}",CLOSE_WINDOW,"{""window"": ""all""}",1.0,False,CLOSE_WINDOW,"{""window"": ""all""}",1.0,True,True
+شیشه راننده رو کامل ببند,CLOSE_WINDOW,True,train,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",1.0,True,CLOSE_WINDOW,"{""window"": ""driver""}",1.0,True,True
+شیشه همراه رو کامل ببند,CLOSE_WINDOW,True,train,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+شیشه عقب چپ رو کامل ببند,CLOSE_WINDOW,True,train,"{""window"": ""rearLeft""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,CLOSE_WINDOW,"{""window"": ""rearLeft""}",1.0,True,True
+شیشه عقب راست رو کامل ببند,CLOSE_WINDOW,True,holdout,"{""window"": ""rearRight""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,True,CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,True,True
+شیشه شاگرد رو کامل ببند,CLOSE_WINDOW,True,train,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+شیشه همه درها رو کامل ببند,CLOSE_WINDOW,True,train,"{""window"": ""all""}",CLOSE_WINDOW,"{""window"": ""all""}",1.0,False,CLOSE_WINDOW,"{""window"": ""all""}",1.0,True,True
+لطفا شیشه راننده رو بکش بالا,CLOSE_WINDOW,True,train,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",1.0,True,CLOSE_WINDOW,"{""window"": ""driver""}",1.0,True,True
+لطفا شیشه همراه رو بکش بالا,CLOSE_WINDOW,True,train,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+لطفا شیشه عقب چپ رو بکش بالا,CLOSE_WINDOW,True,holdout,"{""window"": ""rearLeft""}",CLOSE_WINDOW,"{""window"": ""rear""}",1.0,False,CLOSE_WINDOW,"{""window"": ""rearLeft""}",1.0,True,True
+لطفا شیشه عقب راست رو بکش بالا,CLOSE_WINDOW,True,train,"{""window"": ""rearRight""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,True,True
+لطفا شیشه شاگرد رو بکش بالا,CLOSE_WINDOW,True,train,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+لطفا شیشه همه درها رو بکش بالا,CLOSE_WINDOW,True,train,"{""window"": ""all""}",CLOSE_WINDOW,"{""window"": ""all""}",1.0,False,CLOSE_WINDOW,"{""window"": ""all""}",1.0,True,True
+شیشه راننده کاملا بسته بشه,CLOSE_WINDOW,True,train,"{""window"": ""driver""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",0.8595,False,CLOSE_WINDOW,"{""window"": ""driver""}",1.0,True,True
+شیشه همراه کاملا بسته بشه,CLOSE_WINDOW,True,holdout,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",0.9998,False,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+شیشه عقب چپ کاملا بسته بشه,CLOSE_WINDOW,True,train,"{""window"": ""rearLeft""}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9997,False,CLOSE_WINDOW,"{""window"": ""rearLeft""}",1.0,True,True
+شیشه عقب راست کاملا بسته بشه,CLOSE_WINDOW,True,train,"{""window"": ""rearRight""}",SET_REAR_DISPLAY_LOCK,"{""enabled"": true}",0.9725,False,CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,True,True
+شیشه شاگرد کاملا بسته بشه,CLOSE_WINDOW,True,train,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",0.8448,False,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+شیشه همه درها کاملا بسته بشه,CLOSE_WINDOW,True,train,"{""window"": ""all""}",UNKNOWN,{},0.3796,False,CLOSE_WINDOW,"{""window"": ""all""}",1.0,True,True
+می خوام شیشه راننده رو ببندی,CLOSE_WINDOW,True,holdout,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",1.0,False,CLOSE_WINDOW,"{""window"": ""driver""}",1.0,True,True
+می خوام شیشه همراه رو ببندی,CLOSE_WINDOW,True,train,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+می خوام شیشه عقب چپ رو ببندی,CLOSE_WINDOW,True,train,"{""window"": ""rearLeft""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,CLOSE_WINDOW,"{""window"": ""rearLeft""}",1.0,True,True
+می خوام شیشه عقب راست رو ببندی,CLOSE_WINDOW,True,train,"{""window"": ""rearRight""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",0.9987,False,CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,True,True
+می خوام شیشه شاگرد رو ببندی,CLOSE_WINDOW,True,train,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,True,True
+می خوام شیشه همه درها رو ببندی,CLOSE_WINDOW,True,holdout,"{""window"": ""all""}",CLOSE_WINDOW,"{""window"": ""all""}",0.9839,False,CLOSE_WINDOW,"{""window"": ""all""}",1.0,True,True
+بستن شیشه خودرو رو انجام نده,CLOSE_WINDOW,False,train,{},UNKNOWN,{},0.9995,True,UNKNOWN,{},1.0,True,True
+اصلا بستن شیشه خودرو رو نمی خوام,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+لطفا بستن شیشه خودرو رو اجرا نکن,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو لازم نیست,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان بستن شیشه خودرو انجام بشه,CLOSE_WINDOW,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو یعنی چی؟,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا بستن شیشه خودرو انجام نشد؟,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا بستن شیشه خودرو ممکنه؟,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش بستن شیشه خودرو چیه؟,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره بستن شیشه خودرو توضیح بده,CLOSE_WINDOW,False,holdout,{},SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": true}",1.0,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد بستن شیشه خودرو رو انجام بده,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم بستن شیشه خودرو رو اجرا کن,CLOSE_WINDOW,False,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.957,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم بستن شیشه خودرو رو انجام بده,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم بستن شیشه خودرو رو اجرا کن,CLOSE_WINDOW,False,train,{},UNKNOWN,{},0.9995,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید بستن شیشه خودرو رو انجام بده,CLOSE_WINDOW,False,holdout,{},UNKNOWN,{},0.9999,True,UNKNOWN,{},1.0,True,True
+دیروز بستن شیشه خودرو رو انجام دادم,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+قبلا بستن شیشه خودرو انجام شده بود,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+علی گفت بستن شیشه خودرو رو انجام داده,CLOSE_WINDOW,False,train,{},UNKNOWN,{},0.9721,True,UNKNOWN,{},1.0,True,True
+من درباره بستن شیشه خودرو حرف می زدم,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+یادم هست بستن شیشه خودرو رو انجام داده بودم,CLOSE_WINDOW,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو رو سرخ کن,CLOSE_WINDOW,False,train,{},UNKNOWN,{},0.9995,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو رو به سیاره مشتری بفرست,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو رو بخور,CLOSE_WINDOW,False,train,{},SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",0.8991,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو رو مثل پیتزا بپز,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو رو دانلود کن,CLOSE_WINDOW,False,holdout,{},SET_DOOR_LOCK,"{""door"": ""all"", ""locked"": false}",0.3591,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو رو هم انجام بده هم انجام نده,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+برای بستن شیشه خودرو یه شعر بگو,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد بستن شیشه خودرو رو بخوام,CLOSE_WINDOW,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+بستن شیشه خودرو رو به رنگ خوشحالی بو کن,CLOSE_WINDOW,False,train,{},UNKNOWN,{},0.9963,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب بستن شیشه خودرو رو می دیدم,CLOSE_WINDOW,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+رایحه بامبو رو روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 1, ""enabled"": true}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",1.0,True,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",1.0,True,True
+رایحه بامبو رو خاموش کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 1, ""enabled"": false}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": false}",0.9998,True,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": false}",1.0,True,True
+خوشبوکننده بامبو رو فعال کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 1, ""enabled"": true}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",0.9983,True,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",1.0,True,True
+رایحه بامبو رو غیر فعال کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 1, ""enabled"": false}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": false}",1.0,True,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": false}",1.0,True,True
+شدت رایحه بامبو رو کم بذار,CONFIGURE_FRAGRANCE,True,holdout,"{""channel"": 1, ""intensity"": ""low""}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",0.9992,False,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""intensity"": ""low""}",1.0,True,True
+شدت رایحه بامبو رو متوسط بذار,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 1, ""intensity"": ""medium""}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",0.9539,False,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""intensity"": ""medium""}",1.0,True,True
+شدت رایحه بامبو رو زیاد بذار,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 1, ""intensity"": ""high""}",ADJUST_SEAT_HEATING,"{""delta"": 1, ""seat"": ""driver""}",0.9911,False,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""intensity"": ""high""}",1.0,True,True
+رایحه بامبو رو برای نیم ساعت روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 1, ""durationMinutes"": 30, ""enabled"": true}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""durationMinutes"": 30, ""enabled"": true}",1.0,True,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""durationMinutes"": 30, ""enabled"": true}",1.0,True,True
+رایحه بامبو رو برای یک ساعت روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 1, ""durationMinutes"": 60, ""enabled"": true}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""durationMinutes"": 60, ""enabled"": true}",1.0,True,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""durationMinutes"": 60, ""enabled"": true}",1.0,True,True
+رایحه بامبو رو نیم ساعت با شدت زیاد روشن کن,CONFIGURE_FRAGRANCE,True,holdout,"{""channel"": 1, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",1.0,False,CONFIGURE_FRAGRANCE,"{""channel"": 1, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",1.0,True,True
+رایحه پیونی رو روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 2, ""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""enabled"": true}",1.0,True,True
+رایحه پیونی رو خاموش کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 2, ""enabled"": false}",SET_CHILD_LOCK,"{""enabled"": false, ""side"": ""left""}",1.0,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""enabled"": false}",1.0,True,True
+خوشبوکننده پیونی رو فعال کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 2, ""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",0.9995,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""enabled"": true}",1.0,True,True
+رایحه پیونی رو غیر فعال کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 2, ""enabled"": false}",SET_CHILD_LOCK,"{""enabled"": false, ""side"": ""left""}",0.9974,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""enabled"": false}",1.0,True,True
+شدت رایحه پیونی رو کم بذار,CONFIGURE_FRAGRANCE,True,holdout,"{""channel"": 2, ""intensity"": ""low""}",ADJUST_FRAGRANCE_INTENSITY,"{""delta"": -1}",1.0,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""intensity"": ""low""}",1.0,True,True
+شدت رایحه پیونی رو متوسط بذار,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 2, ""intensity"": ""medium""}",SET_FRAGRANCE_INTENSITY,"{""intensity"": ""medium""}",1.0,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""intensity"": ""medium""}",1.0,True,True
+شدت رایحه پیونی رو زیاد بذار,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 2, ""intensity"": ""high""}",ADJUST_FRAGRANCE_INTENSITY,"{""delta"": 1}",1.0,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""intensity"": ""high""}",1.0,True,True
+رایحه پیونی رو برای نیم ساعت روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 2, ""durationMinutes"": 30, ""enabled"": true}",ACTIVATE_SCENE,"{""minutes"": 30, ""scene"": ""powerKeep""}",0.9817,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""durationMinutes"": 30, ""enabled"": true}",1.0,True,True
+رایحه پیونی رو برای یک ساعت روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 2, ""durationMinutes"": 60, ""enabled"": true}",CONFIGURE_FRAGRANCE,"{""channel"": 1, ""durationMinutes"": 60, ""enabled"": true}",0.9998,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""durationMinutes"": 60, ""enabled"": true}",1.0,True,True
+رایحه پیونی رو نیم ساعت با شدت زیاد روشن کن,CONFIGURE_FRAGRANCE,True,holdout,"{""channel"": 2, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",CONFIGURE_FRAGRANCE,"{""channel"": 3, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",1.0,False,CONFIGURE_FRAGRANCE,"{""channel"": 2, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",1.0,True,True
+رایحه واتری میست رو روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 3, ""enabled"": true}",SET_DRIVE_MODE,"{""mode"": ""comfort""}",0.7839,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""enabled"": true}",1.0,True,True
+رایحه واتری میست رو خاموش کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 3, ""enabled"": false}",OPEN_FUEL_FLAP,{},0.8385,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""enabled"": false}",1.0,True,True
+خوشبوکننده واتری میست رو فعال کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 3, ""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9997,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""enabled"": true}",1.0,True,True
+رایحه واتری میست رو غیر فعال کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 3, ""enabled"": false}",SET_SEAT_MASSAGE_PATTERN,"{""pattern"": ""wave"", ""seat"": ""passenger""}",0.7342,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""enabled"": false}",1.0,True,True
+شدت رایحه واتری میست رو کم بذار,CONFIGURE_FRAGRANCE,True,holdout,"{""channel"": 3, ""intensity"": ""low""}",ADJUST_FAN_SPEED,"{""delta"": -1, ""zone"": ""front""}",0.363,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""intensity"": ""low""}",1.0,True,True
+شدت رایحه واتری میست رو متوسط بذار,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 3, ""intensity"": ""medium""}",SET_FRAGRANCE_INTENSITY,"{""intensity"": ""medium""}",0.9994,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""intensity"": ""medium""}",1.0,True,True
+شدت رایحه واتری میست رو زیاد بذار,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 3, ""intensity"": ""high""}",ADJUST_SEAT_MASSAGE,"{""delta"": 1, ""seat"": ""passenger""}",0.99,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""intensity"": ""high""}",1.0,True,True
+رایحه واتری میست رو برای نیم ساعت روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 3, ""durationMinutes"": 30, ""enabled"": true}",UNKNOWN,{},0.6396,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""durationMinutes"": 30, ""enabled"": true}",1.0,True,True
+رایحه واتری میست رو برای یک ساعت روشن کن,CONFIGURE_FRAGRANCE,True,train,"{""channel"": 3, ""durationMinutes"": 60, ""enabled"": true}",CONFIGURE_FRAGRANCE,"{""channel"": 3, ""durationMinutes"": 60, ""enabled"": true}",0.9913,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""durationMinutes"": 60, ""enabled"": true}",1.0,True,True
+رایحه واتری میست رو نیم ساعت با شدت زیاد روشن کن,CONFIGURE_FRAGRANCE,True,holdout,"{""channel"": 3, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",CONFIGURE_FRAGRANCE,"{""channel"": 3, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",0.9999,False,CONFIGURE_FRAGRANCE,"{""channel"": 3, ""durationMinutes"": 30, ""enabled"": true, ""intensity"": ""high""}",1.0,True,True
+تنظیم رایحه بامبو رو انجام نده,CONFIGURE_FRAGRANCE,False,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.7934,True,UNKNOWN,{},1.0,True,True
+اصلا تنظیم رایحه بامبو رو نمی خوام,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},0.9865,True,UNKNOWN,{},1.0,True,True
+لطفا تنظیم رایحه بامبو رو اجرا نکن,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو لازم نیست,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+نمی خوام الان تنظیم رایحه بامبو انجام بشه,CONFIGURE_FRAGRANCE,False,holdout,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9732,True,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو یعنی چی؟,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+چرا تنظیم رایحه بامبو انجام نشد؟,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+آیا تنظیم رایحه بامبو ممکنه؟,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+روش تنظیم رایحه بامبو چیه؟,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+درباره تنظیم رایحه بامبو توضیح بده,CONFIGURE_FRAGRANCE,False,holdout,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,UNKNOWN,{},1.0,True,True
+اگر بارون اومد تنظیم رایحه بامبو رو انجام بده,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+اگه فردا خواستم تنظیم رایحه بامبو رو اجرا کن,CONFIGURE_FRAGRANCE,False,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,UNKNOWN,{},1.0,True,True
+وقتی رسیدیم تنظیم رایحه بامبو رو انجام بده,CONFIGURE_FRAGRANCE,False,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9791,True,UNKNOWN,{},1.0,True,True
+بعد از پیاده شدنم تنظیم رایحه بامبو رو اجرا کن,CONFIGURE_FRAGRANCE,False,train,{},SET_FRAGRANCE_CHANNEL,"{""channel"": 1}",0.6147,True,UNKNOWN,{},1.0,True,True
+اگه بچه خوابید تنظیم رایحه بامبو رو انجام بده,CONFIGURE_FRAGRANCE,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+دیروز تنظیم رایحه بامبو رو انجام دادم,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},0.9996,True,UNKNOWN,{},1.0,True,True
+قبلا تنظیم رایحه بامبو انجام شده بود,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},0.5145,True,UNKNOWN,{},1.0,True,True
+علی گفت تنظیم رایحه بامبو رو انجام داده,CONFIGURE_FRAGRANCE,False,train,{},SET_SCHEDULED_CHARGING,"{""enabled"": true}",0.9997,True,UNKNOWN,{},1.0,True,True
+من درباره تنظیم رایحه بامبو حرف می زدم,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},0.9332,True,UNKNOWN,{},1.0,True,True
+یادم هست تنظیم رایحه بامبو رو انجام داده بودم,CONFIGURE_FRAGRANCE,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو رو سرخ کن,CONFIGURE_FRAGRANCE,False,train,{},CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",0.8285,True,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو رو به سیاره مشتری بفرست,CONFIGURE_FRAGRANCE,False,train,{},SET_FRAGRANCE_CHANNEL,"{""channel"": 1}",1.0,False,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو رو بخور,CONFIGURE_FRAGRANCE,False,train,{},CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",0.9625,True,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو رو مثل پیتزا بپز,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},0.5815,True,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو رو دانلود کن,CONFIGURE_FRAGRANCE,False,holdout,{},CONFIGURE_FRAGRANCE,"{""channel"": 1, ""enabled"": true}",0.9774,True,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو رو هم انجام بده هم انجام نده,CONFIGURE_FRAGRANCE,False,train,{},UNKNOWN,{},0.978,True,UNKNOWN,{},1.0,True,True
+برای تنظیم رایحه بامبو یه شعر بگو,CONFIGURE_FRAGRANCE,False,train,{},SET_DRIVE_MODE,"{""mode"": ""snow""}",0.9992,True,UNKNOWN,{},1.0,True,True
+شاید سال بعد تنظیم رایحه بامبو رو بخوام,CONFIGURE_FRAGRANCE,False,train,{},SET_DRIVE_MODE,"{""mode"": ""eco""}",0.9072,True,UNKNOWN,{},1.0,True,True
+تنظیم رایحه بامبو رو به رنگ خوشحالی بو کن,CONFIGURE_FRAGRANCE,False,train,{},SET_FRAGRANCE_CHANNEL,"{""channel"": 1}",0.992,True,UNKNOWN,{},1.0,True,True
+من داشتم خواب تنظیم رایحه بامبو رو می دیدم,CONFIGURE_FRAGRANCE,False,holdout,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,True

@@ -1,0 +1,105 @@
+{
+  "total": {
+    "count": 1000,
+    "passed": 450,
+    "unsafe": 69,
+    "executed": 332,
+    "raw_exact": 532,
+    "rejected": 668
+  },
+  "clear": {
+    "count": 800,
+    "passed": 263,
+    "unsafe": 56,
+    "executed": 319,
+    "raw_exact": 404,
+    "rejected": 481
+  },
+  "reject": {
+    "count": 200,
+    "passed": 187,
+    "unsafe": 13,
+    "executed": 13,
+    "raw_exact": 128,
+    "rejected": 187
+  },
+  "exact_overlap": 0,
+  "known_texts": 35275,
+  "base_phrasings": 200,
+  "categories": 9,
+  "actions": [
+    "ADJUST_CABIN_TEMPERATURE",
+    "SET_AC_POWER",
+    "SET_AMBIENT_LIGHT_POWER",
+    "SET_AUDIO_VOLUME",
+    "SET_CHILD_LOCK",
+    "SET_CLIMATE_AUTO",
+    "SET_DISPLAY_BRIGHTNESS",
+    "SET_EASY_ENTRY",
+    "SET_EASY_EXIT",
+    "SET_FAN_SPEED",
+    "SET_FRAGRANCE_POWER",
+    "SET_FRONT_DEFROSTER",
+    "SET_REAR_DEFROSTER",
+    "SET_SCHEDULED_CHARGING",
+    "SET_SEAT_HEATING",
+    "SET_SEAT_MASSAGE",
+    "SET_SEAT_VENTILATION",
+    "SET_SUNSHADE_POSITION"
+  ],
+  "model_sha256": "659005e10f58b3fa8dd6a9fd241c158636b39b68fe622cb377babee7dbbf6920",
+  "trained_on_this_set": false,
+  "notes": "1000 compositional sentences: 800 positive, 200 reject. Template/context/target/amount combinations are correlated, not 1000 independent scenarios. Frozen gold before inference. Text only. No training or semantic feedback.",
+  "diagnostics": {
+    "accepted_wrong_action": 15,
+    "accepted_wrong_parameters": 41,
+    "correct_prediction_rejected": 141
+  },
+  "by_family": {
+    "child-lock-side": {
+      "count": 100,
+      "passed": 51,
+      "unsafe": 12
+    },
+    "explicit-stop": {
+      "count": 100,
+      "passed": 13,
+      "unsafe": 3
+    },
+    "fan-fixed": {
+      "count": 100,
+      "passed": 70,
+      "unsafe": 8
+    },
+    "invalid-ambiguous-or-narrative": {
+      "count": 200,
+      "passed": 187,
+      "unsafe": 13
+    },
+    "negated-alternative": {
+      "count": 100,
+      "passed": 0,
+      "unsafe": 0
+    },
+    "screen-brightness": {
+      "count": 100,
+      "passed": 59,
+      "unsafe": 19
+    },
+    "shade-fixed": {
+      "count": 100,
+      "passed": 0,
+      "unsafe": 0
+    },
+    "temperature-delta": {
+      "count": 100,
+      "passed": 16,
+      "unsafe": 12
+    },
+    "volume-absolute": {
+      "count": 100,
+      "passed": 54,
+      "unsafe": 2
+    }
+  }
+}

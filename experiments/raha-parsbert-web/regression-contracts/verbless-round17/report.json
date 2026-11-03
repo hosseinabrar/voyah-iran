@@ -1,0 +1,58 @@
+{
+  "total": {
+    "count": 660,
+    "passed": 502,
+    "unsafe": 6,
+    "executed": 356,
+    "raw_exact": 534,
+    "rejected": 304
+  },
+  "clear": {
+    "count": 506,
+    "passed": 350,
+    "unsafe": 4,
+    "executed": 354,
+    "raw_exact": 406,
+    "rejected": 152
+  },
+  "reject": {
+    "count": 154,
+    "passed": 152,
+    "unsafe": 2,
+    "executed": 2,
+    "raw_exact": 128,
+    "rejected": 152
+  },
+  "exact_overlap": 23,
+  "known_texts": 48276,
+  "base_phrasings": 330,
+  "categories": 24,
+  "actions": [
+    "ADJUST_AMBIENT_LIGHT_BRIGHTNESS",
+    "ADJUST_AUDIO_VOLUME",
+    "ADJUST_CABIN_TEMPERATURE",
+    "ADJUST_FAN_SPEED",
+    "CLOSE_SUNROOF",
+    "CLOSE_WINDOW",
+    "OPEN_SUNROOF",
+    "OPEN_WINDOW",
+    "SET_AC_POWER",
+    "SET_AMBIENT_LIGHT_BRIGHTNESS",
+    "SET_AMBIENT_LIGHT_POWER",
+    "SET_AUDIO_VOLUME",
+    "SET_CABIN_TEMPERATURE",
+    "SET_EASY_ENTRY",
+    "SET_EASY_EXIT",
+    "SET_FAN_SPEED",
+    "SET_FRAGRANCE_POWER",
+    "SET_MIRROR_FOLD",
+    "SET_SCHEDULED_CHARGING",
+    "SET_SEAT_HEATING",
+    "SET_SEAT_MASSAGE",
+    "SET_SEAT_VENTILATION",
+    "SET_SUNSHADE_POSITION"
+  ],
+  "model_sha256": "bf43d24c338dc8737cd5f77451518daa8c693481b09af0a5710211171964d59f",
+  "trained_on_this_set": false,
+  "notes": "Targeted verb-less imperatives, including requested short forms. Some already seen; overlap measured. Template/context/target/amount combinations are correlated, not 1000 independent scenarios. Frozen gold before inference. Text only. No training or semantic feedback."
+}

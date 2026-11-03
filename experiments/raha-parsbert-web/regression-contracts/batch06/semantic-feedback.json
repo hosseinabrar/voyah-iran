@@ -1,0 +1,2227 @@
+[
+  {
+    "text": "مقدار ذخیره شارژ رو روی هفتاد و پنج درصد",
+    "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "percent": 75
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مقدار ذخیره شارژ رو روی هفتاد و پنج درصد بذار کم",
+    "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "percent": 75
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری رو انجام نده",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم ذخیره باتری انجام بشه",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری رو اجرا نکن",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری یعنی چی؟",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم ذخیره باتری توضیح بده",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم ذخیره باتری ممکنه؟",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم ذخیره باتری رو انجام بده",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم ذخیره باتری رو اجرا کن",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم ذخیره باتری رو انجام دادم",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم ذخیره باتری انجام شده بود",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم ذخیره باتری رو انجام داده",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم ذخیره باتری حرف می زدم",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری رو بخور",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری رو بخور",
+    "action": "SET_ENERGY_STRATEGY",
+    "parameters": {
+      "strategy": "save"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری رو مثل پیتزا بپز",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری رو هم انجام بده هم انجام نده",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم ذخیره باتری یه شعر بگو",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن رادار نقطه کور رو انجام نده",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن رادار نقطه کور انجام بشه",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن رادار نقطه کور انجام بشه",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن رادار نقطه کور رو اجرا نکن",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن رادار نقطه کور یعنی چی؟",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن رادار نقطه کور توضیح بده",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن رادار نقطه کور ممکنه؟",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن رادار نقطه کور رو انجام بده",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن رادار نقطه کور رو اجرا کن",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن رادار نقطه کور رو انجام دادم",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن رادار نقطه کور انجام شده بود",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن رادار نقطه کور رو انجام داده",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن رادار نقطه کور حرف می زدم",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن رادار نقطه کور رو بخور",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن رادار نقطه کور رو مثل پیتزا بپز",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن رادار نقطه کور رو هم انجام بده هم انجام نده",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن رادار نقطه کور یه شعر بگو",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دمای اتاق رو روی سی و دو تنظیم کم",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": -2.5,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دمای بغل رو روی بیست و دو تنظیم کم",
+    "action": "ADJUST_CABIN_TEMPERATURE",
+    "parameters": {
+      "delta": -2,
+      "zone": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم دمای کابین رو انجام نده",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم دمای کابین انجام بشه",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم دمای کابین رو اجرا نکن",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم دمای کابین یعنی چی؟",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم دمای کابین توضیح بده",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم دمای کابین ممکنه؟",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم دمای کابین رو انجام بده",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم دمای کابین رو اجرا کن",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم دمای کابین رو انجام دادم",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم دمای کابین انجام شده بود",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم دمای کابین رو انجام داده",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم دمای کابین حرف می زدم",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم دمای کابین رو بخور",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم دمای کابین رو مثل پیتزا بپز",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم دمای کابین رو هم انجام بده هم انجام نده",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم دمای کابین یه شعر بگو",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کودک رو خاموش",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کودک سمت راست رو غیر فعال",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": false,
+      "side": "left"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کودک سمت راست رو غیر فعال کم",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": false,
+      "side": "left"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کودک سمت شاگرد رو روشن",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کودک سمت شاگرد رو روشن کم",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "left"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک رو انجام نده",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم قفل کودک انجام بشه",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک رو اجرا نکن",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک یعنی چی؟",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم قفل کودک توضیح بده",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم قفل کودک توضیح بده",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "babyCare"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم قفل کودک ممکنه؟",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم قفل کودک رو انجام بده",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم قفل کودک رو اجرا کن",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم قفل کودک رو انجام دادم",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم قفل کودک انجام شده بود",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم قفل کودک رو انجام داده",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم قفل کودک حرف می زدم",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک رو بخور",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک رو بخور",
+    "action": "ACTIVATE_SCENE",
+    "parameters": {
+      "scene": "babyCare"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک رو مثل پیتزا بپز",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک رو هم انجام بده هم انجام نده",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم قفل کودک یه شعر بگو",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تهویه اتوماتیک رو انجام نده",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن تهویه اتوماتیک انجام بشه",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تهویه اتوماتیک رو اجرا نکن",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تهویه اتوماتیک یعنی چی؟",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن تهویه اتوماتیک توضیح بده",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن تهویه اتوماتیک ممکنه؟",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن تهویه اتوماتیک رو انجام بده",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن تهویه اتوماتیک رو اجرا کن",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن تهویه اتوماتیک رو انجام دادم",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن تهویه اتوماتیک انجام شده بود",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن تهویه اتوماتیک رو انجام داده",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن تهویه اتوماتیک حرف می زدم",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تهویه اتوماتیک رو بخور",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تهویه اتوماتیک رو مثل پیتزا بپز",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تهویه اتوماتیک رو هم انجام بده هم انجام نده",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن تهویه اتوماتیک یه شعر بگو",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خاموش کردن کل تهویه رو انجام نده",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام خاموش کردن کل تهویه انجام بشه",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خاموش کردن کل تهویه رو اجرا نکن",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خاموش کردن کل تهویه یعنی چی؟",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره خاموش کردن کل تهویه توضیح بده",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا خاموش کردن کل تهویه ممکنه؟",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد خاموش کردن کل تهویه رو انجام بده",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم خاموش کردن کل تهویه رو اجرا کن",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز خاموش کردن کل تهویه رو انجام دادم",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا خاموش کردن کل تهویه انجام شده بود",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت خاموش کردن کل تهویه رو انجام داده",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره خاموش کردن کل تهویه حرف می زدم",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خاموش کردن کل تهویه رو بخور",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خاموش کردن کل تهویه رو مثل پیتزا بپز",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خاموش کردن کل تهویه رو هم انجام بده هم انجام نده",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای خاموش کردن کل تهویه یه شعر بگو",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دی لایت رو فعال",
+    "action": "SET_HEADLIGHT_MODE",
+    "parameters": {
+      "mode": "position"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چراغ روز رو روی روشن بذار کم",
+    "action": "SET_AUTOMATIC_EMERGENCY_BRAKING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دی آر ال رو روشن",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن چراغ روز رو انجام نده",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن چراغ روز انجام بشه",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن چراغ روز رو اجرا نکن",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن چراغ روز یعنی چی؟",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن چراغ روز توضیح بده",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن چراغ روز ممکنه؟",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن چراغ روز رو انجام بده",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن چراغ روز رو اجرا کن",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن چراغ روز رو انجام دادم",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن چراغ روز انجام شده بود",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن چراغ روز رو انجام داده",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن چراغ روز حرف می زدم",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن چراغ روز رو بخور",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن چراغ روز رو مثل پیتزا بپز",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن چراغ روز رو هم انجام بده هم انجام نده",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن چراغ روز یه شعر بگو",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشنایی کلاستر رو روی هفتاد و پنج درصد",
+    "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "percent": 75
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشنایی کلاستر رو روی هفتاد و پنج درصد بذار کم",
+    "action": "SET_AMBIENT_LIGHT_BRIGHTNESS",
+    "parameters": {
+      "percent": 75
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشنایی همه نمایشگرها رو روی صد درصد",
+    "action": "CONFIRM_CALL",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشنایی نمایشگر همراه رو روی شصت درصد",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 60
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشنایی نمایشگر همراه رو روی شصت درصد بذار کم",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 60
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نور صفحه کیلومتر رو سی درصد",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "deltaPercent": 10,
+      "display": "central"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نور صفحه کیلومتر رو سی درصد کم",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 30
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "روشنایی همه صفحه ها رو روی نصف",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر رو انجام نده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم روشنایی نمایشگر انجام بشه",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر رو اجرا نکن",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر یعنی چی؟",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم روشنایی نمایشگر توضیح بده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم روشنایی نمایشگر توضیح بده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "deltaPercent": 10,
+      "display": "central"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم روشنایی نمایشگر ممکنه؟",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم روشنایی نمایشگر رو انجام بده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم روشنایی نمایشگر رو اجرا کن",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم روشنایی نمایشگر رو انجام دادم",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم روشنایی نمایشگر انجام شده بود",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم روشنایی نمایشگر رو انجام داده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم روشنایی نمایشگر رو انجام داده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "deltaPercent": 10,
+      "display": "central"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم روشنایی نمایشگر حرف می زدم",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر رو بخور",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر رو بخور",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "deltaPercent": 10,
+      "display": "central"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر رو مثل پیتزا بپز",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر رو هم انجام بده هم انجام نده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم روشنایی نمایشگر یه شعر بگو",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تم نمایشگر رو روشن",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "deltaPercent": 10,
+      "display": "central"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تم نمایشگر رو روشن کم",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "deltaPercent": 10,
+      "display": "central"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تم نمایشگر رو روی خودکار بذار کم",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر تم نمایشگر رو انجام نده",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تغییر تم نمایشگر انجام بشه",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر تم نمایشگر رو اجرا نکن",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر تم نمایشگر یعنی چی؟",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تغییر تم نمایشگر توضیح بده",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تغییر تم نمایشگر توضیح بده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "deltaPercent": 10,
+      "display": "central"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تغییر تم نمایشگر ممکنه؟",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تغییر تم نمایشگر رو انجام بده",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تغییر تم نمایشگر رو اجرا کن",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تغییر تم نمایشگر رو انجام دادم",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تغییر تم نمایشگر انجام شده بود",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تغییر تم نمایشگر رو انجام داده",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تغییر تم نمایشگر حرف می زدم",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر تم نمایشگر رو بخور",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر تم نمایشگر رو مثل پیتزا بپز",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر تم نمایشگر رو هم انجام بده هم انجام نده",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تغییر تم نمایشگر یه شعر بگو",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کردن درها رو انجام نده",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام قفل کردن درها انجام بشه",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کردن درها رو اجرا نکن",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کردن درها یعنی چی؟",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره قفل کردن درها توضیح بده",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا قفل کردن درها ممکنه؟",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد قفل کردن درها رو انجام بده",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم قفل کردن درها رو اجرا کن",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز قفل کردن درها رو انجام دادم",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا قفل کردن درها انجام شده بود",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت قفل کردن درها رو انجام داده",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره قفل کردن درها حرف می زدم",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کردن درها رو بخور",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کردن درها رو مثل پیتزا بپز",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کردن درها رو هم انجام بده هم انجام نده",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای قفل کردن درها یه شعر بگو",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم ذخیره باتری انجام نشد؟",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم ذخیره باتری رو انجام بده",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری رو سرخ کن",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ذخیره باتری رو به رنگ خوشحالی بو کن",
+    "action": "SET_BATTERY_RESERVE_TARGET",
+    "parameters": {
+      "percent": 25
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن رادار نقطه کور انجام نشد؟",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن رادار نقطه کور رو انجام بده",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن رادار نقطه کور رو سرخ کن",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن رادار نقطه کور رو به رنگ خوشحالی بو کن",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم دمای کابین انجام نشد؟",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم دمای کابین رو انجام بده",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم دمای کابین رو سرخ کن",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم دمای کابین رو به رنگ خوشحالی بو کن",
+    "action": "SET_CABIN_TEMPERATURE",
+    "parameters": {
+      "degreesC": 16.0,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم قفل کودک انجام نشد؟",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم قفل کودک رو انجام بده",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک رو سرخ کن",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم قفل کودک رو به رنگ خوشحالی بو کن",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true,
+      "side": "both"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن تهویه اتوماتیک انجام نشد؟",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن تهویه اتوماتیک رو انجام بده",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تهویه اتوماتیک رو سرخ کن",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تهویه اتوماتیک رو به رنگ خوشحالی بو کن",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا خاموش کردن کل تهویه انجام نشد؟",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم خاموش کردن کل تهویه رو انجام بده",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خاموش کردن کل تهویه رو سرخ کن",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "خاموش کردن کل تهویه رو به رنگ خوشحالی بو کن",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن چراغ روز انجام نشد؟",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن چراغ روز رو انجام بده",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن چراغ روز رو سرخ کن",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن چراغ روز رو به رنگ خوشحالی بو کن",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نور نمایشگر بغل رو ده درصد کم",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 10
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم روشنایی نمایشگر انجام نشد؟",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم روشنایی نمایشگر رو انجام بده",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر رو سرخ کن",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم روشنایی نمایشگر رو به رنگ خوشحالی بو کن",
+    "action": "SET_DISPLAY_BRIGHTNESS",
+    "parameters": {
+      "display": "central",
+      "percent": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تغییر تم نمایشگر انجام نشد؟",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تغییر تم نمایشگر رو انجام بده",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر تم نمایشگر رو سرخ کن",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تغییر تم نمایشگر رو به رنگ خوشحالی بو کن",
+    "action": "SET_DISPLAY_THEME_MODE",
+    "parameters": {
+      "mode": "day"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا قفل کردن درها انجام نشد؟",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم قفل کردن درها رو انجام بده",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کردن درها رو سرخ کن",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل کردن درها رو به رنگ خوشحالی بو کن",
+    "action": "SET_DOOR_LOCK",
+    "parameters": {
+      "door": "all",
+      "locked": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  }
+]

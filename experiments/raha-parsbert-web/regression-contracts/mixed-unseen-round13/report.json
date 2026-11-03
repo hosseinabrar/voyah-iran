@@ -1,0 +1,49 @@
+{
+  "total": {
+    "count": 1000,
+    "passed": 602,
+    "unsafe": 26,
+    "executed": 452,
+    "raw_exact": 862,
+    "rejected": 548
+  },
+  "clear": {
+    "count": 800,
+    "passed": 426,
+    "unsafe": 2,
+    "executed": 428,
+    "raw_exact": 728,
+    "rejected": 372
+  },
+  "reject": {
+    "count": 200,
+    "passed": 176,
+    "unsafe": 24,
+    "executed": 24,
+    "raw_exact": 134,
+    "rejected": 176
+  },
+  "exact_overlap": 0,
+  "known_texts": 44275,
+  "base_phrasings": 200,
+  "categories": 9,
+  "actions": [
+    "ADJUST_AUDIO_VOLUME",
+    "ADJUST_CABIN_TEMPERATURE",
+    "SET_AMBIENT_LIGHT_POWER",
+    "SET_CABIN_TEMPERATURE",
+    "SET_DRIVE_MODE",
+    "SET_EASY_ENTRY",
+    "SET_EASY_EXIT",
+    "SET_FAN_SPEED",
+    "SET_FRAGRANCE_POWER",
+    "SET_SCHEDULED_CHARGING",
+    "SET_SEAT_HEATING",
+    "SET_SEAT_MASSAGE",
+    "SET_SEAT_VENTILATION",
+    "SET_WINDOW_POSITION"
+  ],
+  "model_sha256": "5eeeba69676ede48eaf0538a1071286e6ee2ccbfe83afb1fa6e18de18f6cfaff",
+  "trained_on_this_set": false,
+  "notes": "1000 compositional sentences: 800 positive, 200 reject. Template/context/target/amount combinations are correlated, not 1000 independent scenarios. Frozen gold before inference. Text only. No training or semantic feedback."
+}

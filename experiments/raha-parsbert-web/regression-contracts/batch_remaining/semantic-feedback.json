@@ -1,0 +1,2333 @@
+[
+  {
+    "text": "کمترل پایداری رو روی خاموش بذار",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن کنترل پایداری رو انجام نده",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن کنترل پایداری انجام بشه",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن کنترل پایداری رو اجرا نکن",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن کنترل پایداری یعنی چی؟",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن کنترل پایداری توضیح بده",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن کنترل پایداری ممکنه؟",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن کنترل پایداری رو انجام بده",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن کنترل پایداری رو اجرا کن",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن کنترل پایداری رو انجام دادم",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن کنترل پایداری انجام شده بود",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن کنترل پایداری رو انجام داده",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن کنترل پایداری حرف می زدم",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن کنترل پایداری رو بخور",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن کنترل پایداری رو مثل پیتزا بپز",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن کنترل پایداری رو هم انجام بده هم انجام نده",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن کنترل پایداری یه شعر بگو",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "سانروف رو ده درصد باز",
+    "action": "ADJUST_SUNROOF_POSITION",
+    "parameters": {
+      "deltaPercent": 10
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "سانروف رو ده درصد باز کم",
+    "action": "ADJUST_SUNROOF_POSITION",
+    "parameters": {
+      "deltaPercent": -10
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پرده سانروف رو ده درصد باز",
+    "action": "ADJUST_SUNSHADE_POSITION",
+    "parameters": {
+      "deltaPercent": 10
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پرده سانروف رو ده درصد باز کم",
+    "action": "ADJUST_SUNSHADE_POSITION",
+    "parameters": {
+      "deltaPercent": -10
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پرده سانروف رو سی درصد باز",
+    "action": "SET_SUNSHADE_POSITION",
+    "parameters": {
+      "position": 40
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پرده سانروف رو سی درصد باز کم",
+    "action": "SET_SUNSHADE_POSITION",
+    "parameters": {
+      "position": 50
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پرده سانروف رو شصت درصد باز",
+    "action": "SET_SUNSHADE_POSITION",
+    "parameters": {
+      "position": 40
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پرده سانروف رو هفتاد درصد باز",
+    "action": "SET_SUNSHADE_POSITION",
+    "parameters": {
+      "position": 40
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پرده سانروف رو هفتاد درصد باز کم",
+    "action": "SET_SUNSHADE_POSITION",
+    "parameters": {
+      "position": 40
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "پرده سانروف رو هفتاد و پنج درصد باز کم",
+    "action": "SET_SUNSHADE_POSITION",
+    "parameters": {
+      "position": 100
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ارتفاع ماشین رو روی حداکثر بذار کم",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعلیق رو در حالت بالا",
+    "action": "SET_DRIVE_MODE",
+    "parameters": {
+      "mode": "outing"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ارتفاع تعلیق رو انجام نده",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم ارتفاع تعلیق انجام بشه",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ارتفاع تعلیق رو اجرا نکن",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ارتفاع تعلیق یعنی چی؟",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم ارتفاع تعلیق توضیح بده",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم ارتفاع تعلیق توضیح بده",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "high"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم ارتفاع تعلیق ممکنه؟",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم ارتفاع تعلیق رو انجام بده",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم ارتفاع تعلیق رو اجرا کن",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم ارتفاع تعلیق رو انجام دادم",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم ارتفاع تعلیق انجام شده بود",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم ارتفاع تعلیق رو انجام داده",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم ارتفاع تعلیق حرف می زدم",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ارتفاع تعلیق رو بخور",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ارتفاع تعلیق رو مثل پیتزا بپز",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ارتفاع تعلیق رو هم انجام بده هم انجام نده",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم ارتفاع تعلیق یه شعر بگو",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص تابلو رو انجام نده",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن تشخیص تابلو انجام بشه",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص تابلو رو اجرا نکن",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص تابلو یعنی چی؟",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن تشخیص تابلو توضیح بده",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن تشخیص تابلو ممکنه؟",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن تشخیص تابلو رو انجام بده",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن تشخیص تابلو رو اجرا کن",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن تشخیص تابلو رو انجام دادم",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن تشخیص تابلو انجام شده بود",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن تشخیص تابلو رو انجام داده",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن تشخیص تابلو حرف می زدم",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص تابلو رو بخور",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص تابلو رو مثل پیتزا بپز",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص تابلو رو هم انجام بده هم انجام نده",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن تشخیص تابلو یه شعر بگو",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه های جلو رو هفتاد و پنج درصد باز",
+    "action": "SET_WINDOW_POSITION",
+    "parameters": {
+      "percent": 75,
+      "window": "rear"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه های جلو رو هفتاد و پنج درصد باز کم",
+    "action": "SET_WINDOW_POSITION",
+    "parameters": {
+      "percent": 75,
+      "window": "rear"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حساسیت برف پاک کن رو روی دو",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 2,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حساسیت سنسور باران رو یک کم",
+    "action": "ADJUST_WIPER_SENSITIVITY",
+    "parameters": {
+      "delta": -1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "حساسیت سنسور باران رو دو",
+    "action": "SET_FAN_SPEED",
+    "parameters": {
+      "level": 2,
+      "zone": "front"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم حساسیت برف پاک کن رو انجام نده",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم حساسیت برف پاک کن انجام بشه",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم حساسیت برف پاک کن رو اجرا نکن",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم حساسیت برف پاک کن یعنی چی؟",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم حساسیت برف پاک کن توضیح بده",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم حساسیت برف پاک کن ممکنه؟",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم حساسیت برف پاک کن رو انجام بده",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم حساسیت برف پاک کن رو اجرا کن",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم حساسیت برف پاک کن رو انجام دادم",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم حساسیت برف پاک کن انجام شده بود",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم حساسیت برف پاک کن رو انجام داده",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم حساسیت برف پاک کن حرف می زدم",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم حساسیت برف پاک کن رو بخور",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم حساسیت برف پاک کن رو مثل پیتزا بپز",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم حساسیت برف پاک کن رو هم انجام بده هم انجام نده",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم حساسیت برف پاک کن یه شعر بگو",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فیلم برداری رو شروع کم",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فیلم گرفتن رو شروع کم",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ضبط ویدیوی دوربین رو شروع",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شروع فیلم برداری رو انجام نده",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام شروع فیلم برداری انجام بشه",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام شروع فیلم برداری انجام بشه",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شروع فیلم برداری رو اجرا نکن",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شروع فیلم برداری یعنی چی؟",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره شروع فیلم برداری توضیح بده",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا شروع فیلم برداری ممکنه؟",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد شروع فیلم برداری رو انجام بده",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم شروع فیلم برداری رو اجرا کن",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز شروع فیلم برداری رو انجام دادم",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا شروع فیلم برداری انجام شده بود",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت شروع فیلم برداری رو انجام داده",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره شروع فیلم برداری حرف می زدم",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شروع فیلم برداری رو بخور",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شروع فیلم برداری رو مثل پیتزا بپز",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شروع فیلم برداری رو هم انجام بده هم انجام نده",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای شروع فیلم برداری یه شعر بگو",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف شارژ رو انجام نده",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام توقف شارژ انجام بشه",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف شارژ رو اجرا نکن",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف شارژ یعنی چی؟",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره توقف شارژ توضیح بده",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا توقف شارژ ممکنه؟",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد توقف شارژ رو انجام بده",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم توقف شارژ رو اجرا کن",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز توقف شارژ رو انجام دادم",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا توقف شارژ انجام شده بود",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت توقف شارژ رو انجام داده",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره توقف شارژ حرف می زدم",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف شارژ رو بخور",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف شارژ رو مثل پیتزا بپز",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف شارژ رو هم انجام بده هم انجام نده",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای توقف شارژ یه شعر بگو",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فیلم گرفتن رو تموم کم",
+    "action": "NEXT_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف فیلم برداری رو انجام نده",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام توقف فیلم برداری انجام بشه",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف فیلم برداری رو اجرا نکن",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف فیلم برداری یعنی چی؟",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره توقف فیلم برداری توضیح بده",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا توقف فیلم برداری ممکنه؟",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد توقف فیلم برداری رو انجام بده",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم توقف فیلم برداری رو اجرا کن",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز توقف فیلم برداری رو انجام دادم",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا توقف فیلم برداری انجام شده بود",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت توقف فیلم برداری رو انجام داده",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره توقف فیلم برداری حرف می زدم",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف فیلم برداری رو بخور",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف فیلم برداری رو مثل پیتزا بپز",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف فیلم برداری رو هم انجام بده هم انجام نده",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای توقف فیلم برداری یه شعر بگو",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جابه جایی برنامه نمایشگرها رو انجام نده",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام جابه جایی برنامه نمایشگرها انجام بشه",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جابه جایی برنامه نمایشگرها رو اجرا نکن",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جابه جایی برنامه نمایشگرها یعنی چی؟",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره جابه جایی برنامه نمایشگرها توضیح بده",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا جابه جایی برنامه نمایشگرها ممکنه؟",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد جابه جایی برنامه نمایشگرها رو انجام بده",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم جابه جایی برنامه نمایشگرها رو اجرا کن",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز جابه جایی برنامه نمایشگرها رو انجام دادم",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا جابه جایی برنامه نمایشگرها انجام شده بود",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت جابه جایی برنامه نمایشگرها رو انجام داده",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره جابه جایی برنامه نمایشگرها حرف می زدم",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جابه جایی برنامه نمایشگرها رو بخور",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جابه جایی برنامه نمایشگرها رو مثل پیتزا بپز",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جابه جایی برنامه نمایشگرها رو هم انجام بده هم انجام نده",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای جابه جایی برنامه نمایشگرها یه شعر بگو",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دوربین رو تغییر بده کم",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دوربین رو سوئیچ",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمای دوربین رو تغییر بده کم",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برو روی دوربین",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعویض دوربین رو انجام نده",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تعویض دوربین انجام بشه",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعویض دوربین رو اجرا نکن",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعویض دوربین یعنی چی؟",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تعویض دوربین توضیح بده",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تعویض دوربین ممکنه؟",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تعویض دوربین رو انجام بده",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تعویض دوربین رو اجرا کن",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تعویض دوربین رو انجام دادم",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تعویض دوربین انجام شده بود",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تعویض دوربین رو انجام داده",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تعویض دوربین حرف می زدم",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعویض دوربین رو بخور",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعویض دوربین رو مثل پیتزا بپز",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعویض دوربین رو هم انجام بده هم انجام نده",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تعویض دوربین یه شعر بگو",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرفتن عکس رو انجام نده",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام گرفتن عکس انجام بشه",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرفتن عکس رو اجرا نکن",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرفتن عکس یعنی چی؟",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره گرفتن عکس توضیح بده",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا گرفتن عکس ممکنه؟",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد گرفتن عکس رو انجام بده",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم گرفتن عکس رو اجرا کن",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز گرفتن عکس رو انجام دادم",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا گرفتن عکس انجام شده بود",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت گرفتن عکس رو انجام داده",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره گرفتن عکس حرف می زدم",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرفتن عکس رو بخور",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرفتن عکس رو مثل پیتزا بپز",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرفتن عکس رو هم انجام بده هم انجام نده",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای گرفتن عکس یه شعر بگو",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه راننده رو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه راننده حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه راننده حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه راننده حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه شاگرد رو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه شاگرد حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه شاگرد حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه شاگرد حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه عقب چپ رو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearLeft"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه عقب چپ حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearLeft"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه عقب چپ حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearLeft"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه عقب چپ حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearLeft"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه عقب راست رو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه عقب راست حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه عقب راست حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه عقب راست حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه های جلو رو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه های جلو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه های جلو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه های جلو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "front"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه های عقب رو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rear"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه های عقب حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rear"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه های عقب حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rear"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه های عقب حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rear"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه سمت راننده رو برای تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه سمت راننده برای تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه سمت راننده برای تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه سمت راننده برای تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه همراه رو برای تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه همراه برای تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه همراه برای تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه همراه برای تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "چرا فعال کردن کنترل پایداری انجام نشد؟",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن کنترل پایداری رو انجام بده",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن کنترل پایداری رو سرخ کن",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن کنترل پایداری رو به رنگ خوشحالی بو کن",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم ارتفاع تعلیق انجام نشد؟",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم ارتفاع تعلیق رو انجام بده",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ارتفاع تعلیق رو سرخ کن",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم ارتفاع تعلیق رو به رنگ خوشحالی بو کن",
+    "action": "SET_SUSPENSION_HEIGHT",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن تشخیص تابلو انجام نشد؟",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن تشخیص تابلو رو انجام بده",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص تابلو رو سرخ کن",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن تشخیص تابلو رو به رنگ خوشحالی بو کن",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شیشه پشت سری همراه رو نود درصد باز کن",
+    "action": "SET_WINDOW_POSITION",
+    "parameters": {
+      "percent": 90,
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه پشت سری همراه نود درصد باز کن",
+    "action": "SET_WINDOW_POSITION",
+    "parameters": {
+      "percent": 90,
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه پشت سری همراه نود درصد باز کن",
+    "action": "SET_WINDOW_POSITION",
+    "parameters": {
+      "percent": 90,
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه پشت سری همراه نود درصد باز کن",
+    "action": "SET_WINDOW_POSITION",
+    "parameters": {
+      "percent": 90,
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حساسیت برف پاک کن رو روی حداکثر",
+    "action": "ADJUST_WIPER_SENSITIVITY",
+    "parameters": {
+      "delta": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم حساسیت برف پاک کن انجام نشد؟",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم حساسیت برف پاک کن رو انجام بده",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم حساسیت برف پاک کن رو سرخ کن",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم حساسیت برف پاک کن رو به رنگ خوشحالی بو کن",
+    "action": "SET_WIPER_SENSITIVITY",
+    "parameters": {
+      "level": 1
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دوربین رو بذار فیلم",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا شروع فیلم برداری انجام نشد؟",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم شروع فیلم برداری رو انجام بده",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شروع فیلم برداری رو سرخ کن",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "شروع فیلم برداری رو به رنگ خوشحالی بو کن",
+    "action": "START_VIDEO_RECORDING",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا توقف شارژ انجام نشد؟",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم توقف شارژ رو انجام بده",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف شارژ رو سرخ کن",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف شارژ رو به رنگ خوشحالی بو کن",
+    "action": "STOP_CHARGING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فیلم برداری رو پایان بده کم",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا توقف فیلم برداری انجام نشد؟",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم توقف فیلم برداری رو انجام بده",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف فیلم برداری رو سرخ کن",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "توقف فیلم برداری رو به رنگ خوشحالی بو کن",
+    "action": "STOP_VIDEO_RECORDING",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا جابه جایی برنامه نمایشگرها انجام نشد؟",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم جابه جایی برنامه نمایشگرها رو انجام بده",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جابه جایی برنامه نمایشگرها رو سرخ کن",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "جابه جایی برنامه نمایشگرها رو به رنگ خوشحالی بو کن",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تعویض دوربین انجام نشد؟",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تعویض دوربین رو انجام بده",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعویض دوربین رو سرخ کن",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تعویض دوربین رو به رنگ خوشحالی بو کن",
+    "action": "SWITCH_CAMERA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دوربین رو بذار عکس",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دوربین رو بذار عکس بگیره کم",
+    "action": "OPEN_CAMERA",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا گرفتن عکس انجام نشد؟",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم گرفتن عکس رو انجام بده",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرفتن عکس رو سرخ کن",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرفتن عکس رو به رنگ خوشحالی بو کن",
+    "action": "TAKE_PHOTO",
+    "parameters": {
+      "view": "default"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "همه شیشه ها رو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "all"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "همه شیشه ها حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "all"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا همه شیشه ها حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "all"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها همه شیشه ها حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "all"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه پشت سری همراه رو حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "شیشه پشت سری همراه حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا شیشه پشت سری همراه حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها شیشه پشت سری همراه حالت تهویه بذار",
+    "action": "VENT_WINDOW",
+    "parameters": {
+      "window": "rearRight"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  }
+]

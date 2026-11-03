@@ -1,0 +1,102 @@
+{
+  "total": {
+    "count": 1000,
+    "passed": 355,
+    "unsafe": 56,
+    "executed": 234,
+    "raw_exact": 512,
+    "rejected": 766
+  },
+  "clear": {
+    "count": 800,
+    "passed": 178,
+    "unsafe": 33,
+    "executed": 211,
+    "raw_exact": 400,
+    "rejected": 589
+  },
+  "reject": {
+    "count": 200,
+    "passed": 177,
+    "unsafe": 23,
+    "executed": 23,
+    "raw_exact": 112,
+    "rejected": 177
+  },
+  "exact_overlap": 0,
+  "known_texts": 36275,
+  "base_phrasings": 200,
+  "categories": 9,
+  "actions": [
+    "CLOSE_WINDOW",
+    "OPEN_WINDOW",
+    "SET_AMBIENT_LIGHT_POWER",
+    "SET_AUDIO_VOLUME",
+    "SET_CABIN_TEMPERATURE",
+    "SET_DISPLAY_BRIGHTNESS",
+    "SET_EASY_ENTRY",
+    "SET_EASY_EXIT",
+    "SET_FRAGRANCE_POWER",
+    "SET_FRONT_DEFROSTER",
+    "SET_REAR_DEFROSTER",
+    "SET_SCHEDULED_CHARGING",
+    "SET_SEAT_HEATING",
+    "SET_SEAT_VENTILATION",
+    "SET_WINDOW_POSITION"
+  ],
+  "model_sha256": "659005e10f58b3fa8dd6a9fd241c158636b39b68fe622cb377babee7dbbf6920",
+  "trained_on_this_set": false,
+  "notes": "1000 compositional sentences: 800 positive, 200 reject. Template/context/target/amount combinations are correlated, not 1000 independent scenarios. Frozen gold before inference. Text only. No training or semantic feedback.",
+  "diagnostics": {
+    "accepted_wrong_action": 6,
+    "accepted_wrong_parameters": 27,
+    "correct_prediction_rejected": 222
+  },
+  "by_family": {
+    "audio-channels": {
+      "count": 100,
+      "passed": 33,
+      "unsafe": 6
+    },
+    "defogging-synonyms": {
+      "count": 100,
+      "passed": 0,
+      "unsafe": 0
+    },
+    "display-synonyms": {
+      "count": 100,
+      "passed": 68,
+      "unsafe": 23
+    },
+    "invalid-near-command": {
+      "count": 200,
+      "passed": 177,
+      "unsafe": 23
+    },
+    "seat-synonyms": {
+      "count": 100,
+      "passed": 0,
+      "unsafe": 0
+    },
+    "temperature-target": {
+      "count": 100,
+      "passed": 67,
+      "unsafe": 4
+    },
+    "toggle-paraphrases": {
+      "count": 100,
+      "passed": 10,
+      "unsafe": 0
+    },
+    "window-percent": {
+      "count": 100,
+      "passed": 0,
+      "unsafe": 0
+    },
+    "window-synonyms": {
+      "count": 100,
+      "passed": 0,
+      "unsafe": 0
+    }
+  }
+}

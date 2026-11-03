@@ -1,0 +1,1717 @@
+[
+  {
+    "text": "فعال کردن هشدار ترافیک متقاطع عقب رو انجام نده",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن هشدار ترافیک متقاطع عقب انجام بشه",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن هشدار ترافیک متقاطع عقب رو اجرا نکن",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن هشدار ترافیک متقاطع عقب یعنی چی؟",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن هشدار ترافیک متقاطع عقب توضیح بده",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن هشدار ترافیک متقاطع عقب ممکنه؟",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن هشدار ترافیک متقاطع عقب رو انجام بده",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن هشدار ترافیک متقاطع عقب رو اجرا کن",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن هشدار ترافیک متقاطع عقب رو انجام دادم",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن هشدار ترافیک متقاطع عقب انجام شده بود",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن هشدار ترافیک متقاطع عقب رو انجام داده",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن هشدار ترافیک متقاطع عقب حرف می زدم",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن هشدار ترافیک متقاطع عقب رو بخور",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن هشدار ترافیک متقاطع عقب رو مثل پیتزا بپز",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن هشدار ترافیک متقاطع عقب رو هم انجام بده هم انجام نده",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن هشدار ترافیک متقاطع عقب یه شعر بگو",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "بخارزدای عقب رو روشن کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "بخارزدای عقب رو خاموش کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "بخارگیر شیشه عقب رو فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "بخارگیر شیشه عقب فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا بخارگیر شیشه عقب فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها بخارگیر شیشه عقب فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "بخارگیر شیشه عقب رو غیر فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "بخارگیر شیشه عقب غیر فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا بخارگیر شیشه عقب غیر فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها بخارگیر شیشه عقب غیر فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "دیفراست عقب رو خاموش کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "بخارزدای عقب رو روی روشن بذار",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "بخارزدای عقب رو روی خاموش بذار",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "یخ زدای شیشه عقب رو فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "یخ زدای شیشه عقب فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا یخ زدای شیشه عقب فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها یخ زدای شیشه عقب فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن بخارزدای عقب انجام بشه",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن بخارزدای عقب یعنی چی؟",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن بخارزدای عقب توضیح بده",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن بخارزدای عقب ممکنه؟",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن بخارزدای عقب انجام شده بود",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن بخارزدای عقب حرف می زدم",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن بخارزدای عقب یه شعر بگو",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن قفل نمایشگر عقب رو انجام نده",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن قفل نمایشگر عقب انجام بشه",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن قفل نمایشگر عقب رو اجرا نکن",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن قفل نمایشگر عقب یعنی چی؟",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن قفل نمایشگر عقب توضیح بده",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن قفل نمایشگر عقب ممکنه؟",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن قفل نمایشگر عقب رو انجام بده",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن قفل نمایشگر عقب رو اجرا کن",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن قفل نمایشگر عقب رو انجام دادم",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن قفل نمایشگر عقب انجام شده بود",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن قفل نمایشگر عقب رو انجام داده",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن قفل نمایشگر عقب حرف می زدم",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن قفل نمایشگر عقب رو بخور",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن قفل نمایشگر عقب رو مثل پیتزا بپز",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن قفل نمایشگر عقب رو هم انجام بده هم انجام نده",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن قفل نمایشگر عقب یه شعر بگو",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مه شکم عقب رو روی روشن بذار",
+    "action": "SET_REAR_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "مه شکم عقب رو روی خاموش بذار",
+    "action": "SET_REAR_COLLISION_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن مه شکن عقب رو انجام نده",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن مه شکن عقب انجام بشه",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن مه شکن عقب رو اجرا نکن",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن مه شکن عقب یعنی چی؟",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن مه شکن عقب توضیح بده",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن مه شکن عقب ممکنه؟",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن مه شکن عقب رو انجام بده",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن مه شکن عقب رو اجرا کن",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن مه شکن عقب رو انجام دادم",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن مه شکن عقب انجام شده بود",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن مه شکن عقب رو انجام داده",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن مه شکن عقب حرف می زدم",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن مه شکن عقب رو بخور",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن مه شکن عقب رو مثل پیتزا بپز",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن مه شکن عقب رو هم انجام بده هم انجام نده",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن مه شکن عقب یه شعر بگو",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم بازیابی انرژی رو انجام نده",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام تنظیم بازیابی انرژی انجام بشه",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم بازیابی انرژی رو اجرا نکن",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم بازیابی انرژی یعنی چی؟",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره تنظیم بازیابی انرژی توضیح بده",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا تنظیم بازیابی انرژی ممکنه؟",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد تنظیم بازیابی انرژی رو انجام بده",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم تنظیم بازیابی انرژی رو اجرا کن",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز تنظیم بازیابی انرژی رو انجام دادم",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا تنظیم بازیابی انرژی انجام شده بود",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت تنظیم بازیابی انرژی رو انجام داده",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره تنظیم بازیابی انرژی حرف می زدم",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم بازیابی انرژی رو بخور",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم بازیابی انرژی رو مثل پیتزا بپز",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم بازیابی انرژی رو هم انجام بده هم انجام نده",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای تنظیم بازیابی انرژی یه شعر بگو",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن شارژ زمان بندی شده رو انجام نده",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "نمی خوام فعال کردن شارژ زمان بندی شده انجام بشه",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن شارژ زمان بندی شده رو اجرا نکن",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن شارژ زمان بندی شده یعنی چی؟",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "درباره فعال کردن شارژ زمان بندی شده توضیح بده",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "آیا فعال کردن شارژ زمان بندی شده ممکنه؟",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگر بارون اومد فعال کردن شارژ زمان بندی شده رو انجام بده",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "اگه فردا خواستم فعال کردن شارژ زمان بندی شده رو اجرا کن",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیروز فعال کردن شارژ زمان بندی شده رو انجام دادم",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قبلا فعال کردن شارژ زمان بندی شده انجام شده بود",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "علی گفت فعال کردن شارژ زمان بندی شده رو انجام داده",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "من درباره فعال کردن شارژ زمان بندی شده حرف می زدم",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن شارژ زمان بندی شده رو بخور",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن شارژ زمان بندی شده رو مثل پیتزا بپز",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن شارژ زمان بندی شده رو هم انجام بده هم انجام نده",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "برای فعال کردن شارژ زمان بندی شده یه شعر بگو",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرمکن بغل رو روی حداکثر",
+    "action": "SET_SEAT_HEATING",
+    "parameters": {
+      "enabled": true,
+      "level": 2,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "گرمکم راننده رو روی حداقل بذار",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "sensitivity": "min"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ماساژ صندلی شاگرد رو روشن کم",
+    "action": "SET_SEAT_MASSAGE",
+    "parameters": {
+      "enabled": true,
+      "level": 2,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ماساژ همراه رو روی سه بذار کم",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": -1,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ماساژ بغل رو روی حداکثر",
+    "action": "SET_SEAT_MASSAGE",
+    "parameters": {
+      "enabled": true,
+      "level": 2,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ماساژ بغل رو روی حداکثر بذار کم",
+    "action": "SET_SEAT_MASSAGE",
+    "parameters": {
+      "enabled": true,
+      "level": 2,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ماساژ راننده رو روی حداقل بذار کم",
+    "action": "ADJUST_SEAT_MASSAGE",
+    "parameters": {
+      "delta": -1,
+      "seat": "driver"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "الگوی ماساژ راننده رو موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "الگوی ماساژ راننده موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا الگوی ماساژ راننده موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها الگوی ماساژ راننده موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "الگوی ماساژ راننده رو غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "الگوی ماساژ راننده غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا الگوی ماساژ راننده غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها الگوی ماساژ راننده غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "الگوی ماساژ شاگرد رو موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "الگوی ماساژ شاگرد موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا الگوی ماساژ شاگرد موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها الگوی ماساژ شاگرد موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "الگوی ماساژ شاگرد رو غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "الگوی ماساژ شاگرد غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا الگوی ماساژ شاگرد غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها الگوی ماساژ شاگرد غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "ماساژ راننده رو روی رولینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "ماساژ راننده روی رولینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا ماساژ راننده روی رولینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها ماساژ راننده روی رولینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "ماساژ همراه رو روی ویوینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "ماساژ همراه روی ویوینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا ماساژ همراه روی ویوینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها ماساژ همراه روی ویوینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "ماساژ بغل رو روی رولینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "ماساژ بغل روی رولینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا ماساژ بغل روی رولینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها ماساژ بغل روی رولینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حالت ماساژ راننده رو غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حالت ماساژ راننده غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا حالت ماساژ راننده غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها حالت ماساژ راننده غلتشی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "سردکن صندلی بغل رو روی حداکثر",
+    "action": "SET_SEAT_VENTILATION",
+    "parameters": {
+      "enabled": true,
+      "level": 2,
+      "seat": "passenger"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "سردکم راننده رو روی حداقل بذار",
+    "action": "PREVIOUS_MEDIA",
+    "parameters": {},
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن هشدار ترافیک متقاطع عقب انجام نشد؟",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن هشدار ترافیک متقاطع عقب رو انجام بده",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن هشدار ترافیک متقاطع عقب رو سرخ کن",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن هشدار ترافیک متقاطع عقب رو به رنگ خوشحالی بو کن",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "دیفراست عقب رو روشن کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "یخ زدای شیشه عقب رو غیر فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "یخ زدای شیشه عقب غیر فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا یخ زدای شیشه عقب غیر فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها یخ زدای شیشه عقب غیر فعال کن",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "چرا فعال کردن بخارزدای عقب انجام نشد؟",
+    "action": "SET_REAR_DEFROSTER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "قفل نمایشگر عقب رو باز کن",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "قفل نمایشگر عقب باز کن",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا قفل نمایشگر عقب باز کن",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها قفل نمایشگر عقب باز کن",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "چرا فعال کردن قفل نمایشگر عقب انجام نشد؟",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن قفل نمایشگر عقب رو انجام بده",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن قفل نمایشگر عقب رو سرخ کن",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن قفل نمایشگر عقب رو به رنگ خوشحالی بو کن",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن مه شکن عقب انجام نشد؟",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن مه شکن عقب رو انجام بده",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن مه شکن عقب رو سرخ کن",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن مه شکن عقب رو به رنگ خوشحالی بو کن",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا تنظیم بازیابی انرژی انجام نشد؟",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم تنظیم بازیابی انرژی رو انجام بده",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم بازیابی انرژی رو سرخ کن",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "تنظیم بازیابی انرژی رو به رنگ خوشحالی بو کن",
+    "action": "SET_REGENERATION_LEVEL",
+    "parameters": {
+      "level": "low"
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "چرا فعال کردن شارژ زمان بندی شده انجام نشد؟",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "وقتی رسیدیم فعال کردن شارژ زمان بندی شده رو انجام بده",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن شارژ زمان بندی شده رو سرخ کن",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "فعال کردن شارژ زمان بندی شده رو به رنگ خوشحالی بو کن",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false,
+    "note": "تمرین خطاهای شنیداری: رد برداشت نامرتبط یا جمله نامعتبر"
+  },
+  {
+    "text": "ماساژ راننده رو روی ویوینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "ماساژ راننده روی ویوینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا ماساژ راننده روی ویوینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها ماساژ راننده روی ویوینگ بذار",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حالت ماساژ همراه رو موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "حالت ماساژ همراه موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "لطفا حالت ماساژ همراه موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  },
+  {
+    "text": "رها حالت ماساژ همراه موجی کن",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "passenger"
+    },
+    "allowed": true,
+    "note": "تمرین خطاهای شنیداری: برداشت معتبر"
+  }
+]

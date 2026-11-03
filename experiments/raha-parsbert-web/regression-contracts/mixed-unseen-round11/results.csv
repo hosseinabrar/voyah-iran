@@ -1,0 +1,1001 @@
+﻿text,expected_action,expected_parameters,before_action,before_parameters,before_score,before_pass,after_action,after_parameters,after_score,after_pass,after_unsafe,reason
+حالت مخصوص کمپینگ رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",0.9979,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+رها لطف کن حالت مخصوص کمپینگ رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+الان برام حالت مخصوص کمپینگ رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+حالت مخصوص کمپینگ رو تو ماشین فعالش کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+خواهش می کنم حالت مخصوص کمپینگ رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+حالت مخصوص کارواش رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+رها لطف کن حالت مخصوص کارواش رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",0.9989,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+الان برام حالت مخصوص کارواش رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+حالت مخصوص کارواش رو تو ماشین فعالش کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",0.9999,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+خواهش می کنم حالت مخصوص کارواش رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+حالت مخصوص مراقبت از کودک رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",0.9984,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+رها لطف کن حالت مخصوص مراقبت از کودک رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",0.9998,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+الان برام حالت مخصوص مراقبت از کودک رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+حالت مخصوص مراقبت از کودک رو تو ماشین فعالش کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",0.9995,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+خواهش می کنم حالت مخصوص مراقبت از کودک رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",0.9999,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+حالت مخصوص چرت زدن رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+رها لطف کن حالت مخصوص چرت زدن رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+الان برام حالت مخصوص چرت زدن رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+حالت مخصوص چرت زدن رو تو ماشین فعالش کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+خواهش می کنم حالت مخصوص چرت زدن رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+حالت مخصوص مهمانی رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+رها لطف کن حالت مخصوص مهمانی رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+الان برام حالت مخصوص مهمانی رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+حالت مخصوص مهمانی رو تو ماشین فعالش کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+خواهش می کنم حالت مخصوص مهمانی رو تو ماشین فعالش کن,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+می خوام سناریوی کمپینگ همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+رها لطف کن می خوام سناریوی کمپینگ همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",0.9994,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+الان برام می خوام سناریوی کمپینگ همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""camp""}",UNKNOWN,{},0.898,False,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+می خوام سناریوی کمپینگ همین الان اجرا بشه لطفا رها,ACTIVATE_SCENE,"{""scene"": ""camp""}",UNKNOWN,{},0.9588,False,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+خواهش می کنم می خوام سناریوی کمپینگ همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",0.9996,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+می خوام سناریوی کارواش همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""carWash""}",UNKNOWN,{},0.9886,False,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+رها لطف کن می خوام سناریوی کارواش همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""carWash""}",UNKNOWN,{},0.9852,False,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+الان برام می خوام سناریوی کارواش همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""carWash""}",UNKNOWN,{},0.9986,False,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+می خوام سناریوی کارواش همین الان اجرا بشه لطفا رها,ACTIVATE_SCENE,"{""scene"": ""carWash""}",UNKNOWN,{},1.0,False,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+خواهش می کنم می خوام سناریوی کارواش همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""carWash""}",UNKNOWN,{},0.9999,False,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+می خوام سناریوی مراقبت از کودک همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",0.7069,False,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+رها لطف کن می خوام سناریوی مراقبت از کودک همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",0.9999,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+الان برام می خوام سناریوی مراقبت از کودک همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",0.9973,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+می خوام سناریوی مراقبت از کودک همین الان اجرا بشه لطفا رها,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",UNKNOWN,{},1.0,False,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+خواهش می کنم می خوام سناریوی مراقبت از کودک همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",0.9979,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+می خوام سناریوی چرت زدن همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""nap""}",UNKNOWN,{},0.997,False,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+رها لطف کن می خوام سناریوی چرت زدن همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",0.9368,False,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+الان برام می خوام سناریوی چرت زدن همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""nap""}",UNKNOWN,{},0.9983,False,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+می خوام سناریوی چرت زدن همین الان اجرا بشه لطفا رها,ACTIVATE_SCENE,"{""scene"": ""nap""}",UNKNOWN,{},0.9999,False,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+خواهش می کنم می خوام سناریوی چرت زدن همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""nap""}",UNKNOWN,{},0.8176,False,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+می خوام سناریوی مهمانی همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",0.9867,False,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+رها لطف کن می خوام سناریوی مهمانی همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+الان برام می خوام سناریوی مهمانی همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",0.9046,False,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+می خوام سناریوی مهمانی همین الان اجرا بشه لطفا رها,ACTIVATE_SCENE,"{""scene"": ""party""}",UNKNOWN,{},1.0,False,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+خواهش می کنم می خوام سناریوی مهمانی همین الان اجرا بشه,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",0.9736,False,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+تنظیمات سناریوی کمپینگ رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+رها لطف کن تنظیمات سناریوی کمپینگ رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+الان برام تنظیمات سناریوی کمپینگ رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+تنظیمات سناریوی کمپینگ رو اعمال کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+خواهش می کنم تنظیمات سناریوی کمپینگ رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+تنظیمات سناریوی کارواش رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+رها لطف کن تنظیمات سناریوی کارواش رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+الان برام تنظیمات سناریوی کارواش رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+تنظیمات سناریوی کارواش رو اعمال کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+خواهش می کنم تنظیمات سناریوی کارواش رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+تنظیمات سناریوی مراقبت از کودک رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+رها لطف کن تنظیمات سناریوی مراقبت از کودک رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+الان برام تنظیمات سناریوی مراقبت از کودک رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+تنظیمات سناریوی مراقبت از کودک رو اعمال کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+خواهش می کنم تنظیمات سناریوی مراقبت از کودک رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+تنظیمات سناریوی چرت زدن رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+رها لطف کن تنظیمات سناریوی چرت زدن رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+الان برام تنظیمات سناریوی چرت زدن رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+تنظیمات سناریوی چرت زدن رو اعمال کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+خواهش می کنم تنظیمات سناریوی چرت زدن رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+تنظیمات سناریوی مهمانی رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+رها لطف کن تنظیمات سناریوی مهمانی رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+الان برام تنظیمات سناریوی مهمانی رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+تنظیمات سناریوی مهمانی رو اعمال کن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+خواهش می کنم تنظیمات سناریوی مهمانی رو اعمال کن,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+سناریو رو بذار روی کمپینگ,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+رها لطف کن سناریو رو بذار روی کمپینگ,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+الان برام سناریو رو بذار روی کمپینگ,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+سناریو رو بذار روی کمپینگ لطفا رها,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+خواهش می کنم سناریو رو بذار روی کمپینگ,ACTIVATE_SCENE,"{""scene"": ""camp""}",ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""camp""}",1.0,True,False,
+سناریو رو بذار روی کارواش,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+رها لطف کن سناریو رو بذار روی کارواش,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+الان برام سناریو رو بذار روی کارواش,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+سناریو رو بذار روی کارواش لطفا رها,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+خواهش می کنم سناریو رو بذار روی کارواش,ACTIVATE_SCENE,"{""scene"": ""carWash""}",ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""carWash""}",1.0,True,False,
+سناریو رو بذار روی مراقبت از کودک,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+رها لطف کن سناریو رو بذار روی مراقبت از کودک,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+الان برام سناریو رو بذار روی مراقبت از کودک,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+سناریو رو بذار روی مراقبت از کودک لطفا رها,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+خواهش می کنم سناریو رو بذار روی مراقبت از کودک,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""babyCare""}",1.0,True,False,
+سناریو رو بذار روی چرت زدن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+رها لطف کن سناریو رو بذار روی چرت زدن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+الان برام سناریو رو بذار روی چرت زدن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+سناریو رو بذار روی چرت زدن لطفا رها,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+خواهش می کنم سناریو رو بذار روی چرت زدن,ACTIVATE_SCENE,"{""scene"": ""nap""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""nap""}",1.0,True,False,
+سناریو رو بذار روی مهمانی,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+رها لطف کن سناریو رو بذار روی مهمانی,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",0.9924,False,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+الان برام سناریو رو بذار روی مهمانی,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+سناریو رو بذار روی مهمانی لطفا رها,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+خواهش می کنم سناریو رو بذار روی مهمانی,ACTIVATE_SCENE,"{""scene"": ""party""}",ACTIVATE_SCENE,"{""scene"": ""party""}",0.6761,False,ACTIVATE_SCENE,"{""scene"": ""party""}",1.0,True,False,
+برای انرژی خودرو حالت برقی رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+رها لطف کن برای انرژی خودرو حالت برقی رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+الان برام برای انرژی خودرو حالت برقی رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+برای انرژی خودرو حالت برقی رو در نظر بگیر و فعال کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+خواهش می کنم برای انرژی خودرو حالت برقی رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+برای انرژی خودرو حالت بنزینی رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+رها لطف کن برای انرژی خودرو حالت بنزینی رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+الان برام برای انرژی خودرو حالت بنزینی رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+برای انرژی خودرو حالت بنزینی رو در نظر بگیر و فعال کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+خواهش می کنم برای انرژی خودرو حالت بنزینی رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+برای انرژی خودرو حالت هیبرید رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+رها لطف کن برای انرژی خودرو حالت هیبرید رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+الان برام برای انرژی خودرو حالت هیبرید رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+برای انرژی خودرو حالت هیبرید رو در نظر بگیر و فعال کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+خواهش می کنم برای انرژی خودرو حالت هیبرید رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+برای انرژی خودرو حالت حفظ شارژ رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+رها لطف کن برای انرژی خودرو حالت حفظ شارژ رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+الان برام برای انرژی خودرو حالت حفظ شارژ رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+برای انرژی خودرو حالت حفظ شارژ رو در نظر بگیر و فعال کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+خواهش می کنم برای انرژی خودرو حالت حفظ شارژ رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+برای انرژی خودرو حالت هوشمند رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+رها لطف کن برای انرژی خودرو حالت هوشمند رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+الان برام برای انرژی خودرو حالت هوشمند رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+برای انرژی خودرو حالت هوشمند رو در نظر بگیر و فعال کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+خواهش می کنم برای انرژی خودرو حالت هوشمند رو در نظر بگیر و فعال کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",UNKNOWN,{},1.0,False,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+از حالت برقی برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+رها لطف کن از حالت برقی برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+الان برام از حالت برقی برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+از حالت برقی برای تامین انرژی ماشین استفاده کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+خواهش می کنم از حالت برقی برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+از حالت بنزینی برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+رها لطف کن از حالت بنزینی برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+الان برام از حالت بنزینی برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+از حالت بنزینی برای تامین انرژی ماشین استفاده کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+خواهش می کنم از حالت بنزینی برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+از حالت هیبرید برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+رها لطف کن از حالت هیبرید برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+الان برام از حالت هیبرید برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+از حالت هیبرید برای تامین انرژی ماشین استفاده کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+خواهش می کنم از حالت هیبرید برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+از حالت حفظ شارژ برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+رها لطف کن از حالت حفظ شارژ برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+الان برام از حالت حفظ شارژ برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+از حالت حفظ شارژ برای تامین انرژی ماشین استفاده کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+خواهش می کنم از حالت حفظ شارژ برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+از حالت هوشمند برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+رها لطف کن از حالت هوشمند برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+الان برام از حالت هوشمند برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+از حالت هوشمند برای تامین انرژی ماشین استفاده کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+خواهش می کنم از حالت هوشمند برای تامین انرژی ماشین استفاده کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+گزینه برقی رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+رها لطف کن گزینه برقی رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+الان برام گزینه برقی رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+گزینه برقی رو تو مدیریت انرژی انتخاب کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+خواهش می کنم گزینه برقی رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",0.9944,False,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+گزینه بنزینی رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+رها لطف کن گزینه بنزینی رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+الان برام گزینه بنزینی رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+گزینه بنزینی رو تو مدیریت انرژی انتخاب کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+خواهش می کنم گزینه بنزینی رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+گزینه هیبرید رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+رها لطف کن گزینه هیبرید رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+الان برام گزینه هیبرید رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+گزینه هیبرید رو تو مدیریت انرژی انتخاب کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+خواهش می کنم گزینه هیبرید رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+گزینه حفظ شارژ رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+رها لطف کن گزینه حفظ شارژ رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",0.9106,False,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+الان برام گزینه حفظ شارژ رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+گزینه حفظ شارژ رو تو مدیریت انرژی انتخاب کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",0.9998,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+خواهش می کنم گزینه حفظ شارژ رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",0.6865,False,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+گزینه هوشمند رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+رها لطف کن گزینه هوشمند رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",0.9967,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+الان برام گزینه هوشمند رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+گزینه هوشمند رو تو مدیریت انرژی انتخاب کن لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+خواهش می کنم گزینه هوشمند رو تو مدیریت انرژی انتخاب کن,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",0.7816,False,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+حالت مصرف خودرو برقی بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+رها لطف کن حالت مصرف خودرو برقی بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+الان برام حالت مصرف خودرو برقی بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+حالت مصرف خودرو برقی بشه لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+خواهش می کنم حالت مصرف خودرو برقی بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""electric""}",1.0,True,False,
+حالت مصرف خودرو بنزینی بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+رها لطف کن حالت مصرف خودرو بنزینی بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+الان برام حالت مصرف خودرو بنزینی بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+حالت مصرف خودرو بنزینی بشه لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+خواهش می کنم حالت مصرف خودرو بنزینی بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""fuel""}",1.0,True,False,
+حالت مصرف خودرو هیبرید بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+رها لطف کن حالت مصرف خودرو هیبرید بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+الان برام حالت مصرف خودرو هیبرید بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+حالت مصرف خودرو هیبرید بشه لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+خواهش می کنم حالت مصرف خودرو هیبرید بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""hybrid""}",1.0,True,False,
+حالت مصرف خودرو حفظ شارژ بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+رها لطف کن حالت مصرف خودرو حفظ شارژ بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+الان برام حالت مصرف خودرو حفظ شارژ بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+حالت مصرف خودرو حفظ شارژ بشه لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+خواهش می کنم حالت مصرف خودرو حفظ شارژ بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""save""}",1.0,True,False,
+حالت مصرف خودرو هوشمند بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+رها لطف کن حالت مصرف خودرو هوشمند بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+الان برام حالت مصرف خودرو هوشمند بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+حالت مصرف خودرو هوشمند بشه لطفا رها,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+خواهش می کنم حالت مصرف خودرو هوشمند بشه,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,SET_ENERGY_STRATEGY,"{""strategy"": ""smart""}",1.0,True,False,
+تنظیم روشنایی چراغ جلو رو خودکار کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+رها لطف کن تنظیم روشنایی چراغ جلو رو خودکار کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+الان برام تنظیم روشنایی چراغ جلو رو خودکار کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+تنظیم روشنایی چراغ جلو رو خودکار کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+خواهش می کنم تنظیم روشنایی چراغ جلو رو خودکار کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+تنظیم روشنایی چراغ جلو رو نور پایین کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+رها لطف کن تنظیم روشنایی چراغ جلو رو نور پایین کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+الان برام تنظیم روشنایی چراغ جلو رو نور پایین کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+تنظیم روشنایی چراغ جلو رو نور پایین کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+خواهش می کنم تنظیم روشنایی چراغ جلو رو نور پایین کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+تنظیم روشنایی چراغ جلو رو چراغ کوچک کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+رها لطف کن تنظیم روشنایی چراغ جلو رو چراغ کوچک کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+الان برام تنظیم روشنایی چراغ جلو رو چراغ کوچک کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+تنظیم روشنایی چراغ جلو رو چراغ کوچک کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+خواهش می کنم تنظیم روشنایی چراغ جلو رو چراغ کوچک کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+تنظیم روشنایی چراغ جلو رو خاموش کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+رها لطف کن تنظیم روشنایی چراغ جلو رو خاموش کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+الان برام تنظیم روشنایی چراغ جلو رو خاموش کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+تنظیم روشنایی چراغ جلو رو خاموش کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+خواهش می کنم تنظیم روشنایی چراغ جلو رو خاموش کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+برای چراغ اصلی ماشین خودکار رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",UNKNOWN,{},1.0,False,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+رها لطف کن برای چراغ اصلی ماشین خودکار رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",UNKNOWN,{},1.0,False,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+الان برام برای چراغ اصلی ماشین خودکار رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",UNKNOWN,{},1.0,False,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+برای چراغ اصلی ماشین خودکار رو انتخابش کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",UNKNOWN,{},1.0,False,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+خواهش می کنم برای چراغ اصلی ماشین خودکار رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",UNKNOWN,{},1.0,False,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+برای چراغ اصلی ماشین نور پایین رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",UNKNOWN,{},0.9999,False,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+رها لطف کن برای چراغ اصلی ماشین نور پایین رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",UNKNOWN,{},0.9979,False,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+الان برام برای چراغ اصلی ماشین نور پایین رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",UNKNOWN,{},1.0,False,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+برای چراغ اصلی ماشین نور پایین رو انتخابش کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",UNKNOWN,{},1.0,False,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+خواهش می کنم برای چراغ اصلی ماشین نور پایین رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",UNKNOWN,{},0.9931,False,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+برای چراغ اصلی ماشین چراغ کوچک رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",UNKNOWN,{},0.9995,False,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+رها لطف کن برای چراغ اصلی ماشین چراغ کوچک رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",UNKNOWN,{},0.9999,False,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+الان برام برای چراغ اصلی ماشین چراغ کوچک رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",UNKNOWN,{},0.9998,False,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+برای چراغ اصلی ماشین چراغ کوچک رو انتخابش کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",UNKNOWN,{},0.9998,False,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+خواهش می کنم برای چراغ اصلی ماشین چراغ کوچک رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",UNKNOWN,{},1.0,False,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+برای چراغ اصلی ماشین خاموش رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",UNKNOWN,{},0.9985,False,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+رها لطف کن برای چراغ اصلی ماشین خاموش رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",UNKNOWN,{},0.9239,False,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+الان برام برای چراغ اصلی ماشین خاموش رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",UNKNOWN,{},0.882,False,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+برای چراغ اصلی ماشین خاموش رو انتخابش کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",UNKNOWN,{},0.7362,False,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+خواهش می کنم برای چراغ اصلی ماشین خاموش رو انتخابش کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",UNKNOWN,{},0.9973,False,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+حالت چراغ جلو باید خودکار بشه,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",0.9997,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+رها لطف کن حالت چراغ جلو باید خودکار بشه,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+الان برام حالت چراغ جلو باید خودکار بشه,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",0.9988,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+حالت چراغ جلو باید خودکار بشه لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+خواهش می کنم حالت چراغ جلو باید خودکار بشه,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+حالت چراغ جلو باید نور پایین بشه,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+رها لطف کن حالت چراغ جلو باید نور پایین بشه,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+الان برام حالت چراغ جلو باید نور پایین بشه,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+حالت چراغ جلو باید نور پایین بشه لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+خواهش می کنم حالت چراغ جلو باید نور پایین بشه,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+حالت چراغ جلو باید چراغ کوچک بشه,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+رها لطف کن حالت چراغ جلو باید چراغ کوچک بشه,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+الان برام حالت چراغ جلو باید چراغ کوچک بشه,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+حالت چراغ جلو باید چراغ کوچک بشه لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+خواهش می کنم حالت چراغ جلو باید چراغ کوچک بشه,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+حالت چراغ جلو باید خاموش بشه,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",0.9998,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+رها لطف کن حالت چراغ جلو باید خاموش بشه,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+الان برام حالت چراغ جلو باید خاموش بشه,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",0.9924,False,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+حالت چراغ جلو باید خاموش بشه لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+خواهش می کنم حالت چراغ جلو باید خاموش بشه,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+چراغ های جلویی ماشین رو بذار وضعیت خودکار,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+رها لطف کن چراغ های جلویی ماشین رو بذار وضعیت خودکار,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+الان برام چراغ های جلویی ماشین رو بذار وضعیت خودکار,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+چراغ های جلویی ماشین رو بذار وضعیت خودکار لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+خواهش می کنم چراغ های جلویی ماشین رو بذار وضعیت خودکار,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+چراغ های جلویی ماشین رو بذار وضعیت نور پایین,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+رها لطف کن چراغ های جلویی ماشین رو بذار وضعیت نور پایین,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+الان برام چراغ های جلویی ماشین رو بذار وضعیت نور پایین,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.9993,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+چراغ های جلویی ماشین رو بذار وضعیت نور پایین لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+خواهش می کنم چراغ های جلویی ماشین رو بذار وضعیت نور پایین,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.9987,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+چراغ های جلویی ماشین رو بذار وضعیت چراغ کوچک,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+رها لطف کن چراغ های جلویی ماشین رو بذار وضعیت چراغ کوچک,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+الان برام چراغ های جلویی ماشین رو بذار وضعیت چراغ کوچک,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+چراغ های جلویی ماشین رو بذار وضعیت چراغ کوچک لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+خواهش می کنم چراغ های جلویی ماشین رو بذار وضعیت چراغ کوچک,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+چراغ های جلویی ماشین رو بذار وضعیت خاموش,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+رها لطف کن چراغ های جلویی ماشین رو بذار وضعیت خاموش,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+الان برام چراغ های جلویی ماشین رو بذار وضعیت خاموش,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+چراغ های جلویی ماشین رو بذار وضعیت خاموش لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+خواهش می کنم چراغ های جلویی ماشین رو بذار وضعیت خاموش,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+از تنظیم خودکار برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+رها لطف کن از تنظیم خودکار برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+الان برام از تنظیم خودکار برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+از تنظیم خودکار برای چراغ جلو استفاده کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+خواهش می کنم از تنظیم خودکار برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""auto""}",1.0,True,False,
+از تنظیم نور پایین برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+رها لطف کن از تنظیم نور پایین برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+الان برام از تنظیم نور پایین برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+از تنظیم نور پایین برای چراغ جلو استفاده کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+خواهش می کنم از تنظیم نور پایین برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+از تنظیم چراغ کوچک برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+رها لطف کن از تنظیم چراغ کوچک برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+الان برام از تنظیم چراغ کوچک برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+از تنظیم چراغ کوچک برای چراغ جلو استفاده کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+خواهش می کنم از تنظیم چراغ کوچک برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""position""}",1.0,True,False,
+از تنظیم خاموش برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+رها لطف کن از تنظیم خاموش برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+الان برام از تنظیم خاموش برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",0.9999,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+از تنظیم خاموش برای چراغ جلو استفاده کن لطفا رها,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+خواهش می کنم از تنظیم خاموش برای چراغ جلو استفاده کن,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,SET_HEADLIGHT_MODE,"{""mode"": ""off""}",1.0,True,False,
+قدرت برگشت انرژی به باتری رو کم انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.999,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+رها لطف کن قدرت برگشت انرژی به باتری رو کم انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.9943,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+الان برام قدرت برگشت انرژی به باتری رو کم انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.9997,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+قدرت برگشت انرژی به باتری رو کم انتخاب کن لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.9137,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+خواهش می کنم قدرت برگشت انرژی به باتری رو کم انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},1.0,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+قدرت برگشت انرژی به باتری رو متوسط انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9978,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن قدرت برگشت انرژی به باتری رو متوسط انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9992,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام قدرت برگشت انرژی به باتری رو متوسط انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.999,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+قدرت برگشت انرژی به باتری رو متوسط انتخاب کن لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9999,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم قدرت برگشت انرژی به باتری رو متوسط انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.971,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+قدرت برگشت انرژی به باتری رو زیاد انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.9935,False,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+رها لطف کن قدرت برگشت انرژی به باتری رو زیاد انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.9087,False,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+الان برام قدرت برگشت انرژی به باتری رو زیاد انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",0.5131,False,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+قدرت برگشت انرژی به باتری رو زیاد انتخاب کن لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.6712,False,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+خواهش می کنم قدرت برگشت انرژی به باتری رو زیاد انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.9834,False,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+قدرت برگشت انرژی به باتری رو میانه انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",UNKNOWN,{},0.9572,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن قدرت برگشت انرژی به باتری رو میانه انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9712,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام قدرت برگشت انرژی به باتری رو میانه انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9885,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+قدرت برگشت انرژی به باتری رو میانه انتخاب کن لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.8947,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم قدرت برگشت انرژی به باتری رو میانه انتخاب کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",UNKNOWN,{},0.5618,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+ریکاوری خودرو در سطح کم تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+رها لطف کن ریکاوری خودرو در سطح کم تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+الان برام ریکاوری خودرو در سطح کم تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+ریکاوری خودرو در سطح کم تنظیم بشه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+خواهش می کنم ریکاوری خودرو در سطح کم تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+ریکاوری خودرو در سطح متوسط تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن ریکاوری خودرو در سطح متوسط تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام ریکاوری خودرو در سطح متوسط تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+ریکاوری خودرو در سطح متوسط تنظیم بشه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم ریکاوری خودرو در سطح متوسط تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+ریکاوری خودرو در سطح زیاد تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+رها لطف کن ریکاوری خودرو در سطح زیاد تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+الان برام ریکاوری خودرو در سطح زیاد تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+ریکاوری خودرو در سطح زیاد تنظیم بشه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+خواهش می کنم ریکاوری خودرو در سطح زیاد تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+ریکاوری خودرو در سطح میانه تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن ریکاوری خودرو در سطح میانه تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام ریکاوری خودرو در سطح میانه تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+ریکاوری خودرو در سطح میانه تنظیم بشه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم ریکاوری خودرو در سطح میانه تنظیم بشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+بازیابی انرژی رو بذار روی سطح کم,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+رها لطف کن بازیابی انرژی رو بذار روی سطح کم,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+الان برام بازیابی انرژی رو بذار روی سطح کم,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+بازیابی انرژی رو بذار روی سطح کم لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+خواهش می کنم بازیابی انرژی رو بذار روی سطح کم,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+بازیابی انرژی رو بذار روی سطح متوسط,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن بازیابی انرژی رو بذار روی سطح متوسط,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام بازیابی انرژی رو بذار روی سطح متوسط,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+بازیابی انرژی رو بذار روی سطح متوسط لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم بازیابی انرژی رو بذار روی سطح متوسط,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+بازیابی انرژی رو بذار روی سطح زیاد,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+رها لطف کن بازیابی انرژی رو بذار روی سطح زیاد,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+الان برام بازیابی انرژی رو بذار روی سطح زیاد,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+بازیابی انرژی رو بذار روی سطح زیاد لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+خواهش می کنم بازیابی انرژی رو بذار روی سطح زیاد,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+بازیابی انرژی رو بذار روی سطح میانه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن بازیابی انرژی رو بذار روی سطح میانه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام بازیابی انرژی رو بذار روی سطح میانه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+بازیابی انرژی رو بذار روی سطح میانه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم بازیابی انرژی رو بذار روی سطح میانه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+برای احیای انرژی درجه کم رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",0.9979,True,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+رها لطف کن برای احیای انرژی درجه کم رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",0.9697,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+الان برام برای احیای انرژی درجه کم رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",0.664,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+برای احیای انرژی درجه کم رو می خوام تنظیم کن لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.5279,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+خواهش می کنم برای احیای انرژی درجه کم رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",0.9749,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+برای احیای انرژی درجه متوسط رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9962,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن برای احیای انرژی درجه متوسط رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام برای احیای انرژی درجه متوسط رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9996,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+برای احیای انرژی درجه متوسط رو می خوام تنظیم کن لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.901,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم برای احیای انرژی درجه متوسط رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+برای احیای انرژی درجه زیاد رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+رها لطف کن برای احیای انرژی درجه زیاد رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+الان برام برای احیای انرژی درجه زیاد رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+برای احیای انرژی درجه زیاد رو می خوام تنظیم کن لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+خواهش می کنم برای احیای انرژی درجه زیاد رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+برای احیای انرژی درجه میانه رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن برای احیای انرژی درجه میانه رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام برای احیای انرژی درجه میانه رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+برای احیای انرژی درجه میانه رو می خوام تنظیم کن لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم برای احیای انرژی درجه میانه رو می خوام تنظیم کن,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+وقتی پام از گاز برداشته میشه بازیابی کم باشه,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.9879,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+رها لطف کن وقتی پام از گاز برداشته میشه بازیابی کم باشه,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.6736,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+الان برام وقتی پام از گاز برداشته میشه بازیابی کم باشه,SET_REGENERATION_LEVEL,"{""level"": ""low""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",0.9353,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+وقتی پام از گاز برداشته میشه بازیابی کم باشه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.9999,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+خواهش می کنم وقتی پام از گاز برداشته میشه بازیابی کم باشه,SET_REGENERATION_LEVEL,"{""level"": ""low""}",UNKNOWN,{},0.9357,False,SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,True,False,
+وقتی پام از گاز برداشته میشه بازیابی متوسط باشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9998,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن وقتی پام از گاز برداشته میشه بازیابی متوسط باشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9998,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام وقتی پام از گاز برداشته میشه بازیابی متوسط باشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+وقتی پام از گاز برداشته میشه بازیابی متوسط باشه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9999,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم وقتی پام از گاز برداشته میشه بازیابی متوسط باشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9202,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+وقتی پام از گاز برداشته میشه بازیابی زیاد باشه,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+رها لطف کن وقتی پام از گاز برداشته میشه بازیابی زیاد باشه,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+الان برام وقتی پام از گاز برداشته میشه بازیابی زیاد باشه,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+وقتی پام از گاز برداشته میشه بازیابی زیاد باشه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",0.9999,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+خواهش می کنم وقتی پام از گاز برداشته میشه بازیابی زیاد باشه,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+وقتی پام از گاز برداشته میشه بازیابی میانه باشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9732,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+رها لطف کن وقتی پام از گاز برداشته میشه بازیابی میانه باشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.998,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+الان برام وقتی پام از گاز برداشته میشه بازیابی میانه باشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9999,True,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+وقتی پام از گاز برداشته میشه بازیابی میانه باشه لطفا رها,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",UNKNOWN,{},0.5685,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+خواهش می کنم وقتی پام از گاز برداشته میشه بازیابی میانه باشه,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.97,False,SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,False,
+آینه راننده رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",CLOSE_WINDOW,"{""window"": ""driver""}",0.5264,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+رها لطف کن آینه راننده رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",CLOSE_WINDOW,"{""window"": ""driver""}",0.9528,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+الان برام آینه راننده رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",CLOSE_WINDOW,"{""window"": ""driver""}",0.9997,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+آینه راننده رو تا کن به بدنه نزدیک بشه لطفا رها,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",UNKNOWN,{},0.4785,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+خواهش می کنم آینه راننده رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",CLOSE_WINDOW,"{""window"": ""driver""}",0.8689,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+آینه شاگرد رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+رها لطف کن آینه شاگرد رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+الان برام آینه شاگرد رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",0.9947,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+آینه شاگرد رو تا کن به بدنه نزدیک بشه لطفا رها,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+خواهش می کنم آینه شاگرد رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+آینه همراه رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+رها لطف کن آینه همراه رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+الان برام آینه همراه رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",0.9999,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+آینه همراه رو تا کن به بدنه نزدیک بشه لطفا رها,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",0.9995,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+خواهش می کنم آینه همراه رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+آینه هر دو طرف رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9931,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+رها لطف کن آینه هر دو طرف رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9997,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+الان برام آینه هر دو طرف رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9989,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+آینه هر دو طرف رو تا کن به بدنه نزدیک بشه لطفا رها,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9976,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+خواهش می کنم آینه هر دو طرف رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+آینه دو سمت ماشین رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9455,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+رها لطف کن آینه دو سمت ماشین رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9795,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+الان برام آینه دو سمت ماشین رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9998,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+آینه دو سمت ماشین رو تا کن به بدنه نزدیک بشه لطفا رها,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9536,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+خواهش می کنم آینه دو سمت ماشین رو تا کن به بدنه نزدیک بشه,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9955,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+آینه راننده رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",UNKNOWN,{},0.8315,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+رها لطف کن آینه راننده رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",UNKNOWN,{},0.9779,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+الان برام آینه راننده رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",UNKNOWN,{},0.9972,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+آینه راننده رو باز کن که بتونم پشت رو ببینم لطفا رها,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",UNKNOWN,{},0.9814,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+خواهش می کنم آینه راننده رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",UNKNOWN,{},0.9997,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+آینه شاگرد رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.9997,True,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+رها لطف کن آینه شاگرد رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+الان برام آینه شاگرد رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.9883,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+آینه شاگرد رو باز کن که بتونم پشت رو ببینم لطفا رها,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+خواهش می کنم آینه شاگرد رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+آینه همراه رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",UNKNOWN,{},0.9841,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+رها لطف کن آینه همراه رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",UNKNOWN,{},0.998,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+الان برام آینه همراه رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",UNKNOWN,{},1.0,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+آینه همراه رو باز کن که بتونم پشت رو ببینم لطفا رها,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",UNKNOWN,{},0.9291,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+خواهش می کنم آینه همراه رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",UNKNOWN,{},0.9998,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+آینه هر دو طرف رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_AIRFLOW_DIRECTION,"{""direction"": ""windshield"", ""zone"": ""front""}",0.9605,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+رها لطف کن آینه هر دو طرف رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",OPEN_TAILGATE,{},0.5112,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+الان برام آینه هر دو طرف رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_AIRFLOW_DIRECTION,"{""direction"": ""windshield"", ""zone"": ""front""}",0.6264,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+آینه هر دو طرف رو باز کن که بتونم پشت رو ببینم لطفا رها,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},0.8531,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+خواهش می کنم آینه هر دو طرف رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},0.7643,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+آینه دو سمت ماشین رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},0.9993,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+رها لطف کن آینه دو سمت ماشین رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},0.9874,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+الان برام آینه دو سمت ماشین رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},0.9998,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+آینه دو سمت ماشین رو باز کن که بتونم پشت رو ببینم لطفا رها,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},0.9991,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+خواهش می کنم آینه دو سمت ماشین رو باز کن که بتونم پشت رو ببینم,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},0.9999,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+آینه راننده رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",0.9996,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+رها لطف کن آینه راننده رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",0.9998,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+الان برام آینه راننده رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",0.5179,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+آینه راننده رو به سمت بدنه جمعش کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+خواهش می کنم آینه راننده رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",0.9999,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""driver""}",1.0,True,False,
+آینه شاگرد رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+رها لطف کن آینه شاگرد رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+الان برام آینه شاگرد رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+آینه شاگرد رو به سمت بدنه جمعش کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+خواهش می کنم آینه شاگرد رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+آینه همراه رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",UNKNOWN,{},0.4874,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+رها لطف کن آینه همراه رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+الان برام آینه همراه رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",0.9243,False,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+آینه همراه رو به سمت بدنه جمعش کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+خواهش می کنم آینه همراه رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",0.9999,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""passenger""}",1.0,True,False,
+آینه هر دو طرف رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+رها لطف کن آینه هر دو طرف رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+الان برام آینه هر دو طرف رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+آینه هر دو طرف رو به سمت بدنه جمعش کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+خواهش می کنم آینه هر دو طرف رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+آینه دو سمت ماشین رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+رها لطف کن آینه دو سمت ماشین رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+الان برام آینه دو سمت ماشین رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+آینه دو سمت ماشین رو به سمت بدنه جمعش کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+خواهش می کنم آینه دو سمت ماشین رو به سمت بدنه جمعش کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",1.0,True,False,
+آینه راننده رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""front""}",0.9778,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+رها لطف کن آینه راننده رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""front""}",0.9365,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+الان برام آینه راننده رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""front""}",0.9993,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+آینه راننده رو از کنار بدنه باز کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""driver""}",0.866,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+خواهش می کنم آینه راننده رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""driver"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""front""}",0.9995,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""driver""}",1.0,True,False,
+آینه شاگرد رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""rearRight""}",0.856,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+رها لطف کن آینه شاگرد رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.9893,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+الان برام آینه شاگرد رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""rearRight""}",0.9872,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+آینه شاگرد رو از کنار بدنه باز کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.9999,True,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+خواهش می کنم آینه شاگرد رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.9808,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+آینه همراه رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""front""}",0.9199,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+رها لطف کن آینه همراه رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""rearRight""}",0.827,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+الان برام آینه همراه رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",UNKNOWN,{},0.9269,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+آینه همراه رو از کنار بدنه باز کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""rearRight""}",0.7421,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+خواهش می کنم آینه همراه رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""passenger"", ""folded"": false}",OPEN_WINDOW,"{""window"": ""front""}",0.9902,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,True,False,
+آینه هر دو طرف رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_FRAGRANCE_CHANNEL,"{""channel"": 2}",0.5481,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+رها لطف کن آینه هر دو طرف رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.8326,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+الان برام آینه هر دو طرف رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_SEAT_HEATING,"{""enabled"": true, ""level"": 2, ""seat"": ""driver""}",0.413,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+آینه هر دو طرف رو از کنار بدنه باز کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9555,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+خواهش می کنم آینه هر دو طرف رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9924,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+آینه دو سمت ماشین رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.4194,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+رها لطف کن آینه دو سمت ماشین رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9155,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+الان برام آینه دو سمت ماشین رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_SEAT_HEATING,"{""enabled"": true, ""level"": 2, ""seat"": ""driver""}",0.9534,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+آینه دو سمت ماشین رو از کنار بدنه باز کن لطفا رها,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.8168,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+خواهش می کنم آینه دو سمت ماشین رو از کنار بدنه باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.932,False,SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+می خوام از رادار نقطه کور استفاده کنم فعالش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+رها لطف کن می خوام از رادار نقطه کور استفاده کنم فعالش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",0.7535,False,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+الان برام می خوام از رادار نقطه کور استفاده کنم فعالش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",0.999,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+می خوام از رادار نقطه کور استفاده کنم فعالش کن لطفا رها,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",0.9994,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم می خوام از رادار نقطه کور استفاده کنم فعالش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",0.9601,False,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+می خوام از ترمز اضطراری خودکار استفاده کنم فعالش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+رها لطف کن می خوام از ترمز اضطراری خودکار استفاده کنم فعالش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+الان برام می خوام از ترمز اضطراری خودکار استفاده کنم فعالش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+می خوام از ترمز اضطراری خودکار استفاده کنم فعالش کن لطفا رها,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم می خوام از ترمز اضطراری خودکار استفاده کنم فعالش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+می خوام از چراغ مه شکن عقب استفاده کنم فعالش کن,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+رها لطف کن می خوام از چراغ مه شکن عقب استفاده کنم فعالش کن,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+الان برام می خوام از چراغ مه شکن عقب استفاده کنم فعالش کن,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+می خوام از چراغ مه شکن عقب استفاده کنم فعالش کن لطفا رها,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم می خوام از چراغ مه شکن عقب استفاده کنم فعالش کن,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+رها لطف کن می خوام از ایزی انتری استفاده کنم فعالش کن,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+الان برام می خوام از ایزی انتری استفاده کنم فعالش کن,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+می خوام از ایزی انتری استفاده کنم فعالش کن لطفا رها,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم می خوام از ایزی انتری استفاده کنم فعالش کن,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+می خوام از ایزی انتری استفاده کنم فعالش کن همین حالا انجام بده,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",0.9998,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+می خوام از شارژ زمان بندی شده استفاده کنم فعالش کن,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+رها لطف کن می خوام از شارژ زمان بندی شده استفاده کنم فعالش کن,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+الان برام می خوام از شارژ زمان بندی شده استفاده کنم فعالش کن,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+می خوام از شارژ زمان بندی شده استفاده کنم فعالش کن لطفا رها,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم می خوام از شارژ زمان بندی شده استفاده کنم فعالش کن,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+دیگه از رادار نقطه کور استفاده نمی کنم غیرفعالش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",0.7022,False,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+رها لطف کن دیگه از رادار نقطه کور استفاده نمی کنم غیرفعالش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",0.8572,False,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+الان برام دیگه از رادار نقطه کور استفاده نمی کنم غیرفعالش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_AMBIENT_LIGHT_POWER,"{""enabled"": false}",0.9313,False,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+دیگه از رادار نقطه کور استفاده نمی کنم غیرفعالش کن لطفا رها,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",0.9363,False,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم دیگه از رادار نقطه کور استفاده نمی کنم غیرفعالش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_AMBIENT_LIGHT_POWER,"{""enabled"": false}",0.8259,False,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+دیگه از ترمز اضطراری خودکار استفاده نمی کنم غیرفعالش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",0.9997,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+رها لطف کن دیگه از ترمز اضطراری خودکار استفاده نمی کنم غیرفعالش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+الان برام دیگه از ترمز اضطراری خودکار استفاده نمی کنم غیرفعالش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",0.9998,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+دیگه از ترمز اضطراری خودکار استفاده نمی کنم غیرفعالش کن لطفا رها,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم دیگه از ترمز اضطراری خودکار استفاده نمی کنم غیرفعالش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",0.9773,False,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+دیگه از چراغ مه شکن عقب استفاده نمی کنم غیرفعالش کن,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",0.9993,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+رها لطف کن دیگه از چراغ مه شکن عقب استفاده نمی کنم غیرفعالش کن,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+الان برام دیگه از چراغ مه شکن عقب استفاده نمی کنم غیرفعالش کن,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",0.9989,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+دیگه از چراغ مه شکن عقب استفاده نمی کنم غیرفعالش کن لطفا رها,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",0.9999,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم دیگه از چراغ مه شکن عقب استفاده نمی کنم غیرفعالش کن,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",0.9992,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+دیگه از ایزی انتری استفاده نمی کنم غیرفعالش کن,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+رها لطف کن دیگه از ایزی انتری استفاده نمی کنم غیرفعالش کن,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+الان برام دیگه از ایزی انتری استفاده نمی کنم غیرفعالش کن,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+دیگه از ایزی انتری استفاده نمی کنم غیرفعالش کن لطفا رها,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم دیگه از ایزی انتری استفاده نمی کنم غیرفعالش کن,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+دیگه از شارژ زمان بندی شده استفاده نمی کنم غیرفعالش کن,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",0.9998,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+رها لطف کن دیگه از شارژ زمان بندی شده استفاده نمی کنم غیرفعالش کن,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+الان برام دیگه از شارژ زمان بندی شده استفاده نمی کنم غیرفعالش کن,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",0.9828,False,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+دیگه از شارژ زمان بندی شده استفاده نمی کنم غیرفعالش کن لطفا رها,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم دیگه از شارژ زمان بندی شده استفاده نمی کنم غیرفعالش کن,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به رادار نقطه کور رو روشنش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+رها لطف کن تیک مربوط به رادار نقطه کور رو روشنش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+الان برام تیک مربوط به رادار نقطه کور رو روشنش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به رادار نقطه کور رو روشنش کن لطفا رها,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم تیک مربوط به رادار نقطه کور رو روشنش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به ترمز اضطراری خودکار رو روشنش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+رها لطف کن تیک مربوط به ترمز اضطراری خودکار رو روشنش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+الان برام تیک مربوط به ترمز اضطراری خودکار رو روشنش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به ترمز اضطراری خودکار رو روشنش کن لطفا رها,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم تیک مربوط به ترمز اضطراری خودکار رو روشنش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به چراغ مه شکن عقب رو روشنش کن,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+رها لطف کن تیک مربوط به چراغ مه شکن عقب رو روشنش کن,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+الان برام تیک مربوط به چراغ مه شکن عقب رو روشنش کن,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به چراغ مه شکن عقب رو روشنش کن لطفا رها,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم تیک مربوط به چراغ مه شکن عقب رو روشنش کن,SET_REAR_FOG_LIGHT,"{""enabled"": true}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به ایزی انتری رو روشنش کن,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+رها لطف کن تیک مربوط به ایزی انتری رو روشنش کن,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+الان برام تیک مربوط به ایزی انتری رو روشنش کن,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به ایزی انتری رو روشنش کن لطفا رها,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم تیک مربوط به ایزی انتری رو روشنش کن,SET_EASY_ENTRY,"{""enabled"": true}",SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,SET_EASY_ENTRY,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به شارژ زمان بندی شده رو روشنش کن,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+رها لطف کن تیک مربوط به شارژ زمان بندی شده رو روشنش کن,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+الان برام تیک مربوط به شارژ زمان بندی شده رو روشنش کن,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به شارژ زمان بندی شده رو روشنش کن لطفا رها,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+خواهش می کنم تیک مربوط به شارژ زمان بندی شده رو روشنش کن,SET_SCHEDULED_CHARGING,"{""enabled"": true}",SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": true}",1.0,True,False,
+تیک مربوط به رادار نقطه کور رو خاموشش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+رها لطف کن تیک مربوط به رادار نقطه کور رو خاموشش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+الان برام تیک مربوط به رادار نقطه کور رو خاموشش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به رادار نقطه کور رو خاموشش کن لطفا رها,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم تیک مربوط به رادار نقطه کور رو خاموشش کن,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به ترمز اضطراری خودکار رو خاموشش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+رها لطف کن تیک مربوط به ترمز اضطراری خودکار رو خاموشش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+الان برام تیک مربوط به ترمز اضطراری خودکار رو خاموشش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به ترمز اضطراری خودکار رو خاموشش کن لطفا رها,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم تیک مربوط به ترمز اضطراری خودکار رو خاموشش کن,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",0.9999,True,SET_AUTOMATIC_EMERGENCY_BRAKING,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به چراغ مه شکن عقب رو خاموشش کن,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+رها لطف کن تیک مربوط به چراغ مه شکن عقب رو خاموشش کن,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+الان برام تیک مربوط به چراغ مه شکن عقب رو خاموشش کن,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به چراغ مه شکن عقب رو خاموشش کن لطفا رها,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم تیک مربوط به چراغ مه شکن عقب رو خاموشش کن,SET_REAR_FOG_LIGHT,"{""enabled"": false}",SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,SET_REAR_FOG_LIGHT,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به ایزی انتری رو خاموشش کن,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+رها لطف کن تیک مربوط به ایزی انتری رو خاموشش کن,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+الان برام تیک مربوط به ایزی انتری رو خاموشش کن,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به ایزی انتری رو خاموشش کن لطفا رها,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم تیک مربوط به ایزی انتری رو خاموشش کن,SET_EASY_ENTRY,"{""enabled"": false}",SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,SET_EASY_ENTRY,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به شارژ زمان بندی شده رو خاموشش کن,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+رها لطف کن تیک مربوط به شارژ زمان بندی شده رو خاموشش کن,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+الان برام تیک مربوط به شارژ زمان بندی شده رو خاموشش کن,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+تیک مربوط به شارژ زمان بندی شده رو خاموشش کن لطفا رها,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+خواهش می کنم تیک مربوط به شارژ زمان بندی شده رو خاموشش کن,SET_SCHEDULED_CHARGING,"{""enabled"": false}",SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,SET_SCHEDULED_CHARGING,"{""enabled"": false}",1.0,True,False,
+همین جای صندلی راننده رو به مموری دو بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearLeft""}",0.7609,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن همین جای صندلی راننده رو به مموری دو بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.9984,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام همین جای صندلی راننده رو به مموری دو بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""rearLeft""}",0.9052,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+همین جای صندلی راننده رو به مموری دو بده لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.621,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم همین جای صندلی راننده رو به مموری دو بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.9989,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+همین جای صندلی راننده رو به مموری سه بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearLeft""}",0.6156,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن همین جای صندلی راننده رو به مموری سه بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.4417,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام همین جای صندلی راننده رو به مموری سه بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearLeft""}",0.8522,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+همین جای صندلی راننده رو به مموری سه بده لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SET_PARKING_BRAKE,"{""engaged"": false}",0.7471,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم همین جای صندلی راننده رو به مموری سه بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": -10, ""window"": ""rearLeft""}",0.5343,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+همین جای صندلی راننده رو به مموری شماره دو بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",UNKNOWN,{},0.9443,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن همین جای صندلی راننده رو به مموری شماره دو بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.9992,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام همین جای صندلی راننده رو به مموری شماره دو بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.9989,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+همین جای صندلی راننده رو به مموری شماره دو بده لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",UNKNOWN,{},0.8325,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم همین جای صندلی راننده رو به مموری شماره دو بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.9999,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+همین جای صندلی راننده رو به مموری شماره سه بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",UNKNOWN,{},1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن همین جای صندلی راننده رو به مموری شماره سه بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.9881,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام همین جای صندلی راننده رو به مموری شماره سه بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",UNKNOWN,{},0.8802,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+همین جای صندلی راننده رو به مموری شماره سه بده لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",UNKNOWN,{},0.9968,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم همین جای صندلی راننده رو به مموری شماره سه بده,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",UNKNOWN,{},0.7524,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+وضعیت فعلی صندلی خودم رو جای حافظه دو ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن وضعیت فعلی صندلی خودم رو جای حافظه دو ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام وضعیت فعلی صندلی خودم رو جای حافظه دو ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+وضعیت فعلی صندلی خودم رو جای حافظه دو ثبت کن لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم وضعیت فعلی صندلی خودم رو جای حافظه دو ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+وضعیت فعلی صندلی خودم رو جای حافظه سه ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن وضعیت فعلی صندلی خودم رو جای حافظه سه ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام وضعیت فعلی صندلی خودم رو جای حافظه سه ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.9995,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+وضعیت فعلی صندلی خودم رو جای حافظه سه ثبت کن لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم وضعیت فعلی صندلی خودم رو جای حافظه سه ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+وضعیت فعلی صندلی خودم رو جای حافظه شماره دو ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن وضعیت فعلی صندلی خودم رو جای حافظه شماره دو ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام وضعیت فعلی صندلی خودم رو جای حافظه شماره دو ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+وضعیت فعلی صندلی خودم رو جای حافظه شماره دو ثبت کن لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم وضعیت فعلی صندلی خودم رو جای حافظه شماره دو ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+وضعیت فعلی صندلی خودم رو جای حافظه شماره سه ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن وضعیت فعلی صندلی خودم رو جای حافظه شماره سه ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام وضعیت فعلی صندلی خودم رو جای حافظه شماره سه ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+وضعیت فعلی صندلی خودم رو جای حافظه شماره سه ثبت کن لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم وضعیت فعلی صندلی خودم رو جای حافظه شماره سه ثبت کن,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+جای نشستن الان من توی مموری دو ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن جای نشستن الان من توی مموری دو ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام جای نشستن الان من توی مموری دو ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+جای نشستن الان من توی مموری دو ذخیره بشه لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم جای نشستن الان من توی مموری دو ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+جای نشستن الان من توی مموری سه ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن جای نشستن الان من توی مموری سه ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام جای نشستن الان من توی مموری سه ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+جای نشستن الان من توی مموری سه ذخیره بشه لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم جای نشستن الان من توی مموری سه ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+جای نشستن الان من توی مموری شماره دو ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن جای نشستن الان من توی مموری شماره دو ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام جای نشستن الان من توی مموری شماره دو ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+جای نشستن الان من توی مموری شماره دو ذخیره بشه لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم جای نشستن الان من توی مموری شماره دو ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+جای نشستن الان من توی مموری شماره سه ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن جای نشستن الان من توی مموری شماره سه ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام جای نشستن الان من توی مموری شماره سه ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+جای نشستن الان من توی مموری شماره سه ذخیره بشه لطفا رها,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.998,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم جای نشستن الان من توی مموری شماره سه ذخیره بشه,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.9999,True,SAVE_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+تنظیم صندلی خودم رو از حافظه دو برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن تنظیم صندلی خودم رو از حافظه دو برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام تنظیم صندلی خودم رو از حافظه دو برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+تنظیم صندلی خودم رو از حافظه دو برگردون لطفا رها,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم تنظیم صندلی خودم رو از حافظه دو برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+تنظیم صندلی خودم رو از حافظه سه برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.9718,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن تنظیم صندلی خودم رو از حافظه سه برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام تنظیم صندلی خودم رو از حافظه سه برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+تنظیم صندلی خودم رو از حافظه سه برگردون لطفا رها,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",UNKNOWN,{},0.8541,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم تنظیم صندلی خودم رو از حافظه سه برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+تنظیم صندلی خودم رو از حافظه شماره دو برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن تنظیم صندلی خودم رو از حافظه شماره دو برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام تنظیم صندلی خودم رو از حافظه شماره دو برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+تنظیم صندلی خودم رو از حافظه شماره دو برگردون لطفا رها,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.992,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم تنظیم صندلی خودم رو از حافظه شماره دو برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+تنظیم صندلی خودم رو از حافظه شماره سه برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن تنظیم صندلی خودم رو از حافظه شماره سه برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام تنظیم صندلی خودم رو از حافظه شماره سه برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+تنظیم صندلی خودم رو از حافظه شماره سه برگردون لطفا رها,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",UNKNOWN,{},0.9964,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم تنظیم صندلی خودم رو از حافظه شماره سه برگردون,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+جای صندلی راننده طبق مموری دو تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.9998,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن جای صندلی راننده طبق مموری دو تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.7736,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام جای صندلی راننده طبق مموری دو تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.9996,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+جای صندلی راننده طبق مموری دو تنظیم بشه لطفا رها,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.9994,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم جای صندلی راننده طبق مموری دو تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",0.995,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+جای صندلی راننده طبق مموری سه تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.9978,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن جای صندلی راننده طبق مموری سه تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.853,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام جای صندلی راننده طبق مموری سه تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.9721,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+جای صندلی راننده طبق مموری سه تنظیم بشه لطفا رها,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.9979,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم جای صندلی راننده طبق مموری سه تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",0.9986,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+جای صندلی راننده طبق مموری شماره دو تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+رها لطف کن جای صندلی راننده طبق مموری شماره دو تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+الان برام جای صندلی راننده طبق مموری شماره دو تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+جای صندلی راننده طبق مموری شماره دو تنظیم بشه لطفا رها,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+خواهش می کنم جای صندلی راننده طبق مموری شماره دو تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""2""}",1.0,True,False,
+جای صندلی راننده طبق مموری شماره سه تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+رها لطف کن جای صندلی راننده طبق مموری شماره سه تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+الان برام جای صندلی راننده طبق مموری شماره سه تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+جای صندلی راننده طبق مموری شماره سه تنظیم بشه لطفا رها,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+خواهش می کنم جای صندلی راننده طبق مموری شماره سه تنظیم بشه,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,False,RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""3""}",1.0,True,False,
+وسط پخش آهنگ مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+رها لطف کن وسط پخش آهنگ مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},0.9986,True,PAUSE_MEDIA,{},1.0,True,False,
+الان برام وسط پخش آهنگ مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+وسط پخش آهنگ مکث کن لطفا رها,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+خواهش می کنم وسط پخش آهنگ مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+وسط پخش موزیک مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+رها لطف کن وسط پخش موزیک مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+الان برام وسط پخش موزیک مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+وسط پخش موزیک مکث کن لطفا رها,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+خواهش می کنم وسط پخش موزیک مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+وسط پخش قطعه موسیقی مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+رها لطف کن وسط پخش قطعه موسیقی مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},0.9979,True,PAUSE_MEDIA,{},1.0,True,False,
+الان برام وسط پخش قطعه موسیقی مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+وسط پخش قطعه موسیقی مکث کن لطفا رها,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+خواهش می کنم وسط پخش قطعه موسیقی مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+وسط پخش ترک موسیقی مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+رها لطف کن وسط پخش ترک موسیقی مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},0.9999,True,PAUSE_MEDIA,{},1.0,True,False,
+الان برام وسط پخش ترک موسیقی مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+وسط پخش ترک موسیقی مکث کن لطفا رها,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+خواهش می کنم وسط پخش ترک موسیقی مکث کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+مکث آهنگ رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+رها لطف کن مکث آهنگ رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+الان برام مکث آهنگ رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+مکث آهنگ رو بردار پخش ادامه پیدا کنه لطفا رها,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+خواهش می کنم مکث آهنگ رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+مکث موزیک رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+رها لطف کن مکث موزیک رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+الان برام مکث موزیک رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+مکث موزیک رو بردار پخش ادامه پیدا کنه لطفا رها,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+خواهش می کنم مکث موزیک رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},0.9997,True,PLAY_MEDIA,{},1.0,True,False,
+مکث قطعه موسیقی رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+رها لطف کن مکث قطعه موسیقی رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+الان برام مکث قطعه موسیقی رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+مکث قطعه موسیقی رو بردار پخش ادامه پیدا کنه لطفا رها,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+خواهش می کنم مکث قطعه موسیقی رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+مکث ترک موسیقی رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+رها لطف کن مکث ترک موسیقی رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+الان برام مکث ترک موسیقی رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+مکث ترک موسیقی رو بردار پخش ادامه پیدا کنه لطفا رها,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,PLAY_MEDIA,{},1.0,True,False,
+خواهش می کنم مکث ترک موسیقی رو بردار پخش ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},0.9999,True,PLAY_MEDIA,{},1.0,True,False,
+پخش رو ببر به آهنگ بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+رها لطف کن پخش رو ببر به آهنگ بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+الان برام پخش رو ببر به آهنگ بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+پخش رو ببر به آهنگ بعدی لطفا رها,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+خواهش می کنم پخش رو ببر به آهنگ بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9915,False,NEXT_MEDIA,{},1.0,True,False,
+پخش رو ببر به موزیک بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},0.985,False,NEXT_MEDIA,{},1.0,True,False,
+رها لطف کن پخش رو ببر به موزیک بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+الان برام پخش رو ببر به موزیک بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+پخش رو ببر به موزیک بعدی لطفا رها,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+خواهش می کنم پخش رو ببر به موزیک بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9997,True,NEXT_MEDIA,{},1.0,True,False,
+پخش رو ببر به قطعه موسیقی بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+رها لطف کن پخش رو ببر به قطعه موسیقی بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+الان برام پخش رو ببر به قطعه موسیقی بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+پخش رو ببر به قطعه موسیقی بعدی لطفا رها,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+خواهش می کنم پخش رو ببر به قطعه موسیقی بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+پخش رو ببر به ترک موسیقی بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+رها لطف کن پخش رو ببر به ترک موسیقی بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+الان برام پخش رو ببر به ترک موسیقی بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+پخش رو ببر به ترک موسیقی بعدی لطفا رها,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+خواهش می کنم پخش رو ببر به ترک موسیقی بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,NEXT_MEDIA,{},1.0,True,False,
+یه آهنگ برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.9979,False,PREVIOUS_MEDIA,{},1.0,True,False,
+رها لطف کن یه آهنگ برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},1.0,False,PREVIOUS_MEDIA,{},1.0,True,False,
+الان برام یه آهنگ برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.9999,False,PREVIOUS_MEDIA,{},1.0,True,False,
+یه آهنگ برگرد عقب توی فهرست پخش لطفا رها,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.9989,False,PREVIOUS_MEDIA,{},1.0,True,False,
+خواهش می کنم یه آهنگ برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.9985,False,PREVIOUS_MEDIA,{},1.0,True,False,
+یه موزیک برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},1.0,False,PREVIOUS_MEDIA,{},1.0,True,False,
+رها لطف کن یه موزیک برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},1.0,False,PREVIOUS_MEDIA,{},1.0,True,False,
+الان برام یه موزیک برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},1.0,False,PREVIOUS_MEDIA,{},1.0,True,False,
+یه موزیک برگرد عقب توی فهرست پخش لطفا رها,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},1.0,False,PREVIOUS_MEDIA,{},1.0,True,False,
+خواهش می کنم یه موزیک برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},1.0,False,PREVIOUS_MEDIA,{},1.0,True,False,
+یه قطعه موسیقی برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},UNKNOWN,{},0.9561,False,PREVIOUS_MEDIA,{},1.0,True,False,
+رها لطف کن یه قطعه موسیقی برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.9925,False,PREVIOUS_MEDIA,{},1.0,True,False,
+الان برام یه قطعه موسیقی برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.8479,False,PREVIOUS_MEDIA,{},1.0,True,False,
+یه قطعه موسیقی برگرد عقب توی فهرست پخش لطفا رها,PREVIOUS_MEDIA,{},UNKNOWN,{},0.9999,False,PREVIOUS_MEDIA,{},1.0,True,False,
+خواهش می کنم یه قطعه موسیقی برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},UNKNOWN,{},0.9571,False,PREVIOUS_MEDIA,{},1.0,True,False,
+یه ترک موسیقی برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.8866,False,PREVIOUS_MEDIA,{},1.0,True,False,
+رها لطف کن یه ترک موسیقی برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.995,False,PREVIOUS_MEDIA,{},1.0,True,False,
+الان برام یه ترک موسیقی برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.9982,False,PREVIOUS_MEDIA,{},1.0,True,False,
+یه ترک موسیقی برگرد عقب توی فهرست پخش لطفا رها,PREVIOUS_MEDIA,{},UNKNOWN,{},0.8193,False,PREVIOUS_MEDIA,{},1.0,True,False,
+خواهش می کنم یه ترک موسیقی برگرد عقب توی فهرست پخش,PREVIOUS_MEDIA,{},OPEN_DEFAULT_MUSIC,{},0.5867,False,PREVIOUS_MEDIA,{},1.0,True,False,
+فعلا پخش آهنگ متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+رها لطف کن فعلا پخش آهنگ متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+الان برام فعلا پخش آهنگ متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+فعلا پخش آهنگ متوقف بمونه لطفا رها,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+خواهش می کنم فعلا پخش آهنگ متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+فعلا پخش موزیک متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+رها لطف کن فعلا پخش موزیک متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+الان برام فعلا پخش موزیک متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+فعلا پخش موزیک متوقف بمونه لطفا رها,PAUSE_MEDIA,{},PAUSE_MEDIA,{},0.9996,True,PAUSE_MEDIA,{},1.0,True,False,
+خواهش می کنم فعلا پخش موزیک متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+فعلا پخش قطعه موسیقی متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+رها لطف کن فعلا پخش قطعه موسیقی متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+الان برام فعلا پخش قطعه موسیقی متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+فعلا پخش قطعه موسیقی متوقف بمونه لطفا رها,PAUSE_MEDIA,{},PAUSE_MEDIA,{},0.9901,False,PAUSE_MEDIA,{},1.0,True,False,
+خواهش می کنم فعلا پخش قطعه موسیقی متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+فعلا پخش ترک موسیقی متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+رها لطف کن فعلا پخش ترک موسیقی متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+الان برام فعلا پخش ترک موسیقی متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+فعلا پخش ترک موسیقی متوقف بمونه لطفا رها,PAUSE_MEDIA,{},PAUSE_MEDIA,{},0.9991,True,PAUSE_MEDIA,{},1.0,True,False,
+خواهش می کنم فعلا پخش ترک موسیقی متوقف بمونه,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,PAUSE_MEDIA,{},1.0,True,False,
+درب باک رو با آهنگ بعدی خنک کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن درب باک رو با آهنگ بعدی خنک کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام درب باک رو با آهنگ بعدی خنک کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+درب باک رو با آهنگ بعدی خنک کن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم درب باک رو با آهنگ بعدی خنک کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+پنجره رو به حافظه شارژ تبدیل کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن پنجره رو به حافظه شارژ تبدیل کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام پنجره رو به حافظه شارژ تبدیل کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+پنجره رو به حافظه شارژ تبدیل کن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم پنجره رو به حافظه شارژ تبدیل کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چراغ جلو رو در حالت ماساژ موجی بذار,UNKNOWN,{},SET_SEAT_MASSAGE_PATTERN,"{""pattern"": ""wave"", ""seat"": ""driver""}",0.6562,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن چراغ جلو رو در حالت ماساژ موجی بذار,UNKNOWN,{},SET_SEAT_MASSAGE_PATTERN,"{""pattern"": ""wave"", ""seat"": ""driver""}",0.9999,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام چراغ جلو رو در حالت ماساژ موجی بذار,UNKNOWN,{},UNKNOWN,{},0.9804,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چراغ جلو رو در حالت ماساژ موجی بذار لطفا رها,UNKNOWN,{},SET_SEAT_MASSAGE_PATTERN,"{""pattern"": ""wave"", ""seat"": ""driver""}",0.7272,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم چراغ جلو رو در حالت ماساژ موجی بذار,UNKNOWN,{},UNKNOWN,{},0.9906,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+آینه شاگرد رو تا دمای بیست گرم کن,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.9993,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن آینه شاگرد رو تا دمای بیست گرم کن,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.987,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام آینه شاگرد رو تا دمای بیست گرم کن,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.9658,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+آینه شاگرد رو تا دمای بیست گرم کن لطفا رها,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.975,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم آینه شاگرد رو تا دمای بیست گرم کن,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.9978,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+شدت بنزین رو مثل صدای آهنگ کم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن شدت بنزین رو مثل صدای آهنگ کم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام شدت بنزین رو مثل صدای آهنگ کم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+شدت بنزین رو مثل صدای آهنگ کم کن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم شدت بنزین رو مثل صدای آهنگ کم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+سناریوی کودک رو روی سطح تهویه صندلی بذار,UNKNOWN,{},VENT_WINDOW,"{""window"": ""rearLeft""}",0.8007,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن سناریوی کودک رو روی سطح تهویه صندلی بذار,UNKNOWN,{},SET_SEAT_HEATING,"{""enabled"": true, ""level"": 2, ""seat"": ""driver""}",0.8771,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام سناریوی کودک رو روی سطح تهویه صندلی بذار,UNKNOWN,{},VENT_WINDOW,"{""window"": ""rearLeft""}",0.4258,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+سناریوی کودک رو روی سطح تهویه صندلی بذار لطفا رها,UNKNOWN,{},SET_SEAT_HEATING,"{""enabled"": true, ""level"": 2, ""seat"": ""driver""}",0.9086,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم سناریوی کودک رو روی سطح تهویه صندلی بذار,UNKNOWN,{},UNKNOWN,{},0.4708,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+ترمز اضطراری رو تا نصفه با رایحه باز کن,UNKNOWN,{},UNKNOWN,{},0.9994,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن ترمز اضطراری رو تا نصفه با رایحه باز کن,UNKNOWN,{},UNKNOWN,{},0.9998,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام ترمز اضطراری رو تا نصفه با رایحه باز کن,UNKNOWN,{},UNKNOWN,{},0.9759,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+ترمز اضطراری رو تا نصفه با رایحه باز کن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم ترمز اضطراری رو تا نصفه با رایحه باز کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+حافظه صندلی رو روی نور پایین تنظیم کن,UNKNOWN,{},SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,UNKNOWN,{},0.9999,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن حافظه صندلی رو روی نور پایین تنظیم کن,UNKNOWN,{},SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام حافظه صندلی رو روی نور پایین تنظیم کن,UNKNOWN,{},SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+حافظه صندلی رو روی نور پایین تنظیم کن لطفا رها,UNKNOWN,{},SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم حافظه صندلی رو روی نور پایین تنظیم کن,UNKNOWN,{},SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+شارژ زمان بندی شده رو با برف پاک کن بمال,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن شارژ زمان بندی شده رو با برف پاک کن بمال,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام شارژ زمان بندی شده رو با برف پاک کن بمال,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+شارژ زمان بندی شده رو با برف پاک کن بمال لطفا رها,UNKNOWN,{},UNKNOWN,{},0.999,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم شارژ زمان بندی شده رو با برف پاک کن بمال,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+ریکاوری انرژی رو به پنجره تبدیل کن,UNKNOWN,{},SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9903,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن ریکاوری انرژی رو به پنجره تبدیل کن,UNKNOWN,{},SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.8409,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام ریکاوری انرژی رو به پنجره تبدیل کن,UNKNOWN,{},SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+ریکاوری انرژی رو به پنجره تبدیل کن لطفا رها,UNKNOWN,{},SET_REGENERATION_LEVEL,"{""level"": ""medium""}",0.9926,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم ریکاوری انرژی رو به پنجره تبدیل کن,UNKNOWN,{},SET_REGENERATION_LEVEL,"{""level"": ""medium""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+تنظیم دمای کابین روی چهارصد درجه باشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن تنظیم دمای کابین روی چهارصد درجه باشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام تنظیم دمای کابین روی چهارصد درجه باشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+تنظیم دمای کابین روی چهارصد درجه باشه لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم تنظیم دمای کابین روی چهارصد درجه باشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+مموری شماره هشتاد صندلی رو بازیابی کن,UNKNOWN,{},RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""driver""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن مموری شماره هشتاد صندلی رو بازیابی کن,UNKNOWN,{},RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""driver""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام مموری شماره هشتاد صندلی رو بازیابی کن,UNKNOWN,{},RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""driver""}",0.9613,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+مموری شماره هشتاد صندلی رو بازیابی کن لطفا رها,UNKNOWN,{},RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""driver""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم مموری شماره هشتاد صندلی رو بازیابی کن,UNKNOWN,{},RECALL_SEAT_POSITION,"{""seat"": ""driver"", ""slot"": ""driver""}",1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+سطح فن روی منفی بیست تنظیم بشه,UNKNOWN,{},SET_FAN_SPEED,"{""level"": 0, ""zone"": ""front""}",0.9467,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن سطح فن روی منفی بیست تنظیم بشه,UNKNOWN,{},SET_FAN_SPEED,"{""level"": 0, ""zone"": ""front""}",0.9967,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام سطح فن روی منفی بیست تنظیم بشه,UNKNOWN,{},UNKNOWN,{},0.9936,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+سطح فن روی منفی بیست تنظیم بشه لطفا رها,UNKNOWN,{},SET_FAN_SPEED,"{""level"": 0, ""zone"": ""front""}",0.9107,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم سطح فن روی منفی بیست تنظیم بشه,UNKNOWN,{},UNKNOWN,{},0.9984,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بلندی صدا روی دویست و پنجاه باشه,UNKNOWN,{},UNKNOWN,{},0.9988,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن بلندی صدا روی دویست و پنجاه باشه,UNKNOWN,{},UNKNOWN,{},0.9981,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام بلندی صدا روی دویست و پنجاه باشه,UNKNOWN,{},UNKNOWN,{},0.9997,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بلندی صدا روی دویست و پنجاه باشه لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم بلندی صدا روی دویست و پنجاه باشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+شیشه همراه تا ششصد درصد باز بشه,UNKNOWN,{},UNKNOWN,{},0.9927,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن شیشه همراه تا ششصد درصد باز بشه,UNKNOWN,{},UNKNOWN,{},0.7654,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام شیشه همراه تا ششصد درصد باز بشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+شیشه همراه تا ششصد درصد باز بشه لطفا رها,UNKNOWN,{},SET_SUNROOF_POSITION,"{""percent"": 50}",0.9258,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم شیشه همراه تا ششصد درصد باز بشه,UNKNOWN,{},UNKNOWN,{},0.9985,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چراغ اصلی جلو همزمان هم خودکار باشه هم خاموش,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن چراغ اصلی جلو همزمان هم خودکار باشه هم خاموش,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام چراغ اصلی جلو همزمان هم خودکار باشه هم خاموش,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چراغ اصلی جلو همزمان هم خودکار باشه هم خاموش لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم چراغ اصلی جلو همزمان هم خودکار باشه هم خاموش,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+آینه شاگرد رو در یک لحظه هم جمع نگه دار هم باز,UNKNOWN,{},UNKNOWN,{},0.9986,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن آینه شاگرد رو در یک لحظه هم جمع نگه دار هم باز,UNKNOWN,{},UNKNOWN,{},0.6506,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام آینه شاگرد رو در یک لحظه هم جمع نگه دار هم باز,UNKNOWN,{},UNKNOWN,{},0.9999,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+آینه شاگرد رو در یک لحظه هم جمع نگه دار هم باز لطفا رها,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",0.4854,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم آینه شاگرد رو در یک لحظه هم جمع نگه دار هم باز,UNKNOWN,{},UNKNOWN,{},0.9976,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن همین آهنگ هم پخش بشه هم پخش نشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام همین آهنگ هم پخش بشه هم پخش نشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+همین آهنگ هم پخش بشه هم پخش نشه لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم همین آهنگ هم پخش بشه هم پخش نشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+همین آهنگ هم پخش بشه هم پخش نشه همین حالا انجام بده,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+ایزی انتری هم روشن بمونه هم خاموش,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن ایزی انتری هم روشن بمونه هم خاموش,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام ایزی انتری هم روشن بمونه هم خاموش,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+ایزی انتری هم روشن بمونه هم خاموش لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم ایزی انتری هم روشن بمونه هم خاموش,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+ریکاوری انرژی هم کم باشه هم زیاد در یک زمان,UNKNOWN,{},UNKNOWN,{},0.9409,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن ریکاوری انرژی هم کم باشه هم زیاد در یک زمان,UNKNOWN,{},UNKNOWN,{},0.5827,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام ریکاوری انرژی هم کم باشه هم زیاد در یک زمان,UNKNOWN,{},UNKNOWN,{},0.9997,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+ریکاوری انرژی هم کم باشه هم زیاد در یک زمان لطفا رها,UNKNOWN,{},SET_REGENERATION_LEVEL,"{""level"": ""high""}",0.9021,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم ریکاوری انرژی هم کم باشه هم زیاد در یک زمان,UNKNOWN,{},UNKNOWN,{},0.6163,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+صرفا جمله آینه شاگرد رو باز کن رو برام هجی کن,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,False,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن صرفا جمله آینه شاگرد رو باز کن رو برام هجی کن,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,False,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام صرفا جمله آینه شاگرد رو باز کن رو برام هجی کن,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,False,UNKNOWN,{},0.9999,True,False,فرمان مشخصی تشخیص داده نشد
+صرفا جمله آینه شاگرد رو باز کن رو برام هجی کن لطفا رها,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,False,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم صرفا جمله آینه شاگرد رو باز کن رو برام هجی کن,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""passenger""}",1.0,False,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دارم تمرین تلفظ می کنم چراغ جلو رو خاموش کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن دارم تمرین تلفظ می کنم چراغ جلو رو خاموش کن,UNKNOWN,{},UNKNOWN,{},0.9996,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام دارم تمرین تلفظ می کنم چراغ جلو رو خاموش کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دارم تمرین تلفظ می کنم چراغ جلو رو خاموش کن لطفا رها,UNKNOWN,{},UNKNOWN,{},0.9998,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم دارم تمرین تلفظ می کنم چراغ جلو رو خاموش کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+توی قصه بنویس ماشین رو بذار تو حالت برقی,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن توی قصه بنویس ماشین رو بذار تو حالت برقی,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام توی قصه بنویس ماشین رو بذار تو حالت برقی,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+توی قصه بنویس ماشین رو بذار تو حالت برقی لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم توی قصه بنویس ماشین رو بذار تو حالت برقی,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+این پیام رو فقط بخون سناریوی کمپینگ رو فعال کن,UNKNOWN,{},SET_POWER_KEEP_DURATION,"{""minutes"": -1}",0.6575,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن این پیام رو فقط بخون سناریوی کمپینگ رو فعال کن,UNKNOWN,{},SET_POWER_KEEP_DURATION,"{""minutes"": -1}",0.921,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام این پیام رو فقط بخون سناریوی کمپینگ رو فعال کن,UNKNOWN,{},UNKNOWN,{},0.9758,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+این پیام رو فقط بخون سناریوی کمپینگ رو فعال کن لطفا رها,UNKNOWN,{},SET_POWER_KEEP_DURATION,"{""minutes"": -1}",0.7035,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم این پیام رو فقط بخون سناریوی کمپینگ رو فعال کن,UNKNOWN,{},UNKNOWN,{},0.9443,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دوستم دیروز گفت ترمز اضطراری رو روشن کن دارم تعریف می کنم,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن دوستم دیروز گفت ترمز اضطراری رو روشن کن دارم تعریف می کنم,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام دوستم دیروز گفت ترمز اضطراری رو روشن کن دارم تعریف می کنم,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دوستم دیروز گفت ترمز اضطراری رو روشن کن دارم تعریف می کنم لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم دوستم دیروز گفت ترمز اضطراری رو روشن کن دارم تعریف می کنم,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+درباره فرمان حافظه صندلی رو ذخیره کن توضیح می خوام,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن درباره فرمان حافظه صندلی رو ذخیره کن توضیح می خوام,UNKNOWN,{},UNKNOWN,{},0.9997,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام درباره فرمان حافظه صندلی رو ذخیره کن توضیح می خوام,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+درباره فرمان حافظه صندلی رو ذخیره کن توضیح می خوام لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم درباره فرمان حافظه صندلی رو ذخیره کن توضیح می خوام,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+معنی انگلیسی چراغ جلو رو خودکار کن چیه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن معنی انگلیسی چراغ جلو رو خودکار کن چیه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام معنی انگلیسی چراغ جلو رو خودکار کن چیه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+معنی انگلیسی چراغ جلو رو خودکار کن چیه لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم معنی انگلیسی چراغ جلو رو خودکار کن چیه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+جمله شارژ زمان بندی شده رو خاموش کن چند کلمه داره,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن جمله شارژ زمان بندی شده رو خاموش کن چند کلمه داره,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام جمله شارژ زمان بندی شده رو خاموش کن چند کلمه داره,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+جمله شارژ زمان بندی شده رو خاموش کن چند کلمه داره لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم جمله شارژ زمان بندی شده رو خاموش کن چند کلمه داره,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+فقط متن رادار نقطه کور روشن رو تکرار کن,UNKNOWN,{},UNKNOWN,{},0.9997,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن فقط متن رادار نقطه کور روشن رو تکرار کن,UNKNOWN,{},UNKNOWN,{},0.9827,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام فقط متن رادار نقطه کور روشن رو تکرار کن,UNKNOWN,{},UNKNOWN,{},0.9865,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+فقط متن رادار نقطه کور روشن رو تکرار کن لطفا رها,UNKNOWN,{},UNKNOWN,{},0.9997,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم فقط متن رادار نقطه کور روشن رو تکرار کن,UNKNOWN,{},UNKNOWN,{},0.9994,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+سناریوی کودک رو فعال کن عنوان یک متنه اجرا نکن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+رها لطف کن سناریوی کودک رو فعال کن عنوان یک متنه اجرا نکن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+الان برام سناریوی کودک رو فعال کن عنوان یک متنه اجرا نکن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+سناریوی کودک رو فعال کن عنوان یک متنه اجرا نکن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+خواهش می کنم سناریوی کودک رو فعال کن عنوان یک متنه اجرا نکن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+تنظیم اون یکی چیزی که نگفتم رو تغییر بده,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن تنظیم اون یکی چیزی که نگفتم رو تغییر بده,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام تنظیم اون یکی چیزی که نگفتم رو تغییر بده,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+تنظیم اون یکی چیزی که نگفتم رو تغییر بده لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم تنظیم اون یکی چیزی که نگفتم رو تغییر بده,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+یه وضعیت نامشخص رو برام انتخاب کن,UNKNOWN,{},SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",0.6252,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن یه وضعیت نامشخص رو برام انتخاب کن,UNKNOWN,{},UNKNOWN,{},0.9988,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام یه وضعیت نامشخص رو برام انتخاب کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+یه وضعیت نامشخص رو برام انتخاب کن لطفا رها,UNKNOWN,{},SET_BLIND_SPOT_MONITORING,"{""enabled"": false}",0.9732,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم یه وضعیت نامشخص رو برام انتخاب کن,UNKNOWN,{},UNKNOWN,{},0.999,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+هر چی تو فکر من هست همونو اجرا کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن هر چی تو فکر من هست همونو اجرا کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام هر چی تو فکر من هست همونو اجرا کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+هر چی تو فکر من هست همونو اجرا کن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم هر چی تو فکر من هست همونو اجرا کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+اون طرفی که اسمش رو نمی دونم تنظیم بشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن اون طرفی که اسمش رو نمی دونم تنظیم بشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام اون طرفی که اسمش رو نمی دونم تنظیم بشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+اون طرفی که اسمش رو نمی دونم تنظیم بشه لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم اون طرفی که اسمش رو نمی دونم تنظیم بشه,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+همون گزینه فراموش شده رو اعمال کن,UNKNOWN,{},UNKNOWN,{},0.9955,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن همون گزینه فراموش شده رو اعمال کن,UNKNOWN,{},UNKNOWN,{},0.8667,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام همون گزینه فراموش شده رو اعمال کن,UNKNOWN,{},UNKNOWN,{},0.9997,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+همون گزینه فراموش شده رو اعمال کن لطفا رها,UNKNOWN,{},UNKNOWN,{},0.8154,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم همون گزینه فراموش شده رو اعمال کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+پیتزا رو تو حافظه صندلی ذخیره کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن پیتزا رو تو حافظه صندلی ذخیره کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام پیتزا رو تو حافظه صندلی ذخیره کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+پیتزا رو تو حافظه صندلی ذخیره کن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم پیتزا رو تو حافظه صندلی ذخیره کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چراغ خواب اتاق خونه رو با نور پایین روشن کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن چراغ خواب اتاق خونه رو با نور پایین روشن کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام چراغ خواب اتاق خونه رو با نور پایین روشن کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چراغ خواب اتاق خونه رو با نور پایین روشن کن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم چراغ خواب اتاق خونه رو با نور پایین روشن کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بنزین ستاره ها رو تو باک خورشید بریز,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن بنزین ستاره ها رو تو باک خورشید بریز,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام بنزین ستاره ها رو تو باک خورشید بریز,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بنزین ستاره ها رو تو باک خورشید بریز لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم بنزین ستاره ها رو تو باک خورشید بریز,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+تلویزیون همسایه رو به حالت هیبرید ببر,UNKNOWN,{},UNKNOWN,{},0.9954,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن تلویزیون همسایه رو به حالت هیبرید ببر,UNKNOWN,{},UNKNOWN,{},0.994,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام تلویزیون همسایه رو به حالت هیبرید ببر,UNKNOWN,{},UNKNOWN,{},0.9973,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+تلویزیون همسایه رو به حالت هیبرید ببر لطفا رها,UNKNOWN,{},SET_SCHEDULED_CHARGING,"{""enabled"": false}",0.9362,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم تلویزیون همسایه رو به حالت هیبرید ببر,UNKNOWN,{},UNKNOWN,{},0.978,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+آینه حمام رو با رادار نقطه کور جمع کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها لطف کن آینه حمام رو با رادار نقطه کور جمع کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+الان برام آینه حمام رو با رادار نقطه کور جمع کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+آینه حمام رو با رادار نقطه کور جمع کن لطفا رها,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+خواهش می کنم آینه حمام رو با رادار نقطه کور جمع کن,UNKNOWN,{},UNKNOWN,{},1.0,True,UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد

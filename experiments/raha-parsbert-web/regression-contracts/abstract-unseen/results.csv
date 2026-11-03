@@ -1,0 +1,1001 @@
+﻿text,action,parameters,predicted,slots,score,passed,unsafe,reason
+هوای توی ماشین حسابی دم کرده,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+داخل اتاق ماشین گرما پیچیده کولر لازم دارم,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+توی کابین از گرما عرق می کنم,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+هوای داخل خودرو گرم و خفه شده,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+اینجای ماشین گرمه یه هوای سرد برسون,SET_AC_POWER,"{""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9985,False,True,
+رها هوای توی ماشین حسابی دم کرده,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها داخل اتاق ماشین گرما پیچیده کولر لازم دارم,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها توی کابین از گرما عرق می کنم,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها هوای داخل خودرو گرم و خفه شده,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها اینجای ماشین گرمه یه هوای سرد برسون,SET_AC_POWER,"{""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9999,False,True,
+هوای توی ماشین حسابی دم کرده لطفا,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+داخل اتاق ماشین گرما پیچیده کولر لازم دارم لطفا,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+توی کابین از گرما عرق می کنم لطفا,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+هوای داخل خودرو گرم و خفه شده لطفا,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+اینجای ماشین گرمه یه هوای سرد برسون لطفا,SET_AC_POWER,"{""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9961,False,True,
+لطفا هوای توی ماشین حسابی دم کرده,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا داخل اتاق ماشین گرما پیچیده کولر لازم دارم,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا توی کابین از گرما عرق می کنم,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا هوای داخل خودرو گرم و خفه شده,SET_AC_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا اینجای ماشین گرمه یه هوای سرد برسون,SET_AC_POWER,"{""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9965,False,True,
+دارم از گرمای کابین می پزم با تمام قدرت خنکش کن,SET_MAX_COOLING,"{""enabled"": true}",SET_MAX_COOLING,"{""enabled"": true}",0.987,False,False,
+ماشین تنور شده سریع ترین سرمای ممکن رو می خوام,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},0.9997,False,False,فرمان مشخصی تشخیص داده نشد
+داخل ماشین جهنمه نهایت سرمایش رو بده,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},0.6637,False,False,فرمان مشخصی تشخیص داده نشد
+از گرما هلاک شدم قوی ترین خنک کاری رو بزن,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+همه توان کولر رو برای خنک کردن ماشین بذار,SET_MAX_COOLING,"{""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.9284,False,False,
+رها دارم از گرمای کابین می پزم با تمام قدرت خنکش کن,SET_MAX_COOLING,"{""enabled"": true}",SET_MAX_COOLING,"{""enabled"": true}",0.9999,True,False,
+رها ماشین تنور شده سریع ترین سرمای ممکن رو می خوام,SET_MAX_COOLING,"{""enabled"": true}",SET_MAX_COOLING,"{""enabled"": true}",0.8337,False,False,
+رها داخل ماشین جهنمه نهایت سرمایش رو بده,SET_MAX_COOLING,"{""enabled"": true}",SET_MAX_COOLING,"{""enabled"": true}",0.879,False,False,
+رها از گرما هلاک شدم قوی ترین خنک کاری رو بزن,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها همه توان کولر رو برای خنک کردن ماشین بذار,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},0.5421,False,False,فرمان مشخصی تشخیص داده نشد
+دارم از گرمای کابین می پزم با تمام قدرت خنکش کن لطفا,SET_MAX_COOLING,"{""enabled"": true}",SET_MAX_COOLING,"{""enabled"": true}",0.9904,False,False,
+ماشین تنور شده سریع ترین سرمای ممکن رو می خوام لطفا,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},0.9994,False,False,فرمان مشخصی تشخیص داده نشد
+داخل ماشین جهنمه نهایت سرمایش رو بده لطفا,SET_MAX_COOLING,"{""enabled"": true}",SET_MAX_COOLING,"{""enabled"": true}",0.8867,False,False,
+از گرما هلاک شدم قوی ترین خنک کاری رو بزن لطفا,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+همه توان کولر رو برای خنک کردن ماشین بذار لطفا,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},0.983,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا دارم از گرمای کابین می پزم با تمام قدرت خنکش کن,SET_MAX_COOLING,"{""enabled"": true}",SET_MAX_COOLING,"{""enabled"": true}",0.9994,True,False,
+لطفا ماشین تنور شده سریع ترین سرمای ممکن رو می خوام,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},0.9998,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا داخل ماشین جهنمه نهایت سرمایش رو بده,SET_MAX_COOLING,"{""enabled"": true}",SET_MAX_COOLING,"{""enabled"": true}",0.9987,True,False,
+لطفا از گرما هلاک شدم قوی ترین خنک کاری رو بزن,SET_MAX_COOLING,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا همه توان کولر رو برای خنک کردن ماشین بذار,SET_MAX_COOLING,"{""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.5095,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+هوای توی اتاق رو یه کم گرم ترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+فضای داخل ماشین رو اندکی گرمتر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.9536,False,False,
+ماشین رو کمی گرم تر از الان کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+هوای کابین رو یک درجه گرمترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+داخل ماشین رو یه پله گرم تر می خوام,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",1.0,True,False,
+رها هوای توی اتاق رو یه کم گرم ترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},0.9998,False,False,فرمان مشخصی تشخیص داده نشد
+رها فضای داخل ماشین رو اندکی گرمتر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},0.5127,False,False,فرمان مشخصی تشخیص داده نشد
+رها ماشین رو کمی گرم تر از الان کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها هوای کابین رو یک درجه گرمترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+رها داخل ماشین رو یه پله گرم تر می خوام,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.9999,True,False,
+هوای توی اتاق رو یه کم گرم ترش کن لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+فضای داخل ماشین رو اندکی گرمتر کن لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},0.6941,False,False,فرمان مشخصی تشخیص داده نشد
+ماشین رو کمی گرم تر از الان کن لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+هوای کابین رو یک درجه گرمترش کن لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+داخل ماشین رو یه پله گرم تر می خوام لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.9837,False,False,
+لطفا هوای توی اتاق رو یه کم گرم ترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},0.9998,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا فضای داخل ماشین رو اندکی گرمتر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.5437,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+لطفا ماشین رو کمی گرم تر از الان کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا هوای کابین رو یک درجه گرمترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+لطفا داخل ماشین رو یه پله گرم تر می خوام,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": 1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.9987,True,False,
+ماشین رو یه ذره خنک ترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,True,False,
+هوای اتاق رو کمی خنک تر می خوام,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",UNKNOWN,{},0.9873,False,False,فرمان مشخصی تشخیص داده نشد
+داخل کابین رو یک درجه سردترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+فضای توی ماشین رو یه پله خنک تر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9999,True,False,
+هوای داخل خودرو رو اندکی سردتر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",UNKNOWN,{},0.7066,False,False,فرمان مشخصی تشخیص داده نشد
+رها ماشین رو یه ذره خنک ترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,True,False,
+رها هوای اتاق رو کمی خنک تر می خوام,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",UNKNOWN,{},0.7253,False,False,فرمان مشخصی تشخیص داده نشد
+رها داخل کابین رو یک درجه سردترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9996,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+رها فضای توی ماشین رو یه پله خنک تر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9215,False,False,
+رها هوای داخل خودرو رو اندکی سردتر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",UNKNOWN,{},0.9171,False,False,فرمان مشخصی تشخیص داده نشد
+ماشین رو یه ذره خنک ترش کن لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,True,False,
+هوای اتاق رو کمی خنک تر می خوام لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+داخل کابین رو یک درجه سردترش کن لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9932,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+فضای توی ماشین رو یه پله خنک تر کن لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9997,True,False,
+هوای داخل خودرو رو اندکی سردتر کن لطفا,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",UNKNOWN,{},0.9995,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا ماشین رو یه ذره خنک ترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",1.0,True,False,
+لطفا هوای اتاق رو کمی خنک تر می خوام,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",UNKNOWN,{},0.9965,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا داخل کابین رو یک درجه سردترش کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.8638,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+لطفا فضای توی ماشین رو یه پله خنک تر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.998,True,False,
+لطفا هوای داخل خودرو رو اندکی سردتر کن,ADJUST_CABIN_TEMPERATURE,"{""zone"": ""front"", ""delta"": -1}",UNKNOWN,{},0.9071,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام هوای اتاق بیست و دو درجه باشه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+داخل ماشین رو بیست و دو درجه نگه دار,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""passenger""}",1.0,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+حرارت فضای کابین بیست و دو درجه بشه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+هوای توی ماشین بیست و دو درجه می خوام,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+بذار دمای داخل ماشین بیست و دو درجه بمونه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""driver""}",1.0,False,True,
+رها می خوام هوای اتاق بیست و دو درجه باشه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+رها داخل ماشین رو بیست و دو درجه نگه دار,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""passenger""}",1.0,False,True,
+رها حرارت فضای کابین بیست و دو درجه بشه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+رها هوای توی ماشین بیست و دو درجه می خوام,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+رها بذار دمای داخل ماشین بیست و دو درجه بمونه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""driver""}",1.0,False,True,
+می خوام هوای اتاق بیست و دو درجه باشه لطفا,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+داخل ماشین رو بیست و دو درجه نگه دار لطفا,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""passenger""}",1.0,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+حرارت فضای کابین بیست و دو درجه بشه لطفا,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+هوای توی ماشین بیست و دو درجه می خوام لطفا,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+بذار دمای داخل ماشین بیست و دو درجه بمونه لطفا,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""driver""}",1.0,False,True,
+لطفا می خوام هوای اتاق بیست و دو درجه باشه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+لطفا داخل ماشین رو بیست و دو درجه نگه دار,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""driver""}",1.0,False,True,
+لطفا حرارت فضای کابین بیست و دو درجه بشه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+لطفا هوای توی ماشین بیست و دو درجه می خوام,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""front""}",1.0,True,False,
+لطفا بذار دمای داخل ماشین بیست و دو درجه بمونه,SET_CABIN_TEMPERATURE,"{""zone"": ""front"", ""degreesC"": 22.0}",SET_CABIN_TEMPERATURE,"{""degreesC"": 22.0, ""zone"": ""driver""}",1.0,False,True,
+جایی که نشستم رو گرمش کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+صندلی زیر من سرد شده گرمش کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نشیمن صندلی من رو گرم کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",0.9789,False,False,
+می خوام صندلی خودم گرم بشه,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.8577,False,False,فرمان مشخصی تشخیص داده نشد
+زیرم روی صندلی سرده گرماش بده,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها جایی که نشستم رو گرمش کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها صندلی زیر من سرد شده گرمش کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9846,False,False,فرمان مشخصی تشخیص داده نشد
+رها نشیمن صندلی من رو گرم کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",0.9992,True,False,
+رها می خوام صندلی خودم گرم بشه,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9495,False,False,فرمان مشخصی تشخیص داده نشد
+رها زیرم روی صندلی سرده گرماش بده,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9994,False,False,فرمان مشخصی تشخیص داده نشد
+جایی که نشستم رو گرمش کن لطفا,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+صندلی زیر من سرد شده گرمش کن لطفا,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نشیمن صندلی من رو گرم کن لطفا,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",0.9897,False,False,
+می خوام صندلی خودم گرم بشه لطفا,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9986,False,False,فرمان مشخصی تشخیص داده نشد
+زیرم روی صندلی سرده گرماش بده لطفا,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9991,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا جایی که نشستم رو گرمش کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا صندلی زیر من سرد شده گرمش کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا نشیمن صندلی من رو گرم کن,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.8233,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+لطفا می خوام صندلی خودم گرم بشه,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9944,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا زیرم روی صندلی سرده گرماش بده,SET_SEAT_HEATING,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9993,False,False,فرمان مشخصی تشخیص داده نشد
+جایی که نشستم رو خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.6091,False,False,فرمان مشخصی تشخیص داده نشد
+صندلی زیر من داغ شده خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نشیمن صندلی من رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",0.6057,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+پشتم به صندلی چسبیده عرق کرده باد صندلی رو برسون,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_AIRFLOW_DIRECTION,"{""direction"": ""face"", ""zone"": ""front""}",1.0,False,False,برداشت فرمان با هدف صریح «پشتم» سازگار نیست
+می خوام صندلی خودم خنک بشه,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",0.9999,False,False,بخش «خودم خنک بشه» در برداشت فرمان توضیح داده نشده است
+رها جایی که نشستم رو خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9931,False,False,
+رها صندلی زیر من داغ شده خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها نشیمن صندلی من رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9775,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+رها پشتم به صندلی چسبیده عرق کرده باد صندلی رو برسون,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_AIRFLOW_DIRECTION,"{""direction"": ""face"", ""zone"": ""front""}",1.0,False,False,برداشت فرمان با هدف صریح «پشتم» سازگار نیست
+رها می خوام صندلی خودم خنک بشه,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",0.9894,False,False,بخش «خودم خنک بشه» در برداشت فرمان توضیح داده نشده است
+جایی که نشستم رو خنکش کن لطفا,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9999,False,False,فرمان مشخصی تشخیص داده نشد
+صندلی زیر من داغ شده خنکش کن لطفا,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نشیمن صندلی من رو خنک کن لطفا,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",1.0,True,False,
+پشتم به صندلی چسبیده عرق کرده باد صندلی رو برسون لطفا,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_AIRFLOW_DIRECTION,"{""direction"": ""face"", ""zone"": ""front""}",1.0,False,False,برداشت فرمان با هدف صریح «پشتم» سازگار نیست
+می خوام صندلی خودم خنک بشه لطفا,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",0.9919,False,False,بخش «خودم خنک بشه» در برداشت فرمان توضیح داده نشده است
+لطفا جایی که نشستم رو خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9792,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا صندلی زیر من داغ شده خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا نشیمن صندلی من رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.8053,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+لطفا پشتم به صندلی چسبیده عرق کرده باد صندلی رو برسون,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_AIRFLOW_DIRECTION,"{""direction"": ""face"", ""zone"": ""front""}",1.0,False,False,برداشت فرمان با هدف صریح «پشتم» سازگار نیست
+لطفا می خوام صندلی خودم خنک بشه,SET_SEAT_VENTILATION,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",0.9975,False,False,بخش «خودم خنک بشه» در برداشت فرمان توضیح داده نشده است
+پشتم خیلی کوفته شده,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+کمرم از این نشستن گرفته,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.7536,False,False,فرمان مشخصی تشخیص داده نشد
+عضله های پشتم حسابی گرفته,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+بدنم کوفته شده پشتم رو بمال,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",SWITCH_CAMERA,{},0.9973,False,False,برداشت فرمان با هدف صریح «بدنم» سازگار نیست
+پشتم درد گرفته یه مالش می خوام,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""driver""}",0.9999,False,False,بخش «درد گرفته مالش» در برداشت فرمان توضیح داده نشده است
+رها پشتم خیلی کوفته شده,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها کمرم از این نشستن گرفته,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},0.9965,False,False,فرمان مشخصی تشخیص داده نشد
+رها عضله های پشتم حسابی گرفته,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها بدنم کوفته شده پشتم رو بمال,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",SWITCH_CAMERA,{},0.998,False,False,برداشت فرمان با هدف صریح «بدنم» سازگار نیست
+رها پشتم درد گرفته یه مالش می خوام,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,False,بخش «درد گرفته مالش» در برداشت فرمان توضیح داده نشده است
+پشتم خیلی کوفته شده لطفا,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+کمرم از این نشستن گرفته لطفا,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+عضله های پشتم حسابی گرفته لطفا,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+بدنم کوفته شده پشتم رو بمال لطفا,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",SWITCH_CAMERA,{},0.9996,False,False,برداشت فرمان با هدف صریح «بدنم» سازگار نیست
+پشتم درد گرفته یه مالش می خوام لطفا,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""driver""}",0.9998,False,False,بخش «درد گرفته مالش» در برداشت فرمان توضیح داده نشده است
+لطفا پشتم خیلی کوفته شده,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا کمرم از این نشستن گرفته,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا عضله های پشتم حسابی گرفته,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا بدنم کوفته شده پشتم رو بمال,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",SWITCH_CAMERA,{},1.0,False,False,برداشت فرمان با هدف صریح «بدنم» سازگار نیست
+لطفا پشتم درد گرفته یه مالش می خوام,SET_SEAT_MASSAGE,"{""seat"": ""driver"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""driver""}",0.9999,False,False,بخش «درد گرفته مالش» در برداشت فرمان توضیح داده نشده است
+صندلی نفر کنار من رو گرم کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""passenger""}",1.0,False,False,بخش «نفر کنار» در برداشت فرمان توضیح داده نشده است
+جای نشستن همراه رو گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نشیمن سمت شاگرد سرد شده گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""passenger""}",1.0,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+صندلی بغل دستی رو گرم می خوام,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+جای نفر بغلی روی صندلی گرما لازم داره گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""passenger""}",0.8435,False,False,برداشت فرمان با هدف صریح «صندلی» سازگار نیست
+رها صندلی نفر کنار من رو گرم کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""passenger""}",0.9888,False,False,بخش «نفر کنار» در برداشت فرمان توضیح داده نشده است
+رها جای نشستن همراه رو گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها نشیمن سمت شاگرد سرد شده گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",1.0,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+رها صندلی بغل دستی رو گرم می خوام,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""passenger""}",0.9927,False,False,برداشت فرمان با هدف صریح «صندلی» سازگار نیست
+رها جای نفر بغلی روی صندلی گرما لازم داره گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""passenger""}",0.9951,False,False,برداشت فرمان با هدف صریح «صندلی» سازگار نیست
+صندلی نفر کنار من رو گرم کن لطفا,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""passenger""}",1.0,False,False,بخش «نفر کنار» در برداشت فرمان توضیح داده نشده است
+جای نشستن همراه رو گرمش کن لطفا,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نشیمن سمت شاگرد سرد شده گرمش کن لطفا,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""passenger""}",0.9636,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+صندلی بغل دستی رو گرم می خوام لطفا,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.981,False,False,فرمان مشخصی تشخیص داده نشد
+جای نفر بغلی روی صندلی گرما لازم داره گرمش کن لطفا,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""passenger""}",0.9715,False,False,برداشت فرمان با هدف صریح «صندلی» سازگار نیست
+لطفا صندلی نفر کنار من رو گرم کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""passenger""}",0.9999,False,False,بخش «نفر کنار» در برداشت فرمان توضیح داده نشده است
+لطفا جای نشستن همراه رو گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا نشیمن سمت شاگرد سرد شده گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",0.9993,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+لطفا صندلی بغل دستی رو گرم می خوام,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.979,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا جای نفر بغلی روی صندلی گرما لازم داره گرمش کن,SET_SEAT_HEATING,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""passenger""}",0.9929,False,False,برداشت فرمان با هدف صریح «صندلی» سازگار نیست
+صندلی نفر کنار من رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,False,بخش «نفر کنار» در برداشت فرمان توضیح داده نشده است
+جای نشستن همراه رو خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",0.9995,False,True,
+نشیمن سمت شاگرد داغ شده خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",0.9999,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+صندلی بغل دستی رو سرد می خوام,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.9491,False,False,فرمان مشخصی تشخیص داده نشد
+همراه روی صندلی عرق کرده صندلیش رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",0.9999,False,False,بخش «عرق کرده صندلیش» در برداشت فرمان توضیح داده نشده است
+رها صندلی نفر کنار من رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""passenger""}",0.9983,False,False,بخش «نفر کنار» در برداشت فرمان توضیح داده نشده است
+رها جای نشستن همراه رو خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",1.0,False,True,
+رها نشیمن سمت شاگرد داغ شده خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",0.9991,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+رها صندلی بغل دستی رو سرد می خوام,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",1.0,False,False,برداشت فرمان با هدف صریح «صندلی» سازگار نیست
+رها همراه روی صندلی عرق کرده صندلیش رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",0.9975,False,False,بخش «عرق کرده صندلیش» در برداشت فرمان توضیح داده نشده است
+صندلی نفر کنار من رو خنک کن لطفا,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""passenger""}",1.0,False,False,بخش «نفر کنار» در برداشت فرمان توضیح داده نشده است
+جای نشستن همراه رو خنکش کن لطفا,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.8758,False,False,فرمان مشخصی تشخیص داده نشد
+نشیمن سمت شاگرد داغ شده خنکش کن لطفا,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",0.6173,False,False,برداشت فرمان با هدف صریح «نشیمن» سازگار نیست
+صندلی بغل دستی رو سرد می خوام لطفا,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",0.9997,False,False,برداشت فرمان با هدف صریح «صندلی» سازگار نیست
+همراه روی صندلی عرق کرده صندلیش رو خنک کن لطفا,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,False,بخش «عرق کرده صندلیش» در برداشت فرمان توضیح داده نشده است
+لطفا صندلی نفر کنار من رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""passenger""}",1.0,False,False,بخش «نفر کنار» در برداشت فرمان توضیح داده نشده است
+لطفا جای نشستن همراه رو خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.9337,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا نشیمن سمت شاگرد داغ شده خنکش کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.6223,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا صندلی بغل دستی رو سرد می خوام,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""passenger""}",1.0,False,False,برداشت فرمان با هدف صریح «صندلی» سازگار نیست
+لطفا همراه روی صندلی عرق کرده صندلیش رو خنک کن,SET_SEAT_VENTILATION,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_VENTILATION,"{""enabled"": true, ""seat"": ""driver""}",1.0,False,False,بخش «عرق کرده صندلیش» در برداشت فرمان توضیح داده نشده است
+پشت نفر کنار من رو بمال,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.7035,False,False,فرمان مشخصی تشخیص داده نشد
+کمر همراه گرفته ماساژش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",1.0,True,False,
+پشت شاگرد رو مالش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",0.9816,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+نفر بغلی کمرش کوفته شده ماساژش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+پشت بغل دستی رو با صندلی ماساژ بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",1.0,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+رها پشت نفر کنار من رو بمال,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها کمر همراه گرفته ماساژش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",0.9909,False,False,
+رها پشت شاگرد رو مالش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SWAP_DISPLAY_APPS,{},0.8653,False,False,
+رها نفر بغلی کمرش کوفته شده ماساژش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها پشت بغل دستی رو با صندلی ماساژ بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",1.0,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+پشت نفر کنار من رو بمال لطفا,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.9923,False,False,فرمان مشخصی تشخیص داده نشد
+کمر همراه گرفته ماساژش بده لطفا,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",0.9999,True,False,
+پشت شاگرد رو مالش بده لطفا,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",0.9579,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+نفر بغلی کمرش کوفته شده ماساژش بده لطفا,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+پشت بغل دستی رو با صندلی ماساژ بده لطفا,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",1.0,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+لطفا پشت نفر کنار من رو بمال,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},0.9918,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا کمر همراه گرفته ماساژش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",0.9999,True,False,
+لطفا پشت شاگرد رو مالش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",0.9935,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+لطفا نفر بغلی کمرش کوفته شده ماساژش بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا پشت بغل دستی رو با صندلی ماساژ بده,SET_SEAT_MASSAGE,"{""seat"": ""passenger"", ""enabled"": true}",SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""passenger""}",1.0,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+یه لایه مه روی شیشه جلویی نشسته,SET_FRONT_DEFROSTER,"{""enabled"": true}",VENT_WINDOW,"{""window"": ""front""}",0.9953,False,False,بخش «لایه مه نشسته» در برداشت فرمان توضیح داده نشده است
+از بخار شیشه جلو چیزی نمی بینم,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},0.7286,False,False,فرمان مشخصی تشخیص داده نشد
+بخار روی پنجره جلوی ماشین رو بگیر,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+شیشه جلوی روم مه آلود شده,SET_FRONT_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.9866,False,False,بخش «جلوی روم مه آلود شده» در برداشت فرمان توضیح داده نشده است
+شیشه جلوی خودرو از داخل بخار کرده پاکش کن,SET_FRONT_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.66,False,False,بخش «جلوی خودرو از داخل بخار کرده پاکش» در برداشت فرمان توضیح داده نشده است
+رها یه لایه مه روی شیشه جلویی نشسته,SET_FRONT_DEFROSTER,"{""enabled"": true}",VENT_WINDOW,"{""window"": ""front""}",0.9933,False,False,بخش «لایه مه نشسته» در برداشت فرمان توضیح داده نشده است
+رها از بخار شیشه جلو چیزی نمی بینم,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},0.7589,False,False,فرمان مشخصی تشخیص داده نشد
+رها بخار روی پنجره جلوی ماشین رو بگیر,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},0.9997,False,False,فرمان مشخصی تشخیص داده نشد
+رها شیشه جلوی روم مه آلود شده,SET_FRONT_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.8761,False,False,بخش «جلوی روم مه آلود شده» در برداشت فرمان توضیح داده نشده است
+رها شیشه جلوی خودرو از داخل بخار کرده پاکش کن,SET_FRONT_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.5536,False,False,بخش «جلوی خودرو از داخل بخار کرده پاکش» در برداشت فرمان توضیح داده نشده است
+یه لایه مه روی شیشه جلویی نشسته لطفا,SET_FRONT_DEFROSTER,"{""enabled"": true}",VENT_WINDOW,"{""window"": ""rearRight""}",1.0,False,False,بخش «لایه مه نشسته» در برداشت فرمان توضیح داده نشده است
+از بخار شیشه جلو چیزی نمی بینم لطفا,SET_FRONT_DEFROSTER,"{""enabled"": true}",SET_FRONT_DEFROSTER,"{""enabled"": false}",0.8666,False,False,بخش «از بخار چیزی نمی بینم» در برداشت فرمان توضیح داده نشده است
+بخار روی پنجره جلوی ماشین رو بگیر لطفا,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+شیشه جلوی روم مه آلود شده لطفا,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},0.9996,False,False,فرمان مشخصی تشخیص داده نشد
+شیشه جلوی خودرو از داخل بخار کرده پاکش کن لطفا,SET_FRONT_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.9398,False,False,بخش «جلوی خودرو از داخل بخار کرده پاکش» در برداشت فرمان توضیح داده نشده است
+لطفا یه لایه مه روی شیشه جلویی نشسته,SET_FRONT_DEFROSTER,"{""enabled"": true}",VENT_WINDOW,"{""window"": ""front""}",0.9973,False,False,بخش «لایه مه نشسته» در برداشت فرمان توضیح داده نشده است
+لطفا از بخار شیشه جلو چیزی نمی بینم,SET_FRONT_DEFROSTER,"{""enabled"": true}",SET_FRONT_DEFROSTER,"{""enabled"": false}",0.9787,False,False,بخش «از بخار چیزی نمی بینم» در برداشت فرمان توضیح داده نشده است
+لطفا بخار روی پنجره جلوی ماشین رو بگیر,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا شیشه جلوی روم مه آلود شده,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},0.9982,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا شیشه جلوی خودرو از داخل بخار کرده پاکش کن,SET_FRONT_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},0.9873,False,False,فرمان مشخصی تشخیص داده نشد
+یه لایه مه روی شیشه پشتی نشسته,SET_REAR_DEFROSTER,"{""enabled"": true}",VENT_WINDOW,"{""window"": ""rear""}",0.5363,False,False,بخش «لایه مه پشتی نشسته» در برداشت فرمان توضیح داده نشده است
+از بخار شیشه عقب پشت سرم پیدا نیست,SET_REAR_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+بخار روی پنجره پشت ماشین رو بگیر,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.9606,False,False,بخش «بخار ماشین بگیر» در برداشت فرمان توضیح داده نشده است
+شیشه پشت سرم مه آلود شده,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",1.0,False,False,بخش «سرم مه آلود شده» در برداشت فرمان توضیح داده نشده است
+پنجره عقب خودرو از داخل بخار کرده,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.9999,False,False,بخش «خودرو از داخل بخار کرده» در برداشت فرمان توضیح داده نشده است
+رها یه لایه مه روی شیشه پشتی نشسته,SET_REAR_DEFROSTER,"{""enabled"": true}",VENT_WINDOW,"{""window"": ""rear""}",0.7006,False,False,بخش «لایه مه پشتی نشسته» در برداشت فرمان توضیح داده نشده است
+رها از بخار شیشه عقب پشت سرم پیدا نیست,SET_REAR_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها بخار روی پنجره پشت ماشین رو بگیر,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.982,False,False,بخش «بخار ماشین بگیر» در برداشت فرمان توضیح داده نشده است
+رها شیشه پشت سرم مه آلود شده,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",1.0,False,False,بخش «سرم مه آلود شده» در برداشت فرمان توضیح داده نشده است
+رها پنجره عقب خودرو از داخل بخار کرده,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",1.0,False,False,بخش «خودرو از داخل بخار کرده» در برداشت فرمان توضیح داده نشده است
+یه لایه مه روی شیشه پشتی نشسته لطفا,SET_REAR_DEFROSTER,"{""enabled"": true}",VENT_WINDOW,"{""window"": ""rear""}",0.9981,False,False,بخش «لایه مه پشتی نشسته» در برداشت فرمان توضیح داده نشده است
+از بخار شیشه عقب پشت سرم پیدا نیست لطفا,SET_REAR_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+بخار روی پنجره پشت ماشین رو بگیر لطفا,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.9999,False,False,بخش «بخار ماشین بگیر» در برداشت فرمان توضیح داده نشده است
+شیشه پشت سرم مه آلود شده لطفا,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.999,False,False,بخش «سرم مه آلود شده» در برداشت فرمان توضیح داده نشده است
+پنجره عقب خودرو از داخل بخار کرده لطفا,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",1.0,False,False,بخش «خودرو از داخل بخار کرده» در برداشت فرمان توضیح داده نشده است
+لطفا یه لایه مه روی شیشه پشتی نشسته,SET_REAR_DEFROSTER,"{""enabled"": true}",VENT_WINDOW,"{""window"": ""rear""}",0.7441,False,False,بخش «لایه مه پشتی نشسته» در برداشت فرمان توضیح داده نشده است
+لطفا از بخار شیشه عقب پشت سرم پیدا نیست,SET_REAR_DEFROSTER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا بخار روی پنجره پشت ماشین رو بگیر,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",0.997,False,False,بخش «بخار ماشین بگیر» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه پشت سرم مه آلود شده,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",1.0,False,False,بخش «سرم مه آلود شده» در برداشت فرمان توضیح داده نشده است
+لطفا پنجره عقب خودرو از داخل بخار کرده,SET_REAR_DEFROSTER,"{""enabled"": true}",SET_REAR_DEFROSTER,"{""enabled"": true}",1.0,False,False,بخش «خودرو از داخل بخار کرده» در برداشت فرمان توضیح داده نشده است
+پنجره کنار من رو تا آخر پایین بده,OPEN_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+شیشه سمت خودم رو تا ته پایین ببر,OPEN_WINDOW,"{""window"": ""driver""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «خودم» در برداشت فرمان توضیح داده نشده است
+پنجره راننده رو کامل پایینش بکش,OPEN_WINDOW,"{""window"": ""driver""}",OPEN_WINDOW,"{""window"": ""driver""}",1.0,False,False,بخش «پایینش» در برداشت فرمان توضیح داده نشده است
+شیشه کناری من رو کاملا بده پایین,OPEN_WINDOW,"{""window"": ""driver""}",OPEN_WINDOW,"{""window"": ""rearLeft""}",1.0,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+پنجره کنار فرمون رو تا ته پایین بده,OPEN_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها پنجره کنار من رو تا آخر پایین بده,OPEN_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها شیشه سمت خودم رو تا ته پایین ببر,OPEN_WINDOW,"{""window"": ""driver""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «خودم» در برداشت فرمان توضیح داده نشده است
+رها پنجره راننده رو کامل پایینش بکش,OPEN_WINDOW,"{""window"": ""driver""}",OPEN_WINDOW,"{""window"": ""driver""}",1.0,False,False,بخش «پایینش» در برداشت فرمان توضیح داده نشده است
+رها شیشه کناری من رو کاملا بده پایین,OPEN_WINDOW,"{""window"": ""driver""}",OPEN_WINDOW,"{""window"": ""passenger""}",0.9936,False,False,
+رها پنجره کنار فرمون رو تا ته پایین بده,OPEN_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+پنجره کنار من رو تا آخر پایین بده لطفا,OPEN_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+شیشه سمت خودم رو تا ته پایین ببر لطفا,OPEN_WINDOW,"{""window"": ""driver""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «خودم» در برداشت فرمان توضیح داده نشده است
+پنجره راننده رو کامل پایینش بکش لطفا,OPEN_WINDOW,"{""window"": ""driver""}",OPEN_WINDOW,"{""window"": ""driver""}",1.0,False,False,بخش «پایینش» در برداشت فرمان توضیح داده نشده است
+شیشه کناری من رو کاملا بده پایین لطفا,OPEN_WINDOW,"{""window"": ""driver""}",OPEN_WINDOW,"{""window"": ""passenger""}",0.9999,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+پنجره کنار فرمون رو تا ته پایین بده لطفا,OPEN_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا پنجره کنار من رو تا آخر پایین بده,OPEN_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},0.9225,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا شیشه سمت خودم رو تا ته پایین ببر,OPEN_WINDOW,"{""window"": ""driver""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «خودم» در برداشت فرمان توضیح داده نشده است
+لطفا پنجره راننده رو کامل پایینش بکش,OPEN_WINDOW,"{""window"": ""driver""}",OPEN_WINDOW,"{""window"": ""driver""}",1.0,False,False,بخش «پایینش» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه کناری من رو کاملا بده پایین,OPEN_WINDOW,"{""window"": ""driver""}",OPEN_WINDOW,"{""window"": ""passenger""}",0.9992,False,True,
+لطفا پنجره کنار فرمون رو تا ته پایین بده,OPEN_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+پنجره کنار من رو تا آخر بالا بده,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",0.9319,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+شیشه سمت خودم رو تا ته بالا ببر,CLOSE_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},0.5405,False,False,فرمان مشخصی تشخیص داده نشد
+پنجره راننده رو کامل بالاش بکش,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",1.0,False,False,بخش «بالاش» در برداشت فرمان توضیح داده نشده است
+شیشه کناری من رو کاملا بده بالا,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,True,
+پنجره کنار فرمون رو تا ته بالا بده,CLOSE_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها پنجره کنار من رو تا آخر بالا بده,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",0.9622,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+رها شیشه سمت خودم رو تا ته بالا ببر,CLOSE_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},0.5607,False,False,فرمان مشخصی تشخیص داده نشد
+رها پنجره راننده رو کامل بالاش بکش,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",1.0,False,False,بخش «بالاش» در برداشت فرمان توضیح داده نشده است
+رها شیشه کناری من رو کاملا بده بالا,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,True,
+رها پنجره کنار فرمون رو تا ته بالا بده,CLOSE_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+پنجره کنار من رو تا آخر بالا بده لطفا,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",0.8341,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+شیشه سمت خودم رو تا ته بالا ببر لطفا,CLOSE_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},0.958,False,False,فرمان مشخصی تشخیص داده نشد
+پنجره راننده رو کامل بالاش بکش لطفا,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",0.9997,False,False,بخش «بالاش» در برداشت فرمان توضیح داده نشده است
+شیشه کناری من رو کاملا بده بالا لطفا,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,True,
+پنجره کنار فرمون رو تا ته بالا بده لطفا,CLOSE_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا پنجره کنار من رو تا آخر بالا بده,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه سمت خودم رو تا ته بالا ببر,CLOSE_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},0.6817,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا پنجره راننده رو کامل بالاش بکش,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""driver""}",1.0,False,False,بخش «بالاش» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه کناری من رو کاملا بده بالا,CLOSE_WINDOW,"{""window"": ""driver""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,True,
+لطفا پنجره کنار فرمون رو تا ته بالا بده,CLOSE_WINDOW,"{""window"": ""driver""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+پنجره کنار همراه رو تا آخر پایین بده,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",0.5587,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+شیشه سمت بغل رو تا ته پایین ببر,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",1.0,False,True,
+پنجره شاگرد رو کامل پایینش بکش,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «پایینش» در برداشت فرمان توضیح داده نشده است
+شیشه کنار نفر همراه رو کاملا بده پایین,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار نفر» در برداشت فرمان توضیح داده نشده است
+پنجره سمت راست جلو رو تا ته پایین بده,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""rearRight""}",0.9456,False,False,
+رها پنجره کنار همراه رو تا آخر پایین بده,OPEN_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",0.7238,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+رها شیشه سمت بغل رو تا ته پایین ببر,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",1.0,False,True,
+رها پنجره شاگرد رو کامل پایینش بکش,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «پایینش» در برداشت فرمان توضیح داده نشده است
+رها شیشه کنار نفر همراه رو کاملا بده پایین,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار نفر» در برداشت فرمان توضیح داده نشده است
+رها پنجره سمت راست جلو رو تا ته پایین بده,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""rearRight""}",0.8914,False,False,
+پنجره کنار همراه رو تا آخر پایین بده لطفا,OPEN_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",0.9007,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+شیشه سمت بغل رو تا ته پایین ببر لطفا,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",1.0,False,True,
+پنجره شاگرد رو کامل پایینش بکش لطفا,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «پایینش» در برداشت فرمان توضیح داده نشده است
+شیشه کنار نفر همراه رو کاملا بده پایین لطفا,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار نفر» در برداشت فرمان توضیح داده نشده است
+پنجره سمت راست جلو رو تا ته پایین بده لطفا,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""rearRight""}",0.9947,False,False,
+لطفا پنجره کنار همراه رو تا آخر پایین بده,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",0.9231,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه سمت بغل رو تا ته پایین ببر,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",1.0,False,True,
+لطفا پنجره شاگرد رو کامل پایینش بکش,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «پایینش» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه کنار نفر همراه رو کاملا بده پایین,OPEN_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار نفر» در برداشت فرمان توضیح داده نشده است
+لطفا پنجره سمت راست جلو رو تا ته پایین بده,OPEN_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""rearRight""}",0.7393,False,False,
+پنجره کنار همراه رو تا آخر بالا بده,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+شیشه سمت بغل رو تا ته بالا ببر,CLOSE_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",1.0,False,True,
+پنجره شاگرد رو کامل بالاش بکش,CLOSE_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",0.9838,False,False,بخش «بالاش» در برداشت فرمان توضیح داده نشده است
+شیشه کنار نفر همراه رو کاملا بده بالا,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار نفر» در برداشت فرمان توضیح داده نشده است
+پنجره سمت راست جلو رو تا ته بالا بده,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",0.562,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+رها پنجره کنار همراه رو تا آخر بالا بده,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+رها شیشه سمت بغل رو تا ته بالا ببر,CLOSE_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",1.0,False,True,
+رها پنجره شاگرد رو کامل بالاش بکش,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",0.961,False,False,بخش «بالاش» در برداشت فرمان توضیح داده نشده است
+رها شیشه کنار نفر همراه رو کاملا بده بالا,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار نفر» در برداشت فرمان توضیح داده نشده است
+رها پنجره سمت راست جلو رو تا ته بالا بده,CLOSE_WINDOW,"{""window"": ""passenger""}",UNKNOWN,{},0.9909,False,False,فرمان مشخصی تشخیص داده نشد
+پنجره کنار همراه رو تا آخر بالا بده لطفا,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+شیشه سمت بغل رو تا ته بالا ببر لطفا,CLOSE_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",0.9996,False,True,
+پنجره شاگرد رو کامل بالاش بکش لطفا,CLOSE_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",0.9412,False,False,بخش «بالاش» در برداشت فرمان توضیح داده نشده است
+شیشه کنار نفر همراه رو کاملا بده بالا لطفا,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار نفر» در برداشت فرمان توضیح داده نشده است
+پنجره سمت راست جلو رو تا ته بالا بده لطفا,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",0.6944,False,False,
+لطفا پنجره کنار همراه رو تا آخر بالا بده,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""rearRight""}",1.0,False,False,بخش «کنار آخر» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه سمت بغل رو تا ته بالا ببر,CLOSE_WINDOW,"{""window"": ""passenger""}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""passenger""}",0.9997,False,True,
+لطفا پنجره شاگرد رو کامل بالاش بکش,CLOSE_WINDOW,"{""window"": ""passenger""}",OPEN_WINDOW,"{""window"": ""passenger""}",0.5818,False,False,بخش «بالاش» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه کنار نفر همراه رو کاملا بده بالا,CLOSE_WINDOW,"{""window"": ""passenger""}",CLOSE_WINDOW,"{""window"": ""passenger""}",1.0,False,False,بخش «کنار نفر» در برداشت فرمان توضیح داده نشده است
+لطفا پنجره سمت راست جلو رو تا ته بالا بده,CLOSE_WINDOW,"{""window"": ""passenger""}",UNKNOWN,{},0.616,False,False,فرمان مشخصی تشخیص داده نشد
+پنجره کنارم رو تا میانه پایین بده,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""rearRight""}",0.9999,False,False,بخش «کنارم» در برداشت فرمان توضیح داده نشده است
+شیشه سمت خودم رو نیمه پایین نگه دار,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «خودم نگه دار» در برداشت فرمان توضیح داده نشده است
+پنجره راننده رو نصف راه پایین ببر,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «راه» در برداشت فرمان توضیح داده نشده است
+پنجره خودم رو پنجاه درصد پایینش بده,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",UNKNOWN,{},0.665,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام شیشه راننده نصفه باز بمونه,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «بمونه» در برداشت فرمان توضیح داده نشده است
+رها پنجره کنارم رو تا میانه پایین بده,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «کنارم» در برداشت فرمان توضیح داده نشده است
+رها شیشه سمت خودم رو نیمه پایین نگه دار,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «خودم نگه دار» در برداشت فرمان توضیح داده نشده است
+رها پنجره راننده رو نصف راه پایین ببر,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «راه» در برداشت فرمان توضیح داده نشده است
+رها پنجره خودم رو پنجاه درصد پایینش بده,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",UNKNOWN,{},0.8128,False,False,فرمان مشخصی تشخیص داده نشد
+رها می خوام شیشه راننده نصفه باز بمونه,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «بمونه» در برداشت فرمان توضیح داده نشده است
+پنجره کنارم رو تا میانه پایین بده لطفا,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""rearRight""}",0.9999,False,False,بخش «کنارم» در برداشت فرمان توضیح داده نشده است
+شیشه سمت خودم رو نیمه پایین نگه دار لطفا,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «خودم نگه دار» در برداشت فرمان توضیح داده نشده است
+پنجره راننده رو نصف راه پایین ببر لطفا,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «راه» در برداشت فرمان توضیح داده نشده است
+پنجره خودم رو پنجاه درصد پایینش بده لطفا,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",UNKNOWN,{},0.8896,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام شیشه راننده نصفه باز بمونه لطفا,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «بمونه» در برداشت فرمان توضیح داده نشده است
+لطفا پنجره کنارم رو تا میانه پایین بده,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""rearRight""}",1.0,False,False,بخش «کنارم» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه سمت خودم رو نیمه پایین نگه دار,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «خودم نگه دار» در برداشت فرمان توضیح داده نشده است
+لطفا پنجره راننده رو نصف راه پایین ببر,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «راه» در برداشت فرمان توضیح داده نشده است
+لطفا پنجره خودم رو پنجاه درصد پایینش بده,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_SUNROOF_POSITION,"{""percent"": 50}",0.8722,False,False,برداشت فرمان با هدف صریح «پنجره» سازگار نیست
+لطفا می خوام شیشه راننده نصفه باز بمونه,SET_WINDOW_POSITION,"{""window"": ""driver"", ""percent"": 50}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «بمونه» در برداشت فرمان توضیح داده نشده است
+سقف شیشه ای بالای سرم رو کامل کنار بزن,OPEN_SUNROOF,{},OPEN_SUNROOF,{},1.0,False,False,بخش «بالای سرم کنار بزن» در برداشت فرمان توضیح داده نشده است
+شیشه سقف رو تا آخر بازش کن,OPEN_SUNROOF,{},SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «سقف آخر» در برداشت فرمان توضیح داده نشده است
+می خوام سقف شیشه ای کاملا باز بشه,OPEN_SUNROOF,{},ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",0.8428,False,False,بخش «بشه» در برداشت فرمان توضیح داده نشده است
+بالای سرم سقف شیشه ای رو بگشا,OPEN_SUNROOF,{},OPEN_SUNROOF,{},1.0,False,False,بخش «بالای سرم بگشا» در برداشت فرمان توضیح داده نشده است
+شیشه سقف رو کامل عقب بکش,OPEN_SUNROOF,{},CLOSE_WINDOW,"{""window"": ""rear""}",0.9998,False,False,بخش «سقف» در برداشت فرمان توضیح داده نشده است
+رها سقف شیشه ای بالای سرم رو کامل کنار بزن,OPEN_SUNROOF,{},OPEN_SUNROOF,{},0.9983,False,False,بخش «بالای سرم کنار بزن» در برداشت فرمان توضیح داده نشده است
+رها شیشه سقف رو تا آخر بازش کن,OPEN_SUNROOF,{},SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",0.9999,False,False,بخش «سقف آخر» در برداشت فرمان توضیح داده نشده است
+رها می خوام سقف شیشه ای کاملا باز بشه,OPEN_SUNROOF,{},ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",0.9528,False,False,بخش «بشه» در برداشت فرمان توضیح داده نشده است
+رها بالای سرم سقف شیشه ای رو بگشا,OPEN_SUNROOF,{},OPEN_SUNROOF,{},1.0,False,False,بخش «بالای سرم بگشا» در برداشت فرمان توضیح داده نشده است
+رها شیشه سقف رو کامل عقب بکش,OPEN_SUNROOF,{},SET_REAR_DEFROSTER,"{""enabled"": true}",0.5412,False,False,بخش «سقف» در برداشت فرمان توضیح داده نشده است
+سقف شیشه ای بالای سرم رو کامل کنار بزن لطفا,OPEN_SUNROOF,{},OPEN_SUNROOF,{},0.9996,False,False,بخش «بالای سرم کنار بزن» در برداشت فرمان توضیح داده نشده است
+شیشه سقف رو تا آخر بازش کن لطفا,OPEN_SUNROOF,{},SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «سقف آخر» در برداشت فرمان توضیح داده نشده است
+می خوام سقف شیشه ای کاملا باز بشه لطفا,OPEN_SUNROOF,{},OPEN_SUNROOF,{},0.9849,False,False,بخش «بشه» در برداشت فرمان توضیح داده نشده است
+بالای سرم سقف شیشه ای رو بگشا لطفا,OPEN_SUNROOF,{},OPEN_SUNROOF,{},1.0,False,False,بخش «بالای سرم بگشا» در برداشت فرمان توضیح داده نشده است
+شیشه سقف رو کامل عقب بکش لطفا,OPEN_SUNROOF,{},SET_REAR_DEFROSTER,"{""enabled"": true}",0.8922,False,False,بخش «سقف» در برداشت فرمان توضیح داده نشده است
+لطفا سقف شیشه ای بالای سرم رو کامل کنار بزن,OPEN_SUNROOF,{},OPEN_SUNROOF,{},0.9998,False,False,بخش «بالای سرم کنار بزن» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه سقف رو تا آخر بازش کن,OPEN_SUNROOF,{},SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",1.0,False,False,بخش «سقف آخر» در برداشت فرمان توضیح داده نشده است
+لطفا می خوام سقف شیشه ای کاملا باز بشه,OPEN_SUNROOF,{},OPEN_SUNROOF,{},0.6251,False,False,بخش «بشه» در برداشت فرمان توضیح داده نشده است
+لطفا بالای سرم سقف شیشه ای رو بگشا,OPEN_SUNROOF,{},OPEN_SUNROOF,{},1.0,False,False,بخش «بالای سرم بگشا» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه سقف رو کامل عقب بکش,OPEN_SUNROOF,{},CLOSE_WINDOW,"{""window"": ""rear""}",0.9973,False,False,بخش «سقف» در برداشت فرمان توضیح داده نشده است
+بارون از سقف میاد تو سقف شیشه ای رو ببند,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},1.0,False,False,بخش «بارون از سقف میاد تو» در برداشت فرمان توضیح داده نشده است
+سقف شیشه ای رو کامل ببند تا آب نیاد,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9051,False,False,بخش «آب نیاد» در برداشت فرمان توضیح داده نشده است
+شیشه سقف رو تا آخر ببندش,CLOSE_SUNROOF,{},SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",0.6488,False,False,مقدار بازشدن با عمل گفته شده سازگار نیست
+می خوام بالای سرم سقف شیشه ای بسته بشه,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9998,False,False,بخش «بالای سرم بشه» در برداشت فرمان توضیح داده نشده است
+راه ورود بارون از سانروف رو با بستن کاملش ببند,CLOSE_SUNROOF,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها بارون از سقف میاد تو سقف شیشه ای رو ببند,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9999,False,False,بخش «بارون از سقف میاد تو» در برداشت فرمان توضیح داده نشده است
+رها سقف شیشه ای رو کامل ببند تا آب نیاد,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9531,False,False,بخش «آب نیاد» در برداشت فرمان توضیح داده نشده است
+رها شیشه سقف رو تا آخر ببندش,CLOSE_SUNROOF,{},SET_SUNSHADE_POSITION,"{""position"": 50}",0.7875,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+رها می خوام بالای سرم سقف شیشه ای بسته بشه,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9932,False,False,بخش «بالای سرم بشه» در برداشت فرمان توضیح داده نشده است
+رها راه ورود بارون از سانروف رو با بستن کاملش ببند,CLOSE_SUNROOF,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+بارون از سقف میاد تو سقف شیشه ای رو ببند لطفا,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},1.0,False,False,بخش «بارون از سقف میاد تو» در برداشت فرمان توضیح داده نشده است
+سقف شیشه ای رو کامل ببند تا آب نیاد لطفا,CLOSE_SUNROOF,{},OPEN_SUNROOF,{},0.8261,False,False,جهت باز یا بسته کردن با جمله سازگار نیست
+شیشه سقف رو تا آخر ببندش لطفا,CLOSE_SUNROOF,{},SET_AUDIO_MUTE,"{""channel"": ""media"", ""enabled"": false}",0.5347,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+می خوام بالای سرم سقف شیشه ای بسته بشه لطفا,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9999,False,False,بخش «بالای سرم بشه» در برداشت فرمان توضیح داده نشده است
+راه ورود بارون از سانروف رو با بستن کاملش ببند لطفا,CLOSE_SUNROOF,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا بارون از سقف میاد تو سقف شیشه ای رو ببند,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9992,False,False,بخش «بارون از سقف میاد تو» در برداشت فرمان توضیح داده نشده است
+لطفا سقف شیشه ای رو کامل ببند تا آب نیاد,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9974,False,False,بخش «آب نیاد» در برداشت فرمان توضیح داده نشده است
+لطفا شیشه سقف رو تا آخر ببندش,CLOSE_SUNROOF,{},SET_SUNSHADE_POSITION,"{""position"": 50}",0.7911,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+لطفا می خوام بالای سرم سقف شیشه ای بسته بشه,CLOSE_SUNROOF,{},CLOSE_SUNROOF,{},0.9997,False,False,بخش «بالای سرم بشه» در برداشت فرمان توضیح داده نشده است
+لطفا راه ورود بارون از سانروف رو با بستن کاملش ببند,CLOSE_SUNROOF,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+آفتاب از بالای سرم میزنه پرده سقف رو کامل بکش,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.7963,False,False,بخش «آفتاب از بالای سرم میزنه» در برداشت فرمان توضیح داده نشده است
+نمی خوام آفتاب از سقف بتابه پرده سقف رو ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 0}",0.5466,False,False,بخش «نمی خوام آفتاب از سقف بتابه» در برداشت فرمان توضیح داده نشده است
+پوشش زیر شیشه سقف رو تا آخر ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 50}",1.0,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+سایبان سقف رو کامل بسته می خوام,SET_SUNSHADE_POSITION,"{""position"": 0}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نور بالای سرم اذیتم می کنه پرده سانروف رو کامل ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 0}",0.6401,False,False,بخش «نور بالای سرم اذیتم کنه» در برداشت فرمان توضیح داده نشده است
+رها آفتاب از بالای سرم میزنه پرده سقف رو کامل بکش,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.882,False,False,بخش «آفتاب از بالای سرم میزنه» در برداشت فرمان توضیح داده نشده است
+رها نمی خوام آفتاب از سقف بتابه پرده سقف رو ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_AIRFLOW_DIRECTION,"{""direction"": ""face"", ""zone"": ""front""}",0.9908,False,False,برداشت فرمان با هدف صریح «پرده سقف» سازگار نیست
+رها پوشش زیر شیشه سقف رو تا آخر ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 50}",1.0,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+رها سایبان سقف رو کامل بسته می خوام,SET_SUNSHADE_POSITION,"{""position"": 0}",CLOSE_SUNROOF,{},1.0,False,False,برداشت فرمان با هدف صریح «سایبان» سازگار نیست
+رها نور بالای سرم اذیتم می کنه پرده سانروف رو کامل ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 0}",0.5552,False,False,بخش «نور بالای سرم اذیتم کنه» در برداشت فرمان توضیح داده نشده است
+آفتاب از بالای سرم میزنه پرده سقف رو کامل بکش لطفا,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.6428,False,False,بخش «آفتاب از بالای سرم میزنه» در برداشت فرمان توضیح داده نشده است
+نمی خوام آفتاب از سقف بتابه پرده سقف رو ببند لطفا,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 0}",0.9627,False,False,بخش «نمی خوام آفتاب از سقف بتابه» در برداشت فرمان توضیح داده نشده است
+پوشش زیر شیشه سقف رو تا آخر ببند لطفا,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 50}",1.0,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+سایبان سقف رو کامل بسته می خوام لطفا,SET_SUNSHADE_POSITION,"{""position"": 0}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نور بالای سرم اذیتم می کنه پرده سانروف رو کامل ببند لطفا,SET_SUNSHADE_POSITION,"{""position"": 0}",UNKNOWN,{},0.9387,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا آفتاب از بالای سرم میزنه پرده سقف رو کامل بکش,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9294,False,False,بخش «آفتاب از بالای سرم میزنه» در برداشت فرمان توضیح داده نشده است
+لطفا نمی خوام آفتاب از سقف بتابه پرده سقف رو ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 0}",0.5736,False,False,بخش «نمی خوام آفتاب از سقف بتابه» در برداشت فرمان توضیح داده نشده است
+لطفا پوشش زیر شیشه سقف رو تا آخر ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",SET_SUNSHADE_POSITION,"{""position"": 50}",1.0,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+لطفا سایبان سقف رو کامل بسته می خوام,SET_SUNSHADE_POSITION,"{""position"": 0}",CLOSE_SUNROOF,{},0.9995,False,False,برداشت فرمان با هدف صریح «سایبان» سازگار نیست
+لطفا نور بالای سرم اذیتم می کنه پرده سانروف رو کامل ببند,SET_SUNSHADE_POSITION,"{""position"": 0}",UNKNOWN,{},0.8717,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام آسمون رو ببینم پرده سقف رو کامل کنار بزن,SET_SUNSHADE_POSITION,"{""position"": 100}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+پرده بالای سرم رو کنار بزن تا سقف پیدا بشه,SET_SUNSHADE_POSITION,"{""position"": 100}",SET_SUNSHADE_POSITION,"{""position"": 100}",0.9969,False,False,بخش «بالای سرم کنار بزن سقف پیدا بشه» در برداشت فرمان توضیح داده نشده است
+پوشش شیشه سقف رو تا آخر باز کن,SET_SUNSHADE_POSITION,"{""position"": 100}",SET_WINDOW_POSITION,"{""percent"": 50, ""window"": ""driver""}",0.9786,False,False,بخش «پوشش سقف آخر» در برداشت فرمان توضیح داده نشده است
+سایبان سقف رو کاملا جمع کن که آسمون دیده بشه,SET_SUNSHADE_POSITION,"{""position"": 100}",UNKNOWN,{},0.7,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام از شیشه سقف ببینم پرده ش رو کامل باز کن,SET_SUNSHADE_POSITION,"{""position"": 100}",ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",0.9982,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+رها می خوام آسمون رو ببینم پرده سقف رو کامل کنار بزن,SET_SUNSHADE_POSITION,"{""position"": 100}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها پرده بالای سرم رو کنار بزن تا سقف پیدا بشه,SET_SUNSHADE_POSITION,"{""position"": 100}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.9985,False,False,بخش «بالای سرم کنار بزن سقف پیدا بشه» در برداشت فرمان توضیح داده نشده است
+رها پوشش شیشه سقف رو تا آخر باز کن,SET_SUNSHADE_POSITION,"{""position"": 100}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.5602,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+رها سایبان سقف رو کاملا جمع کن که آسمون دیده بشه,SET_SUNSHADE_POSITION,"{""position"": 100}",OPEN_SUNROOF,{},0.9725,False,False,برداشت فرمان با هدف صریح «سایبان» سازگار نیست
+رها می خوام از شیشه سقف ببینم پرده ش رو کامل باز کن,SET_SUNSHADE_POSITION,"{""position"": 100}",ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",0.9992,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+می خوام آسمون رو ببینم پرده سقف رو کامل کنار بزن لطفا,SET_SUNSHADE_POSITION,"{""position"": 100}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+پرده بالای سرم رو کنار بزن تا سقف پیدا بشه لطفا,SET_SUNSHADE_POSITION,"{""position"": 100}",UNKNOWN,{},0.919,False,False,فرمان مشخصی تشخیص داده نشد
+پوشش شیشه سقف رو تا آخر باز کن لطفا,SET_SUNSHADE_POSITION,"{""position"": 100}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.996,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+سایبان سقف رو کاملا جمع کن که آسمون دیده بشه لطفا,SET_SUNSHADE_POSITION,"{""position"": 100}",UNKNOWN,{},0.7572,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام از شیشه سقف ببینم پرده ش رو کامل باز کن لطفا,SET_SUNSHADE_POSITION,"{""position"": 100}",ADJUST_SUNSHADE_POSITION,"{""deltaPercent"": 10}",0.9874,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+لطفا می خوام آسمون رو ببینم پرده سقف رو کامل کنار بزن,SET_SUNSHADE_POSITION,"{""position"": 100}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا پرده بالای سرم رو کنار بزن تا سقف پیدا بشه,SET_SUNSHADE_POSITION,"{""position"": 100}",SET_SUNSHADE_POSITION,"{""position"": 100}",0.9997,False,False,بخش «بالای سرم کنار بزن سقف پیدا بشه» در برداشت فرمان توضیح داده نشده است
+لطفا پوشش شیشه سقف رو تا آخر باز کن,SET_SUNSHADE_POSITION,"{""position"": 100}",SET_SUNSHADE_POSITION,"{""position"": 50}",0.8886,False,False,برداشت فرمان با هدف صریح «شیشه» سازگار نیست
+لطفا سایبان سقف رو کاملا جمع کن که آسمون دیده بشه,SET_SUNSHADE_POSITION,"{""position"": 100}",OPEN_SUNROOF,{},0.999,False,False,برداشت فرمان با هدف صریح «سایبان» سازگار نیست
+لطفا می خوام از شیشه سقف ببینم پرده ش رو کامل باز کن,SET_SUNSHADE_POSITION,"{""position"": 100}",UNKNOWN,{},0.9348,False,False,فرمان مشخصی تشخیص داده نشد
+نورهای تزئینی داخل چشممو می زنه یک پله کمش کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",0.4823,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+روشنایی تزئینی اتاق رو یه درجه ملایم تر کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_SEAT_VENTILATION,"{""delta"": -1, ""seat"": ""driver""}",0.6121,False,False,برداشت فرمان با هدف صریح «اتاق» سازگار نیست
+نور دور کابین زیادی تنده یه درجه کاهش بده,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",UNKNOWN,{},0.9999,False,False,فرمان مشخصی تشخیص داده نشد
+نور محیطی داخل رو یک پله کمتر می خوام,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",1.0,True,False,
+نورهای دکوراتیو کابین رو یه درجه کم نورتر کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",1.0,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+رها نورهای تزئینی داخل چشممو می زنه یک پله کمش کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",UNKNOWN,{},0.9884,False,False,فرمان مشخصی تشخیص داده نشد
+رها روشنایی تزئینی اتاق رو یه درجه ملایم تر کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.8202,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+رها نور دور کابین زیادی تنده یه درجه کاهش بده,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",UNKNOWN,{},0.7354,False,False,فرمان مشخصی تشخیص داده نشد
+رها نور محیطی داخل رو یک پله کمتر می خوام,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",1.0,True,False,
+رها نورهای دکوراتیو کابین رو یه درجه کم نورتر کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",0.9998,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+نورهای تزئینی داخل چشممو می زنه یک پله کمش کن لطفا,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",SET_REAR_FOG_LIGHT,"{""enabled"": true}",0.4898,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+روشنایی تزئینی اتاق رو یه درجه ملایم تر کن لطفا,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_SEAT_VENTILATION,"{""delta"": -1, ""seat"": ""driver""}",0.9934,False,False,برداشت فرمان با هدف صریح «اتاق» سازگار نیست
+نور دور کابین زیادی تنده یه درجه کاهش بده لطفا,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",UNKNOWN,{},0.9998,False,False,فرمان مشخصی تشخیص داده نشد
+نور محیطی داخل رو یک پله کمتر می خوام لطفا,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",1.0,True,False,
+نورهای دکوراتیو کابین رو یه درجه کم نورتر کن لطفا,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",1.0,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+لطفا نورهای تزئینی داخل چشممو می زنه یک پله کمش کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_WINDOW_POSITION,"{""deltaPercent"": 10, ""window"": ""passenger""}",0.8908,False,False,
+لطفا روشنایی تزئینی اتاق رو یه درجه ملایم تر کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9566,False,False,جهت افزایش یا کاهش مقدار مشخص نیست
+لطفا نور دور کابین زیادی تنده یه درجه کاهش بده,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",UNKNOWN,{},0.9999,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا نور محیطی داخل رو یک پله کمتر می خوام,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",1.0,True,False,
+لطفا نورهای دکوراتیو کابین رو یه درجه کم نورتر کن,ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",ADJUST_AMBIENT_LIGHT_BRIGHTNESS,"{""delta"": -1}",1.0,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+آهنگ بلنده یک درجه آروم ترش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",SET_FRAGRANCE_CHANNEL,"{""channel"": 1}",0.9971,False,False,برداشت فرمان با هدف صریح «آهنگ» سازگار نیست
+صدای این موزیک رو یه پله کمتر کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",1.0,True,False,
+موسیقی گوشمو اذیت می کنه یک درجه کمش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+آهنگ رو یک پله آهسته تر پخش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",PAUSE_MEDIA,{},1.0,False,True,
+بلندی همین قطعه رو یه درجه بیار پایین,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها آهنگ بلنده یک درجه آروم ترش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",SET_FRAGRANCE_CHANNEL,"{""channel"": 1}",0.8245,False,False,برداشت فرمان با هدف صریح «آهنگ» سازگار نیست
+رها صدای این موزیک رو یه پله کمتر کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",1.0,True,False,
+رها موسیقی گوشمو اذیت می کنه یک درجه کمش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها آهنگ رو یک پله آهسته تر پخش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",PAUSE_MEDIA,{},0.9995,False,True,
+رها بلندی همین قطعه رو یه درجه بیار پایین,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+آهنگ بلنده یک درجه آروم ترش کن لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",SET_FRAGRANCE_CHANNEL,"{""channel"": 1}",0.9998,False,False,برداشت فرمان با هدف صریح «آهنگ» سازگار نیست
+صدای این موزیک رو یه پله کمتر کن لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",1.0,True,False,
+موسیقی گوشمو اذیت می کنه یک درجه کمش کن لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+آهنگ رو یک پله آهسته تر پخش کن لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",PAUSE_MEDIA,{},0.9999,False,True,
+بلندی همین قطعه رو یه درجه بیار پایین لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",UNKNOWN,{},0.9996,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا آهنگ بلنده یک درجه آروم ترش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",SET_FRAGRANCE_CHANNEL,"{""channel"": 1}",0.9976,False,False,برداشت فرمان با هدف صریح «آهنگ» سازگار نیست
+لطفا صدای این موزیک رو یه پله کمتر کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",1.0,True,False,
+لطفا موسیقی گوشمو اذیت می کنه یک درجه کمش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا آهنگ رو یک پله آهسته تر پخش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",PAUSE_MEDIA,{},0.9991,False,True,
+لطفا بلندی همین قطعه رو یه درجه بیار پایین,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+آهنگ رو کم می شنوم یک درجه بلندترش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.8116,False,False,
+صدای این موزیک رو یه پله بیشتر کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",1.0,True,False,
+موسیقی خیلی آرومه یک درجه زیادش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+آهنگ رو یک پله بلندتر پخش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",0.9913,False,False,برداشت فرمان با هدف صریح «آهنگ» سازگار نیست
+بلندی همین قطعه رو یه درجه ببر بالا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_SEAT_HEATING,"{""delta"": 1, ""seat"": ""driver""}",0.9992,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+رها آهنگ رو کم می شنوم یک درجه بلندترش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.9997,False,True,
+رها صدای این موزیک رو یه پله بیشتر کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",1.0,True,False,
+رها موسیقی خیلی آرومه یک درجه زیادش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها آهنگ رو یک پله بلندتر پخش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",0.9949,False,False,برداشت فرمان با هدف صریح «آهنگ» سازگار نیست
+رها بلندی همین قطعه رو یه درجه ببر بالا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_SEAT_HEATING,"{""delta"": 1, ""seat"": ""driver""}",0.993,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+آهنگ رو کم می شنوم یک درجه بلندترش کن لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",UNKNOWN,{},0.8885,False,False,فرمان مشخصی تشخیص داده نشد
+صدای این موزیک رو یه پله بیشتر کن لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",1.0,True,False,
+موسیقی خیلی آرومه یک درجه زیادش کن لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",UNKNOWN,{},0.9999,False,False,فرمان مشخصی تشخیص داده نشد
+آهنگ رو یک پله بلندتر پخش کن لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",0.9998,False,False,برداشت فرمان با هدف صریح «آهنگ» سازگار نیست
+بلندی همین قطعه رو یه درجه ببر بالا لطفا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_SEAT_HEATING,"{""delta"": 1, ""seat"": ""driver""}",0.9867,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+لطفا آهنگ رو کم می شنوم یک درجه بلندترش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": -1}",0.9987,False,True,
+لطفا صدای این موزیک رو یه پله بیشتر کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",1.0,True,False,
+لطفا موسیقی خیلی آرومه یک درجه زیادش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا آهنگ رو یک پله بلندتر پخش کن,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_SUNROOF_POSITION,"{""deltaPercent"": 10}",0.9996,False,False,برداشت فرمان با هدف صریح «آهنگ» سازگار نیست
+لطفا بلندی همین قطعه رو یه درجه ببر بالا,ADJUST_AUDIO_VOLUME,"{""channel"": ""media"", ""delta"": 1}",ADJUST_SEAT_HEATING,"{""delta"": 1, ""seat"": ""driver""}",0.9753,False,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+از این قطعه رد شو بعدیش رو بذار,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+می خوام اون آهنگ بعد از اینو بشنوم,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+برو یک ترک جلوتر از این,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9984,True,False,
+آهنگ بعد از همین رو پخشش کن,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9809,False,False,
+این قطعه رو ردش کن برو بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+رها از این قطعه رد شو بعدیش رو بذار,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+رها می خوام اون آهنگ بعد از اینو بشنوم,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+رها برو یک ترک جلوتر از این,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9931,False,False,
+رها آهنگ بعد از همین رو پخشش کن,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9995,True,False,
+رها این قطعه رو ردش کن برو بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+از این قطعه رد شو بعدیش رو بذار لطفا,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+می خوام اون آهنگ بعد از اینو بشنوم لطفا,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9997,True,False,
+برو یک ترک جلوتر از این لطفا,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9934,False,False,
+آهنگ بعد از همین رو پخشش کن لطفا,NEXT_MEDIA,{},UNKNOWN,{},0.8398,False,False,فرمان مشخصی تشخیص داده نشد
+این قطعه رو ردش کن برو بعدی لطفا,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+لطفا از این قطعه رد شو بعدیش رو بذار,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+لطفا می خوام اون آهنگ بعد از اینو بشنوم,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+لطفا برو یک ترک جلوتر از این,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9797,False,False,
+لطفا آهنگ بعد از همین رو پخشش کن,NEXT_MEDIA,{},NEXT_MEDIA,{},0.9905,False,False,
+لطفا این قطعه رو ردش کن برو بعدی,NEXT_MEDIA,{},NEXT_MEDIA,{},1.0,True,False,
+همون آهنگ قبل از اینو دوباره بذار,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},0.9987,True,False,
+برو یک ترک عقب تر از این,PREVIOUS_MEDIA,{},UNKNOWN,{},0.9996,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام قطعه قبلی رو بشنوم,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},0.9999,True,False,
+آهنگی که قبل این بود رو برگردون,PREVIOUS_MEDIA,{},UNKNOWN,{},0.9421,False,False,فرمان مشخصی تشخیص داده نشد
+برگرد به همون موزیک قبلی,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},1.0,True,False,
+رها همون آهنگ قبل از اینو دوباره بذار,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},0.9403,False,False,
+رها برو یک ترک عقب تر از این,PREVIOUS_MEDIA,{},UNKNOWN,{},0.9893,False,False,فرمان مشخصی تشخیص داده نشد
+رها می خوام قطعه قبلی رو بشنوم,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},0.9999,True,False,
+رها آهنگی که قبل این بود رو برگردون,PREVIOUS_MEDIA,{},UNKNOWN,{},0.788,False,False,فرمان مشخصی تشخیص داده نشد
+رها برگرد به همون موزیک قبلی,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},1.0,True,False,
+همون آهنگ قبل از اینو دوباره بذار لطفا,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},0.9682,False,False,
+برو یک ترک عقب تر از این لطفا,PREVIOUS_MEDIA,{},UNKNOWN,{},0.8674,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام قطعه قبلی رو بشنوم لطفا,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},1.0,True,False,
+آهنگی که قبل این بود رو برگردون لطفا,PREVIOUS_MEDIA,{},UNKNOWN,{},0.8263,False,False,فرمان مشخصی تشخیص داده نشد
+برگرد به همون موزیک قبلی لطفا,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},1.0,True,False,
+لطفا همون آهنگ قبل از اینو دوباره بذار,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},0.9944,False,False,
+لطفا برو یک ترک عقب تر از این,PREVIOUS_MEDIA,{},UNKNOWN,{},0.9757,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا می خوام قطعه قبلی رو بشنوم,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},0.9999,True,False,
+لطفا آهنگی که قبل این بود رو برگردون,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},0.9896,False,False,
+لطفا برگرد به همون موزیک قبلی,PREVIOUS_MEDIA,{},PREVIOUS_MEDIA,{},1.0,True,False,
+پخش آهنگ رو فعلا مکثش کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+همین جا موزیک رو نگه دار بعدا ادامه میدم,PAUSE_MEDIA,{},UNKNOWN,{},0.9973,False,False,فرمان مشخصی تشخیص داده نشد
+فعلا موسیقی رو پازش کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+پخش این قطعه رو موقتا متوقف کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+آهنگ رو روی مکث بذار تا بگم ادامه بده,PAUSE_MEDIA,{},UNKNOWN,{},0.9983,False,False,فرمان مشخصی تشخیص داده نشد
+رها پخش آهنگ رو فعلا مکثش کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+رها همین جا موزیک رو نگه دار بعدا ادامه میدم,PAUSE_MEDIA,{},UNKNOWN,{},0.9338,False,False,فرمان مشخصی تشخیص داده نشد
+رها فعلا موسیقی رو پازش کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+رها پخش این قطعه رو موقتا متوقف کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+رها آهنگ رو روی مکث بذار تا بگم ادامه بده,PAUSE_MEDIA,{},UNKNOWN,{},0.9974,False,False,فرمان مشخصی تشخیص داده نشد
+پخش آهنگ رو فعلا مکثش کن لطفا,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+همین جا موزیک رو نگه دار بعدا ادامه میدم لطفا,PAUSE_MEDIA,{},UNKNOWN,{},0.9464,False,False,فرمان مشخصی تشخیص داده نشد
+فعلا موسیقی رو پازش کن لطفا,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+پخش این قطعه رو موقتا متوقف کن لطفا,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+آهنگ رو روی مکث بذار تا بگم ادامه بده لطفا,PAUSE_MEDIA,{},UNKNOWN,{},0.9986,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا پخش آهنگ رو فعلا مکثش کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+لطفا همین جا موزیک رو نگه دار بعدا ادامه میدم,PAUSE_MEDIA,{},UNKNOWN,{},0.9886,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا فعلا موسیقی رو پازش کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+لطفا پخش این قطعه رو موقتا متوقف کن,PAUSE_MEDIA,{},PAUSE_MEDIA,{},1.0,True,False,
+لطفا آهنگ رو روی مکث بذار تا بگم ادامه بده,PAUSE_MEDIA,{},UNKNOWN,{},0.912,False,False,فرمان مشخصی تشخیص داده نشد
+همون آهنگ متوقف شده رو ادامه بده,PLAY_MEDIA,{},PAUSE_MEDIA,{},1.0,False,True,
+موزیک مکث شده رو از همون جا راه بنداز,PLAY_MEDIA,{},SET_DISPLAY_THEME_MODE,"{""mode"": ""night""}",0.561,False,False,برداشت فرمان با هدف صریح «موزیک» سازگار نیست
+پخش رو از جایی که قطع شد ادامه بده,PLAY_MEDIA,{},PAUSE_MEDIA,{},0.9976,False,True,
+آهنگ پاز شده رو دوباره پخش کن,PLAY_MEDIA,{},NEXT_MEDIA,{},0.9877,False,False,
+می خوام موسیقی دوباره ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,False,
+رها همون آهنگ متوقف شده رو ادامه بده,PLAY_MEDIA,{},PAUSE_MEDIA,{},1.0,False,True,
+رها موزیک مکث شده رو از همون جا راه بنداز,PLAY_MEDIA,{},SET_AUDIO_MUTE,"{""channel"": ""media"", ""enabled"": true}",0.6955,False,False,
+رها پخش رو از جایی که قطع شد ادامه بده,PLAY_MEDIA,{},PAUSE_MEDIA,{},0.9977,False,True,
+رها آهنگ پاز شده رو دوباره پخش کن,PLAY_MEDIA,{},NEXT_MEDIA,{},0.6817,False,False,
+رها می خوام موسیقی دوباره ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,False,
+همون آهنگ متوقف شده رو ادامه بده لطفا,PLAY_MEDIA,{},PAUSE_MEDIA,{},1.0,False,True,
+موزیک مکث شده رو از همون جا راه بنداز لطفا,PLAY_MEDIA,{},SET_DISPLAY_THEME_MODE,"{""mode"": ""night""}",0.7071,False,False,برداشت فرمان با هدف صریح «موزیک» سازگار نیست
+پخش رو از جایی که قطع شد ادامه بده لطفا,PLAY_MEDIA,{},PAUSE_MEDIA,{},0.9896,False,False,
+آهنگ پاز شده رو دوباره پخش کن لطفا,PLAY_MEDIA,{},NEXT_MEDIA,{},0.915,False,False,
+می خوام موسیقی دوباره ادامه پیدا کنه لطفا,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,False,
+لطفا همون آهنگ متوقف شده رو ادامه بده,PLAY_MEDIA,{},PAUSE_MEDIA,{},1.0,False,True,
+لطفا موزیک مکث شده رو از همون جا راه بنداز,PLAY_MEDIA,{},SET_AUDIO_MUTE,"{""channel"": ""media"", ""enabled"": true}",0.3636,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+لطفا پخش رو از جایی که قطع شد ادامه بده,PLAY_MEDIA,{},PAUSE_MEDIA,{},0.9731,False,False,
+لطفا آهنگ پاز شده رو دوباره پخش کن,PLAY_MEDIA,{},NEXT_MEDIA,{},0.5321,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+لطفا می خوام موسیقی دوباره ادامه پیدا کنه,PLAY_MEDIA,{},PLAY_MEDIA,{},1.0,True,False,
+رسیدم پمپ بنزین در باک رو بازش کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+می خوام نازل بنزین رو بزنم در باک رو باز کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+برای سوخت زدن درپوش باک رو کنار بزن,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+نوبت بنزین زدنه دریچه باک رو باز کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+می خوام سوخت بگیرم درپوش بنزین رو بازش کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+رها رسیدم پمپ بنزین در باک رو بازش کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+رها می خوام نازل بنزین رو بزنم در باک رو باز کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+رها برای سوخت زدن درپوش باک رو کنار بزن,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها نوبت بنزین زدنه دریچه باک رو باز کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+رها می خوام سوخت بگیرم درپوش بنزین رو بازش کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+رسیدم پمپ بنزین در باک رو بازش کن لطفا,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+می خوام نازل بنزین رو بزنم در باک رو باز کن لطفا,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+برای سوخت زدن درپوش باک رو کنار بزن لطفا,OPEN_FUEL_FLAP,{},UNKNOWN,{},0.9857,False,False,فرمان مشخصی تشخیص داده نشد
+نوبت بنزین زدنه دریچه باک رو باز کن لطفا,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+می خوام سوخت بگیرم درپوش بنزین رو بازش کن لطفا,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+لطفا رسیدم پمپ بنزین در باک رو بازش کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+لطفا می خوام نازل بنزین رو بزنم در باک رو باز کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+لطفا برای سوخت زدن درپوش باک رو کنار بزن,OPEN_FUEL_FLAP,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا نوبت بنزین زدنه دریچه باک رو باز کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+لطفا می خوام سوخت بگیرم درپوش بنزین رو بازش کن,OPEN_FUEL_FLAP,{},OPEN_FUEL_FLAP,{},1.0,True,False,
+می خوام کابل شارژ رو جا بزنم دریچه رو باز کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+شارژر دستمه در پورت شارژ رو بازش کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+برای وصل کردن کابل برق در شارژر رو کنار بزن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+می خوام فیش شارژ رو بزنم دریچه شارژ رو باز کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+رسیدم ایستگاه شارژ درپوش شارژ رو بازش کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+رها می خوام کابل شارژ رو جا بزنم دریچه رو باز کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+رها شارژر دستمه در پورت شارژ رو بازش کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+رها برای وصل کردن کابل برق در شارژر رو کنار بزن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+رها می خوام فیش شارژ رو بزنم دریچه شارژ رو باز کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+رها رسیدم ایستگاه شارژ درپوش شارژ رو بازش کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+می خوام کابل شارژ رو جا بزنم دریچه رو باز کن لطفا,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+شارژر دستمه در پورت شارژ رو بازش کن لطفا,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+برای وصل کردن کابل برق در شارژر رو کنار بزن لطفا,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+می خوام فیش شارژ رو بزنم دریچه شارژ رو باز کن لطفا,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+رسیدم ایستگاه شارژ درپوش شارژ رو بازش کن لطفا,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+لطفا می خوام کابل شارژ رو جا بزنم دریچه رو باز کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+لطفا شارژر دستمه در پورت شارژ رو بازش کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+لطفا برای وصل کردن کابل برق در شارژر رو کنار بزن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+لطفا می خوام فیش شارژ رو بزنم دریچه شارژ رو باز کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+لطفا رسیدم ایستگاه شارژ درپوش شارژ رو بازش کن,OPEN_CHARGE_PORT,{},OPEN_CHARGE_PORT,{},1.0,True,False,
+می خوام چمدونو بذارم تو صندوق درش رو باز کن,OPEN_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+برای برداشتن وسایل در صندوق رو بازش کن,OPEN_TAILGATE,{},UNKNOWN,{},0.9975,False,False,فرمان مشخصی تشخیص داده نشد
+بار دارم در صندوق عقب رو باز کن,OPEN_TAILGATE,{},OPEN_TAILGATE,{},1.0,True,False,
+می خوام ساک رو بذارم عقب صندوق رو باز کن,OPEN_TAILGATE,{},OPEN_TAILGATE,{},0.9959,True,False,
+کیسه ها دستمه در صندوق عقب رو بگشا,OPEN_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها می خوام چمدونو بذارم تو صندوق درش رو باز کن,OPEN_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها برای برداشتن وسایل در صندوق رو بازش کن,OPEN_TAILGATE,{},UNKNOWN,{},0.9833,False,False,فرمان مشخصی تشخیص داده نشد
+رها بار دارم در صندوق عقب رو باز کن,OPEN_TAILGATE,{},OPEN_TAILGATE,{},1.0,True,False,
+رها می خوام ساک رو بذارم عقب صندوق رو باز کن,OPEN_TAILGATE,{},OPEN_TAILGATE,{},0.9836,False,False,
+رها کیسه ها دستمه در صندوق عقب رو بگشا,OPEN_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام چمدونو بذارم تو صندوق درش رو باز کن لطفا,OPEN_TAILGATE,{},UNKNOWN,{},0.999,False,False,فرمان مشخصی تشخیص داده نشد
+برای برداشتن وسایل در صندوق رو بازش کن لطفا,OPEN_TAILGATE,{},SWAP_DISPLAY_APPS,{},0.5698,False,False,برداشت فرمان با هدف صریح «در صندوق» سازگار نیست
+بار دارم در صندوق عقب رو باز کن لطفا,OPEN_TAILGATE,{},OPEN_TAILGATE,{},1.0,True,False,
+می خوام ساک رو بذارم عقب صندوق رو باز کن لطفا,OPEN_TAILGATE,{},OPEN_TAILGATE,{},1.0,True,False,
+کیسه ها دستمه در صندوق عقب رو بگشا لطفا,OPEN_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا می خوام چمدونو بذارم تو صندوق درش رو باز کن,OPEN_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا برای برداشتن وسایل در صندوق رو بازش کن,OPEN_TAILGATE,{},UNKNOWN,{},0.9798,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا بار دارم در صندوق عقب رو باز کن,OPEN_TAILGATE,{},OPEN_TAILGATE,{},1.0,True,False,
+لطفا می خوام ساک رو بذارم عقب صندوق رو باز کن,OPEN_TAILGATE,{},OPEN_TAILGATE,{},0.9942,False,False,
+لطفا کیسه ها دستمه در صندوق عقب رو بگشا,OPEN_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+وسایل رو گذاشتم در صندوق رو ببندش,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+بار زدن تموم شد صندوق عقب رو ببند,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+می خوام راه بیفتم در صندوق رو کامل ببند,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+چمدون سر جاشه در صندوق رو بسته کن,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},0.7019,False,False,
+از صندوق کارم تموم شد درش رو ببند,CLOSE_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها وسایل رو گذاشتم در صندوق رو ببندش,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+رها بار زدن تموم شد صندوق عقب رو ببند,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+رها می خوام راه بیفتم در صندوق رو کامل ببند,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+رها چمدون سر جاشه در صندوق رو بسته کن,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},0.702,False,False,
+رها از صندوق کارم تموم شد درش رو ببند,CLOSE_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+وسایل رو گذاشتم در صندوق رو ببندش لطفا,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+بار زدن تموم شد صندوق عقب رو ببند لطفا,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+می خوام راه بیفتم در صندوق رو کامل ببند لطفا,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+چمدون سر جاشه در صندوق رو بسته کن لطفا,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},0.9995,True,False,
+از صندوق کارم تموم شد درش رو ببند لطفا,CLOSE_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا وسایل رو گذاشتم در صندوق رو ببندش,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+لطفا بار زدن تموم شد صندوق عقب رو ببند,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+لطفا می خوام راه بیفتم در صندوق رو کامل ببند,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},1.0,True,False,
+لطفا چمدون سر جاشه در صندوق رو بسته کن,CLOSE_TAILGATE,{},CLOSE_TAILGATE,{},0.981,False,False,
+لطفا از صندوق کارم تموم شد درش رو ببند,CLOSE_TAILGATE,{},UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+جا تنگه هر دو آینه رو جمعشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.5056,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+پارک کردم آینه های دو طرف رو تا بزن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.9547,False,False,فرمان مشخصی تشخیص داده نشد
+برای رد شدن از جای تنگ هر دو آینه رو جمع کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,False,True,
+نمی خوام آینه ها بیرون باشن هر دو رو جمع کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.9963,False,False,فرمان مشخصی تشخیص داده نشد
+دو تا آینه رو به داخل تا کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.9963,False,False,فرمان مشخصی تشخیص داده نشد
+رها جا تنگه هر دو آینه رو جمعشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9661,False,False,
+رها پارک کردم آینه های دو طرف رو تا بزن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9916,False,False,
+رها برای رد شدن از جای تنگ هر دو آینه رو جمع کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,False,True,
+رها نمی خوام آینه ها بیرون باشن هر دو رو جمع کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها دو تا آینه رو به داخل تا کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.9983,False,False,فرمان مشخصی تشخیص داده نشد
+جا تنگه هر دو آینه رو جمعشون کن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.8942,False,False,فرمان مشخصی تشخیص داده نشد
+پارک کردم آینه های دو طرف رو تا بزن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9632,False,False,
+برای رد شدن از جای تنگ هر دو آینه رو جمع کن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,False,True,
+نمی خوام آینه ها بیرون باشن هر دو رو جمع کن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.9999,False,False,فرمان مشخصی تشخیص داده نشد
+دو تا آینه رو به داخل تا کن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.9999,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا جا تنگه هر دو آینه رو جمعشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9983,True,False,
+لطفا پارک کردم آینه های دو طرف رو تا بزن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": true, ""side"": ""all""}",0.9933,False,False,
+لطفا برای رد شدن از جای تنگ هر دو آینه رو جمع کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,False,True,
+لطفا نمی خوام آینه ها بیرون باشن هر دو رو جمع کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.9971,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا دو تا آینه رو به داخل تا کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": true}",UNKNOWN,{},0.9857,False,False,فرمان مشخصی تشخیص داده نشد
+می خوام حرکت کنم آینه های دو طرف رو بازشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+هر دو آینه جمع شدن بازشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+برای دیدن دو طرف آینه ها رو باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+دو آینه رو از حالت جمع شده دربیار,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+جای تنگ تموم شد هر دو آینه رو باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9948,False,False,
+رها می خوام حرکت کنم آینه های دو طرف رو بازشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+رها هر دو آینه جمع شدن بازشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها برای دیدن دو طرف آینه ها رو باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+رها دو آینه رو از حالت جمع شده دربیار,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها جای تنگ تموم شد هر دو آینه رو باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9999,True,False,
+می خوام حرکت کنم آینه های دو طرف رو بازشون کن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9998,True,False,
+هر دو آینه جمع شدن بازشون کن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+برای دیدن دو طرف آینه ها رو باز کن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+دو آینه رو از حالت جمع شده دربیار لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+جای تنگ تموم شد هر دو آینه رو باز کن لطفا,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9673,False,False,
+لطفا می خوام حرکت کنم آینه های دو طرف رو بازشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9999,True,False,
+لطفا هر دو آینه جمع شدن بازشون کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا برای دیدن دو طرف آینه ها رو باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,True,False,
+لطفا دو آینه رو از حالت جمع شده دربیار,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا جای تنگ تموم شد هر دو آینه رو باز کن,SET_MIRROR_FOLD,"{""side"": ""all"", ""folded"": false}",SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.992,False,False,
+جاده برفیه ماشین رو حالت برفی بذار,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+برای این برف مود رانندگی رو زمستونی کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+می خوام روی برف برم حالت برفی رو انتخاب کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+حالت مناسب رانندگی در برف رو بذار,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+تنظیم رانندگی ماشین رو مناسب برف کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها جاده برفیه ماشین رو حالت برفی بذار,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+رها برای این برف مود رانندگی رو زمستونی کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",0.9991,True,False,
+رها می خوام روی برف برم حالت برفی رو انتخاب کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+رها حالت مناسب رانندگی در برف رو بذار,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+رها تنظیم رانندگی ماشین رو مناسب برف کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+جاده برفیه ماشین رو حالت برفی بذار لطفا,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+برای این برف مود رانندگی رو زمستونی کن لطفا,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",0.9871,False,False,
+می خوام روی برف برم حالت برفی رو انتخاب کن لطفا,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+حالت مناسب رانندگی در برف رو بذار لطفا,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+تنظیم رانندگی ماشین رو مناسب برف کن لطفا,SET_DRIVE_MODE,"{""mode"": ""snow""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا جاده برفیه ماشین رو حالت برفی بذار,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+لطفا برای این برف مود رانندگی رو زمستونی کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",0.9999,True,False,
+لطفا می خوام روی برف برم حالت برفی رو انتخاب کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+لطفا حالت مناسب رانندگی در برف رو بذار,SET_DRIVE_MODE,"{""mode"": ""snow""}",SET_DRIVE_MODE,"{""mode"": ""snow""}",1.0,True,False,
+لطفا تنظیم رانندگی ماشین رو مناسب برف کن,SET_DRIVE_MODE,"{""mode"": ""snow""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+کم مصرف برونیم مود اقتصادی رو بذار,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+می خوام اقتصادی رانندگی کنم ماشین رو اکو کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+حالت رانندگی کم مصرف رو انتخاب کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+برای رانندگی اقتصادی مود اکو رو بذار,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+مود رانندگی رو برای مصرف کمتر اقتصادی کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+رها کم مصرف برونیم مود اقتصادی رو بذار,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+رها می خوام اقتصادی رانندگی کنم ماشین رو اکو کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+رها حالت رانندگی کم مصرف رو انتخاب کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+رها برای رانندگی اقتصادی مود اکو رو بذار,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+رها مود رانندگی رو برای مصرف کمتر اقتصادی کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+کم مصرف برونیم مود اقتصادی رو بذار لطفا,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+می خوام اقتصادی رانندگی کنم ماشین رو اکو کن لطفا,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+حالت رانندگی کم مصرف رو انتخاب کن لطفا,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+برای رانندگی اقتصادی مود اکو رو بذار لطفا,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+مود رانندگی رو برای مصرف کمتر اقتصادی کن لطفا,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+لطفا کم مصرف برونیم مود اقتصادی رو بذار,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+لطفا می خوام اقتصادی رانندگی کنم ماشین رو اکو کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+لطفا حالت رانندگی کم مصرف رو انتخاب کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+لطفا برای رانندگی اقتصادی مود اکو رو بذار,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+لطفا مود رانندگی رو برای مصرف کمتر اقتصادی کن,SET_DRIVE_MODE,"{""mode"": ""eco""}",SET_DRIVE_MODE,"{""mode"": ""eco""}",1.0,True,False,
+جلو جاده تاریکه نور پایین رو بده,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",UNKNOWN,{},0.998,False,False,فرمان مشخصی تشخیص داده نشد
+برای دیدن جلوی راه چراغ نور پایین رو روشن کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.9998,True,False,
+نمی خوام نور بالا بزنم نور پایین بذار,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.9916,False,False,
+راه جلو روشن بشه با نور پایین,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+نور کوتاه چراغ جلو رو برای دیدن مسیر روشن کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.9901,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+رها جلو جاده تاریکه نور پایین رو بده,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.5295,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+رها برای دیدن جلوی راه چراغ نور پایین رو روشن کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+رها نمی خوام نور بالا بزنم نور پایین بذار,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_AIRFLOW_DIRECTION,"{""direction"": ""feet"", ""zone"": ""front""}",0.9939,False,False,
+رها راه جلو روشن بشه با نور پایین,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+رها نور کوتاه چراغ جلو رو برای دیدن مسیر روشن کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.6178,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+جلو جاده تاریکه نور پایین رو بده لطفا,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.8882,False,False,
+برای دیدن جلوی راه چراغ نور پایین رو روشن کن لطفا,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+نمی خوام نور بالا بزنم نور پایین بذار لطفا,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_AIRFLOW_DIRECTION,"{""direction"": ""feet"", ""zone"": ""front""}",0.5711,False,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+راه جلو روشن بشه با نور پایین لطفا,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+نور کوتاه چراغ جلو رو برای دیدن مسیر روشن کن لطفا,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.9968,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+لطفا جلو جاده تاریکه نور پایین رو بده,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",UNKNOWN,{},0.6282,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا برای دیدن جلوی راه چراغ نور پایین رو روشن کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+لطفا نمی خوام نور بالا بزنم نور پایین بذار,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_AIRFLOW_DIRECTION,"{""direction"": ""feet"", ""zone"": ""front""}",0.9516,False,False,
+لطفا راه جلو روشن بشه با نور پایین,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",1.0,True,False,
+لطفا نور کوتاه چراغ جلو رو برای دیدن مسیر روشن کن,SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",SET_HEADLIGHT_MODE,"{""mode"": ""lowBeam""}",0.998,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+وقتی پامو از گاز برمیدارم بیشترین انرژی رو پس بگیر,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.997,False,False,فرمان مشخصی تشخیص داده نشد
+ریکاوری موقع برداشتن پا از گاز رو حداکثر می خوام,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",0.9223,False,False,
+بیشترین بازیافت انرژی موقع رها کردن گاز رو بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,False,True,
+برگشت انرژی هنگام کم شدن سرعت رو روی زیاد بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+میزان پس گرفتن انرژی رو در بیشترین سطح بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.7307,False,False,فرمان مشخصی تشخیص داده نشد
+رها وقتی پامو از گاز برمیدارم بیشترین انرژی رو پس بگیر,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.9976,False,False,فرمان مشخصی تشخیص داده نشد
+رها ریکاوری موقع برداشتن پا از گاز رو حداکثر می خوام,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",1.0,True,False,
+رها بیشترین بازیافت انرژی موقع رها کردن گاز رو بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",ACTIVATE_SCENE,"{""scene"": ""nap""}",0.8509,False,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+رها برگشت انرژی هنگام کم شدن سرعت رو روی زیاد بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها میزان پس گرفتن انرژی رو در بیشترین سطح بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.904,False,False,فرمان مشخصی تشخیص داده نشد
+وقتی پامو از گاز برمیدارم بیشترین انرژی رو پس بگیر لطفا,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+ریکاوری موقع برداشتن پا از گاز رو حداکثر می خوام لطفا,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",0.9905,False,False,
+بیشترین بازیافت انرژی موقع رها کردن گاز رو بذار لطفا,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",0.9985,False,True,
+برگشت انرژی هنگام کم شدن سرعت رو روی زیاد بذار لطفا,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+میزان پس گرفتن انرژی رو در بیشترین سطح بذار لطفا,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.9633,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا وقتی پامو از گاز برمیدارم بیشترین انرژی رو پس بگیر,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.9993,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا ریکاوری موقع برداشتن پا از گاز رو حداکثر می خوام,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""high""}",0.9999,True,False,
+لطفا بیشترین بازیافت انرژی موقع رها کردن گاز رو بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",SET_REGENERATION_LEVEL,"{""level"": ""low""}",1.0,False,True,
+لطفا برگشت انرژی هنگام کم شدن سرعت رو روی زیاد بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا میزان پس گرفتن انرژی رو در بیشترین سطح بذار,SET_REGENERATION_LEVEL,"{""level"": ""high""}",UNKNOWN,{},0.8922,False,False,فرمان مشخصی تشخیص داده نشد
+داخل ماشین بوی بد میاد خوشبوکننده رو راه بنداز,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",1.0,True,False,
+یه بوی خوب توی اتاق پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+بوی کابین رو با عطرافشان بهتر کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9993,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+می خوام داخل ماشین خوشبو بشه عطر رو پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",1.0,True,False,
+کابین بو گرفته یه عطری پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9166,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+رها داخل ماشین بوی بد میاد خوشبوکننده رو راه بنداز,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",1.0,True,False,
+رها یه بوی خوب توی اتاق پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+رها بوی کابین رو با عطرافشان بهتر کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9998,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+رها می خوام داخل ماشین خوشبو بشه عطر رو پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",1.0,True,False,
+رها کابین بو گرفته یه عطری پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.8285,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+داخل ماشین بوی بد میاد خوشبوکننده رو راه بنداز لطفا,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",1.0,True,False,
+یه بوی خوب توی اتاق پخش کن لطفا,SET_FRAGRANCE_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+بوی کابین رو با عطرافشان بهتر کن لطفا,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9909,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+می خوام داخل ماشین خوشبو بشه عطر رو پخش کن لطفا,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",1.0,True,False,
+کابین بو گرفته یه عطری پخش کن لطفا,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9297,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+لطفا داخل ماشین بوی بد میاد خوشبوکننده رو راه بنداز,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9999,True,False,
+لطفا یه بوی خوب توی اتاق پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",UNKNOWN,{},1.0,False,False,فرمان مشخصی تشخیص داده نشد
+لطفا بوی کابین رو با عطرافشان بهتر کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9996,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+لطفا می خوام داخل ماشین خوشبو بشه عطر رو پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9996,True,False,
+لطفا کابین بو گرفته یه عطری پخش کن,SET_FRAGRANCE_POWER,"{""enabled"": true}",SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9995,False,False,برداشت فرمان با هدف صریح «کابین» سازگار نیست
+پیتزای توی جعبه رو گرم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چای توی لیوان رو داغ کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+سوپ داخل ظرف رو خنک کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+غذای عقب ماشین رو گرم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بستنی رو یخ زده نگه دار,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها پیتزای توی جعبه رو گرم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها چای توی لیوان رو داغ کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها سوپ داخل ظرف رو خنک کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها غذای عقب ماشین رو گرم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها بستنی رو یخ زده نگه دار,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+پیتزای توی جعبه رو گرم کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چای توی لیوان رو داغ کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+سوپ داخل ظرف رو خنک کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+غذای عقب ماشین رو گرم کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بستنی رو یخ زده نگه دار لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا پیتزای توی جعبه رو گرم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا چای توی لیوان رو داغ کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا سوپ داخل ظرف رو خنک کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا غذای عقب ماشین رو گرم کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا بستنی رو یخ زده نگه دار,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بخاری خونه رو روشن کن,UNKNOWN,{},UNKNOWN,{},0.9999,True,False,فرمان مشخصی تشخیص داده نشد
+پنجره اتاق خواب رو ببند,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چراغ آشپزخونه رو کم کن,UNKNOWN,{},STOP_CHARGING,{},0.7737,True,False,
+درب پارکینگ خونه رو باز کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+تلویزیون خونه رو بی صدا کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها بخاری خونه رو روشن کن,UNKNOWN,{},UNKNOWN,{},0.9999,True,False,فرمان مشخصی تشخیص داده نشد
+رها پنجره اتاق خواب رو ببند,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها چراغ آشپزخونه رو کم کن,UNKNOWN,{},STOP_CHARGING,{},0.983,True,False,
+رها درب پارکینگ خونه رو باز کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها تلویزیون خونه رو بی صدا کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بخاری خونه رو روشن کن لطفا,UNKNOWN,{},UNKNOWN,{},0.9693,True,False,فرمان مشخصی تشخیص داده نشد
+پنجره اتاق خواب رو ببند لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چراغ آشپزخونه رو کم کن لطفا,UNKNOWN,{},STOP_CHARGING,{},0.8663,True,False,
+درب پارکینگ خونه رو باز کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+تلویزیون خونه رو بی صدا کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا بخاری خونه رو روشن کن,UNKNOWN,{},UNKNOWN,{},0.9457,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا پنجره اتاق خواب رو ببند,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا چراغ آشپزخونه رو کم کن,UNKNOWN,{},STOP_CHARGING,{},0.9777,True,False,
+لطفا درب پارکینگ خونه رو باز کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا تلویزیون خونه رو بی صدا کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+همزمان شیشه راننده رو کامل باز و کامل بسته کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+صندلی من رو هم گرم و هم سرد کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+آینه ها رو هم جمع کن هم باز نگه دار,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9983,False,True,
+همین آهنگ رو هم پخش کن هم متوقف کن,UNKNOWN,{},PAUSE_MEDIA,{},0.9933,True,False,
+ترمز پارک رو هم آزاد و هم درگیر کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها همزمان شیشه راننده رو کامل باز و کامل بسته کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها صندلی من رو هم گرم و هم سرد کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها آینه ها رو هم جمع کن هم باز نگه دار,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",1.0,False,True,
+رها همین آهنگ رو هم پخش کن هم متوقف کن,UNKNOWN,{},PAUSE_MEDIA,{},1.0,False,True,
+رها ترمز پارک رو هم آزاد و هم درگیر کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+همزمان شیشه راننده رو کامل باز و کامل بسته کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+صندلی من رو هم گرم و هم سرد کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+آینه ها رو هم جمع کن هم باز نگه دار لطفا,UNKNOWN,{},SET_MIRROR_FOLD,"{""folded"": false, ""side"": ""all""}",0.9701,True,False,
+همین آهنگ رو هم پخش کن هم متوقف کن لطفا,UNKNOWN,{},PAUSE_MEDIA,{},0.9927,True,False,
+ترمز پارک رو هم آزاد و هم درگیر کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا همزمان شیشه راننده رو کامل باز و کامل بسته کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا صندلی من رو هم گرم و هم سرد کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا آینه ها رو هم جمع کن هم باز نگه دار,UNKNOWN,{},UNKNOWN,{},0.5718,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا همین آهنگ رو هم پخش کن هم متوقف کن,UNKNOWN,{},PAUSE_MEDIA,{},0.9999,False,True,
+لطفا ترمز پارک رو هم آزاد و هم درگیر کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+اون یکی رو درستش کن,UNKNOWN,{},CANCEL_DIALOG,{},0.995,True,False,پاسخ مربوط به گفتگوی تماس است؛ این صفحه تماس در انتظاری ندارد
+این چیزه رو بیشترش کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+همونو برعکسش کن,UNKNOWN,{},SET_AIR_RECIRCULATION,"{""mode"": ""external""}",0.9971,True,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+یه کاری باهاش بکن,UNKNOWN,{},UNKNOWN,{},0.9898,True,False,فرمان مشخصی تشخیص داده نشد
+این حالت رو یه جوری عوض کن,UNKNOWN,{},UNKNOWN,{},0.9995,True,False,فرمان مشخصی تشخیص داده نشد
+رها اون یکی رو درستش کن,UNKNOWN,{},CANCEL_DIALOG,{},0.9997,True,False,پاسخ مربوط به گفتگوی تماس است؛ این صفحه تماس در انتظاری ندارد
+رها این چیزه رو بیشترش کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها همونو برعکسش کن,UNKNOWN,{},SET_AIR_RECIRCULATION,"{""mode"": ""external""}",0.9994,False,True,
+رها یه کاری باهاش بکن,UNKNOWN,{},STOP_VIDEO_RECORDING,{},0.9982,False,True,
+رها این حالت رو یه جوری عوض کن,UNKNOWN,{},UNKNOWN,{},0.998,True,False,فرمان مشخصی تشخیص داده نشد
+اون یکی رو درستش کن لطفا,UNKNOWN,{},CANCEL_DIALOG,{},0.6342,True,False,پاسخ مربوط به گفتگوی تماس است؛ این صفحه تماس در انتظاری ندارد
+این چیزه رو بیشترش کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+همونو برعکسش کن لطفا,UNKNOWN,{},SET_AIR_RECIRCULATION,"{""mode"": ""external""}",0.9992,True,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+یه کاری باهاش بکن لطفا,UNKNOWN,{},UNKNOWN,{},0.9729,True,False,فرمان مشخصی تشخیص داده نشد
+این حالت رو یه جوری عوض کن لطفا,UNKNOWN,{},UNKNOWN,{},0.9966,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا اون یکی رو درستش کن,UNKNOWN,{},UNKNOWN,{},0.8719,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا این چیزه رو بیشترش کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا همونو برعکسش کن,UNKNOWN,{},SET_AIR_RECIRCULATION,"{""mode"": ""external""}",0.9995,False,True,
+لطفا یه کاری باهاش بکن,UNKNOWN,{},STOP_VIDEO_RECORDING,{},0.9981,False,True,
+لطفا این حالت رو یه جوری عوض کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+کاری کن بیرون ماشین بارون نیاد,UNKNOWN,{},SET_FRAGRANCE_POWER,"{""enabled"": false}",0.9598,True,False,
+خورشید رو خاموش کن,UNKNOWN,{},SET_DAYTIME_RUNNING_LIGHTS,"{""enabled"": false}",0.9999,False,True,
+هوای کل شهر رو سرد کن,UNKNOWN,{},UNKNOWN,{},0.9982,True,False,فرمان مشخصی تشخیص داده نشد
+باد بیرون رو متوقف کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+برف خیابون رو با یک فرمان آب کن,UNKNOWN,{},SET_HIGHWAY_SUSPENSION_ADAPTATION,"{""enabled"": true}",0.4839,True,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+رها کاری کن بیرون ماشین بارون نیاد,UNKNOWN,{},SET_FRAGRANCE_POWER,"{""enabled"": false}",0.976,True,False,
+رها خورشید رو خاموش کن,UNKNOWN,{},SET_DAYTIME_RUNNING_LIGHTS,"{""enabled"": false}",1.0,False,True,
+رها هوای کل شهر رو سرد کن,UNKNOWN,{},UNKNOWN,{},0.9819,True,False,فرمان مشخصی تشخیص داده نشد
+رها باد بیرون رو متوقف کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها برف خیابون رو با یک فرمان آب کن,UNKNOWN,{},SET_HIGHWAY_SUSPENSION_ADAPTATION,"{""enabled"": true}",0.9817,True,False,
+کاری کن بیرون ماشین بارون نیاد لطفا,UNKNOWN,{},DEACTIVATE_SCENE,"{""scene"": ""current""}",0.5943,True,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+خورشید رو خاموش کن لطفا,UNKNOWN,{},SET_DAYTIME_RUNNING_LIGHTS,"{""enabled"": false}",0.9936,True,False,
+هوای کل شهر رو سرد کن لطفا,UNKNOWN,{},UNKNOWN,{},0.889,True,False,فرمان مشخصی تشخیص داده نشد
+باد بیرون رو متوقف کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+برف خیابون رو با یک فرمان آب کن لطفا,UNKNOWN,{},UNKNOWN,{},0.4869,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا کاری کن بیرون ماشین بارون نیاد,UNKNOWN,{},SET_FRAGRANCE_POWER,"{""enabled"": false}",0.5973,True,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+لطفا خورشید رو خاموش کن,UNKNOWN,{},SET_DAYTIME_RUNNING_LIGHTS,"{""enabled"": false}",1.0,False,True,
+لطفا هوای کل شهر رو سرد کن,UNKNOWN,{},UNKNOWN,{},0.7122,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا باد بیرون رو متوقف کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا برف خیابون رو با یک فرمان آب کن,UNKNOWN,{},SET_HIGHWAY_SUSPENSION_ADAPTATION,"{""enabled"": true}",0.9381,True,False,
+دوربین رو خوشبو کن,UNKNOWN,{},SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9997,False,True,
+سانروف رو ماساژ بده,UNKNOWN,{},OPEN_SUNROOF,{},1.0,True,False,برداشت فرمان با هدف صریح «ماساژ» سازگار نیست
+پنجره رو شارژ کن,UNKNOWN,{},OPEN_CHARGE_PORT,{},1.0,True,False,برداشت فرمان با هدف صریح «پنجره» سازگار نیست
+ترمز پارک رو گرم کن,UNKNOWN,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.6043,True,False,نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن
+باک بنزین رو خنک کن,UNKNOWN,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.8677,True,False,
+رها دوربین رو خوشبو کن,UNKNOWN,{},SET_FRAGRANCE_POWER,"{""enabled"": true}",0.9984,False,True,
+رها سانروف رو ماساژ بده,UNKNOWN,{},SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""driver""}",0.9615,True,False,برداشت فرمان با هدف صریح «سانروف» سازگار نیست
+رها پنجره رو شارژ کن,UNKNOWN,{},OPEN_CHARGE_PORT,{},1.0,True,False,برداشت فرمان با هدف صریح «پنجره» سازگار نیست
+رها ترمز پارک رو گرم کن,UNKNOWN,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",1.0,False,True,
+رها باک بنزین رو خنک کن,UNKNOWN,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9734,True,False,
+دوربین رو خوشبو کن لطفا,UNKNOWN,{},SET_FRAGRANCE_POWER,"{""enabled"": true}",1.0,False,True,
+سانروف رو ماساژ بده لطفا,UNKNOWN,{},OPEN_SUNROOF,{},0.9436,True,False,برداشت فرمان با هدف صریح «ماساژ» سازگار نیست
+پنجره رو شارژ کن لطفا,UNKNOWN,{},OPEN_CHARGE_PORT,{},1.0,True,False,برداشت فرمان با هدف صریح «پنجره» سازگار نیست
+ترمز پارک رو گرم کن لطفا,UNKNOWN,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": 1, ""zone"": ""front""}",0.9986,False,True,
+باک بنزین رو خنک کن لطفا,UNKNOWN,{},OPEN_FUEL_FLAP,{},0.9941,True,False,عمل خنک کردن با فرمان پیشنهادی سازگار نیست
+لطفا دوربین رو خوشبو کن,UNKNOWN,{},SET_FRAGRANCE_POWER,"{""enabled"": true}",1.0,False,True,
+لطفا سانروف رو ماساژ بده,UNKNOWN,{},SET_SEAT_MASSAGE,"{""enabled"": true, ""seat"": ""driver""}",0.9898,True,False,برداشت فرمان با هدف صریح «سانروف» سازگار نیست
+لطفا پنجره رو شارژ کن,UNKNOWN,{},OPEN_CHARGE_PORT,{},1.0,True,False,برداشت فرمان با هدف صریح «پنجره» سازگار نیست
+لطفا ترمز پارک رو گرم کن,UNKNOWN,{},SET_PARKING_BRAKE,"{""engaged"": true}",0.9197,True,False,عمل گرم کردن با فرمان پیشنهادی سازگار نیست
+لطفا باک بنزین رو خنک کن,UNKNOWN,{},ADJUST_CABIN_TEMPERATURE,"{""delta"": -1, ""zone"": ""front""}",0.9955,False,True,
+دیروز شیشه جلو بخار گرفته بود,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+قبلا پشتم کوفته بود الان خوبه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دیروز صندلی رو گرم کرده بودم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+قبلا کابین خیلی گرم بود الان خوبه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+صبح آینه ها رو جمع کرده بودم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها دیروز شیشه جلو بخار گرفته بود,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها قبلا پشتم کوفته بود الان خوبه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها دیروز صندلی رو گرم کرده بودم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها قبلا کابین خیلی گرم بود الان خوبه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها صبح آینه ها رو جمع کرده بودم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دیروز شیشه جلو بخار گرفته بود لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+قبلا پشتم کوفته بود الان خوبه لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دیروز صندلی رو گرم کرده بودم لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+قبلا کابین خیلی گرم بود الان خوبه لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+صبح آینه ها رو جمع کرده بودم لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا دیروز شیشه جلو بخار گرفته بود,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا قبلا پشتم کوفته بود الان خوبه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا دیروز صندلی رو گرم کرده بودم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا قبلا کابین خیلی گرم بود الان خوبه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا صبح آینه ها رو جمع کرده بودم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چرا شیشه جلو بخار می گیره,UNKNOWN,{},UNKNOWN,{},0.9988,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+گرم شدن صندلی چه فایده ای داره,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بازیابی انرژی یعنی چی,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چطور بدن آدم کوفته میشه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چرا صدای موسیقی کم میشه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+رها چرا شیشه جلو بخار می گیره,UNKNOWN,{},SET_FRONT_DEFROSTER,"{""enabled"": true}",0.7014,True,False,بخش «چرا بخار گیره» در برداشت فرمان توضیح داده نشده است
+رها گرم شدن صندلی چه فایده ای داره,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها بازیابی انرژی یعنی چی,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها چطور بدن آدم کوفته میشه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها چرا صدای موسیقی کم میشه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+چرا شیشه جلو بخار می گیره لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+گرم شدن صندلی چه فایده ای داره لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+بازیابی انرژی یعنی چی لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چطور بدن آدم کوفته میشه لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+چرا صدای موسیقی کم میشه لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+لطفا چرا شیشه جلو بخار می گیره,UNKNOWN,{},SET_FRONT_DEFROSTER,"{""enabled"": true}",1.0,True,False,بخش «چرا بخار گیره» در برداشت فرمان توضیح داده نشده است
+لطفا گرم شدن صندلی چه فایده ای داره,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا بازیابی انرژی یعنی چی,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا چطور بدن آدم کوفته میشه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا چرا صدای موسیقی کم میشه,UNKNOWN,{},UNKNOWN,{},1.0,True,False,جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد
+من فقط دارم درباره گرم کردن صندلی حرف می زنم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+می خوام معنی بخارزدایی رو بدونم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دارم مثال می زنم پنجره رو باز کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+این جمله رو ترجمه کن صندلی رو گرم کن,UNKNOWN,{},UNKNOWN,{},0.9667,True,False,فرمان مشخصی تشخیص داده نشد
+یه داستان درباره روشن کردن کولر بگو,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها من فقط دارم درباره گرم کردن صندلی حرف می زنم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها می خوام معنی بخارزدایی رو بدونم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها دارم مثال می زنم پنجره رو باز کن,UNKNOWN,{},UNKNOWN,{},0.9996,True,False,فرمان مشخصی تشخیص داده نشد
+رها این جمله رو ترجمه کن صندلی رو گرم کن,UNKNOWN,{},UNKNOWN,{},0.959,True,False,فرمان مشخصی تشخیص داده نشد
+رها یه داستان درباره روشن کردن کولر بگو,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+من فقط دارم درباره گرم کردن صندلی حرف می زنم لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+می خوام معنی بخارزدایی رو بدونم لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+دارم مثال می زنم پنجره رو باز کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+این جمله رو ترجمه کن صندلی رو گرم کن لطفا,UNKNOWN,{},SET_SEAT_HEATING,"{""enabled"": true, ""seat"": ""driver""}",0.9789,True,False,هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود
+یه داستان درباره روشن کردن کولر بگو لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا من فقط دارم درباره گرم کردن صندلی حرف می زنم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا می خوام معنی بخارزدایی رو بدونم,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا دارم مثال می زنم پنجره رو باز کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا این جمله رو ترجمه کن صندلی رو گرم کن,UNKNOWN,{},UNKNOWN,{},0.6852,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا یه داستان درباره روشن کردن کولر بگو,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رنگ بدنه ماشین رو بنفش کن,UNKNOWN,{},SET_DRIVE_MODE,"{""mode"": ""sport""}",0.7191,True,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+طول ماشین رو نصف کن,UNKNOWN,{},UNKNOWN,{},0.9916,True,False,فرمان مشخصی تشخیص داده نشد
+تعداد چرخ ها رو سه تا کن,UNKNOWN,{},UNKNOWN,{},0.9477,True,False,فرمان مشخصی تشخیص داده نشد
+موتور ماشین رو پرنده کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+وزن ماشین رو با فرمان نصف کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها رنگ بدنه ماشین رو بنفش کن,UNKNOWN,{},UNKNOWN,{},0.5428,True,False,فرمان مشخصی تشخیص داده نشد
+رها طول ماشین رو نصف کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها تعداد چرخ ها رو سه تا کن,UNKNOWN,{},UNKNOWN,{},0.9994,True,False,فرمان مشخصی تشخیص داده نشد
+رها موتور ماشین رو پرنده کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رها وزن ماشین رو با فرمان نصف کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+رنگ بدنه ماشین رو بنفش کن لطفا,UNKNOWN,{},SET_DRIVE_MODE,"{""mode"": ""sport""}",0.6671,True,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+طول ماشین رو نصف کن لطفا,UNKNOWN,{},UNKNOWN,{},0.8941,True,False,فرمان مشخصی تشخیص داده نشد
+تعداد چرخ ها رو سه تا کن لطفا,UNKNOWN,{},UNKNOWN,{},0.9953,True,False,فرمان مشخصی تشخیص داده نشد
+موتور ماشین رو پرنده کن لطفا,UNKNOWN,{},UNKNOWN,{},0.9991,True,False,فرمان مشخصی تشخیص داده نشد
+وزن ماشین رو با فرمان نصف کن لطفا,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا رنگ بدنه ماشین رو بنفش کن,UNKNOWN,{},SET_DRIVE_MODE,"{""mode"": ""sport""}",0.8937,True,False,مدل دربارهٔ یکی از پارامترها مطمئن نیست
+لطفا طول ماشین رو نصف کن,UNKNOWN,{},UNKNOWN,{},0.9725,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا تعداد چرخ ها رو سه تا کن,UNKNOWN,{},UNKNOWN,{},0.9992,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا موتور ماشین رو پرنده کن,UNKNOWN,{},UNKNOWN,{},1.0,True,False,فرمان مشخصی تشخیص داده نشد
+لطفا وزن ماشین رو با فرمان نصف کن,UNKNOWN,{},UNKNOWN,{},0.9996,True,False,فرمان مشخصی تشخیص داده نشد
