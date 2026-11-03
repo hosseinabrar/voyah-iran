@@ -60,6 +60,16 @@ public sealed class InstallAppGuard(Func<string[], Task<string>> command, string
             }
         }
     }
+    // A completed install must recover disabled state left by an interrupted older
+    // installer. Restoring the captured state is rollback behavior, not success.
+    public async Task ActivateInstalledApp()
+    {
+        await command(["/system/bin/pm", "enable", "--user", "0", Package]);
+        if (await State() != 1)
+            throw new IOException("فعال‌سازی برنامه پس از نصب تأیید نشد؛ نصب کامل نشده است.");
+        original = 1;
+        changed = false; // Later cleanup must never disable the verified installation again.
+    }
     public async Task Restore()
     {
         if (!changed) return;

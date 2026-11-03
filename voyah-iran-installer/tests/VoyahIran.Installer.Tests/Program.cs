@@ -63,6 +63,12 @@ foreach (var initial in new[] { "null", "", "other.app/.Reader", "com.abrar.voya
     Check(rejected, "Failed accessibility suspension blocks installation");
 }
 
+{
+    var guard=new InstallAppGuard(a=>Task.FromResult("User 0: enabled=3"),Path.Combine(root,"activate-failed.txt"));
+    var rejected=false;
+    try { await guard.ActivateInstalledApp(); } catch(IOException) { rejected=true; }
+    Check(rejected, "Unconfirmed activation cannot complete installation");
+}
 foreach(var prior in Enumerable.Range(0,5)) {
     var state=prior;
     var calls=new List<string[]>();
@@ -87,6 +93,14 @@ foreach(var prior in Enumerable.Range(0,5)) {
     Check(state==prior, "Credential provisioning preserves prior state "+prior);
     try { await guard.WithEnabled(() => throw new IOException("receiver failed")); } catch(IOException) { }
     Check(state==prior, "Failed provisioning restores prior state "+prior);
+    await guard.Block();
+    await guard.ActivateInstalledApp();
+    await guard.Restore();
+    Check(state==1 && guard.CanLaunch, "Successful install enables app regardless of captured state "+prior);
+    try { await guard.WithEnabled(() => throw new IOException("receiver failed")); } catch(IOException) { }
+    await guard.Restore();
+    Check(state==1, "Later provisioning failure cannot restore stale disabled state "+prior);
+
 }
 {
     var guard=new InstallAppGuard(a=>Task.FromResult(a.Contains("packages")?"package:com.abrar.voyahiran":"User 0: enabled=0"),Path.Combine(root,"guard-failed.txt"));
@@ -281,12 +295,19 @@ using (var log = new SessionLog(Path.Combine(root, "success-logs")))
     var grantIndex=fake.Calls.FindIndex(a=>a.Contains("grant"));
     Check(provisionIndex>=0 && grantIndex>provisionIndex,"Bridge credential delivered before optional permission stage");
     var blockIndex=fake.Calls.FindIndex(c=>c.Contains("disable-user"));
-    var unblockIndex=fake.Calls.FindIndex(c=>c.Contains("default-state"));
+    var unblockIndex=fake.Calls.FindIndex(c=>c.Contains("enable"));
     Check(blockIndex>suspendIndex && blockIndex<stopIndex && unblockIndex>installIndex && unblockIndex<launchIndex, "Package stays disabled through APK replacement and reboot verification");
     var operations = fake.Calls.Select(c => c[0]).ToList();
     Check(operations.IndexOf("root") < operations.IndexOf("wait-for-device") &&
         operations.IndexOf("wait-for-device") < operations.IndexOf("remount") &&
         operations.IndexOf("remount") < operations.IndexOf("install"), "Root and reconnect and remount precede APK installation");
+}
+using (var log = new SessionLog(Path.Combine(root, "stale-disabled-logs")))
+{
+    var fake = new FakeAdb("stale-disabled", bundle);
+    await new InstallEngine(fake, bundle, log, Path.Combine(root, "stale-disabled-backup"), new FakePatcher("none")).RunAsync("CAR");
+    Check(fake.AppEnabled==1, "Retry repairs disabled-user left by a disconnected installer");
+    Check(fake.Calls.Any(c=>c.Contains("com.abrar.voyahiran/.ui.MainActivity")), "Recovered installation launches app");
 }
 using (var log = new SessionLog(Path.Combine(root, "h97a-logs")))
 {
@@ -442,7 +463,8 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
     public string? PostPatchWaitSerial;
     public int PostPatchWaitTimeout;
     private string accessibility="other.app/.Reader:com.abrar.voyahiran/.Service";
-    private int appEnabled;
+    private int appEnabled = failure=="stale-disabled" ? 3 : 0;
+    public int AppEnabled => appEnabled;
     private bool patched;
     private int remounts;
     public List<IReadOnlyList<string>> Calls { get; } = [];

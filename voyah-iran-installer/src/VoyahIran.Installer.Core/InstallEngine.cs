@@ -331,7 +331,8 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             var apk = packages.Split('\n').Select(l => l.Trim()).FirstOrDefault(l => l.StartsWith("package:/", StringComparison.Ordinal))?[8..];
             if (apk == null || apk.Any(c => !(char.IsAsciiLetterOrDigit(c) || "/._-=+~".Contains(c)))) throw new InvalidDataException("مسیر APK نصب‌شده معتبر نیست.");
             await VerifyHash(apk, bundle.Manifest.Files["app.apk"]);
-            await appGuard.Restore();
+            await appGuard.ActivateInstalledApp();
+            log.Write("Installed app explicitly enabled for user 0 and verified; stale disabled state cleared.");
             await appGuard.WithEnabled(async () => {
                 var provision = await Root(30, "/system/bin/am", "broadcast", "--user", "0",
                     "--include-stopped-packages", "-n", "com.abrar.voyahiran/.core.bridge.BridgeProvisionReceiver",
