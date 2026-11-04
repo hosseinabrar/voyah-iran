@@ -102,6 +102,10 @@ object RahaVehicleBridge {
             return if (result.exitCode == 0 && result.output.trim() != "DONE")
                 CommandResult(1, "Screen transfer unavailable: ${result.output}") else result
         }
+        if (action == RahaAction.SET_PASSENGER_DISPLAY_POWER) {
+            OemPassengerPowerBinder.execute(params)
+            return CommandResult(0, "CONFIRMED passenger power via OEM service")
+        }
         if (action.name in OemEnergyBinder.actions) {
             OemEnergyBinder.execute(action.name, params)
             return CommandResult(0, "CONFIRMED action=$action via direct OEM Binder feedback")

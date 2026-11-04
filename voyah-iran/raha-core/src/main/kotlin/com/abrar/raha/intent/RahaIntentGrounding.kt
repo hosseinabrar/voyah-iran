@@ -48,6 +48,7 @@ object RahaIntentGrounding {
     fun apply(text: String, action: String, params: Map<String,Any>, allowed: Map<String,List<Any>>): Result {
         val out=params.toMutableMap();val grounded=mutableSetOf<String>()
         fun reject(reason:String)=Result(out,grounded,reason)
+        if(action in setOf("SET_LANE_SUPPORT_MODE","SET_DRIVER_MONITORING") && isMiddle(text)) return reject("این حساسیت فقط دو سطح کم و زیاد دارد")
         if(isMiddle(text) && action in middleValues) {
             val (key,value)=middleValues.getValue(action)
             val exact=allowed[key]?.firstOrNull { it==value || (it is Number && value is Number && it.toDouble()==value.toDouble()) }
@@ -104,7 +105,7 @@ object RahaIntentGrounding {
         if(RahaCommandClauses.blocked(text))return "جمله منفی، شرطی یا پرسشی است"
         if(action=="SET_SUNSHADE_POSITION") {
             // A short noun + state request still specifies an unambiguous endpoint.
-            val short=Regex("""(?:رها\s+)?(?:لطفا\s+)?(?:پرده(?:\s+(?:سقف|سانروف))?|سایبان)(?:\s+(?:رو|را))?\s+(?:(?:کامل|کاملا)\s+)?(باز|بسته)""").matchEntire(text)
+            val short=Regex("""(?:رها\s+)?(?:لطفا\s+)?(?:(?:پرده|کاور)(?:\s+(?:سقف|سانروف))?|سایبان|سان\s*شید)(?:\s+(?:رو|را))?\s+(?:(?:کامل|کاملا)\s+)?(باز|بسته)""").matchEntire(text)
             if(short!=null && (params["position"] as? Number)?.toDouble()!=(if(short.groupValues[1]=="باز")100.0 else 0.0))return "میزان باز بودن پرده با حالت خواسته شده سازگار نیست"
         }
         if(action=="SET_MIRROR_FOLD") {
@@ -121,12 +122,13 @@ object RahaIntentGrounding {
             val on=noOff.containsMatchIn(text) || has(positive,"روشن(?:ش)?|(?<!غیر )فعال(?:ش)?")
             if(off && on || off && params["enabled"]==true || on && params["enabled"]==false)return "برداشت روشن یا خاموش با درخواست سازگار نیست"
         }
+        if(action in setOf("SET_LANE_SUPPORT_MODE","SET_DRIVER_MONITORING") && isMiddle(text)) return "این حساسیت فقط دو سطح کم و زیاد دارد"
         if(isMiddle(text) && action in middleValues) {
             val (key,value)=middleValues.getValue(action);val actual=params[key]
             return if(actual==value || (actual is Number && value is Number && actual.toDouble()==value.toDouble())) null else "مقدار برداشت شده با مقدار میانی سازگار نیست"
         }
         val requested=explicitNumbers(quantityText(text,action))
-        if(action=="SET_CABIN_TEMPERATURE" && requested.any { it<16 || it>32 })return "دمای قابل تنظیم از ۱۶ تا ۳۲ است"
+        if(action=="SET_CABIN_TEMPERATURE" && requested.any { it<15.5 || it>30.5 })return "دمای قابل تنظیم از ۱۵٫۵ تا ۳۰٫۵ است"
         if(action=="ADJUST_CABIN_TEMPERATURE") {
             if(requested.any { it<=0 || it>16 })return "مقدار تغییر دما خارج از محدوده است"
             val delta=(params["delta"] as? Number)?.toDouble() ?: 0.0

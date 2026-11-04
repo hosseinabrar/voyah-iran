@@ -60,7 +60,7 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
             }
         }
         when (action) {
-            RahaAction.SET_EASY_ENTRY, RahaAction.SET_EASY_EXIT, RahaAction.SET_SCHEDULED_CHARGING -> error("This action uses the direct OEM CAN binder")
+            RahaAction.SET_EASY_ENTRY, RahaAction.SET_EASY_EXIT, RahaAction.SET_SCHEDULED_CHARGING, RahaAction.SET_WIRELESS_CHARGER, RahaAction.SET_PASSENGER_DISPLAY_POWER -> error("This action uses the direct OEM CAN binder")
             RahaAction.OPEN_DEFAULT_MAP, RahaAction.OPEN_DEFAULT_MUSIC, RahaAction.OPEN_OEM_RADIO -> error("App launch is handled in the application")
             RahaAction.NAVIGATE_TO_SAVED_PLACE -> error("Navigation uses the selected map app, not CAN")
             RahaAction.SET_CLIMATE_POWER -> {
@@ -80,7 +80,12 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
             RahaAction.SET_CABIN_TEMPERATURE, RahaAction.ADJUST_CABIN_TEMPERATURE -> temperature()
             RahaAction.SET_FAN_SPEED, RahaAction.ADJUST_FAN_SPEED -> {
                 // H97C feedback is 0..7; AC_BLOWER requests are 1..8.
-                val n = if (action == RahaAction.SET_FAN_SPEED) (level(p["level"], 8) + 1).coerceAtMost(8)
+                val n = if (action == RahaAction.SET_FAN_SPEED) (when(val requested=p["level"]) {
+                    "min" -> 0
+                    "max" -> 7
+                    is Number -> range(requested.toInt(), 0, 7)
+                    else -> error("Missing fan level")
+                } + 1)
                     else (range(state.airValue("getAirWindSpeed").toInt(), 0, 7) + 1 + number("delta").toInt()).coerceIn(1, 8)
                 a("AC_POWER_SWITCH", 1); a("AC_BLOWER", n)
             }
@@ -143,12 +148,26 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
                     out += RahaWrite("window-position", field, target)
                 }
             }
-            RahaAction.OPEN_WINDOW, RahaAction.CLOSE_WINDOW, RahaAction.VENT_WINDOW -> {
+            RahaAction.VENT_WINDOW -> {
+                val target = text("window")
+                if (target != "sunroof") {
+                    val field = mapOf("driver" to "DRIVER_WINDOW_CONTROL", "passenger" to "PAS_WIDOW_CONTROL",
+                        "rearLeft" to "LEFT_BACK_WINDOW_CONTROL", "rearRight" to "RIGHT_BACK_WINDOW_CONTROL",
+                        "all" to "ALL_WINDOW_CONTROL", "allWithSunroof" to "ALL_WINDOW_CONTROL",
+                        "front" to "ALL_FRONT_WINDOW_CONTROL", "rear" to "ALL_REAR_WINDOW_CONTROL",
+                        "left" to "ALL_LEFT_WINDOW_CONTROL", "right" to "ALL_RIGHT_WINDOW_CONTROL").getValue(target)
+                    v(field, 6)
+                }
+                if (target == "sunroof" || target == "allWithSunroof") v("AVN_BCM_COM_REQ_RCM", 4)
+            }
+            RahaAction.OPEN_WINDOW, RahaAction.CLOSE_WINDOW -> {
                 val field = mapOf("driver" to "DRIVER_WINDOW_CONTROL", "passenger" to "PAS_WIDOW_CONTROL", "rearLeft" to "LEFT_BACK_WINDOW_CONTROL",
                     "rearRight" to "RIGHT_BACK_WINDOW_CONTROL", "all" to "ALL_WINDOW_CONTROL", "front" to "ALL_FRONT_WINDOW_CONTROL",
                     "rear" to "ALL_REAR_WINDOW_CONTROL", "left" to "ALL_LEFT_WINDOW_CONTROL", "right" to "ALL_RIGHT_WINDOW_CONTROL").getValue(text("window"))
-                v(field, when(action) { RahaAction.OPEN_WINDOW -> 3; RahaAction.CLOSE_WINDOW -> 1; RahaAction.VENT_WINDOW -> 6 })
+                v(field, when(action) { RahaAction.OPEN_WINDOW -> 3; RahaAction.CLOSE_WINDOW -> 1 })
             }
+            // OEM SunroofVent callback 16 sends AVN_BCM_COM_REQ_RCM = 4.
+            RahaAction.VENT_SUNROOF -> v("AVN_BCM_COM_REQ_RCM", 4)
             RahaAction.OPEN_SUNROOF, RahaAction.CLOSE_SUNROOF, RahaAction.SET_SUNROOF_POSITION, RahaAction.ADJUST_SUNROOF_POSITION,
             RahaAction.SET_SUNSHADE_POSITION, RahaAction.ADJUST_SUNSHADE_POSITION -> {
                 val shade = action in setOf(RahaAction.SET_SUNSHADE_POSITION, RahaAction.ADJUST_SUNSHADE_POSITION)
@@ -169,10 +188,25 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
                     else (range(state.vehicle("HUM_ENERGY_PTREGEN_LEVL_FB"), 2, 4) + number("delta").toInt()).coerceIn(2, 4)
                 v("HUM_ENERGY_PTREGEN_LEVL", n)
             }
-            RahaAction.SET_SUSPENSION_HEIGHT -> {
+            RahaAction.SET_SUSPENSION_HEIGHT, RahaAction.ADJUST_SUSPENSION_HEIGHT -> {
                 // China AirsuspensionCardLargeBindingImpl: low -> Sport, high -> Outing.
                 // Normal-height modes are Eco/Comfort/Snow/Personal; no Lowest request exists here.
-                val selected = text("level")
+                val selected = if (action == RahaAction.ADJUST_SUSPENSION_HEIGHT) {
+                    val delta = number("delta")
+                    require(delta == -1.0 || delta == 1.0) { "Height adjustment must be one step" }
+                    // Read actual suspension feedback, not the requested driving mode.
+                    // Even codes indicate a transition; do not queue another step while moving.
+                    val current = when (state.vehicle("ASC_MODE_SELECT")) {
+                        1, 3 -> 2
+                        5 -> 1
+                        7 -> 0
+                        9 -> -1
+                        else -> error("Suspension height unavailable or still adjusting")
+                    }
+                    val next = (current + delta.toInt()).coerceIn(0, 2)
+                    if ((current == -1 && delta < 0) || next == current) return emptyList()
+                    listOf("low", "medium", "high")[next]
+                } else text("level")
                 require(selected in setOf("high", "medium", "low")) { "Unsupported suspension height" }
                 val mode = when(selected) {
                     "high" -> {
@@ -227,7 +261,7 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
             RahaAction.SET_DRIVE_MODE -> out += RahaWrite("drive", "mode", mapOf("eco" to 1, "comfort" to 2, "sport" to 3, "outing" to 4, "snow" to 6, "personal" to 5).getValue(text("mode")))
             RahaAction.SAVE_SEAT_POSITION, RahaAction.RECALL_SEAT_POSITION -> error("Seat memory must be dispatched through OemSeatMemory, not raw CAN")
             RahaAction.SET_RAIN_SENSING_WIPERS -> error("Rain-sensing mode is not exposed by the supplied H97C menu interface")
-            RahaAction.SET_PEDESTRIAN_WARNING_SOUND, RahaAction.SET_DOOR_OPEN_WARNING, RahaAction.SET_FORWARD_COLLISION_WARNING, RahaAction.SET_REAR_CROSS_TRAFFIC_WARNING, RahaAction.SET_REAR_COLLISION_WARNING, RahaAction.SET_AUTOMATIC_EMERGENCY_BRAKING, RahaAction.SET_BLIND_SPOT_MONITORING, RahaAction.SET_LANE_SUPPORT_MODE, RahaAction.SET_DRIVER_MONITORING, RahaAction.SET_DRIVER_GESTURES, RahaAction.SET_LEAD_VEHICLE_DEPARTURE_ALERT, RahaAction.SET_FRONT_CROSS_TRAFFIC_WARNING, RahaAction.SET_TRAFFIC_SIGN_RECOGNITION, RahaAction.SET_LANE_DEPARTURE_ALERT_TYPE, RahaAction.SET_DISPLAY_BRIGHTNESS, RahaAction.SET_DISPLAY_THEME_MODE, RahaAction.SET_REAR_DISPLAY_LOCK, RahaAction.SET_AUDIO_VOLUME, RahaAction.ADJUST_AUDIO_VOLUME, RahaAction.SET_AUDIO_MUTE, RahaAction.PLAY_MEDIA, RahaAction.PAUSE_MEDIA, RahaAction.NEXT_MEDIA, RahaAction.PREVIOUS_MEDIA, RahaAction.OPEN_CAMERA, RahaAction.TAKE_PHOTO, RahaAction.START_VIDEO_RECORDING, RahaAction.STOP_VIDEO_RECORDING, RahaAction.SWITCH_CAMERA, RahaAction.SWAP_DISPLAY_APPS -> error("Phase seven actions must use installed OEM controls")
+            RahaAction.SET_PEDESTRIAN_WARNING_SOUND, RahaAction.SET_DOOR_OPEN_WARNING, RahaAction.SET_FORWARD_COLLISION_WARNING, RahaAction.ADJUST_FORWARD_COLLISION_SENSITIVITY, RahaAction.SET_REAR_CROSS_TRAFFIC_WARNING, RahaAction.SET_REAR_COLLISION_WARNING, RahaAction.SET_AUTOMATIC_EMERGENCY_BRAKING, RahaAction.SET_BLIND_SPOT_MONITORING, RahaAction.SET_LANE_SUPPORT_MODE, RahaAction.SET_DRIVER_MONITORING, RahaAction.SET_DRIVER_GESTURES, RahaAction.SET_LEAD_VEHICLE_DEPARTURE_ALERT, RahaAction.SET_FRONT_CROSS_TRAFFIC_WARNING, RahaAction.SET_TRAFFIC_SIGN_RECOGNITION, RahaAction.SET_LANE_DEPARTURE_ALERT_TYPE, RahaAction.SET_DISPLAY_BRIGHTNESS, RahaAction.SET_DISPLAY_THEME_MODE, RahaAction.SET_REAR_DISPLAY_LOCK, RahaAction.SET_AUDIO_VOLUME, RahaAction.ADJUST_AUDIO_VOLUME, RahaAction.SET_AUDIO_MUTE, RahaAction.PLAY_MEDIA, RahaAction.PAUSE_MEDIA, RahaAction.NEXT_MEDIA, RahaAction.PREVIOUS_MEDIA, RahaAction.OPEN_CAMERA, RahaAction.TAKE_PHOTO, RahaAction.START_VIDEO_RECORDING, RahaAction.STOP_VIDEO_RECORDING, RahaAction.SWITCH_CAMERA, RahaAction.SWAP_DISPLAY_APPS -> error("Phase seven actions must use installed OEM controls")
             RahaAction.SET_MIRROR_FOLD -> error("Direct mirror folding is not confirmed on H97; automatic-fold configuration will not be changed instead")
             RahaAction.SET_ENERGY_STRATEGY, RahaAction.SET_BATTERY_RESERVE_TARGET, RahaAction.STOP_CHARGING,
             RahaAction.SET_BATTERY_PRECONDITIONING, RahaAction.ACTIVATE_SCENE, RahaAction.DEACTIVATE_SCENE,

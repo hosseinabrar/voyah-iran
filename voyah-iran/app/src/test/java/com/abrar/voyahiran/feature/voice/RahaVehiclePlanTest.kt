@@ -5,6 +5,17 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class RahaVehiclePlanTest {
+    @Test fun ventilationTargetsAreIndependentAndCombined() {
+        val windows = RahaWrite("vehicle", "ALL_WINDOW_CONTROL", 6)
+        val roof = RahaWrite("vehicle", "AVN_BCM_COM_REQ_RCM", 4)
+        assertEquals(listOf(windows), plan(RahaAction.VENT_WINDOW, mapOf("window" to "all")))
+        assertEquals(listOf(roof), plan(RahaAction.VENT_WINDOW, mapOf("window" to "sunroof")))
+        assertEquals(listOf(windows, roof), plan(RahaAction.VENT_WINDOW, mapOf("window" to "allWithSunroof")))
+    }
+    @Test fun sunroofVentUsesOemTiltCommandWithoutChangingShadeOrPercent() {
+        assertEquals(listOf(RahaWrite("vehicle", "AVN_BCM_COM_REQ_RCM", 4)),
+            RahaVehiclePlan(Snapshot()).create(RahaAction.VENT_SUNROOF, emptyMap()))
+    }
     @Test fun readyUsesRahaShadeOpenWithoutTouchingRoofGlass() {
         assertEquals(listOf(RahaWrite("vehicle", "ROLL_OPEN_PERCENT", 100)),
             RahaVehiclePlan(Snapshot()).create(RahaAction.SET_SUNSHADE_POSITION, mapOf("position" to 100)))
@@ -42,6 +53,23 @@ class RahaVehiclePlanTest {
             snapshot.values["DRIVING_MODE_SET"]=mode
             assertEquals(listOf(RahaWrite("drive","mode",2)),plan(RahaAction.SET_SUSPENSION_HEIGHT, mapOf("level" to "medium")))
         }
+    }
+    @Test fun relativeHeightUsesFeedbackAndMovesOnlyOneSupportedLevel() {
+        snapshot.values["ASC_MODE_SELECT"]=1
+        assertEquals(2,plan(RahaAction.ADJUST_SUSPENSION_HEIGHT,mapOf("delta" to -1)).single().value)
+        snapshot.values["ASC_MODE_SELECT"]=5
+        assertEquals(3,plan(RahaAction.ADJUST_SUSPENSION_HEIGHT,mapOf("delta" to -1)).single().value)
+        assertEquals(4,plan(RahaAction.ADJUST_SUSPENSION_HEIGHT,mapOf("delta" to 1)).single().value)
+        snapshot.values["ASC_MODE_SELECT"]=7
+        assertTrue(plan(RahaAction.ADJUST_SUSPENSION_HEIGHT,mapOf("delta" to -1)).isEmpty())
+        assertEquals(2,plan(RahaAction.ADJUST_SUSPENSION_HEIGHT,mapOf("delta" to 1)).single().value)
+        for(height in listOf(-1,0,2,4,6,8,10)) {
+            snapshot.values["ASC_MODE_SELECT"]=height
+            assertThrows(IllegalStateException::class.java) { plan(RahaAction.ADJUST_SUSPENSION_HEIGHT,mapOf("delta" to 1)) }
+        }
+        snapshot.values["ASC_MODE_SELECT"]=5
+        snapshot.velocity=40
+        assertThrows(IllegalArgumentException::class.java) { plan(RahaAction.ADJUST_SUSPENSION_HEIGHT,mapOf("delta" to 1)) }
     }
     @Test fun highHeightRespectsOemSpeedLimit() {
         for(speed in listOf(-1,40,90)) {
@@ -234,11 +262,11 @@ class RahaVehiclePlanTest {
     @Test fun directFanLevelUsesSameOffsetAsFeedback() {
         val planner=RahaVehiclePlan(snapshot)
         assertEquals(3,plan(RahaAction.SET_FAN_SPEED, mapOf("level" to 2,"zone" to "front")).last().value)
-        for(level in 1..8) {
+        for(level in 0..7) {
             val writes=planner.create(RahaAction.SET_FAN_SPEED,mapOf("zone" to "front","level" to level))
             assertEquals((level+1).coerceAtMost(8),writes.single { it.field=="AC_BLOWER" }.value)
         }
         assertEquals(8,planner.create(RahaAction.SET_FAN_SPEED,mapOf("level" to "max")).last().value)
-        assertEquals(2,planner.create(RahaAction.SET_FAN_SPEED,mapOf("level" to "min")).last().value)
+        assertEquals(1,planner.create(RahaAction.SET_FAN_SPEED,mapOf("level" to "min")).last().value)
     }
 }

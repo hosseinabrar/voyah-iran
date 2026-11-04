@@ -140,7 +140,10 @@ class RahaIntentModel(context: Context, private val diagnostic: (String) -> Unit
                             result["contact_query"]=com.abrar.raha.RahaDefaultContacts.find(com.abrar.raha.RahaContacts.normalize(name))?.name ?: name
                         }
                         if(action in setOf("CONFIRM_CALL","CANCEL_DIALOG"))return Recognition.Unknown("تماسی در انتظار پاسخ نیست")
-                        return Recognition.Matched(VehicleCommand(action,action,result,schema.getJSONObject("titles").optString(action,action)))
+                        // Preserve old model frame indices while exposing one ventilation action.
+                        val resolvedAction = if (action == "VENT_SUNROOF") "VENT_WINDOW" else action
+                        if (action == "VENT_SUNROOF") result["window"] = "sunroof"
+                        return Recognition.Matched(VehicleCommand(resolvedAction,resolvedAction,result,schema.getJSONObject("titles").optString(resolvedAction,resolvedAction)))
                     }
                 }
             }

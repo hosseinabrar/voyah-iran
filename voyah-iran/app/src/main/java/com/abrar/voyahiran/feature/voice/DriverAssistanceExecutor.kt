@@ -15,7 +15,15 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort, 
 
     fun execute(action: String, p: Map<String, Any>) {
         check(!legacyLane || action != "SET_LANE_DEPARTURE_ALERT_TYPE") { "Factory lane menu does not expose warning-type selection" }
-        val changes = if (legacyLane && action == "SET_LANE_SUPPORT_MODE" && !p.containsKey("sensitivity")) {
+        val changes = if (action == "ADJUST_FORWARD_COLLISION_SENSITIVITY") {
+            require(p.keys == setOf("delta"))
+            val delta = (p["delta"] as? Number)?.toDouble()
+            require(delta == -1.0 || delta == 1.0) { "Sensitivity adjustment must be one step" }
+            port.validate("FCW_SENSITIVITY")
+            val current = port.read("FCW_SENSITIVITY")
+            check(current in 1..3) { "FCW sensitivity unavailable" }
+            listOf(Change("FCW_SENSITIVITY", (current + delta!!.toInt()).coerceIn(1,3), valid=1..3))
+        } else if (legacyLane && action == "SET_LANE_SUPPORT_MODE" && !p.containsKey("sensitivity")) {
             val field = "LDW_RDP_LKS_FUNC_ENABLE"
             port.validate(field)
             val current = port.read(field)
@@ -47,6 +55,7 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort, 
         }
 
         private val toggles = mapOf(
+            "SET_WIRELESS_CHARGER" to "WCM_SWITCH",
             "SET_EASY_ENTRY" to "AUTO_EASY_ENTER_SET",
             "SET_EASY_EXIT" to "DSCU_EASY_ENTER_SET",
             "SET_PEDESTRIAN_WARNING_SOUND" to "HUM_VSP_FUNCTION_SW",
@@ -62,7 +71,7 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort, 
             "SET_FRONT_CROSS_TRAFFIC_WARNING" to "FCTA_SWITCH",
             "SET_TRAFFIC_SIGN_RECOGNITION" to "TSR_SWITCH"
         )
-        val actions = toggles.keys + setOf("SET_LANE_SUPPORT_MODE", "SET_LANE_DEPARTURE_ALERT_TYPE")
+        val actions = toggles.keys + setOf("SET_LANE_SUPPORT_MODE", "SET_LANE_DEPARTURE_ALERT_TYPE", "ADJUST_FORWARD_COLLISION_SENSITIVITY")
 
         fun plan(action: String, p: Map<String, Any>): List<Change> {
             require(action in actions)
@@ -101,7 +110,7 @@ internal class DriverAssistanceExecutor(private val port: DriverAssistancePort, 
             // Entry is the suspension preference; exit is the OEM seat-courtesy
             // checkbox (SeatFrontManager.setEasyEnter). Both use 2=on, 1=off
             // and same-field feedback, never immediate movement requests.
-            if (action == "SET_EASY_ENTRY" || action == "SET_EASY_EXIT")
+            if (action == "SET_EASY_ENTRY" || action == "SET_EASY_EXIT" || action == "SET_WIRELESS_CHARGER")
                 return listOf(Change(field, if (enabled) 2 else 1))
             // Camera control: 2=on, 1=off; camera STATUS: 1=on, 0=off.
             if (action == "SET_DRIVER_MONITORING") return listOf(Change(field, if (enabled) 2 else 1,

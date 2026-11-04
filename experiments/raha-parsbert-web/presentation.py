@@ -2,6 +2,9 @@
 import re
 
 OVERRIDES={
+    'SET_PASSENGER_DISPLAY_POWER':'روشن و خاموش کردن نمایشگر شاگرد',
+    'VENT_WINDOW':'حالت تهویه',
+    'SET_SEAT_VENTILATION':'روشن، خاموش و تنظیم سطح سردکن صندلی',
     'CONFIGURE_FRAGRANCE':'تنظیم ترکیبی رایحه',
     'NAVIGATE_TO_SAVED_PLACE':'مسیریابی به مکان ذخیره‌شده',
     'SET_FRAGRANCE_CHANNEL':'انتخاب رایحه',

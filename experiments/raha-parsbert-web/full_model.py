@@ -80,6 +80,11 @@ class FullModel(nn.Module):
                     else:value_idx=int(probs.argmax())
                     params[key]=json.loads(self.schema['slots'][key][value_idx])
                     confidences[key]=round(float(probs[value_idx]),4)
+                # Old feedback retains its frame index; expose the unified command.
+                if action == 'VENT_SUNROOF':
+                    action = 'VENT_WINDOW'
+                    params = {'window': 'sunroof'}
+                    confidences = {'window': 1.0}
                 candidates.append(dict(action=action,parameters=params,score=round(float(score),4),slot_scores=confidences))
             results.append(candidates)
         return results

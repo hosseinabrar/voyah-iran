@@ -4,6 +4,36 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class DriverAssistanceExecutorTest {
+    @Test fun wirelessChargingOnlyTouchesItsOwnOemSwitch() {
+        for(enabled in listOf(false,true)) {
+            val port=Fake().apply { values["WCM_SWITCH"]=if(enabled)1 else 2 }
+            DriverAssistanceExecutor(port).execute("SET_WIRELESS_CHARGER",mapOf("enabled" to enabled))
+            assertEquals(listOf("WCM_SWITCH" to if(enabled)2 else 1),port.writes)
+            assertEquals(port.writes,port.confirmations)
+            DriverAssistanceExecutor(port).execute("SET_WIRELESS_CHARGER",mapOf("enabled" to enabled))
+            assertEquals(1,port.writes.size)
+        }
+        val port=Fake().apply { values["WCM_SWITCH"]=0 }
+        assertThrows(IllegalStateException::class.java) {
+            DriverAssistanceExecutor(port).execute("SET_WIRELESS_CHARGER",mapOf("enabled" to true))
+        }
+        assertTrue(port.writes.isEmpty())
+    }
+    @Test fun relativeFcwMovesOneStepClampsAndRejectsUnknownState() {
+        for (current in 1..3) for (delta in listOf(-1,1)) {
+            val port=Fake().apply { values["FCW_SENSITIVITY"]=current }
+            DriverAssistanceExecutor(port).execute("ADJUST_FORWARD_COLLISION_SENSITIVITY",mapOf("delta" to delta))
+            val expected=(current+delta).coerceIn(1,3)
+            assertEquals(if(current==expected) emptyList<Pair<String,Int>>() else listOf("FCW_SENSITIVITY" to expected),port.writes)
+        }
+        for(current in listOf(-1,0,4,255)) {
+            val port=Fake().apply { values["FCW_SENSITIVITY"]=current }
+            assertThrows(IllegalStateException::class.java) {
+                DriverAssistanceExecutor(port).execute("ADJUST_FORWARD_COLLISION_SENSITIVITY",mapOf("delta" to 1))
+            }
+            assertTrue(port.writes.isEmpty())
+        }
+    }
     @Test fun memoryTargetsAndRahaUseIdenticalSingleFieldRequests() {
         val cases = listOf(
             Triple("SET_AUTOMATIC_EMERGENCY_BRAKING", "AEB_SWITCH", 1),

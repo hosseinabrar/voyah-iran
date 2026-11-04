@@ -5,7 +5,7 @@ from torch import nn
 
 def expand_temperature(model):
     targets={
-        ('SET_CABIN_TEMPERATURE|degreesC,zone','degreesC'):[i/2 for i in range(32,65)],
+        ('SET_CABIN_TEMPERATURE|degreesC,zone','degreesC'):[i/2 for i in range(32,65)]+[15.5],
         ('ADJUST_CABIN_TEMPERATURE|delta,zone','delta'):[i/2 for i in range(-32,33) if i],
     }
     for (frame,key),numbers in targets.items():
@@ -26,4 +26,4 @@ def expand_temperature(model):
                 expanded.weight[head.out_features:].zero_()
                 expanded.bias[head.out_features:].fill_(-8)
             model.slot_heads['slot_'+key]=expanded
-        model.schema['allowed'].setdefault(frame,{})[key]=allowed
+        model.schema['allowed'].setdefault(frame,{})[key]=sorted([v for v in allowed if 15.5 <= json.loads(v) <= 30.5],key=json.loads) if key=='degreesC' else allowed

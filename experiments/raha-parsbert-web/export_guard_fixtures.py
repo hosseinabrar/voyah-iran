@@ -49,6 +49,10 @@ def main():
         add(text,'SET_POWER_KEEP_DURATION',{'minutes':30},{'minutes':['30','60','90','120','150','180','-1']})
     for text in ['پرده سانروف رو سی درصد باز کن','پرده سانروف رو تا نصف باز کن','پرده سانروف رو صد و بیست درصد باز کن','پرده سانروف رو سی دقیقه باز کن']:
         add(text,'SET_SUNSHADE_POSITION',{'position':90},{'position':[str(n) for n in range(101)]})
+    for action in ['SET_LANE_SUPPORT_MODE','SET_DRIVER_MONITORING']:
+        add('حساسیت رو روی متوسط بذار',action,{'sensitivity':'max'},{'sensitivity':['"min"','"max"']})
+    for number in [15,15.5,30.5,31,32]:
+        add(f'دما رو روی {number} بذار','SET_CABIN_TEMPERATURE',{'degreesC':20,'zone':'front'},{'degreesC':[str(i/2) for i in range(31,62)]})
     target=ROOT.parents[1]/'voyah-iran/raha-core/src/test/resources/intent-grounding-parity.json'
     target.write_text(json.dumps(rows,ensure_ascii=False))
     print('Guard parity cases:',len(rows))

@@ -52,9 +52,11 @@ def requested_power(text):
 def consistency_reason(text,action,params):
     if action in ['CALL_CONTACT','UNKNOWN','CONFIRM_CALL','CANCEL_DIALOG']:return None
     if blocked_form(text):return 'جملهٔ منفی، شرطی یا پرسشی؛ محافظ آزمایش مانع پذیرش شد'
+    if action in ['SET_LANE_SUPPORT_MODE','SET_DRIVER_MONITORING'] and is_middle(text):
+        return 'این حساسیت فقط دو سطح کم و زیاد دارد'
     if action=='SET_SUNSHADE_POSITION':
         # Elliptical noun + state is a complete request; do not invert its endpoint.
-        short=re.fullmatch(r'(?:رها\s+)?(?:لطفا\s+)?(?:پرده(?:\s+(?:سقف|سانروف))?|سایبان)(?:\s+(?:رو|را))?\s+(?:(?:کامل|کاملا)\s+)?(باز|بسته)',validation_text(text))
+        short=re.fullmatch(r'(?:رها\s+)?(?:لطفا\s+)?(?:(?:پرده|کاور)(?:\s+(?:سقف|سانروف))?|سایبان|سان\s*شید)(?:\s+(?:رو|را))?\s+(?:(?:کامل|کاملا)\s+)?(باز|بسته)',validation_text(text))
         if short and params.get('position')!=(100 if short.group(1)=='باز' else 0):
             return 'میزان باز بودن پرده با حالت خواسته شده سازگار نیست'
     if action=='SET_MIRROR_FOLD':
@@ -73,8 +75,8 @@ def consistency_reason(text,action,params):
         key,value=VALUES[action]
         return None if params.get(key)==value else 'مقدار برداشت شده با مقدار میانی سازگار نیست'
     requested=explicit_numbers(quantity_text(text,action))
-    if action=='SET_CABIN_TEMPERATURE' and requested and any(n<16 or n>32 for n in requested):
-        return 'دمای قابل تنظیم از ۱۶ تا ۳۲ درجه است'
+    if action=='SET_CABIN_TEMPERATURE' and requested and any(n<15.5 or n>30.5 for n in requested):
+        return 'دمای قابل تنظیم از ۱۵٫۵ تا ۳۰٫۵ درجه است'
     if action=='ADJUST_CABIN_TEMPERATURE':
         if requested and any(n<=0 or n>16 for n in requested):
             return 'مقدار تغییر دما باید بیشتر از صفر و حداکثر ۱۶ درجه باشد'

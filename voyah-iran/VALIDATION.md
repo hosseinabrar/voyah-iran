@@ -89,3 +89,19 @@ views; it does not create or move an activity stack. Our swap uses activity-stac
 inventory, not the focused overlay window. No screensaver-only transfer block was
 added: source inspection found no stack-transfer conflict. Physical vehicle
 validation of transfers behind that overlay remains outstanding.
+
+### Raha passenger display power (2026-11-04)
+
+`SET_PASSENGER_DISPLAY_POWER` uses installed `IPowerManagerService` through
+`qg.power_manager`, with `enterScreenOffForScreen(2)` / `exitScreenOffForScreen(2)`.
+Power-service screen 2 is passenger (not Android display ID 2). OEM H97X
+PowerManagerService$1 forwards these calls to StateManager `ay.b/c(int)`;
+`ay.a(boolean,int)` posts the screen-specific display-off event. VoyahPolicy
+writes `persist.second.screen.disable` during its display-off/run transitions,
+the same flag used by our launcher and screen-transfer guards. No global power,
+property write, backlight-only request, or synthetic toggle is used.
+
+The pure controller tests cover passenger-only targeting, idempotence, invalid
+states and missing confirmation. Vehicle testing still required: switch off/on
+by voice from Home and an app, physical-button interoperability, central Back,
+and denied app transfer while passenger is off. A missing OEM API fails closed.

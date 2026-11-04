@@ -11,7 +11,7 @@ class TemperatureTests(unittest.TestCase):
         expand_temperature(model)
         self.assertEqual(model.schema['slots']['delta'][:2],['-1','1'])
         self.assertTrue(torch.equal(weights,model.slot_heads['slot_delta'].weight[:2]))
-        self.assertEqual([json.loads(v) for v in model.schema['allowed']['SET_CABIN_TEMPERATURE|degreesC,zone']['degreesC']],[i/2 for i in range(32,65)])
+        self.assertEqual([json.loads(v) for v in model.schema['allowed']['SET_CABIN_TEMPERATURE|degreesC,zone']['degreesC']],[i/2 for i in range(31,62)])
         self.assertEqual([json.loads(v) for v in model.schema['allowed']['ADJUST_CABIN_TEMPERATURE|delta,zone']['delta']],[i/2 for i in range(-32,33) if i])
         expand_temperature(model)
         self.assertEqual(len(model.schema['slots']['delta']),64)
@@ -20,6 +20,6 @@ class TemperatureTests(unittest.TestCase):
         self.assertIsNotNone(consistency_reason('دما رو ۶ درجه کم کن','ADJUST_CABIN_TEMPERATURE',{'delta':6}))
         self.assertIsNone(consistency_reason('دما رو ۶ درجه کم کن','ADJUST_CABIN_TEMPERATURE',{'delta':-6}))
         self.assertIsNotNone(consistency_reason('دما رو روی ۳۳ بذار','SET_CABIN_TEMPERATURE',{'degreesC':32}))
-        self.assertIsNone(consistency_reason('دما رو روی سی و دو بذار','SET_CABIN_TEMPERATURE',{'degreesC':32}))
+        self.assertIsNotNone(consistency_reason('دما رو روی سی و دو بذار','SET_CABIN_TEMPERATURE',{'degreesC':32}))
 
 if __name__=='__main__':unittest.main()
