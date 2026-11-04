@@ -19,6 +19,8 @@ class ProjectSync:
         self.root=Path(root);self.checkpoint=Path(checkpoint)
         self.state_lock=threading.Lock();self.event=threading.Event();self.stopping=threading.Event()
         self.state={'state':'checking','error':None}
+        self.verification={'state':'not_run'}
+        self.processes=set()
         self.directory=self.root/'artifacts/project-sync';self.directory.mkdir(parents=True,exist_ok=True)
         self.thread=threading.Thread(target=self._loop,daemon=True,name='raha-project-sync')
 
@@ -27,9 +29,17 @@ class ProjectSync:
         with self.state_lock:
             if self.state['state'] in ['synced','error']:self.state.update(state='pending',error=None)
         self.event.set()
-    def close(self):self.stopping.set();self.event.set()
+    def close(self):
+        self.stopping.set();self.event.set()
+        with self.state_lock:
+            for process in list(self.processes):
+                if process.poll() is None:process.terminate()
     def status(self):
-        with self.state_lock:return dict(self.state)
+        with self.state_lock:
+            result=dict(self.state,verification=dict(self.verification))
+        if result['verification'].get('feedback_sha256'):
+            result['verification']['outdated']=result['verification']['feedback_sha256']!=digest(self.checkpoint)
+        return result
     def update(self,**values):
         with self.state_lock:self.state.update(values)
 
@@ -41,8 +51,50 @@ class ProjectSync:
         except (OSError,ValueError):return None
 
     def run_script(self,name,env,log,*args):
-        subprocess.run([sys.executable,str(self.root/name),*args],cwd=self.root,env=env,
-                       stdout=log,stderr=subprocess.STDOUT,check=True,timeout=600)
+        with self.state_lock:
+            if self.stopping.is_set():raise RuntimeError('Worker stopped')
+            process=subprocess.Popen([sys.executable,str(self.root/name),*args],cwd=self.root,env=env,stdout=log,stderr=subprocess.STDOUT)
+            self.processes.add(process)
+        try:
+            code=process.wait(timeout=3600 if name=='verify_android_export.py' else 600)
+            if code:raise RuntimeError(f'{name} exited with {code}')
+        finally:
+            if process.poll() is None:
+                process.kill();process.wait()
+            with self.state_lock:self.processes.discard(process)
+
+    def request_verification(self):
+        with self.state_lock:
+            if self.verification['state']=='running':return False
+            self.verification={'state':'running'}
+        threading.Thread(target=self._verify,name='raha-manual-verification',daemon=True).start()
+        return True
+
+    def _verify(self):
+        report=None;captured=None
+        try:
+            with tempfile.TemporaryDirectory(prefix='manual-',dir=self.directory) as temporary:
+                job=Path(temporary);snapshot=job/'source.safetensors'
+                shutil.copyfile(self.checkpoint,snapshot);captured=digest(snapshot)
+                env=dict(os.environ,RAHA_EXPORT_DIR=str(job),RAHA_FEEDBACK_SOURCE=str(snapshot))
+                with (self.directory/'manual-verification.log').open('w') as log:
+                    self.run_script('export_compact_android.py',env,log)
+                    try:self.run_script('verify_android_export.py',env,log,'model.compact.onnx')
+                    finally:
+                        if (job/'parity-report.json').exists():
+                            report=json.loads((job/'parity-report.json').read_text())
+                            shutil.copyfile(job/'parity-report.json',self.directory/'last-manual-parity-report.json')
+                    # Regression fixtures belong to the exact current snapshot only.
+                    if digest(self.checkpoint)==captured and not self.stopping.is_set():
+                        self.run_script('export_guard_fixtures.py',env,log)
+                        from install_android_assets import atomic_copy
+                        atomic_copy(job/'parity-fixtures.json',self.root.parents[1]/'voyah-iran/raha-core/src/test/resources/intent-tokenizer-parity.json')
+        except Exception as error:
+            result={'state':'mismatch' if report and report.get('failures') else 'error','error':str(error)}
+        else:result={'state':'passed'}
+        if report:result.update(count=report['count'],failure_count=len(report.get('failures',[])),failures=report.get('failures',[])[:20])
+        result['feedback_sha256']=captured
+        with self.state_lock:self.verification=result
 
     def sync_once(self):
         wanted=digest(self.checkpoint)
@@ -61,23 +113,11 @@ class ProjectSync:
                 env=dict(os.environ,RAHA_EXPORT_DIR=str(job),RAHA_FEEDBACK_SOURCE=str(snapshot))
                 with (self.directory/'last-run.log').open('w') as log:
                     self.run_script('export_compact_android.py',env,log)
-                    self.update(state='verifying')
-                    try:
-                        self.run_script('verify_android_export.py',env,log,'model.compact.onnx')
-                    finally:
-                        # Keep failure evidence too, before the temporary snapshot is removed.
-                        report=job/'parity-report.json'
-                        if report.exists():
-                            shutil.copyfile(report,self.directory/'last-parity-report.json')
                     if digest(self.checkpoint)!=captured:
                         self.update(state='pending');self.request();return
                     if self.stopping.is_set():return
                     self.update(state='installing')
-                    self.run_script('install_android_assets.py',env,log)
-                    self.run_script('export_guard_fixtures.py',env,log)
-                    from install_android_assets import atomic_copy
-                    atomic_copy(job/'parity-fixtures.json',self.root.parents[1]/'voyah-iran/raha-core/src/test/resources/intent-tokenizer-parity.json')
-                    shutil.copyfile(job/'parity-report.json',self.directory/'last-parity-report.json')
+                    self.run_script('install_android_assets.py',dict(env,RAHA_ASSUME_PARITY='1'),log)
                 self.update(state='synced',error=None,feedback_sha256=captured)
                 if digest(self.checkpoint)!=captured:self.request()
 

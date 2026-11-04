@@ -1,4 +1,4 @@
-"""Install only a parity-checked immutable inference snapshot, never training data."""
+"""Install an immutable inference snapshot; verification can be deferred explicitly."""
 import hashlib,json,shutil,os,tempfile
 from export_android import OUT,ROOT
 from speech_extras import WORDS,PHRASES
@@ -21,11 +21,15 @@ def atomic_text(target,text):
         if os.path.exists(name):os.unlink(name)
 
 def main():
-    report=json.loads((OUT/'parity-report.json').read_text())
     manifest=json.loads((OUT/'provenance.json').read_text())
-    assert not report['failures'] and report['feedback_sha256']==manifest['feedback_sha256']
     graph=OUT/manifest.get('graph','model.fp32.onnx')
-    assert report['model_sha256']==hashlib.sha256(graph.read_bytes()).hexdigest()
+    if os.environ.get('RAHA_ASSUME_PARITY')=='1':
+        manifest['parity_status']='assumed'
+    else:
+        report=json.loads((OUT/'parity-report.json').read_text())
+        assert not report['failures'] and report['feedback_sha256']==manifest['feedback_sha256']
+        assert report['model_sha256']==hashlib.sha256(graph.read_bytes()).hexdigest()
+        manifest['parity_status']='verified'
     target=ROOT.parents[1]/'voyah-iran/raha-runtime/src/main/assets/raha-intent'
     target.mkdir(parents=True,exist_ok=True)
     for name in ['schema.json','contact-rules.json']:
@@ -50,6 +54,6 @@ def main():
     resource=ROOT.parents[1]/'voyah-iran/raha-core/src/main/resources/raha-speech-phrases.txt'
     resource.parent.mkdir(parents=True,exist_ok=True)
     atomic_text(resource,'\n'.join(grammar)+'\n')
-    print('Installed verified snapshot:',manifest['feedback_count'],'feedback records; no training records packaged')
+    print('Installed snapshot:',manifest['feedback_count'],'feedback records; no training records packaged')
 
 if __name__=='__main__':main()

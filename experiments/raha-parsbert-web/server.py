@@ -1,4 +1,5 @@
 import asyncio
+import os
 import json
 import re
 import threading
@@ -31,6 +32,7 @@ ROOT = Path(__file__).resolve().parent
 ART = ROOT/'artifacts'
 lock = threading.Lock()
 engine = {}
+SEMANTIC_GUARD_ENABLED = os.environ.get("RAHA_SEMANTIC_GUARD", "1") != "0"
 
 @asynccontextmanager
 async def lifespan(app):
@@ -179,7 +181,7 @@ def predict_full(raw):
     consistency=consistency_reason(text,top['label'],params)
     if consistency:reason=consistency
     model_reason=reason
-    evidence=evaluate_evidence(text,top['label'],params)
+    evidence=evaluate_evidence(text,top['label'],params) if SEMANTIC_GUARD_ENABLED else dict(allowed=True,error=None,rule_error=None,source='disabled',enabled=False)
     evidence['model_accepted']=model_reason is None
     evidence['model_reason']=model_reason
     if evidence['error']:reason=evidence['error']
@@ -202,6 +204,8 @@ class EvidenceFeedbackRequest(BaseModel):
 
 @app.post('/api/evidence-feedback')
 async def evidence_feedback(req:EvidenceFeedbackRequest):
+    if not SEMANTIC_GUARD_ENABLED:
+        raise HTTPException(status_code=409,detail="محافظ معنایی برای این آزمایش غیرفعال است")
     if req.action not in engine.get('titles',{}):
         raise HTTPException(status_code=422,detail='فرمان نامعتبر است')
     await asyncio.to_thread(save_evidence,req.text,req.action,req.parameters,req.allowed,req.note)
@@ -226,6 +230,12 @@ async def feedback(req:FeedbackRequest):
 async def intent(req:Request):
     return await asyncio.to_thread(predict, req.text)
 
+@app.post('/api/project-sync/verify')
+def verify_project():
+    sync=engine.get('project_sync')
+    if not sync:raise HTTPException(status_code=409,detail='همگام‌سازی در دسترس نیست')
+    return dict(started=sync.request_verification(),**sync.status())
+
 @app.get('/api/project-sync')
 def project_sync_status():
     sync=engine.get('project_sync')
@@ -233,7 +243,7 @@ def project_sync_status():
 
 @app.get('/api/status')
 def status():
-    return dict(model=MODEL, precision=engine.get('precision','fp32'), feedback_count=len(engine['trainer'].rows) if engine.get('trainer') else 0, version=engine['report'].get('version',2 if engine['full'] else 1), labels=engine['titles'], report={k:v for k,v in engine['report'].items() if k!='results'}, asr='Vosk small-fa-0.42 · local · Raha vehicle vocabulary', audio_stored=False)
+    return dict(semantic_guard_enabled=SEMANTIC_GUARD_ENABLED, model=MODEL, precision=engine.get('precision','fp32'), feedback_count=len(engine['trainer'].rows) if engine.get('trainer') else 0, version=engine['report'].get('version',2 if engine['full'] else 1), labels=engine['titles'], report={k:v for k,v in engine['report'].items() if k!='results'}, asr='Vosk small-fa-0.42 · local · Raha vehicle vocabulary', audio_stored=False)
 
 @app.get('/api/catalog')
 def catalog():
@@ -242,7 +252,7 @@ def catalog():
     dataset=json.loads(path.read_text());examples={}
     for row in dataset['train']:
         if row['action'] not in examples:examples[row['action']]=row['text']
-    return [dict(action=k,title=v,example=examples.get(k,'')) for k,v in clean_titles(dataset['titles']).items()]
+    return [dict(action=k,title=v,example=examples.get(k,'')) for k,v in clean_titles({**dataset['titles'], **engine['model'].schema['titles']}).items() if k != 'VENT_SUNROOF']
 
 @app.get('/api/feedback-schema')
 def feedback_schema():
