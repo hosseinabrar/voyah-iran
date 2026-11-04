@@ -105,3 +105,18 @@ The pure controller tests cover passenger-only targeting, idempotence, invalid
 states and missing confirmation. Vehicle testing still required: switch off/on
 by voice from Home and an app, physical-button interoperability, central Back,
 and denied app transfer while passenger is off. A missing OEM API fails closed.
+
+
+### Clock card stack (2026-11-04)
+- Keeps the original 428×426 clock face/date renderer; three English pages use the existing launcher palette/card and typefaces. A pixel identity test compares the original clock face/date area with page zero in both themes; the newly requested PNG pagination dots occupy the right margin.
+- Vertical gestures only; horizontal parent launcher paging remains available. The selected index persists in launcher preferences across process recreation. Read-only telemetry is fetched off the UI thread at 1 Hz while the main home page is visible; clock/data repaint on the 1-second ticker. Read failures expire after 5 seconds, with no made-up values.
+- OEM ICanBusService: getBatteryRemainingCapacity (decoded SOC percent), getFuelLevel/getPercentage, FuelLevel.mInstantaneousFuelConsumption (float), getEngineSpeed, getEnergyConsumptionInfo/getSinceTripA*. Duration is the OEM minutes field; if unsupported it stays unavailable. Negative net energy consumption down to -20 is valid, matching factory formatting.
+- Reset: the factory EnergyTripView clear dialog writes DFVehicleState.TRIPA_RESET_REQ=1. Our 4000ms hold sends this once and waits for fresh near-zero Trip A distance, never clears local data optimistically or automatically retries an ambiguous write.
+- Static icons/tracks/button artwork baked offline by opt-in ClockStackArtworkBakeTest (BAKE_CLOCK_STACK=1), preloaded as an immutable batch. Native renders: app/build/reports/clock-stack/{dark,light}-{0,1,2,3}.png.
+- Vehicle validation still required: valid live RPM/consumption on each firmware, Trip A duration availability, reset acknowledgement, standby/reboot page persistence and cross-axis gestures on the physical display. Renders use illustrative fixture data, not a connected car.
+
+- Clock-stack visual refinement: bold primary numerals, Trip label, imagegen-derived PNG icons (source atlas outside APK under design/clock-stack), and PNG pagination/colored bar assets. The hold uses monotonic 4000ms timing and a pre-baked blue circle revealed from the center, clipped to the button. Cancelled touch, swipe, focus loss or detachment cancels it. There is no numeric interpolation; page settle is 300ms.
+- Range: mEVCruisingRange from OEM Odometer is the standard EV estimate used by ChargeFragment. Display it only when valid. Fuel-only range is not proven; do not substitute mCanTravelMileage/combined range. Invalid/missing range is hidden. Low-level colors use strict <20 orange, <10 red thresholds.
+
+- Clock-stack telemetry now consumes OEM BatteryRemainingCapacity (float), EngineSpeed (int), FuelLevel, Odometer and EnergyConsumptionInfo callbacks via the existing CAN subscription/watch. Signatures checked against OEM callback Stub smali. One initial read per source; 1 Hz fallback only for missing snapshots or unavailable callback/Parcelable contracts; no extra telemetry polling job in the Activity.
+- Snapshot reads cannot overwrite a newer callback. Binder disconnect expires displayed data via the existing stale timeout, with session re-registration on recovery. Redraw only the visible data page when its own values change; the clock retains its 1 Hz local tick. Vehicle callback delivery still needs in-car validation.

@@ -26,10 +26,10 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
             c.restore()
         }
     }
-    private val clockView=object:View(context){override fun onDraw(c:Canvas){
-        c.save();c.scale(width/428f,height/426f);c.translate(-1331f,0f);drawClock(c);c.restore()
-    }}
-    fun tickClock(){clockView.invalidate()}
+    internal val clockView=LauncherClockStack(context){ c ->
+        c.save();c.translate(-1331f,0f);drawClock(c);c.restore()
+    }
+    fun tickClock(){clockView.tick()}
     private val clockMotion=LauncherMotion(clockView)
     init{setWillNotDraw(false);addView(progressView);addView(clockView)}
     override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
@@ -62,7 +62,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         }
     }
     var lightTheme = false
-        set(value) { if(field!=value) {field=value;invalidate();progressView.invalidate();clockView.invalidate()} }
+        set(value) { if(field!=value) {field=value;clockView.light=value;invalidate();progressView.invalidate();clockView.invalidate()} }
     private val foreground get() = if(lightTheme) 0xff252f3c.toInt() else Color.WHITE
     private val secondary get() = if(lightTheme) 0xff71839e.toInt() else 0xffbfc9de.toInt()
     var media = LauncherMediaState()
@@ -271,9 +271,10 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         }
         c.restore()
     }
+    internal var clockTime:()->Long={System.currentTimeMillis()}
     private fun drawClock(c:Canvas){
         val paint=Paint(Paint.ANTI_ALIAS_FLAG)
-        val now=Calendar.getInstance();val cx=1545f;val cy=177f
+        val now=Calendar.getInstance().apply{timeInMillis=clockTime()};val cx=1545f;val cy=177f
         staticArtwork.draw(c,"clock-${if(lightTheme)"light"else "dark"}",RectF(cx-139f,cy-135f,cx+139f,cy+143f))
         fun hand(degrees:Float,length:Float,stroke:Float){c.save();c.rotate(degrees,cx,cy);paint.color=if(lightTheme)foreground else 0xffedf3ff.toInt();paint.strokeWidth=stroke;paint.strokeCap=Paint.Cap.ROUND;c.drawLine(cx,cy,cx,cy-length,paint);paint.strokeCap=Paint.Cap.BUTT;c.restore()}
         hand((now.get(Calendar.HOUR)%12)*30f+now.get(Calendar.MINUTE)*.5f,65f,5f)

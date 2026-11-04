@@ -83,7 +83,7 @@ object BridgeServer {
                 // A Back press must not wait behind long vehicle operations. Its DOWN/UP pair
                 // has a separate lock and cannot change a task's display or global focus.
                 else if (command == listOf("steering-back", "center")) LegacySteeringBack.press()
-                else if(command.first()=="launcher-vehicle" && command[1] in listOf("read","refresh")) LauncherVehicleBridge.execute(command[1],command.getOrElse(2){""})
+                else if(command.first()=="launcher-vehicle" && command[1] in listOf("read","refresh","telemetry")) LauncherVehicleBridge.execute(command[1],command.getOrElse(2){""})
                 else if(command==listOf("launcher-vehicle","audio","read")) LauncherVehicleBridge.execute("audio","read")
                 else if (command.first() == "cluster-music") ClusterMusicBridge.command(command[1])
                 else if (command.first() == "launcher-startup") LauncherStartupBridge.open()

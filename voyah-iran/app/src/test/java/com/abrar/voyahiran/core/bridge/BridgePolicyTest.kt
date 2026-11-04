@@ -6,6 +6,14 @@ import org.junit.Test
 import java.io.*
 
 class BridgePolicyTest {
+    @Test fun clockTelemetryAndTripResetHaveNoFreeFormArguments() {
+        for(op in listOf("telemetry","reset-trip")) {
+            val command=listOf("launcher-vehicle",op)
+            assertEquals(command,BridgePolicy.resolve(command))
+            assertNull(BridgePolicy.resolve(command+"extra"))
+        }
+    }
+
     @Test fun cameraRecenterCannotTargetPhysicalDisplays() {
         assertEquals(listOf("neshan-direct","recenter","3"),BridgePolicy.resolve(listOf("neshan-direct","recenter","3")))
         for(id in listOf("0","1","-1","10001","bad"))assertNull(BridgePolicy.resolve(listOf("neshan-direct","recenter",id)))

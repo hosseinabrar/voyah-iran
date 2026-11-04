@@ -41,12 +41,19 @@ internal object LauncherVehicleBridge {
     fun execute(op: String, value: String = ""): CommandResult = try {
         if(op=="audio") CommandResult(0,LauncherAudioBridge.command(value).toString()) else {
         val s=session()
-        if(op in listOf("read","watch","refresh")) {
+        if(op=="telemetry") {
+            check(BridgeSubscriptionSession.vipActive) { "VIP session required" }
+            CommandResult(0,s.telemetry().toString())
+        } else if(op in listOf("read","watch","refresh")) {
             if(op=="refresh")s.refresh()
             CommandResult(0,s.readAll(if(op=="watch")value.toLongOrNull() else null).toString())
         } else {
             check(BridgeSubscriptionSession.active) { "Subscription inactive" }
             when(op) {
+                "reset-trip" -> {
+                    check(BridgeSubscriptionSession.vipActive) { "VIP session required" }
+                    s.write("TRIPA_RESET_REQ",1)
+                }
                 "energy" -> OemEnergyBinder.dispatchStrategy(value)
                 "recovery" -> {
                     check(s.read("HUM_ENERGY_PTREGEN_LEVL_FB") in 2..4) { "Recovery unavailable" }
@@ -177,6 +184,7 @@ internal object LauncherVehicleBridge {
                     }
                     speedCode -> {val value=data.readInt();update("speed",value)}
                     airCode -> acceptAir(if(data.readInt()!=0)airCreator?.createFromParcel(data) else null)
+                    else -> acceptTelemetryCallback(code,data)
                 }
                 // Other OEM callbacks are intentionally ignored; never query or write from Binder threads.
                 reply?.writeNoException()
@@ -186,6 +194,7 @@ internal object LauncherVehicleBridge {
         private val callback=callbackStub.getMethod("asInterface",IBinder::class.java).invoke(null,callbackBinder)
         fun start() {
             watched // Resolve symbols before accepting callbacks.
+            telemetryCodes;telemetryCreators
             listening=true
             try {
                 binder.linkToDeath(death,0)
@@ -209,6 +218,79 @@ internal object LauncherVehicleBridge {
             synchronized(lock){lock.notifyAll()}
             runCatching {binder.unlinkToDeath(death,0)}
             if(wasListening)runCatching {api.getMethod("removeCallback",callbackType).invoke(remote,callback)}
+        }
+        private data class TelemetrySource(val getter:String,val event:String,val parcelType:String?=null,val floating:Boolean=false)
+        private val telemetrySources=listOf(
+            TelemetrySource("getBatteryRemainingCapacity","onBatteryRemainingCapacityChanged",floating=true),
+            TelemetrySource("getEngineSpeed","onEngineSpeedChanged"),
+            TelemetrySource("getFuelLevel","onFuelLevelChanged","FuelLevel"),
+            TelemetrySource("getOdometer","onOdometerChanged","Odometer"),
+            TelemetrySource("getEnergyConsumptionInfo","onEnergyConsumptionInfoChanged","EnergyConsumptionInfo"))
+        private val telemetryCodes by lazy {telemetrySources.associateWith {runCatching{transaction(it.event)}.getOrDefault(-1)}}
+        private val telemetryCreators by lazy {telemetrySources.associateWith {source->
+            source.parcelType?.let {runCatching{loader.loadClass("com.qinggan.canbus.$it").getField("CREATOR").get(null) as Parcelable.Creator<*>}.getOrNull()}
+        }}
+        private val telemetryValues=HashMap<String,Any?>()
+        private val telemetryVersions=HashMap<String,Long>()
+        private val telemetryReads=HashMap<String,Long>()
+        private val telemetryReadLock=Any()
+        private fun telemetryCall(target:Any?,name:String):Any?=runCatching{
+            if(target==null)null else (if(target===remote)api else target.javaClass).getMethod(name).invoke(target)
+        }.getOrNull()
+        private fun telemetryMember(target:Any?,name:String):Any?=runCatching{target?.javaClass?.getField(name)?.get(target)}.getOrNull()
+        private fun acceptTelemetry(source:TelemetrySource,value:Any?,expected:Long?=null) = synchronized(lock) {
+            val key=source.getter
+            if(expected!=null && (telemetryVersions[key] ?: 0L)!=expected)return@synchronized
+            val previous=telemetryValues[key]
+            telemetryValues[key]=value
+            telemetryVersions[key]=(telemetryVersions[key] ?: 0L)+1
+            // Parcelable snapshots may contain changed fields even when the object is reused.
+            if(previous!=value || source.parcelType!=null){revision++;lock.notifyAll()}
+        }
+        private fun acceptTelemetryCallback(code:Int,data:Parcel) {
+            val source=telemetrySources.firstOrNull{telemetryCodes[it]==code} ?: return
+            val value=if(source.parcelType!=null) {
+                if(data.readInt()!=0)telemetryCreators[source]?.createFromParcel(data) else null
+            } else if(source.floating)data.readFloat() else data.readInt()
+            acceptTelemetry(source,value)
+        }
+        /** One initial snapshot, then OEM events. Only absent callbacks/missing snapshots are polled. */
+        fun telemetry():JSONObject {
+            check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
+            lastRead=SystemClock.elapsedRealtime()
+            synchronized(telemetryReadLock) {
+                for(source in telemetrySources) {
+                    val now=SystemClock.elapsedRealtime()
+                    val version=synchronized(lock){telemetryVersions[source.getter] ?: 0L}
+                    val missing=synchronized(lock){telemetryValues[source.getter]==null}
+                    val unsupported=telemetryCodes[source]==-1 || source.parcelType!=null && telemetryCreators[source]==null
+                    if((missing || unsupported) && now-(telemetryReads[source.getter] ?: -5000L)>=1000L){
+                        telemetryReads[source.getter]=now
+                        acceptTelemetry(source,telemetryCall(remote,source.getter),version)
+                    }
+                }
+            }
+            return synchronized(lock) {
+                val fuel=telemetryValues["getFuelLevel"]
+                val trip=telemetryValues["getEnergyConsumptionInfo"]
+                val odometer=telemetryValues["getOdometer"]
+                JSONObject().apply {
+                    fun number(key:String,value:Any?) {
+                        val n=(value as? Number)?.toDouble()
+                        put(key,n?.takeIf{it.isFinite() && (it>=0 || key=="averagePower" && it>=-20)} ?: JSONObject.NULL)
+                    }
+                    number("battery",telemetryValues["getBatteryRemainingCapacity"])
+                    number("rpm",telemetryValues["getEngineSpeed"])
+                    number("totalRange",telemetryMember(odometer,"mCanTravelMileage"))
+                    number("batteryRange",telemetryMember(odometer,"mEVCruisingRange"))
+                    number("fuel",telemetryCall(fuel,"getPercentage"))
+                    number("instantFuel",telemetryMember(fuel,"mInstantaneousFuelConsumption"))
+                    number("distance",telemetryCall(trip,"getSinceTripADistance"))
+                    number("minutes",telemetryCall(trip,"getSinceTripALastingTime"))
+                    number("averageFuel",telemetryCall(trip,"getSinceTripAAvgOilConsum"))
+                    number("averagePower",telemetryCall(trip,"getSinceTripAAvgPwrConsum"))
+                }
+            }
         }
         fun cachedSpeed():Int? = synchronized(lock) {
             check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
@@ -236,15 +318,22 @@ internal object LauncherVehicleBridge {
         fun readAll(after:Long?=null):JSONObject {
             check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
             lastRead=SystemClock.elapsedRealtime()
+            val clockTelemetry=if(BridgeSubscriptionSession.vipActive)telemetry() else null
             return JSONObject().apply {
                 synchronized(lock) {
-                    if(after!=null && after==revision)lock.wait(2000)
+                    if(after!=null && after==revision){
+                        val fallback=telemetrySources.any {
+                            telemetryCodes[it]==-1 || it.parcelType!=null && telemetryCreators[it]==null || telemetryValues[it.getter]==null
+                        }
+                        lock.wait(if(clockTelemetry!=null && fallback)1000L else 2000L)
+                    }
                     check(listening && binder.isBinderAlive) {"CAN listener disconnected"}
                     for(n in names+airGetters+"speed")put(n,values[n] ?: JSONObject.NULL)
                     put("revision",revision)
                     put("session",generation)
                     put("audioRevision",audioRevision.get())
                 }
+                if(clockTelemetry!=null)put("telemetry",telemetry())
                 put("modes",JSONObject(modes))
                 put("supportsSuspension",runCatching{flag("isSupportAsc")}.getOrDefault(false))
                 put("supportsOuting",runCatching{flag("isSupportOffload")}.getOrDefault(false))
