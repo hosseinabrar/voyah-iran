@@ -40,6 +40,11 @@ class VoyahLauncherActivity : ComponentActivity() {
     private val vehicleOrder=VehicleSnapshotOrder()
     private fun acceptVehicleSnapshot(s:org.json.JSONObject){
         if(!vehicleOrder.accept(s.optLong("session",0),s.optLong("revision",-1)))return
+        lastVehicleRead=android.os.SystemClock.elapsedRealtime()
+        if(s.optBoolean("unchanged")){
+            telemetryAt=lastVehicleRead
+            return
+        }
         s.optJSONObject("telemetry")?.let {
             val next=LauncherTelemetry.parse(it)
             telemetryAt=android.os.SystemClock.elapsedRealtime()
@@ -51,8 +56,10 @@ class VoyahLauncherActivity : ComponentActivity() {
         val state=LauncherVehicleState.parse(s)
         lastVehicleRead=android.os.SystemClock.elapsedRealtime()
         vehicleCache.accept(state);vehiclePage.state=vehicleCache.display;compass.speed=state.speed
-        prepareHiddenVehiclePose()
+        if(previousVehicleState==null || previousVehicleState?.bodyFrame!=state.bodyFrame)prepareHiddenVehiclePose()
+        previousVehicleState=state
     }
+    private var previousVehicleState:LauncherVehicleState?=null
     private fun prepareHiddenVehiclePose() {
         if(!contentReady || (visible && pager.page==1) || pager.moving)return
         posePreparation?.cancel()
@@ -372,12 +379,13 @@ class VoyahLauncherActivity : ComponentActivity() {
             vehicleTicker=lifecycleScope.launch {
                 var revision=-1L
                 while(isActive) {
-                    val r=withContext(Dispatchers.IO) {com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle","watch",revision.toString()),4)}
+                    val r=withContext(Dispatchers.IO) {com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle","watch-central",revision.toString()),4)}
                     if(r.exitCode==0 && !r.timedOut) {
-                        runCatching {val json=org.json.JSONObject(r.output);revision=json.optLong("revision",-1);acceptVehicleSnapshot(json)}
-                            .onFailure {if(android.os.SystemClock.elapsedRealtime()-lastVehicleRead>15000){vehicleCache.stale();vehiclePage.state=vehicleCache.display}}
+                        runCatching {val json=org.json.JSONObject(r.output);revision=json.optLong("revision",-1);if(json.optBoolean("unchanged") && !vehicleCache.display.fresh)revision=-1L;acceptVehicleSnapshot(json)}
+                            .onFailure {revision=-1L;if(android.os.SystemClock.elapsedRealtime()-lastVehicleRead>15000){vehicleCache.stale();vehiclePage.state=vehicleCache.display}}
                     } else if(android.os.SystemClock.elapsedRealtime()-lastVehicleRead>15000){vehicleCache.stale();vehiclePage.state=vehicleCache.display}
                     compass.expire()
+                    if(r.exitCode!=0 || r.timedOut)revision=-1L
                     delay(if(r.exitCode==0)100 else 1000)
                 }
             }

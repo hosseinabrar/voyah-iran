@@ -44,9 +44,9 @@ internal object LauncherVehicleBridge {
         if(op=="telemetry") {
             check(BridgeSubscriptionSession.vipActive) { "VIP session required" }
             CommandResult(0,s.telemetry().toString())
-        } else if(op in listOf("read","watch","refresh")) {
+        } else if(op in listOf("read","watch","watch-central","watch-passenger","refresh")) {
             if(op=="refresh")s.refresh()
-            CommandResult(0,s.readAll(if(op=="watch")value.toLongOrNull() else null).toString())
+            CommandResult(0,s.readAll(if(op.startsWith("watch"))value.toLongOrNull() else null,op.removePrefix("watch-").takeIf{op.startsWith("watch-")} ?: "all").toString())
         } else {
             check(BridgeSubscriptionSession.active) { "Subscription inactive" }
             when(op) {
@@ -142,18 +142,31 @@ internal object LauncherVehicleBridge {
                 snapshot[name]=value
             }
             synchronized(lock) {
-                var changed=false
-                for((name,value) in snapshot)if((!initial || !values.containsKey(name)) && values[name]!=value){values[name]=value;changed=true}
-                if(changed){revision++;lock.notifyAll()}
+                var snapshotChanged=false
+                for((name,value) in snapshot)if((!initial || !values.containsKey(name)) && values[name]!=value){values[name]=value;snapshotChanged=true}
+                if(snapshotChanged)changed("passenger")
             }
         }
         private val values=HashMap<String,Int?>()
         private val lock=java.lang.Object()
         private var revision=0L
+        private var centralRevision=0L
+        private var passengerRevision=0L
+        private fun scopeOf(name:String)=LauncherWatchPolicy.scopeOf(name)
+        private fun changed(scope:String){
+            revision++
+            if(scope=="central")centralRevision=revision else passengerRevision=revision
+            lock.notifyAll()
+        }
+        private fun scopeRevision(scope:String)=when(scope){"central"->centralRevision;"passenger"->passengerRevision;else->revision}
+        private val centralNames by lazy {names.filter{scopeOf(it)=="central"}+"speed"}
+        private val passengerNames by lazy {names.filter{scopeOf(it)=="passenger"}+airGetters}
+        private val supportsSuspension by lazy {runCatching{flag("isSupportAsc")}.getOrDefault(false)}
+        private val supportsOuting by lazy {runCatching{flag("isSupportOffload")}.getOrDefault(false)}
         private val pressureRecovery=PressureRecovery(pressureTimer,
             read={if(listening && binder.isBinderAlive)read("AMBIENT_AIR_PRESSURE") else null},
             recovered={value->storeValue("AMBIENT_AIR_PRESSURE",value)})
-        private fun storeValue(name:String,value:Int) {synchronized(lock) {if(values[name]!=value || !values.containsKey(name)){values[name]=value;revision++;lock.notifyAll()}}}
+        private fun storeValue(name:String,value:Int) {synchronized(lock) {if(values[name]!=value || !values.containsKey(name)){values[name]=value;changed(scopeOf(name))}}}
         private fun update(name:String,value:Int) {
             if(name=="AMBIENT_AIR_PRESSURE") synchronized(pressureRecovery) {
                 pressureRecovery.observed(value)
@@ -245,7 +258,7 @@ internal object LauncherVehicleBridge {
             telemetryValues[key]=value
             telemetryVersions[key]=(telemetryVersions[key] ?: 0L)+1
             // Parcelable snapshots may contain changed fields even when the object is reused.
-            if(previous!=value || source.parcelType!=null){revision++;lock.notifyAll()}
+            if(previous!=value || source.parcelType!=null)changed("central")
         }
         private fun acceptTelemetryCallback(code:Int,data:Parcel) {
             val source=telemetrySources.firstOrNull{telemetryCodes[it]==code} ?: return
@@ -256,6 +269,10 @@ internal object LauncherVehicleBridge {
         }
         /** One initial snapshot, then OEM events. Only absent callbacks/missing snapshots are polled. */
         fun telemetry():JSONObject {
+            refreshTelemetry()
+            return telemetrySnapshot()
+        }
+        private fun refreshTelemetry(){
             check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
             lastRead=SystemClock.elapsedRealtime()
             synchronized(telemetryReadLock) {
@@ -270,7 +287,8 @@ internal object LauncherVehicleBridge {
                     }
                 }
             }
-            return synchronized(lock) {
+        }
+        private fun telemetrySnapshot():JSONObject=synchronized(lock) {
                 val fuel=telemetryValues["getFuelLevel"]
                 val trip=telemetryValues["getEnergyConsumptionInfo"]
                 val odometer=telemetryValues["getOdometer"]
@@ -290,7 +308,6 @@ internal object LauncherVehicleBridge {
                     number("averageFuel",telemetryCall(trip,"getSinceTripAAvgOilConsum"))
                     number("averagePower",telemetryCall(trip,"getSinceTripAAvgPwrConsum"))
                 }
-            }
         }
         fun cachedSpeed():Int? = synchronized(lock) {
             check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
@@ -304,7 +321,7 @@ internal object LauncherVehicleBridge {
                 val value=runCatching{if(n=="speed")speed() else read(n)}.getOrNull() ?: continue
                 synchronized(lock){
                     // A callback during the binder read is newer and must win.
-                    if(revision==before && values[n]!=value){values[n]=value;revision++;lock.notifyAll()}
+                    if(revision==before && values[n]!=value){values[n]=value;changed(scopeOf(n))}
                 }
             }
             val before=synchronized(lock){revision}
@@ -314,29 +331,44 @@ internal object LauncherVehicleBridge {
                 pressureRecovery.observed(synchronized(lock){values["AMBIENT_AIR_PRESSURE"]})
             }
         }
-        fun externalChange() { synchronized(lock) { revision++;lock.notifyAll() } }
-        fun readAll(after:Long?=null):JSONObject {
+        fun externalChange() { synchronized(lock) { changed("passenger") } }
+        fun readAll(after:Long?=null,scope:String="all"):JSONObject {
             check(binder.isBinderAlive && listening) {"CAN listener disconnected"}
             lastRead=SystemClock.elapsedRealtime()
-            val clockTelemetry=if(BridgeSubscriptionSession.vipActive)telemetry() else null
+            val includeTelemetry=scope!="passenger" && BridgeSubscriptionSession.vipActive
+            if(includeTelemetry)refreshTelemetry() // Initial read / bounded fallback; never from a Binder callback.
             return JSONObject().apply {
+                var unchanged=false
                 synchronized(lock) {
-                    if(after!=null && after==revision){
-                        val fallback=telemetrySources.any {
-                            telemetryCodes[it]==-1 || it.parcelType!=null && telemetryCreators[it]==null || telemetryValues[it.getter]==null
-                        }
-                        lock.wait(if(clockTelemetry!=null && fallback)1000L else 2000L)
+                    val fallback=includeTelemetry && telemetrySources.any {
+                        telemetryCodes[it]==-1 || it.parcelType!=null && telemetryCreators[it]==null || telemetryValues[it.getter]==null
+                    }
+                    val deadline=SystemClock.elapsedRealtime()+if(fallback)1000L else 2000L
+                    while(LauncherWatchPolicy.unchanged(after,revision,scopeRevision(scope)) && listening && binder.isBinderAlive){
+                        val remaining=deadline-SystemClock.elapsedRealtime()
+                        if(remaining<=0)break
+                        lock.wait(remaining)
                     }
                     check(listening && binder.isBinderAlive) {"CAN listener disconnected"}
-                    for(n in names+airGetters+"speed")put(n,values[n] ?: JSONObject.NULL)
-                    put("revision",revision)
-                    put("session",generation)
-                    put("audioRevision",audioRevision.get())
+                    unchanged=scope!="all" && LauncherWatchPolicy.unchanged(after,revision,scopeRevision(scope))
+                    if(!unchanged){
+                        val selected=when(scope){
+                            "central"->centralNames
+                            "passenger"->passengerNames
+                            else->names+airGetters+"speed"
+                        }
+                        for(n in selected)put(n,values[n] ?: JSONObject.NULL)
+                    }
+                    put("revision",revision);put("session",generation)
+                    put("audioRevision",audioRevision.get());put("unchanged",unchanged)
                 }
-                if(clockTelemetry!=null)put("telemetry",telemetry())
-                put("modes",JSONObject(modes))
-                put("supportsSuspension",runCatching{flag("isSupportAsc")}.getOrDefault(false))
-                put("supportsOuting",runCatching{flag("isSupportOffload")}.getOrDefault(false))
+                if(!unchanged){
+                    if(includeTelemetry)put("telemetry",telemetrySnapshot())
+                    if(scope!="passenger"){
+                        put("modes",JSONObject(modes))
+                        put("supportsSuspension",supportsSuspension);put("supportsOuting",supportsOuting)
+                    }
+                }
             }
         }
     }

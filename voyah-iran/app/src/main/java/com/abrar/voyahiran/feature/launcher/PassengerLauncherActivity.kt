@@ -46,6 +46,7 @@ class PassengerLauncherActivity : ComponentActivity() {
     private fun acceptVehicleSnapshot(s:JSONObject){
         if(!vehicleOrder.accept(s.optLong("session",0),s.optLong("revision",-1)))return
         vehicleAt=SystemClock.elapsedRealtime()
+        if(s.optBoolean("unchanged"))return
         comfortCache.accept(s.put("fresh",true));publish("vehicle",comfortCache.display)
     }
     private var volumeJob: Job? = null
@@ -60,7 +61,7 @@ class PassengerLauncherActivity : ComponentActivity() {
         weatherCard.update(s)
     }}
     private val mediaObserver by lazy {LauncherMediaObserver(this,lifecycleScope,::onMedia)}
-    private val changes=object:BroadcastReceiver() {override fun onReceive(c:Context?,i:Intent?) {if(i?.action=="theme_loaded")applyTheme(true) else volume()}}
+    private val changes=object:BroadcastReceiver() {override fun onReceive(c:Context?,i:Intent?) {volume()}}
     @Suppress("DEPRECATION")
     private fun allowed()=visible && !isFinishing && !isDestroyed && LauncherPreferences.enabled(this) && (application as VoyahIranApplication).subscriptions.vipAllowed && (window.decorView.display?.displayId ?: windowManager.defaultDisplay.displayId)==1
     override fun onCreate(savedInstanceState:Bundle?) {
@@ -131,7 +132,7 @@ class PassengerLauncherActivity : ComponentActivity() {
             }
         })
         onBackPressedDispatcher.addCallback(this,object:OnBackPressedCallback(true){override fun handleOnBackPressed(){favoriteCard.dismissEdit()}})
-        val filter=IntentFilter("theme_loaded").apply {addAction("android.media.VOLUME_CHANGED_ACTION")}
+        val filter=IntentFilter("android.media.VOLUME_CHANGED_ACTION")
         if(android.os.Build.VERSION.SDK_INT>=33)registerReceiver(changes,filter,Context.RECEIVER_EXPORTED) else registerReceiver(changes,filter)
         applyTheme(true)
     }
@@ -183,17 +184,18 @@ class PassengerLauncherActivity : ComponentActivity() {
         watch=lifecycleScope.launch {
             var revision=-1L
             while(isActive) {
-                val r=withContext(Dispatchers.IO){BridgeClient.run(listOf("launcher-vehicle","watch",revision.toString()),4)}
+                val r=withContext(Dispatchers.IO){BridgeClient.run(listOf("launcher-vehicle","watch-passenger",revision.toString()),4)}
                 if(!allowed())break
                 if(r.exitCode==0 && !r.timedOut)runCatching {JSONObject(r.output)}.onSuccess {s->
                     val next=s.optLong("revision",-1)
-                    revision=next;acceptVehicleSnapshot(s)
+                    revision=next;if(s.optBoolean("unchanged") && !comfortCache.display.optBoolean("fresh"))revision=-1L;acceptVehicleSnapshot(s)
                     val audio=s.optLong("audioRevision",Long.MIN_VALUE)
                     if(audio!=audioRevision){audioRevision=audio;volume()}
-                }
+                }.onFailure{revision=-1L}
                 if(SystemClock.elapsedRealtime()-vehicleAt>10000 && states["vehicle"]?.optBoolean("fresh")!=false){
                     comfortCache.stale();publish("vehicle",comfortCache.display)
                 }
+                if(r.exitCode!=0 || r.timedOut)revision=-1L
                 delay(if(r.exitCode==0)100 else 1000)
             }
         }

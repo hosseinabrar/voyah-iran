@@ -21,6 +21,7 @@ import kotlinx.coroutines.*
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk=[30],application=Application::class,qualifiers="en-w1775dp-h660dp-land-mdpi")
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
+@org.robolectric.annotation.LooperMode(org.robolectric.annotation.LooperMode.Mode.PAUSED)
 class LauncherVehicleDashboardTest {
     @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     @Test fun drivePopupCoversCurrentModeAndRendersBothThemes() {
@@ -52,7 +53,7 @@ class LauncherVehicleDashboardTest {
     @Test fun compassUsesIndependentDialAndUprightLabels() {
         val v=view();v.animationsEnabled=false
         v.compass=LauncherCompassState(90f,1180.0,0.0,0.0)
-        val dial=v.getChildAt(0) as LauncherCompassDial
+        val dial=(0 until v.childCount).map{v.getChildAt(it)}.filterIsInstance<LauncherCompassDial>().single()
         assertEquals(-90f,dial.rotation,0.01f)
         for(i in 1 until dial.childCount)assertEquals(90f,dial.getChildAt(i).rotation,0.01f)
         v.transitioning=true;v.compass=LauncherCompassState(120f)

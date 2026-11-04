@@ -12,15 +12,36 @@ import kotlinx.coroutines.*
 /** Page two occupies only the same OEM safe rectangle as page one. */
 class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(context) {
     private val dial=LauncherCompassDial(context)
-    init {setWillNotDraw(false);addView(dial)}
+    private var cardsReady=false
+    private fun drawingCard(index:Int)=object:View(context){
+        override fun onDraw(c:Canvas){
+            c.save();c.translate(-left.toFloat(),0f);c.scale(this@LauncherVehicleDashboard.width/1775f,this@LauncherVehicleDashboard.height/660f)
+            when(index){0->drawEnergy(c);1->drawCompass(c);else->drawSuspension(c)}
+            c.restore()
+        }
+    }
+    private val energyCard=drawingCard(0)
+    private val compassCard=drawingCard(1)
+    private val suspensionCard=drawingCard(2)
+    init {setWillNotDraw(false);addView(energyCard);addView(compassCard);addView(suspensionCard);addView(dial);cardsReady=true}
+    override fun invalidate(){
+        super.invalidate()
+        if(cardsReady){energyCard.invalidate();compassCard.invalidate();suspensionCard.invalidate()}
+    }
     override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
+        listOf(energyCard,compassCard,suspensionCard).forEachIndexed {i,v->
+            val x=i*591f
+            v.layout((x*width/1775).toInt(),0,ceil((x+575f)*width/1775).toInt(),height)
+        }
         dial.layout((678.5f*width/1775).toInt(),(116f*height/660).toInt(),(1078.5f*width/1775).toInt(),(516f*height/660).toInt())
     }
-    private val motion=LauncherMotion(this)
+    private val energyMotion=LauncherMotion(energyCard)
+    private val suspensionMotion=LauncherMotion(suspensionCard)
+    private fun pauseMotion(){energyMotion.paused=transitioning||!animationsEnabled;suspensionMotion.paused=transitioning||!animationsEnabled}
     var animationsEnabled=true
-        set(v){field=v;motion.paused=transitioning||!v;if(!v)stopAnimations()}
+        set(v){field=v;pauseMotion();if(!v)stopAnimations()}
     var transitioning=false
-        set(v){if(field==v)return;field=v;motion.paused=v||!animationsEnabled;stopAnimations();if(!v)invalidate()}
+        set(v){if(field==v)return;field=v;pauseMotion();stopAnimations();if(!v)invalidate()}
     private var ground:Float?=null
     private var groundAnimation:ValueAnimator?=null
     var lightTheme=false
@@ -28,24 +49,30 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
     var state=LauncherVehicleState()
         set(v){
             if(field==v)return
-            motion.updated()
+            val previous=field
+            energyMotion.updated();suspensionMotion.updated()
             if(transitioning){field=v;artwork.state=v;return}
             if(field.groundMm!=v.groundMm) {
                 groundAnimation?.cancel()
                 val target=v.groundMm?.toFloat()
                 if(!animationsEnabled || ground==null || target==null)ground=target else {
                     groundAnimation=ValueAnimator.ofFloat(ground!!,target).apply {
-                        duration=1000;addUpdateListener {ground=it.animatedValue as Float;invalidate()};start()
+                        duration=1000;addUpdateListener {ground=it.animatedValue as Float;suspensionCard.invalidate()};start()
                     }
                 }
             }
             if(field.drive != v.drive || field.manual != v.manual || field.maintain != v.maintain || field.fresh != v.fresh) onDriveStateChanged()
-            field=v;artwork.state=v;invalidate()
+            field=v;artwork.state=v
+            if(previous.energy!=v.energy || previous.recovery!=v.recovery || previous.modes!=v.modes || previous.fresh!=v.fresh)energyCard.invalidate()
+            if(previous.pressure!=v.pressure)compassCard.invalidate()
+            if(previous.height!=v.height || previous.adjusting!=v.adjusting || previous.drive!=v.drive ||
+                previous.manual!=v.manual || previous.maintain!=v.maintain || previous.suspended!=v.suspended ||
+                previous.fresh!=v.fresh || previous.supportsSuspension!=v.supportsSuspension || previous.supportsOuting!=v.supportsOuting ||
+                (previous.speed in 0..39)!=(v.speed in 0..39))suspensionCard.invalidate()
         }
     var compass=LauncherCompassState()
         set(v){
             if(field==v)return
-            motion.updated()
             if(transitioning){field=v;return}
             val previous=field
             if(field.bearing?.toInt()!=v.bearing?.toInt()) {
@@ -57,15 +84,15 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
             fun shown(n:Double?)=n?.roundToInt()
             if(previous.bearing?.toInt()!=v.bearing?.toInt() ||
                 shown(previous.slope)!=shown(v.slope) || shown(previous.inclination)!=shown(v.inclination) ||
-                shown(previous.altitude)!=shown(v.altitude))invalidate()
+                shown(previous.altitude)!=shown(v.altitude))compassCard.invalidate()
         }
     fun stopAnimations(){groundAnimation?.cancel();ground=state.groundMm?.toFloat();dial.bearing(compass.bearing ?: 0f,animate=false)}
     var busy=false
-        set(v){field=v;invalidate()}
+        set(v){if(field!=v){field=v;energyCard.invalidate();suspensionCard.invalidate()}}
     var onCommand:(String,String)->Unit={_,_->}
     var onDrive:()->Unit={}
     var onDriveStateChanged:()->Unit={}
-    val artwork=LauncherSuspensionArtwork(context){if(!transitioning)invalidate()}
+    val artwork=LauncherSuspensionArtwork(context){if(!transitioning)suspensionCard.invalidate()}
     private val p=Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private val staticArtwork=StaticLauncherArtwork(this)
     private var energy:Bitmap?=null
@@ -92,15 +119,17 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
     private val cyan=0xff00aaff.toInt()
     private data class Hit(val rect:RectF,val op:String,val value:String,val enabled:Boolean)
     private val hits=mutableListOf<Hit>()
+    private val regular=Typeface.create("sans-serif",Typeface.NORMAL)
+    private val boldFace=Typeface.create("sans-serif",Typeface.BOLD)
     private fun text(c:Canvas,s:String,x:Float,y:Float,size:Float=25f,center:Boolean=false,color:Int=fg,bold:Boolean=false) {
-        p.color=color;p.textSize=size;p.typeface=Typeface.create("sans-serif",if(bold)Typeface.BOLD else Typeface.NORMAL)
+        p.color=color;p.textSize=size;p.typeface=if(bold)boldFace else regular
         p.textAlign=if(center)Paint.Align.CENTER else Paint.Align.LEFT
         c.drawText(s,x,y,p)
     }
     private fun card(c:Canvas,x:Float,w:Float) {
         staticArtwork.draw(c,"vehicle-card-${if(lightTheme)"light"else "dark"}",RectF(x,0f,x+w,660f))
     }
-    private fun selector(c:Canvas,x:Float,y:Float,w:Float,labels:List<Pair<String,String>>,selected:String?,op:String,enabled:Boolean) {
+    private fun selector(motion:LauncherMotion,c:Canvas,x:Float,y:Float,w:Float,labels:List<Pair<String,String>>,selected:String?,op:String,enabled:Boolean) {
         if(labels.isEmpty()){text(c,"Unavailable",x+w/2,y+47,23f,true,muted);return}
         val cell=w/labels.size
         p.color=if(lightTheme)0xffe0e9f7.toInt() else 0xff454e76.toInt();c.drawRoundRect(x,y,x+w,y+78,12f,12f,p)
@@ -127,9 +156,10 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         staticArtwork.draw(c,"compass-oem-indicator${if(lightTheme)"-light" else ""}",RectF(678.5f,126f,1078.5f,526f))
         c.restore()
     }
-    override fun onDraw(c:Canvas) {
-        super.onDraw(c);hits.clear();c.save();c.scale(width/1775f,height/660f)
-        val w=575f;card(c,0f,w);card(c,591f,w);card(c,1182f,w)
+    private fun drawEnergy(c:Canvas) {
+        val motion=energyMotion
+        hits.removeAll{it.op=="energy" || it.op=="recovery"}
+        card(c,0f,575f)
         // Transparent illustration derived from the CCC tile, so both themes share the card background.
         c.save();c.clipPath(Path().apply {addRoundRect(RectF(0f,0f,575f,319f),16f,16f,Path.Direction.CW)})
         // Extend beyond the card clip so the transparent right fringe stays outside it.
@@ -140,12 +170,15 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         text(c,"Energy mode",32f,53f,25f)
         val mode=state.modes.entries.firstOrNull {it.value==state.energy}?.key
         motion.text("energy-label",LauncherVehicleState.energyNames[mode] ?: "—",c,RectF(25f,75f,310f,125f)){text(c,it,32f,115f,32f,bold=true)}
-        selector(c,32f,322f,511f,state.modes.map {(k,_)->k to LauncherVehicleState.energyNames.getValue(k)},mode,"energy",state.fresh && state.energy in state.modes.values)
+        selector(motion,c,32f,322f,511f,state.modes.map {(k,_)->k to LauncherVehicleState.energyNames.getValue(k)},mode,"energy",state.fresh && state.energy in state.modes.values)
         p.color=if(lightTheme)0xffd8e4f2.toInt() else 0xff61708c.toInt();p.strokeWidth=1f;c.drawLine(24f,426f,551f,426f,p)
         text(c,"Energy recovery",32f,484f)
         motion.text("recovery-label",when(state.recovery){2->"Low";3->"Medium";4->"High";else->"—"},c,RectF(25f,490f,310f,540f)){text(c,it,32f,532f,32f,bold=true)}
         for(i in 0..2) {p.color=motion.color("recovery-bar-$i",i<(state.recovery?.minus(1) ?: 0),if(lightTheme)0xffc5d4e9.toInt() else 0xff4a587b.toInt(),cyan);c.drawRoundRect(420f+i*34,535f-(i+1)*27,442f+i*34,535f,5f,5f,p)}
-        selector(c,32f,560f,511f,listOf("2" to "Low","3" to "Medium","4" to "High"),state.recovery?.toString(),"recovery",state.fresh && state.recovery in 2..4)
+        selector(motion,c,32f,560f,511f,listOf("2" to "Low","3" to "Medium","4" to "High"),state.recovery?.toString(),"recovery",state.fresh && state.recovery in 2..4)
+    }
+    private fun drawCompass(c:Canvas) {
+        card(c,591f,575f)
         fun degrees(n:Double?)=n?.let {String.format(Locale.US,"%.0f°",it)} ?: "—"
         // Live readings must remain fully visible on every sensor update.
         fun reading(key:String,value:String,x:Float,y:Float,size:Float=23f,center:Boolean=false){
@@ -163,6 +196,11 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
         reading("bearing",if(bearing==null)" --°" else " $bearing°",cx,352f,40f,true)
         reading("altitude","Altitude ${compass.altitude?.let {String.format(Locale.US,"%.0f",it)} ?: "—"} m",622f,621f)
         reading("pressure","Air Pressure ${state.pressure?.takeIf{it>0}?.let{it.toString()} ?: "—"} hPa",911f,621f)
+    }
+    private fun drawSuspension(c:Canvas) {
+        val motion=suspensionMotion
+        hits.removeAll{it.op=="height" || it.op=="drive-menu"}
+        card(c,1182f,575f)
         text(c,"Suspension height",1214f,54f)
         p.color=cyan;c.drawRoundRect(1214f,70f,1223f,120f,4f,4f,p)
         motion.text("height-label",state.heightLabel,c,RectF(1235f,70f,1750f,120f)){text(c,it,1240f,108f,32f,bold=true)}
@@ -190,8 +228,7 @@ class LauncherVehicleDashboard(context:Context):android.widget.FrameLayout(conte
             p.color=fg;p.strokeWidth=3f;c.drawLine(arrowX,494f,arrowX+10f,504f,p);c.drawLine(arrowX+10f,504f,arrowX,514f,p)
         }
         hits+=Hit(RectF(1208f,473f,1725f,543f),"drive-menu","",state.driveMenuEnabled && !busy)
-        selector(c,1214f,560f,511f,listOf("0" to "Lowest","1" to "Low","2" to "Medium","3" to "Highest"),state.heightIndex.takeIf{it>=0}?.toString(),"height",state.suspensionEnabled)
-        c.restore()
+        selector(motion,c,1214f,560f,511f,listOf("0" to "Lowest","1" to "Low","2" to "Medium","3" to "Highest"),state.heightIndex.takeIf{it>=0}?.toString(),"height",state.suspensionEnabled)
     }
     override fun onTouchEvent(e:MotionEvent):Boolean {
         if(e.action==MotionEvent.ACTION_UP) {

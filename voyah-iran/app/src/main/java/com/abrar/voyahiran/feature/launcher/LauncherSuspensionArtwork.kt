@@ -14,7 +14,14 @@ class LauncherSuspensionArtwork(private val context:Context,private val changed:
     private var job:Job?=null
     private val changes=kotlinx.coroutines.channels.Channel<Unit>(kotlinx.coroutines.channels.Channel.CONFLATED)
     var state=LauncherVehicleState()
-        set(value){if(field==value)return;field=value;changes.trySend(Unit)}
+        set(value){
+            val old=field
+            field=value
+            if(old.bodyFrame!=value.bodyFrame || old.fresh!=value.fresh ||
+                ((old.speed ?: 0)>3) != ((value.speed ?: 0)>3) ||
+                old.sensorError!=value.sensorError || old.height!=value.height || old.wheels!=value.wheels)
+                changes.trySend(Unit)
+        }
     var light=false
         set(value){if(field==value)return;field=value;changes.trySend(Unit)}
     var body:Bitmap?=null;private set

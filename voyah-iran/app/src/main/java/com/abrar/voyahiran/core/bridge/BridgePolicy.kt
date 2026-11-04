@@ -32,7 +32,7 @@ object BridgePolicy {
         if(request.size==3 && request[0]=="launcher-vehicle" && request[1]=="audio" &&
             (request[2] in listOf("read","mute") || request[2].toIntOrNull() in 0..30)) return request
         if(request == listOf("launcher-vehicle","refresh")) return request
-        if(request.size==3 && request[0]=="launcher-vehicle" && request[1]=="watch" && request[2].toLongOrNull()?.let {it>=-1}==true) return request
+        if(request.size==3 && request[0]=="launcher-vehicle" && request[1] in listOf("watch","watch-central","watch-passenger") && request[2].toLongOrNull()?.let {it>=-1}==true) return request
         if(request.size==3 && request[0]=="launcher-vehicle" && when(request[1]) {
             "energy" -> request[2] in listOf("smart","electric","fuel","hybrid","save")
             "recovery" -> request[2] in listOf("2","3","4")

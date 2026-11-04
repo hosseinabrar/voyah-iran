@@ -60,11 +60,11 @@ object BridgeServer {
                 val request = parsed.id
                 val command = BridgePolicy.resolve(parsed.arguments, android.os.Build.VERSION.SDK_INT)
                 val operationLock = comfortLocks.forOperation(command?.firstOrNull().orEmpty(), execution)
-                if(command!=null && command.take(2)==listOf("launcher-vehicle","watch")) {
+                if(command!=null && command.firstOrNull()=="launcher-vehicle" && command.getOrNull(1) in listOf("watch","watch-central","watch-passenger")) {
                     try {
                         watchPool.execute {
                             socket.use {
-                                try {reply(output,request,LauncherVehicleBridge.execute("watch",command[2]))}
+                                try {reply(output,request,LauncherVehicleBridge.execute(command[1],command[2]))}
                                 catch(e:Exception){AppLog.error("BridgeServer","watch failed",e)}
                             }
                         }

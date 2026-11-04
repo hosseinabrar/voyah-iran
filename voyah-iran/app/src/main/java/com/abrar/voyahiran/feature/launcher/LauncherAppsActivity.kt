@@ -71,14 +71,10 @@ open class LauncherAppsActivity : ComponentActivity() {
             pager.postDelayed(this, 850)
         }
     }
+    private var unobserveTheme:(()->Unit)?=null
     private val pending = mutableMapOf<String, CompletableDeferred<JSONObject>>()
     private val reply = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if(intent?.action=="theme_loaded") {
-                catalogDirty=true
-                root.post { if(allowed()){applyTheme();refresh()} }
-                return
-            }
             val nonce = intent?.getStringExtra("nonce") ?: return
             val waiting = pending.remove(nonce) ?: return
             val text = intent.getStringExtra("payload").orEmpty()
@@ -115,8 +111,12 @@ open class LauncherAppsActivity : ComponentActivity() {
         root.addOnLayoutChangeListener { _,_,_,_,_,_,_,_,_ -> layoutSafeArea() }
         LauncherEntrance.install(this,root)
         @Suppress("DEPRECATION")
-        if(android.os.Build.VERSION.SDK_INT>=33) registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT").apply {addAction("theme_loaded")},Context.RECEIVER_EXPORTED)
-        else registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT").apply {addAction("theme_loaded")})
+        if(android.os.Build.VERSION.SDK_INT>=33) registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT"),Context.RECEIVER_EXPORTED)
+        else registerReceiver(reply,IntentFilter("com.abrar.voyahiran.DRAWER_RESULT"))
+        unobserveTheme=LauncherTheme.observe(this){
+            catalogDirty=true
+            root.post {if(allowed() && draggedId==null){applyTheme();refresh()}}
+        }
         val packageFilter=IntentFilter().apply {
             addAction(Intent.ACTION_PACKAGE_ADDED);addAction(Intent.ACTION_PACKAGE_REMOVED)
             addAction(Intent.ACTION_PACKAGE_CHANGED);addAction(Intent.ACTION_PACKAGE_REPLACED)
@@ -442,5 +442,5 @@ open class LauncherAppsActivity : ComponentActivity() {
             finally {opening=false}
         }
     }
-    override fun onDestroy(){unobserveCatalog?.invoke();unobserveCatalog=null;finishEditing();unregisterReceiver(reply);unregisterReceiver(packageChanges);pending.values.forEach {it.cancel()};pending.clear();super.onDestroy()}
+    override fun onDestroy(){unobserveTheme?.invoke();unobserveTheme=null;unobserveCatalog?.invoke();unobserveCatalog=null;finishEditing();unregisterReceiver(reply);unregisterReceiver(packageChanges);pending.values.forEach {it.cancel()};pending.clear();super.onDestroy()}
 }

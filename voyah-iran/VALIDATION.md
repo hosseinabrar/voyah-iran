@@ -122,3 +122,12 @@ and denied app transfer while passenger is off. A missing OEM API fails closed.
 - Snapshot reads cannot overwrite a newer callback. Binder disconnect expires displayed data via the existing stale timeout, with session re-registration on recovery. Redraw only the visible data page when its own values change; the clock retains its 1 Hz local tick. Vehicle callback delivery still needs in-car validation.
 
 - Lossless artwork packing: runtime PNG disk size 29,253 → 18,380 bytes; decoded RGBA size 4,469,608 → 308,808 bytes. Six full-card transparent PNGs replaced with tight positioned components; tracks/separators/dots reused. All 16 before/after native render files are pixel-identical (design/clock-stack/render-comparison.json); targeted launcher/dashboard/bridge tests pass.
+
+## Launcher runtime optimization (2026-11-05)
+- Central and passenger CAN watch scopes now wait for relevant changes only. Stable replies carry heartbeat metadata instead of complete snapshots. New sessions, errors and stale displays request full snapshots; legacy read/refresh/watch contracts remain available.
+- Vehicle page energy/compass/suspension now draw in independent child views with independent motion controllers. Speed changes within an unchanged control/animation threshold no longer redraw unrelated cards or restart hidden body preparation.
+- Persian/Gregorian date text and formatters are cached per local day and timezone; clock paint/calendar and vehicle typefaces are reused.
+- Launcher theme observation is shared across catalog and visible surfaces, with one OEM broadcast receiver and 30-second missed-event recovery. Subscription guards remain active.
+- 87 targeted tests passed, including scope routing/restart cursors, command allowlisting, midnight/backward-time/timezone cache behavior, shared theme delivery/recovery, vehicle controls and clock/dashboard renders.
+- Six native vehicle-page before/after render files (dark, light, unavailable, plus energy crops) have zero differing pixels. Vehicle render preload tests use PAUSED Robolectric loop to match their asynchronous preparation helper.
+- No map/cluster monitoring code or intervals changed. No in-car CPU/RAM profiling or release APK build performed.

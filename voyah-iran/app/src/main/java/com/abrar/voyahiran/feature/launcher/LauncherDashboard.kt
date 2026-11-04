@@ -272,9 +272,11 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         c.restore()
     }
     internal var clockTime:()->Long={System.currentTimeMillis()}
+    private val clockPaint=Paint(Paint.ANTI_ALIAS_FLAG)
+    private val clockCalendar=Calendar.getInstance()
     private fun drawClock(c:Canvas){
-        val paint=Paint(Paint.ANTI_ALIAS_FLAG)
-        val now=Calendar.getInstance().apply{timeInMillis=clockTime()};val cx=1545f;val cy=177f
+        val paint=clockPaint
+        val now=clockCalendar.apply{timeZone=java.util.TimeZone.getDefault();timeInMillis=clockTime()};val cx=1545f;val cy=177f
         staticArtwork.draw(c,"clock-${if(lightTheme)"light"else "dark"}",RectF(cx-139f,cy-135f,cx+139f,cy+143f))
         fun hand(degrees:Float,length:Float,stroke:Float){c.save();c.rotate(degrees,cx,cy);paint.color=if(lightTheme)foreground else 0xffedf3ff.toInt();paint.strokeWidth=stroke;paint.strokeCap=Paint.Cap.ROUND;c.drawLine(cx,cy,cx,cy-length,paint);paint.strokeCap=Paint.Cap.BUTT;c.restore()}
         hand((now.get(Calendar.HOUR)%12)*30f+now.get(Calendar.MINUTE)*.5f,65f,5f)

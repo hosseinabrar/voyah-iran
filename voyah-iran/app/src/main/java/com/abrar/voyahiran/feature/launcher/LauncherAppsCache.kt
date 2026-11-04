@@ -71,7 +71,7 @@ internal object LauncherAppsCache {
         val c=context.applicationContext
         if(app==null) {
             app=c;theme=LauncherTheme.isLight()
-            val replies=IntentFilter("com.abrar.voyahiran.DRAWER_RESULT").apply {addAction("theme_loaded")}
+            val replies=IntentFilter("com.abrar.voyahiran.DRAWER_RESULT")
             val packages=IntentFilter().apply {
                 addAction(Intent.ACTION_PACKAGE_ADDED);addAction(Intent.ACTION_PACKAGE_REMOVED)
                 addAction(Intent.ACTION_PACKAGE_CHANGED);addAction(Intent.ACTION_PACKAGE_REPLACED);addDataScheme("package")
@@ -82,12 +82,7 @@ internal object LauncherAppsCache {
             } else {
                 c.registerReceiver(receiver,replies);c.registerReceiver(receiver,packages)
             }
-            scope.launch {
-                while(isActive) {
-                    delay(1000)
-                    if(theme!=LauncherTheme.isLight()) {invalidate();warm(c)}
-                }
-            }
+            LauncherTheme.observe(c){if(theme!=LauncherTheme.isLight()){invalidate();warm(c)}}
         }
         if(theme!=LauncherTheme.isLight())invalidate()
         if(!allowed(c) || cached!=null || work?.isActive==true)return
