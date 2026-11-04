@@ -12,11 +12,13 @@ from middle_values import is_middle
 
 # Synonyms name entities, not lists of accepted/rejected complete sentences.
 ENTITIES = {
+    'wireless_charger': ['شارژر وایرلس','شارژ وایرلس','وایرلس شارژر','شارژر موبایل','شارژ گوشی','گوشیمو','گوشیم','گوشی','موبایلم','موبایل','شارژر'],
+    'charge_port': ['در شارژر','درب شارژر','درگاه شارژ','درب شارژ','در شارژ'],
     'scheduled_charge': ['شارژ زمانبندی شده', 'شارژ زمان بندی شده', 'زمانبندی شارژ', 'زمان بندی شارژ', 'شارژ برنامه ریزی شده', 'شارژ سر ساعت', 'اسکجول شارژ', 'اسک جول شارژ', 'اسکجولد شارژ'],
     'easy_entry': ['ورود آسان', 'ورود راحت', 'ایزی انتری', 'ایزی اینتری', 'easy entry'],
     'easy_exit': ['خروج آسان', 'خروج راحت', 'ایزی اگزیت', 'easy exit'],
     'sunroof': ['سانروف', 'سان روف', 'سقف شیشه ای'],
-    'sunshade': ['پرده سانروف', 'پرده سقف', 'پرده', 'سایبان'],
+    'sunshade': ['پرده سانروف', 'پرده سقف', 'پرده', 'سایبان', 'سان شید', 'سانشید', 'کاور سانروف', 'کاور سقف', 'کاور'],
     'window': ['شیشه', 'پنجره'],
     'seat': ['صندلی', 'صندلیم', 'صندلی من', 'نشیمن', 'پشتم', 'کمرم', 'بدنم', 'عضلاتم'],
     'seat_heat': ['گرمکن صندلی', 'گرم کن صندلی', 'گرمایش صندلی', 'گرمکن'],
@@ -30,15 +32,17 @@ ENTITIES = {
     'tailgate': ['در صندوق', 'درب صندوق', 'صندوق عقب', 'صندوق'],
     'mirror': ['آینه', 'آینه ها'],
     'display': ['نمایشگر', 'صفحه نمایش', 'مانیتور'],
-    'ambient': ['نورپردازی داخلی', 'نورپردازی', 'نور کابین'],
+    'ambient': ['نورپردازی داخلی', 'نورپردازی داخل کابین', 'نورپردازی کابین', 'نورپردازی', 'نور داخل کابین', 'نور داخل اتاق', 'نور داخل ماشین', 'نور داخل خودرو', 'نور داخل', 'نور کابین', 'نور اتاق'],
     'battery': ['باتری', 'شارژ باتری'],
 }
 
 CAPABILITIES = {
+    'wireless_charger': ['SET_WIRELESS_CHARGER'],
+    'charge_port': ['OPEN_CHARGE_PORT'],
     'scheduled_charge': ['SET_SCHEDULED_CHARGING'],
     'easy_entry': ['SET_EASY_ENTRY'],
     'easy_exit': ['SET_EASY_EXIT'],
-    'sunroof': ['OPEN_SUNROOF','CLOSE_SUNROOF','SET_SUNROOF_POSITION','ADJUST_SUNROOF_POSITION'],
+    'sunroof': ['VENT_SUNROOF','OPEN_SUNROOF','CLOSE_SUNROOF','SET_SUNROOF_POSITION','ADJUST_SUNROOF_POSITION'],
     'sunshade': ['SET_SUNSHADE_POSITION','ADJUST_SUNSHADE_POSITION'],
     'window': ['OPEN_WINDOW','CLOSE_WINDOW','SET_WINDOW_POSITION','ADJUST_WINDOW_POSITION','VENT_WINDOW','SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER'],
     'seat': ['SET_SEAT_','ADJUST_SEAT_','SAVE_SEAT_POSITION','RECALL_SEAT_POSITION'],
@@ -52,7 +56,7 @@ CAPABILITIES = {
     'doors': ['SET_DOOR_','SET_CHILD_LOCK'],
     'tailgate': ['OPEN_TAILGATE','CLOSE_TAILGATE'],
     'mirror': ['SET_MIRROR_FOLD'],
-    'display': ['SET_DISPLAY_','SWAP_DISPLAY_APPS','SET_REAR_DISPLAY_LOCK'],
+    'display': ['SET_PASSENGER_DISPLAY_POWER','SET_DISPLAY_','SWAP_DISPLAY_APPS','SET_REAR_DISPLAY_LOCK'],
     'ambient': ['SET_AMBIENT_LIGHT_','ADJUST_AMBIENT_LIGHT_'],
     'battery': ['SET_BATTERY_','SET_ENERGY_STRATEGY','OPEN_CHARGE_PORT','STOP_CHARGING','SET_SCHEDULED_CHARGING'],
 }
@@ -139,6 +143,10 @@ def check(text, action, params):
             residual=''.join(remaining)
             for phrase in framing:residual=re.sub(r'(?<!\w)'+re.escape(phrase)+r'(?!\w)',' ',residual)
             fillers.update('کناری بغل بغلی ها های تمام بیشترین کمترین ونت حافظه مموری موقعیت ذخیره بازیابی لود شدت وسط متوسط میانه'.split())
+            # Seat positioning/state requests use these as grammatical framing.
+            # Unknown destinations (e.g. یخچال) must still remain uncovered.
+            if matches(action,['RECALL_SEAT_POSITION','SAVE_SEAT_POSITION','SET_SEAT_','ADJUST_SEAT_']):
+                fillers.update('تو در وضعیت حالت شماره'.split())
             uncovered=[w for w in residual.split() if w not in fillers and not re.fullmatch(r'[\d۰-۹٠-٩]+[.,٫]?[\d۰-۹٠-٩]*',w)]
             result['uncovered']=uncovered
             if uncovered:return reject('بخش «'+' '.join(uncovered)+'» در برداشت فرمان توضیح داده نشده است')
