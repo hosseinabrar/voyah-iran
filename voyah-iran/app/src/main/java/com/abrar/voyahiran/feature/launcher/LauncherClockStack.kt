@@ -37,8 +37,7 @@ internal class LauncherClockStack(context:Context, private val clock:(Canvas)->U
     companion object {
         const val HOLD_MS=4000L
         fun levelTone(value:Double)=when { value<10 -> "red"; value<20 -> "orange"; else -> "blue" }
-        val artworkPaths=(1..3).flatMap { i -> listOf("light","dark").map {"passenger/baked/clock-stack-$i-$it.png"} } +
-            (0..3).flatMap { i -> listOf("light","dark").map {"passenger/baked/clock-stack-dots-$i-$it.png"} } +
+        val artworkPaths=ClockStackPieces.paths +
             listOf("blue","orange","red").flatMap { tone -> listOf("cap","body").map { "passenger/baked/clock-stack-bar-$tone-$it.png" } } + "passenger/baked/clock-stack-hold-fill.png"
     }
     private val resetBounds=RectF(28f,352f,378f,402f)
@@ -75,7 +74,7 @@ internal class LauncherClockStack(context:Context, private val clock:(Canvas)->U
     }
     override fun onAttachedToWindow(){
         super.onAttachedToWindow()
-        PassengerArtworkCache.prepare(context,"clock-stack-v3",artworkPaths) {
+        PassengerArtworkCache.prepare(context,"clock-stack-v4",artworkPaths) {
             art.install(it);invalidate()
         }
     }
@@ -135,13 +134,19 @@ internal class LauncherClockStack(context:Context, private val clock:(Canvas)->U
             if(i==0)clock(c) else drawPage(c,i)
             c.restore()
         }
-        art.draw(c,"clock-stack-dots-$page-${if(light)"light"else "dark"}",RectF(398f,164f,410f,234f))
+        drawPieces(c,10+page)
         paint.alpha=255;c.restore()
     }
+    private val pieceBounds=RectF()
+    private fun drawPieces(c:Canvas,index:Int){
+        ClockStackPieces.pages[Pair(if(light)"light" else "dark",index)]?.forEach {
+            pieceBounds.set(it.x,it.y,it.x+it.width,it.y+it.height)
+            art.draw(c,it.name,pieceBounds)
+        }
+    }
     private fun drawPage(c:Canvas,index:Int) {
-        val theme=if(light)"light"else "dark"
-        // All icon shapes, static separators, tracks and button artwork are pre-baked PNGs.
-        art.draw(c,"clock-stack-$index-$theme",RectF(0f,0f,428f,426f))
+        // Tight reusable PNG pieces, positioned without resizing.
+        drawPieces(c,index)
         fun text(value:String,x:Float,y:Float,size:Float,color:Int=ink,center:Boolean=false,strong:Boolean=false){
             paint.color=color;paint.alpha=255;paint.typeface=if(strong)bold else latin;paint.textSize=size
             paint.textAlign=if(center)Paint.Align.CENTER else Paint.Align.LEFT

@@ -1,0 +1,13 @@
+{
+  "before": {
+    "files": 21,
+    "disk_bytes": 29253,
+    "rgba_bytes": 4469608
+  },
+  "after": {
+    "files": 26,
+    "disk_bytes": 18380,
+    "rgba_bytes": 308808
+  },
+  "full_card_recomposition": "pixel-identical"
+}
