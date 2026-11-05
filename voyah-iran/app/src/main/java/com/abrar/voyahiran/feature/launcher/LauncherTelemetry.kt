@@ -15,10 +15,9 @@ internal data class LauncherTelemetry(
                 j.optDouble(key,Double.NaN).takeIf { it.isFinite() && it in min..max }
             val electric=value("batteryRange",5000.0)
             val total=value("totalRange",5000.0)
-            val fuelEstimate=if(electric!=null && total!=null && total>=electric) total-electric else null
             return LauncherTelemetry(value("battery",100.0),value("fuel",100.0),value("rpm",20000.0),
                 value("instantFuel",100.0),value("distance",9999999.0),value("minutes",9999999.0),
-                value("averageFuel",100.0),value("averagePower",200.0,-20.0),electric,fuelEstimate)
+                value("averageFuel",100.0),value("averagePower",200.0,-20.0),electric,total)
         }
     }
 }

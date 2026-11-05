@@ -111,10 +111,10 @@ class LauncherClockStackTest {
    v.onTouchEvent(MotionEvent.obtain(0,4000,MotionEvent.ACTION_UP,200f,375f,0));v.resetting=false
   }
  }
- @Test fun fuelEstimateRequiresBothCompatibleRanges(){
-  assertEquals(482.0,LauncherTelemetry.parse(JSONObject("""{"totalRange":650,"batteryRange":168}""")).fuelRange!!,0.01)
-  assertNull(LauncherTelemetry.parse(JSONObject("""{"totalRange":100,"batteryRange":168}""")).fuelRange)
-  assertNull(LauncherTelemetry.parse(JSONObject("""{"totalRange":650}""")).fuelRange)
+ @Test fun fuelRangeUsesOemRangeDirectlyWithoutBatterySubtraction(){
+  assertEquals(650.0,LauncherTelemetry.parse(JSONObject("""{"totalRange":650,"batteryRange":168}""")).fuelRange!!,0.01)
+  assertEquals(100.0,LauncherTelemetry.parse(JSONObject("""{"totalRange":100,"batteryRange":168}""")).fuelRange!!,0.01)
+  assertEquals(650.0,LauncherTelemetry.parse(JSONObject("""{"totalRange":650}""")).fuelRange!!,0.01)
  }
  @Test fun invalidTelemetryNeverBecomesARealReading(){
   val s=LauncherTelemetry.parse(JSONObject("""{"battery":101,"fuel":-9999,"rpm":-2147483648,"instantFuel":-9999,"distance":128.4,"minutes":138,"averageFuel":6.2,"averagePower":18.5}"""))

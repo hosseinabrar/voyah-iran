@@ -249,6 +249,9 @@ internal object LauncherVehicleBridge {
         private val telemetryReadLock=Any()
         private fun telemetryCall(target:Any?,name:String):Any?=runCatching{
             if(target==null)null else (if(target===remote)api else target.javaClass).getMethod(name).invoke(target)
+        }.onFailure {
+            val cause=(it as? java.lang.reflect.InvocationTargetException)?.targetException ?: it
+            AppLog.changed("Telemetry/$name","Read failed: ${cause.javaClass.simpleName}: ${cause.message}")
         }.getOrNull()
         private fun telemetryMember(target:Any?,name:String):Any?=runCatching{target?.javaClass?.getField(name)?.get(target)}.getOrNull()
         private fun acceptTelemetry(source:TelemetrySource,value:Any?,expected:Long?=null) = synchronized(lock) {
@@ -279,11 +282,14 @@ internal object LauncherVehicleBridge {
                 for(source in telemetrySources) {
                     val now=SystemClock.elapsedRealtime()
                     val version=synchronized(lock){telemetryVersions[source.getter] ?: 0L}
-                    val missing=synchronized(lock){telemetryValues[source.getter]==null}
+                    val missing=!LauncherTelemetryReadiness.ready(source.getter,telemetrySnapshot())
                     val unsupported=telemetryCodes[source]==-1 || source.parcelType!=null && telemetryCreators[source]==null
                     if((missing || unsupported) && now-(telemetryReads[source.getter] ?: -5000L)>=1000L){
                         telemetryReads[source.getter]=now
                         acceptTelemetry(source,telemetryCall(remote,source.getter),version)
+                        val snapshot=telemetrySnapshot()
+                        val ready=LauncherTelemetryReadiness.ready(source.getter,snapshot)
+                        AppLog.changed("TelemetryState/${source.getter}",if(ready)"Valid snapshot received; using OEM events" else "Waiting for valid vehicle data; retrying every second")
                     }
                 }
             }
@@ -341,7 +347,7 @@ internal object LauncherVehicleBridge {
                 var unchanged=false
                 synchronized(lock) {
                     val fallback=includeTelemetry && telemetrySources.any {
-                        telemetryCodes[it]==-1 || it.parcelType!=null && telemetryCreators[it]==null || telemetryValues[it.getter]==null
+                        telemetryCodes[it]==-1 || it.parcelType!=null && telemetryCreators[it]==null || !LauncherTelemetryReadiness.ready(it.getter,telemetrySnapshot())
                     }
                     val deadline=SystemClock.elapsedRealtime()+if(fallback)1000L else 2000L
                     while(LauncherWatchPolicy.unchanged(after,revision,scopeRevision(scope)) && listening && binder.isBinderAlive){
