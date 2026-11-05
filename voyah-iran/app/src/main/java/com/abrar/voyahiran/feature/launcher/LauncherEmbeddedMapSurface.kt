@@ -10,7 +10,11 @@ import android.view.SurfaceView
  * No SurfaceControl reparenting and no input portal: card taps belong to the launcher.
  */
 internal class LauncherEmbeddedMapSurface(private val context:Context,private val view:SurfaceView) {
-    companion object { @Volatile var automationDisplayId: Int? = null; private set }
+    companion object {
+        // DisplayManager's hidden Android 9+ flag. Once the map has left, destroy the
+        // remaining empty anchor instead of OEM reparenting it to the physical HOME.
+        private const val DESTROY_CONTENT_ON_REMOVAL=1 shl 8
+        @Volatile var automationDisplayId: Int? = null; private set }
     private var display:VirtualDisplay?=null
     private var background:android.media.ImageReader?=null
     private var bufferWidth=0
@@ -61,7 +65,8 @@ internal class LauncherEmbeddedMapSurface(private val context:Context,private va
         val manager=context.getSystemService(DisplayManager::class.java)
         if(display==null) {
             display=manager.createVirtualDisplay("VoyahIran.MapPreview",width,height,160,relay?.source ?: holder.surface,
-                DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC or DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY)
+                DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC or DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY or
+                    DESTROY_CONTENT_ON_REMOVAL)
             checkNotNull(display) {"Virtual display creation failed"}
         } else {
             display!!.surface=relay?.source ?: holder.surface

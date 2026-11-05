@@ -347,15 +347,31 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         val id=embedded.displayId ?: run { if(closed)handoffScope.cancel();return }
         val pkg=packageName
         handoff=handoffScope.launch {
-            moves.withLock {
-                val result=withContext(Dispatchers.IO) {
-                    ProcessCommandRunner().run(listOf("su","0","launcher-map-release",pkg,id.toString()),10)
+            // A successful bridge call can mean "retained", not "released". Never
+            // remove an occupied display: this crashes H97C system_server on reparent.
+            while(isActive && closed) {
+                val disposed=moves.withLock {
+                    val result=withContext(Dispatchers.IO) {
+                        ProcessCommandRunner().run(listOf("su","0","launcher-map-release",pkg,id.toString()),10)
+                    }
+                    com.abrar.voyahiran.core.logging.AppLog.changed("LauncherMapRelease/$id",
+                        "host handoff exit=${result.exitCode} timedOut=${result.timedOut} ${result.output}")
+                    if(LauncherMapReleasePolicy.canDispose(id,result)) {
+                        embedded.close()
+                        true
+                    } else {
+                        // Keep navigation alive while another app is foreground. A new
+                        // HOME can reclaim this map; the next confirmed check disposes it.
+                        runCatching {embedded.park()}
+                        false
+                    }
                 }
-                com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap","host handoff display=$id exit=${result.exitCode} ${result.output}")
-                if(closed) {embedded.close();handoffScope.cancel()}
+                if(disposed){handoffScope.cancel();return@launch}
+                delay(1000)
             }
         }
     }
+
     override fun surfaceDestroyed(h:SurfaceHolder) {
         holder=null
         if(closed) embedded.detach() else runCatching { embedded.park() }.onFailure {

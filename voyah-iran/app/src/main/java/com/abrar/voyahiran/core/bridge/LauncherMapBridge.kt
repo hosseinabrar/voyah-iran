@@ -70,8 +70,15 @@ internal object LauncherMapBridge {
             }
             return execute(listOf("launcher-map", pkg, destination.toString()))
         }
+        fun releaseConfirmed():CommandResult {
+            val liveStacks=(apiClass.getMethod("getAllStackInfos").invoke(api) as List<*>).filterNotNull()
+            check(liveStacks.none { it.javaClass.getField("displayId").getInt(it)==sourceDisplay && containsMap(it) }) {
+                "Map still occupies preview; retaining display"
+            }
+            return CommandResult(0,"MAP_RELEASE_SAFE display=$sourceDisplay")
+        }
         if (release && (stack == null || stack.javaClass.getField("displayId").getInt(stack) != sourceDisplay))
-            return CommandResult(0, "Map already outside preview")
+            return releaseConfirmed()
         if(args[0]=="launcher-map-route") {
             check(BridgeSubscriptionSession.vipActive) { "VIP subscription inactive" }
             check(candidates.any {
@@ -161,9 +168,9 @@ internal object LauncherMapBridge {
                     (it.javaClass.getField("taskIds").get(it) as IntArray).contains(taskIds.single()) && containsMap(it)
             }) { "Map task did not reach display $destination" }
             com.abrar.voyahiran.core.logging.AppLog.info("LauncherMap", "stack-transfer stack=$stackId task=${taskIds.single()} display=$current->$destination release=$release")
-            return CommandResult(0,"Map stack moved to display $destination")
+            return if(release)releaseConfirmed() else CommandResult(0,"Map stack moved to display $destination")
         }
-        if(release) return CommandResult(0, "Map returned to central display")
+        if(release) return releaseConfirmed()
         if(destination>1) ensureAnchor(destination,apiClass,api)
         val runner = ProcessCommandRunner(useBridge = false)
         val resolved = runner.run(listOf("/system/bin/cmd", "package", "resolve-activity", "--brief", "--user", "0", "-a", "android.intent.action.MAIN", "-c", "android.intent.category.LAUNCHER", pkg), 4)
