@@ -132,3 +132,17 @@ androidComponents.onVariants { variant ->
     variant.sources.assets?.addGeneratedSourceDirectory(dexClusterRenderer) { it.assetDirectory }
 }
 
+
+// One pinned source for installer + delayed on-device microG provisioning.
+val microgAssetsSource = rootProject.file("../voyah-iran-installer/tools/patch/microg")
+abstract class MicrogAssetsTask : Sync() {
+    @get:OutputDirectory abstract val assetDirectory: DirectoryProperty
+}
+val prepareMicrogAssets by tasks.registering(MicrogAssetsTask::class) {
+    assetDirectory.set(layout.buildDirectory.dir("generated/microg/assets"))
+    from(microgAssetsSource) { include("companion.apk", "provision.dex", "LICENSE.txt"); into("microg") }
+    into(assetDirectory)
+}
+androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(prepareMicrogAssets) { it.assetDirectory }
+}

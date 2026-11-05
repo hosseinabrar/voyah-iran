@@ -183,7 +183,7 @@ using (var log = new SessionLog(Path.Combine(root, "logs")))
     Check(!log.ReadText().Contains("secret-value"), "Secret omitted from persisted log");
 }
 string[] names = ["adb.exe", "AdbWinApi.dll", "AdbWinUsbApi.dll", "libwinpthread-1.dll", "NOTICE.txt", "app.apk", "apps/neshan.apk", "apps/myket.apk", "apps/gboard.apk", "apps/gboard-config.xhdpi.apk", "install-bridge.sh", "bridge.rc", "manage-keyboard-framework.sh", "roa/frida-inject", "roa/hook.js", "roa/frida-inject.sha256", "roa/hook.sha256", "roa/FRIDA-COPYING.txt", "patch/display/ActivityRecord-getOrientation.original.smali", "patch/display/ActivityRecord-layoutLetterbox.original.smali", "patch/display/ActivityRecord-getRequestedOrientation.original.smali", "patch/display/ActivityRecord-resolveOverrideConfiguration.original.smali", "patch/display/WindowState-applyGravityAndUpdateFrame.original.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$1.smali", "patch/display/helpers/VoyahIranDisplayPolicy$2.smali", "patch/display/helpers/VoyahIranDisplayPolicy.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-center/VoyahIranDisplayPolicy.smali", "patch/display/legacy-before-theme/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-before-theme/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-before-theme/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-before-theme/VoyahIranDisplayPolicy.smali", "patch/display/legacy-before-density/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-before-density/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-before-density/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-before-density/VoyahIranDisplayPolicy.smali", "patch/display/legacy-global-density/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-global-density/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-global-density/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-global-density/VoyahIranDisplayPolicy.smali", "patch/display/legacy-before-user-density/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-before-user-density/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-before-user-density/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-before-user-density/VoyahIranDisplayPolicy.smali", "patch/FrameworkPatch.java", "patch/original-method.smali", "patch/helper-method.smali", "patch/apktool.jar", "patch/APKTOOL-LICENSE.txt", "patch/THIRD-PARTY.md", "java/bin/java.exe"];
-names = names.Concat(Android9FrameworkAssets.RequiredFiles).ToArray();
+names = names.Concat(Android9FrameworkAssets.RequiredFiles).Concat(MicrogSupport.Assets).ToArray();
         names = names.Concat(new[] { "patch/display/legacy-merge-virtual/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-merge-virtual/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-merge-virtual/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-merge-virtual/VoyahIranDisplayPolicy.smali", "patch/display/legacy-merge-production/VoyahIranDisplayPolicy$1$1.smali", "patch/display/legacy-merge-production/VoyahIranDisplayPolicy$1.smali", "patch/display/legacy-merge-production/VoyahIranDisplayPolicy$2.smali", "patch/display/legacy-merge-production/VoyahIranDisplayPolicy.smali" }).ToArray();
 names = names.Concat(new[] { "legacy-welcome", "legacy-welcome-variant" }.SelectMany(dir => new[] { "VoyahIranDisplayPolicy.smali", "VoyahIranDisplayPolicy$1.smali", "VoyahIranDisplayPolicy$1$1.smali", "VoyahIranDisplayPolicy$2.smali" }.Select(file => "patch/display/" + dir + "/" + file))).Distinct().ToArray();
 names = names.Concat(names.Where(p => p.StartsWith("patch/display/legacy-merge-production/", StringComparison.Ordinal))
@@ -224,6 +224,7 @@ MemoryStream Fixture(bool corrupt = false)
 }
 using var valid = Fixture();
 var bundle = PayloadBundle.Extract(valid, Path.Combine(root, "bundle"));
+await MicrogSupportTests.Run(bundle, Check);
 Check(File.Exists(bundle.File("adb.exe")), "Bundle extracted and checked");
 Check(File.Exists(bundle.File("patch/android9/previous-v1/helpers/com/android/server/am/VoyahIranLegacyDisplay.smali")), "Previous display patch upgrade fixture extracted");
 foreach (var unexpected in new[] { "patch/android9/previous-v1/unknown.smali", "../escape.txt" })
@@ -530,6 +531,8 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
             if (failure == "remount") { exit = 1; text = "remount failed"; }
         }
         else if (args.Contains("id")) text = failure == "root" ? "2000" : "0";
+        else if (args.Any(a=>a.Contains("app_process /system/bin MicrogProvision"))) text = "MICROG_ABSENT";
+        else if (args.Contains("sha256sum") && args.Last().EndsWith("voyah-microg-provision.dex")) text = bundle.Manifest.Files["patch/microg/provision.dex"] + "  " + args.Last();
         else if (args.Contains("sha256sum"))
         {
             text = bundle.Manifest.Files["app.apk"];

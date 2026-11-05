@@ -116,6 +116,7 @@ class FrameworkPatch {
         return result;
     }
     public static void main(String[] args) throws Exception {
+        if (args.length == 5 && args[0].equals("--microg")) { MicrogPatch.run(Arrays.copyOfRange(args, 1, 5)); return; }
         require(args.length == 4, "Usage: FrameworkPatch.java apktool.jar templates input.jar work-directory");
         apktool = Path.of(args[0]).toAbsolutePath(); Path templates = Path.of(args[1]).toAbsolutePath();
         Path input = Path.of(args[2]).toAbsolutePath(), job = Path.of(args[3]).toAbsolutePath();
@@ -381,5 +382,76 @@ class DisplayPolicyPatch {
         }
         FrameworkPatch.require(check(classes,templates,folder), "Display patch verification failed");
         System.out.println("DISPLAY POLICY: displays 0 and 1, user apps + Voyah Iran, left=145 top=50; live settings switch.");
+    }
+}
+
+/** PackageInfo presentation only: never changes install/signature permission enforcement. */
+class MicrogPatch extends FrameworkPatch {
+    static final String PM = "com/android/server/pm/PackageManagerService.smali";
+    static final String HELPER = "com/android/server/pm/VoyahMicrogCompat.smali";
+    static final String CALL = "Lcom/android/server/pm/VoyahMicrogCompat;->apply";
+    static String patched(String original) {
+        Matcher returns = Pattern.compile("(?m)^([ \\t]*)return-object (v[0-9]+)[ \\t]*$").matcher(original);
+        StringBuilder out = new StringBuilder(); int count = 0;
+        while (returns.find()) {
+            String reg = returns.group(2);
+            returns.appendReplacement(out, Matcher.quoteReplacement(returns.group(1) + "invoke-static/range {" + reg + " .. " + reg + "}, " + CALL + "(Landroid/content/pm/PackageInfo;)Landroid/content/pm/PackageInfo;\n\n" + returns.group()));
+            count++;
+        }
+        require(count > 0, "PackageInfo return anchor missing"); returns.appendTail(out); return out.toString();
+    }
+    static void run(String[] args) throws Exception {
+        apktool = Path.of(args[0]).toAbsolutePath(); Path templates = Path.of(args[1]).resolve("microg");
+        Path input = Path.of(args[2]), job = Path.of(args[3]);
+        java = Path.of(System.getProperty("java.home"), "bin", System.getProperty("os.name").startsWith("Windows") ? "java.exe" : "java").toString();
+        require(!Files.exists(job), "MicroG work directory must be new"); Files.createDirectories(job);
+        String originalHash = hash(input); var originalEntries = entries(input);
+        Path source = job.resolve("source"); tool("d", "-r", "-o", source.toString(), input.toString());
+        var before = classes(source);
+        var targets = before.keySet().stream().filter(k -> k.endsWith("/" + PM)).toList();
+        require(targets.size() == 1, "PackageManagerService missing or duplicated");
+        String key = targets.getFirst(), folder = key.substring(0,key.indexOf('/'));
+        String dex = folder.equals("smali") ? "classes.dex" : folder.substring("smali_".length()) + ".dex";
+        require(originalEntries.containsKey(dex), "PackageManager DEX missing");
+        String helperKey = folder + "/" + HELPER;
+        String helper = text(templates.resolve("VoyahMicrogCompat.smali"));
+        String code = text(before.get(key)), actual = method(code,"generatePackageInfo");
+        String original = null;
+        for (String version : List.of("android9", "android11")) {
+            String candidate = text(templates.resolve(version + "-generatePackageInfo.original.smali")).strip();
+            String legacy = candidate.replace("    .line 4420\n    return-object v1", "    .line 4420\n    invoke-static {v1, v4}, " + CALL + "(Landroid/content/pm/PackageInfo;Ljava/lang/Object;)Landroid/content/pm/PackageInfo;\n\n    move-result-object v1\n\n    return-object v1");
+            if (normalize(registerNotation(actual)).equals(normalize(registerNotation(candidate))) ||
+                normalize(registerNotation(actual)).equals(normalize(registerNotation(patched(candidate)))) ||
+                normalize(registerNotation(actual)).equals(normalize(registerNotation(legacy)))) { original = candidate; break; }
+        }
+        require(original != null, "Unsupported PackageInfo implementation; vehicle was not modified");
+        if (before.containsKey(helperKey)) {
+            String existing = canonical(text(before.get(helperKey)));
+            require(existing.equals(canonical(helper)) || existing.equals(canonical(text(templates.resolve("legacy-device-helper.smali")))), "Unrecognized microG helper");
+        } else require(!actual.contains(CALL), "Partial microG patch");
+        String modified = patched(original);
+        boolean already = normalize(registerNotation(actual)).equals(normalize(registerNotation(modified))) && before.containsKey(helperKey) && canonical(text(before.get(helperKey))).equals(canonical(helper));
+        Path output = job.resolve("patched.jar");
+        if (already) Files.copy(input, output);
+        else {
+            Files.writeString(before.get(key),code.replace(actual,modified));
+            Path helperFile = source.resolve(helperKey); Files.createDirectories(helperFile.getParent()); Files.writeString(helperFile,helper);
+            before.put(helperKey,helperFile);
+            Path built = job.resolve("assembled.jar"); tool("b",source.toString(),"-o",built.toString());
+            var replacements = entries(built);
+            try (var zip = new ZipOutputStream(Files.newOutputStream(output))) {
+                for (var e : originalEntries.entrySet()) { zip.putNextEntry(new ZipEntry(e.getKey())); zip.write(e.getKey().equals(dex) ? replacements.get(dex) : e.getValue()); zip.closeEntry(); }
+            }
+            var outputEntries = entries(output);
+            require(outputEntries.keySet().equals(originalEntries.keySet()), "ZIP entries changed");
+            for (var e : originalEntries.entrySet()) if (!e.getKey().equals(dex)) require(Arrays.equals(e.getValue(),outputEntries.get(e.getKey())),"Unrelated DEX/ZIP entry changed");
+            Path verify = job.resolve("verify"); tool("d","-r","-o",verify.toString(),output.toString());
+            var after = classes(verify); require(before.keySet().equals(after.keySet()),"Unexpected class changes");
+            for (String name : before.keySet()) require(canonical(text(before.get(name))).equals(canonical(text(after.get(name)))),"Unexpected assembled code change: " + name);
+        }
+        require(hash(input).equals(originalHash),"Input changed during microG patch");
+        String patchedHash = hash(output);
+        Files.writeString(job.resolve("result.txt"),"original="+originalHash+"\npatched="+patchedHash+"\nalready="+already+"\n");
+        System.out.println("VOYAH_PATCH_VERIFIED original="+originalHash+" patched="+patchedHash+" already="+already);
     }
 }

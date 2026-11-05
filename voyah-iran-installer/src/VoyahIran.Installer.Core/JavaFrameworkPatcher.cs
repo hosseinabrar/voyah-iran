@@ -13,11 +13,20 @@ public sealed class JavaFrameworkPatcher(PayloadBundle bundle, SessionLog log, s
 {
     public async Task<FrameworkPatchResult> PatchAsync(string input, string workDirectory)
     {
+        var basePatch = await PatchPassAsync(input, workDirectory, false);
+        var microg = await PatchPassAsync(basePatch.FilePath, workDirectory + "-microg", true);
+        return new(basePatch.OriginalHash, microg.PatchedHash, microg.FilePath,
+            basePatch.AlreadyPatched && microg.AlreadyPatched);
+    }
+    private async Task<FrameworkPatchResult> PatchPassAsync(string input, string workDirectory, bool microg)
+    {
         var info = new ProcessStartInfo(bundle.JavaExecutable) {
             UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true,
             RedirectStandardError = true, StandardOutputEncoding = Encoding.UTF8, StandardErrorEncoding = Encoding.UTF8
         };
-        var arguments = legacyVdex == null
+        var arguments = microg
+            ? new[] { "-Xmx768m", bundle.File("patch/FrameworkPatch.java"), "--microg", bundle.File("patch/apktool.jar"), bundle.File("patch"), input, workDirectory }
+            : legacyVdex == null
             ? new[] { "-Xmx768m", bundle.File("patch/FrameworkPatch.java"), bundle.File("patch/apktool.jar"), bundle.File("patch"), input, workDirectory }
             : new[] { "-Xmx1024m", "-cp", bundle.File("patch/android9/smali-runtime.jar"), bundle.File("patch/android9/Android9Patch.java"), bundle.File("patch/android9"), input, legacyVdex, workDirectory };
         foreach (var arg in arguments) info.ArgumentList.Add(arg);

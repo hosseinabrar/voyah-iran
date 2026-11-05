@@ -90,6 +90,9 @@ $files = [ordered]@{
     'patch/THIRD-PARTY.md' = (Join-Path $patchTools 'THIRD-PARTY.md')
     'patch/apktool.jar' = $Apktool
 }
+Get-ChildItem (Join-Path $patchTools 'microg') -File | Where-Object { $_.Extension -in '.smali', '.dex' -or $_.Name -eq 'LICENSE.txt' } | ForEach-Object {
+    $files['patch/microg/' + $_.Name] = $_.FullName
+}
 Get-ChildItem (Join-Path $patchTools 'display') -File -Filter '*.smali' | ForEach-Object {
     $files['patch/display/' + $_.Name] = $_.FullName
 }

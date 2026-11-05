@@ -34,6 +34,7 @@ object BridgeServer {
         neshan.start()
         OemNavigationManager.start()
         LauncherBackdropBridge.start()
+        MicrogAutoSetup.start()
         val execution = java.util.concurrent.locks.ReentrantLock()
         DowAmbientBridge.start(comfortLocks.dow)
         val pool = ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, ArrayBlockingQueue<Runnable>(16))

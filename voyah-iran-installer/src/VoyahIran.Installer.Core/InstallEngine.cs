@@ -338,6 +338,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
                 log.Write("App bridge credential provisioned after reboot and verified package restoration.");
             });
             await VoyahPermissions.GrantAsync(adb, serial, log.Write);
+            await MicrogSupport.PrepareAsync(adb, serial, bundle, log.Write);
             await accessibility.Restore();
             if (appGuard.CanLaunch) await PostBootAppLauncher.LaunchAsync(adb, serial, log.Write);
             // Only after reboot, service readiness and all installed hashes were verified.
