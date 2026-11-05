@@ -4,7 +4,7 @@ namespace VoyahIran.Installer.Core;
 
 // PackageManager's disabled-user state prevents every explicit activity/service restart,
 // including old injected hooks that do not know about a new installer-only flag.
-public sealed class InstallAppGuard(Func<string[], Task<string>> command, string recoveryFile)
+public sealed class InstallAppGuard(Func<string[], Task<string>> command, string recoveryFile, Func<TimeSpan, Task>? delay = null)
 {
     public const string Package = "com.abrar.voyahiran";
     private int? original;
@@ -64,9 +64,18 @@ public sealed class InstallAppGuard(Func<string[], Task<string>> command, string
     // installer. Restoring the captured state is rollback behavior, not success.
     public async Task ActivateInstalledApp()
     {
-        await command(["/system/bin/pm", "enable", "--user", "0", Package]);
-        if (await State() != 1)
-            throw new IOException("فعال‌سازی برنامه پس از نصب تأیید نشد؛ نصب کامل نشده است.");
+        // Early boot may apply the state but fail its package-changed broadcast while
+        // OverlayReferenceMapper is still rebuilding. Replay only this idempotent step.
+        for (var attempt = 0; ; attempt++) {
+            try {
+                await command(["/system/bin/pm", "enable", "--user", "0", Package]);
+                if (await State() != 1)
+                    throw new IOException("فعال‌سازی برنامه پس از نصب تأیید نشد؛ نصب کامل نشده است.");
+                break;
+            } catch (IOException) when (attempt < 10) {
+                await (delay ?? Task.Delay)(TimeSpan.FromMilliseconds(500));
+            }
+        }
         original = 1;
         changed = false; // Later cleanup must never disable the verified installation again.
     }

@@ -70,10 +70,31 @@ foreach (var initial in new[] { "null", "", "other.app/.Reader", "com.abrar.voya
 }
 
 {
-    var guard=new InstallAppGuard(a=>Task.FromResult("User 0: enabled=3"),Path.Combine(root,"activate-failed.txt"));
+    var guard=new InstallAppGuard(a=>Task.FromResult("User 0: enabled=3"),Path.Combine(root,"activate-failed.txt"),_=>Task.CompletedTask);
     var rejected=false;
     try { await guard.ActivateInstalledApp(); } catch(IOException) { rejected=true; }
     Check(rejected, "Unconfirmed activation cannot complete installation");
+}
+foreach (var fault in new[] { "command", "readback", "permanent" }) {
+    var enables=0;var reads=0;var waits=0;
+    var guard=new InstallAppGuard(a=>{
+        if(a.Contains("enable")) {
+            enables++;
+            if(fault=="permanent" || fault=="command" && enables==1)
+                throw new IOException("The actor map must be built by calling rebuildIfDeferred before it is queried");
+        } else {
+            reads++;
+            if(fault=="readback" && reads==1)throw new IOException("Package manager restarting");
+        }
+        return Task.FromResult("User 0: enabled=1");
+    },Path.Combine(root,"activate-retry-"+fault+".txt"),duration=>{
+        Check(duration==TimeSpan.FromMilliseconds(500),"Activation retry spacing");
+        waits++;return Task.CompletedTask;
+    });
+    var failed=false;
+    try {await guard.ActivateInstalledApp();}catch(IOException){failed=true;}
+    Check(failed==(fault=="permanent"),"Activation retries transient failures, rejects persistent failure: "+fault);
+    Check(enables==(fault=="permanent"?11:2) && waits==(fault=="permanent"?10:1),"Activation retry is bounded: "+fault);
 }
 foreach(var prior in Enumerable.Range(0,5)) {
     var state=prior;
