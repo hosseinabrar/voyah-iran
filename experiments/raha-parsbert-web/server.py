@@ -114,7 +114,9 @@ async def fresh_client_assets(request, call_next):
     if request.url.path == '/' or request.url.path.startswith('/web/'):
         response.headers['Cache-Control'] = 'no-store'
     return response
-app.add_middleware(TrustedHostMiddleware, allowed_hosts=['127.0.0.1', 'localhost', 'testserver'])
+LAN_HOSTS=[h.strip() for h in os.environ.get('RAHA_LAN_HOSTS','').split(',') if h.strip()]
+ALLOWED_ORIGINS=['http://127.0.0.1:18766', 'http://localhost:18766'] + [f'{scheme}://{host}:{port}' for host in ['localhost','127.0.0.1']+LAN_HOSTS for scheme,port in [('https',18766),('http',18766)]]
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=['127.0.0.1', 'localhost', 'testserver']+LAN_HOSTS)
 
 def predict(raw):
     if engine.get('full'):return predict_full(raw)
@@ -267,7 +269,7 @@ def feedback_schema():
 
 @app.websocket('/api/listen')
 async def listen(ws:WebSocket):
-    if ws.headers.get('origin') not in ['http://127.0.0.1:18766', 'http://localhost:18766']:
+    if ws.headers.get('origin') not in ALLOWED_ORIGINS:
         await ws.close(code=1008)
         return
     await ws.accept()
