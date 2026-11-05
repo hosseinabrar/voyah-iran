@@ -28,6 +28,6 @@ def evaluate(text,action,parameters):
         row=c.execute('SELECT allowed,note FROM reviews WHERE target=? ORDER BY id DESC LIMIT 1',(key(text,action,parameters),)).fetchone()
     if row:
         allowed,note=row
-        result.update(source='human_review',note=note,error=None if allowed else (note or 'این برداشت با بازخورد شما ناسازگار ثبت شده است'))
+        result.update(review_allowed=bool(allowed),note=note) # Audit evidence, not web-only execution exceptions.
     result['allowed']=result['error'] is None
     return result

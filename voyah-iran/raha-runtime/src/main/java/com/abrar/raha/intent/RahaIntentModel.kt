@@ -143,6 +143,7 @@ class RahaIntentModel(context: Context, private val diagnostic: (String) -> Unit
                         // Preserve old model frame indices while exposing one ventilation action.
                         val resolvedAction = if (action == "VENT_SUNROOF") "VENT_WINDOW" else action
                         if (action == "VENT_SUNROOF") result["window"] = "sunroof"
+                        RahaCommandEvidence.check(text,resolvedAction,result)?.let { return Recognition.Unknown(it) }
                         return Recognition.Matched(VehicleCommand(resolvedAction,resolvedAction,result,schema.getJSONObject("titles").optString(resolvedAction,resolvedAction)))
                     }
                 }

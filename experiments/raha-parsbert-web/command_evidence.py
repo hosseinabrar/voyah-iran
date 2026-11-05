@@ -13,11 +13,11 @@ from middle_values import is_middle
 # Synonyms name entities, not lists of accepted/rejected complete sentences.
 ENTITIES = {
     'wireless_charger': ['شارژر وایرلس','شارژ وایرلس','وایرلس شارژر','شارژر موبایل','شارژ گوشی','گوشیمو','گوشیم','گوشی','موبایلم','موبایل','شارژر'],
-    'charge_port': ['در شارژر','درب شارژر','درگاه شارژ','درب شارژ','در شارژ'],
+    'charge_port': ['پورت شارژر','پورت شارژ','در شارژر','درب شارژر','درگاه شارژ','درب شارژ','در شارژ'],
     'scheduled_charge': ['شارژ زمانبندی شده', 'شارژ زمان بندی شده', 'زمانبندی شارژ', 'زمان بندی شارژ', 'شارژ برنامه ریزی شده', 'شارژ سر ساعت', 'اسکجول شارژ', 'اسک جول شارژ', 'اسکجولد شارژ'],
     'easy_entry': ['ورود آسان', 'ورود راحت', 'ایزی انتری', 'ایزی اینتری', 'easy entry'],
     'easy_exit': ['خروج آسان', 'خروج راحت', 'ایزی اگزیت', 'easy exit'],
-    'sunroof': ['سانروف', 'سان روف', 'سقف شیشه ای'],
+    'sunroof': ['سانروف', 'سان روف', 'سقف شیشه ای','سقف'],
     'sunshade': ['پرده سانروف', 'پرده سقف', 'پرده', 'سایبان', 'سان شید', 'سانشید', 'کاور سانروف', 'کاور سقف', 'کاور'],
     'window': ['شیشه', 'پنجره'],
     'seat': ['صندلی', 'صندلیم', 'صندلی من', 'نشیمن', 'پشتم', 'کمرم', 'بدنم', 'عضلاتم'],
@@ -62,7 +62,7 @@ CAPABILITIES = {
 }
 
 OPERATIONS = {
-    'heat': ['گرم کن','گرمکن کن','گرم کردن','گرمش کن'],
+    'heat': ['گرم تر کن','گرم تر','گرم','گرم کن','گرمکن کن','گرم کردن','گرمش کن'],
     'cool': ['خنک کن','سرد کن','خنکش کن','سردش کن'],
     'open': ['باز کن','بازش کن','باز کردن','باز'],
     'close': ['بسته کن','ببند','ببندش','بستن','بسته'],
@@ -95,6 +95,8 @@ def check(text, action, params):
     def reject(message):result['error']=message;return result
     if action=='UNKNOWN':return result
     for target in targets:
+        if target['kind']=='climate' and action=='VENT_WINDOW' and any(t['kind'] in {'window','sunroof'} for t in targets):continue
+        if target['kind']=='sunroof' and action=='VENT_WINDOW' and params.get('window') in {'sunroof','allWithSunroof'}:continue
         if not matches(action,CAPABILITIES[target['kind']]):
             return reject('برداشت فرمان با هدف صریح «'+target['text']+'» سازگار نیست')
     kinds={s['kind'] for s in operations}
@@ -142,11 +144,17 @@ def check(text, action, params):
             framing=['از تو می خوام','می خوام','قرار بگیره','باید','باشه','جای بغلی','تو حالت','از کار بنداز']
             residual=''.join(remaining)
             for phrase in framing:residual=re.sub(r'(?<!\w)'+re.escape(phrase)+r'(?!\w)',' ',residual)
-            fillers.update('کناری بغل بغلی ها های تمام بیشترین کمترین ونت حافظه مموری موقعیت ذخیره بازیابی لود شدت وسط متوسط میانه'.split())
+            fillers.update('آخر لای کناری بغل بغلی ها های تمام بیشترین کمترین ونت حافظه مموری موقعیت ذخیره بازیابی لود شدت وسط متوسط میانه'.split())
             # Seat positioning/state requests use these as grammatical framing.
             # Unknown destinations (e.g. یخچال) must still remain uncovered.
             if matches(action,['RECALL_SEAT_POSITION','SAVE_SEAT_POSITION','SET_SEAT_','ADJUST_SEAT_']):
-                fillers.update('تو در وضعیت حالت شماره'.split())
+                fillers.update('تو در وضعیت حالت شماره کمک'.split())
+            residual=re.sub(r'\s+', ' ', residual)
+            if action=='VENT_WINDOW':fillers.update('حالت'.split())
+            if action in ['SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER']:
+                fillers.update('مه بخار گرفته داره بره'.split())
+                for phrase in ['مه رو بره','مه گرفته','مه داره','مه بره','بخار گرفته','بخار داره','بخار بره']:
+                    residual=re.sub(r'(?<!\w)'+re.escape(phrase)+r'(?!\w)',' ',residual)
             uncovered=[w for w in residual.split() if w not in fillers and not re.fullmatch(r'[\d۰-۹٠-٩]+[.,٫]?[\d۰-۹٠-٩]*',w)]
             result['uncovered']=uncovered
             if uncovered:return reject('بخش «'+' '.join(uncovered)+'» در برداشت فرمان توضیح داده نشده است')

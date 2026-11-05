@@ -9,6 +9,7 @@ NUMERIC_KEYS={'degreesC','percent','position','reservePercent','delta','deltaPer
 def quantity_text(text,action):
     # "نه بیشتر" is a limit, not the numeral nine; "نه درجه" stays numeric.
     text=re.sub(r"\bنه\s+(?:بیشتر|کمتر)\b", " ", text)
+    text=re.sub(r'\b(?:یک|یه)\s+کم\b', 'کمی', text)
     # The number in this fragrance name is part of its name, not a quantity.
     if action in ['SET_FRAGRANCE_CHANNEL','CONFIGURE_FRAGRANCE','SET_FRAGRANCE_DURATION','SET_FRAGRANCE_INTENSITY','ADJUST_FRAGRANCE_INTENSITY']:
         return re.sub(r'\bصد\s*توم(?:ن|ان)ی\b','نامرایحه',text)

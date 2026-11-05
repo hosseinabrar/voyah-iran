@@ -23,7 +23,8 @@ object RahaIntentGrounding {
     private fun digits(text: String) = text.map { when(it) { in '۰'..'۹' -> '0'+(it-'۰'); in '٠'..'٩' -> '0'+(it-'٠'); '٫' -> '.'; else -> it } }.joinToString("")
     data class Quantity(val value: Double, val unit: String, val word: String)
     private fun quantityText(text: String, action: String): String {
-        val quantity=Regex("(?<![\\p{L}\\p{N}_])نه\\s+(?:بیشتر|کمتر)(?![\\p{L}\\p{N}_])").replace(text," ")
+        var quantity=Regex("(?<![\\p{L}\\p{N}_])نه\\s+(?:بیشتر|کمتر)(?![\\p{L}\\p{N}_])").replace(text," ")
+        quantity=Regex("(?<![\\p{L}\\p{N}_])(?:یک|یه)\\s+کم(?![\\p{L}\\p{N}_])").replace(quantity,"کمی")
         return if(action in setOf("SET_FRAGRANCE_CHANNEL","CONFIGURE_FRAGRANCE","SET_FRAGRANCE_DURATION","SET_FRAGRANCE_INTENSITY","ADJUST_FRAGRANCE_INTENSITY"))
             Regex("(?<![\\p{L}\\p{N}_])صد\\s*توم(?:ن|ان)ی(?![\\p{L}\\p{N}_])").replace(quantity,"نامرایحه")
         else quantity

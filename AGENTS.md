@@ -23,3 +23,7 @@ VIP restrictions must preserve saved user preferences: mask unavailable controls
 # Installer platform parity
 
 For every installer change, inspect both the Windows and macOS installer paths. Apply shared behavior, fixes, payload updates, and validation to both platforms, preferably through their shared core and patch sources. Platform-specific features (such as macOS Universal packaging) remain platform-specific; explicitly verify that they do not break the other installer. Distinguish source coverage from rebuilt/tested release artifacts; never claim a Windows runtime test based only on macOS validation.
+
+## Raha web / Android parity
+
+Keep recognition acceptance, numeric grounding, and semantic guards equivalent between the owner's web test and Android. Every guard change requires matching implementation and shared positive/negative parity tests. Human semantic reviews are pending evidence for shared rule changes, never web-only execution overrides. Sync model changes through the existing export workflow; do not confuse model confidence, guard acceptance, or exact-case training accuracy.
