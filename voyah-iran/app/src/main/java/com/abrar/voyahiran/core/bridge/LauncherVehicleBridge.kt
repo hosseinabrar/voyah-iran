@@ -308,9 +308,11 @@ internal object LauncherVehicleBridge {
                     number("batteryRange",telemetryMember(odometer,"mEVCruisingRange"))
                     number("fuel",telemetryCall(fuel,"getPercentage"))
                     number("instantFuel",telemetryMember(fuel,"mInstantaneousFuelConsumption"))
-                    number("distance",telemetryCall(trip,"getCurrentTripDistance"))
-                    number("minutes",telemetryCall(trip,"getCurrentTripLastingTime"))
-                    number("averageFuel",telemetryCall(trip,"getCurrentTripAvgOilConsum"))
+                    val distance=telemetryCall(trip,"getCurrentTripDistance")
+                    val minutes=telemetryCall(trip,"getCurrentTripLastingTime")
+                    number("distance",distance)
+                    number("minutes",minutes)
+                    number("averageFuel",LauncherTripFuel.average(telemetryCall(trip,"getCurrentTripAvgOilConsum"),distance,minutes))
                     number("averagePower",telemetryCall(trip,"getCurrentTripAvgPwrConsum"))
                 }
         }
