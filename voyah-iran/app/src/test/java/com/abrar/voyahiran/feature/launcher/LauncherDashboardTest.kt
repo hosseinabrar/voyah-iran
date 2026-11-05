@@ -21,6 +21,7 @@ class LauncherDashboardTest {
     @org.junit.Before fun prepareBakedArtwork(){preparePassengerArtwork("baked")}
     @Test fun renderWeatherCardPreview() {
         val view=LauncherDashboard(RuntimeEnvironment.getApplication())
+        preloadWeatherIcons(view.weatherView)
         view.layout(0,0,1775,660)
         view.weather=LauncherWeatherState("Tehran",26.0,15.0,28.0,2,true,"")
         for(light in listOf(false,true)) {

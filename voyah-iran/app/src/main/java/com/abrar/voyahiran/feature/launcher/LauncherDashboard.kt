@@ -29,16 +29,18 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
     internal val clockView=LauncherClockStack(context){ c ->
         c.save();c.translate(-1331f,0f);drawClock(c);c.restore()
     }
+    internal val weatherView=LauncherWeatherStack(context)
     fun tickClock(){clockView.tick()}
     private val clockMotion=LauncherMotion(clockView)
-    init{setWillNotDraw(false);addView(progressView);addView(clockView)}
+    init{setWillNotDraw(false);addView(progressView);addView(clockView);addView(weatherView)}
     override fun onLayout(changed:Boolean,l:Int,t:Int,r:Int,b:Int){
         progressView.layout((911f*width/1775).toInt(),(518f*height/660).toInt(),(1311f*width/1775).toInt(),(563f*height/660).toInt())
         clockView.layout((1331f*width/1775).toInt(),0,(1759f*width/1775).toInt(),(426f*height/660).toInt())
+        weatherView.layout((1331f*width/1775).toInt(),(442f*height/660).toInt(),(1759f*width/1775).toInt(),height)
     }
     private val motion=LauncherMotion(this)
     internal var controlMotionPaused=false
-        set(value){field=value;motion.paused=value;clockMotion.paused=value}
+        set(value){field=value;motion.paused=value;clockMotion.paused=value;weatherView.motion.paused=value}
     private val bitmaps=LauncherBitmapLoader(resources){invalidate()}
     override fun onAttachedToWindow() {super.onAttachedToWindow();bitmaps.start();invalidate()}
     private val buttonPress = FloatArray(3)
@@ -62,7 +64,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         }
     }
     var lightTheme = false
-        set(value) { if(field!=value) {field=value;clockView.light=value;invalidate();progressView.invalidate();clockView.invalidate()} }
+        set(value) { if(field!=value) {field=value;clockView.light=value;weatherView.light=value;invalidate();progressView.invalidate();clockView.invalidate()} }
     private val foreground get() = if(lightTheme) 0xff252f3c.toInt() else Color.WHITE
     private val secondary get() = if(lightTheme) 0xff71839e.toInt() else 0xffbfc9de.toInt()
     var media = LauncherMediaState()
@@ -128,8 +130,7 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         override fun removeEldestEntry(eldest:MutableMap.MutableEntry<MediaTextKey,Picture>?)=size>8
     }
     var weather = LauncherWeatherState()
-        set(value) { if(field==value)return;motion.updated();field=value; invalidate() }
-    private val unknownWeatherBitmap get() = bitmaps.get(R.drawable.launcher_weather_hd_unavailable,weather=true)
+        set(value) { if(field==value)return;field=value;weatherView.state=value }
     var mapMessage = LauncherMapPreview.LOADING
         set(value) { if(field==value)return;field = value; invalidate() }
     var onMap: () -> Unit = {}
@@ -248,27 +249,6 @@ class LauncherDashboard(context: Context) : android.widget.FrameLayout(context) 
         }
         paint.colorFilter=null
         c.restore()
-        fun degree(value: Double?) = value?.let { String.format(Locale.US,"%.0f°",it) } ?: "—"
-        c.save();c.clipRect(1355f,455f,1588f,640f)
-        fun weatherText(key:String,value:String,y:Float,size:Float,color:Int=foreground){
-            motion.text("weather-$key",value,c,RectF(1380f,y-size-8f,1588f,y+8f)){text(it,1387f,y,size,color)}
-        }
-        weatherText("city",weather.city,499f,23f)
-        weatherText("temperature",degree(weather.temperature),548f,51f)
-        weatherText("description",if(weather.temperature==null) weather.notice else LauncherWeatherCode.description(weather.code),580f,19f,secondary)
-        weatherText("range",if(weather.temperature!=null)degree(weather.high)+" / "+degree(weather.low)else "",608f,18f,secondary)
-        c.restore()
-        if(weather.temperature == null) {
-            paint.color=Color.WHITE
-            c.drawBitmap(unknownWeatherBitmap,null,RectF(1569f,462f,1749f,642f),paint)
-        } else {
-            val id=LauncherWeatherCode.icon(weather.code,weather.day)
-            val weatherBitmap=bitmaps.get(id,weather=true)
-            weatherBitmap?.let { paint.color=Color.WHITE;c.drawBitmap(it,null,RectF(1569f,462f,1749f,642f),paint) }
-        }
-        motion.text("weather-notice","Open-Meteo"+if(weather.temperature!=null && weather.notice.isNotEmpty()) " · "+weather.notice else "",c,RectF(1350f,628f,1755f,655f)){
-            text(it,1355f,646f,12f,secondary)
-        }
         c.restore()
     }
     internal var clockTime:()->Long={System.currentTimeMillis()}
