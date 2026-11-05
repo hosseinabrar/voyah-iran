@@ -334,11 +334,7 @@ public sealed class InstallEngine(IAdbClient adb, PayloadBundle bundle, SessionL
             await appGuard.ActivateInstalledApp();
             log.Write("Installed app explicitly enabled for user 0 and verified; stale disabled state cleared.");
             await appGuard.WithEnabled(async () => {
-                var provision = await Root(30, "/system/bin/am", "broadcast", "--user", "0",
-                    "--include-stopped-packages", "-n", "com.abrar.voyahiran/.core.bridge.BridgeProvisionReceiver",
-                    "--es", "token", token);
-                if (!System.Text.RegularExpressions.Regex.IsMatch(provision, @"\bresult=200\b"))
-                    throw new IOException("تحویل کلید اتصال واسط به برنامه تأیید نشد.");
+                await new BridgeCredentialProvisioner(adb,log.Write).Provision(serial,token);
                 log.Write("App bridge credential provisioned after reboot and verified package restoration.");
             });
             await VoyahPermissions.GrantAsync(adb, serial, log.Write);

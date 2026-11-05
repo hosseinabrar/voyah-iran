@@ -17,6 +17,8 @@ class VoyahIranApplication : Application() {
     val subscriptions by lazy { com.abrar.voyahiran.feature.subscription.SubscriptionManager(this) }
     override fun onCreate() {
         super.onCreate()
+        // Credential delivery must not wait for launcher, CAN, contacts or settings startup.
+        if (android.os.Build.VERSION.SDK_INT >= 28 && getProcessName() == "$packageName:provision") return
         com.abrar.voyahiran.core.logging.StartupMainThreadMonitor.start()
         com.abrar.voyahiran.feature.voice.RahaPhonebook.start(this)
         com.abrar.voyahiran.core.bridge.BridgeClient.configure(filesDir)

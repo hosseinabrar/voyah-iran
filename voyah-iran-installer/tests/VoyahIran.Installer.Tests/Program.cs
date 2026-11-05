@@ -30,6 +30,7 @@ if (args.Length == 2 && args[0] == "--verify-payload") {
 await FrameworkServiceRecoveryTests.Run();
 await VoyahPermissionsTests.Run();
 await PermissionSelectionTests.Run();
+await BridgeCredentialProvisionerTests.Run();
 await ApkInstallRecoveryTests.Run();
 await LogcatCaptureTests.Run(root);
 await InstallationStorageTests.Run(root);
@@ -470,15 +471,19 @@ sealed class FakeAdb(string failure, PayloadBundle bundle) : IAdbClient
     private string accessibility="other.app/.Reader:com.abrar.voyahiran/.Service";
     private int appEnabled = failure=="stale-disabled" ? 3 : 0;
     public int AppEnabled => appEnabled;
+    private string? provisionedHash;
     private bool patched;
     private int remounts;
     public List<IReadOnlyList<string>> Calls { get; } = [];
     public Task<CommandResult> RunAsync(string? serial, IReadOnlyList<string> args, int timeoutSeconds = 30, bool quiet = false)
     {
         Calls.Add(args);
+        if(args.Contains("/data/user/0/com.abrar.voyahiran/files/bridge.token"))
+            return Task.FromResult(new CommandResult(provisionedHash==null ? 1 : 0,provisionedHash ?? "missing"));
         if(args.Contains("com.abrar.voyahiran/.core.bridge.BridgeProvisionReceiver")) {
             if(appEnabled is not (0 or 1) || !Calls.Any(c=>c[0]=="reboot"))
                 throw new IOException("Provisioning must follow reboot and enabling receiver");
+            provisionedHash=Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.ASCII.GetBytes(args.Last()))).ToLowerInvariant();
             return Task.FromResult(new CommandResult(0,"Broadcast completed: result=200"));
         }
         if(args.Contains("package") && (args.Contains("/system/bin/dumpsys") || args.Contains("dumpsys")))
