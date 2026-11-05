@@ -58,6 +58,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     }
     private var clusterMonitor: Job?=null
     private fun error(message: String) {
+        if(closed)return // Ignore late responses from the previous navigator.
         mapInCard=message.isEmpty() && !fullscreen && !closed
         refreshCluster()
         if(mapInCard && LauncherPreferences.clusterMap(context) && clusterMonitor?.isActive!=true) clusterMonitor=scope.launch {
@@ -131,6 +132,12 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
     }
     private fun ensureDisplay(): Boolean {
         if(closed || packageName.isBlank()) {error("نقشهٔ پیش‌فرض را در تنظیمات انتخاب کنید");return false}
+        // A callback registered on an already-live SurfaceHolder is not replayed.
+        // Adopt that surface when switching navigator without recreating the card.
+        if(holder==null && view.holder.surface.isValid && view.width>0 && view.height>0) {
+            holder=view.holder
+            surfaceWidth=view.width;surfaceHeight=view.height
+        }
         val h=holder ?: return false
         return try {
             embedded.attach(h,surfaceWidth,surfaceHeight)
@@ -276,7 +283,7 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         active=true
         fullscreen=false
         runCatching {embedded.active(true)}.onFailure {error("نقشه در دسترس نیست")}
-        if(holder!=null)attachSurface()
+        if(holder!=null || view.holder.surface.isValid)attachSurface()
         if(monitor?.isActive==true)return
         monitor=scope.launch {
             while(isActive && !closed && !fullscreen) {
@@ -387,7 +394,11 @@ class LauncherMapPreview(private val context: Context, private val scope: Corout
         embedded.cluster(false)
         if(currentPreview?.get() === this) currentPreview=null
         context.contentResolver.unregisterContentObserver(transferObserver)
-        closed=true;hostStopped()
+        closed=true
+        // Disconnect the retiring display from the reusable card surface immediately;
+        // retain its task on a draining output until safe handoff is confirmed.
+        embedded.park()
+        hostStopped()
         view.holder.removeCallback(this)
         holder=null
     }

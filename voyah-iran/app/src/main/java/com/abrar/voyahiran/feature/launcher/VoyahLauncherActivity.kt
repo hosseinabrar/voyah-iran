@@ -245,7 +245,7 @@ class VoyahLauncherActivity : ComponentActivity() {
         val lp=FrameLayout.LayoutParams(width,height).apply{leftMargin=left;topMargin=top}
         if(pager.parent==null)container.addView(pager,lp) else pager.layoutParams=lp
         if(preview==null && contentFrameReady) {
-            val map=SurfaceView(this)
+            val map=mapView ?: SurfaceView(this)
             mapView=map
             map.clipToOutline=true
             map.outlineProvider=object:android.view.ViewOutlineProvider(){override fun getOutline(v:View,o:android.graphics.Outline){o.setRoundRect(0,0,v.width,v.height,16f)}}
@@ -254,7 +254,8 @@ class VoyahLauncherActivity : ComponentActivity() {
             preview=LauncherMapPreview(this,lifecycleScope,{ dashboard.mapMessage=it;updateClusterButton() },map).also {it.packageName(navigator)}
             map.holder.addCallback(preview!!)
             preview?.startMonitoring()
-            firstPage.addView(map,0,FrameLayout.LayoutParams((width*871f/1775).toInt(),height))
+            val mapParams=FrameLayout.LayoutParams((width*871f/1775).toInt(),height)
+            if(map.parent==null)firstPage.addView(map,0,mapParams) else map.layoutParams=mapParams
         } else mapView?.layoutParams=FrameLayout.LayoutParams((width*871f/1775).toInt(),height)
         val buttonSize=(64f*1.3f*width/1775f).toInt().coerceAtLeast(1)
         clusterButton.layoutParams=FrameLayout.LayoutParams(buttonSize,buttonSize).apply {
@@ -287,7 +288,8 @@ class VoyahLauncherActivity : ComponentActivity() {
         uiEvents.start()
         if(preview!=null && activeNavigator!=NavigationPreferences(this).navigator) {
             preview?.close();preview=null
-            mapView?.let(firstPage::removeView);mapView=null
+            // Keep the live SurfaceView across navigator changes. A replacement during
+            // window resume can miss the surface lifecycle on the vehicle Android 9 ROM.
             dashboard.mapMessage="نقشه در دسترس نیست"
             layoutContent()
         }
