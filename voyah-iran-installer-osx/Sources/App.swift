@@ -143,7 +143,7 @@ struct VehicleApp: Identifiable {
                     guard let i = p["index"] as? Int, let title = p["title"] as? String else { return nil }
                     return PermissionItem(id: i, title: title, available: p["available"] as? Bool ?? false, enabled: p["enabled"] as? Bool)
                 }; showPermissions = true
-                present("permissions", title: "مجوزهای برنامه", size: NSSize(width: 760, height: 370)) { PermissionsView(model: self) }
+                present("permissions", title: "مجوزهای برنامه", size: NSSize(width: 760, height: 440)) { PermissionsView(model: self) }
             case "apps":
                 apps = (event["apps"] as? [[String: Any]] ?? []).compactMap { a in
                     guard let package = a["Package"] as? String else { return nil }
@@ -355,8 +355,8 @@ struct InstallerSurface<Content: View>: View {
                     }
                     Button("نصب APK") { model.openApk() }
                     Button("مجوزها") {
-                        model.permissions = ["میکروفون", "دوربین", "موقعیت مکانی", "نصب برنامه", "اجرای پس‌زمینه"].enumerated().map { PermissionItem(id: $0.offset, title: $0.element, available: true, enabled: false) }
-                        model.present("permissions", title: "مجوزهای برنامه", size: NSSize(width: 760, height: 370)) { PermissionsView(model: model) }
+                        model.permissions = ["میکروفون", "دوربین", "موقعیت مکانی", "نصب برنامه", "اجرای پس‌زمینه", "حافظه"].enumerated().map { PermissionItem(id: $0.offset, title: $0.element, available: true, enabled: false) }
+                        model.present("permissions", title: "مجوزهای برنامه", size: NSSize(width: 760, height: 440)) { PermissionsView(model: model) }
                     }
                     Button("حذف APK") { model.present("apps", title: "حذف APK", size: NSSize(width: 720, height: 330)) { UninstallView(model: model) } }
                 }

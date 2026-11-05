@@ -62,12 +62,27 @@ public sealed class ApkInstaller(IAdbClient adb, SessionLog log, string serial)
         new("میکروفون", ["RECORD_AUDIO"]), new("دوربین", ["CAMERA"]),
         new("موقعیت مکانی", ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]),
         new("نصب برنامه", ["REQUEST_INSTALL_PACKAGES"], true),
-        new("اجرای پس‌زمینه", ["RUN_IN_BACKGROUND", "RUN_ANY_IN_BACKGROUND", "idle"], true)
+        new("اجرای پس‌زمینه", ["RUN_IN_BACKGROUND", "RUN_ANY_IN_BACKGROUND", "idle"], true),
+        new("حافظه", ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"])
     ];
-    public static bool Available(ApkInfo info, PermissionChoice choice) =>
-        choice.Names.Contains("idle") || choice.Names.Any(n => info.Permissions.Contains("android.permission." + n));
-    private static IEnumerable<string> Atoms(ApkInfo info, PermissionChoice choice) =>
-        choice.Names.Where(n => choice.Names.Contains("idle") || info.Permissions.Contains("android.permission." + n));    public async Task InstallAsync(string path, ApkInfo info)
+    // Selection is not gated on the APK manifest. Android still verifies actual grants.
+    public static bool Available(ApkInfo info, PermissionChoice choice) => true;
+    private int? deviceSdk;
+    private async Task<string[]> Atoms(PermissionChoice choice)
+    {
+        if (!choice.Names.Contains("READ_EXTERNAL_STORAGE")) return choice.Names;
+        if (deviceSdk == null) {
+            var text = await Command("getprop", "ro.build.version.sdk");
+            if (!int.TryParse(text, out var sdk) || sdk < 23) throw new InvalidOperationException("Unknown Android SDK");
+            deviceSdk = sdk;
+        }
+        return StoragePermissions(deviceSdk.Value);
+    }
+    public static string[] StoragePermissions(int sdk) => sdk >= 33
+        ? ["READ_MEDIA_IMAGES", "READ_MEDIA_VIDEO", "READ_MEDIA_AUDIO", "MANAGE_EXTERNAL_STORAGE"]
+        : sdk >= 30 ? ["READ_EXTERNAL_STORAGE", "MANAGE_EXTERNAL_STORAGE"]
+        : ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"];
+    public async Task InstallAsync(string path, ApkInfo info)
     {
         log.Write($"APK install: {info.Package}; SHA256={PayloadBundle.Digest(path)}");
         var result = await adb.RunAsync(serial, ["install", "-r", "--user", "0", path], 180);
@@ -100,7 +115,7 @@ public sealed class ApkInstaller(IAdbClient adb, SessionLog log, string serial)
             throw new InvalidOperationException(result.Output);
         return result.Output.Trim();
     }
-    private static bool IsOp(string atom) => atom == "REQUEST_INSTALL_PACKAGES" || atom.StartsWith("RUN_", StringComparison.Ordinal);
+    private static bool IsOp(string atom) => atom is "REQUEST_INSTALL_PACKAGES" or "MANAGE_EXTERNAL_STORAGE" || atom.StartsWith("RUN_", StringComparison.Ordinal);
     private async Task<string> Read(ApkInfo info, string atom)
     {
         if (atom == "idle")
@@ -129,7 +144,7 @@ public sealed class ApkInstaller(IAdbClient adb, SessionLog log, string serial)
     public async Task<bool> ReadAsync(ApkInfo info, PermissionChoice choice)
     {
         bool enabled = true;
-        foreach (var atom in Atoms(info, choice)) enabled &= Enabled(atom, await Read(info, atom));
+        foreach (var atom in await Atoms(choice)) enabled &= Enabled(atom, await Read(info, atom));
         return Available(info, choice) && enabled;
     }
     private async Task Write(ApkInfo info, string atom, string value)
@@ -141,7 +156,19 @@ public sealed class ApkInstaller(IAdbClient adb, SessionLog log, string serial)
     }
     public async Task SetAsync(ApkInfo info, IEnumerable<PermissionChoice> choices, bool enabled)
     {
-        var atoms = choices.SelectMany(c => Atoms(info, c)).Distinct().ToArray();
+        var requested = choices.ToArray();
+        if (requested.Length > 1) {
+            var failures = new List<Exception>();
+            foreach (var choice in requested) {
+                try { await SetAsync(info, [choice], enabled); }
+                catch (Exception error) { failures.Add(error); }
+            }
+            if (failures.Count > 0) throw new AggregateException("بعضی دسترسی‌ها اعمال نشدند؛ جزئیات در گزارش ثبت شده است.", failures);
+            return;
+        }
+        var selected = new List<string>();
+        foreach (var choice in requested) selected.AddRange(await Atoms(choice));
+        var atoms = selected.Distinct().ToArray();
         var previous = new Dictionary<string, string>();
         foreach (var atom in atoms) previous[atom] = await Read(info, atom);
         var attempted = new List<string>();

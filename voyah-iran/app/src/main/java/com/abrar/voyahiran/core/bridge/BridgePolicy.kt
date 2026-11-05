@@ -211,7 +211,7 @@ esac
         }
         if (request.size in 7..8 && request.take(2) == listOf("cmd", "appops") &&
             request[2] in listOf("get", "set") && request[3] == "--user" && request[4] == "0" &&
-            packagePattern.matches(request[5]) && request[6] in listOf("REQUEST_INSTALL_PACKAGES", "RUN_ANY_IN_BACKGROUND", "RUN_IN_BACKGROUND") &&
+            packagePattern.matches(request[5]) && request[6] in listOf("REQUEST_INSTALL_PACKAGES", "RUN_ANY_IN_BACKGROUND", "RUN_IN_BACKGROUND", "MANAGE_EXTERNAL_STORAGE") &&
             ((request[2] == "get" && request.size == 7) ||
              (request[2] == "set" && request.size == 8 && request[7] in listOf("allow", "deny", "ignore", "default", "foreground")))) {
             return listOf("/system/bin/cmd") + request.drop(1)

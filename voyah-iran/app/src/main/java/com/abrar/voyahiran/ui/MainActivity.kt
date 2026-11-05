@@ -815,7 +815,7 @@ class MainActivity : ComponentActivity() {
         feedback.text = if (state.error) getString(R.string.permissions_error)
             else state.stoppedApp?.let { getString(R.string.force_stop_success, it) }.orEmpty()
         val boxes = listOf("microphone" to permissionMicrophone, "camera" to permissionCamera,
-            "location" to permissionLocation, "install" to permissionInstall, "background" to permissionBackground)
+            "location" to permissionLocation, "storage" to permissionStorage, "install" to permissionInstall, "background" to permissionBackground)
         boxes.forEach { (key, box) ->
             val permission = state.permissions.firstOrNull { it.name == key }
             box.isChecked = permission?.granted == true

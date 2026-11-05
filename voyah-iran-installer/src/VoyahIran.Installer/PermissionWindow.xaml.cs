@@ -13,7 +13,7 @@ public partial class PermissionWindow : Window
     public PermissionWindow(ApkInstaller installer, ApkInfo info)
     {
         InitializeComponent(); this.installer = installer; this.info = info;
-        options = new[] { Microphone, Camera, Location, InstallApps, BackgroundOption }
+        options = new[] { Microphone, Camera, Location, InstallApps, BackgroundOption, Storage }
             .Zip(ApkInstaller.Choices).ToDictionary(p => p.First, p => p.Second);
         Choices.IsEnabled = false;
     }

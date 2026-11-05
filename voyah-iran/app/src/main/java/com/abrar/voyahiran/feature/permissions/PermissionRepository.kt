@@ -32,12 +32,12 @@ class PermissionRepository(context: Context) {
         AppLog.info("Permissions", "force-stop verified package=$pkg")
     }
     private fun members(pkg: String): Map<String, List<String>> {
-        val declared = pm.getPackageInfo(pkg, PackageManager.GET_PERMISSIONS).requestedPermissions.orEmpty().toSet()
         return linkedMapOf(
-            "microphone" to listOf("android.permission.RECORD_AUDIO").filter { it in declared },
-            "camera" to listOf("android.permission.CAMERA").filter { it in declared },
-            "location" to listOf("android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION").filter { it in declared },
-            "install" to listOf(INSTALL).filter { it in declared },
+            "microphone" to listOf("android.permission.RECORD_AUDIO"),
+            "camera" to listOf("android.permission.CAMERA"),
+            "location" to listOf("android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"),
+            "install" to listOf(INSTALL),
+            "storage" to storagePermissions(android.os.Build.VERSION.SDK_INT),
             "background" to listOf("RUN_ANY_IN_BACKGROUND", "RUN_IN_BACKGROUND", "idle"))
     }
     fun permissions(pkg: String): List<AppPermission> = members(pkg).map { (key, atoms) ->
@@ -69,6 +69,12 @@ class PermissionRepository(context: Context) {
     }
     fun set(pkg: String, permission: String, enabled: Boolean) {
         val groups = members(pkg)
+        if (permission == "all") {
+            val failures=mutableListOf<Exception>()
+            for (key in groups.keys) try { set(pkg,key,enabled) } catch(e:Exception) { failures+=e }
+            if(failures.isNotEmpty()) throw IllegalStateException("Some permissions could not be changed",failures.first())
+            return
+        }
         val atoms = if (permission == "all") groups.values.flatten() else groups[permission].orEmpty()
         require(atoms.isNotEmpty())
         val previous = atoms.associateWith { read(pkg, it) }
@@ -86,5 +92,12 @@ class PermissionRepository(context: Context) {
             throw e
         }
     }
-    companion object { const val INSTALL = "android.permission.REQUEST_INSTALL_PACKAGES" }
+    companion object {
+        const val INSTALL = "android.permission.REQUEST_INSTALL_PACKAGES"
+        internal fun storagePermissions(sdk:Int):List<String> = when {
+            sdk >= 33 -> listOf("android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_VIDEO", "android.permission.READ_MEDIA_AUDIO", "MANAGE_EXTERNAL_STORAGE")
+            sdk >= 30 -> listOf("android.permission.READ_EXTERNAL_STORAGE", "MANAGE_EXTERNAL_STORAGE")
+            else -> listOf("android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE")
+        }
+    }
 }

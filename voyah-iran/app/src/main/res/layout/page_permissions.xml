@@ -47,6 +47,9 @@
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
 <CheckBox android:id="@+id/permissionInstall" style="@style/PermissionTile" android:text="@string/perm_install" tools:enabled="true"/>
 <CheckBox android:id="@+id/permissionBackground" style="@style/PermissionTile" android:text="@string/perm_background" tools:enabled="true"/>
+<CheckBox android:id="@+id/permissionStorage" style="@style/PermissionTile" android:text="@string/perm_storage" tools:enabled="true"/>
+</LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
 <CheckBox android:id="@+id/permissionAll" style="@style/PermissionTile" android:text="@string/perm_all" tools:enabled="true"/>
 </LinearLayout>
 

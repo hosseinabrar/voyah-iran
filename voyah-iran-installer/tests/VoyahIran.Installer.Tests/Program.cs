@@ -29,11 +29,16 @@ if (args.Length == 2 && args[0] == "--verify-payload") {
 }
 await FrameworkServiceRecoveryTests.Run();
 await VoyahPermissionsTests.Run();
+await PermissionSelectionTests.Run();
 await ApkInstallRecoveryTests.Run();
 await LogcatCaptureTests.Run(root);
 await InstallationStorageTests.Run(root);
 using (var removalLog = new SessionLog(Path.Combine(root, "removal"))) await RemovalTests.Run(removalLog);
 var passed = 0;
+Check(ApkInstaller.Choices.All(c => ApkInstaller.Available(new ApkInfo("com.example.app", new()),c)), "Permissions selectable even without manifest declarations");
+Check(ApkInstaller.StoragePermissions(28).SequenceEqual(new[]{"READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"}), "Android 9 storage read and write");
+Check(ApkInstaller.StoragePermissions(32).SequenceEqual(new[]{"READ_EXTERNAL_STORAGE","MANAGE_EXTERNAL_STORAGE"}), "Android 12 all files storage");
+Check(ApkInstaller.StoragePermissions(33).SequenceEqual(new[]{"READ_MEDIA_IMAGES","READ_MEDIA_VIDEO","READ_MEDIA_AUDIO","MANAGE_EXTERNAL_STORAGE"}), "Android 13 media and all files storage");
 foreach (var initial in new[] { "null", "", "other.app/.Reader", "com.abrar.voyahiran/.Service", "other.app/.Reader:com.abrar.voyahiran/.First:com.abrar.voyahiran/com.abrar.raha.feedback.RahaOverlayService" })
 {
     var setting=initial;
