@@ -43,6 +43,12 @@ for theme in ('dark','light'):
     for page in range(4):
         im=Image.open(src/f'clock-stack-dots-{page}-{theme}.png').convert('RGBA')
         pieces[theme,10+page]=[crop(im,(0,i*19,12,i*19+13),f'clock-stack-dot-{"active" if i==page else theme}',(398,164)) for i in range(4)]
+# Runtime now has Clock, Energy and Since start. Reuse approved trip art without its reset button.
+for theme in ('dark','light'):
+    pieces[theme,2]=[p for p in pieces.pop((theme,3)) if 'button' not in p[0]]
+    pieces.pop((theme,13))
+    for page in range(3):
+        pieces[theme,10+page]=pieces[theme,10+page][:3]
 lines=['package com.abrar.voyahiran.feature.launcher','',
 '/** Tight, native-size PNG pieces. Generated offline by design/clock-stack/pack.py. */',
 'internal object ClockStackPieces {',
@@ -64,3 +70,7 @@ def stats(folder):
 report=dict(before=stats(src),after=stats(out),full_card_recomposition='pixel-identical')
 (root/'design/clock-stack/packing-report.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))
+
+# Retired Engine/reset artwork must not remain in the app package.
+for label in ('engine-dark','engine-light','button-dark','button-light','hold-fill'):
+    (out/f'clock-stack-{label}.png').unlink(missing_ok=True)

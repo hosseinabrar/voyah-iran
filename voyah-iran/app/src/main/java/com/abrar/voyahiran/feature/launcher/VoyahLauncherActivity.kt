@@ -73,32 +73,8 @@ class VoyahLauncherActivity : ComponentActivity() {
     private var mapView: SurfaceView? = null
     private var activeNavigator = ""
     private var ticker: Job? = null
-    private var tripResetJob:Job?=null
     private var telemetryAt=0L
     private var telemetrySnapshot=LauncherTelemetry()
-    private fun resetTrip() {
-        if(tripResetJob?.isActive==true)return
-        if(telemetrySnapshot.distance==null || android.os.SystemClock.elapsedRealtime()-telemetryAt>5000)return
-        dashboard.clockView.resetting=true;dashboard.tickClock()
-        tripResetJob=lifecycleScope.launch {
-            try {
-                val r=withContext(Dispatchers.IO){com.abrar.voyahiran.core.bridge.BridgeClient.run(listOf("launcher-vehicle","reset-trip"),4)}
-                check(r.exitCode==0 && !r.timedOut){"Reset unavailable"}
-                // Confirm fresh vehicle feedback. Never reset the UI optimistically or replay an ambiguous write.
-                val dispatched=android.os.SystemClock.elapsedRealtime()
-                var confirmed=false
-                repeat(5) {
-                    delay(1000)
-                    if(telemetryAt>dispatched && telemetrySnapshot.distance?.let{it<=0.2}==true)confirmed=true
-                }
-                check(confirmed){"Reset not confirmed"}
-            } catch(e:CancellationException){throw e}
-            catch(e:Exception){
-                AppLog.error("LauncherTelemetry","Trip reset failed",e)
-                android.widget.Toast.makeText(this@VoyahLauncherActivity,"Trip reset not confirmed. Try again.",android.widget.Toast.LENGTH_LONG).show()
-            } finally {dashboard.clockView.resetting=false;dashboard.tickClock()}
-        }
-    }
     private var defaultPlayJob: Job? = null
     private var coverJob: Job? = null
     private var coverKey = emptyList<String>()
@@ -139,7 +115,6 @@ class VoyahLauncherActivity : ComponentActivity() {
     }
     private fun buildContent() {
         dashboard=LauncherDashboard(this)
-        dashboard.clockView.onReset=::resetTrip
         vehiclePage=LauncherVehicleDashboard(this)
         pager=LauncherPager(this)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

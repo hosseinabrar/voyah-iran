@@ -235,7 +235,6 @@ internal object LauncherVehicleBridge {
         private data class TelemetrySource(val getter:String,val event:String,val parcelType:String?=null,val floating:Boolean=false)
         private val telemetrySources=listOf(
             TelemetrySource("getBatteryRemainingCapacity","onBatteryRemainingCapacityChanged",floating=true),
-            TelemetrySource("getEngineSpeed","onEngineSpeedChanged"),
             TelemetrySource("getFuelLevel","onFuelLevelChanged","FuelLevel"),
             TelemetrySource("getOdometer","onOdometerChanged","Odometer"),
             TelemetrySource("getEnergyConsumptionInfo","onEnergyConsumptionInfoChanged","EnergyConsumptionInfo"))
@@ -309,10 +308,10 @@ internal object LauncherVehicleBridge {
                     number("batteryRange",telemetryMember(odometer,"mEVCruisingRange"))
                     number("fuel",telemetryCall(fuel,"getPercentage"))
                     number("instantFuel",telemetryMember(fuel,"mInstantaneousFuelConsumption"))
-                    number("distance",telemetryCall(trip,"getSinceTripADistance"))
-                    number("minutes",telemetryCall(trip,"getSinceTripALastingTime"))
-                    number("averageFuel",telemetryCall(trip,"getSinceTripAAvgOilConsum"))
-                    number("averagePower",telemetryCall(trip,"getSinceTripAAvgPwrConsum"))
+                    number("distance",telemetryCall(trip,"getCurrentTripDistance"))
+                    number("minutes",telemetryCall(trip,"getCurrentTripLastingTime"))
+                    number("averageFuel",telemetryCall(trip,"getCurrentTripAvgOilConsum"))
+                    number("averagePower",telemetryCall(trip,"getCurrentTripAvgPwrConsum"))
                 }
         }
         fun cachedSpeed():Int? = synchronized(lock) {
