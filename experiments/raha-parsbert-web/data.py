@@ -4,7 +4,10 @@ import re
 MODEL = 'HooshvareLab/bert-fa-zwnj-base'
 
 def normalize(text):
-    return re.sub(r'\s+', ' ', text.replace('\u200c', ' ').replace('ي', 'ی').replace('ك', 'ک')).strip()
+    text = re.sub(r'\s+', ' ', text.replace('\u200c', ' ').replace('ي', 'ی').replace('ك', 'ک')).strip()
+    text = re.sub(r'(?<!\w)(?:یدونه|(?:یه|یک) دونه)(?!\w)', 'یک', text)
+    return re.sub(r'(?<!\w)چهارتا(?!\w)', 'چهار', text)
+
 
 TOPICS = {
     'seat_heat': ('گرمکن صندلی', ['گرمکن صندلی', 'گرم کن صندلی', 'گرمایش صندلی']),

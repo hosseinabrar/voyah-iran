@@ -49,7 +49,10 @@ class RahaWordPiece(vocabulary: List<String>) {
     private fun chinese(cp: Int) = cp in 0x4e00..0x9fff || cp in 0x3400..0x4dbf || cp in 0x20000..0x2a6df ||
         cp in 0x2a700..0x2b73f || cp in 0x2b740..0x2b81f || cp in 0x2b820..0x2ceaf || cp in 0xf900..0xfaff || cp in 0x2f800..0x2fa1f
     companion object {
+        private val singleItem = Regex("""(?<![\p{L}\p{M}\p{N}_])(?:یدونه|(?:یه|یک) دونه)(?![\p{L}\p{M}\p{N}_])""")
+        private val fourItems = Regex("""(?<![\p{L}\p{M}\p{N}_])چهارتا(?![\p{L}\p{M}\p{N}_])""")
         fun normalize(text: String) = text.replace('\u200c', ' ').replace('ي', 'ی').replace('ك', 'ک')
             .replace(Regex("[\\p{Z}\\t\\n\\u000B\\f\\r\\u0085]+"), " ").trim()
+            .replace(singleItem, "یک").replace(fourItems, "چهار")
     }
 }
