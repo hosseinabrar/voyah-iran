@@ -32,6 +32,7 @@ object BridgeServer {
         // App stopping is suspended pending vehicle tests; boost controls system logging only.
         roa.start()
         neshan.start()
+        AppleMusicHookManager().start()
         OemNavigationManager.start()
         LauncherBackdropBridge.start()
         MicrogAutoSetup.start()
