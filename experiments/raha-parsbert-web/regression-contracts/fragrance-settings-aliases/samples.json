@@ -1,0 +1,4754 @@
+[
+  {
+    "text": "شدت رایحه یک رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه یک رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه یک رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه یک رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه یک رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه یک رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه یک رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه یک رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه یک رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه یک رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه یک رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه یک رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه یک بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه یک بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه یک بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه یک نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه یک سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه یک یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه یک شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه یک همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه یک نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه یک یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه یک یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه یک یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه ۱ رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه ۱ رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه ۱ رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه ۱ رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۱ رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۱ رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۱ رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۱ رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۱ رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۱ رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه ۱ رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه ۱ رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه ۱ بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه ۱ بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه ۱ بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه ۱ نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۱ سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۱ یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۱ شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۱ همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۱ نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۱ یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه ۱ یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه ۱ یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبو رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبو رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبو رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه بامبو رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه بامبو رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه بامبو رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه بامبو رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه بامبو رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه بامبو رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه بامبو رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه بامبو رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه بامبو رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه بامبو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه بامبو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه بامبو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه بامبو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه بامبو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه بامبو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه بامبو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه بامبو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه بامبو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه بامبوی تازه یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه فرش بامبو رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه فرش بامبو رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه فرش بامبو رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه فرش بامبو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه فرش بامبو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه فرش بامبو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه فرش بامبو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه دو رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه دو رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه دو رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه دو رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه دو رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه دو رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه دو رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه دو رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه دو رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه دو رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه دو رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه دو رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه دو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه دو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه دو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه دو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه دو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه دو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه دو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه دو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه دو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه دو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه دو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه دو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه ۲ رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه ۲ رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه ۲ رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه ۲ رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۲ رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۲ رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۲ رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۲ رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۲ رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۲ رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه ۲ رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه ۲ رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه ۲ بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه ۲ بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه ۲ بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه ۲ نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۲ سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۲ یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۲ شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۲ همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۲ نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۲ یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه ۲ یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه ۲ یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه گل رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه گل رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه گل رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه گل رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه گل رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه گل رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه گل بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه گل بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه گل بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه گل نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه گل یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه گل یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومنی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه گل صد تومانی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه اسکارلت سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه اسکارلت یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه اسکارلت شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه اسکارلت همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه اسکارلت نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه اسکارلت یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه پیونی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه پیونی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه پیونی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه پیونی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه پیونی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه پیونی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه پیونی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه پیونی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه پیونی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه پیونی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه پیونی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه پیونی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه پیونی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه پیونی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه پیونی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه پیونی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه پیونی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه پیونی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه پیونی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه پیونی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه پیونی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه پیونی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه پیونی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه پیونی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه پی یونی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه پی یونی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه پی یونی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه پی یونی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه پی یونی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه پی یونی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه پی یونی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه پی یونی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه پی یونی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه پی یونی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه پی یونی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه پی یونی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه پی یونی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه پی یونی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه پی یونی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه پی یونی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه اسکارلت پیونی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه سه رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه سه رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه سه رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه سه رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه سه رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه سه رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه سه رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه سه رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه سه رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه سه رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه سه رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه سه رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه سه بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه سه بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه سه بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه سه نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه سه سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه سه یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه سه شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه سه همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه سه نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه سه یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه سه یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه سه یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه ۳ رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه ۳ رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه ۳ رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه ۳ رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۳ رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۳ رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۳ رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۳ رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۳ رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۳ رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه ۳ رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه ۳ رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه ۳ بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه ۳ بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه ۳ بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه ۳ نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۳ سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه ۳ یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۳ شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه ۳ همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۳ نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه ۳ یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه ۳ یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه ۳ یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه مه رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه مه رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه مه رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه مه رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه مه رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه مه رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه مه رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه مه رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه مه رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه مه رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه مه رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه مه رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه مه بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه مه بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه مه بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه مه نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه مه سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه مه یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه مه شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه مه همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه مه نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه مه یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه مه یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه مه یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه مه نمناک رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه مه نمناک رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه مه نمناک رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه مه نمناک رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه مه نمناک بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه مه نمناک بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه مه نمناک بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه مه نمناک نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه مه نمناک سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه مه نمناک یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه مه نمناک شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه مه نمناک همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه مه نمناک نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه مه نمناک یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه مه نمناک یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه مه نمناک یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه نمناک رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه نمناک رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه نمناک رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه نمناک رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه نمناک رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه نمناک رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه نمناک رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه نمناک رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه نمناک رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه نمناک رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه نمناک رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه نمناک رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه نمناک بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه نمناک بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه نمناک بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه نمناک نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه نمناک سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه نمناک یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه نمناک شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه نمناک همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه نمناک نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه نمناک یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه نمناک یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه نمناک یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه واتری رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتری رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتری رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتری رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتری رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتری رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتری رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه واتری رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه واتری رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه واتری نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتری سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتری یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتری شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتری همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتری نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتری یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه واتری یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه واتری یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری میست رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری میست رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری میست رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه واتری میست رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری میست بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری میست بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه واتری میست بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه واتری میست نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتری میست سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتری میست یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتری میست شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتری میست همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتری میست نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتری میست یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه واتری میست یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه واتری میست یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه واتر ی میست رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه واتر ی میست رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه واتر ی میست رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "شدت رایحه واتر ی میست بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "شدت رایحه واتر ی میست بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "شدت رایحه واتر ی میست بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    }
+  },
+  {
+    "text": "رایحه واتر ی میست یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    }
+  }
+]

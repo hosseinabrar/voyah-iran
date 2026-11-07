@@ -1,30 +1,9 @@
-import java.io.File
-
 plugins { id("com.android.library") }
-val sealedRoot = layout.buildDirectory.dir("generated/rahaSealed")
-val sealRahaAssets = tasks.register("sealRahaAssets") {
-    val source = layout.projectDirectory.dir("src/main/assets")
-    val codec = project(":command-core").file("src/main/java/com/abrar/raha/intent/RahaSealedCodec.java")
-    val tool = file("tools/SealRahaAssets.java")
-    val deltaTool = file("tools/RahaModelDelta.java")
-    inputs.dir(source); inputs.files(codec, tool, deltaTool)
-    outputs.dir(sealedRoot)
-    doLast {
-        val output = sealedRoot.get().asFile
-        // Only generated task outputs are replaced. Source/training assets stay intact.
-        delete(output); output.mkdirs()
-        val classes = output.resolve("tool").apply { mkdirs() }
-        val suffix = if (System.getProperty("os.name").startsWith("Windows")) ".exe" else ""
-        fun runTool(vararg command: String) {
-            check(ProcessBuilder(*command).inheritIO().start().waitFor() == 0) { "Raha asset sealing failed" }
-        }
-        val bin = File(System.getProperty("java.home"), "bin")
-        runTool(bin.resolve("javac$suffix").path,"--release","17","-d",classes.path,codec.path,tool.path,deltaTool.path)
-        runTool(bin.resolve("java$suffix").path,"-cp",classes.path,"SealRahaAssets",source.asFile.path,
-            output.resolve("assets").path,output.resolve("java").path)
-    }
+val oldRahaAssets = tasks.register<Sync>("prepareOldRahaAssets") {
+    from("src/main/assets") { exclude("raha-intent/**") }
+    into(layout.buildDirectory.dir("generated/oldRahaAssets"))
 }
-tasks.named("preBuild").configure { dependsOn(sealRahaAssets) }
+tasks.named("preBuild").configure { dependsOn(oldRahaAssets) }
 android {
     namespace = "com.abrar.raha.runtime"
     compileSdk = 36
@@ -41,8 +20,7 @@ android {
 }
 extensions.configure<com.android.build.api.dsl.LibraryExtension> {
     sourceSets.getByName("main") {
-        assets.setSrcDirs(listOf(sealedRoot.get().dir("assets").asFile))
-        java.srcDir(sealedRoot.get().dir("java").asFile)
+        assets.setSrcDirs(listOf(layout.buildDirectory.dir("generated/oldRahaAssets").get().asFile))
     }
 }
 dependencies {
@@ -51,5 +29,4 @@ dependencies {
     implementation("net.java.dev.jna:jna:5.18.1@aar")
     // Each application packages this local native AAR; the reusable library only compiles against it.
     compileOnly(files("libs/sherpa-onnx-1.13.8.aar"))
-    compileOnly(files("libs/onnxruntime-java-1.19.2-shared.aar"))
 }

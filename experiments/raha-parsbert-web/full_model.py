@@ -85,6 +85,10 @@ class FullModel(nn.Module):
                     action = 'VENT_WINDOW'
                     params = {'window': 'sunroof'}
                     confidences = {'window': 1.0}
+                if action in ('SET_FRONT_DEFROSTER', 'SET_REAR_DEFROSTER'):
+                    params['window'] = 'front' if action == 'SET_FRONT_DEFROSTER' else 'rear'
+                    confidences['window'] = 1.0
+                    action = 'SET_DEFROSTER'
                 candidates.append(dict(action=action,parameters=params,score=round(float(score),4),slot_scores=confidences))
             results.append(candidates)
         return results

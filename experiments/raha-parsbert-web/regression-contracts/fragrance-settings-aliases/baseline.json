@@ -1,0 +1,8726 @@
+[
+  {
+    "text": "شدت رایحه یک رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "score": 0.998,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه یک رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": "medium"
+    },
+    "score": 0.3871,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه یک رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "score": 0.9732,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9988,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9664,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9849,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.7981,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه یک بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "low"
+    },
+    "score": 0.9984,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه یک بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": 1,
+      "zone": "front"
+    },
+    "score": 0.4045,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه یک بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "high"
+    },
+    "score": 0.9708,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "durationMinutes": 30
+    },
+    "score": 0.4503,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه یک سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9815,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9995,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه یک نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "strategy": "fuel"
+    },
+    "score": 0.5232,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه یک یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.4198,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه یک یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.7785,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه یک یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.9999,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "شدت رایحه ۱ رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "score": 0.998,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه ۱ رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": "medium"
+    },
+    "score": 0.3871,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه ۱ رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "score": 0.9732,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9988,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9664,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9849,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.7981,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه ۱ بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "low"
+    },
+    "score": 0.9952,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه ۱ بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "level": 1,
+      "seat": "passenger"
+    },
+    "score": 0.9563,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه ۱ بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "high"
+    },
+    "score": 0.9968,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9261,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9973,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.2869,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه ۱ یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9841,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه ۱ یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "شدت رایحه بامبو رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "score": 0.998,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه بامبو رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": "medium"
+    },
+    "score": 0.3871,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه بامبو رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "score": 0.9732,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9988,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9664,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9849,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.7981,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه بامبو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "score": 0.996,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه بامبو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1
+    },
+    "score": 0.64,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه بامبو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "score": 0.8922,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9933,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9995,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8194,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.8878,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9933,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "score": 0.9323,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": "medium"
+    },
+    "score": 0.6594,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "score": 0.7811,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9801,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9592,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9761,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9992,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.694,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "score": 0.9731,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1
+    },
+    "score": 0.7086,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه بامبوی تازه بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "score": 0.8538,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9599,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.8857,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه بامبوی تازه یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9765,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.7383,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه بامبوی تازه همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9285,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9055,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه فرش بامبو رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "score": 0.982,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه فرش بامبو رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": "medium"
+    },
+    "score": 0.4791,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه فرش بامبو رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "score": 0.9604,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.954,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.7765,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.5761,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه فرش بامبو رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.8391,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9306,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9865,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه فرش بامبو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "low"
+    },
+    "score": 0.9864,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه فرش بامبو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1
+    },
+    "score": 0.2974,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه فرش بامبو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "intensity": "high"
+    },
+    "score": 0.9488,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.509,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه فرش بامبو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.7217,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه فرش بامبو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9954,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.94,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه فرش بامبو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9924,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.682,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9959,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9992,
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه دو رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه دو رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه دو رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه دو رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه دو رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه دو رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه دو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "low"
+    },
+    "score": 0.9171,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه دو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": "media",
+      "level": 2
+    },
+    "score": 0.4249,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه دو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "high"
+    },
+    "score": 0.5001,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه دو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.6286,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه دو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9987,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9962,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.96,
+    "reason": null
+  },
+  {
+    "text": "رایحه دو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.3727,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه دو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.8584,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه دو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.8179,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "شدت رایحه ۲ رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه ۲ رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه ۲ رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه ۲ رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه ۲ رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه ۲ رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه ۲ بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "low"
+    },
+    "score": 0.6238,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه ۲ بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": 2,
+      "zone": "front"
+    },
+    "score": 0.7574,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه ۲ بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "high"
+    },
+    "score": 0.5508,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه ۲ نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9077,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9987,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.994,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9997,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9224,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.6201,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "رایحه ۲ یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.978,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه ۲ یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.991,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "شدت رایحه گل رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "level": 2,
+      "seat": "passenger"
+    },
+    "score": 0.7167,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه گل بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9997,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9665,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومنی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومنی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومنی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 0.9899,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9523,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومنی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.8367,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومنی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومنی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8347,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومنی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9917,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9889,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومانی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومانی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومانی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9905,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه گل صد تومانی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومانی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومانی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9978,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومانی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه گل صد تومانی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9882,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 0.999,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2
+    },
+    "score": 0.4936,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه اسکارلت بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 0.9917,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.8832,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9752,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9977,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9967,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9886,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9184,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9983,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه پیونی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه پیونی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه پیونی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پیونی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پیونی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پیونی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه پیونی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 0.446,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه پیونی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": "medium"
+    },
+    "score": 0.629,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه پیونی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 0.8225,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9702,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پیونی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پیونی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.7504,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پیونی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9996,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.4907,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه پیونی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.5305,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه پیونی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9947,
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": "مدل دربارهٔ یکی از پارامترها مطمئن نیست"
+  },
+  {
+    "text": "شدت رایحه پی یونی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه پی یونی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه پی یونی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پی یونی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پی یونی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پی یونی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه پی یونی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "low"
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه پی یونی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": 4,
+      "zone": "front"
+    },
+    "score": 0.7723,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه پی یونی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "high"
+    },
+    "score": 0.8425,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9188,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پی یونی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9864,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پی یونی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9874,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.8812,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه پی یونی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9991,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.5173,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه پی یونی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.5341,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه پی یونی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9944,
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.9942,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9259,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.8874,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.95,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9799,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "low"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "intensity": "medium"
+    },
+    "score": 0.489,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه اسکارلت پیونی بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "intensity": "high"
+    },
+    "score": 0.995,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.3206,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت پیونی سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.8769,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت پیونی یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9266,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت پیونی شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9964,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه اسکارلت پیونی همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "score": 0.9995,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.925,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9988,
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه سه رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.5781,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه سه رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "direction": "all",
+      "zone": "front"
+    },
+    "score": 0.5576,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه سه رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.9179,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9965,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9827,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه سه رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.8883,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه سه رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9798,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9914,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه سه بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.434,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "شدت رایحه سه بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "level": 3,
+      "seat": "driver"
+    },
+    "score": 0.7773,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه سه بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": "media",
+      "delta": 3
+    },
+    "score": 0.9059,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه سه نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9907,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9996,
+    "reason": null
+  },
+  {
+    "text": "رایحه سه یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.4039,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه سه یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9932,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه سه یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.9987,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "شدت رایحه ۳ رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.5781,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه ۳ رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "direction": "all",
+      "zone": "front"
+    },
+    "score": 0.5576,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه ۳ رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.9179,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9965,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9827,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه ۳ رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.8883,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه ۳ رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9798,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9914,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه ۳ بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.6574,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "شدت رایحه ۳ بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "medium"
+    },
+    "score": 0.5113,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه ۳ بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": "media",
+      "delta": 3
+    },
+    "score": 0.8827,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه ۳ نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9243,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9979,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9834,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.776,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه ۳ یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9959,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "رایحه ۳ یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.9976,
+    "reason": "عدد یا کاربرد آن در جمله مبهم است؛ یک مقدار مشخص بگو"
+  },
+  {
+    "text": "شدت رایحه مه رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.5781,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه مه رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "direction": "all",
+      "zone": "front"
+    },
+    "score": 0.5576,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه مه رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.9179,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9965,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9827,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.8883,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9798,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9914,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه مه بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "low"
+    },
+    "score": 0.5597,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه مه بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": 4,
+      "zone": "front"
+    },
+    "score": 0.6899,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه مه بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.8408,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.8188,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9995,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.6,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه مه شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.997,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.6093,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه مه یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.996,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه مه نمناک رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.5781,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه مه نمناک رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "direction": "all",
+      "zone": "front"
+    },
+    "score": 0.5576,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه مه نمناک رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.9179,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9965,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9827,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه نمناک رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.8883,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه نمناک رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9798,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9914,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه مه نمناک بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.6056,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه مه نمناک بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": 4,
+      "zone": "front"
+    },
+    "score": 0.6594,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه مه نمناک بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.8019,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9528,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه نمناک سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه نمناک یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.954,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه نمناک شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9968,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه مه نمناک همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.529,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه مه نمناک یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9947,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه نمناک رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.5781,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه نمناک رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "direction": "all",
+      "zone": "front"
+    },
+    "score": 0.5576,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه نمناک رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.9179,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9965,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9827,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه نمناک رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.8883,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه نمناک رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9798,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9914,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه نمناک بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "low"
+    },
+    "score": 0.9997,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه نمناک بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": 4,
+      "zone": "front"
+    },
+    "score": 0.7617,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه نمناک بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "high"
+    },
+    "score": 0.8574,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.3588,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه نمناک سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.999,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه نمناک یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "score": 0.9287,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.982,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه نمناک همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.5282,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه نمناک یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9869,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 1,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه واتری رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.5781,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه واتری رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "direction": "all",
+      "zone": "front"
+    },
+    "score": 0.5576,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه واتری رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.9179,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9965,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9827,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.8883,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9798,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9914,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه واتری بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "level": "low"
+    },
+    "score": 0.7027,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه واتری بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": "medium"
+    },
+    "score": 0.9712,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه واتری بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "level": "high"
+    },
+    "score": 0.9908,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه واتری نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.5955,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.6857,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9623,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9992,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9997,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.54,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "رایحه واتری یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.5193,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه واتری یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9987,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.9997,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه واتری میست رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.5781,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه واتری میست رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "direction": "all",
+      "zone": "front"
+    },
+    "score": 0.5576,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه واتری میست رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.9179,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9965,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9827,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری میست رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.8883,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری میست رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9798,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9914,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه واتری میست بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "low"
+    },
+    "score": 0.6338,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه واتری میست بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": "medium"
+    },
+    "score": 0.86,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه واتری میست بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "level": "high"
+    },
+    "score": 0.9122,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه واتری میست نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.8362,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "رایحه واتری میست سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.6358,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری میست یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9376,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری میست شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9464,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتری میست همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9765,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.5493,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه واتری میست یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.7238,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "رایحه واتری میست یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9993,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 0.9999,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه واتر ی میست رو بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "score": 0.5781,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "شدت رایحه واتر ی میست رو بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "direction": "all",
+      "zone": "front"
+    },
+    "score": 0.5576,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه واتر ی میست رو بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "score": 0.9179,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 30,
+      "enabled": true
+    },
+    "score": 0.9965,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9827,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتر ی میست رو یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9998,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.8883,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتر ی میست رو همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.9994,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 0,
+      "enabled": true
+    },
+    "score": 0.9798,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "low"
+    },
+    "score": 0.9914,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  },
+  {
+    "text": "شدت رایحه واتر ی میست بذار روی کم",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.9871,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "شدت رایحه واتر ی میست بذار روی متوسط",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "medium"
+    },
+    "passed": false,
+    "actual": {
+      "level": 4,
+      "zone": "front"
+    },
+    "score": 0.2676,
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "شدت رایحه واتر ی میست بذار روی زیاد",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "intensity": "high"
+    },
+    "passed": false,
+    "actual": {
+      "intensity": "high"
+    },
+    "score": 0.3016,
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه واتر ی میست نیم ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.7465,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "رایحه واتر ی میست سی دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 30
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.7269,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتر ی میست یک ساعت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true
+    },
+    "score": 0.9118,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست شصت دقیقه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60
+    },
+    "passed": false,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "score": 0.6352,
+    "reason": "عدد برداشت‌شده با عدد گفته‌شده سازگار نیست؛ دوباره بررسی کن"
+  },
+  {
+    "text": "رایحه واتر ی میست همیشه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.9997,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "رایحه واتر ی میست نامحدود روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 0
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.991,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "رایحه واتر ی میست یک ساعت با شدت کم روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "low"
+    },
+    "passed": false,
+    "actual": {},
+    "score": 0.8273,
+    "reason": "فرمان مشخصی تشخیص داده نشد"
+  },
+  {
+    "text": "رایحه واتر ی میست یک ساعت با شدت متوسط روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "medium"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "medium"
+    },
+    "score": 0.9996,
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست یک ساعت با شدت زیاد روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true,
+      "durationMinutes": 60,
+      "intensity": "high"
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "durationMinutes": 60,
+      "enabled": true,
+      "intensity": "high"
+    },
+    "score": 1.0,
+    "reason": null
+  }
+]

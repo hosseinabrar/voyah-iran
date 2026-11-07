@@ -6760,7 +6760,7 @@
       "seat": "driver",
       "slot": "2"
     },
-    "allowed": false
+    "allowed": true
   },
   {
     "text": "رها لطف کن صندلی راننده رو به موقعیت حافظه دو برگردون",
@@ -6787,7 +6787,7 @@
       "seat": "driver",
       "slot": "2"
     },
-    "allowed": false
+    "allowed": true
   },
   {
     "text": "خواهش می کنم صندلی راننده رو به موقعیت حافظه دو برگردون",
@@ -6805,7 +6805,7 @@
       "seat": "driver",
       "slot": "3"
     },
-    "allowed": false
+    "allowed": true
   },
   {
     "text": "رها لطف کن صندلی راننده رو به موقعیت حافظه سه برگردون",
@@ -6832,7 +6832,7 @@
       "seat": "driver",
       "slot": "3"
     },
-    "allowed": false
+    "allowed": true
   },
   {
     "text": "خواهش می کنم صندلی راننده رو به موقعیت حافظه سه برگردون",
@@ -6850,7 +6850,7 @@
       "seat": "driver",
       "slot": "2"
     },
-    "allowed": false
+    "allowed": true
   },
   {
     "text": "رها لطف کن صندلی راننده رو به موقعیت حافظه شماره دو برگردون",
@@ -6877,7 +6877,7 @@
       "seat": "driver",
       "slot": "2"
     },
-    "allowed": false
+    "allowed": true
   },
   {
     "text": "خواهش می کنم صندلی راننده رو به موقعیت حافظه شماره دو برگردون",
@@ -6895,7 +6895,7 @@
       "seat": "driver",
       "slot": "3"
     },
-    "allowed": false
+    "allowed": true
   },
   {
     "text": "رها لطف کن صندلی راننده رو به موقعیت حافظه شماره سه برگردون",
@@ -6922,7 +6922,7 @@
       "seat": "driver",
       "slot": "3"
     },
-    "allowed": false
+    "allowed": true
   },
   {
     "text": "خواهش می کنم صندلی راننده رو به موقعیت حافظه شماره سه برگردون",
@@ -8947,5 +8947,1144 @@
       "seat": "driver"
     },
     "allowed": true
+  },
+  {
+    "text": "گرم کن رو بذار کم",
+    "action": "SET_SEAT_HEATING",
+    "parameters": {
+      "enabled": true,
+      "level": 1,
+      "seat": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "گرم کن را خاموش کن",
+    "action": "SET_SEAT_HEATING",
+    "parameters": {
+      "enabled": false,
+      "level": 0,
+      "seat": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "گرم کن رو بذار کم",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "گرم کن بذار کم",
+    "action": "SET_SEAT_HEATING",
+    "parameters": {
+      "enabled": true,
+      "level": 1,
+      "seat": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "گرم کن بذار کم",
+    "action": "SET_CLIMATE_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "گرم کن راست رو دو تا کم کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": -2,
+      "seat": "passenger"
+    },
+    "allowed": true
+  },
+  {
+    "text": "گرم کن راست رو دو تا کم کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": -2,
+      "zone": "front"
+    },
+    "allowed": false
+  },
+  {
+    "text": "گرم کن راست رو دو تا زیاد کن",
+    "action": "ADJUST_SEAT_HEATING",
+    "parameters": {
+      "delta": 2,
+      "seat": "passenger"
+    },
+    "allowed": true
+  },
+  {
+    "text": "گرم کن راست رو دو تا زیاد کن",
+    "action": "ADJUST_FAN_SPEED",
+    "parameters": {
+      "delta": 2,
+      "zone": "front"
+    },
+    "allowed": false
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت چرخشی",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": false
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت چرخشی",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت غلتکی",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": false
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت غلتکی",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت موجی",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت موجی",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": false
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت ویوینگ",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت ویوینگ",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": false
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت وی وینگ",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "wave",
+      "seat": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "ماساژور رو بذار تو حالت وی وینگ",
+    "action": "SET_SEAT_MASSAGE_PATTERN",
+    "parameters": {
+      "pattern": "rolling",
+      "seat": "driver"
+    },
+    "allowed": false
+  },
+  {
+    "text": "صندلی رو به موقعیت ۱ تغییر بده",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "صندلی رو ببر تو موقعیت ۲",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true
+  },
+  {
+    "text": "صندلی رو به وضعیت ۳ برگردون",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true
+  },
+  {
+    "text": "صندلی رو به حالت رانندگی برگردون",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "حالت رانندگی صندلی رو بازیابی کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "صندلی رو آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": true
+  },
+  {
+    "text": "صندلی رو آپدیت کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "allowed": false
+  },
+  {
+    "text": "مموری صندلی دو رو آپدیت کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": true
+  },
+  {
+    "text": "مموری صندلی دو رو آپدیت کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "2"
+    },
+    "allowed": false
+  },
+  {
+    "text": "حافظه صندلی سه رو بروزرسانی کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true
+  },
+  {
+    "text": "حافظه صندلی سه رو بروزرسانی کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": false
+  },
+  {
+    "text": "حافظه صندلی سه رو به‌روزرسانی کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true
+  },
+  {
+    "text": "حافظه صندلی سه رو به‌روزرسانی کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": false
+  },
+  {
+    "text": "حافظه صندلی سه رو به روز رسانی کن",
+    "action": "SAVE_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": true
+  },
+  {
+    "text": "حافظه صندلی سه رو به روز رسانی کن",
+    "action": "RECALL_SEAT_POSITION",
+    "parameters": {
+      "seat": "driver",
+      "slot": "3"
+    },
+    "allowed": false
+  },
+  {
+    "text": "باد به سمت شیشه",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "zone": "front",
+      "direction": "windshield"
+    },
+    "allowed": true
+  },
+  {
+    "text": "باد به سمت شیشه",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "zone": "front",
+      "direction": "face"
+    },
+    "allowed": false
+  },
+  {
+    "text": "دریچه باد رو به جهت پایین و بالا پخش کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "zone": "front",
+      "direction": "windshieldAndFeet"
+    },
+    "allowed": true
+  },
+  {
+    "text": "دریچه باد رو به جهت پایین و بالا پخش کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "zone": "front",
+      "direction": "face"
+    },
+    "allowed": false
+  },
+  {
+    "text": "دریچه هوا رو به سمت شیشه جلو و وسط تنظیم کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "zone": "front",
+      "direction": "faceAndWindshield"
+    },
+    "allowed": true
+  },
+  {
+    "text": "دریچه هوا رو به سمت شیشه جلو و وسط تنظیم کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "zone": "front",
+      "direction": "face"
+    },
+    "allowed": false
+  },
+  {
+    "text": "باد رو به سمت پا و شیشه و جلو پخش کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "zone": "front",
+      "direction": "all"
+    },
+    "allowed": true
+  },
+  {
+    "text": "باد رو به سمت پا و شیشه و جلو پخش کن",
+    "action": "SET_AIRFLOW_DIRECTION",
+    "parameters": {
+      "zone": "front",
+      "direction": "face"
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار بازکردن در رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازکردن در رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازکردن درب رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازکردن درب رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازکردن درها رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازکردن درها رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز کردن در رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز کردن در رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز کردن درب رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز کردن درب رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز کردن درها رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز کردن درها رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز شدن در رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز شدن در رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز شدن درب رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز شدن درب رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز شدن درها رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار باز شدن درها رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازشدن در رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازشدن در رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازشدن درب رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازشدن درب رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازشدن درها رو روشن کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": true
+  },
+  {
+    "text": "هشدار بازشدن درها رو خاموش کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": true
+  },
+  {
+    "text": "در رو باز کن",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "کمپرسور کولر",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "کمپرسور کولر",
+    "action": "SET_AC_POWER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "نورپردازی داخلی",
+    "action": "SET_AMBIENT_LIGHT_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "نورپردازی داخلی",
+    "action": "SET_AMBIENT_LIGHT_POWER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "بی‌صدا کردن یا بازگرداندن صدا",
+    "action": "SET_AUDIO_MUTE",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "بی‌صدا کردن یا بازگرداندن صدا",
+    "action": "SET_AUDIO_MUTE",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "ترمز اضطراری خودکار",
+    "action": "SET_AUTOMATIC_EMERGENCY_BRAKING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "ترمز اضطراری خودکار",
+    "action": "SET_AUTOMATIC_EMERGENCY_BRAKING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "نوربالای خودکار",
+    "action": "SET_AUTO_HIGH_BEAM",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "نوربالای خودکار",
+    "action": "SET_AUTO_HIGH_BEAM",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "کنترل دمای باتری",
+    "action": "SET_BATTERY_PRECONDITIONING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "کنترل دمای باتری",
+    "action": "SET_BATTERY_PRECONDITIONING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "پایش نقطه کور",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "پایش نقطه کور",
+    "action": "SET_BLIND_SPOT_MONITORING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "قفل کودک",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "قفل کودک",
+    "action": "SET_CHILD_LOCK",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "تهویه خودکار",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "تهویه خودکار",
+    "action": "SET_CLIMATE_AUTO",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "چراغ روز",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "چراغ روز",
+    "action": "SET_DAYTIME_RUNNING_LIGHTS",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار باز کردن در",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار باز کردن در",
+    "action": "SET_DOOR_OPEN_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "تشخیص حرکت دست",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "تشخیص حرکت دست",
+    "action": "SET_DRIVER_GESTURES",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "پایش خستگی",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "پایش خستگی",
+    "action": "SET_DRIVER_MONITORING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "ورود آسان",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "ورود آسان",
+    "action": "SET_EASY_ENTRY",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "خروج آسان",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "خروج آسان",
+    "action": "SET_EASY_EXIT",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار برخورد جلو",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار برخورد جلو",
+    "action": "SET_FORWARD_COLLISION_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "روشن یا خاموش کردن رایحه",
+    "action": "SET_FRAGRANCE_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "روشن یا خاموش کردن رایحه",
+    "action": "SET_FRAGRANCE_POWER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "همگام‌سازی تهویه جلو",
+    "action": "SET_FRONT_CLIMATE_SYNC",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "همگام‌سازی تهویه جلو",
+    "action": "SET_FRONT_CLIMATE_SYNC",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار ترافیک متقاطع جلو",
+    "action": "SET_FRONT_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار ترافیک متقاطع جلو",
+    "action": "SET_FRONT_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "تعلیق تطبیقی بزرگراه",
+    "action": "SET_HIGHWAY_SUSPENSION_ADAPTATION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "تعلیق تطبیقی بزرگراه",
+    "action": "SET_HIGHWAY_SUSPENSION_ADAPTATION",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "کنترل سرازیری",
+    "action": "SET_HILL_DESCENT_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "کنترل سرازیری",
+    "action": "SET_HILL_DESCENT_CONTROL",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "کمک بین خطوط",
+    "action": "SET_LANE_SUPPORT_MODE",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "کمک بین خطوط",
+    "action": "SET_LANE_SUPPORT_MODE",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار شروع حرکت خودروی جلو",
+    "action": "SET_LEAD_VEHICLE_DEPARTURE_ALERT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار شروع حرکت خودروی جلو",
+    "action": "SET_LEAD_VEHICLE_DEPARTURE_ALERT",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "روشن و خاموش کردن نمایشگر شاگرد",
+    "action": "SET_PASSENGER_DISPLAY_POWER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "روشن و خاموش کردن نمایشگر شاگرد",
+    "action": "SET_PASSENGER_DISPLAY_POWER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "صدای هشدار عابر پیاده",
+    "action": "SET_PEDESTRIAN_WARNING_SOUND",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "صدای هشدار عابر پیاده",
+    "action": "SET_PEDESTRIAN_WARNING_SOUND",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "شارژ با موتور در حالت حفظ برق",
+    "action": "SET_POWER_KEEP_ENGINE_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "شارژ با موتور در حالت حفظ برق",
+    "action": "SET_POWER_KEEP_ENGINE_CHARGING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "برف‌پاک‌کن خودکار باران",
+    "action": "SET_RAIN_SENSING_WIPERS",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "برف‌پاک‌کن خودکار باران",
+    "action": "SET_RAIN_SENSING_WIPERS",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار برخورد عقب",
+    "action": "SET_REAR_COLLISION_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار برخورد عقب",
+    "action": "SET_REAR_COLLISION_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار ترافیک عقب",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "هشدار ترافیک عقب",
+    "action": "SET_REAR_CROSS_TRAFFIC_WARNING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "قفل نمایشگر عقب",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "قفل نمایشگر عقب",
+    "action": "SET_REAR_DISPLAY_LOCK",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "مه‌شکن عقب",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "مه‌شکن عقب",
+    "action": "SET_REAR_FOG_LIGHT",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "شارژ زمان‌بندی‌شده",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "شارژ زمان‌بندی‌شده",
+    "action": "SET_SCHEDULED_CHARGING",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "کنترل پایداری",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "کنترل پایداری",
+    "action": "SET_STABILITY_CONTROL",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "شناسایی تابلوها",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "شناسایی تابلوها",
+    "action": "SET_TRAFFIC_SIGN_RECOGNITION",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
+  },
+  {
+    "text": "شارژر وایرلس گوشی",
+    "action": "SET_WIRELESS_CHARGER",
+    "parameters": {
+      "enabled": true
+    },
+    "allowed": false
+  },
+  {
+    "text": "شارژر وایرلس گوشی",
+    "action": "SET_WIRELESS_CHARGER",
+    "parameters": {
+      "enabled": false
+    },
+    "allowed": false
   }
 ]

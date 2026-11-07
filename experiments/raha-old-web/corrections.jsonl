@@ -1,0 +1,6 @@
+{"text": "صفحه نمایشگر رو جابجا کن", "action": "SWAP_DISPLAY_APPS", "parameters": {}}
+{"text": "حساسیت سنسور بارون کم کن", "action": "ADJUST_WIPER_SENSITIVITY", "parameters": {"delta": -1}}
+{"text": "حساسیت سنسور باران کم کن", "action": "ADJUST_WIPER_SENSITIVITY", "parameters": {"delta": -1}}
+{"text": "چراغ ای داخل رو کم کن", "action": "ADJUST_AMBIENT_LIGHT_BRIGHTNESS", "parameters": {"delta": -1}}
+{"text": "حساسیت برف پاک کن بذار رو زیاد", "action": "SET_WIPER_SENSITIVITY", "parameters": {"level": 3}}
+{"text": "چراغ بیرون روشن کن", "action": "SET_HEADLIGHT_MODE", "parameters": {"mode": "lowBeam"}}

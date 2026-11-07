@@ -331,8 +331,12 @@ def validate_coverage(targets, exclusions):
 
 def validate_raha_targets(targets, exclusions):
     selected = {name for names in targets.values() for name in names}
-    required = {"com.abrar.raha.intent." + name for name in
-                ("RahaIntentModel", "RahaProtectedAssets", "RahaAssetKey", "RahaSealedCodec", "RahaExecutionConfidence")}
+    old_names = {"com.abrar.raha." + name for name in ("OldRahaRecognizer", "OldRahaExtensions", "RahaCommandRecognizer")}
+    all_names = selected | {name for entry in exclusions.values() for name in entry["classes"]}
+    required = old_names if "com.abrar.raha.OldRahaRecognizer" in all_names else {
+        "com.abrar.raha.intent." + name for name in
+        ("RahaIntentModel", "RahaProtectedAssets", "RahaAssetKey", "RahaSealedCodec", "RahaExecutionConfidence")}
+
     require(required <= selected, "Sensitive Raha classes missing from protection: " + ", ".join(sorted(required-selected)))
     leaks = {name for entry in exclusions.values() for name in entry["classes"]
              if name.startswith("com.abrar.raha.intent.")}
@@ -344,6 +348,11 @@ def validate_sealed_assets(apk):
     with zipfile.ZipFile(apk) as archive:
         names = archive.namelist()
         require(len(names) == len(set(names)), "Duplicate APK entries")
+        if "assets/raha-engine.txt" in names and archive.read("assets/raha-engine.txt").strip() == b"rules-2.1.1":
+            require(not any(n.startswith("assets/raha-intent/") for n in names), "BERT assets packaged in old Raha")
+            require("raha-old-lessons.tsv" in names, "Old Raha lessons missing")
+            require(archive.getinfo("raha-old-lessons.tsv").file_size > 0, "Old Raha lessons empty")
+            return
         for name in expected:
             path = "assets/raha-intent/" + name
             require(path not in names, "Plaintext Raha asset packaged: " + name)

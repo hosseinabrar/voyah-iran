@@ -1,0 +1,2348 @@
+[
+  {
+    "text": "رایحه یک رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه یک رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه یک روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_FRAGRANCE_CHANNEL",
+      "title": "انتخاب رایحه",
+      "score": 0.6328,
+      "parameters": {
+        "channel": 1
+      },
+      "slot_scores": {
+        "channel": 0.7828
+      }
+    },
+    "actual": {
+      "channel": 1
+    },
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه یک خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SAVE_SEAT_POSITION",
+      "title": "ذخیره یا به‌روزرسانی حافظهٔ صندلی",
+      "score": 0.6979,
+      "parameters": {
+        "seat": "driver",
+        "slot": "driver"
+      },
+      "slot_scores": {
+        "seat": 0.9996,
+        "slot": 1.0
+      }
+    },
+    "actual": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه ۱ رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه ۱ روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_WIPER_SENSITIVITY",
+      "title": "حساسیت برف‌پاک‌کن",
+      "score": 0.6176,
+      "parameters": {
+        "level": 1
+      },
+      "slot_scores": {
+        "level": 1.0
+      }
+    },
+    "actual": {
+      "level": 1
+    },
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه ۱ خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SAVE_SEAT_POSITION",
+      "title": "ذخیره یا به‌روزرسانی حافظهٔ صندلی",
+      "score": 0.4339,
+      "parameters": {
+        "seat": "driver",
+        "slot": "driver"
+      },
+      "slot_scores": {
+        "seat": 0.9956,
+        "slot": 1.0
+      }
+    },
+    "actual": {
+      "seat": "driver",
+      "slot": "driver"
+    },
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه بامبو رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه بامبوی تازه خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 1,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9996,
+      "parameters": {
+        "channel": 1,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 1,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه فرش بامبو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.997,
+      "parameters": {
+        "channel": 1,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه دو رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه دو رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه دو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_FRAGRANCE_CHANNEL",
+      "title": "انتخاب رایحه",
+      "score": 0.6695,
+      "parameters": {
+        "channel": 2
+      },
+      "slot_scores": {
+        "channel": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه دو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_FRAGRANCE_CHANNEL",
+      "title": "انتخاب رایحه",
+      "score": 0.9585,
+      "parameters": {
+        "channel": 2
+      },
+      "slot_scores": {
+        "channel": 0.9997
+      }
+    },
+    "actual": {
+      "channel": 2
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": false,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9574,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 0.9997,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه ۲ خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_FRAGRANCE_CHANNEL",
+      "title": "انتخاب رایحه",
+      "score": 0.4046,
+      "parameters": {
+        "channel": 2
+      },
+      "slot_scores": {
+        "channel": 0.9996
+      }
+    },
+    "actual": {
+      "channel": 2
+    },
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه گل رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومنی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9991,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه گل صد تومانی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 0.9999,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه پیونی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_AMBIENT_LIGHT_POWER",
+      "title": "نورپردازی داخلی",
+      "score": 0.4345,
+      "parameters": {
+        "enabled": false
+      },
+      "slot_scores": {
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "enabled": false
+    },
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه پی یونی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه پی یونی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_AUTO_HOLD",
+      "title": "اتوهلد",
+      "score": 0.3194,
+      "parameters": {
+        "mode": "deepPedal"
+      },
+      "slot_scores": {
+        "mode": 0.6458
+      }
+    },
+    "actual": {
+      "mode": "deepPedal"
+    },
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه پی یونی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_WINDOW_POSITION",
+      "title": "میزان باز بودن شیشه",
+      "score": 0.7941,
+      "parameters": {
+        "percent": 30,
+        "window": "passenger"
+      },
+      "slot_scores": {
+        "percent": 0.6864,
+        "window": 0.5829
+      }
+    },
+    "actual": {
+      "percent": 30,
+      "window": "passenger"
+    },
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 2,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه اسکارلت پیونی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9966,
+      "parameters": {
+        "channel": 2,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه سه رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه سه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_FRAGRANCE_CHANNEL",
+      "title": "انتخاب رایحه",
+      "score": 0.5167,
+      "parameters": {
+        "channel": 3
+      },
+      "slot_scores": {
+        "channel": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3
+    },
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه سه خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_AUDIO_VOLUME",
+      "title": "تنظیم بلندی صدا",
+      "score": 0.918,
+      "parameters": {
+        "channel": "media",
+        "level": 3
+      },
+      "slot_scores": {
+        "channel": 0.001,
+        "level": 1.0
+      }
+    },
+    "actual": {
+      "channel": "media",
+      "level": 3
+    },
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه ۳ رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه ۳ روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": false,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.5225,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن"
+  },
+  {
+    "text": "رایحه ۳ خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_EASY_EXIT",
+      "title": "خروج آسان",
+      "score": 0.8804,
+      "parameters": {
+        "enabled": false
+      },
+      "slot_scores": {
+        "enabled": 0.9808
+      }
+    },
+    "actual": {
+      "enabled": false
+    },
+    "reason": "برداشت فرمان با هدف صریح «رایحه» سازگار نیست"
+  },
+  {
+    "text": "رایحه مه رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه مه رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه مه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه مه خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه مه نمناک خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9992,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 0.9999,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه نمناک خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": false,
+    "predicted": {
+      "label": "SET_FRAGRANCE_POWER",
+      "title": "روشن یا خاموش کردن رایحه",
+      "score": 0.9928,
+      "parameters": {
+        "enabled": false
+      },
+      "slot_scores": {
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9993,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتری میست خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 1.0,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9999,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9998,
+      "parameters": {
+        "channel": 3,
+        "enabled": true
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null
+  },
+  {
+    "text": "رایحه واتر ی میست خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "predicted": {
+      "label": "CONFIGURE_FRAGRANCE",
+      "title": "تنظیم ترکیبی رایحه",
+      "score": 0.9997,
+      "parameters": {
+        "channel": 3,
+        "enabled": false
+      },
+      "slot_scores": {
+        "channel": 1.0,
+        "enabled": 1.0
+      }
+    },
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null
+  }
+]

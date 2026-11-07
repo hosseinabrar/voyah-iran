@@ -1,0 +1,698 @@
+[
+  {
+    "text": "بخاری شیشه جلو رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 0.9999
+  },
+  {
+    "text": "بخاری شیشه جلو رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false
+    },
+    "reason": "برداشت فرمان با هدف صریح «بخاری شیشه» سازگار نیست",
+    "score": 0.6578
+  },
+  {
+    "text": "بخاری شیشه جلو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 0.999
+  },
+  {
+    "text": "بخاری شیشه جلو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "enabled": false,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 0.9969
+  },
+  {
+    "text": "بخاری شیشه عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "بخاری شیشه عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.8138
+  },
+  {
+    "text": "بخاری شیشه عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.9992
+  },
+  {
+    "text": "بخاری شیشه عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "enabled": false,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.998
+  },
+  {
+    "text": "بخاری شیشه ها رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 0.9826
+  },
+  {
+    "text": "بخاری شیشه ها رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "reason": "برداشت فرمان با هدف صریح «بخاری شیشه» سازگار نیست",
+    "score": 1.0
+  },
+  {
+    "text": "بخاری شیشه ها روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "بخاری شیشه ها خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "reason": "برداشت فرمان با هدف صریح «بخاری شیشه» سازگار نیست",
+    "score": 0.9982
+  },
+  {
+    "text": "بخاری شیشه های جلو و عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "بخاری شیشه های جلو و عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "enabled": false,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "بخاری شیشه های جلو و عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 0.9996
+  },
+  {
+    "text": "بخاری شیشه های جلو و عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 0.9943
+  },
+  {
+    "text": "هیتر شیشه جلو رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "هیتر شیشه جلو رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 0.8619
+  },
+  {
+    "text": "هیتر شیشه جلو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "window": "front"
+    },
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن",
+    "score": 0.5335
+  },
+  {
+    "text": "هیتر شیشه جلو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false
+    },
+    "reason": "برداشت فرمان با هدف صریح «هیتر شیشه» سازگار نیست",
+    "score": 0.6054
+  },
+  {
+    "text": "هیتر شیشه عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.9476
+  },
+  {
+    "text": "هیتر شیشه عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.8861
+  },
+  {
+    "text": "هیتر شیشه عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.9999
+  },
+  {
+    "text": "هیتر شیشه عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false
+    },
+    "reason": "برداشت فرمان با هدف صریح «هیتر شیشه» سازگار نیست",
+    "score": 0.689
+  },
+  {
+    "text": "هیتر شیشه ها رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "هیتر شیشه ها رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "reason": "برداشت فرمان با هدف صریح «هیتر شیشه» سازگار نیست",
+    "score": 1.0
+  },
+  {
+    "text": "هیتر شیشه ها روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "enabled": true,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "هیتر شیشه ها خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "zone": "front"
+    },
+    "reason": "برداشت فرمان با هدف صریح «هیتر شیشه» سازگار نیست",
+    "score": 0.9993
+  },
+  {
+    "text": "هیتر شیشه های جلو و عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {},
+    "reason": "فرمان مشخصی تشخیص داده نشد",
+    "score": 0.6007
+  },
+  {
+    "text": "هیتر شیشه های جلو و عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "all"
+    },
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن",
+    "score": 0.6241
+  },
+  {
+    "text": "هیتر شیشه های جلو و عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {},
+    "reason": "فرمان مشخصی تشخیص داده نشد",
+    "score": 0.9948
+  },
+  {
+    "text": "هیتر شیشه های جلو و عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false
+    },
+    "reason": "برداشت فرمان با هدف صریح «هیتر شیشه» سازگار نیست",
+    "score": 0.9249
+  },
+  {
+    "text": "المنت شیشه جلو رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 0.9913
+  },
+  {
+    "text": "المنت شیشه جلو رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 0.9413
+  },
+  {
+    "text": "المنت شیشه جلو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 0.8458
+  },
+  {
+    "text": "المنت شیشه جلو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "front"
+    },
+    "reason": null,
+    "score": 0.7155
+  },
+  {
+    "text": "المنت شیشه عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.9923
+  },
+  {
+    "text": "المنت شیشه عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.9553
+  },
+  {
+    "text": "المنت شیشه عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {
+      "enabled": true,
+      "window": "rear"
+    },
+    "reason": null,
+    "score": 0.9195
+  },
+  {
+    "text": "المنت شیشه عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false
+    },
+    "reason": "برداشت فرمان با هدف صریح «المنت شیشه» سازگار نیست",
+    "score": 0.8808
+  },
+  {
+    "text": "المنت شیشه ها رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {},
+    "reason": "فرمان مشخصی تشخیص داده نشد",
+    "score": 0.9798
+  },
+  {
+    "text": "المنت شیشه ها رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "all"
+    },
+    "reason": "نوع فرمان هنوز مطمئن نیست؛ برداشت پیشنهادی را بررسی کن",
+    "score": 0.6367
+  },
+  {
+    "text": "المنت شیشه ها روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {},
+    "reason": "فرمان مشخصی تشخیص داده نشد",
+    "score": 0.9965
+  },
+  {
+    "text": "المنت شیشه ها خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false
+    },
+    "reason": "برداشت فرمان با هدف صریح «المنت شیشه» سازگار نیست",
+    "score": 0.9952
+  },
+  {
+    "text": "المنت شیشه های جلو و عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {},
+    "reason": "فرمان مشخصی تشخیص داده نشد",
+    "score": 0.9988
+  },
+  {
+    "text": "المنت شیشه های جلو و عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "enabled": false,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 0.9999
+  },
+  {
+    "text": "المنت شیشه های جلو و عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    },
+    "passed": false,
+    "actual": {},
+    "reason": "فرمان مشخصی تشخیص داده نشد",
+    "score": 1.0
+  },
+  {
+    "text": "المنت شیشه های جلو و عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    },
+    "passed": false,
+    "actual": {
+      "enabled": false,
+      "window": "all"
+    },
+    "reason": null,
+    "score": 0.8694
+  }
+]

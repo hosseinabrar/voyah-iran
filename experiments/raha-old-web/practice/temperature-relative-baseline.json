@@ -1,0 +1,4614 @@
+{
+  "count": 288,
+  "correct": 144,
+  "results": [
+    {
+      "text": "دمای کابین رو ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": 2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق رو دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق رو دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای اتاق دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -1.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای اتاق دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "delta": -2.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای ماشین رو ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین رو دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای ماشین دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین یک درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین دو درجه ببر بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین یک درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین دو درجه بیار بالا",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین یک درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین دو درجه ببر پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین یک درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین دو درجه بیار پایین",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین یک درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین دو درجه بیشتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین رو دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین رو دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای داخل ماشین دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین یک درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -1
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای داخل ماشین دو درجه کمتر کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": -2
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    }
+  ]
+}

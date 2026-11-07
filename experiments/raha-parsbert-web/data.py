@@ -1,11 +1,50 @@
 """Small, explicitly synthetic pilot; evaluation phrases are not training templates."""
 import re
+from pathlib import Path
 
 MODEL = 'HooshvareLab/bert-fa-zwnj-base'
 
+# Normalize only a named cartridge followed by an object marker. In particular,
+# «رایحه یک ساعت ...» contains a duration, not a cartridge number.
+FRAGRANCE_NAMES = [
+    (re.compile(r'(?<!\w)(?:رایحه|عطر|عطر ?پاش|بوگیر|خوشبو ?کننده) (?:بامبو|[1۱١]|یک|اول)(?= (?:رو|را)(?!\w))'), 'رایحه بامبو'),
+    (re.compile(r'(?<!\w)(?:رایحه|عطر|عطر ?پاش|بوگیر|خوشبو ?کننده) (?:گل صد ?توما?نی|گل|اسکارلت پی ?یونی|اسکارلت پیونی|پیونی اسکارلت|اسکارلت|پیونی|پی یونی|[2۲٢]|دو|دوم)(?= (?:رو|را)(?!\w))'), 'رایحه گل صد تومانی'),
+    (re.compile(r'(?<!\w)(?:رایحه|عطر|عطر ?پاش|بوگیر|خوشبو ?کننده) (?:مه نمناک|مه|نمناک|واتری میست|واتر ی میست|واتر میست|واتر ی|واتری|[3۳٣]|سه|سوم)(?= (?:رو|را)(?!\w))'), 'رایحه مه'),
+]
+
+_resources = Path(__file__).resolve().parents[2] / "voyah-iran/raha-core/src/main/resources"
+LIGHT_REQUESTS = [
+    (re.compile(pattern), command)
+    for filename in ("raha-ambient-requests.tsv", "raha-display-requests.tsv")
+    for pattern, command in (line.split("\t") for line in (_resources / filename).read_text().splitlines())
+]
+
+MEDIA_MUTE = re.compile(r"(?:صدا|صدای (?:موزیک|موسیقی|آهنگ|رسانه))(?: رو| را|و)? (باز(?:ش)? کن|وصل کن|ببند(?:ش)?|قطع کن)")
+AIR_INTAKE = re.compile(r'دریچه(?: هوا)?(?: رو| را)? (باز کن|ببند)')
+AIRFLOW_REQUEST = re.compile(r'(?:جهت باد|باد(?: کولر| بخاری| تهویه)?|دریچه(?: هوا| باد| کولر| تهویه)?)(?: رو| را)? (?:به )?(?:سمت |جهت |روی )?((?:شیشه جلو|شیشه|صورت|پا|بالا|پایین|وسط|جلو)(?: و (?:شیشه جلو|شیشه|صورت|پا|بالا|پایین|وسط|جلو))*)(?: (?:(?:تنظیم|پخش) کن|بوزه|بوزد|بخوره))?')
+OUTLETS = {'صورت':'صورت','وسط':'صورت','جلو':'صورت','پا':'پا','پایین':'پا','شیشه جلو':'شیشه','شیشه':'شیشه','بالا':'شیشه'}
+
 def normalize(text):
     text = re.sub(r'\s+', ' ', text.replace('\u200c', ' ').replace('ي', 'ی').replace('ك', 'ک')).strip()
+    text = re.sub(r'(?<!\w)فی(?:و)? ول فرست(?!\w)', 'فیول فرست', text)
+    for pattern, command in LIGHT_REQUESTS:
+        if pattern.fullmatch(text):
+            return command
+    mute = MEDIA_MUTE.fullmatch(text)
+    if mute:
+        return "صدای موزیک رو از میوت دربیار" if mute[1].startswith(("باز", "وصل")) else "صدای موسیقی رو میوت کن"
+    intake = AIR_INTAKE.fullmatch(text)
+    if intake:
+        return "گردش هوای بیرونی رو فعال کن" if intake[1] == "باز کن" else "هوای داخل رو بچرخون"
+    airflow = AIRFLOW_REQUEST.fullmatch(text)
+    if airflow:
+        outlets = {OUTLETS[word] for word in airflow[1].split(' و ')}
+        return 'جهت باد رو روی '+' و '.join(word for word in ('صورت','پا','شیشه') if word in outlets)+' تنظیم کن'
+    text = re.sub(r'(?<!\w)سان روف(?!\w)', 'سانروف', text)
     text = re.sub(r'(?<!\w)(?:یدونه|(?:یه|یک) دونه)(?!\w)', 'یک', text)
+    text = re.sub(r'(?<!\w)(دو|سه)تا(?!\w)', r'\1 تا', text)
+    for pattern, name in FRAGRANCE_NAMES:
+        text = pattern.sub(name, text)
     return re.sub(r'(?<!\w)چهارتا(?!\w)', 'چهار', text)
 
 

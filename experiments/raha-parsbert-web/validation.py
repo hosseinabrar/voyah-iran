@@ -12,6 +12,7 @@ def quantity_text(text,action):
     text=re.sub(r'\b(?:یک|یه)\s+کم\b', 'کمی', text)
     # The number in this fragrance name is part of its name, not a quantity.
     if action in ['SET_FRAGRANCE_CHANNEL','CONFIGURE_FRAGRANCE','SET_FRAGRANCE_DURATION','SET_FRAGRANCE_INTENSITY','ADJUST_FRAGRANCE_INTENSITY']:
+        text=re.sub(r'(رایحه|عطر) (?:یک|دو|سه|[1-3۱-۳١-٣])(?= (?:نیم ساعت|سی دقیقه|یک ساعت|شصت دقیقه|همیشه|نامحدود))', r'\1 نامرایحه', text)
         return re.sub(r'\bصد\s*توم(?:ن|ان)ی\b','نامرایحه',text)
     return text
 

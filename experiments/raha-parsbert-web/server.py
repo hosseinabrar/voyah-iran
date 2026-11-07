@@ -67,7 +67,7 @@ async def lifespan(app):
         schema['allowed']['SET_FAN_SPEED|level,zone']['level']=[str(i) for i in range(8)]+['"min"','"max"']
         schema['allowed']['ADJUST_FAN_SPEED|delta,zone']['delta']=[next(v for v in schema['slots']['delta'] if json.loads(v)==i) for i in range(-7,8) if i]
         schema['allowed']['ADJUST_AUDIO_VOLUME|channel,delta']['delta'] = [next(v for v in schema['slots']['delta'] if json.loads(v)==i) for i in range(-10,11) if i]
-        for feature in ['HEATING','VENTILATION']:
+        for feature in ['HEATING','VENTILATION','MASSAGE']:
             schema['allowed'][f'ADJUST_SEAT_{feature}|delta,seat']['delta']=[str(i) for i in [-3,-2,-1,1,2,3]]
         practice=engine['report'].get('version')==3
         engine['trainer'] = FeedbackTrainer(ROOT, engine['model'], engine['tokenizer'],
@@ -150,7 +150,7 @@ def predict(raw):
         slots['target_source']='explicit' if any(x in text for x in ['شاگرد','راننده']) else 'default'
     if top['label'].startswith('window_'):
         slots['open_percent']={'window_half':50,'window_open':100,'window_close':0}[top['label']]
-    return dict(text=text, accepted=reason is None, reason=reason, prediction=top, candidates=candidates, slots=slots, slot_method='قواعد محدود، نه مدل آموزش‌دیده', latency_ms=round((time.perf_counter()-started)*1000), executes_vehicle=False)
+    return dict(text=raw, accepted=reason is None, reason=reason, prediction=top, candidates=candidates, slots=slots, slot_method='قواعد محدود، نه مدل آموزش‌دیده', latency_ms=round((time.perf_counter()-started)*1000), executes_vehicle=False)
 
 def contact_target(text):
     trainer=engine.get('trainer')
@@ -187,7 +187,7 @@ def predict_full(raw):
     evidence['model_accepted']=model_reason is None
     evidence['model_reason']=model_reason
     if evidence['error']:reason=evidence['error']
-    return dict(text=text,accepted=reason is None,reason=reason,prediction=top,candidates=candidates,slots=params,slot_scores={k:v for k,v in top['slot_scores'].items() if k not in grounded_keys},evidence=evidence,slot_method='عدد صریح: استخراج دقیق از متن؛ سمت و سایر پارامترها: مدل آموزش‌دیده' if grounded_keys else 'پارامترهای خودرو: سرهای آموزش‌دیدهٔ ParsBERT؛ نام مخاطب: استخراج متنی',latency_ms=round((time.perf_counter()-start)*1000),executes_vehicle=False)
+    return dict(text=raw,accepted=reason is None,reason=reason,prediction=top,candidates=candidates,slots=params,slot_scores={k:v for k,v in top['slot_scores'].items() if k not in grounded_keys},evidence=evidence,slot_method='عدد صریح: استخراج دقیق از متن؛ سمت و سایر پارامترها: مدل آموزش‌دیده' if grounded_keys else 'پارامترهای خودرو: سرهای آموزش‌دیدهٔ ParsBERT؛ نام مخاطب: استخراج متنی',latency_ms=round((time.perf_counter()-start)*1000),executes_vehicle=False)
 
 class Request(BaseModel):
     text: str = Field(max_length=500)
@@ -254,7 +254,7 @@ def catalog():
     dataset=json.loads(path.read_text());examples={}
     for row in dataset['train']:
         if row['action'] not in examples:examples[row['action']]=row['text']
-    return [dict(action=k,title=v,example=examples.get(k,'')) for k,v in clean_titles({**dataset['titles'], **engine['model'].schema['titles']}).items() if k != 'VENT_SUNROOF']
+    return [dict(action=k,title=v,example=examples.get(k,'')) for k,v in clean_titles({**dataset['titles'], **engine['model'].schema['titles']}).items() if k not in ('VENT_SUNROOF','SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER')]
 
 @app.get('/api/feedback-schema')
 def feedback_schema():
@@ -297,7 +297,7 @@ async def listen(ws:WebSocket):
                     partial=''
                 else:
                     partial=json.loads(recognizer.PartialResult()).get('partial','')
-                await ws.send_json({'partial':normalize(' '.join(fragments+[partial]))})
+                await ws.send_json({'partial':' '.join(filter(None, fragments+[partial]))})
             elif msg.get('text')=='start':
                 recognizer.Reset()
                 fragments=[]
@@ -307,7 +307,7 @@ async def listen(ws:WebSocket):
             elif msg.get('text')=='stop' and listening:
                 listening=False
                 final=json.loads(await asyncio.to_thread(recognizer.FinalResult)).get('text','')
-                transcript=normalize(' '.join(fragments+[final]))
+                transcript=' '.join(filter(None, fragments+[final]))
                 result=await asyncio.to_thread(predict, transcript)
                 await ws.send_json({'final':transcript, 'result':result})
     except WebSocketDisconnect:

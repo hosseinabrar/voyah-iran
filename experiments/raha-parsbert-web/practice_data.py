@@ -117,7 +117,7 @@ def main():
                     setting('SET_SEAT_'+suffix,target,numbers([1,2,3])+[('max','حداکثر|بیشترین'),('min','حداقل|کمترین')],'level',{'seat':seat,'enabled':True})
                     for delta,verbs in [(1,['زیاد کن','بیشتر کن']),(-1,['کم کن','کمتر کن'])]:
                         command('ADJUST_SEAT_'+suffix,{'seat':seat,'delta':delta},[f'{target} رو {v}' for v in verbs])
-                    if suffix in ['HEATING','VENTILATION']:
+                    if suffix in ['HEATING','VENTILATION','MASSAGE']:
                         for amount in range(1,4):
                             for sign,verb in [(-1,'کم'),(1,'زیاد')]:
                                 command('ADJUST_SEAT_'+suffix,{'seat':seat,'delta':amount*sign},[f'{target} رو {number_name(amount)} پله {verb} کن',f'{target} رو {amount} تا {verb} کن'])

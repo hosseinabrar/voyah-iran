@@ -11,9 +11,12 @@ VALUES={
  'SET_REGENERATION_LEVEL':('level','medium'),'SET_SUSPENSION_HEIGHT':('level','medium'),
  'SET_BATTERY_RESERVE_TARGET':('percent',50)}
 
+_CENTRAL_DISPLAY = re.compile(r'\b(?:نمایشگر|مانیتور|صفحه نمایش) وسط\b')
+
 def is_middle(text):
-    if not re.search(r'\b(?:نصف|نصفه|وسط|متوسط|میانه)\b',text):return False
+    text = _CENTRAL_DISPLAY.sub('نمایشگر مرکزی', text)
+    if not re.search(r'\b(?:نصف|نصفه|نیم|نیمه|وسط|متوسط|میانه)\b',text):return False
     # Fractional units and explicit numbers retain their original meaning.
-    if re.search(r'\b(?:نصف|نصفه)\s+(?:درجه|ساعت|دقیقه|درصد|پله)\b',text):return False
+    if re.search(r'\b(?:نصف|نصفه|نیم|نیمه)\s+(?:درجه|ساعت|دقیقه|درصد|پله)\b',text):return False
     if re.search(r'\d|\b(?:صفر|یک|دو|سه|چهار|پنج|شش|هفت|هشت|نه|ده|بیست|سی|چهل|پنجاه|شصت|هفتاد|هشتاد|نود|صد|فعلی|الان)\b',text):return False
     return True

@@ -6,18 +6,24 @@ closed for the physical-control domains covered here; it never changes a model
 prediction into a different executable command.
 """
 import re
+from pathlib import Path
 from command_clauses import validation_text
-from data import normalize
+from data import normalize,AIRFLOW_REQUEST
 from middle_values import is_middle
+
+EXPLICIT_TOGGLE_ACTIONS = set((Path(__file__).resolve().parents[2] / "voyah-iran/raha-core/src/main/resources/raha-explicit-toggle-actions.txt").read_text().splitlines())
+TOGGLE_STATE = re.compile(r"(?<!\w)(?:روشن(?:ش)?|خاموش(?:ش)?|غیر ?فعال(?:ش)?|فعال(?:ش)?|اکتیو|دی ?اکتیو|فعال سازی|غیرفعال سازی|راه بنداز|از کار بنداز|قطع کن|وصل کن|میوت|بی صدا|باصدا)(?!\w)")
 
 # Synonyms name entities, not lists of accepted/rejected complete sentences.
 ENTITIES = {
+    'defroster': ['بخارزدایی','بخار زدایی','بخاری شیشه', 'هیتر شیشه', 'المنت شیشه', 'بخارزدای','بخار زدای','بخارزدا','بخار زدا'],
+    'door_warning': ['هشدار بازکردن در', 'هشدار بازکردن درب', 'هشدار بازکردن درها', 'هشدار باز کردن در', 'هشدار باز کردن درب', 'هشدار باز کردن درها', 'هشدار باز شدن در', 'هشدار باز شدن درب', 'هشدار باز شدن درها', 'هشدار بازشدن در', 'هشدار بازشدن درب', 'هشدار بازشدن درها'],
     'wireless_charger': ['شارژر وایرلس','شارژ وایرلس','وایرلس شارژر','شارژر موبایل','شارژ گوشی','گوشیمو','گوشیم','گوشی','موبایلم','موبایل','شارژر'],
-    'charge_port': ['پورت شارژر','پورت شارژ','در شارژر','درب شارژر','درگاه شارژ','درب شارژ','در شارژ'],
+    'charge_port': ['درپوش شارژر','درپوش شارژ','در پوش شارژر','در پوش شارژ','پورت شارژر','پورت شارژ','در شارژر','درب شارژر','درگاه شارژ','درب شارژ','در شارژ'],
     'scheduled_charge': ['شارژ زمانبندی شده', 'شارژ زمان بندی شده', 'زمانبندی شارژ', 'زمان بندی شارژ', 'شارژ برنامه ریزی شده', 'شارژ سر ساعت', 'اسکجول شارژ', 'اسک جول شارژ', 'اسکجولد شارژ'],
     'easy_entry': ['ورود آسان', 'ورود راحت', 'ایزی انتری', 'ایزی اینتری', 'easy entry'],
     'easy_exit': ['خروج آسان', 'خروج راحت', 'ایزی اگزیت', 'easy exit'],
-    'sunroof': ['سانروف', 'سان روف', 'سقف شیشه ای','سقف'],
+    'sunroof': ['سانروف ماشین', 'سانروف اتاق', 'سانروف', 'سان روف', 'سقف شیشه ای','سقف'],
     'sunshade': ['پرده سانروف', 'پرده سقف', 'پرده', 'سایبان', 'سان شید', 'سانشید', 'کاور سانروف', 'کاور سقف', 'کاور'],
     'window': ['شیشه', 'پنجره'],
     'seat': ['صندلی', 'صندلیم', 'صندلی من', 'نشیمن', 'پشتم', 'کمرم', 'بدنم', 'عضلاتم'],
@@ -28,6 +34,7 @@ ENTITIES = {
     'fan': ['فن کولر', 'فن', 'سرعت فن'],
     'audio': ['بلندی صدا', 'صدای موزیک', 'صدا', 'موزیک', 'موسیقی', 'آهنگ', 'مولتی مدیا'],
     'fragrance': ['رایحه', 'خوشبو کننده', 'خوشبوکننده'],
+    'fuel_flap': ['درب باک بنزین', 'در باک بنزین', 'درپوش باک بنزین', 'درب باک', 'در باک', 'درپوش باک', 'باک بنزین', 'باک'],
     'doors': ['قفل درها', 'درب', 'درها', 'در ماشین', 'در خودرو'],
     'tailgate': ['در صندوق', 'درب صندوق', 'صندوق عقب', 'صندوق'],
     'mirror': ['آینه', 'آینه ها'],
@@ -37,6 +44,8 @@ ENTITIES = {
 }
 
 CAPABILITIES = {
+    'defroster': ['بخارزدایی','بخار زدایی','بخاری شیشه', 'هیتر شیشه', 'المنت شیشه', 'SET_DEFROSTER','SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER'],
+    'door_warning': ['SET_DOOR_OPEN_WARNING'],
     'wireless_charger': ['SET_WIRELESS_CHARGER'],
     'charge_port': ['OPEN_CHARGE_PORT'],
     'scheduled_charge': ['SET_SCHEDULED_CHARGING'],
@@ -44,7 +53,7 @@ CAPABILITIES = {
     'easy_exit': ['SET_EASY_EXIT'],
     'sunroof': ['VENT_SUNROOF','OPEN_SUNROOF','CLOSE_SUNROOF','SET_SUNROOF_POSITION','ADJUST_SUNROOF_POSITION'],
     'sunshade': ['SET_SUNSHADE_POSITION','ADJUST_SUNSHADE_POSITION'],
-    'window': ['OPEN_WINDOW','CLOSE_WINDOW','SET_WINDOW_POSITION','ADJUST_WINDOW_POSITION','VENT_WINDOW','SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER'],
+    'window': ['OPEN_WINDOW','CLOSE_WINDOW','SET_WINDOW_POSITION','ADJUST_WINDOW_POSITION','VENT_WINDOW','SET_DEFROSTER','SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER'],
     'seat': ['SET_SEAT_','ADJUST_SEAT_','SAVE_SEAT_POSITION','RECALL_SEAT_POSITION'],
     'seat_heat': ['SET_SEAT_HEATING','ADJUST_SEAT_HEATING'],
     'seat_cool': ['SET_SEAT_VENTILATION','ADJUST_SEAT_VENTILATION'],
@@ -53,6 +62,7 @@ CAPABILITIES = {
     'fan': ['SET_FAN_SPEED','ADJUST_FAN_SPEED'],
     'audio': ['SET_AUDIO_','ADJUST_AUDIO_','PLAY_MEDIA','PAUSE_MEDIA','NEXT_MEDIA','PREVIOUS_MEDIA','OPEN_DEFAULT_MUSIC','OPEN_OEM_RADIO','SET_AMBIENT_LIGHT_MODE'],
     'fragrance': ['SET_FRAGRANCE_','ADJUST_FRAGRANCE_','CONFIGURE_FRAGRANCE'],
+    'fuel_flap': ['OPEN_FUEL_FLAP'],
     'doors': ['SET_DOOR_','SET_CHILD_LOCK'],
     'tailgate': ['OPEN_TAILGATE','CLOSE_TAILGATE'],
     'mirror': ['SET_MIRROR_FOLD'],
@@ -64,7 +74,7 @@ CAPABILITIES = {
 OPERATIONS = {
     'heat': ['گرم تر کن','گرم تر','گرم','گرم کن','گرمکن کن','گرم کردن','گرمش کن'],
     'cool': ['خنک کن','سرد کن','خنکش کن','سردش کن'],
-    'open': ['باز کن','بازش کن','باز کردن','باز'],
+    'open': ['باز کن','بازش کن','باز کردن','بازکردن','بازکن','باز'],
     'close': ['بسته کن','ببند','ببندش','بستن','بسته'],
     'on': ['روشن کن','روشنش کن','فعال کن','روشن'],
     'off': ['خاموش کن','خاموشش کن','غیر فعال کن','غیرفعال کن','خاموش'],
@@ -86,14 +96,53 @@ def spans(text, vocabulary):
         if not any(item['start']<s['end'] and s['start']<item['end'] for s in selected):selected.append(item)
     return sorted(selected,key=lambda s:s['start'])
 
+AIRFLOW_MODES = {'صورت': 'face', 'پا': 'feet', 'شیشه': 'windshield', 'صورت و پا': 'faceAndFeet', 'پا و شیشه': 'windshieldAndFeet', 'صورت و شیشه': 'faceAndWindshield', 'صورت و پا و شیشه': 'all'}
+
 def check(text, action, params):
     text=validation_text(normalize(text))
+    # Before an object marker or a level-setting verb, گرم کن names the heater («گرم کن رو ...»).
+    text=re.sub(r'(?<!\w)گرم کن(?= (?:(?:(?:سمت|طرف) )?(?:راست|چپ|شاگرد|راننده|همراه|بغل|بغلی|کناری)|رو|را|بذار|بگذار|بزار|تنظیم کن)(?!\w))','گرمکن',text)
     targets=spans(text,ENTITIES)
+    airflow=AIRFLOW_REQUEST.fullmatch(text)
+    if airflow:
+        targets=[t for t in targets if t['kind']!='window']
+    for target in targets:
+        if target['text']=='شارژر' and re.match(r'شارژر (?:رو |را )?باز(?:ش)? ?کن(?!\w)',text[target['start']:]):
+            target['kind']='charge_port'
     # Operations cannot be extracted from inside an entity (e.g. گرم کن صندلی).
     operations=[s for s in spans(text,OPERATIONS) if not any(s['start']<t['end'] and t['start']<s['end'] for t in targets)]
+    if action == 'SET_DEFROSTER':
+        operations += spans(text, {'on': ['شروع کن'], 'off': ['متوقف کن']})
     result=dict(targets=targets,operations=operations,error=None)
     def reject(message):result['error']=message;return result
     if action=='UNKNOWN':return result
+    descent_request = action == 'SET_HILL_DESCENT_CONTROL' and re.fullmatch(r'(?:ماشین|خودرو)(?: رو| را)? (?:تو|در) سرازیری کنترل کن', text) is not None
+    if descent_request and params.get('enabled') is not True:
+        return reject('درخواست کنترل خودرو در سرازیری به فعال بودن کنترل سرازیری نیاز دارد')
+    lane_request = action == 'SET_LANE_SUPPORT_MODE' and re.fullmatch(r'(?:بین|میان) (?:خطوط|خط ها) رانندگی کن', text) is not None
+    if lane_request and params.get('enabled') is not True:
+        return reject('درخواست رانندگی بین خطوط به فعال بودن کمک بین خطوط نیاز دارد')
+    display_lock_request = action == 'SET_REAR_DISPLAY_LOCK' and re.fullmatch(r'(?:قفل (?:نمایشگر|مانیتور) عقب(?: رو| را)? (?:باز کن|بردار)|(?:نمایشگر|مانیتور) عقب(?: رو| را)? قفل کن)', text) is not None
+    if display_lock_request and params.get('enabled') != text.endswith('قفل کن'):
+        return reject('وضعیت قفل نمایشگر با درخواست سازگار نیست')
+    if action in EXPLICIT_TOGGLE_ACTIONS and 'enabled' in params and not display_lock_request and not lane_request and not descent_request and not TOGGLE_STATE.search(text):
+        return reject('وضعیت روشن یا خاموش مشخص نشده است')
+    if text in ('صدای موزیک رو از میوت دربیار', 'صدای موسیقی رو میوت کن'):
+        if action != 'SET_AUDIO_MUTE' or params.get('channel') != 'media' or params.get('enabled') != ('میوت کن' in text):
+            return reject('وضعیت قطع یا وصل صدای رسانه با درخواست سازگار نیست')
+    if 'AMBIENT_LIGHT' in action and {'خونه','خانه'}.intersection(text.split()):
+        return reject('نور خانه خارج از کابین خودرو است')
+    if airflow and (action!='SET_AIRFLOW_DIRECTION' or params.get('direction')!=AIRFLOW_MODES.get(airflow[1])):
+        return reject('جهت دریچه با درخواست باد سازگار نیست')
+    rear_addresses=list(re.finditer(r'(?<!\w)(?:پشت(?: سر(?:ی)?)?|پست سر(?:ی)?|عقب) (?:سمت )?(راننده|چپ|شاگرد|همراه|راست)(?!\w)',text))
+    for address in rear_addresses:
+        left=address.group(1) in ('راننده','چپ')
+        if 'window' in params and params['window']!=('rearLeft' if left else 'rearRight'):
+            return reject('شیشهٔ پیشنهادی با محل عقب گفته شده سازگار نیست')
+        if any(k in params for k in ('seat','zone','display')) or action in ('SET_MIRROR_FOLD','SET_PASSENGER_DISPLAY_POWER'):
+            return reject('این فرمان محل عقب گفته شده را پشتیبانی نمی‌کند')
+        if action=='SET_CHILD_LOCK' and params.get('side')!=('left' if left else 'right'):
+            return reject('سمت قفل کودک با جمله سازگار نیست')
     for target in targets:
         if target['kind']=='climate' and action=='VENT_WINDOW' and any(t['kind'] in {'window','sunroof'} for t in targets):continue
         if target['kind']=='sunroof' and action=='VENT_WINDOW' and params.get('window') in {'sunroof','allWithSunroof'}:continue
@@ -111,7 +160,8 @@ def check(text, action, params):
     for operation,opposite in [('open','CLOSE_'),('close','OPEN_')]:
         if operation in kinds and action.startswith(opposite):return reject('جهت باز یا بسته کردن با جمله سازگار نیست')
     position_actions=['SET_SUNROOF_POSITION','ADJUST_SUNROOF_POSITION','SET_SUNSHADE_POSITION','ADJUST_SUNSHADE_POSITION','SET_WINDOW_POSITION','ADJUST_WINDOW_POSITION','SET_DOOR_LOCK','SET_MIRROR_FOLD']
-    if kinds.intersection({'open','close'}) and not matches(action,['OPEN_','CLOSE_']+position_actions):
+    scene_close=action=='DEACTIVATE_SCENE' and 'close' in kinds and re.search(r'(?<!\w)(?:سناریو|سناریوی)(?!\w)',text)
+    if kinds.intersection({'open','close'}) and not display_lock_request and not scene_close and not matches(action,['OPEN_','CLOSE_']+position_actions):
         return reject('عمل باز یا بسته کردن با فرمان پیشنهادی سازگار نیست')
     if 'enabled' in params:
         if ('off' in kinds and params['enabled'] is True) or ('on' in kinds and params['enabled'] is False):
@@ -121,11 +171,20 @@ def check(text, action, params):
     if action=='ADJUST_CABIN_TEMPERATURE' and 'delta' in params:
         if ('heat' in kinds and params['delta']<=0) or ('cool' in kinds and params['delta']>=0):
             return reject('جهت تغییر دما با عمل گفته شده سازگار نیست')
+    if is_middle(text) and action in ('CLOSE_SUNROOF','OPEN_SUNROOF','SET_SUNROOF_POSITION') and params.get('percent')!=50:
+        return reject('موقعیت خواسته شده برای سانروف ۵۰ درصد است')
     if 'percent' in params:
         if not is_middle(text) and (('close' in kinds and params['percent']!=0) or ('open' in kinds and params['percent']==0)):
             return reject('مقدار بازشدن با عمل گفته شده سازگار نیست')
     if any(t['kind'] in {'sunroof','window','sunshade'} for t in targets) and kinds.intersection({'on','off'}):
-        if not action.endswith('DEFROSTER'):return reject('روشن یا خاموش کردن با کنترل بازشدن سازگار نیست')
+        vent_on=action=='VENT_WINDOW' and 'off' not in kinds and re.search(r'(?<!\w)(?:تهویه|ونت)(?!\w)',text)
+        if vent_on:
+            roof=any(t['kind']=='sunroof' for t in targets)
+            windows=any(t['kind']=='window' for t in targets)
+            scope=params.get('window')
+            if roof!=(scope in ('sunroof','allWithSunroof')) or windows!=(scope!='sunroof'):
+                return reject('هدف تهویه با شیشه یا سانروف گفته شده سازگار نیست')
+        if not vent_on and not action.endswith('DEFROSTER'):return reject('روشن یا خاموش کردن با کنترل بازشدن سازگار نیست')
     # Unknown explicit object: never fill its place with an implicit seat/window.
     covered_action=any(matches(action,CAPABILITIES[k]) for k in ['sunroof','sunshade','window','seat','seat_heat','seat_cool','seat_massage'])
     if covered_action:
@@ -133,7 +192,11 @@ def check(text, action, params):
         if marker:
             before=text[:marker.start()]
             if before.strip() and not any(t['end']<=marker.start() for t in targets):
-                return reject('هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود')
+                seat_names = {'driver': ('راننده','چپ'), 'passenger': ('همراه','شاگرد','راست','بغل','بغلی','کناری')}
+                recipient = re.sub(r'^(?:سمت|طرف) ', '', before.strip())
+                if not (any(t['kind']=='seat_massage' for t in targets)
+                        and recipient in seat_names.get(params.get('seat'), ())):
+                    return reject('هدف صریح جمله شناسایی نشد؛ هدف پیش فرض جایگزین نمی‌شود')
         # Strict coverage for the initial physical-control scope. Unknown words
         # remain visible evidence; unlike intent classification they cannot vanish.
         if any(t['kind'] in {'sunroof','sunshade','window','seat','seat_heat','seat_cool','seat_massage'} for t in targets):
@@ -142,6 +205,8 @@ def check(text, action, params):
             fillers=set('رها لطفا لطفاً رو را کن کنید بده بکن بکنید بذار بگذار تنظیم تا روی به برام برای من کمی کم بیشتر کمتر زیاد بالا پایین ببر بیار بکش راننده شاگرد همراه چپ راست جلو عقب پشت عقبی جلویی سمت طرف همه هر دو نصف نصفه نیمه کامل کاملا کاملاً ته حداکثر حداقل درصد درجه سطح پله یکی یه یک دو سه چهار پنج شش شیش هفت هشت نه ده بیست سی چهل پنجاه شصت هفتاد هشتاد نود صد و صفر میشه میتونی می تونی بازش بسته اش'.split())
             # Request framing and modifiers are grammatical coverage, not targets.
             framing=['از تو می خوام','می خوام','قرار بگیره','باید','باشه','جای بغلی','تو حالت','از کار بنداز']
+            if 'window' in params:
+                for address in rear_addresses:remaining[address.start():address.end()]=' '*(address.end()-address.start())
             residual=''.join(remaining)
             for phrase in framing:residual=re.sub(r'(?<!\w)'+re.escape(phrase)+r'(?!\w)',' ',residual)
             fillers.update('آخر لای کناری بغل بغلی ها های تمام بیشترین کمترین ونت حافظه مموری موقعیت ذخیره بازیابی لود شدت وسط متوسط میانه'.split())
@@ -150,9 +215,30 @@ def check(text, action, params):
             if matches(action,['RECALL_SEAT_POSITION','SAVE_SEAT_POSITION','SET_SEAT_','ADJUST_SEAT_']):
                 fillers.update('تو در وضعیت حالت شماره کمک'.split())
             residual=re.sub(r'\s+', ' ', residual)
+            if action=='SAVE_SEAT_POSITION':
+                residual=re.sub(r'(?<!\w)(?:آپدیت|ب(?:ه ?)?روز ?رسانی) کن(?!\w)', ' ', residual)
+            if action=='RECALL_SEAT_POSITION':
+                residual=re.sub(r'(?<!\w)(?:قرار (?:بده|دهید)|تغییر بده|برگردون)(?!\w)', ' ', residual)
+            if action=='RECALL_SEAT_POSITION' and params.get('seat')=='driver' and params.get('slot')=='driver' and re.search(r'(?<!\w)(?:حالت|موقعیت|وضعیت) رانندگی(?!\w)',text):
+                fillers.add('رانندگی')
+            if action.startswith('ADJUST_'):
+                fillers.update(('یکم','یکمی'))
+                residual=re.sub(r'(?<!\w)(?:یه|یک) مقدار(?!\w)', ' ', residual)
+            if action=='ADJUST_SEAT_VENTILATION':fillers.add('زیادتر')
+            if action=='SET_SEAT_MASSAGE_PATTERN':
+                fillers.update('مد مود مدل الگو الگوی نوع شیوه'.split())
+                aliases = {
+                    'rolling': ('رولینگ', 'رول ینگ', 'rolling', 'غلتکی', 'غلتشی', 'چرخشی'),
+                    'wave': ('موجی', 'موج دار', 'ویوینگ', 'وی وینگ', 'wave', 'waving'),
+                }
+                for alias in aliases.get(params.get('pattern'), ()):
+                    residual=re.sub(r'(?<!\w)'+re.escape(alias)+r'(?!\w)', ' ', residual)
+            if action in ('CLOSE_SUNROOF','OPEN_SUNROOF'):
+                if re.search(r'(?<!\w)(?:بسته|باز) (?:بشه|شه|شود|بشود)(?!\w)', text):
+                    fillers.update(('بشه','شه','شود','بشود'))
             if action=='VENT_WINDOW':fillers.update('حالت'.split())
-            if action in ['SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER']:
-                fillers.update('مه بخار گرفته داره بره'.split())
+            if action in ['SET_DEFROSTER','SET_FRONT_DEFROSTER','SET_REAR_DEFROSTER']:
+                fillers.update('مه بخار گرفته گرفتن داره بره'.split())
                 for phrase in ['مه رو بره','مه گرفته','مه داره','مه بره','بخار گرفته','بخار داره','بخار بره']:
                     residual=re.sub(r'(?<!\w)'+re.escape(phrase)+r'(?!\w)',' ',residual)
             uncovered=[w for w in residual.split() if w not in fillers and not re.fullmatch(r'[\d۰-۹٠-٩]+[.,٫]?[\d۰-۹٠-٩]*',w)]

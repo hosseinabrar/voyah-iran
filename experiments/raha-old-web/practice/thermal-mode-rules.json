@@ -1,0 +1,779 @@
+{
+  "count": 62,
+  "correct": 62,
+  "results": [
+    {
+      "text": "ماشین رو بذار تو حالت گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت ماشین بذار تو حالت گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو حالت سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت ماشین بذار تو حالت سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو حالت خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت ماشین بذار تو حالت خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو مود گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود ماشین بذار تو مود گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو مود سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود ماشین بذار تو مود سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو مود خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود ماشین بذار تو مود خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو وضعیت گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت ماشین بذار تو وضعیت گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو وضعیت سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت ماشین بذار تو وضعیت سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو وضعیت خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت ماشین بذار تو وضعیت خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو حالت گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت کابین بذار تو حالت گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو حالت سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت کابین بذار تو حالت سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو حالت خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت کابین بذار تو حالت خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو مود گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود کابین بذار تو مود گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو مود سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود کابین بذار تو مود سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو مود خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود کابین بذار تو مود خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو وضعیت گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت کابین بذار تو وضعیت گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو وضعیت سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت کابین بذار تو وضعیت سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "کابین رو بذار تو وضعیت خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت کابین بذار تو وضعیت خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو حالت گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت اتاق بذار تو حالت گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو حالت سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت اتاق بذار تو حالت سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو حالت خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت اتاق بذار تو حالت خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو مود گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود اتاق بذار تو مود گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو مود سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود اتاق بذار تو مود سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو مود خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "مود اتاق بذار تو مود خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو وضعیت گرم",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت اتاق بذار تو وضعیت گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو وضعیت سرد",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت اتاق بذار تو وضعیت سرد ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "اتاق رو بذار تو وضعیت خنک",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "وضعیت اتاق بذار تو وضعیت خنک ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "هوا گرمه ایندی وی جوال پرت و پلا",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "هوا گرمه کولر رو روشن کن موز",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "حالت ماشین بذار تو حالت گرم ایندی وی جوال",
+      "action": "UNKNOWN",
+      "parameters": {},
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": true
+    },
+    {
+      "text": "هوا گرمه",
+      "action": "SET_CLIMATE_POWER",
+      "parameters": {
+        "enabled": true,
+        "zone": "front",
+        "acEnabled": true,
+        "temperatureMaxC": 23
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "SET_CLIMATE_POWER",
+        "parameters": {
+          "acEnabled": true,
+          "enabled": true,
+          "temperatureMaxC": 23.0,
+          "zone": "front"
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هوا خیلی گرمه",
+      "action": "SET_MAX_COOLING",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "SET_MAX_COOLING",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هوا سرده",
+      "action": "SET_CLIMATE_POWER",
+      "parameters": {
+        "enabled": true,
+        "zone": "front",
+        "acEnabled": true,
+        "temperatureMinC": 26
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CLIMATE_POWER",
+        "parameters": {
+          "enabled": true,
+          "zone": "front",
+          "acEnabled": true,
+          "temperatureMinC": 26.0
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو گرم کن",
+      "action": "ADJUST_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "delta": 1
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "ADJUST_CABIN_TEMPERATURE",
+        "parameters": {
+          "delta": 1.0,
+          "zone": "front"
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "ماشین رو بذار تو حالت ایندی وی جوال",
+      "action": "SET_DRIVE_MODE",
+      "parameters": {
+        "mode": "personal"
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_DRIVE_MODE",
+        "parameters": {
+          "mode": "personal"
+        }
+      },
+      "correct": true
+    }
+  ]
+}

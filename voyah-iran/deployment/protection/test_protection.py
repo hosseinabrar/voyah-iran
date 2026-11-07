@@ -192,6 +192,28 @@ class RahaSealingProtectionTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError,"excluded"):
             validate_raha_targets(targets,{"x":{"classes":["com.abrar.raha.intent.RahaWordPiece"]}})
 
+    def test_old_raha_keeps_rule_implementation_protected(self):
+        names=["OldRahaRecognizer","OldRahaExtensions","RahaCommandRecognizer"]
+        targets={n:["com.abrar.raha."+n] for n in names}
+        validate_raha_targets(targets,{})
+        with self.assertRaisesRegex(RuntimeError,"missing"):
+            validate_raha_targets({k:v for k,v in targets.items() if k!="OldRahaExtensions"},{})
+
+    def test_old_raha_requires_lessons_and_excludes_bert_assets(self):
+        import tempfile,zipfile
+        from pathlib import Path
+        entries={"assets/raha-engine.txt":b"rules-2.1.1", "raha-old-lessons.tsv":b"lesson"}
+        with tempfile.TemporaryDirectory() as temporary:
+            path=Path(temporary)/"test.apk"
+            def write(items):
+                with zipfile.ZipFile(path,"w") as z:
+                    for name,data in items.items():z.writestr(name,data)
+            write(entries);validate_sealed_assets(path)
+            write(entries|{"assets/raha-intent/model.onnx":b"model"})
+            with self.assertRaisesRegex(RuntimeError,"BERT"):validate_sealed_assets(path)
+            write({"assets/raha-engine.txt":b"rules-2.1.1"})
+            with self.assertRaisesRegex(RuntimeError,"missing"):validate_sealed_assets(path)
+
     def test_plaintext_missing_and_truncated_assets_fail(self):
         import tempfile,zipfile,struct
         from pathlib import Path

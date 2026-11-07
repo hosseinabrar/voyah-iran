@@ -141,7 +141,13 @@ class RahaIntentModel(context: Context, private val diagnostic: (String) -> Unit
                         }
                         if(action in setOf("CONFIRM_CALL","CANCEL_DIALOG"))return Recognition.Unknown("تماسی در انتظار پاسخ نیست")
                         // Preserve old model frame indices while exposing one ventilation action.
-                        val resolvedAction = if (action == "VENT_SUNROOF") "VENT_WINDOW" else action
+                        val resolvedAction = when(action) {
+                            "VENT_SUNROOF" -> "VENT_WINDOW"
+                            "SET_FRONT_DEFROSTER", "SET_REAR_DEFROSTER" -> "SET_DEFROSTER"
+                            else -> action
+                        }
+                        if (action == "SET_FRONT_DEFROSTER" || action == "SET_REAR_DEFROSTER")
+                            result["window"] = if (action == "SET_FRONT_DEFROSTER") "front" else "rear"
                         if (action == "VENT_SUNROOF") result["window"] = "sunroof"
                         RahaCommandEvidence.check(text,resolvedAction,result)?.let { return Recognition.Unknown(it) }
                         return Recognition.Matched(VehicleCommand(resolvedAction,resolvedAction,result,schema.getJSONObject("titles").optString(resolvedAction,resolvedAction)))

@@ -11,8 +11,9 @@ object RahaIntentGrounding {
         "SET_SEAT_MASSAGE" to ("level" to 2), "SET_WIPER_SENSITIVITY" to ("level" to 2),
         "SET_FRAGRANCE_INTENSITY" to ("intensity" to "medium"), "SET_REGENERATION_LEVEL" to ("level" to "medium"),
         "SET_SUSPENSION_HEIGHT" to ("level" to "medium"), "SET_BATTERY_RESERVE_TARGET" to ("percent" to 50))
-    private fun isMiddle(text: String): Boolean = has(text,"نصف|نصفه|وسط|متوسط|میانه") &&
-        !has(text,"(?:نصف|نصفه)\\s+(?:درجه|ساعت|دقیقه|درصد|پله)") &&
+    private val centralDisplay = Regex("""(?<![\p{L}\p{M}\p{N}_])(?:نمایشگر|مانیتور|صفحه نمایش) وسط(?![\p{L}\p{M}\p{N}_])""")
+    internal fun isMiddle(text: String): Boolean = has(centralDisplay.replace(text, "نمایشگر مرکزی"),"نصف|نصفه|نیم|نیمه|وسط|متوسط|میانه") &&
+        !has(text,"(?:نصف|نصفه|نیم|نیمه)\\s+(?:درجه|ساعت|دقیقه|درصد|پله)") &&
         !Regex("[0-9۰-۹٠-٩]").containsMatchIn(text) &&
         !has(text,"صفر|یک|دو|سه|چهار|پنج|شش|هفت|هشت|نه|ده|بیست|سی|چهل|پنجاه|شصت|هفتاد|هشتاد|نود|صد|فعلی|الان")
     data class Result(val parameters: Map<String, Any>, val grounded: Set<String>, val error: String?)
@@ -26,7 +27,8 @@ object RahaIntentGrounding {
         var quantity=Regex("(?<![\\p{L}\\p{N}_])نه\\s+(?:بیشتر|کمتر)(?![\\p{L}\\p{N}_])").replace(text," ")
         quantity=Regex("(?<![\\p{L}\\p{N}_])(?:یک|یه)\\s+کم(?![\\p{L}\\p{N}_])").replace(quantity,"کمی")
         return if(action in setOf("SET_FRAGRANCE_CHANNEL","CONFIGURE_FRAGRANCE","SET_FRAGRANCE_DURATION","SET_FRAGRANCE_INTENSITY","ADJUST_FRAGRANCE_INTENSITY"))
-            Regex("(?<![\\p{L}\\p{N}_])صد\\s*توم(?:ن|ان)ی(?![\\p{L}\\p{N}_])").replace(quantity,"نامرایحه")
+            Regex("""(رایحه|عطر) (?:یک|دو|سه|[1-3۱-۳١-٣])(?= (?:نیم ساعت|سی دقیقه|یک ساعت|شصت دقیقه|همیشه|نامحدود))""").replace(
+                Regex("(?<![\\p{L}\\p{N}_])صد\\s*توم(?:ن|ان)ی(?![\\p{L}\\p{N}_])").replace(quantity,"نامرایحه"), "$1 نامرایحه")
         else quantity
     }
     fun quantities(text: String): List<Quantity> {

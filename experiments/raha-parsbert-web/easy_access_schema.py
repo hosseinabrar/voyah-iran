@@ -34,6 +34,11 @@ def expand_easy_access(model):
     if frame not in model.schema['frames']: model.schema['frames'].append(frame)
     model.schema['allowed'][frame] = {'enabled':['false','true']}
     model.schema['titles']['SET_PASSENGER_DISPLAY_POWER'] = 'روشن و خاموش کردن نمایشگر شاگرد'
+    model.schema["allowed"]["CONFIGURE_FRAGRANCE|channel,durationMinutes,enabled,intensity"]["intensity"] = ['"low"', '"medium"', '"high"']
+    frame = 'SET_DEFROSTER|enabled,window'
+    if frame not in model.schema['frames']: model.schema['frames'].append(frame)
+    model.schema['allowed'][frame] = {'enabled': ['false','true'], 'window': ['"front"','"rear"','"all"']}
+    model.schema['titles']['SET_DEFROSTER'] = 'بخارزدایی شیشه‌ها'
     head = model.frame_head
     count = len(model.schema['frames'])
     if head.out_features < count:
@@ -68,6 +73,23 @@ def expand_easy_access(model):
         for value in ['"sunroof"', '"allWithSunroof"']:
             if value not in allowed: allowed.append(value)
         model.schema['titles']['VENT_WINDOW'] = 'حالت تهویه'
+
+    frame = 'SET_AIRFLOW_DIRECTION|direction,zone'
+    if frame in model.schema['frames']:
+        values = model.schema['slots']['direction']
+        allowed = model.schema['allowed'][frame]['direction']
+        for outlet in ('"windshieldAndFeet"', '"faceAndWindshield"'):
+            if outlet not in values: values.append(outlet)
+            if outlet not in allowed: allowed.append(outlet)
+        old = model.slot_heads['slot_direction']
+        if old.out_features < len(values):
+            expanded = nn.Linear(old.in_features, len(values))
+            with torch.no_grad():
+                expanded.weight[:old.out_features].copy_(old.weight)
+                expanded.bias[:old.out_features].copy_(old.bias)
+                expanded.weight[old.out_features:].zero_()
+                expanded.bias[old.out_features:].fill_(-8)
+            model.slot_heads['slot_direction'] = expanded
 
     # OEM rain sensor sensitivity has four selectable levels.
     if 'SET_WIPER_SENSITIVITY|level' in model.schema['frames']:

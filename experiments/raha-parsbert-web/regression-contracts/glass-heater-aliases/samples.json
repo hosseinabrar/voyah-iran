@@ -1,0 +1,386 @@
+[
+  {
+    "text": "بخاری شیشه جلو رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    }
+  },
+  {
+    "text": "بخاری شیشه جلو رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    }
+  },
+  {
+    "text": "بخاری شیشه جلو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    }
+  },
+  {
+    "text": "بخاری شیشه جلو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    }
+  },
+  {
+    "text": "بخاری شیشه عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    }
+  },
+  {
+    "text": "بخاری شیشه عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    }
+  },
+  {
+    "text": "بخاری شیشه عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    }
+  },
+  {
+    "text": "بخاری شیشه عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    }
+  },
+  {
+    "text": "بخاری شیشه ها رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "بخاری شیشه ها رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "بخاری شیشه ها روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "بخاری شیشه ها خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "بخاری شیشه های جلو و عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "بخاری شیشه های جلو و عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "بخاری شیشه های جلو و عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "بخاری شیشه های جلو و عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "هیتر شیشه جلو رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    }
+  },
+  {
+    "text": "هیتر شیشه جلو رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    }
+  },
+  {
+    "text": "هیتر شیشه جلو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    }
+  },
+  {
+    "text": "هیتر شیشه جلو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    }
+  },
+  {
+    "text": "هیتر شیشه عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    }
+  },
+  {
+    "text": "هیتر شیشه عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    }
+  },
+  {
+    "text": "هیتر شیشه عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    }
+  },
+  {
+    "text": "هیتر شیشه عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    }
+  },
+  {
+    "text": "هیتر شیشه ها رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "هیتر شیشه ها رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "هیتر شیشه ها روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "هیتر شیشه ها خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "هیتر شیشه های جلو و عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "هیتر شیشه های جلو و عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "هیتر شیشه های جلو و عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "هیتر شیشه های جلو و عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "المنت شیشه جلو رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    }
+  },
+  {
+    "text": "المنت شیشه جلو رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    }
+  },
+  {
+    "text": "المنت شیشه جلو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": true
+    }
+  },
+  {
+    "text": "المنت شیشه جلو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "front",
+      "enabled": false
+    }
+  },
+  {
+    "text": "المنت شیشه عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    }
+  },
+  {
+    "text": "المنت شیشه عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    }
+  },
+  {
+    "text": "المنت شیشه عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": true
+    }
+  },
+  {
+    "text": "المنت شیشه عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "rear",
+      "enabled": false
+    }
+  },
+  {
+    "text": "المنت شیشه ها رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "المنت شیشه ها رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "المنت شیشه ها روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "المنت شیشه ها خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "المنت شیشه های جلو و عقب رو روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "المنت شیشه های جلو و عقب رو خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  },
+  {
+    "text": "المنت شیشه های جلو و عقب روشن کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": true
+    }
+  },
+  {
+    "text": "المنت شیشه های جلو و عقب خاموش کن",
+    "action": "SET_DEFROSTER",
+    "parameters": {
+      "window": "all",
+      "enabled": false
+    }
+  }
+]

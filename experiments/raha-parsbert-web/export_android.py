@@ -34,7 +34,7 @@ def load_active():
     schema['allowed']['SET_FAN_SPEED|level,zone']['level'] = [str(i) for i in range(8)]+['"min"','"max"']
     schema['allowed']['ADJUST_FAN_SPEED|delta,zone']['delta'] = [next(v for v in schema['slots']['delta'] if json.loads(v)==i) for i in range(-7,8) if i]
     schema['allowed']['ADJUST_AUDIO_VOLUME|channel,delta']['delta'] = [next(v for v in schema['slots']['delta'] if json.loads(v)==i) for i in range(-10,11) if i]
-    for feature in ['HEATING','VENTILATION']:
+    for feature in ['HEATING','VENTILATION','MASSAGE']:
         schema['allowed'][f'ADJUST_SEAT_{feature}|delta,seat']['delta'] = [str(i) for i in [-3,-2,-1,1,2,3]]
     tokenizer = AutoTokenizer.from_pretrained(source, local_files_only=True)
     checkpoint = OUT/'feedback-snapshot.safetensors'

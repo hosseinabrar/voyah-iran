@@ -151,8 +151,6 @@ class RahaVehiclePlanTest {
         val cases = listOf(
             "چراغ اتوماتیک رو خاموش کن" to (2 to "POSITION_LAMP_SWITCH"),
             "نور پایین رو خاموش کن" to (2 to "POSITION_LAMP_SWITCH"),
-            "دی لایت رو روشن کن" to (2 to "POSITION_LAMP_SWITCH"),
-            "دی لایت رو خاموش کن" to (3 to "OUT_LAMP_OFF"),
             "چراغ ها رو خاموش کن" to (3 to "OUT_LAMP_OFF"),
             "چراغ اتوماتیک" to (0 to "AUTO_LAMP_SWITCH"),
             "نور پایین روشن کن" to (1 to "LOW_BEAM_SWITCH")
@@ -161,6 +159,27 @@ class RahaVehiclePlanTest {
             snapshot.values["LAMP_SWITCH_POSITION_FB"] = current
             assertEquals(spoken, if (current == expected.first) emptyList<RahaWrite>()
                 else listOf(RahaWrite("vehicle", expected.second, 1)), plan(RahaAction.SET_HEADLIGHT_MODE,mapOf("mode" to listOf("auto","lowBeam","position","off")[expected.first])))
+        }
+    }
+    @Test fun daytimeLightsUseSelectedHeadlightMode() {
+        val disableWrites = listOf("LOW_BEAM_SWITCH", null, "OUT_LAMP_OFF", null)
+        for (current in 0..3) {
+            snapshot.values["LAMP_SWITCH_POSITION_FB"] = current
+            for (enabled in listOf(true, false)) {
+                val field = if (enabled) "POSITION_LAMP_SWITCH".takeUnless { current == 2 } else disableWrites[current]
+                assertEquals(listOfNotNull(field?.let { RahaWrite("vehicle", it, 1) }),
+                    plan(RahaAction.SET_DAYTIME_RUNNING_LIGHTS, mapOf("enabled" to enabled)))
+            }
+        }
+    }
+    @Test fun defrosterTargetsBothIndependentSwitches() {
+        for (enabled in listOf(true, false)) {
+            val value = if (enabled) 1 else 0
+            val front = RahaWrite("air-state", "AC_FRONT_DEFROST_SWITCH", value)
+            val rear = RahaWrite("air", "AC_REAR_DEFROST_SWITCH", value)
+            for ((window, expected) in mapOf("front" to listOf(front), "rear" to listOf(rear), "all" to listOf(front, rear))) {
+                assertEquals(expected, plan(RahaAction.SET_DEFROSTER, mapOf("window" to window, "enabled" to enabled)))
+            }
         }
     }
     @Test fun acUsesDesiredStateInsteadOfRawToggle() {

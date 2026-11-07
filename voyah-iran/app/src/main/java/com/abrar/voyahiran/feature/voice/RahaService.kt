@@ -15,7 +15,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.provider.Settings
 import com.abrar.raha.feedback.RahaFeedback
-import com.abrar.raha.intent.RahaIntentModel
+import com.abrar.raha.OldRahaRecognizer
 import com.abrar.voicecommands.Recognition
 import com.abrar.voyahiran.R
 import com.abrar.voyahiran.VoyahIranApplication
@@ -35,7 +35,7 @@ class RahaService : Service() {
     private val main = Handler(Looper.getMainLooper())
     private val prefs by lazy { VoicePreferences(this) }
     private val keys get() = (application as VoyahIranApplication).steeringKeys
-    private val recognizer by lazy { RahaIntentModel(this) { AppLog.info("Raha",it) } }
+    private val recognizer by lazy { OldRahaRecognizer() }
     private lateinit var speech: SpeechLab
     private lateinit var feedback: RahaFeedback
     private var captureEpoch = 0L

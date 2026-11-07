@@ -1,8 +1,8 @@
 {
   "source": "artifacts/practice/final",
   "base_sha256": "4175355ff9033b4e134d3333b3d4379e0b8902013e62e533736ed5b7db31bc22",
-  "feedback_sha256": "213d0078289e6539755a025a8afd12393300a3a77266aaec0a897a9c5d9811d0",
-  "feedback_count": 34167,
+  "feedback_sha256": "fa7a002920e14862247d8cdc25a340c9cbdc5029ea0b1d43228360a99955ba56",
+  "feedback_count": 36563,
   "snapshot_loader_version": 2,
   "outputs": [
     "frames",
@@ -48,5 +48,5 @@
   "graph": "model.compact.onnx",
   "encoder_sha256": "a4e2d201a1d68b155f40c1fdc2768524104a4531674094901a77b6614c2e59b6",
   "parity_status": "assumed",
-  "model_sha256": "0f582be1bbdb159d25f1af40bcf734b2fceaf4c92ee8e74a50fb17a0de926472"
+  "model_sha256": "c9564cd18f059c10090a1257687bbe6d9f3e65e0dd4dae861f3a3326ad0eb2f1"
 }

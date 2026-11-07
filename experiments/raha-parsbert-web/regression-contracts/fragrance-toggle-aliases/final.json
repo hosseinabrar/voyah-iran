@@ -1,0 +1,1322 @@
+[
+  {
+    "text": "رایحه یک رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه یک رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه یک روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه یک خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۱ رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۱ رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۱ روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۱ خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه بامبو رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه بامبو رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه بامبو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه بامبو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه بامبوی تازه رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه بامبوی تازه رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه بامبوی تازه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه بامبوی تازه خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه فرش بامبو رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه فرش بامبو رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه فرش بامبو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه فرش بامبو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 1,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 1,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه دو رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه دو رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه دو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه دو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۲ رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۲ رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۲ روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۲ خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل صد تومنی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل صد تومنی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل صد تومنی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل صد تومنی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل صد تومانی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل صد تومانی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل صد تومانی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه گل صد تومانی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه اسکارلت رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه اسکارلت رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه اسکارلت روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه اسکارلت خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه پیونی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه پیونی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه پیونی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه پیونی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه پی یونی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه پی یونی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه پی یونی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه پی یونی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه اسکارلت پیونی رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه اسکارلت پیونی روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه اسکارلت پیونی خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 2,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 2,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه سه رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه سه رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه سه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه سه خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۳ رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۳ رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۳ روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه ۳ خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه مه رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه مه رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه مه روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه مه خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه مه نمناک رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه مه نمناک رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه مه نمناک روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه مه نمناک خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه نمناک رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه نمناک رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه نمناک روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه نمناک خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتری رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتری رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتری روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتری خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتری میست رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتری میست رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتری میست روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتری میست خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتر ی میست رو روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتر ی میست رو خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 1.0
+  },
+  {
+    "text": "رایحه واتر ی میست روشن کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": true
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": true
+    },
+    "reason": null,
+    "score": 0.9989
+  },
+  {
+    "text": "رایحه واتر ی میست خاموش کن",
+    "action": "CONFIGURE_FRAGRANCE",
+    "parameters": {
+      "channel": 3,
+      "enabled": false
+    },
+    "passed": true,
+    "actual": {
+      "channel": 3,
+      "enabled": false
+    },
+    "reason": null,
+    "score": 0.9999
+  }
+]

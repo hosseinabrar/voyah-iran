@@ -1,0 +1,5059 @@
+{
+  "count": 327,
+  "correct": 193,
+  "results": [
+    {
+      "text": "دمای چپ و راست رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای چپ و راست مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای چپ و راست مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راست و چپ رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راست و چپ مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "لطفا دمای راست و چپ مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای راننده و شاگرد رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و شاگرد مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و شاگرد مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای راننده و همراه مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای راننده و همراه مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای دو طرف مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای دو طرف مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای هر دو طرف مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای هر دو طرف مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کولر مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کولر مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین یکسان کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "saved-example",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین یکی کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین هماهنگ کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین همگام کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین سینک کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین رو مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "لطفا دمای کابین مثل هم کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست رو فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست رو روشن کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست روشن کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست رو غیر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست غیر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست رو خاموش کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست خاموش کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "همگام سازی دمای دو طرف رو فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "همگام سازی دمای دو طرف فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "همگام سازی دمای دو طرف رو روشن کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "همگام سازی دمای دو طرف روشن کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "همگام سازی دمای دو طرف رو غیر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "همگام سازی دمای دو طرف غیر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "همگام سازی دمای دو طرف رو خاموش کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "همگام سازی دمای دو طرف خاموش کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "سینک دمای کولر رو فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "سینک دمای کولر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "سینک دمای کولر رو روشن کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "سینک دمای کولر روشن کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "سینک دمای کولر رو غیر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "سینک دمای کولر غیر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "سینک دمای کولر رو خاموش کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "سینک دمای کولر خاموش کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هماهنگ سازی دمای راننده و شاگرد رو فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هماهنگ سازی دمای راننده و شاگرد فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هماهنگ سازی دمای راننده و شاگرد رو روشن کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هماهنگ سازی دمای راننده و شاگرد روشن کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هماهنگ سازی دمای راننده و شاگرد رو غیر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هماهنگ سازی دمای راننده و شاگرد غیر فعال کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هماهنگ سازی دمای راننده و شاگرد رو خاموش کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "هماهنگ سازی دمای راننده و شاگرد خاموش کن",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": false
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": false
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "یکسان سازی دمای چپ و راست",
+      "action": "SET_FRONT_CLIMATE_SYNC",
+      "parameters": {
+        "enabled": true
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_FRONT_CLIMATE_SYNC",
+        "parameters": {
+          "enabled": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "text": "دمای کابین رو بذار روی 16",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 16
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 16.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 16",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 16
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 16.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 17",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 17
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 17.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 17",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 17
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 17.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 18",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 18
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 18.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 18",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 18
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 18.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 19",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 19
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 19.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 19",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 19
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 19.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 20",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 20
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 20.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 20",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 20
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 20.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 21",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 21
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 21.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 21",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 21
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 21.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 22",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 22
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 22.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 22",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 22
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 22.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 23",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 23
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 23.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 23",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 23
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 23.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 24",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 24
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 24.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 24",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 24
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 24.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 25",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 25
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 25.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 25",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 25
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 25.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 26",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 26
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 26.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 26",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 26
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 26.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 27",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 27
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 27.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 27",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 27
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 27.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 28",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 28
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 28.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 28",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 28
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 28.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 29",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 29
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 29.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 29",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 29
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 29.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 30",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 30
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 30.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 30",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 30
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 30.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 31",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 31
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 31",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 31
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو بذار روی 32",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 32
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای کابین رو تنظیم کن روی 32",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 32
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 16",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 16
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 16.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 16",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 16
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 16.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 17",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 17
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 17.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 17",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 17
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 17.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 18",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 18
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 18.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 18",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 18
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 18.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 19",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 19
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 19.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 19",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 19
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 19.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 20",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 20
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 20.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 20",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 20
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 20.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 21",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 21
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 21.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 21",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 21
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 21.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 22",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 22
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 22.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 22",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 22
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 22.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 23",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 23
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 23.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 23",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 23
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 23.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 24",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 24
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 24.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 24",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 24
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 24.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 25",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 25
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 25.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 25",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 25
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 25.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 26",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 26
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 26.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 26",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 26
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 26.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 27",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 27
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 27.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 27",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 27
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 27.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 28",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 28
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 28.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 28",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 28
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 28.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 29",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 29
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 29.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 29",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 29
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 29.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 30",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 30
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 30.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 30",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 30
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 30.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 31",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 31
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 31",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 31
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو بذار روی 32",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 32
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای اتاق رو تنظیم کن روی 32",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 32
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 16",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 16
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 16.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 16",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 16
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 16.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 17",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 17
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 17.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 17",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 17
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 17.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 18",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 18
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 18.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 18",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 18
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 18.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 19",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 19
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 19.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 19",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 19
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 19.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 20",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 20
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 20.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 20",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 20
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 20.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 21",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 21
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 21.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 21",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 21
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 21.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 22",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 22
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 22.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 22",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 22
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 22.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 23",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 23
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 23.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 23",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 23
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 23.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 24",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 24
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 24.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 24",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 24
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 24.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 25",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 25
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 25.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 25",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 25
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 25.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 26",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 26
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 26.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 26",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 26
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 26.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 27",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 27
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 27.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 27",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 27
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 27.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 28",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 28
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 28.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 28",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 28
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 28.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 29",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 29
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 29.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 29",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 29
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 29.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 30",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 30
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 30.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 30",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 30
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "SET_CABIN_TEMPERATURE",
+        "parameters": {
+          "zone": "front",
+          "degreesC": 30.0
+        }
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 31",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 31
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 31",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 31
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو بذار روی 32",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 32
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    },
+    {
+      "text": "دمای ماشین رو تنظیم کن روی 32",
+      "action": "SET_CABIN_TEMPERATURE",
+      "parameters": {
+        "zone": "front",
+        "celsius": 32
+      },
+      "actual": {
+        "source": "grammar-2.1.1",
+        "action": "UNKNOWN",
+        "parameters": {},
+        "reason": "فرمان پشتیبانی‌شده‌ای تشخیص داده نشد"
+      },
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "source_rows": 36563,
+  "unique": 36531,
+  "skipped": [
+    {
+      "text": "صفحه نمایشگر رو جابجا کن",
+      "action": "SWAP_DISPLAY_APPS",
+      "time": "2026-10-26T13:41:02.179681+00:00"
+    }
+  ],
+  "sha256": "700fffbdbd1e734863b57de610b6c1af2d5960021eab34b21fa4f36fddbd31a1",
+  "source_revision": "version-2.1.1",
+  "source_checkpoint_sha256": "fa7a002920e14862247d8cdc25a340c9cbdc5029ea0b1d43228360a99955ba56",
+  "final_unique": 36532,
+  "resolved_missing_parameters": {
+    "text": "صفحه نمایشگر رو جابجا کن",
+    "action": "SWAP_DISPLAY_APPS",
+    "parameters": {},
+    "evidence": "Current feedback schema contains the single empty frame."
+  },
+  "corrected_obsolete_annotation": {
+    "text": "گرمکن رو روشن کن",
+    "previous_action": "UNKNOWN",
+    "action": "SET_SEAT_HEATING",
+    "parameters": {
+      "enabled": true,
+      "seat": "driver"
+    }
+  },
+  "final_lessons_sha256": "4b7284d90444cd0773af9040792b404d375800242a48409f79e87bf6d80c6d08",
+  "grammar_source_commit": "76a702209747d8eee2e4ababcdd746d5de6a1bf5"
+}

@@ -59,6 +59,9 @@ class RahaIntentMigrationTest {
         assertNull(RahaContactSpan.extract("یه زنگ بزن",emptyList()))
     }
     @Test fun halfSpacesAreNormalizedBeforeTokenization() {
+        assertEquals("رایحه مه رو برای سی دقیقه پخش کن",RahaWordPiece.normalize("بوگیر ۳ رو برای سی دقیقه پخش کن"))
+        assertEquals("رایحه گل صد تومانی رو با شدت زیاد فعال کن",RahaWordPiece.normalize("عطرپاش اسکارلت پیونی رو با شدت زیاد فعال کن"))
+        assertEquals("رایحه یک ساعت روشن باشه",RahaWordPiece.normalize("رایحه یک ساعت روشن باشه"))
         assertEquals("گرم کن صندلی",RahaWordPiece.normalize(" گرم\u200cکن  صندلي "))
     }
     @Test fun unicodeWhitespaceAndPersianWordBoundariesRemainSupported() {

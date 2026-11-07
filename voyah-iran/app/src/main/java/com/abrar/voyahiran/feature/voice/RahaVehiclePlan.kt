@@ -90,10 +90,17 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
                 a("AC_POWER_SWITCH", 1); a("AC_BLOWER", n)
             }
             RahaAction.SET_AIRFLOW_DIRECTION -> {
-                val n = mapOf("face" to 0, "faceAndFeet" to 1, "feet" to 2, "windshieldAndFeet" to 3, "windshield" to 4, "all" to 6).getValue(text("direction"))
+                val n = mapOf("face" to 0, "faceAndFeet" to 1, "feet" to 2, "windshieldAndFeet" to 3, "windshield" to 4, "faceAndWindshield" to 5, "all" to 6).getValue(text("direction"))
                 a("AC_POWER_SWITCH", 1); a("AC_FLOW_MODE", n)
             }
             RahaAction.SET_AIR_RECIRCULATION -> a("AC_RECIRC_AIR", mapOf("internal" to 0, "external" to 1, "auto" to 2).getValue(text("mode")))
+            RahaAction.SET_DEFROSTER -> {
+                val window = text("window")
+                require(window in setOf("front", "rear", "all")) { "Unsupported defroster target" }
+                val value = if (on()) 1 else 0
+                if (window != "rear") a("AC_FRONT_DEFROST_SWITCH", value)
+                if (window != "front") a("AC_REAR_DEFROST_SWITCH", value)
+            }
             RahaAction.SET_FRONT_DEFROSTER -> a("AC_FRONT_DEFROST_SWITCH", if (on()) 1 else 0)
             RahaAction.SET_REAR_DEFROSTER -> a("AC_REAR_DEFROST_SWITCH", if (on()) 1 else 0)
             RahaAction.SET_FRONT_CLIMATE_SYNC -> a("AC_DUAL", if (on()) 0 else 1)
@@ -231,12 +238,17 @@ class RahaVehiclePlan(private val state: RahaVehicleSnapshot) {
             RahaAction.SET_HEADLIGHT_MODE, RahaAction.SET_DAYTIME_RUNNING_LIGHTS -> {
                 // OEM LightFragment: auto=0, low beam=1, position/DRL=2, off=3.
                 // Compare the selected mode, not actual lamp illumination in AUTO.
+                val current = range(state.vehicle("LAMP_SWITCH_POSITION_FB"), 0, 3)
                 val mode = if (action == RahaAction.SET_DAYTIME_RUNNING_LIGHTS) {
-                    if (on()) "position" else "off"
+                    if (on()) "position" else when (current) {
+                        0 -> "lowBeam"
+                        2 -> "off"
+                        else -> return emptyList()
+                    }
                 } else text("mode")
                 val requested = mapOf("auto" to 0, "lowBeam" to 1, "position" to 2, "off" to 3).getValue(mode)
                 val field = mapOf("off" to "OUT_LAMP_OFF", "auto" to "AUTO_LAMP_SWITCH", "lowBeam" to "LOW_BEAM_SWITCH", "position" to "POSITION_LAMP_SWITCH").getValue(mode)
-                if (range(state.vehicle("LAMP_SWITCH_POSITION_FB"), 0, 3) != requested) v(field, 1)
+                if (current != requested) v(field, 1)
             }
             RahaAction.SET_AUTO_HIGH_BEAM -> v("IHBC_SWITCH", if (on()) 1 else 2)
             RahaAction.SET_REAR_FOG_LIGHT -> {
