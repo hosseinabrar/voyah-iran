@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>VoyahIran.Installer.Mac</AssemblyName>
-    <Version>3.0.1</Version>
-    <InformationalVersion>3.0.1</InformationalVersion>
+    <Version>3.0.2</Version>
+    <InformationalVersion>3.0.2</InformationalVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
   <ItemGroup>
