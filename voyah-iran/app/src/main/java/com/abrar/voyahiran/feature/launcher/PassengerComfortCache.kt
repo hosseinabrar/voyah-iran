@@ -27,7 +27,7 @@ internal class PassengerComfortCache {
             return when(op){
                 "sync"->mapOf("getAirDUALStatus" to if(n==1)0 else 1)
                 "airflow"->mapOf("getAirSupplyStatus" to mapOf("face" to 0,"faceAndFeet" to 1,"feet" to 2,
-                    "windshieldAndFeet" to 3,"windshield" to 4,"all" to 6).getValue(value))
+                    "windshieldAndFeet" to 3,"windshield" to 4,"faceAndWindshield" to 5,"all" to 6).getValue(value))
                 "scent"->if(n==0)mapOf("FCM_SW_REQ_FB" to 1) else mapOf("FCM_SW_REQ_FB" to 2,"IVI_FRAG_TASTE_FB" to n)
                 else->{
                     val side=if(op.substringBefore('-')=="driver")"LEFT" else "RIGHT"

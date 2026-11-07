@@ -187,9 +187,9 @@ internal class PassengerClimateView @JvmOverloads constructor(context: Context, 
         text(c,"℃",x+unitOffset,171f,24.8f,foreground)
     }
     private fun active(key:String):Boolean=when(key){
-        "blow_face"->value("getAirSupplyStatus") in listOf(0,1,6)
+        "blow_face"->value("getAirSupplyStatus") in listOf(0,1,5,6)
         "blow_foot"->value("getAirSupplyStatus") in listOf(1,2,3,6)
-        "blow_window"->value("getAirSupplyStatus") in listOf(3,4,6)
+        "blow_window"->value("getAirSupplyStatus") in listOf(3,4,5,6)
         "cycle"->value("getAirCirculationMode") in listOf(0,2)
         else->value(field(key))==1
     }

@@ -12,7 +12,7 @@ internal object PassengerComfortBridge {
         "recirculation","duration" -> value in listOf("0","1","2")
         "scent" -> value.toIntOrNull() in 0..3
         "intensity" -> value.toIntOrNull() in 1..3
-        "airflow" -> value in listOf("face","faceAndFeet","feet","windshieldAndFeet","windshield","all")
+        "airflow" -> value in listOf("face","faceAndFeet","feet","windshieldAndFeet","windshield","faceAndWindshield","all")
         else -> op.matches(Regex("(driver|passenger)-(vent|heat|massage|mode)")) &&
             value.toIntOrNull() in if(op.endsWith("mode"))1..2 else 0..3
     }
