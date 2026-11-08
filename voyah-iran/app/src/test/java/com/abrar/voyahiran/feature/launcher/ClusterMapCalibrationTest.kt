@@ -8,14 +8,25 @@ class ClusterMapCalibrationTest {
         val expected=listOf(
             Triple(4,true,listOf(-229f,-31f,1f,-24f,0f,.99f)),
             Triple(4,false,listOf(-20f,-21f,1f,-24f,0f,.99f)),
-            Triple(1,true,listOf(-159f,-29f,1.14f,0f,0f,1f)),
-            Triple(1,false,listOf(-17f,-6f,1f,0f,0f,1f)),
+            Triple(1,true,listOf(-200f,40f,1f,13f,80f,.6f)),
+            Triple(1,false,listOf(7f,40f,1f,13f,80f,.6f)),
             Triple(2,true,listOf(-194f,-19f,1.04f,0f,0f,1f)),
             Triple(2,false,listOf(28f,-19f,1.02f,0f,0f,1f)))
         expected.forEach { (theme,route,values) ->
             val t=ClusterMapCalibration.select(theme,route)
             assertEquals(values,listOf(t.mapX,t.mapY,t.mapScale,t.maskX,t.maskY,t.maskScale))
-            assertEquals(theme==4,t.maskEnabled)
+            assertEquals(theme!=2,t.maskEnabled)
+            assertEquals(theme==1,t.circleMask)
+        }
+    }
+    @Test fun minimalistMatchesTestAppCircleBounds() {
+        for (routing in listOf(false,true)) {
+            val t=ClusterMapCalibration.select(1,routing)
+            assertEquals(153f,t.maskLeft,.001f)
+            assertEquals(230f,t.maskTop,.001f)
+            assertEquals(420f,t.panelWidth*t.maskScale,.001f)
+            assertEquals(70f,t.mapTop(660),.001f)
+            assertEquals(if(routing) -285.5f else -78.5f,t.mapLeft(871),.001f)
         }
     }
     @Test fun usesMediaPanelRatherThanEntireDisplay() {

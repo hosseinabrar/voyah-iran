@@ -1,0 +1,19 @@
+Cluster map tuning — no active navigation
+Captured 2026-11-08 from installed test app preferences via ADB, device 266b6ae1.
+Source: /data/user/0/com.abrar.voyahclustertest/shared_prefs/MainActivity.xml
+Key: fixedMaskOffsets
+Raw value: v2 7 40 100 12 13 80 60 1
+
+Map X: +7 px
+Map Y: +40 px
+Map zoom: 100%
+Mask: circle (ID 12)
+Mask X: +13 px
+Mask Y: +80 px
+Mask scale: 60%
+Mask enabled: true
+
+Decoded using app/src/main/java/com/abrar/voyahclustertest/MapTuning.java
+(relative to the voyah-cluster-test project root).
+User designates these settings for the no-navigation state.
+Snapshot only: no defaults or runtime behavior changed.

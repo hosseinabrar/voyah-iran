@@ -22,7 +22,7 @@ final class MapFrameRelay {
     private EGLSurface scratch, card, cluster;
     private SurfaceTexture input;
     private Surface source;
-    private int program, texture, mask, width, height, cardW, cardH, clusterW, clusterH;
+    private int program, texture, mask, circleMask, ring, width, height, cardW, cardH, clusterW, clusterH;
     private boolean frame;
     private volatile boolean closed;
     private Runnable ready;
@@ -76,12 +76,12 @@ final class MapFrameRelay {
         EGL14.eglSwapInterval(egl,0);
         int vs=shader(GLES20.GL_VERTEX_SHADER,"attribute vec2 pos; varying vec2 uv; void main(){gl_Position=vec4(pos,0.,1.);uv=vec2((pos.x+1.)*.5,(1.-pos.y)*.5);}");
         int fs=shader(GLES20.GL_FRAGMENT_SHADER,
-            "#extension GL_OES_EGL_image_external : require\nprecision highp float; varying vec2 uv; uniform samplerExternalOES image; uniform sampler2D maskImage; uniform mat4 texMatrix; uniform vec2 outputSize; uniform vec4 mapRect; uniform vec4 maskRect; uniform float masked; uniform float opacity; void main(){vec2 p=uv*outputSize;vec2 q=(p-mapRect.xy)/mapRect.zw;if(any(lessThan(q,vec2(0.)))||any(greaterThan(q,vec2(1.)))){gl_FragColor=vec4(0.);return;} vec4 c=texture2D(image,(texMatrix*vec4(q.x,1.-q.y,0.,1.)).xy);float a=1.;if(masked>.5){vec2 m=(p-maskRect.xy)/maskRect.zw;if(any(lessThan(m,vec2(0.)))||any(greaterThan(m,vec2(1.))))a=0.;else a=texture2D(maskImage,m).r;}a*=opacity;gl_FragColor=vec4(c.rgb*a,c.a*a);}");
+            "#extension GL_OES_EGL_image_external : require\nprecision highp float; varying vec2 uv; uniform samplerExternalOES image; uniform sampler2D maskImage; uniform sampler2D ringImage; uniform vec4 ringRect; uniform float ringEnabled; uniform mat4 texMatrix; uniform vec2 outputSize; uniform vec4 mapRect; uniform vec4 maskRect; uniform float masked; uniform float opacity; void main(){vec2 p=uv*outputSize;vec2 q=(p-mapRect.xy)/mapRect.zw;vec4 c=vec4(0.);if(all(greaterThanEqual(q,vec2(0.)))&&all(lessThanEqual(q,vec2(1.))))c=texture2D(image,(texMatrix*vec4(q.x,1.-q.y,0.,1.)).xy);float a=1.;if(masked>.5){vec2 m=(p-maskRect.xy)/maskRect.zw;if(any(lessThan(m,vec2(0.)))||any(greaterThan(m,vec2(1.))))a=0.;else a=texture2D(maskImage,m).r;}a*=opacity;vec4 result=vec4(c.rgb*a,c.a*a);if(ringEnabled>.5){vec2 u=(p-ringRect.xy)/ringRect.zw;if(all(greaterThanEqual(u,vec2(0.)))&&all(lessThanEqual(u,vec2(1.)))){vec4 rim=texture2D(ringImage,u)*opacity;result=rim+result*(1.-rim.a);}}gl_FragColor=result;}");
         program=GLES20.glCreateProgram();GLES20.glAttachShader(program,vs);GLES20.glAttachShader(program,fs);GLES20.glLinkProgram(program);
         int[] ok=new int[1];GLES20.glGetProgramiv(program,GLES20.GL_LINK_STATUS,ok,0);require(ok[0]!=0,GLES20.glGetProgramInfoLog(program));GLES20.glDeleteShader(vs);GLES20.glDeleteShader(fs);
         position=GLES20.glGetAttribLocation(program,"pos");
-        for(String name:new String[]{"image","maskImage","texMatrix","masked","opacity","outputSize","mapRect","maskRect"})uniforms.put(name,GLES20.glGetUniformLocation(program,name));
-        int[] names=new int[2];GLES20.glGenTextures(2,names,0);texture=names[0];mask=names[1];
+        for(String name:new String[]{"image","maskImage","ringImage","ringRect","ringEnabled","texMatrix","masked","opacity","outputSize","mapRect","maskRect"})uniforms.put(name,GLES20.glGetUniformLocation(program,name));
+        int[] names=new int[4];GLES20.glGenTextures(4,names,0);texture=names[0];mask=names[1];circleMask=names[2];ring=names[3];
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,texture);parameters(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
         input=new SurfaceTexture(texture);input.setDefaultBufferSize(width,height);source=new Surface(input);
         input.setOnFrameAvailableListener(s->post(()->{current(scratch);input.updateTexImage();input.getTransformMatrix(matrix);frame=true;draw();}),handler);
@@ -89,6 +89,13 @@ final class MapFrameRelay {
         BitmapFactory.Options opts=new BitmapFactory.Options();opts.inScaled=false;
         Bitmap bitmap=BitmapFactory.decodeResource(app.getResources(),R.drawable.cluster_map_mask_11,opts);
         require(bitmap!=null,"Missing cluster mask");GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,0,bitmap,0);bitmap.recycle();
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,circleMask);parameters(GLES20.GL_TEXTURE_2D);
+        bitmap=BitmapFactory.decodeResource(app.getResources(),R.drawable.cluster_map_mask_circle,opts);
+        require(bitmap!=null,"Missing circular cluster mask");GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,0,bitmap,0);bitmap.recycle();
+        // PNG already contains the OEM rim, vertical fade and inward shadow.
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,ring);parameters(GLES20.GL_TEXTURE_2D);
+        bitmap=BitmapFactory.decodeResource(app.getResources(),R.drawable.cluster_map_ring_minimal,opts);
+        require(bitmap!=null,"Missing minimalist ring");GLUtils.texImage2D(GLES20.GL_TEXTURE_2D,0,bitmap,0);bitmap.recycle();
     }
     private void draw(){
         if(!frame)return;
@@ -100,6 +107,9 @@ final class MapFrameRelay {
         if(w<=0||h<=0)return;current(target);GLES20.glViewport(0,0,w,h);GLES20.glClearColor(0,0,0,0);GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);GLES20.glUseProgram(program);
         int a=position;vertices.position(0);GLES20.glEnableVertexAttribArray(a);GLES20.glVertexAttribPointer(a,2,GLES20.GL_FLOAT,false,0,vertices);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,texture);GLES20.glUniform1i(uniform("image"),0);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE2);GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,ring);GLES20.glUniform1i(uniform("ringImage"),2);
+        GLES20.glUniform1f(uniform("ringEnabled"),0f);
+        GLES20.glUniform4f(uniform("ringRect"),0,0,1,1);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE1);GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,mask);GLES20.glUniform1i(uniform("maskImage"),1);
         GLES20.glUniformMatrix4fv(uniform("texMatrix"),1,false,matrix,0);GLES20.glUniform1f(uniform("masked"),masked?1:0);
         GLES20.glUniform1f(uniform("opacity"),1f);
@@ -109,11 +119,16 @@ final class MapFrameRelay {
             long now=android.os.SystemClock.elapsedRealtime();
             if(calibration==null||now-calibrationAt>1000){calibration=ClusterMapCalibration.Companion.current();calibrationAt=now;}
             ClusterMapCalibration t=calibration;
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,t.getCircleMask()?circleMask:mask);
             GLES20.glUniform1f(uniform("masked"),t.getMaskEnabled()?1:0);
             float mw=width*t.getMapScale(),mh=height*t.getMapScale();
             GLES20.glUniform4f(uniform("mapRect"),t.mapLeft(width),t.mapTop(height),mw,mh);
             float sw=t.getPanelWidth()*t.getMaskScale(),sh=t.getPanelHeight()*t.getMaskScale();
             GLES20.glUniform4f(uniform("maskRect"),t.getMaskLeft(),t.getMaskTop(),sw,sh);
+            if(t.getCircleMask()&&t.getMaskEnabled()){
+                GLES20.glUniform1f(uniform("ringEnabled"),1f);
+                GLES20.glUniform4f(uniform("ringRect"),t.getMaskLeft()-5f,t.getMaskTop()-5f,sw+10f,sh+10f);
+            }
         }else{GLES20.glUniform4f(uniform("mapRect"),0,0,w,h);GLES20.glUniform4f(uniform("maskRect"),0,0,w,h);}
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);require(EGL14.eglSwapBuffers(egl,target),"eglSwapBuffers");
     }

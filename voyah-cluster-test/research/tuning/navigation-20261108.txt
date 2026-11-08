@@ -1,0 +1,7 @@
+Cluster map tuning — active navigation
+Captured 2026-11-08 from device 266b6ae1.
+Source: /data/user/0/com.abrar.voyahclustertest/shared_prefs/MainActivity.xml
+fixedMaskOffsets: v2 -200 40 100 12 13 80 60 1
+Map: X=-200px Y=40px zoom=100%. Circle mask ID=12, X=13px Y=80px scale=60%, enabled.
+Base center=(350,360), mask bounds=(153,230)-(573,650).
+For minimalist theme; ring pending owner approval.

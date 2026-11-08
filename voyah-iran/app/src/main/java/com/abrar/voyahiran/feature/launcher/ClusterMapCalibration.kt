@@ -6,7 +6,7 @@ internal data class ClusterMapCalibration(
     val panelWidth: Float = 490f, val panelHeight: Float = 506f,
     val mapX: Float = 0f, val mapY: Float = 0f, val mapScale: Float = 1f,
     val maskX: Float = 0f, val maskY: Float = 0f, val maskScale: Float = 1f,
-    val maskEnabled: Boolean = true
+    val maskEnabled: Boolean = true, val circleMask: Boolean = false
 ) {
     val centerX get() = panelX + panelWidth / 2
     val centerY get() = panelY + panelHeight / 2
@@ -17,10 +17,12 @@ internal data class ClusterMapCalibration(
     companion object {
         @Volatile var themeId = 4
         val speedyDash = ClusterMapCalibration(mapX=-20f,mapY=-21f,maskX=-24f,maskScale=.99f)
-        val minimal = ClusterMapCalibration(mapX=-17f,mapY=-6f,maskEnabled=false)
+        // Circle geometry and offsets copied from the vehicle test, 2026-11-08.
+        val minimal = ClusterMapCalibration(panelX=0f,panelY=10f,panelWidth=700f,panelHeight=700f,
+            mapX=7f,mapY=40f,maskX=13f,maskY=80f,maskScale=.6f,circleMask=true)
         val classic = ClusterMapCalibration(mapX=28f,mapY=-19f,mapScale=1.02f,maskEnabled=false)
         fun select(theme:Int,routing:Boolean) = when(theme) {
-            1 -> if(routing) minimal.copy(mapX=-159f,mapY=-29f,mapScale=1.14f) else minimal
+            1 -> if(routing) minimal.copy(mapX=-200f) else minimal
             2 -> if(routing) classic.copy(mapX=-194f,mapY=-19f,mapScale=1.04f) else classic
             else -> if(routing) speedyDash.copy(mapX=-229f,mapY=-31f) else speedyDash
         }
