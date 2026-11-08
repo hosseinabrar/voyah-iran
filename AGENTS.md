@@ -27,3 +27,7 @@ For every installer change, inspect both the Windows and macOS installer paths. 
 ## Raha web / Android parity
 
 Keep recognition acceptance, numeric grounding, and semantic guards equivalent between the owner's web test and Android. Every guard change requires matching implementation and shared positive/negative parity tests. Human semantic reviews are pending evidence for shared rule changes, never web-only execution overrides. Sync model changes through the existing export workflow; do not confuse model confidence, guard acceptance, or exact-case training accuracy.
+
+## T-box enablement research handoff
+
+Before continuing T-box radio/network/signal integration, read `docs/tbox-enablement-handoff-20261108.txt` and its linked local runbook. The successful H97X experiment is firmware-hash-specific; product integration is deferred. Keep private dumps/binaries outside the repository and do not assume hard-brick recovery or cross-model compatibility.

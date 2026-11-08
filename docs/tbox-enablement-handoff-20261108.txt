@@ -1,0 +1,21 @@
+T-box enablement handoff — 2026-11-08
+
+AUTHORITATIVE LOCAL RUNBOOK (Persian):
+/Users/hosseinabrar/voyah/work/tbox-enablement-20261108/TBOX-ENABLEMENT-RUNBOOK.fa.txt
+
+Archive includes final installed scripts, original/patched binaries, exact patch
+builder, disassembly, logs, reboot screenshot, backup metadata and SHA256 manifest.
+Do not add device dumps/binaries/logs to Git or a public app package.
+Full original backup remains /Users/hosseinabrar/Downloads/tbox-live-backup-20261108.
+
+Verified on H97X3630812AF TBOX 2.0.7 only: carrier-triggered radio-off bypass,
+MCI mcinet CID1 PDP, dynamic ccmni routing/NAT/DNS to headunit, factory SignalManage
+initialization restored, automatic normal reboot and headunit HTTPS200/5G icon.
+Original SquashFS binaries unchanged, persistent userdata files + runtime bind mounts.
+No MCU/boot-chain flash, no C-to-X cross-flash, no headunit configuration modification.
+
+User explicitly deferred integration into Voyah Iran. Read full runbook before
+resuming. Firmware hash guards and rollback are mandatory; direct offsets are NOT
+portable. Sleep/wake, cold power, network loss and eCall regression remain untested.
+No proven hard-brick recovery. Product transport/security/entitlement undecided.
+Do not confuse older stage reports with final installed state.
