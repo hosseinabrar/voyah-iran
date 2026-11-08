@@ -31,3 +31,7 @@ Keep recognition acceptance, numeric grounding, and semantic guards equivalent b
 ## T-box enablement research handoff
 
 Before continuing T-box radio/network/signal integration, read `docs/tbox-enablement-handoff-20261108.txt` and its linked local runbook. The successful H97X experiment is firmware-hash-specific; product integration is deferred. Keep private dumps/binaries outside the repository and do not assume hard-brick recovery or cross-model compatibility.
+
+## Portable project storage (permanent owner requirement)
+
+Keep all project-related artifacts, backups, source inputs and working files inside the parent Voyah folder containing this repository. Never leave durable project files in Downloads, Desktop or temporary directories. Keep large/private device dumps outside Git but inside that parent folder. Document host paths relative to the repository or an explicitly named archive root; scripts must resolve resources from their own location, never hardcode a username or host home directory. Preserve absolute on-device paths and original raw log evidence where required. When relocating artifacts, update references and manifests and verify preservation.

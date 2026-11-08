@@ -1,0 +1,200 @@
+نسخه قابل انتقال در گیت؛ مسیرهای بدنه نسبت به ../work/tbox-enablement-20261108 از ریشه مخزن هستند.
+
+T-BOX H97X — راهنمای نهایی فعال‌سازی آنتن، اینترنت و گزارش هدیونیت
+تاریخ: 2026-11-08 | وضعیت: آزمایش موفق روی یک دستگاه؛ هنوز قابلیت محصول نیست
+
+۰. نقطه شروع برای ادامه کار
+این فایل مرجع نهایی است. نوشته‌های APN-TEST، PATCH-AND-ROLLBACK، FINDINGS و
+PERSISTENT-SETUP در radio-audit گزارش مرحله‌ای هستند؛ جمله‌هایی مثل «پچ دائمی
+نصب نشده» در گزارش‌های اولیه وضعیت فعلی را توصیف نمی‌کنند.
+درخواست فعلی کاربر فقط مستندسازی است؛ فعلاً پیاده‌سازی گزینه در اپ انجام نشود.
+هیچ‌کدام از این آزمایش‌ها تغییر سورس وویا ایران یا نصاب نبوده‌اند.
+
+۱. سخت‌افزار، سیستم و اتصال
+تی‌باکس آزمایشی سری X: H97X3630812AF، TBOX 2.0.7، part H97X3630810AF.
+Linux/Yocto ARM64، نه Android؛ ADB با shell روت. روت‌فایل‌سیستم SquashFS فقط‌خواندنی.
+اسلات فعال هنگام بررسی _b و ubi.mtd=37 بود. اسلات دیگر لزوماً بک‌آپ سالم نیست.
+serial تی‌باکس: f1900a18dabeb15d؛ serial هدیونیت Android: 266b6ae1.
+ADB مک: ../macos-tools/android-sdk/platform-tools/adb
+همیشه -s بدهید؛ دو دستگاه همزمان وصل بوده‌اند. آخرین بررسی پس از بستن تی‌باکس
+سرجایش: ADB و shell root همچنان برقرار، uptime حدود ۱ ساعت و ۹ دقیقه.
+سیم فیزیکی قبلاً روی سخت‌افزار لحیم شده بود؛ این کار نرم‌افزاری جای اصلاح سخت‌افزار
+را نمی‌گیرد. اپراتور آزمایش همراه اول، PLMN=43211 بود.
+ساعت تی‌باکس با هدیونیت/مک یکسان نیست؛ ترتیب رویداد و boot_id را ملاک قرار دهید.
+
+۲. دامپ و بازیابی — چه داریم و چه نداریم
+مسیر بک‌آپ اصلی: live-backup/
+۴۳ پارتیشن NAND با ECC تصحیح‌شده، بدون OOB، bad block با FF؛ تصویر کامل ناحیه
+کاربر eMMC حدود 7.8GB به صورت gzip. manifest.json شامل اندازه/هش است.
+recovery-audit: NAND خام به همراه OOB، boot0/boot1 eMMC، هندسه NAND و متادیتا،
+پکیج‌های cached MCU/MPU و اسکریپت‌های استخراج. هش/اندازه/CRC بررسی شده‌اند.
+بک‌آپ زنده و غیراتمیک است. RPMB احرازشده، کلیدها، OTP/fuse و فلش زنده MCU نداریم.
+پکیج MCU کش‌شده معادل خواندن MCU فعلی نیست. BackUp در updater کپی پکیج ورودی
+است؛ روش معتبر خواندن فلش MCU پیدا نشد.
+تست مجاز bootloader: MediaTek 0e8d:201c / Fastboot QKAYSG8DCM5XPVWW دیده شد،
+ولی getvar/reboot روی مک هشدار یا timeout داشت. هیچ flash/erase انجام نشد.
+با قطع‌ووصل برق توسط کاربر، بوت عادی و ADB برگشت. بازیابی hard-brick اثبات نشده.
+فایل H97C3630812BN_2.2.1_12345.bin متعلق به C است؛ روی X فلش نشد و این روش
+نیازی به cross-flash ندارد. پوشه‌های mpu/mcu کاربر بک‌آپ قبل از کار تیم روسی بودند،
+نه خروجی پچ‌شده آن تیم. این تمایز در بررسی‌های بعدی حفظ شود.
+
+۳. علت قطع آنتن و پچ محدود
+باینری واقعاً لودشده: /lib64/libvendor-ril.so در ql_rild.
+تابع RpNwStateController::updateOperatorCache در VA 0x91558، پس از بررسی طول
+۵/۶ رقمی، سه رقم اول اپراتور را با 250 و 432 مقایسه می‌کند؛ رشته‌ها در
+0xcaf58 و 0xcaf5c. در صورت تطابق RIL request 23 (RADIO_POWER) با مقدار صفر
+می‌فرستد؛ requestToRild در 0x91770 و لاگ Had SET OFF EOPS(%s) تولید می‌شود.
+در بوت واقعی: 43211 -> Had SET OFF EOPS(43211) -> radio=0 -> CFUN=4.
+پس این خاموشی مشاهده‌شده داخل تی‌باکس بود، نه فرمان هدیونیت.
+پچ در offset/VA 0x91680: c10100b0 -> 47000014؛ دستور B به 0x9179c برای
+عبور از همین بلوک. بلوک شامل هر دو پیشوند است؛ این پچ فقط 432 را جدا نکرده است.
+اصل: SHA256 247c82094dfdb47756aedce77a99fe06cf95b1941cfdd315713e408756306d85
+پچ: SHA256 1ec44b63fd7dd2a5d0cc88a06fe82c802f2ec415aff87861611b6ed95c6ef201
+فایل‌ها در radio-audit/binaries/libvendor-ril.so و libvendor-ril-test.so هستند.
+اصل firmware دست‌نخورده؛ پچ با bind mount پوشانده شد، ql-rild.service restart شد.
+AT+CFUN=1 یک بار در بوت؛ حلقه دائمی روشن نگه‌داشتن رادیو نداریم.
+
+۴. مسیر کنترل AT و خطاهایی که نباید اشتباه تفسیر شوند
+سوکت D-Bus: unix:path=/tmp/.hirain-dbus
+service: gdbus.hcommon.rild؛ object: /gdbus/hcommon/rild
+interface: gdbus.hcommon.rild.modem؛ method: sendAtSync؛ ورودی s؛ خروجی sb.
+نمونه خواندن روی مک:
+adb -s f1900a18dabeb15d shell 'busctl --address=unix:path=/tmp/.hirain-dbus --timeout=15 call gdbus.hcommon.rild /gdbus/hcommon/rild gdbus.hcommon.rild.modem sendAtSync s "AT+CEREG?"'
+مسیر کامل adb در بخش ۱ است. true انتهای خروجی فقط تحویل درخواست است، نه موفقیت
+خود AT. متن OK/ERROR/CME ERROR باید جدا بررسی شود.
+خواندن‌ها: AT+CFUN?، AT+CEREG?، AT+COPS?، AT+CSQ، AT+CESQ، AT+CGDCONT?،
+AT+CGACT?، AT+CGPADDR=1. CSQ=99 به‌تنهایی قطع بودن را اثبات نمی‌کند؛ در اتصال
+NR هم مشاهده شد و CESQ داده داشت.
+
+۵. APN و اتصال اینترنت تی‌باکس
+قبل تغییر فقط CID0: IPV4V6/testapn10 موجود بود؛ دست نخورده باقی ماند.
+cache اصلی /mnt/hirain_data/etc/rild/cache/rildConfig در apn-original-cache ذخیره شد.
+data.setConfig برای APN جدید false می‌داد؛ data.dial true ولی config invalid.
+restart hrild مشکل setConfig را رفع نکرد؛ این مسیر استفاده نشد.
+فرمان‌های مؤثر از همان sendAtSync:
+AT+CGDCONT=1,"IP","mcinet"
+AT+CGACT=1,1
+AT+CGPADDR=1
+IP اول 102.78.193.85 روی ccmni1؛ بعد ریبوت ccmni5 با IP متفاوت. شماره اینترفیس
+ثابت نیست. connect.sh IP پاسخ CID1 را با ip -o -4 addr روی ccmniها تطبیق می‌دهد.
+DNS مشاهده‌شده اپراتور: 10.185.68.114 و 10.185.68.113.
+خطای موقت CME ERROR 5874 در بوت دیده شد؛ تلاش بعدی PDN ACT داد و IP برقرار شد.
+اسکریپت محدود retry می‌کند: فعال‌سازی حداکثر ۱۸ دور با فاصله ۵ ثانیه؛ آماده‌شدن
+D-Bus تا ۲۴ دور با فاصله ۳ ثانیه، timeout هر فراخوانی ۱۵ ثانیه.
+
+۶. انتقال اینترنت به هدیونیت
+هدیونیت از قبل gateway صحیح 172.16.104.20 را در جدول Android netd داشت؛ نبودن
+route در جدول main دلیل نبود مسیر نیست. تنظیم headunit تغییر داده نشد.
+روی تی‌باکس: default dev <uplink> metric 700 و /proc/sys/net/ipv4/ip_forward=1.
+iptables NAT chain VI_TBOX_OUT: MASQUERADE فقط برای
+172.16.104.40/32، 172.16.110.40/32، 172.16.120.40/32 روی uplink واقعی.
+jump از POSTROUTING. هیچ flush عمومی فایروال انجام نشد.
+DNS: VI_TBOX_DNS، ورودی eth2، فقط source=172.16.104.40 و مقصدهای کارخانه
+180.76.76.76،223.5.5.5،114.114.114.114، UDP/TCP53 به 10.185.68.114:53 DNAT.
+این DNS/APN خاص همین آزمایش همراه اول است، تنظیم عمومی همه اپراتورها نیست.
+
+۷. گزارش آنتن واقعی به هدیونیت
+قبل اصلاح اینترنت برقرار ولی هدیونیت type=255/status=0/strength=255 و packet
+00-02-01 می‌گرفت و آنتن خط‌خورده بود. hrild خطای radio srv is not inited داشت.
+Rild::initService در hrild فعلی فقط ModemManage، SimcardManage و VoiceService
+را init می‌کرد. SignalManage::init و DataService::init موجود ولی فراخوانی مستقیم
+نداشتند. rild قدیمی X برای مقایسه init مربوط به Signal را داشت.
+فقط SignalManage راه‌اندازی شد؛ DataService عمداً فعال نشد تا APN/NAT را تغییر ندهد.
+اصل hrild 465000 bytes:
+25b8787e5bfe471abb4329c4128e942dab89544ffab4b7aca3e8901b105ed721
+پچ hrild-signal:
+0396fb7a3d1cf19866e4d02bb6043590dd433873fc38d3650b8def21e647654a
+در callsite 0x1ec0c فراخوانی VoiceService::init به wrapper در فضای صفر 0x6df80
+هدایت شد. wrapper ۶۰ بایت: حفظ args و LR؛ singleton در 0x288e4؛ Signal init در
+0x4121c؛ برگرداندن args؛ Voice init اصلی در 0x44184؛ بازگشت.
+RX PT_LOAD از 0x6df7f تا انتهای wrapper گسترش یافت؛ اندازه فایل و sectionها
+جابجا نشدند. نسخه فعلی Signal init آرگومان callback/runnable را می‌خواند و کپی
+می‌کند؛ مصرف/حذف آرگومان caller ندارد. callback موجود emitInfo استفاده شده است.
+مولد دقیق: binaries/build-signal-patch.py؛ اسمبلی و object نیز ذخیره‌اند.
+مولد Python با pyelftools و clang -target aarch64-linux-gnu کار می‌کند؛ مسیر فایل‌ها
+را از محل خود اسکریپت پیدا می‌کند و وابسته به نام کاربر یا Downloads نیست.
+wrapper unwind metadata جدید ندارد؛ عبور exception از آن آزموده نشده است.
+مسیر device: /usr/local/lib/voyah-tbox/hrild-signal، bind روی
+/mnt/hirain_app/usr/bin/hrild. SIGTERM به hrild؛ supervisor کارخانه دوباره می‌آورد.
+ترتیب بوت مهم: init زودهنگام snapshot نامشخص می‌داد؛ بعد آماده‌شدن PDP یک refresh
+دیگر hrild انجام می‌شود، فقط در بوتی که bind جدید نصب شده است. حلقه restart نداریم.
+handlerهای کارخانه برای تغییرات بعدی حفظ شده‌اند؛ سناریوی خروج از پوشش هنوز تست نشده.
+بعد اصلاح packet=0d-02-01، type=5/status=1/strength=1؛ تصویر هدیونیت 5G بدون خط.
+COPS پاسخ 43211,13 داد. عدد آنتن ساختگی یا آیکون اجباری به UI تزریق نشده است.
+
+۸. ماندگاری فعلی، فایل‌ها و ترتیب بوت
+/usr/local/lib/voyah-tbox روی userdata نوشتنی:
+libvendor-ril.so (پچ)، hrild-signal، bootstrap.sh، connect.sh،
+voyah-tbox-network.service، enabled.
+/home/root/.profile قبلاً وجود نداشت؛ فایل profile آرشیو عین محتوای نصب‌شده است.
+serial-getty کارخانه از قبل root autologin روی ttyS0 داشت؛ از همان استفاده شد.
+profile فقط روی ttyS0 یا ttyGS1 و با وجود enabled، bootstrap را اجرا می‌کند.
+bootstrap unit را به /run/systemd/system کپی، daemon-reload، start --no-block می‌کند.
+unit: oneshot، RemainAfterExit=yes، TimeoutStartSec=240، After=ql-rild.service
+hirain-boot.service. این روش وابسته به serial autologin فعلی است، نه راهکار عمومی.
+connect.sh هش‌ها را کنترل می‌کند، bind/restartها، آماده‌سازی AT/PDP، مسیر/NAT/DNS
+و refresh نهایی گزارش را انجام می‌دهد. اسکریپت نهایی آرشیو مرجع اجرایی دقیق است.
+لاگ‌ها: /tmp/voyah-tbox-bootstrap.log، /tmp/voyah-tbox-network.log و
+/tmp/vi-tbox-final-reg.txt؛ logread برای لاگ سرویس‌ها. journalctl خالی بود.
+
+۹. نتیجه تست‌ها و محدودیت اعتبار
+ثبت شبکه CEREG=0,1؛ ping تی‌باکس و هدیونیت موفق در تست‌های ثبت‌شده.
+HTTPS از هدیونیت با DNS معمولی و بررسی TLS پیش‌فرض curl: HTTP200.
+یک تلاش شبکه در میانه بررسی timeout داشت؛ ادعای پایداری تمام مقصدها نداریم.
+ریبوت اول پچ گزارش، snapshot زودهنگام را آشکار کرد؛ با refresh پس از PDP اصلاح شد.
+ریبوت نهایی بدون فرمان دستی موفق: PID hrild=8231، ccmni5 IP=21.138.34.200،
+packet0d-02-01/status1 و HTTPS200. عکس و log در radio-audit ذخیره‌اند.
+cold-power، sleep/wake خودرو، loss/recovery شبکه، تعویض سیم/APN/اپراتور، roaming،
+مصرف باتری و اثر بر تماس/eCall به شکل جامع تست نشده‌اند.
+
+۱۰. برگشت
+فقط گزارش آنتن: connect-before-signal.sh را جای connect.sh روی device بگذارید،
+chmod755 و ریبوت عادی؛ bind گزارش حذف می‌شود، رادیو/APN باقی می‌ماند.
+همه helper: enabled را حذف و ریبوت عادی کنید؛ bindها و قواعد runtime از بین می‌روند
+و کتابخانه اصلی دوباره فعال می‌شود. این کار APN ذخیره‌شده را الزاماً حذف نمی‌کند.
+برای برگشت کامل CID1 آزمایشی: AT+CGACT=0,1 سپس AT+CGDCONT=1؛ CID0 را حفظ کنید.
+فقط پس از بررسی اینکه CID1 دیگر متعلق به مصرف جدیدی نشده این حذف انجام شود.
+profile را فقط اگر هنوز دقیقاً فایل ساخته‌شده ماست حذف کنید، نه تغییرات بعدی کاربر.
+برگشت فوری lib: umount /lib64/libvendor-ril.so سپس restart ql-rild.service.
+برگشت فوری hrild: umount /mnt/hirain_app/usr/bin/hrild سپس TERM و انتظار supervisor.
+برای برگشت runtime ترجیح با reboot عادی است؛ فایروال را عمومی flush نکنید.
+بک‌آپ کامل داشتن به معنی تضمین بازیابی firmware/MCU نیست.
+
+۱۱. نقشه تبدیل به آپشن وویا ایران — فقط کار آینده
+هنوز API اجرای فرمان روت تی‌باکس از خود اپ Android طراحی/تأیید نشده؛ USB/ADB مک
+مسیر آزمایش بود. اینترنت Ethernet به معنی دسترسی مدیریتی روت از هدیونیت نیست.
+پیش از محصول: روش احراز هویت و ارتباط امن، کشف مدل/firmware، هش پشتیبانی، نصب
+اتمیک و rollback قطع برق، وضعیت مرحله‌ای و جلوگیری از نصب دوباره مشخص شود.
+پچ offset ثابت بدون هش دقیق روی firmware دیگر ممنوع؛ مدل C/E هنوز تست نشده‌اند.
+پکیج دادهٔ نسخه‌دار برای firmwareها، اصل‌ها و manifest امضاشده در نظر گرفته شود.
+APN/DNS را اپراتورمحور/قابل تنظیم کنید؛ CID آزاد انتخاب و سابقه قبل تغییر ذخیره شود.
+CID-to-interface دقیق parse شود؛ تطبیق substring فعلی برای محصول کافی نیست.
+true در D-Bus با موفقیت AT اشتباه نشود. ERROR، timeout، registration، IP، route،
+DNS، HTTPS و گزارش واقعی headunit جدا تست شوند؛ «فعال» فقط بعد معیار موفقیت.
+Timeout240 با سقف retryهای فعلی سازگار نیست؛ بودجه زمانی و retry محصول بازطراحی شود.
+اگر هش hrild ناشناخته بود، رادیو را بی‌صدا نیمه‌نصب نکنید؛ نتیجه جزئی روشن گزارش شود.
+قواعد NAT قدیمی مربوط به uplink قبلی جمع شوند؛ idempotency و disable کامل تعریف شود.
+نیاز به fallback بعد failure init و reconnect پس از sleep/افت شبکه بررسی شود؛
+بدون loop که سیاست خواب خودرو را نقض کند. eCall/MCU/boot-chain دست‌نخورده بمانند.
+جایگزین مناسبی برای وابستگی .profile کارخانه پیدا شود؛ قبل آن از تغییر boot-chain
+پرهیز کنید. هزینه CPU/log و مصرف باتری در حالت پارک اندازه‌گیری شود.
+طبقه اشتراک آپشن جدید هنوز تعیین نشده؛ هنگام پیاده‌سازی طبق سیاست پروژه تعیین شود.
+
+۱۲. فایل‌های مرجع
+radio-audit/persistent: نسخه نهایی و قبل اصلاح گزارش، profile و unit.
+radio-audit/binaries: اصل و پچ هر دو باینری، wrapper و مولد پچ.
+radio-audit/vendor-ril-disassembly.txt: دیس‌اسمبلی مسیر خاموشی رادیو.
+radio-audit/headunit-signal-after-reboot.png و .log: اثبات تصویر/گزارش بعد بوت.
+backup-reference: متادیتا و وضعیت بازیابی؛ تصاویر چندگیگابایتی در مسیر بک‌آپ اصلی‌اند.
+MANIFEST-SHA256.json: اندازه و SHA256 تمام فایل‌های همین آرشیو.
+این آرشیو حاوی dump/log حساس دستگاه است؛ به گیت یا پکیج عمومی اضافه نشود.
+
+۱۳. قرارداد جابه‌جایی و مسیرها (اصلاح 2026-11-08)
+همه مسیرهای میزبان در این راهنما نسبت به پوشه همین فایل هستند. مسیرهای /lib64،
+/mnt و /usr/local مسیر داخل خودرو هستند و باید مطلق بمانند. کل پوشه voyah را
+با ساختار فعلی منتقل کنید؛ تنها کپی مخزن Git شامل بک‌آپ‌های خصوصی نخواهد بود.
+inputs شامل mpu/mcu اصلی و ZIPها و BIN سری C است. live-backup بک‌آپ کامل است.
+historical-radio-audit کپی منتقل‌شده گزارش‌های اولیه است، radio-audit آرشیو نهایی.
+مسیرهای مطلق داخل لاگ خام/متادیتای تاریخی شواهد قدیمی‌اند، مسیر اجرایی فعلی نیستند.
+اسکریپت‌های بک‌آپ ممکن است خروجی قبلی را بازنویسی کنند؛ صرفاً برای اعتبارسنجی اجرا نشوند.
+ADB همراه این آرشیو ابزار مک است؛ روی سیستم عامل دیگر ابزار مناسب را تأمین کنید.

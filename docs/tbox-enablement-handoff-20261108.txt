@@ -1,12 +1,12 @@
 T-box enablement handoff — 2026-11-08
 
 AUTHORITATIVE LOCAL RUNBOOK (Persian):
-/Users/hosseinabrar/voyah/work/tbox-enablement-20261108/TBOX-ENABLEMENT-RUNBOOK.fa.txt
+../work/tbox-enablement-20261108/TBOX-ENABLEMENT-RUNBOOK.fa.txt
 
 Archive includes final installed scripts, original/patched binaries, exact patch
 builder, disassembly, logs, reboot screenshot, backup metadata and SHA256 manifest.
 Do not add device dumps/binaries/logs to Git or a public app package.
-Full original backup remains /Users/hosseinabrar/Downloads/tbox-live-backup-20261108.
+Full original backup remains ../work/tbox-enablement-20261108/live-backup.
 
 Verified on H97X3630812AF TBOX 2.0.7 only: carrier-triggered radio-off bypass,
 MCI mcinet CID1 PDP, dynamic ccmni routing/NAT/DNS to headunit, factory SignalManage
@@ -19,3 +19,8 @@ resuming. Firmware hash guards and rollback are mandatory; direct offsets are NO
 portable. Sleep/wake, cold power, network loss and eCall regression remain untested.
 No proven hard-brick recovery. Product transport/security/entitlement undecided.
 Do not confuse older stage reports with final installed state.
+
+Host paths above are relative to the repository root (voyah-iran), not this docs directory.
+The complete guide is also tracked at docs/tbox-enablement-runbook-20261108.fa.txt.
+Move/copy the entire parent voyah folder to preserve private artifacts alongside Git.
+Raw logs retain historical paths as evidence; these are not current lookup paths.
