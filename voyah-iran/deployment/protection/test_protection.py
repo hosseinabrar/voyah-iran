@@ -315,3 +315,20 @@ class CompilerClasspathPreflightTests(unittest.TestCase):
             result = compiler_classpath(root / "tool.jar", root / "classes", ("example/A.class",))
             self.assertTrue(result.is_absolute())
             self.assertEqual(b"class", (result / "example/A.class").read_bytes())
+
+
+class ProtectionAbiTests(unittest.TestCase):
+    def test_shell_abis_follow_input_apk(self):
+        import tempfile, zipfile
+        from pathlib import Path
+        from protect_raha import dpt_abi_options
+        for abis, expected in [(["arm64-v8a"], ["-e", "arm,x86,x86_64"]),
+                               (["armeabi-v7a", "arm64-v8a"], ["-e", "x86,x86_64"]),
+                               (["armeabi-v7a", "arm64-v8a", "x86", "x86_64"], []),
+                               ([], [])]:
+            with tempfile.TemporaryDirectory() as tmp:
+                apk = Path(tmp) / "input.apk"
+                with zipfile.ZipFile(apk, "w") as z:
+                    for abi in abis:
+                        z.writestr(f"lib/{abi}/libtest.so", b"native")
+                self.assertEqual(expected, dpt_abi_options(apk))

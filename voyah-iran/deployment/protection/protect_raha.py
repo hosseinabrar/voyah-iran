@@ -417,6 +417,22 @@ def validate_sealed_assets(apk):
         require(not unexpected, "Unexpected Raha asset: " + ", ".join(unexpected))
 
 
+def native_abis(apk):
+    with zipfile.ZipFile(apk) as archive:
+        return {name.split("/")[1] for name in archive.namelist()
+                if name.startswith("lib/") and name.endswith(".so")}
+
+
+def dpt_abi_options(apk):
+    # DPT otherwise adds its shell for every ABI, undoing Gradle's filtering.
+    names = {"arm": "armeabi-v7a", "arm64": "arm64-v8a", "x86": "x86", "x86_64": "x86_64"}
+    present = native_abis(apk)
+    if not present:
+        return []
+    excluded = [name for name, abi in names.items() if abi not in present]
+    return ["-e", ",".join(excluded)] if excluded else []
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--java", required=True, type=Path)
@@ -454,7 +470,7 @@ def main():
     print(f"Protecting {len(targets)} application classes; original APK preserved.", flush=True)
     print(f"Protection log: {log}", flush=True)
     run([java, "-jar", tool, "-f", output / "input.apk", "-K", "-r", rules,
-         "-x", "-o", unsigned], tool.parent, log)
+         "-x", *dpt_abi_options(apk), "-o", unsigned], tool.parent, log)
     if not unsigned.is_file():
         tool_failure("DPT exited successfully but did not produce the requested output APK", log)
     # Preserve the runtime's MIT notice in the redistributed APK. The signing
@@ -462,6 +478,9 @@ def main():
     license_text = Path(__file__).with_name("DPT-LICENSE.txt").read_text(encoding="utf-8")
     with zipfile.ZipFile(unsigned, "a") as z:
         z.writestr("assets/NOTICE-dpt-shell.txt", f"dpt-shell {VERSION}\n{REPO}\n\n" + license_text)
+    input_abis = native_abis(apk)
+    if input_abis:
+        require(native_abis(unsigned) == input_abis, "DPT changed the supported native ABIs")
     after, _ = apk_inventory(unsigned)
     require(not targets.keys() & after.keys(), "Protected application classes are still in ordinary DEX")
     for name, methods in inventory.items():

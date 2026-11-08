@@ -21,6 +21,8 @@ android {
     buildToolsVersion = "37.0.0"
     defaultConfig {
         applicationId = "com.abrar.voyahiran"
+        // Supported vehicle head units run ARM64. Do not package phone/emulator ABIs.
+        ndk { abiFilters += "arm64-v8a" }
         minSdk = 28
         targetSdk = 32
         versionCode = 23
