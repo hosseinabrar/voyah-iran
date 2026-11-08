@@ -39,6 +39,34 @@ class RahaFeedbackDesignTest {
    feedback.close();assertEquals(0,host.childCount)
   } finally { feedback.close();controller.pause().stop().destroy() }
  }
+ @Test fun promptChildrenReceiveBoundsAfterLayoutCallbacks() {
+  val controller=Robolectric.buildActivity(Activity::class.java).setup()
+  val a=controller.get();val host=FrameLayout(a);a.setContentView(host)
+  val feedback=RahaFeedback(a,{},host=host)
+  fun traverse() {
+   repeat(6) {
+    host.measure(View.MeasureSpec.makeMeasureSpec(1920,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(720,View.MeasureSpec.EXACTLY))
+    host.layout(0,0,1920,720)
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(20))
+   }
+  }
+  try {
+   feedback.begin(manual=true);traverse()
+   feedback.prompt("کدام مخاطب؟",(1..14).map { "مخاطب $it" }){};traverse()
+   val panel=host.findViewById<ViewGroup>(com.abrar.raha.feedback.R.id.rahaPrompt)
+   assertTrue(panel.childCount>1)
+   for (v in children(panel).filterIsInstance<TextView>()) {
+    assertTrue("text has zero width",v.width>0)
+    assertTrue("text has zero height",v.height>0)
+    assertTrue("text falls outside panel",v.bottom<=panel.height)
+   }
+   assertTrue(panel.height>100)
+   feedback.prompt("تماس بگیرم؟",listOf("مخاطب"),confirmation=true){};traverse()
+   for (v in children(panel).filterIsInstance<TextView>()) {
+    assertTrue(v.width>0);assertTrue(v.height>0)
+   }
+  } finally { feedback.close();controller.pause().stop().destroy() }
+ }
  private fun children(v:View):List<View> = listOf(v)+(if(v is ViewGroup)(0 until v.childCount).flatMap { children(v.getChildAt(it)) } else emptyList())
  @Test fun confirmationKeepsRtlQuestionAndRoutesAnswersAndTheme() {
   val controller=Robolectric.buildActivity(Activity::class.java).setup()
@@ -53,6 +81,9 @@ class RahaFeedbackDesignTest {
    val question=children(host).filterIsInstance<TextView>().first { it.text.toString().startsWith("با ناهید") }
    val row=question.parent as ViewGroup
    row.measure(View.MeasureSpec.makeMeasureSpec(680,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED));row.layout(0,0,680,row.measuredHeight)
+   assertTrue(question.width>0);assertTrue(question.height>0)
+   assertEquals(1f, question.alpha, 0f)
+   assertEquals(1f, View::class.java.getMethod("getTransitionAlpha").invoke(question) as Float, 0f)
    assertTrue("question=${question.left}, answer=${buttons.last().right}",question.left>buttons.last().right)
    assertFalse(host.findViewById<RahaOrbView>(com.abrar.raha.feedback.R.id.orb).light)
    feedback.speech(true)

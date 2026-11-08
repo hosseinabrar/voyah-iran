@@ -101,12 +101,24 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
         this.confirmation=confirmation
         promptText=text; promptChoices=choices; promptSelect=selected
         renderPrompt(); refresh()
+        root?.post {
+            val panel=root?.findViewById<ViewGroup>(R.id.rahaPrompt)
+            Log.i("RahaFeedback", "prompt confirmation=$confirmation choices=${promptChoices.size} questionChars=${promptText.length} panel=${panel?.width}x${panel?.height} children=${panel?.childCount} visible=${panel?.visibility}")
+        }
         if(showing) playReady()
+    }
+    private val promptRelayout = Runnable { if (!closed) renderPrompt() }
+    private fun schedulePromptLayout() {
+        // Never remove/add children from inside their parent's layout traversal.
+        // requestLayout can be swallowed there, leaving new children at 0x0.
+        main.removeCallbacks(promptRelayout)
+        main.post(promptRelayout)
     }
     private fun renderPrompt() {
         val panel=root?.findViewById<android.widget.LinearLayout>(R.id.rahaPrompt) ?: return
-        if(panel.isLaidOut) android.transition.TransitionManager.beginDelayedTransition(panel,
-            android.transition.Fade().apply { duration=180 })
+        // Relayout rebuilds children; overlapping Fade transitions can leave replacement
+        // content at zero transitionAlpha. Entrance/exit belongs to the overlay itself.
+        android.transition.TransitionManager.endTransitions(panel)
         panel.removeAllViews()
         panel.orientation=android.widget.LinearLayout.VERTICAL
         panel.visibility=if(promptText.isBlank()) View.GONE else View.VISIBLE
@@ -275,10 +287,17 @@ class RahaFeedback(private val context: Context, private val cancel: () -> Unit,
                 view.alpha=0f;view.scaleX=.96f;view.scaleY=.96f
                 view.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(220).start()
                 view.addOnLayoutChangeListener { _,l,t,r,b,oldL,oldT,oldR,oldB ->
-                    if(r-l!=oldR-oldL || b-t!=oldB-oldT) renderPrompt()
+                    if(r-l!=oldR-oldL || b-t!=oldB-oldT) schedulePromptLayout()
                 }
-                view.findViewById<View>(R.id.rahaPrompt).addOnLayoutChangeListener { _,l,t,r,_,oldL,oldT,oldR,_ ->
-                    if(t!=oldT || r-l!=oldR-oldL) renderPrompt()
+                view.findViewById<View>(R.id.rahaPrompt).addOnLayoutChangeListener { panel,l,t,r,b,oldL,oldT,oldR,oldB ->
+                    if(t!=oldT || r-l!=oldR-oldL) schedulePromptLayout()
+                    if(promptText.isNotBlank() && (b-t!=oldB-oldT || r-l!=oldR-oldL)) {
+                        val group=panel as ViewGroup
+                        val bounds=(0 until group.childCount).joinToString { i ->
+                            group.getChildAt(i).let { "${it.width}x${it.height}@${it.top}" }
+                        }
+                        Log.i("RahaFeedback", "prompt layout=${r-l}x${b-t} childBounds=$bounds")
+                    }
                 }
                 applyTheme(); renderPrompt()
             } catch(e:Exception) { Log.e("RahaFeedback","overlay failed",e) }
