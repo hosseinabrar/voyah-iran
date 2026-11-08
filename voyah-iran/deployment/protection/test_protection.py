@@ -234,3 +234,84 @@ class RahaSealingProtectionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ProtectionDiagnosticsTests(unittest.TestCase):
+    def test_exit_zero_missing_output_exposes_internal_log(self):
+        import tempfile
+        from pathlib import Path
+        from protect_raha import tool_failure
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / "protection.log"
+            log.write_text("java.nio.file.AccessDeniedException: output.apk\n", encoding="utf-8")
+            with self.assertRaisesRegex(RuntimeError, "AccessDeniedException"):
+                tool_failure("DPT output missing", log)
+
+    def test_log_tail_is_bounded_and_handles_non_utf8(self):
+        import tempfile
+        from pathlib import Path
+        from protect_raha import tool_failure
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / "protection.log"
+            log.write_bytes(b"x" * 100000 + b"\nerror: \xff\n")
+            with self.assertRaises(RuntimeError) as raised:
+                tool_failure("DPT output missing", log)
+            self.assertLess(len(str(raised.exception)), 17000)
+            self.assertIn("error:", str(raised.exception))
+
+
+class CompilerClasspathTests(unittest.TestCase):
+    def test_extracts_exact_classes_not_processors_or_resources(self):
+        import tempfile, zipfile
+        from pathlib import Path
+        from protect_raha import compiler_classpath
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            jar = root / "tool.jar"
+            with zipfile.ZipFile(jar, "w") as z:
+                z.writestr("example/Nested$Class.class", b"exact class bytes")
+                z.writestr("META-INF/services/javax.annotation.processing.Processor", b"bad")
+                z.writestr("META-INF/versions/21/example/A.class", b"versioned")
+                z.writestr("assets/shell.dex", b"resource")
+            result = compiler_classpath(jar, root / "classes")
+            self.assertEqual(b"exact class bytes", (result / "example/Nested$Class.class").read_bytes())
+            self.assertEqual(1, len(list(result.rglob("*.class"))))
+            self.assertFalse((result / "META-INF").exists())
+            self.assertFalse((result / "assets").exists())
+
+    def test_rejects_escape_from_classpath(self):
+        import tempfile, zipfile
+        from pathlib import Path
+        from protect_raha import compiler_classpath
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with zipfile.ZipFile(root / "tool.jar", "w") as z:
+                z.writestr("../escape.class", b"bad")
+            with self.assertRaisesRegex(RuntimeError, "Invalid compiler class path"):
+                compiler_classpath(root / "tool.jar", root / "classes")
+            self.assertFalse((root / "escape.class").exists())
+
+
+class CompilerClasspathPreflightTests(unittest.TestCase):
+    def test_missing_dependency_fails_before_javac(self):
+        import tempfile, zipfile
+        from pathlib import Path
+        from protect_raha import compiler_classpath
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with zipfile.ZipFile(root / "tool.jar", "w") as z:
+                z.writestr("other.class", b"class")
+            with self.assertRaisesRegex(RuntimeError, "classpath is incomplete: missing.class"):
+                compiler_classpath(root / "tool.jar", root / "classes", ("missing.class",))
+
+    def test_returns_absolute_classpath_with_spaces(self):
+        import tempfile, zipfile
+        from pathlib import Path
+        from protect_raha import compiler_classpath
+        with tempfile.TemporaryDirectory(prefix="compiler space ") as tmp:
+            root = Path(tmp)
+            with zipfile.ZipFile(root / "tool.jar", "w") as z:
+                z.writestr("example/A.class", b"class")
+            result = compiler_classpath(root / "tool.jar", root / "classes", ("example/A.class",))
+            self.assertTrue(result.is_absolute())
+            self.assertEqual(b"class", (result / "example/A.class").read_bytes())

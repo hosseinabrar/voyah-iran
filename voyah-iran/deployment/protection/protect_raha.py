@@ -49,13 +49,52 @@ def fetch(url, expected, path):
     return path.read_bytes()
 
 
+def tool_failure(message, logfile):
+    """Expose the captured tool failure in IDE output, including exit-zero failures."""
+    tail = ""
+    if logfile.is_file():
+        with logfile.open("rb") as stream:
+            stream.seek(0, 2)
+            stream.seek(max(0, stream.tell() - 16000))
+            tail = stream.read().decode("utf-8", errors="replace")
+        tail = "\n".join(tail.splitlines()[-100:])
+    raise RuntimeError(f"{message}\nFull protection log: {logfile}\n--- DPT log tail ---\n{tail}")
+
+
 def run(args, cwd, logfile, timeout=600):
     # No signing passwords ever enter this process or its log.
     with logfile.open("ab") as log:
         log.write((json.dumps([str(a) for a in args]) + "\n").encode())
+        log.flush()
         result = subprocess.run([str(a) for a in args], cwd=cwd, stdout=log,
                                 stderr=subprocess.STDOUT, timeout=timeout)
-    require(result.returncode == 0, "Tool failed; see " + str(logfile))
+    if result.returncode != 0:
+        tool_failure(f"Tool failed with exit code {result.returncode}", logfile)
+
+
+def compiler_classpath(jar, directory, required=()):
+    """Avoid javac ZipFileSystem.close AccessDeniedException on Windows JDK 21.
+
+    Only compiler inputs are unpacked; DPT execution and its verified JAR remain
+    unchanged. A fresh directory prevents stale classes from entering the build.
+    """
+    directory = directory.resolve()
+    directory.mkdir()
+    extracted = set()
+    with zipfile.ZipFile(jar) as archive:
+        for item in archive.infolist():
+            if not item.filename.endswith(".class") or item.filename.startswith("META-INF/"):
+                continue
+            destination = (directory / item.filename).resolve()
+            require(destination.is_relative_to(directory.resolve()), "Invalid compiler class path")
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            content = archive.read(item)
+            destination.write_bytes(content)
+            require(destination.read_bytes() == content, "Compiler class extraction mismatch: " + item.filename)
+            extracted.add(item.filename)
+    missing = sorted(set(required) - extracted)
+    require(not missing, "Compiler classpath is incomplete: " + ", ".join(missing))
+    return directory
 
 
 def prepare_tool(java, cache, log):
@@ -86,7 +125,12 @@ def prepare_tool(java, cache, log):
     classes.mkdir()
     javac = java.with_name("javac.exe" if sys.platform == "win32" else "javac")
     require(javac.exists(), "A full JDK is required, not only a Java runtime")
-    run([javac, "-encoding", "UTF-8", "--release", "17", "-cp", original,
+    classpath = compiler_classpath(original, directory / "compiler-classpath", (
+        "com/android/tools/smali/dexlib2/Opcode.class",
+        "com/android/tools/smali/dexlib2/builder/MutableMethodImplementation.class",
+        "com/luoye/dpt/config/ProtectRules.class",
+        "com/luoye/dpt/dex/DexStringDecryptBuilder.class"))
+    run([javac, "-proc:none", "-encoding", "UTF-8", "--release", "17", "-cp", classpath,
          "-d", classes, src], directory, log)
     patched = tool / "dpt-voyah.jar"
     replacements = {p.relative_to(classes).as_posix(): p.read_bytes()
@@ -241,7 +285,10 @@ def dependency_graph(java, tool, apk, output, log):
     classes.mkdir()
     source = Path(__file__).with_name("DexDependencies.java")
     javac = java.with_name("javac.exe" if sys.platform == "win32" else "javac")
-    run([javac, "-encoding", "UTF-8", "--release", "17", "-cp", tool,
+    classpath = compiler_classpath(tool, output / "compiler-classpath", (
+        "com/android/tools/smali/dexlib2/DexFileFactory.class",
+        "com/android/tools/smali/dexlib2/iface/DexFile.class"))
+    run([javac, "-proc:none", "-encoding", "UTF-8", "--release", "17", "-cp", classpath,
          "-d", classes, source], output, log)
     import os
     graph_file = output / "dependencies.tsv"
@@ -405,9 +452,11 @@ def main():
     rules.write_text("(?!(?:" + "|".join(re.escape(t) for t in sorted(targets)) + ")$).*\n", encoding="utf-8")
     unsigned = output / "raha-protected-unsigned.apk"
     print(f"Protecting {len(targets)} application classes; original APK preserved.", flush=True)
+    print(f"Protection log: {log}", flush=True)
     run([java, "-jar", tool, "-f", output / "input.apk", "-K", "-r", rules,
          "-x", "-o", unsigned], tool.parent, log)
-    require(unsigned.is_file(), "DPT did not produce an output APK")
+    if not unsigned.is_file():
+        tool_failure("DPT exited successfully but did not produce the requested output APK", log)
     # Preserve the runtime's MIT notice in the redistributed APK. The signing
     # step runs zipalign again after this ZIP update.
     license_text = Path(__file__).with_name("DPT-LICENSE.txt").read_text(encoding="utf-8")
