@@ -8,8 +8,21 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk=[30],manifest=Config.NONE,application=android.app.Application::class)
+@Config(sdk=[28,30],manifest=Config.NONE,application=android.app.Application::class)
 class OemPhoneBridgeTest {
+    @Test fun bridgeSqliteBootstrapWorksOnSupportedAndroidVersions() {
+        BridgeSqliteBootstrap.prepare()
+        database().use { db -> assertEquals(0, OemPhoneBridge.readPage(db, phone, 0).getJSONArray("contacts").length()) }
+    }
+    @Test fun failureDiagnosticsIncludeCauseAndFramesButNeverContactValues() {
+        val cause = SecurityException("private contact 09121234567")
+        cause.stackTrace = arrayOf(StackTraceElement("android.database.sqlite.SQLiteCompatibilityWalFlags", "initIfNeeded", "SQLiteCompatibilityWalFlags.java", 101))
+        val trace = phoneFailureTrace(java.lang.reflect.InvocationTargetException(cause))
+        assertTrue(trace.contains("SecurityException"))
+        assertTrue(trace.contains("SQLiteCompatibilityWalFlags.initIfNeeded:101"))
+        assertFalse(trace.contains("09121234567"))
+        assertFalse(trace.contains("private contact"))
+    }
     private val phone="AA:BB:CC:DD:EE:FF"
     private fun database()=SQLiteDatabase.create(null).apply {
         // Exact schema from BluetoothPhone ContactsProvider.DBOpenHelper; deliberately no _id.

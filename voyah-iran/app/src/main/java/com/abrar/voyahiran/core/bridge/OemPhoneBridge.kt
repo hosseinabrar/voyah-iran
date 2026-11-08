@@ -13,37 +13,48 @@ internal object OemPhoneBridge {
     private fun activePhone(): String = (Class.forName("android.os.SystemProperties")
         .getMethod("get", String::class.java).invoke(null, "qinggan.bluetooth.mac") as String)
         .trim().uppercase().also { check(it.matches(Regex("[0-9A-F]{2}(?::[0-9A-F]{2}){5}"))) { "PHONE_DISCONNECTED" } }
-    fun execute(args: List<String>): CommandResult = try {
-        val mac = activePhone()
-        if (args[1] == "device") CommandResult(0, JSONObject().put("device", mac).toString())
-        else if(args[1]=="dial" && args[3] in com.abrar.raha.RahaDefaultContacts.numbers) {
-            check(mac==args[2]) { "PHONE_CHANGED" }
-            dispatch(mac,args[3])
-        } else {
-            check(mac == args[2]) { "PHONE_CHANGED" }
-            val file = listOf("/data/user/0/$PACKAGE/databases/contacts.db", "/data/data/$PACKAGE/databases/contacts.db")
-                .map(::File).firstOrNull(File::isFile) ?: error("PHONEBOOK_UNAVAILABLE")
-            SQLiteDatabase.openDatabase(file.path, null, SQLiteDatabase.OPEN_READONLY).use { db ->
-                if (args[1] == "read") {
-                    val page=readPage(db,mac,args[3].toLong())
-                    check(activePhone() == mac) { "PHONE_CHANGED" }
-                    CommandResult(0,page.toString())
-                } else {
-                    check(BridgeSubscriptionSession.active) { "SUBSCRIPTION_INACTIVE" }
-                    val number = args[3]
-                    // The caller cannot use this operation to dial arbitrary numbers or USSD.
-                    var found = false
-                    db.query("contactsinfo", arrayOf("number"), "upper(mac)=?", arrayOf(mac), null, null, null).use { c ->
-                        while (c.moveToNext()) if (c.getString(0).orEmpty().replace(Regex("[\\s()\\-]"), "") == number) found = true
+    fun execute(args: List<String>): CommandResult {
+        var stage = "device"
+        return try {
+            val mac = activePhone()
+            if (args[1] == "device") CommandResult(0, JSONObject().put("device", mac).toString())
+            else if(args[1]=="dial" && args[3] in com.abrar.raha.RahaDefaultContacts.numbers) {
+                check(mac==args[2]) { "PHONE_CHANGED" }
+                dispatch(mac,args[3])
+            } else {
+                check(mac == args[2]) { "PHONE_CHANGED" }
+                stage = "locate-database"
+                val file = listOf("/data/user/0/$PACKAGE/databases/contacts.db", "/data/data/$PACKAGE/databases/contacts.db")
+                    .map(::File).firstOrNull(File::isFile) ?: error("PHONEBOOK_UNAVAILABLE")
+                stage = "sqlite-bootstrap"
+                BridgeSqliteBootstrap.prepare()
+                stage = "open-database"
+                SQLiteDatabase.openDatabase(file.path, null, SQLiteDatabase.OPEN_READONLY).use { db ->
+                    if (args[1] == "read") {
+                        stage = "query-page"
+                        val page=readPage(db,mac,args[3].toLong())
+                        stage = "verify-device"
+                        check(activePhone() == mac) { "PHONE_CHANGED" }
+                        CommandResult(0,page.toString())
+                    } else {
+                        check(BridgeSubscriptionSession.active) { "SUBSCRIPTION_INACTIVE" }
+                        val number = args[3]
+                        // The caller cannot use this operation to dial arbitrary numbers or USSD.
+                        stage = "query-dial-contact"
+                        var found = false
+                        db.query("contactsinfo", arrayOf("number"), "upper(mac)=?", arrayOf(mac), null, null, null).use { c ->
+                            while (c.moveToNext()) if (c.getString(0).orEmpty().replace(Regex("[\\s()\\-]"), "") == number) found = true
+                        }
+                        check(found && activePhone() == mac) { "CONTACT_UNAVAILABLE" }
+                        stage = "dispatch-call"
+                        dispatch(mac,number)
                     }
-                    check(found && activePhone() == mac) { "CONTACT_UNAVAILABLE" }
-                    dispatch(mac,number)
                 }
             }
+        } catch (e: Exception) {
+            com.abrar.voyahiran.core.logging.AppLog.info("RahaContacts", "OEM phone operation=${args.getOrNull(1)?.takeIf { it in setOf("device","read","dial") }} stage=$stage sdk=${android.os.Build.VERSION.SDK_INT} pid=${android.os.Process.myPid()} uid=${android.os.Process.myUid()} ${phoneFailureTrace(e)}")
+            CommandResult(1, "Phone unavailable, disconnected, changed, or phonebook not synchronized")
         }
-    } catch (e: Exception) {
-        com.abrar.voyahiran.core.logging.AppLog.info("RahaContacts", "OEM phone operation=${args.getOrNull(1)} failed type=${e.javaClass.simpleName}")
-        CommandResult(1, "Phone unavailable, disconnected, changed, or phonebook not synchronized")
     }
     /** OEM schema contains only name/mac/number; it has no Android-style _id column. */
     internal fun readPage(db:SQLiteDatabase, mac:String, after:Long):JSONObject {
@@ -72,4 +83,19 @@ internal object OemPhoneBridge {
             CommandResult(0, "CALL_DISPATCHED") else CommandResult(1, "CALL_DISPATCH_FAILED")
     }
 
+}
+
+/** Exception messages/arguments can contain contact data; log only types and code locations. */
+internal fun phoneFailureTrace(error: Throwable): String {
+    val seen = java.util.Collections.newSetFromMap(java.util.IdentityHashMap<Throwable, Boolean>())
+    val chain = mutableListOf<String>()
+    var current: Throwable? = error
+    while (current != null && chain.size < 6 && seen.add(current)) {
+        val failure = current
+        chain += failure.javaClass.name + "[" + failure.stackTrace.take(10).joinToString(" <- ") {
+            "${it.className}.${it.methodName}:${it.lineNumber}"
+        } + "]"
+        current = failure.cause
+    }
+    return chain.joinToString(" causedBy=")
 }
