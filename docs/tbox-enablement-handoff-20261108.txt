@@ -24,3 +24,12 @@ Host paths above are relative to the repository root (voyah-iran), not this docs
 The complete guide is also tracked at docs/tbox-enablement-runbook-20261108.fa.txt.
 Move/copy the entire parent voyah folder to preserve private artifacts alongside Git.
 Raw logs retain historical paths as evidence; these are not current lookup paths.
+
+2026-11-09 — standalone kit requested by owner:
+TBox-antenna/ contains prebuilt patches (explicit owner authorization to keep
+these two binaries and bundled ADB in Git), install_win.cmd and install_mac.command.
+It checks 2.0.7 and known binary hashes; it does not pull and modify firmware.
+Original raw dumps and private logs remain outside Git. APN selection is SIM-based.
+Kit has offline tests only; the earlier vehicle test covered the source patches,
+not this installer. The old enabled research helper is rejected to avoid competing
+startup scripts. Read TBox-antenna/README.txt before distribution or migration.

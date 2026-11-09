@@ -1,0 +1,3 @@
+Iran APN entries derived from Android Open Source Project device/sample/etc/apns-full-conf.xml.
+Copyright The Android Open Source Project. Licensed under Apache License 2.0.
+Source and snapshot SHA256: payload/iran-apns-source.json.

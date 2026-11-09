@@ -1,0 +1,71 @@
+{
+  "source": "https://android.googlesource.com/device/sample/+/refs/heads/main/etc/apns-full-conf.xml?format=TEXT",
+  "sha256": "9e44015793ec01d0773123103dca19b181fbc5fdd43cfc1b1d5cfacbda622726",
+  "entries": [
+    {
+      "carrier": "shatelmobile",
+      "mcc": "432",
+      "mnc": "08",
+      "apn": "shatelmobile",
+      "type": "default,ia,supl",
+      "protocol": "IPV4V6",
+      "roaming_protocol": "IPV4V6"
+    },
+    {
+      "carrier": "MCI-GPRS",
+      "carrier_id": "1562",
+      "mcc": "432",
+      "mnc": "11",
+      "apn": "mcinet",
+      "type": "default,ia,supl"
+    },
+    {
+      "carrier": "MCI-GPRS",
+      "carrier_id": "1563",
+      "mcc": "432",
+      "mnc": "14",
+      "apn": "mcinet",
+      "type": "default,ia,supl"
+    },
+    {
+      "carrier": "MCI-GPRS",
+      "carrier_id": "1564",
+      "mcc": "432",
+      "mnc": "19",
+      "apn": "mcinet",
+      "type": "default,ia,supl"
+    },
+    {
+      "carrier": "rightel",
+      "carrier_id": "1987",
+      "mcc": "432",
+      "mnc": "20",
+      "apn": "rightel",
+      "type": "default,ia,supl"
+    },
+    {
+      "carrier": "Irancell-GPRS",
+      "carrier_id": "1967",
+      "mcc": "432",
+      "mnc": "35",
+      "apn": "mtnirancell",
+      "type": "default,ia,supl"
+    },
+    {
+      "carrier": "MCI-GPRS",
+      "carrier_id": "2352",
+      "mcc": "432",
+      "mnc": "70",
+      "apn": "mcinet",
+      "type": "default,ia,supl"
+    },
+    {
+      "carrier": "MCI-GPRS",
+      "carrier_id": "2358",
+      "mcc": "432",
+      "mnc": "93",
+      "apn": "mcinet",
+      "type": "default,ia,supl"
+    }
+  ]
+}

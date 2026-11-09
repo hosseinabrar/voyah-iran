@@ -1,0 +1,9 @@
+[Unit]
+Description=TBox antenna and headunit network
+After=ql-rild.service hirain-boot.service
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /usr/local/lib/TBox-antenna/connect.sh
+ExecStopPost=/bin/sh /usr/local/lib/TBox-antenna/after-stop.sh
+RemainAfterExit=yes
+TimeoutStartSec=900

@@ -1,0 +1,11 @@
+*.sh text eol=lf
+*.command text eol=lf
+*.service text eol=lf
+*.tsv text eol=lf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+payload/* -text
+payload/*.sh text eol=lf
+payload/*.service text eol=lf
+payload/*.tsv text eol=lf
+payload/*.json text eol=lf
