@@ -1,0 +1,18 @@
+TBox VT/C radio repair — 2026-11-14
+
+On owner H97X with full VT 2.2.2VTR1.9 installed, SIM READY and CFUN1 but no operator/data registration; COPS scan returned empty list. APN changes and X RIL-only trial did not restore reception.
+
+Successful change: restore ONLY known-working X radio modem + DSP payloads to active B partitions md1img_b and md1dsp_b. Keep VT MCU, MPU boot chain/kernel/appfwk/RIL/remotecontrol unchanged. X cached FIT modem files contain legacy LZ4 data; decompressed payloads have compatible MediaTek headers. Verify lengths, internal sections, image hashes and full flash readback. Do not flash old FIT containers blindly.
+
+Private archive relative to repo: ../work/tbox-radio-repair-20261114/
+- X-radio-installed.json: exact payload SHA256 and sizes.
+- pre-radio-swap/: original C modem/DSP and live NVM snapshots, manifest.
+- *-flash.log: write/readback evidence.
+- STATUS.txt and final-reboot-verification.txt: state and rollback notes.
+Original input: ../work/tbox-enablement-20261108/live-backup/recovery-audit/cached-release/mpu.zip
+
+Result: registration restored, ccmni IPv4, default HTTPS HTTP200; owner confirmed headunit internet and antenna icon. A second ordinary reboot independently restored data and HTTPS200 without temporary mounts or manual settings. Final boot_id 875b67c2-aa2c-47ef-9975-28e22f439422. This validates radio on this device, not remote CAN operation or all mixed-firmware combinations.
+
+Repeated earlier ~15-minute MPU reboots were explicitly modemanager NoNetReboot, not proven crashes. enable_no_net_reboot=0 in a temporary modemanager XML bind mount suppressed that test interruption. Final reboot removed it; factory settings remain. No persistent APN/NAT patch added in this repair.
+
+Rollback: use preserved C md1img_b.bin and md1dsp_b.bin only, exact partition and SHA256 guards, mtdimg write/readback then reboot. Do not erase calibration, nvram, nvdata, protect or boot chain. Live NVM snapshots are not atomic. Current VT RIL hash ef1a3e4500ec773d432db5dc1e2cb29e54565251914f26b21890e5751663d803.

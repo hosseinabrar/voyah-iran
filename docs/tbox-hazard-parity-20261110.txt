@@ -1,0 +1,41 @@
+Hazard-only X/C comparison — 2026-11-10
+Status: partial offline trace plus live encoding verification; NO firmware patch.
+
+Reproduce: ../work/tbox-hazard-parity-20261110/audit.py using
+../work/tbox-remote-tools/bin/python. Inputs resolve relative to parent work.
+X MPU is direct active-slot backup; X MCU is cached App, not live flash readback.
+C is the supplied 2.2.1 package. Private outputs include source XML and bounded
+Thumb disassembly; literal pools are not executable code.
+
+Confirmed:
+- Both dbc/can-in.xml define tbox_HazardLightReq at startbit26, length2,
+  in 0x58. C hazard_on atom specifies value2; hazard_off specifies value1.
+- Live X factory encoder signaltomsg followed by msgtosend produces
+  value1 -> 0000000200000000, value2 -> 0000000400000000.
+  Thus diagnostics/live_vns.py existing hazard-on payload is CORRECT.
+  Initial manual shift inference was wrong (wire encoding is not plain
+  little-endian bit shifting); no payload change was applied.
+- C hazard_on precondition accepts OFF, or ON with remoteMode2;
+  it explicitly refuses ON with nonremote mode. Do not infer universal
+  ON support from absence of documentation in another product.
+- C atom uses authenticated channel0, interval2, count3, clear_count0.
+  Existing X list item bytes at +4..+7 are 1,3,2,0; their field
+  names have NOT been independently verified (do not call byte+4 channel).
+  The channel field's semantic mapping through X/C encoders/MCU is NOT
+  established; no blind channel change was sent. Investigate this delta.
+- X MCU handler0x100426e6 queues 0x58 payload at request+0x12 via
+  0x1004234c. C handler0x10042536 copies request+0x11 into buffer
+  0x080091ec+0x21 and sets scheduler fields +0x2c=2,+0x2b=0,
+  +0x29=previous+0x2a. These offsets match their distinct MPU formats;
+  changing X offset alone would corrupt payload, not port C behavior.
+- Both select auth class1 for0x58 and wait for challenge. C retry path
+  0x10069d98 sets +0x2c=2; X retries via its queue helper. C threshold
+  0xc8 is loop-count based; X timer0x7d0 cannot be compared numerically
+  without tick/call frequency. No justified timeout patch established.
+
+Remaining: channel field mapping, full TX scheduling/driver equivalence,
+challenge RX path, verified current MCU image and independent recovery.
+A failed partial C port cannot isolate BCM vs TBox: the port itself is
+an additional possible fault. No conclusion that remaining fault is
+outside our ability to modify. No flash, auth bypass, or ECU command sent
+in this investigation; live encode calls only form a buffer locally.

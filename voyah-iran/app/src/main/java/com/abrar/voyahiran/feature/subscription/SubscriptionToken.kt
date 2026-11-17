@@ -7,7 +7,7 @@ import java.security.spec.X509EncodedKeySpec
 import java.util.Base64
 import org.json.JSONObject
 
-data class SubscriptionGrant(val vin: String, val issuedAt: Long, val expiresAt: Long, val vipUser: Boolean = true)
+data class SubscriptionGrant(val vin: String, val issuedAt: Long, val expiresAt: Long, val vipUser: Boolean = true, val remoteAccess: Boolean = false)
 class SubscriptionToken(publicPem: String) {
     private val decoder = Base64.getUrlDecoder()
     private val der = Base64.getMimeDecoder().decode(publicPem.replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", ""))
@@ -34,7 +34,12 @@ class SubscriptionToken(publicPem: String) {
             require(value is Boolean) { "Invalid VIP claim" }
             value
         }
-        return SubscriptionGrant(vin, issued, expires, vip)
+        val remote = if (!data.has("remote_access")) false else {
+            val value = data.get("remote_access")
+            require(value is Boolean) { "Invalid remote claim" }
+            value
+        }
+        return SubscriptionGrant(vin, issued, expires, vip, remote)
     }
 }
 

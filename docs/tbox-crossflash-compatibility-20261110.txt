@@ -1,0 +1,33 @@
+C 2.2.1 vs connected X 2.0.7 — read-only compatibility assessment
+Live identity: f1900a18dabeb15d, Hirain TBox MT2735 Newyork,
+H97X3630812AF, part H97X3630810AF, software 2.0.7, active slot B.
+Candidate: ../work/tbox-enablement-20261108/inputs/H97C3630812BN_2.2.1_12345.bin.
+
+Outer ZIP contains MCU + MPU + update.xml; ProductSign JMC_ext.
+This generic outer product label is not a hardware compatibility certificate.
+MPU manifest covers 14 images including BL2, BL33, TEE, HSM, modem, boot,
+system and appfwk, all syncback TRUE. Against the device-cached original MPU
+package, only mcupm.img and sspm.img are byte-identical; other 12 differ.
+C image lengths fit corresponding currently observed partition capacities;
+that is a necessary storage check, not hardware/boot/CAN compatibility.
+
+Critical MCU boot-layout difference:
+Cached X UartBT base 0x10008000, reset vector 0x1000a555,
+plus marker block 0x1001fffc.
+C UartBT base 0x10000000, reset vector 0x10001f8d, one block.
+Both App manifests use base 0x10020000. Matching App base does not establish
+matching bootloader contract. The UartBT difference is real in XML and code
+vectors, not just a renamed file. Actual current MCU flash is not read back.
+
+Live updater config still has backup_switch=0, rollback_max=0; MCU priority0,
+MPU priority1. Do not promise automatic rollback or preservation of another
+slot given full-package syncback semantics without validating implementation.
+Read docs/tbox-recovery-assessment-20261109.txt for missing independent recovery.
+
+Decision: compatibility NOT established, incompatibility not conclusively
+proven either. Do not use full C cross-flash as a reversible diagnostic test.
+First establish exact board/MCU hardware and boot compatibility plus independent
+MCU/MPU recovery; use matching spare hardware for flash/restore rehearsal.
+A successful C test also would not isolate MCU because full package changes
+boot chain, modem, Linux, application and transport simultaneously.
+No firmware writes, update start, bank switch or reboot performed.

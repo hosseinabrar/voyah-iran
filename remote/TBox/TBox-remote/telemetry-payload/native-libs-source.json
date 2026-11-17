@@ -1,0 +1,173 @@
+{
+  "source_sha256": "7dd21a5181d6d7fc544703c3778547d74735bf48e77237fa548cd46a17c561f8",
+  "files": [
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libcommonconf.so.1",
+      "output": "lib/libcommonconf.so.1",
+      "sha256": "b2701b0ba3595d9d3763efd21f9823843b98444e5d5ce2df69a94007195c1931",
+      "bytes": 569880
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libhframework.so",
+      "output": "lib/libhframework.so",
+      "sha256": "1abeca25762052de8e3ae6355f2f019c28c067c413db683267395458b702a11e",
+      "bytes": 15457424
+    },
+    {
+      "image": "system.img",
+      "path": "/usr/lib64/libboost_thread.so.1.75.0",
+      "output": "lib/libboost_thread.so.1.75.0",
+      "sha256": "a9fa14a05e72d5178f6e5874b48ac33758744bb97c0805283e6572c1e1b3ce95",
+      "bytes": 100296
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libtbox_hal.so",
+      "output": "lib/libtbox_hal.so",
+      "sha256": "e955651520635248724cce4ced4a4d086828a3abed4d592d20a1cafc04e46b00",
+      "bytes": 166504
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libvns.so",
+      "output": "lib/libvns.so",
+      "sha256": "193d4f764c952c7e177f4afae92634402ae237a439ae1d5693c0ba6b5f3a1420",
+      "bytes": 4354936
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libhcore.so",
+      "output": "lib/libhcore.so",
+      "sha256": "920d73326a61c10faf218783595b18120a5f182daaecdf2c5ceb31254be33828",
+      "bytes": 2105280
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libhgnss.so",
+      "output": "lib/libhgnss.so",
+      "sha256": "a990e78cdc78fab27b843c5216c2fbb672b72b808f49c06f7ad09fee3567d4ba",
+      "bytes": 506688
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/mega/lib/libcurl.so.4",
+      "output": "lib/libcurl.so.4",
+      "sha256": "35c1f22c2a184965c76798b4897e98987174ef14c1f2494afc880c740e9df8e4",
+      "bytes": 524528
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/mega/lib/libcares.so.2",
+      "output": "lib/libcares.so.2",
+      "sha256": "5def8c8136c248076d6a4e9c81ab4331aa618a860f3613f7a82b447413e0e8b2",
+      "bytes": 84576
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libhcommon.so",
+      "output": "lib/libhcommon.so",
+      "sha256": "3046c2ba8c73efd3c75dfc16d0114ac99bc01d9c98f1b67351490a9090c59991",
+      "bytes": 1582000
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libplatformC.so",
+      "output": "lib/libplatformC.so",
+      "sha256": "b47b9af1e9288fbafef73490f2d0d728b880d0f35f691c8216f4f529946ec919",
+      "bytes": 1061928
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libprotobuf.so",
+      "output": "lib/libprotobuf.so",
+      "sha256": "5d5a3456c13bf7406e3c53bcffbcb9e25a21143b7225f344ba29adb1a2af5d2c",
+      "bytes": 24907720
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libhsms_sec.so",
+      "output": "lib/libhsms_sec.so",
+      "sha256": "170d46a803497bebfdc72ba0ec5ec5a439243137aca2ff77b0a0c01d0da0c3be",
+      "bytes": 46496
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libifacegdbus.so",
+      "output": "lib/libifacegdbus.so",
+      "sha256": "8a57efd81132a74f013c47611547239e93b6d91ecacaace39ee258f3e3b9dfa2",
+      "bytes": 6385824
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libprotobuf-c.so.1",
+      "output": "lib/libprotobuf-c.so.1",
+      "sha256": "a7dbaeb7fa8ec5a56bba86952f66d7620efc171a7629f6f4d93b30221e9a0f46",
+      "bytes": 124192
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libcomm_fw.so",
+      "output": "lib/libcomm_fw.so",
+      "sha256": "4ce201190f32b98a775357d541e8c6146232e0eaee1e0e93ee32bb045580a969",
+      "bytes": 252120
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libcomm_conf.so",
+      "output": "lib/libcomm_conf.so",
+      "sha256": "9561b054faa48bdc838c706652c5744233b590d0de7bf745d9bcb0a834ed13b4",
+      "bytes": 163696
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libuthash.so",
+      "output": "lib/libuthash.so",
+      "sha256": "6fc44e58021254983a377097f14b62cb02e6c7b6332f9727e6c4975d1aa3e8f2",
+      "bytes": 78680
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libcomm_ipc.so",
+      "output": "lib/libcomm_ipc.so",
+      "sha256": "b575f52a82929ea2b0f9dfdbc0b96ea9c865407a004166394c37c469ee35bce2",
+      "bytes": 744632
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libmxml.so",
+      "output": "lib/libmxml.so",
+      "sha256": "b3e7374fc79fa5035bfb85a44685a42f2fd05afdaa612abfb1fea07c1571640a",
+      "bytes": 207552
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libappcommon.so",
+      "output": "lib/libappcommon.so",
+      "sha256": "608bb9b176158fa9f1ab3a9ad1412dc2e3cfb0a75e0800476a4b9186176f9adb",
+      "bytes": 15758416
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libdata_queue.so",
+      "output": "lib/libdata_queue.so",
+      "sha256": "fa3d80f3435b3e90176408ca2d9130e8743bf0be86e36c814a81e353689786a7",
+      "bytes": 47344
+    },
+    {
+      "image": "system.img",
+      "path": "/usr/lib64/libboost_filesystem.so.1.75.0",
+      "output": "lib/libboost_filesystem.so.1.75.0",
+      "sha256": "c20d89e5f3578f0d81c1e3253ed69be2b6b853a376815db36faa63fe7bd19f16",
+      "bytes": 116672
+    },
+    {
+      "image": "appfwk.ubi",
+      "path": "/usr/lib/libappcommonC.so",
+      "output": "lib/libappcommonC.so",
+      "sha256": "bd7fc1b65acbfd9f59d096775716062b8a254530c950aa0f0e7e3798e1c20532",
+      "bytes": 330816
+    }
+  ]
+}

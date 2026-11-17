@@ -1,0 +1,45 @@
+TBox network recovery — 2026-11-11
+
+Observed: SIM READY, CFUN=4, CEREG=0,0, no cellular IPv4/default route.
+Legacy voyah-tbox-network.service had failed after boot; its log contained
+sendAtSync false and CME 4113/5873. busctl transport success was incorrectly
+accepted as modem readiness. CID1 was absent (only factory CID0 remained).
+
+Separately, hrild-signal and active hrild hash 272602c471fb3559aae44950a732546849da124183f91dd6014edf1a08e92276
+is the existing TBox-remote payload, verified against repository SHA256SUMS.
+The legacy helper accepted only the older 0396 signal payload and would fail
+on rerun with the remote overlay present.
+
+Recovery: CFUN=1, restore existing owner's MCI mcinet CID1, activate data.
+Updated the installed legacy connect.sh to require both sendAtSync true and
+AT OK, reject ERROR, bounded retry radio activation, accept the exact known
+remote hrild hash without replacing it, tolerate transient CGPADDR failure.
+Retained original radio hash guards, APN, route/NAT/DNS and one-shot startup;
+no continuous override of vehicle sleep, MCU flash or heartbeat change.
+Restarted network service successfully. Cellular uplink ccmni1 obtained IPv4.
+
+Verified headunit curl --interface eth0 https://example.com returned HTTP200,
+local address 172.16.104.40. TBox MASQUERADE counters increased on ccmni1.
+This verifies headunit HTTPS through TBox, not its connected Wi-Fi.
+Service active. Cold reboot not tested; MCU SPI failure remains unresolved.
+
+Private original and installed scripts: ../work/tbox-network-repair-20261111/
+connect.before.sh and connect.sh. Paths relative to repository root.
+This fixes the legacy research helper installed on this vehicle; it does not
+claim the standalone antenna installer or all carriers were retested.
+
+Follow-up: headunit still received network packet 00-02-01 after data recovery.
+One SIGTERM/supervisor restart of hrild refreshed real network telemetry:
+headunit packets became 0d-02-01 at 16:56:59 and 16:57:04; bound eth0 HTTPS
+still returned 200. Updated helper to refresh hrild once after successful
+network setup even when the known remote overlay was already mounted.
+No fabricated signal values, no repeated restart loop. Cold boot untested.
+
+Reboot verification (owner requested): software reboot completed, boot ID
+bb3135c6-ba16-4150-9e45-d42f1962ef1b. No manual post-boot activation.
+Network helper completed automatically after transient PDP error 5874;
+uplink changed to ccmni5 and NAT followed it. Headunit eth0-bound HTTPS
+returned 200 from 172.16.104.40. OEM headunit network packets changed from
+00-02-01 at 17:00:09 to 0d-02-01 at 17:00:14, repeated at :19 and :24.
+Both network and remote services active. This verifies one software reboot;
+it does not test cold power loss or resolve the separate MCU fault.

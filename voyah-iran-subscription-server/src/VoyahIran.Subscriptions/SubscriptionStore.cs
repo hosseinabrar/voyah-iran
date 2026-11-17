@@ -1,7 +1,7 @@
 using Npgsql;
 using NpgsqlTypes;
 namespace VoyahIran.Subscriptions;
-public sealed record SubscriptionGrant(string Vin, long ExpiresAt, string Status, bool VipUser = true);
+public sealed record SubscriptionGrant(string Vin, long ExpiresAt, string Status, bool VipUser = true, bool RemoteAccess = false);
 public sealed class SubscriptionStore {
  private readonly string connectionString;
  private readonly SubscriptionOptions options;
@@ -36,12 +36,13 @@ public sealed class SubscriptionStore {
   blocked.CommandText="SELECT 1 FROM subscription_blocks WHERE vin=@vin";blocked.Parameters.AddWithValue("@vin",vin);
   if(blocked.ExecuteScalar() is not null)throw new SubscriptionBlockedException();
   using var read=connection.CreateCommand(); read.Transaction=tx;
-  read.CommandText="SELECT expires_at,vip_user FROM subscriptions WHERE vin=@vin";
+  read.CommandText="SELECT expires_at,vip_user,remote_access FROM subscriptions WHERE vin=@vin";
   read.Parameters.AddWithValue("@vin",vin);
-  long? previous=null; var vipUser=true;
+  long? previous=null; var vipUser=true; var remoteAccess=false;
   using(var reader=read.ExecuteReader()) if(reader.Read()) {
    previous=reader.GetFieldValue<DateTimeOffset>(0).ToUnixTimeSeconds();
    vipUser=reader.GetBoolean(1);
+   remoteAccess=reader.GetBoolean(2);
   }
   var seconds=now.ToUnixTimeSeconds();
   var grant=RenewalPolicy.Decide(vin,previous,seconds,options);
@@ -59,7 +60,7 @@ public sealed class SubscriptionStore {
     ? (object)DateTimeOffset.FromUnixTimeSeconds(previous.Value).UtcDateTime : DBNull.Value);
    write.Parameters.AddWithValue("@reason",status);write.ExecuteNonQuery();vipUser=true;
   }
-  tx.Commit();return new(vin,expires,status,vipUser);
+  tx.Commit();return new(vin,expires,status,vipUser,remoteAccess);
  }
  public SubscriptionDetails? Get(string vin) {
   using var c=Open();using var q=c.CreateCommand();

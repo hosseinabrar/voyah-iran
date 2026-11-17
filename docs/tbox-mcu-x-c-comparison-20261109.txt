@@ -1,0 +1,65 @@
+MCU X/C comparison — read-only, 2026-11-09
+
+Scope and identity
+X: ../work/tbox-enablement-20261108/live-backup/recovery-audit/cached-mcu-images/App/block0.bin
+SHA256 c1ed2d90a3e35e3b7ccf023b5d68bc3ccac209969040a42c25953708395a79b2
+C: ../work/tbox-remote-tools/c-mcu/App/block0.bin (C 2.2.1 update)
+SHA256 02ef04e9f32f06bc7df45960a4811039be6b4fea295ad23cacc30ddd9cf8a013
+Both XML manifests specify load base 0x10020000, Thumb code.
+X is the cached update image, NOT a proven byte-for-byte readback of the
+currently running MCU. Matching live Auth log strings support relevance but
+are not identity proof. C is a different model AND firmware revision.
+
+Findings
+1. X authenticated remote handler 0x100426e6 reads request and assigns auth
+   class 1 for 0x58, class 2 for 0xA8. Only those two IDs call the queue helper
+   0x1004234c. Other IDs still reach the receipt acknowledgement (zero status).
+   Thus a successful receipt is not evidence of queued CAN transmission.
+2. C corresponding handler 0x10042536 adds class 3 for 0x68 and a dedicated
+   payload queue (branch 0x1004265c onward). This is a concrete capability
+   difference relevant to driver/passenger seat ventilation. It does not
+   establish intentional regional locking.
+3. X queue helper 0x1004234c copies 8 bytes then marks a slot pending only if
+   table entry byte+4 is 1. Static six-entry table at 0x1007e8dc:
+   ID 0x48 slot0 flag1; 0x58 slot1 flag1; 0xA8 slot4 flag1;
+   0x7E slot3 flag0; 0x4FE slot6 flag0; 0x3F7 slot5 flag0.
+   Queue pump 0x1004242c transfers pending flags to transmit slots.
+   In particular 0x58 is NOT globally disabled in this table. Flag0 entries
+   require further call-path analysis, not a conclusion that all such IDs
+   are blocked throughout the firmware. 0x68 has no entry in this table.
+4. Both have random-challenge wait/failure paths. X No-random at 0x10042550;
+   C at 0x10069d80. X retries after timer 0x7d0 and terminates after counter2;
+   C uses counter0xc8 and counter2 (tick duration not established).
+   C also does not unconditionally execute authenticated requests.
+5. Packet layouts differ: X queues payload starting request+0x12; C copies
+   from request+0x11. Compare the complete matching MPU/MCU transport before
+   interpreting this as a defect; never compensate with guessed raw bytes.
+
+Live evidence
+Client test with vehicle OFF reached live MCU receipt (0,0), but power remained
+OFF, AC-on was withheld, and MCU logged Auth Recv No random at 16:46:46.092 and
+16:49:21.807. This establishes failure waiting for the challenge, not whether
+its request was absent on the wire or the response was lost/refused.
+
+Conclusion
+There is a real narrower authenticated command path in the inspected X image,
+especially for seat ventilation. No unconditional X-only block was found for
+0x58 hazard/power requests in this inspected path. Intentional restriction
+analogous to the modem patch is unproven. Identify active MCU firmware and
+observe challenge request/response on CAN before selecting any correction.
+No MCU flash, patch, key extraction, or authentication bypass was performed.
+
+Reproduction and private artifacts
+../work/tbox-remote-tools/compare-mcu.py
+../work/tbox-remote-tools/mcu-X-refs.asm
+../work/tbox-remote-tools/mcu-C-refs.asm
+Disassembly includes literal pools/data; interpret only validated function
+boundaries and control flow, not arbitrary instructions decoded from strings.
+
+2026-11-09 additional comparison: owner-supplied MCU
+Source inputs/mcu/App/block0.bin (352134 bytes), SHA256 aebbee25ec8ca0ac099116a3596aacbf46ff33bec1c73c226fd775f89ddf5f58. This is separate from cached X App (397010 bytes) and C 2.2.1 App (356564 bytes).
+Supplied remote handler starts at 0x10041e0e; validated branches assign auth classes 1/2/3 for IDs 0x58/0xA8/0x68 at 0x10041eaa..0x10041ec4, followed by dedicated payload copies. Thus inspected supplied handler resembles the three-class C path; cached X handler has the narrower two-class path documented above.
+Supplied image also has a real No-random failure path (log reference 0x10069ce4), so it is NOT an authentication-free remote firmware.
+Live logs explicitly report M4 Ver:02-00-07; M0 Ver:02-00-07; PBL Ver:01-00-07 (messages-after-sms.log and key-out tests). Live No-random wording matches cached X wording, strengthening relevance without proving byte identity.
+Current-MCU readback remains unavailable. These are file comparisons and live log observations, not proof that the supplied MCU will execute commands on this vehicle. Missing challenge can reflect TX, RX/filtering, wake state, or ECU response. No MCU modification or flashing performed.
+Reproduction: ../work/tbox-source-verification-20261109/compare-supplied-mcu.py and ../work/tbox-remote-tools/mcu-SUPPLIED-refs.asm.

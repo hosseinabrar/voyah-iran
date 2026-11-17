@@ -1,0 +1,8 @@
+[Unit]
+Description=Voyah bundled OEM remote engine
+[Service]
+Type=simple
+ExecStart=/bin/sh /usr/local/lib/TBox-remote/remotecontrol-wrapper
+Restart=on-failure
+RestartSec=5
+UMask=0077

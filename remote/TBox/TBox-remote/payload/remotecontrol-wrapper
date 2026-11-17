@@ -1,0 +1,4 @@
+#!/bin/sh
+export LD_LIBRARY_PATH=/run/TBox-remote-libs:/mnt/hirain_app/usr/lib:/usr/lib64
+export LD_PRELOAD=/usr/local/lib/TBox-remote/libremote-bridge.so
+exec /usr/local/lib/TBox-remote/remotecontrol-bundled "$@" >>/tmp/TBox-remote-oem.log 2>&1

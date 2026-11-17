@@ -1,0 +1,7 @@
+Verified source evidence — 2026-11-09
+Owner-provided mpu.zip appfwk.ubi exactly matches archived inputs/mpu/appfwk.ubi (SHA256 7472d42ee6ff9812df1d6470d4b9cf000f8879d6c2aa698e2ac0995164bc7deb). Its reconstructed UBI volume exactly matches old-volumes. Direct SquashFS read confirms /usr/etc/software_versions.xml says H97C3630812AP / 1.6.9p. This proves the file content, NOT the marketed version/origin of the entire owner-provided backup; it may be stale metadata or an older component. Owner identifies supplied backup as 2.0.7. Reason for discrepancy remains unresolved.
+Direct read of our live-backup/mtd39-appfwk_b.bin confirms /etc/software_versions.xml H97X3630812AF / 2.0.7; /usr/etc/software_versions.xml and /usr/bin/remotecontrol absent. libhframework.so SHA256 c4c1aa8a816f62a4a37294500d3d9e7f487c72ef015f183916ef0bd304d70ec4 EXACTLY MATCHES live-libhframework.so pulled on Nov 9. No drift in this tested library between our NAND backup and live device.
+C update separately identifies H97C3630812BN / 2.2.1.
+Keep user-mpu reference out of the live-X build path due proven API/ABI mismatch, not merely the version XML. Original user inputs remain preserved.
+
+Full direct comparison completed: see parent-Voyah work/tbox-source-verification-20261109/RESULT.fa.txt. Both A/B appfwk and system differ from supplied MPU; .text differs in libhframework/libhcore/libvns/powermgrd, so not debug stripping alone. No claim about why supplied package was labeled 2.0.7.

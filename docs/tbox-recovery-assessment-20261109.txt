@@ -1,0 +1,99 @@
+TBox recovery readiness — 2026-11-09
+Scope: offline analysis only. No device connected; no flash/erase/reset/mode/slot/security changes.
+Private artifacts: ../work/tbox-source-verification-20261109 (relative to repository).
+Original read-only recovery audit: ../work/tbox-enablement-20261108/live-backup/recovery-audit/RECOVERY-STATUS.txt.
+
+NEW VERIFIED MPU RESTORE MATERIAL
+The device-cached recovery-audit/cached-release/mpu.zip is DIFFERENT from owner-provided inputs/mpu.zip. Do not confuse them.
+All 14 cached images validate against their own fotaconfig.xml MD5. Twelve images match active-slot B raw backup prefixes exactly over the image length: hsm_os, bl2, tee, bl33, spm, mcupm, sspm, dpm, md1img, md1dsp, medmcu, boot.
+system and appfwk differ at UBI container level, but reconstructed SquashFS payloads through bytes_used are byte-identical to active-slot backup. SHA256 evidence in cached-recovery-mpu.json and cached-recovery-partitions.json. This proves corresponding restore image content, NOT flash transport or boot success after restore.
+
+MPU ROUTES
+BL33 identifies platform MT2735 and contains fastboot download/flash/getvar, OEM continue, reboot-recovery, NAND read/write/erase command strings. Presence of strings is not proof that commands are enabled, safe, or callable in a specific state.
+Previously USB Fastboot 0e8d:201c enumerated, but getvar/reboot were not reliably completed on macOS. Physical power cycle restored ordinary Linux. No write tested.
+Gate 1: controlled enter/exit Fastboot with stable read-only replies on known-good host/cable (try Windows/Linux if macOS USB stalls), record product/version/partition information where supported. Do not send generic unlock/erase/security commands.
+Gate 2: demonstrate entry to that mode WITHOUT adb or working Linux, using a verified board/service method; adb reboot bootloader alone cannot prove recovery from failed Linux.
+Gate 3: identify exact NAND/UBI flashing implementation and validate recovery package mapping; generic raw nandwrite/OOB copying is not an approved recipe. Preserve boot chain and device-specific NVRAM/protect.
+Gate 4: actual restore/verify/cold boot rehearsal on an identical spare TBox before cross-flash. Read-only tests cannot prove writes or power-loss behavior.
+If BL33/earlier boot chain cannot run, independent factory downloader/programmer is needed. No MT2735-specific working DA/auth/service recovery kit or board recovery pinout has been verified. Generic MediaTek phone tooling is not established compatible. A/B existence alone does not establish automatic rollback or entry when both slots/boot chain fail.
+
+MCU ROUTES
+Firmware source-path strings identify CYT2B9XPlatform/Cypress; physical chip/package marking still needs confirmation. Live logs report M4/M0 02-00-07 and PBL 01-00-07.
+Stock upgrade_mcu exposes switchPart/getSwitchPartResult; mcu-assist offers mode normal/bt/CAN-BT/UpgradeECU/EOL and reset/status. The application contains dual-bank upgrade/CRC/synchronization log paths. These are potential recovery mechanisms, not a tested fallback.
+Cached MCU package includes App at 0x10020000 plus marker at 0x100f7ffc, and UartBT at 0x10008000 plus marker at 0x1001fffc. It is NOT a full device flash dump. Current primary bootloader, persistent MCU data and actual active application equality are not established.
+Gate 1: read live version and active/pending bank/status using verified read-only OEM operations; identify PBL/UartBT/application boundaries and update ordering. Do not toggle banks as a discovery operation.
+Gate 2: prove the bootloader can be entered independently when the main MCU application cannot run. A command transported by Linux/vns/app firmware does not prove this independence. Establish whether bootloader CAN/UART remains reachable and how it is powered/reset.
+Gate 3: identify board SWD/JTAG pads, reference voltage and supported programmer from physical documentation/markings; perform non-mutating connect/ID/access-status/readback only. Debug access depends on protection/lifecycle. Do not accept a tool's unlock or mass-erase prompt; it can destroy the backup opportunity and identity/configuration.
+Gate 4: read actual current Code Flash, Work Flash and permitted configuration; compare cached App/UartBT bytes accounting for documented bank mapping. Preserve device-specific data; do not clone another vehicle's identity/security regions.
+Gate 5: recovery rehearsal on matching spare hardware with original boot stages/configuration preserved. Do not overwrite UartBT/PBL while relying on them as the only recovery path.
+
+SOURCES (family capability, NOT board verification)
+https://documentation.infineon.com/traveo/docs/lwy1680596932876 (AN220118; flash programming SWD/JTAG and access restrictions)
+https://documentation.infineon.com/traveo/docs/ykc1680597580020 (AN228680; lifecycle and debug protection)
+https://www.infineon.com/products/microcontroller/32-bit-traveo-t2g-arm-cortex/for-body/t2g-cyt2b9 (dual-bank capability)
+
+DECISION
+MPU: matching restore material verified; independent recovery transport NOT verified.
+MCU: bootloader/dual-bank candidates found; full live backup, independent entry and debug access NOT verified.
+Do not describe current readiness as guaranteed reversible flashing. Next device session should test recovery entry/exit and read-only status, not alternate-firmware installation. If boot stages cannot be independently reached, stop before cross-flash and obtain board/service programming access.
+
+2026-11-10 LIVE UPDATER ENTRY AUDIT
+Connected TBox upgrade_mcu SHA256 b76d469a93985da3317669b156afa601b4b5f3046dfe8b4aec6394cad5c0f11c matches archived disassembled executable exactly.
+Session::setPowerGpio(bool,unsigned) at 0x33538 is only mov w0,#1; ret.
+It performs NO hardware GPIO operation. Do not cite this symbol as an
+independent hardware power/reset recovery mechanism.
+Session::sendSwitchMode at 0x372e8 calls VnsProxy::vnsSwitchMCUMode via
+PLT0x13b80 at 0x3757c. Session::resetMcu calls vnsResetMcu via PLT0x13a00
+at 0x389cc. These paths use the VNS communication channel; their presence
+does not demonstrate entry when the MCU application cannot service it.
+Live GPIO inventory has sysfs pins 298,325,363,364,466 but no verified
+MCU RESET/BOOT mapping; no pins were toggled. Read-only search in init.d,
+app configuration and systemd units found no matching independent entry recipe.
+The listed /dev/mcupm and /dev/medmcu are not established as access to the
+external vehicle MCU; do not conflate MediaTek internal coprocessors with it.
+Conclusion: independent recovery remains unverified, now with a concrete
+reason why the named updater GPIO helper cannot establish it. Need board
+RESET/BOOT or SWD mapping and non-destructive access verification. Bootloader
+mode/reset was NOT issued; no firmware write or CAN action performed.
+Artifacts: ../work/tbox-mcu-recovery-20261110/entry.asm, reset.asm,
+gpio-references.txt. Absence of a discovered path is not proof none exists.
+
+2026-11-10 CACHED UARTBT CONTROL-FLOW AUDIT
+Inspected X cached UartBT/block0.bin, base0x10008000, reset0x1000a554.
+Reset configures vector table and runtime then reaches main0x1000a5c0 via
+0x1000a7c0 ->0x1000a73c ->0x1000a5c0.
+Main initializes subsystems, enables interrupts, passes constant0x10020000
+(App base) to0x10009c54. That helper reads hardware state low2bits from
+0x40201200; unless state3 it writes App base to0x40200200 and sets state3
+with keyed control write. It contains no App flash checksum/vector validity
+check. This is consistent with starting the other core, not a verified
+jump/fallback decision by the primary bootloader.
+Afterwards main copies three bytes to shared RAM, reads0x0800132c, and if
+zero loops through0x1000969c and conditional0x100090b4/0x100090f2; otherwise
+returns. No App-health predicate or explicit recovery-download entry has
+been identified in this bounded path. Do NOT infer no recovery exists.
+Cached ZIP contains App and UartBT only; separately reported PBL01-00-07
+is not available as a verified binary in this backup. UartBT name alone
+must not be equated to a complete primary bootloader/recovery implementation.
+No established bootloader USB endpoint or MPU-to-PBL recovery protocol.
+Thus remaining unknown is the primary-stage fallback/entry behavior, not
+simply retaining App base. A well-formed but crashing App also differs from
+an image rejected for checksum; no proven runtime boot-success rollback.
+Artifacts: ../work/tbox-mcu-recovery-20261110/boot_trace.py,
+boot-main.asm,boot-start-app.asm. Offline only, no firmware edits.
+
+2026-11-10 LIVE PBL EXTRACTION SEARCH
+TBox still attached via ADB. Read-only file search under /mnt/hirain_app,
+/mnt/hirain_data,/usr,/lib,/etc found no PBL/bootloader image. This is not
+an exhaustive physical flash search; MCU flash is not mounted as Linux files.
+Pulled live diagservice, diagDaemon configuration and libmcu_rp.so.
+Configured diagnostic services:10,11,14,19,22,28,2E,2F,31,34,36,37,85.
+No configured ReadMemoryByAddress(23) or RequestUpload(35). This does not
+exclude an undocumented bootloader or separate diagnostic endpoint.
+libmcu_rp exposes transport send/receive/CRC counters, not a named flash-read
+API. upgrade_mcu readPkgData/readMcuDataFromBin paths refer to reading local
+update image data, not exporting MCU flash. No verified address/length read
+primitive found. No speculative diagnostic requests, session/security changes,
+reset or flash performed. PBL NOT extracted; independent USB recovery remains
+unknown. Findings do not prove that physical access is the only possible path.
+Private evidence and SHA256 manifest: ../work/tbox-pbl-readback-20261110/.

@@ -38,6 +38,7 @@
                 style="@style/NavigationTab"
                 android:layout_marginTop="@dimen/space_sm"
                 android:text="@string/apollo_tab" />
+            <Button android:id="@+id/remoteTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="دسترسی ریموت" android:visibility="gone"/>
             <Button android:id="@+id/voiceTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/raha_tab" />
             <Button android:id="@+id/permissionsTab" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/permissions_tab" />
             <Button android:id="@+id/diagnosticsTab" android:visibility="gone" style="@style/NavigationTab" android:layout_marginTop="@dimen/space_sm" android:text="@string/diagnostics_tab" />
@@ -53,6 +54,7 @@
         android:layout_height="match_parent"
         android:layoutDirection="rtl">
         <include android:id="@+id/displayMediaMapPage" layout="@layout/page_display_media_map"/>
+        <LinearLayout android:id="@+id/remotePage" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="32dp" android:visibility="gone"/>
         <include android:id="@+id/settingsPage" layout="@layout/page_settings" />
         <include android:id="@+id/comfortPage" layout="@layout/page_comfort" />
         <include android:id="@+id/voicePage" layout="@layout/page_voice" />

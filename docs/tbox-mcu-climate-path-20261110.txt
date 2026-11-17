@@ -1,0 +1,77 @@
+MCU climate command trace — offline inspection, 2026-11-10
+
+Identity: cached X App/block0.bin, SHA256
+c1ed2d90a3e35e3b7ccf023b5d68bc3ccac209969040a42c25953708395a79b2.
+This is NOT a readback of running MCU flash. See tbox-mcu-x-c-comparison-20261109.txt.
+No device operations or firmware changes in this investigation.
+
+MPU evidence: live-can-in.xml identifies remote power and AC on/off in
+CAN message 0x58. The existing diagnostic live-vns-ac.py first requests power,
+waits for power=2 and HV=1, and only then sends AC on. Prior No-random tests
+failed at the power request, so they did not test actual AC-on execution.
+The diagnostic's initial OFF assertion is our test precondition, not proof
+of an OEM universal OFF-only rule.
+
+Validated cached-X code:
+- 0x100426e6 remote ingress: request ID at +0xd (endian conversion), mode
+  byte at +2. Mode1 and idle auth state select class1 for 0x58, class2 for
+  0xa8. Only these IDs enter queue helper in this handler.
+- 0x10042744 passes request+0x12 to 0x1004234c (8-byte copy).
+- 0x10042750..0x10042798 builds receipt with two zero status bytes and sends
+  it via 0x1003749a. It does not wait for random/auth or actual vehicle state.
+- 0x1004234c queue helper: six-entry table 0x1007e8dc; matching enabled entry
+  sets pending byte in 9-byte slot at 0x08009000. 0x58 is enabled.
+- 0x1007f0d4 cyclic wrapper calls 0x1004242c then 0x100424a2.
+- 0x1004242c consumes pending byte and writes 2 to scheduler slot array
+  0x080289cc; this is software scheduling, NOT hardware TX confirmation.
+- 0x10029d6c and 0x1002a514 consume that scheduler state. Scheduler path
+  reaches 0x1002a02c, calls table callback +0x24 and then lower transport
+  function 0x10033142 if callback returns1.
+- 0x10076726 is the 0x58 payload provider: calls 0x100423c2 to copy queued
+  eight bytes to the caller's buffer, then returns1. It has no local power
+  or READY check. This alone does not establish all upstream/downstream
+  conditions or that the CAN controller physically transmits.
+- 0x100424a2 auth dispatcher calls 0x100424de for states1/2, response
+  processing at0x10042614 for state3, and response queueing at0x10042652
+  for state4. The latter queues message0x48 through the same queue helper.
+- 0x100424de waits for received-random flag; timer argument0x7d0 and retry
+  counter2. Retry calls queue helper for0x58/0xa8 with null payload, thus
+  requeues stored bytes. Failure logs No random at0x10042550 and resets
+  auth state. Received flag instead advances to state3.
+
+Conclusions and boundaries:
+The firmware has a concrete path from received remote message to enabled
+software TX queue and a payload-provider callback, not a universal drop of
+0x58. No random means expected challenge was not accepted by this auth state
+machine; it does not locate fault on TX versus RX versus other ECU response.
+Remaining analysis: follow lower transport0x10033142 to hardware and map
+receive dispatch/flag writer. Do not call current trace an end-to-end proof.
+No keys extracted and no authentication bypass proposed.
+
+Reproduction scripts: ../work/tbox-mcu-path-20261110/trace*.py and refs.py.
+These decode bounded ranges; trailing literal pools are data, not code.
+
+Live MCU / CAN observability follow-up (2026-11-10):
+- Live MCU logs report M4 02-00-07, M0 02-00-07, PBL 01-00-07.
+  This identifies reported versions, NOT a byte-for-byte live MCU readback.
+- A further direct authenticated AC probe returned receipt (2145,0,0),
+  with AC remaining off. Receipt is not a hardware CAN TX confirmation.
+- Pulled and ran the current device vnsMonitorCan: 22s -all observation,
+  then 12s specific subscriptions to 0x41,0x48,0x51,0x58,0x2c1,0x3b6.
+  Session connected and specific IDs were acknowledged locally; callbacks
+  for DID/fault events arrived. No raw CAN frames, including baseline
+  vehicle frames, were printed. This monitor has NOT passed a positive
+  control; its silence cannot prove no transmission or no BCM response.
+- Cached MCU lower path 0x10033142 checks RAM init flag 0x0802913a==1,
+  transport index<7 and non-null payload before dispatch to 0x10032af0.
+  That dispatcher checks an optional runtime group flag and calls the
+  selected function pointer in table 0x1007c1ac. Therefore software queue
+  presence alone cannot establish runtime driver transmission.
+- Current evidence does not establish physical CAN TX. Need an exposed
+  hardware TX-complete/error diagnostic or capture on the TBox CAN wire.
+  Do not attribute this conclusively to BCM rejection or intentional lock.
+Evidence: ../work/tbox-can-correlation-20261110/{active-inspect.log,
+active-probe.log,active-can-monitor.log,specific-can-monitor.log,
+monitor-main.txt,subscribe-disasm.txt}; lower disassembly in
+../work/tbox-mcu-path-20261110/{transport.txt,lowdriver.txt}.
+No MCU flash, raw RAM write, whitelist change or auth bypass performed.

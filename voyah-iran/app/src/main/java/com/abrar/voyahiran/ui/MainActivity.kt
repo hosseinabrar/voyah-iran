@@ -133,6 +133,7 @@ class MainActivity : ComponentActivity() {
         SettingsViewModel.Factory((application as VoyahIranApplication).timeZoneRepository)
     }
     private lateinit var diagnostics: com.abrar.voyahiran.feature.diagnostics.DiagnosticsPageController
+    private lateinit var remotePage: com.abrar.voyahiran.feature.remote.RemotePage
     private var selectedTab = Tab.SETTINGS
     private val steering get() = (application as VoyahIranApplication).steeringController
     private var steeringRequestPending = false
@@ -150,6 +151,14 @@ class MainActivity : ComponentActivity() {
         com.abrar.voyahiran.core.logging.AppLog.info("App", "start version=${BuildConfig.VERSION_NAME} sdk=${android.os.Build.VERSION.SDK_INT} uid=${android.os.Process.myUid()} display=${window.decorView.display?.displayId}")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        remotePage = com.abrar.voyahiran.feature.remote.RemotePage(this, binding.remotePage)
+        binding.remoteTab.setOnClickListener { selectTab(Tab.REMOTE) }
+        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) {
+            (application as VoyahIranApplication).subscriptions.remoteState.collect { allowed ->
+                binding.remoteTab.visibility = if(allowed) View.VISIBLE else View.GONE
+                if(!allowed && selectedTab == Tab.REMOTE) selectTab(Tab.SETTINGS)
+            }
+        } }
         com.abrar.voyahiran.feature.navigation.DisplayMediaMapController(this, binding.displayMediaMapPage).bind()
         binding.displayMediaMapTab.setOnClickListener { selectTab(Tab.DISPLAY_MEDIA_MAP) }
         diagnostics = com.abrar.voyahiran.feature.diagnostics.DiagnosticsPageController(this, binding.diagnosticsPage)
@@ -498,6 +507,10 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun selectTab(tab: Tab) {
+        if(tab == Tab.REMOTE && !(application as VoyahIranApplication).subscriptions.remoteAllowed) { selectTab(Tab.SETTINGS); return }
+        binding.remoteTab.isSelected = tab == Tab.REMOTE
+        binding.remotePage.visibility = if(tab == Tab.REMOTE) View.VISIBLE else View.GONE
+        if(tab == Tab.REMOTE) remotePage.open() else remotePage.close()
         if (tab == Tab.APOLLO && !apolloAvailable) { selectTab(Tab.SETTINGS); return }
         if (tab == Tab.ABOUT) { selectTab(Tab.SETTINGS); return }
         com.abrar.voyahiran.core.logging.AppLog.info("UI", "tab=$tab")
@@ -839,7 +852,7 @@ class MainActivity : ComponentActivity() {
             permissions.set(com.abrar.voyahiran.feature.permissions.AppPermission("all", "", allGranted), wanted)
         }
     }
-    private enum class Tab { SETTINGS, DISPLAY_MEDIA_MAP, COMFORT, VOICE, APOLLO, PERMISSIONS, DIAGNOSTICS, ABOUT }
+    private enum class Tab { REMOTE, SETTINGS, DISPLAY_MEDIA_MAP, COMFORT, VOICE, APOLLO, PERMISSIONS, DIAGNOSTICS, ABOUT }
     companion object { private const val TAB_KEY = "selected_tab" }
 }
 

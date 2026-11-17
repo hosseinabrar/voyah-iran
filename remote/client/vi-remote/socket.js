@@ -1,0 +1,10 @@
+// One bounded socket lifecycle. Never queues/replays commands across reconnects.
+export class EnvelopeSocket {
+ constructor(url,onOpen=()=>{}){this.url=url;this.onOpen=onOpen;this.pending=new Map();this.running=false;this.attempt=0}
+ start(){if(this.running)return;this.running=true;this.watch=setInterval(()=>{const age=Date.now()-this.lastMessage;if(this.ws&&age>(this.ws.readyState===0?8000:20000))this.drop()},1000);this.connect()}
+ stop(){this.running=false;clearTimeout(this.retry);this.retry=null;clearInterval(this.watch);this.drop()}
+ drop(){const ws=this.ws;this.ws=null;if(ws){ws.onopen=ws.onmessage=ws.onclose=ws.onerror=null;try{ws.close()}catch{}}for(const p of this.pending.values()){clearTimeout(p.timer);p.reject(Error('Socket closed'))}this.pending.clear();if(this.running)this.schedule()}
+ schedule(){if(this.retry)return;this.retry=setTimeout(()=>{this.retry=null;this.connect()},Math.min(5000,1000*2**Math.min(this.attempt++,3))+Math.random()*250)}
+ connect(){if(!this.running||this.ws)return;try{const ws=this.ws=new WebSocket(this.url);this.lastMessage=Date.now();ws.onopen=()=>{if(this.ws!==ws)return;this.attempt=0;this.lastMessage=Date.now();this.onOpen()};ws.onmessage=e=>{if(this.ws!==ws||typeof e.data!=='string'||e.data.length>32768)return;let q;try{q=JSON.parse(e.data)}catch{return}const p=this.pending.get(q.id);if(!p)return;this.lastMessage=Date.now();clearTimeout(p.timer);this.pending.delete(q.id);p.resolve(q)};ws.onclose=()=>{if(this.ws===ws)this.drop()};ws.onerror=()=>{if(this.ws===ws)this.drop()}}catch{this.drop()}}
+ request(q){if(this.ws?.readyState!==1)return Promise.reject(Error('Socket unavailable'));if(this.pending.size>=4||this.ws.bufferedAmount>65536)return Promise.reject(Error('Socket busy'));return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{this.pending.delete(q.id);reject(Error('Response timeout'))},8000);this.pending.set(q.id,{resolve,reject,timer});try{this.ws.send(JSON.stringify(q))}catch(e){clearTimeout(timer);this.pending.delete(q.id);reject(e);this.drop()}})}
+}

@@ -26,10 +26,17 @@ Move/copy the entire parent voyah folder to preserve private artifacts alongside
 Raw logs retain historical paths as evidence; these are not current lookup paths.
 
 2026-11-09 — standalone kit requested by owner:
-TBox-antenna/ contains prebuilt patches (explicit owner authorization to keep
+remote/TBox/TBox-antenna/ contains prebuilt patches (explicit owner authorization to keep
 these two binaries and bundled ADB in Git), install_win.cmd and install_mac.command.
 It checks 2.0.7 and known binary hashes; it does not pull and modify firmware.
 Original raw dumps and private logs remain outside Git. APN selection is SIM-based.
 Kit has offline tests only; the earlier vehicle test covered the source patches,
 not this installer. The old enabled research helper is rejected to avoid competing
-startup scripts. Read TBox-antenna/README.txt before distribution or migration.
+startup scripts. Read remote/TBox/TBox-antenna/README.txt before distribution or migration.
+
+2026-11-09 source identity correction:
+old-extracted was derived from owner-provided mpu/appfwk.ubi and identifies H97C 1.6.9p; it is NOT the direct live H97X 2.0.7 backup. It is quarantined under ../work/tbox-firmware-audit/reference-only-user-mpu. See remote/TBox/TBox-remote/firmware/SOURCE-CORRECTION.txt before remote work. Earlier SMS notes labeling this source X are incorrect.
+
+Further verification: the 1.6.9p label is an internal file in the supplied MPU, not proof of its overall reported version. Our own active-slot NAND backup library matches the live library exactly. See remote/TBox/TBox-remote/firmware/SOURCE-CORRECTION.txt (repository-relative).
+
+2026-11-14: VT/C radio restored by X modem/DSP payload-only replacement; see docs/tbox-vt-radio-repair-20261114.txt. Final reboot and owner headunit verification successful. No claim of remote CAN repair.

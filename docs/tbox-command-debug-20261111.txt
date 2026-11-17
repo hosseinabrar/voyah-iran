@@ -1,0 +1,133 @@
+EXPERIMENTAL MCU COMMAND DEBUG — 2026-11-11
+
+Private evidence: ../work/tbox-command-debug-20261111/
+Current source MCU is the supplied Russian App, X-layout experimental package;
+not the C 2.2.1 App. No firmware flash, rollback, NVM write, security-session
+change, or deliberate reboot performed in this investigation.
+
+Transport correction:
+X MPU encoder emits control 1 / 10-byte item headers. Supplied MCU parser
+100412f2 expects control 2 and remote handler 10041e0e expects a 9-byte item
+header. Diagnostic experimental_mcu_commands.py submits corrected raw packets
+via verified live X libvns ABI. Auth remains enabled. Packet sizes/offsets
+checked offline for hazard, window-open, AC-on. No production backend change.
+Explicit experimental marker plus native library hash guards are required.
+
+Observed:
+- Hazard request 2311, 13:03:25; MCU receipt (2311,0,0), expected decoded
+  AuthState/ID/DATA. Owner confirms no physical reaction.
+- Driver window request 10355, 13:04:55; matching receipt/decoded payload.
+  Owner confirms no movement.
+- AC-on request 10682, 13:07:15; matching decoded payload. Physical effect
+  unconfirmed. Cached zero signal values are NOT fresh state confirmation.
+- MCU reports Random was received and queues an authentication response.
+  This is not proof of physical TX completion or BCM accepting that response.
+  Ingress callback 10069124 calls 10069c54; wait state 10069cbc checks receive
+  flag. Init 10069e8c sets the flag to 1. Further CAN validation remains needed.
+
+Configuration investigation:
+- Correct read-only DID request is 05/02, control 2, LE32 DID F1A0.
+- Response 14 bytes: status FF, error FFFF, DID F1A0, data length 0.
+- Live MCU log at 13:14:00.415: [DID] NVM_Status=7.
+- Handler 1004225e calls 1003bc70(block 3), only returns data for status 6.
+  Status 7 is NOT evidence the data bytes are zero, and not a proven security
+  access denial. Earlier conversational description as permission denial was
+  too specific; this is an NVM-state gate.
+- NVM read completion code 1003b81c: low-level result 0 -> status 6;
+  low-level result 1 or 5 -> status 7 (1003b8c8..1003b8ea).
+- Auth calculation 10069dd8 reads F1A0 through 10069d56, table lookup
+  10044d76, table RAM0800985c, 29 entries of 40 bytes. It does not check that
+  NVM status is 6 before using the RAM values. Original cached X MCU uses
+  a different RAM source for its key. This is a concrete compatibility lead,
+  NOT proof the key is wrong or the sole cause of non-actuation.
+- First probe incorrectly used command 05/01; its zero response is unrelated
+  to F1A0 and MUST NOT be used as evidence of missing configuration.
+
+Remaining:
+Determine why NVM block 3 read fails and whether existing vehicle configuration
+is compatible with supplied firmware, without overwriting it. Establish actual
+CAN TX/BCM acceptance separately. Remote execution remains unsuccessful.
+Sensitive response/key-related logs stay in private archive, outside Git.
+
+FOLLOW-UP NVM ANALYSIS (owner requested repair and retest):
+Archive ../work/tbox-nvm-debug-20261111/. Source dumps are unchanged.
+Read-only live F1A0 query repeated at13:30:27.677: NVM_Status=7 again.
+
+Concrete layout mismatch, reproduced by compare_layouts.py:
+X descriptor table1007d24c: sectors0x4000; region0 14000000..14010000
+contains blocks2/3/4(2048 bytes each),15(1024). Region1 14010000..1401c000
+contains blocks5..14 with different lengths.
+Supplied descriptor table10072884: sectors0x2000; region0 14000000..14010000
+contains only block4(3072). Region1 14010000..1401e000 contains block2(128)
+and block3(2048). In particular, block3 is searched in a DIFFERENT REGION.
+Descriptor field+0x10 differs0x50 vs0x18; its precise semantics not established.
+Do not patch sector-size constants alone: block identifiers and payload schemas
+also differ, and the current persisted data has not been read back.
+
+Offline initial-RAM reproduction (Unicorn, IAR initialization routines only):
+X1007e801 and supplied10073f21 both returned normally. X auth source0802879c
+and supplied F1A0 table entry initially contain zero bytes. This is INITIAL
+RAM, not a measurement of live secret values. Private RAM snapshots kept out
+of Git. Do not infer a verified BCM key or live zero key from this test.
+Supplied DID unpack callback10044c0c accepts block3 with A5 at byte0 and2047,
+then iterates29 entries using its own table lengths. Thus even locating an X
+block is not sufficient evidence its contents can be copied as supplied data.
+
+No flash/NVM write performed; repair and post-repair CAN/BCM test remain undone.
+Need preserved raw live MCU NVM plus compatible read/migration logic before
+writing. Existing MPU/NAND backups are not a backup of this MCU NVM region.
+
+READBACK PROBE PREPARATION (not installed):
+Private archive tbox-nvm-debug-20261111 now contains build_readback_probe.py,
+test_readback_probe.py, package_readback_probe.py and generated candidate.
+Hook1004220c handles only diagnostic DIDs E0000000..E0000FFF: 32-byte reads
+of14000000..1401FFFF, response via existing05/02 framing. Normal requests
+replay original prologue. No erase/write calls in added code.
+Unicorn:4096 valid chunks plus5 out-of-range/ordinary DIDs passed; all registers
+and normal-path stack preserved; no writes outside stack; source NVM unchanged.
+This is offline emulation, NOT a live backup or hardware validation.
+Candidate package SHA256:
+9bbdfc3eea1a47a44d4becb31431662923129a386d8340d0173348b3a2b55b75
+169891 bytes; unchanged UartBT, modified App/CRC only; no MPU/PBL payload.
+
+BLOCKING SEQUENCE ISSUE EXPLAINED TO OWNER:
+No verified existing USB raw-NVM read path. Installing the probe itself needs
+MCU flash/reset BEFORE obtaining the raw backup. OEM startup NVM behavior is
+not proven non-mutating. Explicit owner decision requested on accepting this
+sequence exception. Until answered, do NOT install or reset. No current NVM
+backup has been created; initialized-RAM emulation is not that backup.
+
+2026-11-11 FOLLOW-UP: explicit owner approval received for diagnostic flash
+before raw NVM backup (OEM startup NVM preservation not guaranteed).
+Private evidence root: ../work/tbox-nvm-debug-20261111/.
+Installed diagnostic package SHA256
+9bbdfc3eea1a47a44d4becb31431662923129a386d8340d0173348b3a2b55b75.
+X upgrade_mcu raw packet builders hardcoded control=1 independently of libvns.
+Private updater copy changes ONLY MOV w0,#1 -> #2 at VA42034 and41e68;
+private libvns copy sets mControlDirection=2. Factory files unchanged.
+Original attempt timed out on package-info, stopped during retry delay.
+Corrected attempt: flashResult true, switchApp true, E_UPGRADE_OK(0),100%.
+First diagnostic E0000000 request returned46-byte frame with32-byte payload;
+confirms readback code executes. Full128KiB extraction underway, not yet
+verified at time of this entry. No NVM migration or CAN success claimed.
+
+READBACK VERIFICATION / CURRENT DEVICE STATE (14:10 local device time):
+Two full4096-chunk/128KiB captures saved privately as nvm-first.private.bin
+and nvm-second.private.bin.65443 bytes differ; NOT VERIFIED BACKUPS.
+Repeated reads of14000000 and14010000 vary;14001000 stable. Root cause
+not proven. Do not migrate configuration based on these captures.
+Prepared word-load reader following OEM direct read width;4101 offline
+cases passed. New outer package181961a479627af9c6a27afff739948e3e23919a7e91256a02c7913be3efdffa.
+Packaging script initially did not refresh extracted inner readback-mcu.zip;
+first reinstall mistakenly reflashed same byte-reader image. Tool reported
+success, but MCU stopped responding after DBank REMAP log14:07:03.844.
+Correct word-reader inner ZIP was then extracted/verified, but its attempt
+timed out waiting for BT-mode ACK; stopped retries. WORD READER NOT INSTALLED.
+Linux/ADB remained up;heartbeat service active, SPI writes timeout110.
+Owner asked to power-cycle TBox physically to check normal boot. No rollback
+and no NVM migration performed. Private readback-verification.json records
+capture hashes and exact uncertainty. Further actuation not tested.
+
+Headunit reboot test: OEM TBoxRebootActivity -> TBoxManager.rebootTBox -> ITBoxService transaction12 (no args), dls_tbox_service. Called once via ADB service call. IVI log responseReboot received; Linux boot ID changed from7490cefe-7c18-4ecd-8ed6-995b75d470c9 to08438889-5608-4d2c-bcda-5bd162507b14. Postboot MCU SPI still times out; no MCU firmware log observed. This proves MPU reboot, NOT MCU power cycle or recovery. Evidence: ../work/tbox-nvm-debug-20261111/headunit-reboot-*.private.log.
+
+After owner battery cycle, Linux boot7952e62c-dc81-4011-bbc4-f587ea9b087a. MCU remains unavailable: kernel spidev_write slave is not ready (errno5), GPIO349 slave_rx_rdy low and359 slave_tx_req low. Bounded boot-mode0101 requests sent with control2 and control1, no response. OEM mcu-assist -a wake submitted via power manager, no MCU recovery. No firmware payload sent this turn. No verified independent GPIO RESET/BOOT mapping or UART downloader found in inspected live init/config and existing recovery audit. Fault follows successful reflash then DBank remap; exact PBL/boot failure remains unproven without readback. Current normal USB->Linux->SPI updater path cannot progress until MCU transport returns.

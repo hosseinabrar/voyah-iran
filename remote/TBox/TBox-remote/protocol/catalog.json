@@ -1,0 +1,447 @@
+[
+  {
+    "id": "1:0",
+    "type": 1,
+    "parameter": 0,
+    "label": "search_stop",
+    "atoms": [
+      "search_stop"
+    ]
+  },
+  {
+    "id": "1:1",
+    "type": 1,
+    "parameter": 1,
+    "label": "search_start_horn / search_start_lamp / pic_dvr_search",
+    "atoms": [
+      "search_start_horn",
+      "search_start_lamp",
+      "pic_dvr_search"
+    ]
+  },
+  {
+    "id": "1:2",
+    "type": 1,
+    "parameter": 2,
+    "label": "search_start_horn / search_start_lamp",
+    "atoms": [
+      "search_start_horn",
+      "search_start_lamp"
+    ]
+  },
+  {
+    "id": "1:240",
+    "type": 1,
+    "parameter": 240,
+    "label": "power_off_ota",
+    "atoms": [
+      "power_off_ota"
+    ]
+  },
+  {
+    "id": "1:241",
+    "type": 1,
+    "parameter": 241,
+    "label": "power_on",
+    "atoms": [
+      "power_on"
+    ]
+  },
+  {
+    "id": "1:257",
+    "type": 1,
+    "parameter": 257,
+    "label": "pic_dvr",
+    "atoms": [
+      "pic_dvr"
+    ]
+  },
+  {
+    "id": "1:258",
+    "type": 1,
+    "parameter": 258,
+    "label": "pic_roa",
+    "atoms": [
+      "pic_roa"
+    ]
+  },
+  {
+    "id": "1:260",
+    "type": 1,
+    "parameter": 260,
+    "label": "pic_dms",
+    "atoms": [
+      "pic_dms"
+    ]
+  },
+  {
+    "id": "5:0",
+    "type": 5,
+    "parameter": 0,
+    "label": "hazard_off",
+    "atoms": [
+      "hazard_off"
+    ]
+  },
+  {
+    "id": "5:1",
+    "type": 5,
+    "parameter": 1,
+    "label": "hazard_on",
+    "atoms": [
+      "hazard_on"
+    ]
+  },
+  {
+    "id": "8:0",
+    "type": 8,
+    "parameter": 0,
+    "label": "win_close",
+    "atoms": [
+      "win_close"
+    ]
+  },
+  {
+    "id": "8:1",
+    "type": 8,
+    "parameter": 1,
+    "label": "win_open",
+    "atoms": [
+      "win_open"
+    ]
+  },
+  {
+    "id": "8:2",
+    "type": 8,
+    "parameter": 2,
+    "label": "win_vent",
+    "atoms": [
+      "win_vent"
+    ]
+  },
+  {
+    "id": "9:0",
+    "type": 9,
+    "parameter": 0,
+    "label": "roof_close",
+    "atoms": [
+      "roof_close"
+    ]
+  },
+  {
+    "id": "9:1",
+    "type": 9,
+    "parameter": 1,
+    "label": "roof_open",
+    "atoms": [
+      "roof_open"
+    ]
+  },
+  {
+    "id": "9:2",
+    "type": 9,
+    "parameter": 2,
+    "label": "roof_vent",
+    "atoms": [
+      "roof_vent"
+    ]
+  },
+  {
+    "id": "10:1",
+    "type": 10,
+    "parameter": 1,
+    "label": "door_lock",
+    "atoms": [
+      "door_lock"
+    ]
+  },
+  {
+    "id": "10:0",
+    "type": 10,
+    "parameter": 0,
+    "label": "door_unlock",
+    "atoms": [
+      "door_unlock"
+    ]
+  },
+  {
+    "id": "11:0",
+    "type": 11,
+    "parameter": 0,
+    "label": "tailgate_close",
+    "atoms": [
+      "tailgate_close"
+    ]
+  },
+  {
+    "id": "11:1",
+    "type": 11,
+    "parameter": 1,
+    "label": "tailgate_open",
+    "atoms": [
+      "tailgate_open"
+    ]
+  },
+  {
+    "id": "32:256",
+    "type": 32,
+    "parameter": 256,
+    "label": "DrSeatHeat_close / power_off",
+    "atoms": [
+      "DrSeatHeat_close",
+      "power_off"
+    ]
+  },
+  {
+    "id": "32:257",
+    "type": 32,
+    "parameter": 257,
+    "label": "win_close_check / power_on / DrSeatHeat_lv1",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "DrSeatHeat_lv1"
+    ]
+  },
+  {
+    "id": "32:258",
+    "type": 32,
+    "parameter": 258,
+    "label": "win_close_check / power_on / DrSeatHeat_lv2",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "DrSeatHeat_lv2"
+    ]
+  },
+  {
+    "id": "32:259",
+    "type": 32,
+    "parameter": 259,
+    "label": "win_close_check / power_on / DrSeatHeat_lv3",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "DrSeatHeat_lv3"
+    ]
+  },
+  {
+    "id": "32:512",
+    "type": 32,
+    "parameter": 512,
+    "label": "PassSeatHeat_close / power_off",
+    "atoms": [
+      "PassSeatHeat_close",
+      "power_off"
+    ]
+  },
+  {
+    "id": "32:513",
+    "type": 32,
+    "parameter": 513,
+    "label": "win_close_check / power_on / PassSeatHeat_lv1",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "PassSeatHeat_lv1"
+    ]
+  },
+  {
+    "id": "32:514",
+    "type": 32,
+    "parameter": 514,
+    "label": "win_close_check / power_on / PassSeatHeat_lv2",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "PassSeatHeat_lv2"
+    ]
+  },
+  {
+    "id": "32:515",
+    "type": 32,
+    "parameter": 515,
+    "label": "win_close_check / power_on / PassSeatHeat_lv3",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "PassSeatHeat_lv3"
+    ]
+  },
+  {
+    "id": "33:0",
+    "type": 33,
+    "parameter": 0,
+    "label": "Cancel scheduled climate / climate off",
+    "atoms": [
+      "powerstate_check",
+      "ac_stop",
+      "power_off"
+    ]
+  },
+  {
+    "id": "33:1",
+    "type": 33,
+    "parameter": 1,
+    "label": "Schedule climate in 1 minute, for 10 minutes",
+    "atoms": [
+      "power_on",
+      "ac_start_appointment",
+      "ac_start_check"
+    ]
+  },
+  {
+    "id": "35:0",
+    "type": 35,
+    "parameter": 0,
+    "label": "power_off_force",
+    "atoms": [
+      "power_off_force"
+    ]
+  },
+  {
+    "id": "35:1",
+    "type": 35,
+    "parameter": 1,
+    "label": "eng_start",
+    "atoms": [
+      "eng_start"
+    ]
+  },
+  {
+    "id": "35:2",
+    "type": 35,
+    "parameter": 2,
+    "label": "authorized_eng_start",
+    "atoms": [
+      "authorized_eng_start"
+    ]
+  },
+  {
+    "id": "39:0",
+    "type": 39,
+    "parameter": 0,
+    "label": "start_permit",
+    "atoms": [
+      "start_permit"
+    ]
+  },
+  {
+    "id": "39:1",
+    "type": 39,
+    "parameter": 1,
+    "label": "start_forbid",
+    "atoms": [
+      "start_forbid"
+    ]
+  },
+  {
+    "id": "48:0",
+    "type": 48,
+    "parameter": 0,
+    "label": "Stop remote cooling",
+    "atoms": [
+      "powerstate_check",
+      "cool_stop",
+      "DrSeatVent_close",
+      "PassSeatVent_close2",
+      "power_off"
+    ]
+  },
+  {
+    "id": "48:1",
+    "type": 48,
+    "parameter": 1,
+    "label": "Remote cooling + available seat ventilation, 10 minutes",
+    "atoms": [
+      "power_on",
+      "cool_stop",
+      "DrSeatVent_close",
+      "PassSeatVent_close"
+    ]
+  },
+  {
+    "id": "49:0",
+    "type": 49,
+    "parameter": 0,
+    "label": "Stop remote heating",
+    "atoms": [
+      "powerstate_check",
+      "heat_stop",
+      "DrSeatHeat_close",
+      "PassSeatHeat_close",
+      "SencondaryLeftSeatHeat_close",
+      "SencondaryRightSeatHeat_close2",
+      "power_off"
+    ]
+  },
+  {
+    "id": "49:1",
+    "type": 49,
+    "parameter": 1,
+    "label": "Remote heating + available seat heaters, 10 minutes",
+    "atoms": [
+      "power_on",
+      "heat_stop",
+      "DrSeatHeat_close",
+      "PassSeatHeat_close",
+      "SencondaryLeftSeatHeat_close",
+      "SencondaryRightSeatHeat_close"
+    ]
+  },
+  {
+    "id": "51:2",
+    "type": 51,
+    "parameter": 2,
+    "label": "wakeup_ADCU_time_out / set_ADCU_wakeupsource_hpp",
+    "atoms": [
+      "wakeup_ADCU_time_out",
+      "set_ADCU_wakeupsource_hpp"
+    ]
+  },
+  {
+    "id": "52:0",
+    "type": 52,
+    "parameter": 0,
+    "label": "Stop departure preparation",
+    "atoms": [
+      "ac_stop",
+      "battery_off",
+      "power_off"
+    ]
+  },
+  {
+    "id": "52:1",
+    "type": 52,
+    "parameter": 1,
+    "label": "Departure cabin conditioning, 10 minutes",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "ac_start"
+    ]
+  },
+  {
+    "id": "52:16",
+    "type": 52,
+    "parameter": 16,
+    "label": "Departure battery conditioning, 10 minutes",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "battery_on"
+    ]
+  },
+  {
+    "id": "52:17",
+    "type": 52,
+    "parameter": 17,
+    "label": "Departure cabin + battery conditioning, 10 minutes",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "ac_start",
+      "battery_on"
+    ]
+  }
+]

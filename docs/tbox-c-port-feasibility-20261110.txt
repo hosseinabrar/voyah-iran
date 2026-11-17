@@ -1,0 +1,41 @@
+C-to-X custom firmware work — offline result, 2026-11-10
+Status: analysis artifacts produced; NO installable firmware or tested port.
+
+Inputs: direct-X backup and C 2.2.1 appfwk, extracted independently through
+UBI/SquashFS. Reproducible audit and extracted private binaries:
+../work/tbox-c-port-20261110/audit.py and abi-audit.json.
+Script resolves its input paths relative to the parent Voyah work directory.
+
+Shared-library replacement is not a verified solution:
+C lacks 141 X exports in libvns, 326 in libhcore, 363 in libhframework,
+66 in libplatformC; these counts are API-surface differences, not counts of
+actually unresolved runtime references. Symbols and dependency lists are
+recorded in JSON. ByteArray construction changes from 48 to 40 bytes in the
+inspected encoders. Mixing these C++ ABI objects is not valid without adaptation.
+C remotecontrol exists while the inspected X path lacks that executable.
+
+Concrete wire-format difference from native encoder disassembly:
+X MCUEncoder::remoteControl at 0x2a098 encodes opcode bytes 03 06,
+13-byte outer header and 10-byte per-item metadata, then payload.
+C MCUEncoder::remoteControlExtend at 0x33080 encodes 03 06,
+13-byte header and 9-byte per-item metadata, then payload.
+C MCUEncoder::remoteControlAuth at 0x332b8 encodes 03 0b,
+13-byte header and 10-byte per-item metadata, then payload.
+C header version field is constant 2; X reads a global byte.
+Thus identical method purpose/opcode is not equivalent packet structure.
+Do not send C frames to X or modify a payload offset blindly. Need matched
+MCU dispatch mapping, response formats, authentication semantics and ABI.
+Disassembly: C-encoder.asm and X-encoder.asm in private audit directory.
+
+MCU port unresolved: different UartBT placement, actual current application
+readback absent, and no verified independent recovery. Copying Thumb function
+bytes is insufficient: PC-relative literals, branches, RAM state, scheduler,
+RX callbacks and CAN driver tables must all be relocated or reimplemented.
+No source/linker map for either MCU firmware is available in these inputs.
+
+Decision: the evidence supports developing a bounded protocol adapter for
+research, NOT claiming a compatible whole custom firmware. No demonstrated
+X defect has yet been isolated that a binary patch can safely correct.
+Need live CAN trace/TX-complete diagnostics plus verified running MCU image
+and recovery, or OEM source/board package/matching spare for development.
+No device mutation or test command sent in this offline work.

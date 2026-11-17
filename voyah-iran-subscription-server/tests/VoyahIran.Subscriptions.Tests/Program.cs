@@ -52,6 +52,9 @@ try {
  Check(!wrongKey.VerifyData(Encoding.ASCII.GetBytes(parts[0]+"."+parts[1]),Decode(parts[2]),HashAlgorithmName.SHA256,RSASignaturePadding.Pkcs1),"Wrong signing key rejected");
  var claims=JsonDocument.Parse(Decode(parts[1])).RootElement;
  Check(claims.GetProperty("vip_user").GetBoolean(),"Existing registration policy signs VIP true");
+ Check(!claims.GetProperty("remote_access").GetBoolean(),"Remote access defaults false in signed token");
+ var remoteToken=signer.Sign(first with {RemoteAccess=true},now).Split('.');
+ Check(JsonDocument.Parse(Decode(remoteToken[1])).RootElement.GetProperty("remote_access").GetBoolean(),"Enabled remote access is signed");
  var normalToken=signer.Sign(first with {VipUser=false},now).Split('.');
  Check(!JsonDocument.Parse(Decode(normalToken[1])).RootElement.GetProperty("vip_user").GetBoolean(),"Standard subscription signs VIP false");
  Check(claims.GetProperty("sub").GetString()==vin&&claims.GetProperty("exp").GetInt64()==first.ExpiresAt,"Signed VIN and expiry");

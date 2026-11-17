@@ -1,0 +1,18 @@
+[Unit]
+Description=Voyah remote opaque gateway
+After=network-online.target
+[Service]
+User=voyah-remote
+Group=voyah-remote
+WorkingDirectory=/opt/voyah-remote
+ExecStart=/opt/voyah-remote/remote-gateway -listen 127.0.0.1:18780 -credentials /etc/voyah-remote/credentials.json
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=96M
+TasksMax=64
+[Install]
+WantedBy=multi-user.target

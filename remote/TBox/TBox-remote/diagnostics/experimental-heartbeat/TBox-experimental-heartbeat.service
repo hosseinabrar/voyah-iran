@@ -1,0 +1,9 @@
+[Unit]
+Description=Experimental MCU Linux heartbeat compatibility
+After=hirain-boot.service
+[Service]
+Type=simple
+ExecStart=/bin/sh -c 'exec /usr/bin/python -u /usr/local/lib/TBox-experimental-heartbeat/heartbeat.py >>/tmp/TBox-experimental-heartbeat.log 2>&1'
+Restart=on-failure
+RestartSec=10
+UMask=0077

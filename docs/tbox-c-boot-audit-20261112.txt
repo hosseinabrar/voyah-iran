@@ -1,0 +1,55 @@
+C 2.2.1 boot-package reassessment — 2026-11-12
+Scope: offline feasibility after future programmer recovery. No device commands,
+flash, erase, security change or recovery guarantee. C refers specifically to
+H97C3630812BN_2.2.1_12345.bin, not every Chinese-market firmware.
+
+Reproducible private audit: ../work/tbox-c-boot-audit-20261112/audit.py
+report.json, C-reset.asm, X-address-check.asm are generated from source binaries.
+Package SHA256 c33e94c23ed49684c361d9e49d01822f158f87a18a4f43639e4ce8422b48bc4f.
+Reopened nested ZIP and validated each MCU block length/end against actual bytes.
+C UartBT: 10000000..10002434, reset10001f8d, SP08008c00,9269 bytes.
+C App:10020000..100770d3, reset1007378d, SP0803fc00,356564 bytes.
+Both reset targets fall inside their own images. The MCU archive contains only
+these two blocks and their XMLs. There is no separately named PBL, TOC2,
+work-flash/NVM or protection/configuration image in this MCU archive.
+That does NOT prove such a component is needed by C or absent from its code.
+
+Re-disassembled cached X App (SHA c1ed2d90a3e35e3b7ccf023b5d68bc3ccac209969040a42c25953708395a79b2).
+1003fb68 summary validator recognizes boot start10008000 / checksum1001fffc,
+App10020000 / checksum100f7ffc; accepted entries gain02000000 for inactive bank.
+Other starts take failure branch1003fc1e. See earlier rejection investigation
+for literal-pool decoding and observed failed summary receipt.
+This is cached original X code, NOT verified current dead MCU readback.
+Thus normal original-X update path cannot bootstrap C's10000000 boot block
+merely because it appears in XML: validation rejects it before data write.
+Bank remap is not demonstrated to migrate this boot contract automatically.
+
+Correction: different boot addresses do not establish hardware incompatibility.
+C DOES ship a boot-stage image, so saying the updater never replaces boot code
+was wrong. Programmer placement at original C addresses can bypass the X
+application's address whitelist without relocating C instructions. Whether ROM/
+TOC2/retained OEM stages then select it, and whether board initialization works,
+is unresolved. Do not assume writing these two blocks is a full-chip restore.
+
+MPU manifest explicitly includes bl2 and bl33, as well as TEE/HSM/modem/boot/
+system/appfwk and auxiliary firmware; all14 entries request syncback TRUE.
+So MPU boot stages also can be replaced. No partition-table migration image is
+listed in that manifest. Do not conflate MPU bootloader replacement with MCU
+bank/TOC2 setup, or promise an untouched fallback slot after syncback.
+
+Concrete post-programmer sequence:
+1. Identify exact chip, access state and selected banks without unlock/mass erase.
+2. Read all accessible original code banks, work flash/NVM and readable boot/
+   protection metadata twice; compare hashes and retain raw address mapping.
+3. Inspect actual boot selection/early X stage against C reset entry; establish
+   recovery by restoring matching X and confirming standalone boot/SPI first.
+4. Only then define a selective C MCU programming map preserving device-specific
+   data and protection. No generic full-erase/combined BIN prepared now.
+5. Test standalone reset and SPI with programmer recovery still available. A
+   working C MCU may also require matching C MPU protocol/userspace; X MPU plus
+   C MCU failure alone is not proof of bad hardware. Full C MPU test has separate
+   boot/modem/network recovery requirements and may overwrite existing patches.
+
+Conclusion: C-on-this-board is a plausible experiment after proven recovery,
+not excluded by addresses. Stock-X updater rejection is concrete; programmer
+boot compatibility and runtime compatibility remain pending actual readback.

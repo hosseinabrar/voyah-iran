@@ -45,3 +45,5 @@ BEGIN
     END LOOP;
 END;
 $migration$;
+
+ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS remote_access BOOLEAN NOT NULL DEFAULT FALSE;

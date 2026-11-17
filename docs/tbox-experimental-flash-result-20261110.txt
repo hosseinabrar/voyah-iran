@@ -1,0 +1,54 @@
+AUTHORIZED LIVE MCU FLASH — 2026-11-10
+
+Owner explicitly requested flashing the prepared experimental MCU package and
+preserving original material. This was a REAL flash, not an offline check.
+Target ADB serial f1900a18dabeb15d. Headunit266b6ae1 not modified.
+Evidence relative to repository:
+../work/tbox-experimental-flash-20261110/run-20261110T162753Z/
+
+Input SHA256 3168d60dc85c07d91266543a1ce273cc28e93d824dfaea6fbb279104e4ff919f
+Package TBOX_RUSSIAN_X_LAYOUT_MCU_ONLY_EXPERIMENTAL.bin, 169745 bytes.
+Original cached X MCU and MPU archives rehashed and ZIP-CRC verified.
+Additional ORIGINAL_X_mcu.zip copy and ORIGINAL_X_MCU_ONLY.bin return package
+saved inside evidence directory. This does NOT prove USB restore currently works.
+
+19:57:56 OEM upgrade-assist -i issued ONCE. Four blocks transferred.
+19:58:08 MCU explicitly reported Flash program success; CRC checks passed:
+0x38986925 and0xa1f912af. isFlashOk1. OEM resultSUCCESS/E_UPGRADE_OK(0).
+MCU returned APP mode, pending bank selected. At this point old firmware still
+ran: log said waiting for reset Cmd; version querytype1 still2.0.7.
+
+IMPORTANT OEM SIDE EFFECT:
+Even MCU-only outer package caused upgraded to execute upgrade_open -s1,
+changing pending MPU bank fromB toA although MPU needflash0. No MPU flashing
+occurred, but leaving this pending selection would alter the next Linux boot.
+Corrected using documented upgrade_open -d -s0 (keep current active bank).
+Verified MPU activepart1, willpart1. Do NOT reboot whole MPU after a similar
+MCU-only install without checking/correcting this behavior.
+
+Activation: executed OEM upgrade_mcu -d -r ONCE, which acknowledged reset.
+New MCU log uptime restarted. 20:01:58 MCU reports:
+  [PM] MCU Version:12.8.1
+  [PM] MCU RUN in MAPA
+New battery/power/CAN-count logs observed. This confirms new App booted;
+it does not establish all features or long-term stability.
+
+OPERATIONAL INCOMPATIBILITY OBSERVED AFTER BOOT:
+Repeated [SPI_TEST]CTRL !=2 8.
+X vnsd rejects messages such as040701010000 and040801010000 with
+MCU data error. Read-only postboot upgrade_mcu -p did not complete within
+15seconds. Do NOT claim full protocol compatibility or successful recovery.
+No hazard/window/climate actuation tests were sent in this turn.
+No rollback flash, further bank change, forced reboot or MPU replacement done.
+Experimental MCU remains installed/running at end of task.
+
+Final Linux still has boot_id04113f54-668a-46be-8aaf-38b7cef273a9 and slot_b;
+MPU active1/pending1, FOTA STAT0, isDamaged0. ADB remained reachable.
+Only our mcu-monitor PID1564 was terminated after observation.
+
+Logging correction: initial monitor incorrectly used /var/log/messages (absent).
+Actual syslog path from/etc/syslog/syslog.conf is
+/mnt/hirain_extdata/logs/messages. Full file pulled before and after activation;
+raw messages-real.log and messages-after-activation.log contain the real flash
+and boot evidence. Initial messages-*.log with missing-file errors retained
+as evidence, not represented as successful live capture.

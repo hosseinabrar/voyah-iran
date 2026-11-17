@@ -1,0 +1,122 @@
+Independent MCU recovery investigation —2026-11-11
+Private evidence: ../work/tbox-independent-recovery-20261111/
+Live TBox f1900a18dabeb15d; read-only hardware inventory, no GPIO toggles,
+no flash, no erase, no security/lifecycle changes in this investigation.
+
+Downloaded live device tree(3632 files), powermgrd, libtbox_hal.so, vnsd,
+and kernel spidev.ko. These are private artifacts outside Git.
+Verified SPI0 hirain,spicomm: rx-ready physicalGPIO81/sysfs349, tx-request
+91/359, tx-enable93/361. Device tree provides no MCU RESET/BOOT pin there.
+SPI2 is Broadcom BCM89552 Ethernet switch, switch-reset GPIO23/sysfs291;
+it is not MCU reset. SPI3 also hirain,spicomm but no independent recovery
+routing/handshake evidence. Do not send arbitrary traffic on it.
+HAL hal_sys_set_wakeup_out_gpio0x5bf0 uses sysfsGPIO273; this is wake output,
+not a verified MCU reset. Existing OEM wake test did not restore responses.
+HAL reset names also include codec and Ethernet switch; not MCU recovery.
+VNS UARTEncoder::encode0x5946c returns null; its mere presence is not
+an implemented alternative firmware encoder. UART1/2/3 exist but MCU
+routing and bootloader protocol are unverified; no serial bytes sent.
+spidev.ko uses rx-ready/tx-request/tx-enable handshake; strings/imports
+show no MCU-specific hardware reset function. This is bounded evidence,
+not proof that no physical reset wiring exists. Previously verified
+upgrade_mcu Session::setPowerGpio is a success-returning no-op.
+
+Official Infineon AN227076 revision E2026-05-11:
+https://www.infineon.com/assets/row/public/documents/10/42/infineon-an227076---traveo-ii-bootloader-applicationnotes-en.pdf
+Internal bootloader CAN/LIN eligibility requires first two flash words
+FFFFFFFF, valid enabled TOC2 or empty TOC2, appropriate protection state
+and no debugger during wait window. This is NOT an unconditional USB/SPI
+recovery command for a populated OEM PBL. No attempt to erase vector words
+or change protection to force entry. OEM PBL remains unavailable for audit.
+
+Conclusion: no verified independent recovery path using current Linux USB
+connection found. Hardware mapping/service boot documentation or SWD/JTAG
+access needed to establish recovery; not proof MCU permanently damaged.
+Current failure follows DBank remap; exact boot-stage cause unproven.
+
+Public service-document search follow-up
+Searched English/Chinese/Russian by HiRain, Jingwei, H97X3630812AF,
+TBOX MCU recovery/bootloader/schematic. No exact board schematic, service
+boot pin mapping, or model-specific USB recovery command found.
+
+Official HiRain DPS supports CAN/CANFD/Ethernet and customized bootloader
+download; this is tooling capability, not proof of support for this MCU
+or availability of the required OEM diagnostic project/flash driver.
+https://en.hirain.com/services_detail/c-_detailId%3D1351587753749008384.html
+https://www.hirain.com/services_detail/c-_detailId%3D1346833459426512896.html
+HiRain UDS tooling documentation describes OEM PDX/ODX/CDD configuration:
+https://intework.hirain.com/docs/UDS-zhen-duan-ce-shi-gong-neng-xiang-jie
+
+Voyah Cloud's own H97C guide describes ordinary IVI-mediated package transfer
+and reboot/retry on failure, not independent MCU recovery:
+https://docs.voyah.cloud/en/guides/tbox-flash-voyah-cloud
+Do not treat this as H97X compatibility evidence.
+
+New specific lead: HiRain patent CN112491513B describes re-triggering SPI
+flow-control edges after abnormal communication. Not a flash/boot recovery
+command and not proof it is implemented on this board.
+https://patents.google.com/patent/CN112491513B/en
+Offline relocated-symbol disassembly of our live spidev.ko shows spidev_write
+at 0xce4 polls slave-ready at 0xf2c..0xf3c, retries at 0x1070..0x1098,
+then returns -EIO at 0x107c before the spi sync call at 0x1014. No recovery
+GPIO write occurs in that not-ready path. This corroborates that failed
+writes cannot establish that any message reached MCU, much less CAN/BCM.
+No GPIO toggles, driver reload, session changes, or flash performed.
+
+Local diagnostic configuration contains DoIP and programming routines
+DF01/DF02/FD08/FF01; these alone do not establish an independent MCU route.
+Next concrete service requirement: H97X TBox MCU PBL recovery/programming
+specification plus OEM ODX/PDX/CDD/flash project (CAN IDs, boot entry, driver),
+or board-specific external connector RESET/BOOT mapping. A CAN/DoIP service
+path, if supported by surviving PBL, could avoid opening the enclosure;
+it has not been demonstrated.
+
+SPI edge recovery trial (explicit owner authorization)
+Mapped GPIO361 (physical93) as MPU output slave_tx_en, and 349/359
+as MCU-driven inputs. spidev_read_work sets output high at0x274,
+low at0x2e4/0x358. Applied bounded20ms and200ms high pulses with
+SPI0 temporarily unbound and vnsd stopped. Both inputs remained0
+throughout sampled intervals; no readiness or MCU response observed.
+Restored output low, unexported pins, rebound driver and restarted vnsd.
+
+IMPORTANT adverse result: the restart then caused Linux kernel panic.
+pstore identifies spi_slave_abort+0x18 called by spidev_release+0x160.
+The OEM release path is not safe after unbind with an old open descriptor.
+This was caused by this diagnostic sequence, not evidence of an MCU reboot.
+Do not repeat unbind/rebind with open descriptors. Host trial script now
+hard-disabled as evidence; no persistent driver/firmware modification.
+
+Linux recovered automatically, boot c67c9cd1-5448-4b8f-8008-b99620a58b46.
+Network helper active, headunit eth0 HTTPS200, network packet0d-02-01
+at17:13:05. SPI0 messages still0, MCU input pins remain low.
+Edge method did not recover MCU. This rules out this particular bounded
+handshake trial, not all bootloader recovery or MCU execution states.
+Private evidence: ../work/tbox-spi-recovery-20261111/ (driver.asm,
+disasm.py, disabled edge-test.py, console-ramoops.private.log).
+No flash, erase, bank change, security unlock, or CAN actuation sent.
+
+Owner historical board photographs inspected (2026-11-11):
+IMG_0212 original high-resolution crop clearly shows CYT2B95BACQ0A / ZSGS,
+consistent with Infineon part CYT2B95BACQ0AZSGS, LQFP100. This replaces
+previous firmware-only family inference with physical marking evidence.
+https://www.infineon.com/part/CYT2B95BACQ0AZSGS
+Two small populated dual-row headers near MCU are visible; possible service
+interfaces only, not identified SWD/JTAG pinout. No voltage/pin assignment
+or connector-to-XRES/SWD continuity proven by photographs. USB cable location
+does not prove USB-to-MCU programming. IMG_0095 reference photo shows a
+different module marking/board population; do not merge its wiring with
+owner's IMG_0212. No physical access or programming performed this turn.
+Original copies and inspection crop: ../work/tbox-board-photos-20261111/.
+
+Exact-part/live follow-up after owner reconnected:
+Both ADB devices present; SPI0 completed-message count remains0.
+Reviewed all hal_* disassembly in libtbox_hal.so. Previously unlabelled
+exported pins are explained:325 eCall speaker power;363 internal GNSS
+power;364 PPS enable;466 eSE power. These are not MCU reset candidates.
+No verified MPU-accessible MCU reset/debug route found in this HAL/DT.
+Official CYT2B9 datasheet002-22825 revN table14 identifies XRES_L pin85
+and SWDIO P23.6 pin98 for LQFP100. Physical continuity to headers or
+external connector remains unknown; photo alone insufficient for assignment.
+No GPIO mutation, flash, reset or driver unbind performed in this follow-up.
+HAL disassembly: ../work/tbox-board-photos-20261111/hal-functions.asm
+Source: https://www.infineon.com/assets/row/public/documents/10/49/infineon-cyt2b9-datasheet-32-bit-arm-cortex-m4f-microcontroller-traveo-t2g-family-datasheet-en.pdf

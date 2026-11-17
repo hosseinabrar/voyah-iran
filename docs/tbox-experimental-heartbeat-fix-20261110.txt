@@ -1,0 +1,65 @@
+EXPERIMENTAL MCU / X MPU REBOOT DIAGNOSIS — 2026-11-10
+
+Owner explicitly asked NOT to restore original MCU. Original firmware backups
+remain untouched. No further MCU/MPU flash, bank change, or watchdog-disable was
+performed during this fix. No vehicle actuation commands were sent.
+
+Before fix:
+- Repeated changes of Linux boot_id and uptime reset; MCU logged continuous uptime.
+- Consecutive Linux service starts at21:02:36 and21:07:35 (~299seconds).
+- Ordinary boot reason 'reboot' and empty/invalid panic headers alone did not
+  establish cause. console-ramoops contains bootloader output, not a kernel panic.
+- Decoder logs CTRL !=2 8; this is evidence of incompatible traffic, not proof
+  that every discarded packet is the Linux heartbeat.
+
+Static cause path in supplied Russian App (base10020000):
+- 100412f2 parser accepts control byte2, dispatches command04/09 via10041622.
+- Handler10042134 updates last-heartbeat time atRAM08034710 and logs
+  '[MCU] MCU received  Linux Heart'.
+- Timer code1003c668..1003c68e compares elapsed time against literal300000
+  (0x493e0 at1003c9b4); expiry moves the power state to2 and records reason1.
+- X native MCUEncoder uses mControlDirection (default1, configurable) for
+  linuxHeartbeat. We did not globally change vnsd or its other command traffic.
+
+Live intervention:
+- Opened a separate native libvns session and set ONLY its process-local encoder
+  mControlDirection=2. Called OEM vnsSendHeartbeat every10seconds.
+- OEM MCU reception logs immediately appeared at21:11:11,21:11:21,21:11:31,
+  continuing at ten-second intervals. Before intervention these were absent
+  from the inspected snapshot.
+- First test began atLinux uptime237.60, boot_id
+  37ec9b6e-9fac-48d9-87a3-a2911d567f37.
+- Linux passed300,600seconds without boot_id change. Thus providing the missing
+  accepted heartbeat prevents the previously periodic resets; no suppression
+  of the watchdog/check itself was necessary.
+
+Deployment:
+remote/TBox/TBox-remote/diagnostics/experimental-heartbeat/
+Contains isolated helper, service, bootstrap, limitations/removal instructions.
+Installed under/usr/local/lib/TBox-experimental-heartbeat; explicit enable marker
+names the current experimental package hash. Hash guards cover installed native
+libraries, NOT MCU identity. Root.profile boot hook is experimental-only.
+Standalone test PID8945 was stopped after servicePID9635 was confirmed running;
+no duplicate test sender is intended. Service subsequently restarted with final
+connection-error handling and a dedicated /tmp log.
+
+Evidence (repository-relative private archive):
+../work/tbox-reboot-fix-20261110/
+  heartbeat-test.log, service-start.log, messages-snapshot.gz/.log,
+  reset-refs.asm, vns-heart.asm, preboot-window.log, console-ramoops-0.
+No private full firmware dumps were copied into Git.
+
+Limits:
+This fixes heartbeat compatibility only. Other MCU/X MPU protocol mismatches
+remain, including telemetry parse errors. It does NOT prove remote command
+execution, physical CAN TX, full telemetry correctness, or hard-brick recovery.
+Do not describe submission as successful vehicle actuation.
+
+Final live check:
+Linux uptime963.72sec (~16min), same boot_id37ec9b6e-9fac-48d9-87a3-a2911d567f37.
+More than12min elapsed since first accepted heartbeat atuptime~240sec.
+ServiceActiveState=active, MainPID10025, successful minute logs count13/19/25;
+MCU receipt continues at21:22:52,21:23:02,21:23:12.
+Source:stability-final.log. No MCU reset or vehicle power cycle was deliberately
+performed to test bootstrap persistence. Runtime correction is confirmed over
+this observation window, not a claim of indefinite stability/full compatibility.

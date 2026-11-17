@@ -1,0 +1,14 @@
+[Unit]
+Description=Voyah paired T-box remote test
+After=ql-rild.service hirain-boot.service voyah-tbox-network.service TBox-antenna.service
+StartLimitIntervalSec=120
+StartLimitBurst=3
+[Service]
+Type=simple
+ExecStartPre=/bin/sh /usr/local/lib/TBox-remote/prepare.sh
+ExecStart=/bin/sh -c 'exec /usr/local/lib/TBox-remote/tbox-remote >>/tmp/TBox-remote-agent.log 2>&1'
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=60
+UMask=0077
+Environment=GOMEMLIMIT=48MiB

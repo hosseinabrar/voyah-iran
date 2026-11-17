@@ -1,0 +1,38 @@
+{
+  "hood_close": {
+    "size": [
+      686,
+      1024
+    ],
+    "alpha_identical": true,
+    "geometry": "unchanged; no resize/crop/transform",
+    "sha256": "908cd608f51fbae5571dcef97e8620c2bfe33534115ae401efee4e6bdbcfd6d8"
+  },
+  "left_both": {
+    "size": [
+      686,
+      1024
+    ],
+    "alpha_identical": true,
+    "geometry": "unchanged; no resize/crop/transform",
+    "sha256": "75dd317418c6a59dbd69ad057ce6cff73f8704c28319640f39ebb8c6fe9f496d"
+  },
+  "right_both": {
+    "size": [
+      686,
+      1024
+    ],
+    "alpha_identical": true,
+    "geometry": "unchanged; no resize/crop/transform",
+    "sha256": "e43591082546a35c16cba6f9c6c56a4232e8b04a02dbd53ad27ee7796d20f413"
+  },
+  "rear_open": {
+    "size": [
+      686,
+      1024
+    ],
+    "alpha_identical": true,
+    "geometry": "unchanged; no resize/crop/transform",
+    "sha256": "eb78b351dfae6912a2b10248a2dfaa346b0f655642da246b763bd0bfac9211a1"
+  }
+}

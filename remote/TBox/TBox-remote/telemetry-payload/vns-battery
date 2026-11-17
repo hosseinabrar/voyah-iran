@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+BASE=/data/vi-remote
+if [ -r /mnt/hirain_app/usr/lib/libvns.so ] && [ -r /mnt/hirain_app/usr/lib/libhcore.so ]; then
+ export VI_VNS_LIB=/mnt/hirain_app/usr/lib
+ export LD_LIBRARY_PATH=/mnt/hirain_app/usr/lib:/usr/lib64:/lib64
+else
+ export VI_VNS_LIB="$BASE/native/lib"
+ export LD_LIBRARY_PATH="$BASE/native/lib:/mnt/hirain_app/usr/lib:/usr/lib64:/lib64"
+fi
+exec /usr/bin/python "$BASE/bin/vns-battery.py" "$@"

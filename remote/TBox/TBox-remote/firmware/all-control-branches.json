@@ -1,0 +1,747 @@
+[
+  {
+    "id": "1:0",
+    "type": 1,
+    "parameter": 0,
+    "label": "search_stop",
+    "atoms": [
+      "search_stop"
+    ]
+  },
+  {
+    "id": "1:1",
+    "type": 1,
+    "parameter": 1,
+    "label": "search_start_horn / search_start_lamp / pic_dvr_search",
+    "atoms": [
+      "search_start_horn",
+      "search_start_lamp",
+      "pic_dvr_search"
+    ]
+  },
+  {
+    "id": "1:2",
+    "type": 1,
+    "parameter": 2,
+    "label": "search_start_horn / search_start_lamp",
+    "atoms": [
+      "search_start_horn",
+      "search_start_lamp"
+    ]
+  },
+  {
+    "id": "1:240",
+    "type": 1,
+    "parameter": 240,
+    "label": "power_off_ota",
+    "atoms": [
+      "power_off_ota"
+    ]
+  },
+  {
+    "id": "1:241",
+    "type": 1,
+    "parameter": 241,
+    "label": "power_on",
+    "atoms": [
+      "power_on"
+    ]
+  },
+  {
+    "id": "1:257",
+    "type": 1,
+    "parameter": 257,
+    "label": "pic_dvr",
+    "atoms": [
+      "pic_dvr"
+    ]
+  },
+  {
+    "id": "1:258",
+    "type": 1,
+    "parameter": 258,
+    "label": "pic_roa",
+    "atoms": [
+      "pic_roa"
+    ]
+  },
+  {
+    "id": "1:260",
+    "type": 1,
+    "parameter": 260,
+    "label": "pic_dms",
+    "atoms": [
+      "pic_dms"
+    ]
+  },
+  {
+    "id": "5:0",
+    "type": 5,
+    "parameter": 0,
+    "label": "hazard_off",
+    "atoms": [
+      "hazard_off"
+    ]
+  },
+  {
+    "id": "5:1",
+    "type": 5,
+    "parameter": 1,
+    "label": "hazard_on",
+    "atoms": [
+      "hazard_on"
+    ]
+  },
+  {
+    "id": "8:0",
+    "type": 8,
+    "parameter": 0,
+    "label": "win_close",
+    "atoms": [
+      "win_close"
+    ]
+  },
+  {
+    "id": "8:1",
+    "type": 8,
+    "parameter": 1,
+    "label": "win_open",
+    "atoms": [
+      "win_open"
+    ]
+  },
+  {
+    "id": "8:2",
+    "type": 8,
+    "parameter": 2,
+    "label": "win_vent",
+    "atoms": [
+      "win_vent"
+    ]
+  },
+  {
+    "id": "9:0",
+    "type": 9,
+    "parameter": 0,
+    "label": "roof_close",
+    "atoms": [
+      "roof_close"
+    ]
+  },
+  {
+    "id": "9:1",
+    "type": 9,
+    "parameter": 1,
+    "label": "roof_open",
+    "atoms": [
+      "roof_open"
+    ]
+  },
+  {
+    "id": "9:2",
+    "type": 9,
+    "parameter": 2,
+    "label": "roof_vent",
+    "atoms": [
+      "roof_vent"
+    ]
+  },
+  {
+    "id": "10:1",
+    "type": 10,
+    "parameter": 1,
+    "label": "door_lock",
+    "atoms": [
+      "door_lock"
+    ]
+  },
+  {
+    "id": "10:0",
+    "type": 10,
+    "parameter": 0,
+    "label": "door_unlock",
+    "atoms": [
+      "door_unlock"
+    ]
+  },
+  {
+    "id": "11:0",
+    "type": 11,
+    "parameter": 0,
+    "label": "tailgate_close",
+    "atoms": [
+      "tailgate_close"
+    ]
+  },
+  {
+    "id": "11:1",
+    "type": 11,
+    "parameter": 1,
+    "label": "tailgate_open",
+    "atoms": [
+      "tailgate_open"
+    ]
+  },
+  {
+    "id": "32:256",
+    "type": 32,
+    "parameter": 256,
+    "label": "DrSeatHeat_close / power_off",
+    "atoms": [
+      "DrSeatHeat_close",
+      "power_off"
+    ]
+  },
+  {
+    "id": "32:257",
+    "type": 32,
+    "parameter": 257,
+    "label": "win_close_check / power_on / DrSeatHeat_lv1",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "DrSeatHeat_lv1"
+    ]
+  },
+  {
+    "id": "32:258",
+    "type": 32,
+    "parameter": 258,
+    "label": "win_close_check / power_on / DrSeatHeat_lv2",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "DrSeatHeat_lv2"
+    ]
+  },
+  {
+    "id": "32:259",
+    "type": 32,
+    "parameter": 259,
+    "label": "win_close_check / power_on / DrSeatHeat_lv3",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "DrSeatHeat_lv3"
+    ]
+  },
+  {
+    "id": "32:4352",
+    "type": 32,
+    "parameter": 4352,
+    "label": "DrSeatHeat_close / power_off",
+    "atoms": [
+      "DrSeatHeat_close",
+      "power_off"
+    ]
+  },
+  {
+    "id": "32:4353",
+    "type": 32,
+    "parameter": 4353,
+    "label": "win_roof_close_check / power_on / DrSeatHeat_lv1",
+    "atoms": [
+      "win_roof_close_check",
+      "power_on",
+      "DrSeatHeat_lv1"
+    ]
+  },
+  {
+    "id": "32:4354",
+    "type": 32,
+    "parameter": 4354,
+    "label": "win_roof_close_check / power_on / DrSeatHeat_lv2",
+    "atoms": [
+      "win_roof_close_check",
+      "power_on",
+      "DrSeatHeat_lv2"
+    ]
+  },
+  {
+    "id": "32:4355",
+    "type": 32,
+    "parameter": 4355,
+    "label": "win_roof_close_check / power_on / DrSeatHeat_lv3",
+    "atoms": [
+      "win_roof_close_check",
+      "power_on",
+      "DrSeatHeat_lv3"
+    ]
+  },
+  {
+    "id": "32:512",
+    "type": 32,
+    "parameter": 512,
+    "label": "PassSeatHeat_close / power_off",
+    "atoms": [
+      "PassSeatHeat_close",
+      "power_off"
+    ]
+  },
+  {
+    "id": "32:513",
+    "type": 32,
+    "parameter": 513,
+    "label": "win_close_check / power_on / PassSeatHeat_lv1",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "PassSeatHeat_lv1"
+    ]
+  },
+  {
+    "id": "32:514",
+    "type": 32,
+    "parameter": 514,
+    "label": "win_close_check / power_on / PassSeatHeat_lv2",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "PassSeatHeat_lv2"
+    ]
+  },
+  {
+    "id": "32:515",
+    "type": 32,
+    "parameter": 515,
+    "label": "win_close_check / power_on / PassSeatHeat_lv3",
+    "atoms": [
+      "win_close_check",
+      "power_on",
+      "PassSeatHeat_lv3"
+    ]
+  },
+  {
+    "id": "32:4608",
+    "type": 32,
+    "parameter": 4608,
+    "label": "PassSeatHeat_close / power_off",
+    "atoms": [
+      "PassSeatHeat_close",
+      "power_off"
+    ]
+  },
+  {
+    "id": "32:4609",
+    "type": 32,
+    "parameter": 4609,
+    "label": "win_roof_close_check / power_on / PassSeatHeat_lv1",
+    "atoms": [
+      "win_roof_close_check",
+      "power_on",
+      "PassSeatHeat_lv1"
+    ]
+  },
+  {
+    "id": "32:4610",
+    "type": 32,
+    "parameter": 4610,
+    "label": "win_roof_close_check / power_on / PassSeatHeat_lv2",
+    "atoms": [
+      "win_roof_close_check",
+      "power_on",
+      "PassSeatHeat_lv2"
+    ]
+  },
+  {
+    "id": "32:4611",
+    "type": 32,
+    "parameter": 4611,
+    "label": "win_roof_close_check / power_on / PassSeatHeat_lv3",
+    "atoms": [
+      "win_roof_close_check",
+      "power_on",
+      "PassSeatHeat_lv3"
+    ]
+  },
+  {
+    "id": "33:0",
+    "type": 33,
+    "parameter": 0,
+    "label": "powerstate_check / ac_stop / power_off",
+    "atoms": [
+      "powerstate_check",
+      "ac_stop",
+      "power_off"
+    ]
+  },
+  {
+    "id": "33:1",
+    "type": 33,
+    "parameter": 1,
+    "label": "power_on / ac_start_appointment / ac_start_check",
+    "atoms": [
+      "power_on",
+      "ac_start_appointment",
+      "ac_start_check"
+    ]
+  },
+  {
+    "id": "33:4097",
+    "type": 33,
+    "parameter": 4097,
+    "label": "power_on / ac_start_appointment / ac_start_check",
+    "atoms": [
+      "power_on",
+      "ac_start_appointment",
+      "ac_start_check"
+    ]
+  },
+  {
+    "id": "35:0",
+    "type": 35,
+    "parameter": 0,
+    "label": "power_off_force",
+    "atoms": [
+      "power_off_force"
+    ]
+  },
+  {
+    "id": "35:1",
+    "type": 35,
+    "parameter": 1,
+    "label": "eng_start",
+    "atoms": [
+      "eng_start"
+    ]
+  },
+  {
+    "id": "35:2",
+    "type": 35,
+    "parameter": 2,
+    "label": "authorized_eng_start",
+    "atoms": [
+      "authorized_eng_start"
+    ]
+  },
+  {
+    "id": "39:0",
+    "type": 39,
+    "parameter": 0,
+    "label": "start_permit",
+    "atoms": [
+      "start_permit"
+    ]
+  },
+  {
+    "id": "39:1",
+    "type": 39,
+    "parameter": 1,
+    "label": "start_forbid",
+    "atoms": [
+      "start_forbid"
+    ]
+  },
+  {
+    "id": "48:0",
+    "type": 48,
+    "parameter": 0,
+    "label": "powerstate_check / cool_stop / DrSeatVent_close / PassSeatVent_close2 / power_off",
+    "atoms": [
+      "powerstate_check",
+      "cool_stop",
+      "DrSeatVent_close",
+      "PassSeatVent_close2",
+      "power_off"
+    ]
+  },
+  {
+    "id": "48:1",
+    "type": 48,
+    "parameter": 1,
+    "label": "power_on / cool_stop / DrSeatVent_close / PassSeatVent_close",
+    "atoms": [
+      "power_on",
+      "cool_stop",
+      "DrSeatVent_close",
+      "PassSeatVent_close"
+    ]
+  },
+  {
+    "id": "48:2",
+    "type": 48,
+    "parameter": 2,
+    "label": "powerstate_check / cool_stop / DrSeatVent_close / PassSeatVent_close2",
+    "atoms": [
+      "powerstate_check",
+      "cool_stop",
+      "DrSeatVent_close",
+      "PassSeatVent_close2"
+    ]
+  },
+  {
+    "id": "48:4",
+    "type": 48,
+    "parameter": 4,
+    "label": "powerstate_check / DrSeatVent_close / PassSeatVent_close3",
+    "atoms": [
+      "powerstate_check",
+      "DrSeatVent_close",
+      "PassSeatVent_close3"
+    ]
+  },
+  {
+    "id": "48:4096",
+    "type": 48,
+    "parameter": 4096,
+    "label": "powerstate_check / cool_stop / DrSeatVent_close / PassSeatVent_close2 / power_off",
+    "atoms": [
+      "powerstate_check",
+      "cool_stop",
+      "DrSeatVent_close",
+      "PassSeatVent_close2",
+      "power_off"
+    ]
+  },
+  {
+    "id": "48:4097",
+    "type": 48,
+    "parameter": 4097,
+    "label": "power_on / cool_stop / DrSeatVent_close / PassSeatVent_close",
+    "atoms": [
+      "power_on",
+      "cool_stop",
+      "DrSeatVent_close",
+      "PassSeatVent_close"
+    ]
+  },
+  {
+    "id": "49:0",
+    "type": 49,
+    "parameter": 0,
+    "label": "powerstate_check / heat_stop / DrSeatHeat_close / PassSeatHeat_close / SencondaryLeftSeatHeat_close / SencondaryRightSeatHeat_close2 / power_off",
+    "atoms": [
+      "powerstate_check",
+      "heat_stop",
+      "DrSeatHeat_close",
+      "PassSeatHeat_close",
+      "SencondaryLeftSeatHeat_close",
+      "SencondaryRightSeatHeat_close2",
+      "power_off"
+    ]
+  },
+  {
+    "id": "49:8192",
+    "type": 49,
+    "parameter": 8192,
+    "label": "powerstate_check / heat_stop2 / power_off",
+    "atoms": [
+      "powerstate_check",
+      "heat_stop2",
+      "power_off"
+    ]
+  },
+  {
+    "id": "49:1",
+    "type": 49,
+    "parameter": 1,
+    "label": "power_on / heat_stop / DrSeatHeat_close / PassSeatHeat_close / SencondaryLeftSeatHeat_close / SencondaryRightSeatHeat_close",
+    "atoms": [
+      "power_on",
+      "heat_stop",
+      "DrSeatHeat_close",
+      "PassSeatHeat_close",
+      "SencondaryLeftSeatHeat_close",
+      "SencondaryRightSeatHeat_close"
+    ]
+  },
+  {
+    "id": "49:2",
+    "type": 49,
+    "parameter": 2,
+    "label": "powerstate_check / heat_stop / DrSeatHeat_close / PassSeatHeat_close / SencondaryLeftSeatHeat_close / SencondaryRightSeatHeat_close2",
+    "atoms": [
+      "powerstate_check",
+      "heat_stop",
+      "DrSeatHeat_close",
+      "PassSeatHeat_close",
+      "SencondaryLeftSeatHeat_close",
+      "SencondaryRightSeatHeat_close2"
+    ]
+  },
+  {
+    "id": "49:4",
+    "type": 49,
+    "parameter": 4,
+    "label": "powerstate_check / DrSeatHeat_close / PassSeatHeat_close / SencondaryLeftSeatHeat_close / SencondaryRightSeatHeat_close3",
+    "atoms": [
+      "powerstate_check",
+      "DrSeatHeat_close",
+      "PassSeatHeat_close",
+      "SencondaryLeftSeatHeat_close",
+      "SencondaryRightSeatHeat_close3"
+    ]
+  },
+  {
+    "id": "49:4096",
+    "type": 49,
+    "parameter": 4096,
+    "label": "powerstate_check / heat_stop / DrSeatHeat_close / PassSeatHeat_close / SencondaryLeftSeatHeat_close / SencondaryRightSeatHeat_close2 / power_off",
+    "atoms": [
+      "powerstate_check",
+      "heat_stop",
+      "DrSeatHeat_close",
+      "PassSeatHeat_close",
+      "SencondaryLeftSeatHeat_close",
+      "SencondaryRightSeatHeat_close2",
+      "power_off"
+    ]
+  },
+  {
+    "id": "49:4097",
+    "type": 49,
+    "parameter": 4097,
+    "label": "power_on / heat_stop / DrSeatHeat_close / PassSeatHeat_close / SencondaryLeftSeatHeat_close / SencondaryRightSeatHeat_close",
+    "atoms": [
+      "power_on",
+      "heat_stop",
+      "DrSeatHeat_close",
+      "PassSeatHeat_close",
+      "SencondaryLeftSeatHeat_close",
+      "SencondaryRightSeatHeat_close"
+    ]
+  },
+  {
+    "id": "49:8193",
+    "type": 49,
+    "parameter": 8193,
+    "label": "power_on / heat_stop2",
+    "atoms": [
+      "power_on",
+      "heat_stop2"
+    ]
+  },
+  {
+    "id": "49:12288",
+    "type": 49,
+    "parameter": 12288,
+    "label": "powerstate_check / heat_stop2 / power_off",
+    "atoms": [
+      "powerstate_check",
+      "heat_stop2",
+      "power_off"
+    ]
+  },
+  {
+    "id": "49:12289",
+    "type": 49,
+    "parameter": 12289,
+    "label": "power_on / heat_stop2",
+    "atoms": [
+      "power_on",
+      "heat_stop2"
+    ]
+  },
+  {
+    "id": "51:2",
+    "type": 51,
+    "parameter": 2,
+    "label": "wakeup_ADCU_time_out / set_ADCU_wakeupsource_hpp",
+    "atoms": [
+      "wakeup_ADCU_time_out",
+      "set_ADCU_wakeupsource_hpp"
+    ]
+  },
+  {
+    "id": "52:0",
+    "type": 52,
+    "parameter": 0,
+    "label": "ac_stop / battery_off / power_off",
+    "atoms": [
+      "ac_stop",
+      "battery_off",
+      "power_off"
+    ]
+  },
+  {
+    "id": "52:1",
+    "type": 52,
+    "parameter": 1,
+    "label": "power_on / win_close_without_check / ac_start",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "ac_start"
+    ]
+  },
+  {
+    "id": "52:2",
+    "type": 52,
+    "parameter": 2,
+    "label": "ac_stop / power_off",
+    "atoms": [
+      "ac_stop",
+      "power_off"
+    ]
+  },
+  {
+    "id": "52:3",
+    "type": 52,
+    "parameter": 3,
+    "label": "battery_off / power_off",
+    "atoms": [
+      "battery_off",
+      "power_off"
+    ]
+  },
+  {
+    "id": "52:16",
+    "type": 52,
+    "parameter": 16,
+    "label": "power_on / win_close_without_check / battery_on",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "battery_on"
+    ]
+  },
+  {
+    "id": "52:17",
+    "type": 52,
+    "parameter": 17,
+    "label": "power_on / win_close_without_check / ac_start / battery_on",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "ac_start",
+      "battery_on"
+    ]
+  },
+  {
+    "id": "52:4097",
+    "type": 52,
+    "parameter": 4097,
+    "label": "power_on / win_close_without_check / roof_close_without_check / ac_start",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "roof_close_without_check",
+      "ac_start"
+    ]
+  },
+  {
+    "id": "52:4112",
+    "type": 52,
+    "parameter": 4112,
+    "label": "power_on / win_close_without_check / roof_close_without_check / battery_on",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "roof_close_without_check",
+      "battery_on"
+    ]
+  },
+  {
+    "id": "52:4113",
+    "type": 52,
+    "parameter": 4113,
+    "label": "power_on / win_close_without_check / roof_close_without_check / ac_start / battery_on",
+    "atoms": [
+      "power_on",
+      "win_close_without_check",
+      "roof_close_without_check",
+      "ac_start",
+      "battery_on"
+    ]
+  }
+]

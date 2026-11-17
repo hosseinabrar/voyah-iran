@@ -21,6 +21,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val repository = SubscriptionRepository(app)
     private val wake = Channel<Unit>(Channel.CONFLATED)
+    private val remoteWake = Channel<Unit>(Channel.CONFLATED)
     private val runtimeWake = Channel<Unit>(Channel.CONFLATED)
     private val runtimeLock = Mutex()
     /** Wake renewals use the already verified grant, never DNS/HTTP or feature provisioning. */
@@ -37,6 +38,9 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
     val state = mutable.asStateFlow()
     private val vipMutable = MutableStateFlow(false)
     val vipState = vipMutable.asStateFlow()
+    private val remoteMutable = MutableStateFlow(false)
+    val remoteState = remoteMutable.asStateFlow()
+    val remoteAllowed: Boolean get() = allowed && grant?.remoteAccess == true
     val allowed: Boolean get() = SubscriptionAccessPolicy.allowed(grant,repository.now(),denied)
     val vipAllowed: Boolean get() = SubscriptionAccessPolicy.vipAllowed(grant,repository.now(),denied)
     fun refresh() {
@@ -47,6 +51,7 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
     @Synchronized fun start() {
         if(started) return
         started = true
+        scope.launch { while(isActive) { if(grant != null || denied) syncRemote(); withTimeoutOrNull(30_000) { remoteWake.receive() } } }
         scope.launch {
             while (isActive) {
                 var retry=30_000L
@@ -91,6 +96,8 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                         denied = repository.blocked()
                     }
                     vipMutable.value = vipAllowed
+                    remoteMutable.value = remoteAllowed
+                    remoteWake.trySend(Unit)
                     // A valid local grant unlocks features before waiting for the network.
                     if(allowed && !wasAllowed) {
                         updateRuntimeSession()
@@ -133,6 +140,8 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                         previousVip = vipAllowed
                     }
                     vipMutable.value = vipAllowed
+                    remoteMutable.value = remoteAllowed
+                    remoteWake.trySend(Unit)
                     if(allowed) {
                         if(!wasAllowed) wasAllowed=startFeatures()
                         if(wasAllowed) { mutable.value=SubscriptionStatus.ACTIVE; announced=false }
@@ -151,6 +160,8 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                 } catch (e: CancellationException) { throw e }
                 catch (e: Exception) { AppLog.error("Keyboard", "VIP reconciliation failed; will retry", e) }
                 vipMutable.value = vipAllowed
+                    remoteMutable.value = remoteAllowed
+                    remoteWake.trySend(Unit)
                 if(!allowed) {
                     if(wasAllowed) { app.stopService(Intent(app,RahaService::class.java)); app.stopService(Intent(app,DriveMemoryService::class.java)); wasAllowed=false }
                     // Restore the star button even if the previous app process died with a recovery journal.
@@ -161,6 +172,16 @@ class SubscriptionManager(private val app: VoyahIranApplication) {
                 if(forced)nextRefresh=0
             }
         }
+    }
+    private suspend fun syncRemote() {
+        val value = remoteAllowed to (grant?.expiresAt ?: 0L)
+        try {
+            withContext(Dispatchers.IO) {
+                com.abrar.voyahiran.feature.remote.RemoteApi.call(org.json.JSONObject()
+                    .put("action","entitlement").put("remoteAccess",value.first).put("expires",value.second))
+            }
+        } catch(e: CancellationException) { throw e }
+        catch(e: Exception) { AppLog.info("Remote","Entitlement sync pending: ${e.javaClass.simpleName}") }
     }
     private suspend fun syncApollo() {
         try {

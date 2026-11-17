@@ -1,0 +1,141 @@
+/* Battery layout follows artwork/refinements/battery-concept-fa.png at phone scale. */
+#vehicle.battery-page>header{display:grid;grid-template-columns:1fr;gap:12px;padding:20px 4px 0}
+#batteryTitle{grid-row:2;font-size:29px;line-height:1.4;text-align:right;margin:0;font-weight:700;direction:rtl}
+#batteryPanel{padding-top:14px;display:flex;flex-direction:column;gap:12px}
+.battery-card{background:#1b2630;border:1px solid #394b5d;border-radius:15px;padding:12px}
+.battery-card h2{font-size:17px;line-height:1.5;margin:0 0 5px;font-weight:700}
+.battery-hero{display:flex;direction:ltr;align-items:center;gap:14px}
+.battery-hero>img{width:88px;height:130px;object-fit:contain;flex-shrink:0}
+.battery-hero>div{flex:1;text-align:center;direction:rtl;min-width:0}
+#batteryPercent{display:block;font-size:58px;line-height:1.08;direction:ltr;text-align:center}
+.charging-line{display:flex;justify-content:center;align-items:center;gap:7px;margin:6px 0}
+.charging-line img{height:20px;width:16px;object-fit:contain}
+#batteryChargeState{font-size:18px;line-height:1.4;margin:0}
+#batteryPower{display:block;text-align:center;font-size:23px;line-height:1.3}
+#batteryEta{display:block;white-space:nowrap;font-size:11px;line-height:1.8;margin-top:5px;min-height:20px}
+.battery-metrics{display:grid;grid-template-columns:repeat(3,1fr);direction:ltr;border-top:1px solid #526170;margin-top:14px;padding-top:12px;text-align:center}
+.battery-metrics>div+div{border-left:1px solid #526170}
+.battery-metrics b{font-size:20px;display:block;line-height:1.3}
+.battery-metrics span{display:block;font-size:13px;margin-top:4px}
+.limit-value{display:block;text-align:left;font-size:39px;line-height:1.1}
+#chargeLimitInput{display:block;appearance:none;-webkit-appearance:none;width:100%;height:12px;border:0;border-radius:7px;direction:ltr;margin:15px 0 9px;--fill:50%;background:url(assets/clock-stack-bar-blue-body.png) left center/var(--fill) 100% no-repeat,url(assets/clock-stack-track-dark.png) center/100% 100% no-repeat;cursor:pointer;opacity:1}
+#chargeLimitInput::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:21px;height:21px;border:1px solid #ccd8e5;border-radius:50%;background:#f3f6fa}
+#chargeLimitInput::-moz-range-thumb{width:20px;height:20px;border:1px solid #ccd8e5;border-radius:50%;background:#f3f6fa}
+#chargeLimitInput:disabled{opacity:1;cursor:default}
+.range-ends{display:flex;justify-content:space-between;font-size:12px}
+#applyChargeLimit{width:100%;margin-top:12px;padding:10px;font-size:17px;background:#168ff2;line-height:1.5}
+#applyChargeLimit:disabled{opacity:1;color:#e3edfa;cursor:default}
+.control-reason{font-size:9px;color:#aab9c8;line-height:1.6;margin:5px 0 0;text-align:right}.control-reason:empty{display:none}
+.schedule-heading,.schedule-details{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.schedule-heading h2{margin:0;display:flex;align-items:center;gap:8px;font-size:16px}
+.schedule-heading h2 img{width:21px;height:21px;object-fit:contain}
+.schedule-heading input{appearance:none;position:relative;width:43px;height:23px;border-radius:14px;background:#526170;border:0;margin:0;flex-shrink:0;cursor:pointer}
+.schedule-heading input:checked{background:#168ff2}
+.schedule-heading input:after{content:'';position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff}
+.schedule-heading input:checked:after{left:23px}
+.schedule-heading input:disabled{opacity:1;cursor:default}
+.schedule-details{margin-top:10px}.schedule-details b{font-size:19px;white-space:nowrap}.schedule-details button{padding:0;background:none;color:#199aff;font-size:12px;opacity:1}
+.battery-health{display:grid;grid-template-columns:1fr 1fr;gap:10px;direction:ltr}
+.battery-health article{text-align:center;padding:12px 5px}.battery-health h2{direction:rtl;font-size:14px;display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:10px}
+.battery-health img{width:22px;height:22px;object-fit:contain}.battery-health strong{font-size:28px}.battery-health b{font-size:23px}.battery-health .main-battery-health strong{font-size:34px}
+#batteryNotice{font-size:12px;margin:0 0 8px;text-align:center;color:#b9c7d5}
+.bottom-tabs [data-page]{cursor:pointer}.bottom-tabs [data-page]:focus-visible{outline:2px solid #199aff;border-radius:8px}
+dialog{max-width:350px;width:calc(100% - 32px);border:1px solid #526170;border-radius:16px;background:#1b2630;color:#f3f6fa;font-family:VI}
+dialog::backdrop{background:#0009}dialog h2{font-size:19px}dialog p{font-size:12px;line-height:1.8}dialog label{display:flex;align-items:center;justify-content:space-between;margin:14px 0}dialog input{color-scheme:dark;direction:ltr;font:18px Numbers,VI}dialog button{font-size:12px;margin:4px}#scheduleError{color:#ffbf28}
+@media(max-width:370px){#batteryPercent{font-size:50px}.battery-hero>img{width:75px}.battery-hero{gap:8px}#batteryEta{font-size:10px}.schedule-heading h2{font-size:14px}.schedule-details b{font-size:17px}.battery-health strong{font-size:24px}.battery-health b{font-size:20px}.battery-health h2{font-size:12px}}
+/* Phone-scale line boxes mirror the reference rather than font-default leading. */
+#vehicle.battery-page>header{gap:8px;padding-top:16px}
+#batteryTitle{line-height:36px}
+#batteryPanel{padding-top:10px;gap:11px}
+.battery-card{padding:11px}
+.battery-card h2{line-height:22px;margin-bottom:3px}
+#batteryPercent{font-size:56px;line-height:58px}
+.charging-line{margin:3px 0}
+#batteryChargeState{line-height:24px}
+#batteryPower{line-height:26px}
+#batteryEta{line-height:16px;min-height:16px;margin-top:3px}
+.battery-metrics{margin-top:10px;padding-top:10px}
+.battery-metrics b{line-height:24px}
+.battery-metrics span{line-height:18px;margin-top:3px}
+.limit-value{line-height:42px}
+#chargeLimitInput{margin:10px 0 7px}
+.range-ends{line-height:17px}
+#applyChargeLimit{margin-top:9px;padding:7px;line-height:24px}
+.control-reason{line-height:12px;margin-top:4px}
+.schedule-heading h2{line-height:24px;margin:0}
+.schedule-details{margin-top:8px}.schedule-details b{line-height:24px}.schedule-details button{line-height:22px}
+.battery-health article{padding:11px 5px}
+.battery-health h2{line-height:22px;margin-bottom:8px}
+.battery-health strong,.battery-health b{line-height:36px}
+/* Typography hierarchy and charging green sampled from the approved concept. */
+#batteryPercent{font-size:64px;line-height:66px;font-weight:700;letter-spacing:-1.5px}
+#batteryChargeState{font-size:20px;line-height:27px;font-weight:700}
+#batteryChargeState.green{color:#38f048}
+.charging-line{gap:6px;margin:4px 0}
+.charging-line img{width:18px;height:22px}
+#batteryPower{font-size:18px;line-height:23px;font-weight:700}
+#batteryEta{font-size:12px;line-height:18px;margin-top:5px}
+.battery-card h2{font-weight:700;font-size:18px}
+.limit-value{font-size:43px;font-weight:700;letter-spacing:-1px}
+#applyChargeLimit{font-weight:700;font-size:18px}
+.schedule-heading h2{font-size:16px;font-weight:700}
+.schedule-details button{font-size:13px;font-weight:700}
+.schedule-details b{font-size:19px;font-weight:700}
+.battery-health h2{font-size:14px;font-weight:700}
+.battery-health .main-battery-health strong{font-size:35px}
+.battery-health strong,.battery-health b{font-weight:700}
+@media(max-width:370px){#batteryPercent{font-size:58px}#batteryChargeState{font-size:18px}#batteryEta{font-size:10px}.schedule-heading h2{font-size:14px}.battery-health h2{font-size:12px}}
+/* First card: proportional coordinates from the approved 852×1846 concept.
+   Reference card bounds: (24,224)–(828,711). All text shares x=394. */
+.battery-summary{position:relative;padding:0;aspect-ratio:804 / 487;container-type:inline-size;overflow:hidden}
+.battery-summary .battery-hero{position:absolute;inset:0;display:block}
+.battery-summary .battery-hero>img{position:absolute;left:12.19%;top:8.42%;width:22.64%;height:54.62%;object-fit:contain}
+.battery-summary .battery-hero>div:not(.battery-art){position:absolute;left:46.02%;right:4%;top:0;bottom:0;text-align:left;direction:ltr}
+.battery-summary #batteryPercent{position:absolute;top:7.8%;left:0;margin:0;font-size:15.92cqw;line-height:1;font-weight:700;letter-spacing:-.3cqw;text-align:left}
+.battery-summary .charging-line{position:absolute;top:31.83%;left:0;right:0;margin:0;display:flex;flex-direction:row-reverse;justify-content:flex-end;align-items:center;gap:2cqw;direction:ltr}
+.battery-summary #batteryChargeState{font-size:5.22cqw;line-height:1.2;font-weight:700;text-align:left;direction:rtl;white-space:nowrap}
+.battery-summary .charging-line img{width:3.7cqw;height:5cqw;object-fit:contain}
+.battery-summary #batteryPower{position:absolute;top:44.15%;left:0;margin:0;font-size:4.72cqw;line-height:1.2;font-weight:700;text-align:left}
+.battery-summary #batteryEta{position:absolute;top:55.44%;left:0;margin:0;font-size:3.73cqw;line-height:1.25;font-weight:400;text-align:left;direction:rtl;white-space:nowrap;min-height:0}
+.battery-summary .battery-metrics{position:absolute;left:3.23%;right:3.23%;top:70.64%;margin:0;padding-top:3.23cqw;display:grid;grid-template-columns:repeat(3,1fr)}
+.battery-summary .battery-metrics b{font-size:5.22cqw;line-height:1.2;font-weight:700}
+.battery-summary .battery-metrics span{font-size:3.73cqw;line-height:1.3;margin-top:1.62cqw}
+/* Compensate the transparent side margins of the battery PNG. */
+#batteryPanel{padding-top:15px}
+.battery-summary .battery-hero>img{left:9.5%;width:28%;object-fit:fill}
+
+/* Four composited PNG cells, ordered from bottom to top; no painted battery shapes. */
+.battery-summary .battery-art{position:absolute;left:12.19%;top:8.42%;width:22.64%;height:54.62%;direction:ltr}
+.battery-shell{position:absolute;inset:0;width:100%;height:100%}
+.battery-cells{position:absolute;left:8.8%;right:8.8%;top:14%;bottom:7%;display:flex;flex-direction:column-reverse;gap:3%}
+.battery-cells img{display:block;min-height:0;flex:1;width:100%;height:22%;object-fit:fill;filter:grayscale(1) brightness(.18);opacity:.6}
+.battery-cells img.filled{filter:none;opacity:1}
+.battery-art[data-color="green"] .battery-cells img.filled{filter:hue-rotate(275deg) saturate(.8) brightness(1.5)}
+.battery-art[data-color="red"] .battery-cells img.filled{filter:hue-rotate(150deg)}
+.battery-art-bolt{position:absolute;left:34%;top:38%;width:32%;height:33%;object-fit:contain;filter:brightness(0) invert(1)}
+.schedule-heading h2{font-size:17px;font-weight:700}
+.battery-health h2{font-size:15px}
+.battery-health strong,.battery-health b{font-size:24px}
+.battery-health .main-battery-health strong{font-size:35px}
+.limit-value{font-size:42px}
+@media(max-width:370px){.schedule-heading h2{font-size:14px}.battery-health h2{font-size:12px}.battery-health strong,.battery-health b{font-size:21px}}
+
+/* Empty PNG cells keep their geometry but are entirely invisible. */
+.battery-cells img:not(.filled){visibility:hidden}
+@keyframes charging-pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.is-charging #batteryChargeState,.is-charging #chargingBolt,.is-charging .battery-art-bolt{animation:charging-pulse 1.6s ease-in-out infinite}
+.battery-summary .battery-hero>div:not(.battery-art) #batteryEta{white-space:nowrap;max-width:100%}
+.is-waiting #batteryChargeState{white-space:nowrap;font-size:4.6cqw;line-height:1.25}
+.is-waiting .charging-line{justify-content:flex-end}
+@media(prefers-reduced-motion:reduce){.is-charging #batteryChargeState,.is-charging #chargingBolt,.is-charging .battery-art-bolt{animation:none}}
+
+/* Center the two-line idle summary alongside the battery artwork. */
+.is-charge-idle .battery-summary #batteryPercent{top:18.8%}
+.is-charge-idle .battery-summary .charging-line{top:42.83%}
+.is-waiting .battery-summary #batteryEta{font-size:3.4cqw}
+
+.battery-health .main-battery-health h2{font-size:13px;gap:5px;white-space:nowrap}
+
+
+#vehicle.battery-page>header{padding:48px 4px 0;gap:0}
+#batteryTitle{grid-row:auto}

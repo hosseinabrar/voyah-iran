@@ -1,0 +1,134 @@
+[
+  {
+    "file": "libcommonconf.so.1",
+    "source": "old-extracted/usr/lib/libcommonconf.so.1.0",
+    "sha256": "b2701b0ba3595d9d3763efd21f9823843b98444e5d5ce2df69a94007195c1931",
+    "packaged_sha256": "9b906f9437368ec9f8f9802485bb6b31d809a629469ca2618056809770f014ea"
+  },
+  {
+    "file": "libhframework.so",
+    "source": "old-extracted/usr/lib/libhframework.so",
+    "sha256": "1abeca25762052de8e3ae6355f2f019c28c067c413db683267395458b702a11e",
+    "packaged_sha256": "a5c1963fe4db6061c8c08a7e28232f370403bb401186b833d5f949407f85e890"
+  },
+  {
+    "file": "libboost_thread.so.1.75.0",
+    "source": "extracted/system.img/usr/lib64/libboost_thread.so.1.75.0",
+    "sha256": "a9fa14a05e72d5178f6e5874b48ac33758744bb97c0805283e6572c1e1b3ce95",
+    "packaged_sha256": "b01b81ac60cf454ea456396898b14dfbf577c2609ed38c11b3c68ee141a04409"
+  },
+  {
+    "file": "libtbox_hal.so",
+    "source": "old-extracted/usr/lib/libtbox_hal.so",
+    "sha256": "e955651520635248724cce4ced4a4d086828a3abed4d592d20a1cafc04e46b00",
+    "packaged_sha256": "1fa89a8b49629ebf1f74800e0890f76566c5e4dee7a148ee3da03496a4672841"
+  },
+  {
+    "file": "libvns.so",
+    "source": "old-extracted/usr/lib/libvns.so",
+    "sha256": "193d4f764c952c7e177f4afae92634402ae237a439ae1d5693c0ba6b5f3a1420",
+    "packaged_sha256": "5d00c3e179b439b7dc1e7a33bb8c633aa35d2d27cb0fa517335226ad65a17d75"
+  },
+  {
+    "file": "libhcore.so",
+    "source": "old-extracted/usr/lib/libhcore.so",
+    "sha256": "920d73326a61c10faf218783595b18120a5f182daaecdf2c5ceb31254be33828",
+    "packaged_sha256": "0392d56223b49a25cd8ab9d09bcb693b574731d972b9d0892b8854d13dca888e"
+  },
+  {
+    "file": "libhgnss.so",
+    "source": "old-extracted/usr/lib/libhgnss.so",
+    "sha256": "a990e78cdc78fab27b843c5216c2fbb672b72b808f49c06f7ad09fee3567d4ba",
+    "packaged_sha256": "8c1efdcaf478d4f5990b15e81d6c6f765f738991a4c3a7d9b2b16047c8b01cff"
+  },
+  {
+    "file": "libhcommon.so",
+    "source": "old-extracted/usr/lib/libhcommon.so",
+    "sha256": "3046c2ba8c73efd3c75dfc16d0114ac99bc01d9c98f1b67351490a9090c59991",
+    "packaged_sha256": "4b078e54575ec6d47973582a583f6c95314582a1ffa6516fac6722d55967c5ac"
+  },
+  {
+    "file": "libplatformC.so",
+    "source": "old-extracted/usr/lib/libplatformC.so",
+    "sha256": "b47b9af1e9288fbafef73490f2d0d728b880d0f35f691c8216f4f529946ec919",
+    "packaged_sha256": "cb05d28f50e2372a18447550b1be78b675b272e7d0c307a84cb9d7ca4b19eb82"
+  },
+  {
+    "file": "libprotobuf.so",
+    "source": "old-extracted/usr/lib/libprotobuf.so",
+    "sha256": "5d5a3456c13bf7406e3c53bcffbcb9e25a21143b7225f344ba29adb1a2af5d2c",
+    "packaged_sha256": "8699cb660de5e7a1acaff87977be1071a16e77a174afd74d963374cc44bd968b"
+  },
+  {
+    "file": "libhsms_sec.so",
+    "source": "old-extracted/usr/lib/libhsms_sec.so",
+    "sha256": "170d46a803497bebfdc72ba0ec5ec5a439243137aca2ff77b0a0c01d0da0c3be",
+    "packaged_sha256": "8b048394d17b08a11bd6d1996fbb47da27d4660a827daee77df46896819c4101"
+  },
+  {
+    "file": "libifacegdbus.so",
+    "source": "old-extracted/usr/lib/libifacegdbus.so",
+    "sha256": "8a57efd81132a74f013c47611547239e93b6d91ecacaace39ee258f3e3b9dfa2",
+    "packaged_sha256": "2750e24b7ce71647c16d4b68644f25448dcd934838cf01bd04db8cc35291d220"
+  },
+  {
+    "file": "libprotobuf-c.so.1",
+    "source": "old-extracted/usr/lib/libprotobuf-c.so.1",
+    "sha256": "a7dbaeb7fa8ec5a56bba86952f66d7620efc171a7629f6f4d93b30221e9a0f46",
+    "packaged_sha256": "ea72765b77753dbedf565f90640ef832ec7c617db8407be7123d9837dfd37714"
+  },
+  {
+    "file": "libcomm_fw.so",
+    "source": "old-extracted/usr/lib/libcomm_fw.so",
+    "sha256": "4ce201190f32b98a775357d541e8c6146232e0eaee1e0e93ee32bb045580a969",
+    "packaged_sha256": "2b954f1bfe25f041381d5aea16c42e45f3f20f74457b53dd6dc53ff663d21b6e"
+  },
+  {
+    "file": "libcomm_conf.so",
+    "source": "old-extracted/usr/lib/libcomm_conf.so",
+    "sha256": "9561b054faa48bdc838c706652c5744233b590d0de7bf745d9bcb0a834ed13b4",
+    "packaged_sha256": "016fd59a2427742347d13e5da64e700363a5d4c545a57c007c4b0b2922d03b1e"
+  },
+  {
+    "file": "libuthash.so",
+    "source": "old-extracted/usr/lib/libuthash.so",
+    "sha256": "6fc44e58021254983a377097f14b62cb02e6c7b6332f9727e6c4975d1aa3e8f2",
+    "packaged_sha256": "8d3b432709cdc14f08dca074ded15fe6e216ca568de13ce82bd56dfc7c788e64"
+  },
+  {
+    "file": "libcomm_ipc.so",
+    "source": "old-extracted/usr/lib/libcomm_ipc.so",
+    "sha256": "b575f52a82929ea2b0f9dfdbc0b96ea9c865407a004166394c37c469ee35bce2",
+    "packaged_sha256": "284c56ec6a01166ad97e64d99ce628a37e2162568332f48c5e3a511081ea188f"
+  },
+  {
+    "file": "libmxml.so",
+    "source": "old-extracted/usr/lib/libmxml.so",
+    "sha256": "b3e7374fc79fa5035bfb85a44685a42f2fd05afdaa612abfb1fea07c1571640a",
+    "packaged_sha256": "e4df0c8c90e17fe49c36d081df6d219c6c60fb9e482a781a936ed5c3661898f1"
+  },
+  {
+    "file": "libappcommon.so",
+    "source": "old-extracted/usr/lib/libappcommon.so",
+    "sha256": "608bb9b176158fa9f1ab3a9ad1412dc2e3cfb0a75e0800476a4b9186176f9adb",
+    "packaged_sha256": "09fe61156bde6d7ab9651a92c3e71c41c6e786a9b0f51dc9d4c324cad1495a6c"
+  },
+  {
+    "file": "libdata_queue.so",
+    "source": "old-extracted/usr/lib/libdata_queue.so",
+    "sha256": "fa3d80f3435b3e90176408ca2d9130e8743bf0be86e36c814a81e353689786a7",
+    "packaged_sha256": "07e80b3163ac88e2f1be7260c247c2dbd117ed36f484da80ae503cb25369907a"
+  },
+  {
+    "file": "libboost_filesystem.so.1.75.0",
+    "source": "extracted/system.img/usr/lib64/libboost_filesystem.so.1.75.0",
+    "sha256": "c20d89e5f3578f0d81c1e3253ed69be2b6b853a376815db36faa63fe7bd19f16",
+    "packaged_sha256": "fc86b6c00fba49c84c97d8a7ad0b56376ef661ddbd07e76a2aad4495ab410ee8"
+  },
+  {
+    "file": "libappcommonC.so",
+    "source": "old-extracted/usr/lib/libappcommonC.so",
+    "sha256": "bd7fc1b65acbfd9f59d096775716062b8a254530c950aa0f0e7e3798e1c20532",
+    "packaged_sha256": "ea00708e998944cacfb41e3e49f0f9f3b886a0119711c7e9aea35339f61310d8"
+  }
+]

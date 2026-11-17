@@ -1,0 +1,69 @@
+Russian MCU / X-layout experimental candidate — 2026-11-10
+
+LATER LIVE RESULT: flashed and MCU App booted (12.8.1/MAPA), but protocol
+errors remain with X MPU. See docs/tbox-experimental-flash-result-20261110.txt.
+The preparation-stage no-flash statements below describe the earlier stage.
+
+Artifacts relative to repository:
+../work/tbox-russian-x-layout-candidate-20261110/
+Experimental package:
+experimental/TBOX_RUSSIAN_X_LAYOUT_MCU_ONLY_EXPERIMENTAL.bin
+SHA256 3168d60dc85c07d91266543a1ce273cc28e93d824dfaea6fbb279104e4ff919f
+169745 bytes. Contains MCU only; no MPU or primary bootloader payload.
+No install/erase/reboot/bank-switch command issued in this follow-up.
+
+STATUS: EXPERIMENTAL CANDIDATE, NOT A COMPLETED/VALIDATED BOOT PORT.
+Do not silently interpret the successful archive check as compatibility.
+
+Implemented offline changes:
+1. Previous UartBT relocation +0x8000 (58 address words).
+2. Seven App layout patches: synchronization sector start 0 -> 1 and
+   start address 10000000 -> 10008000 in Cm0/all synchronization descriptors;
+   tighten three updater range comparisons to exclude the first 0x8000 bytes.
+   New non-linking Thumb branch helpers appended to App, preserving LR,
+   unrelated registers and comparison flags. Original instructions hash/byte
+   checked. No original input binary changed.
+3. Shared startup status moved out of X version fields: old 0803d800/801 ->
+   0803d810/811 in both App and relocated UartBT. Old App function1003c09c
+   reproducibly overwrote PBL version bytes in emulation; corrected version
+   preserves them and retains its own private state values0/2.
+4. Reset mailboxes: old805/806/807 -> X818/819/81a (all relative to0803d000).
+   Evidence: Russian App sites100482ac,10049012,10049118,10049122 versus
+   homologous X sites10040c04,10041958,10041a7a,10041a84.
+   This aligns addresses only; it does NOT establish equivalent protocol.
+5. Four-block MCU package: App payload at10020000, CRC at100f7ffc;
+   UartBT payload at10008000, CRC at1001fffc. CRC32(block0), big-endian,
+   matching both cached X reference images. Recomputed inner/outer lengths,
+   MD5 and SHA256. No marker copied from a different payload.
+
+Validation completed:
+- 224 emulated patched-fragment cases covering registers and NZCV.
+- 10 emulated updater address-classifier cases: primary region rejected;
+  permitted payload/CRC starts mapped to inactive-bank addresses.
+- App/UartBT bounded startup state writes preserve X version bytes.
+- ZIP CRC, manifest MD5, block endpoints/lengths, vector/SP bounds, CRC32.
+- Exact package copied ONLY to TBox /tmp; SHA256 matched.
+- OEM upgrade-assist -C returned check integrity result:true.
+- Following upgrade-assist -u reported IDLE. No -i/-f/-F/-w invoked.
+Logs: experimental/oem-package-check.log. Code/tests are reproducible locally
+using private tools venv (capstone, Unicorn, pyelftools) plus Apple clang.
+Keystone was tried but its native library could not load on this host; the
+builder does not depend on it. Thumb branch encoding is checked via Capstone.
+
+Remaining uncertainties, not resolved by package preparation:
+- Retained X PBL binary unavailable; activation/fallback/recovery unverified.
+- X has an additional reset-state record at0803d81b:7b/state/b7. It is a
+  sentinel-framed state record, NOT cryptographic authentication. Its state
+  transitions include3 pending and1/2 outcome. Russian equivalent not found;
+  this logic has not been transplanted. It may affect reset/activation.
+- Complete runtime callback coverage, real MMIO/interrupt/cross-core startup,
+  CAN behavior and Russian MCU / retained X MPU interoperability untested.
+- OEM -C proves archive integrity only; it does not prove actual MCU-only
+  update acceptance, boot success, or ability to restore over USB.
+
+Preserved original cached X MCU/MPU archives:
+../work/tbox-enablement-20261108/live-backup/recovery-audit/cached-release/
+MCU SHA256 9f6be532e765396b5ab3559aa91b355e41f5b1d84ae9fdc1483f60773b21a775
+MPU SHA256 e0edb7e2849524f9a54f4e234b8850cf9ee431458dae77c6cef39e95d5b27eb1
+These are verified original cached update images, NOT a full live MCU/PBL dump.
+Do not overwrite them with staging from the failed Russian upgrade attempt.

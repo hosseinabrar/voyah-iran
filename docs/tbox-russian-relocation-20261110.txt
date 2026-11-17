@@ -1,0 +1,62 @@
+Russian UartBT relocation research — 2026-11-10
+NOT a hardware-validated firmware; no flash or installable outer BIN produced.
+Later follow-up: an experimental MCU-only outer BIN was produced and passed
+OEM archive integrity checking, NOT flashed or boot-validated. See
+docs/tbox-russian-x-layout-candidate-20261110.txt for superseding package status.
+Private evidence/tools: ../work/tbox-russian-relocation-audit/.
+
+Original UartBT SHA256 759b0c101a4544585541b91e8c76377853ffc99721c4f99ca93e28fad3f891e3.
+Offline candidate 85f482fa91bd16854b5d88627da4e3ffa7eed487fbbf11a58833dd57f8c984f1.
+58 image-local address words moved +0x8000: 22 nonzero vector entries
+(6 core,16 external IRQ) and36 distinct literal candidates. SP unchanged,
+reset10009f8d, VTOR literal10008000. Raw App scan was deliberately NOT patched:
+most address-shaped words there are instruction encodings, not pointers.
+
+Indirect-call audit:
+- Three reset calls use relocated literal pointers.
+- Two fault-handler calls use relocated literal pointers.
+- Eight IRQ wrappers read callback table08000c00. Runtime initializer produces
+  default10001c93 / relocated10009c93; later registration at0x10000d00 passes
+  relocated callback10000b5d to0x100012ca.
+- Initializer0x100021aa uses relative function descriptors; relative offsets
+  must NOT be shifted. Emulated successfully for original and candidate.
+- Two linked-list callbacks0x10001458/0x100014ae remain dependent on runtime
+  registration and list contents; static call-site identification alone is
+  not exhaustive runtime target validation.
+
+Emulation: Unicorn2.1.4 in existing private tools venv. emulate_init.py executes
+0x2194 runtime initializer to synthetic return with mapped RAM. Both versions
+execute9707 instructions with identical image-relative PC trace; initialized
+RAM below08008000 matches after normalizing image pointers. No hardware/MMIO,
+interrupt timing, cross-core boot, PBL entry, CAN or flash behavior emulated.
+An earlier CFG traversal3356 instruction count included data after call paths;
+DO NOT present it as fully verified reachable-code coverage.
+
+Concrete remaining platform difference: Russian main0x10000d80 starts App
+at10020000, writes0 to0803d800 and2 to0803d801. X main1000a5c0 starts App at
+same base, copies three version bytes to0803d804..806 and checks0800132c
+before its polling loop. This is a distinct cross-core startup contract, not
+just a relocation delta. PBL binary/protocol is not available as verified
+readback. Russian App/UartBT pairing alone does not prove compatibility with
+retained X PBL, dual-bank activation and validity markers.
+
+No source/linker relocation information or full-system emulator available.
+Need validate cross-core and PBL/bank boot contract (or test on recoverable
+matching spare) before labeling this candidate compatible. Removing the
+address guard, copying markers, or generating a flashable BIN now would only
+hide unresolved compatibility, not validate it. Device left unchanged.
+
+2026-11-10 preflash follow-up (owner explicitly accepted experimental risk):
+Live TBox f1900a18dabeb15d remained reachable; upgrade-assist -u reported IDLE,
+slot _b. No install/reset/erase command issued in this follow-up.
+Original host cached MCU/MPU ZIPs passed full ZIP CRC verification. SHA256 and
+sizes recorded in ../work/tbox-russian-relocation-audit/preflash-verification.json.
+Do not replace these with current device staging from the failed Russian attempt.
+Runtime-init emulation repeated successfully (9707 instructions).
+New concrete finding: both cached X block1 values equal standard CRC32(block0)
+encoded BIG-ENDIAN: UartBT 3c9d4d64; App 7d7e3c1c. They are therefore consistent
+with image checksum blocks, not arbitrary flags to copy into a changed image.
+This equality establishes the package checksum relationship only, not the PBL
+verification/activation algorithm. No candidate checksum blocks were flashed.
+The earlier conversational 30-percent failure estimate had no quantitative
+basis and must not be used as evidence of safety or recoverability.

@@ -1,0 +1,18 @@
+Direct OEM update attempt, 2026-11-10, explicitly authorized by owner for supplied Russian MCU+MPU.
+Evidence: ../work/tbox-direct-upgrade-20261110/ (private).
+Package: ../work/tbox-russian-repack/TBOX_RUSSIAN_MPU_MCU_REPACK.bin
+SHA256 4e5418c617e283484ebabf81fbd89f19493bdecb4eb517fd9c5bc034f08703ff
+ADB serial f1900a18dabeb15d. Package copied to /tmp; device SHA256 matched.
+OEM upgrade-assist -C returned check integrity result:true, state initially IDLE.
+Executed OEM upgrade-assist -i once. Its own MCU updater automatically retried.
+Final FAILURE E_UPGRADEMCU_RES_FLASH_RESULT_FAILURE(85), 19:19:27.
+MCU component progress reached9; package summary 0601 returned raw result1,
+isMcuReady0, isFlashOk0. Supplied App10020000 length55f86 and
+UartBT10000000 length2435 reported by parser. MCU reports return to APP mode.
+Do not conflate timeout after failure with first rejection: package-info rejection
+preceded timeout. Exact rejection reason/address check not yet established.
+No successful MCU payload write confirmed; MPU component never started in install log.
+No manual retry, bank toggle, forced reboot, or bypass performed.
+Cached release/staging may now contain attempted Russian package: NEVER use current
+on-device release ZIP as proof of original running firmware or original recovery backup.
+Original matching X recovery archives remain in host live-backup/recovery-audit.

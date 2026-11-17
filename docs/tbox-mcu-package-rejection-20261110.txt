@@ -1,0 +1,27 @@
+Russian MCU package rejection analysis, 2026-11-10
+Evidence private: ../work/tbox-mcu-package-reject-20261110/.
+Input is cached X App SHA256 c1ed2d90a3e35e3b7ccf023b5d68bc3ccac209969040a42c25953708395a79b2,
+not direct active MCU readback. The observed live summary/result behavior matches this path.
+
+Function0x1003fb68 checks each summary entry start address. Accepted values:
+UartBT 0x10008000 or marker0x1001fffc; App0x10020000 or marker0x100f7ffc.
+Accepted entries are translated +0x02000000 to inactive-bank destinations.
+Other address ->0x1003fc1e: records invalid category3, returns1.
+Caller0x1003ea92, branch0x1003ea98 ->0x1003ead4 sets failure1;
+0x1003eae0 calls summary reply0x1003e3ac(1), sets flash result0 and state9.
+Failure-report handler0x1003f93c emits flash failure at0x1003f97e and
+'Upgrade Fail' at0x1003f982. This accounts for live pkg-info result1,
+isMcuReady0 and FLASH_RESULT_FAILURE85 before payload transfer.
+Live transmitted summary includes App10020000 and UartBT10000000:
+second address is rejected by this code. Timeout is later, not primary cause.
+
+This is not merely a mislabeled XML address: Russian UartBT reset vector
+is0x10001f8d and handlers0x10002309/0x10002249, linked within10000000 region.
+CachedX reset0x1000a555 and handlers1000a851/1000a789, linked within10008000 region.
+Changing XML to10008000 without relocation would leave reset/handler targets
+pointing outside relocated image. Removing guard changes boot-region writes,
+not an established compatibility fix. Replacing UartBT with cachedX or omitting
+it would create an unvalidated mixed firmware, no longer the supplied full pair.
+No such modifications or retry performed. Original package remains untouched.
+Need actual compatible port/relink (including all absolute references), or OEM
+package matching X boot layout before a meaningful corrected update test.

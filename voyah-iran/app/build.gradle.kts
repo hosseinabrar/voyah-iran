@@ -68,6 +68,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.zxing:core:3.5.3")
     implementation(files("libs/hiddenapibypass-6.1.aar"))
     implementation("net.java.dev.jna:jna:5.18.1@aar")
     implementation(project(":raha-feedback"))

@@ -1,0 +1,141 @@
+@font-face{font-family:VI;src:url(assets/iransansx_regular.ttf)}@font-face{font-family:VI;src:url(assets/iransansx_bold.ttf);font-weight:700}@font-face{font-family:Numbers;src:url(assets/Roboto-Bold.ttf);font-weight:700;unicode-range:U+0030-0039,U+0025}@font-face{font-family:Numbers;src:url(assets/Roboto-Regular.ttf);unicode-range:U+0030-0039,U+0025}*{box-sizing:border-box}body{margin:0;background:#101820;color:#f3f6fa;font:16px Numbers,VI,sans-serif;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom)}[hidden]{display:none!important}button{font:inherit;background:#168ff2;color:white;border:0;border-radius:12px;padding:12px 20px;cursor:pointer}button:disabled{opacity:.6}.center{max-width:480px;margin:8vh auto;text-align:center;line-height:2}.app-icon{width:96px;height:96px}ol{text-align:right;line-height:2.8}.scanner{width:260px;height:260px;margin:24px auto;border:1px solid #526170;border-radius:18px;overflow:hidden;display:grid;place-items:center}.scanner img{width:150px}.scanner video{width:100%;height:100%;object-fit:cover}main{max-width:470px;margin:auto}header{display:flex;justify-content:space-between;align-items:start;padding:20px 4px 0;font-size:19px}.connection{display:flex;align-items:center;gap:7px;font-size:11px}.connection button{background:none;padding:0;width:25px;height:25px}.connection img{width:22px}.loading img{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.dot{width:9px;height:9px;border-radius:50%;background:#f4444e}.dot.online{background:#26d651}#power{color:#a9b6c8;font-size:16px}.car-scene{position:relative;height:540px}.car{position:absolute;height:500px;width:auto;left:50%;top:20px;transform:translateX(-50%)}.tire{position:absolute;width:95px;text-align:center;font:700 20px Numbers,VI}.tire small{display:block;font-size:15px;font-weight:400}.fl{top:75px;left:0}.fr{top:75px;right:0}.rl{bottom:75px;left:0}.rr{bottom:75px;right:0}.warning{position:absolute;color:#ffb900;text-align:center;font-size:12px;max-width:100px;line-height:1.4;font-weight:700}.danger{color:#ff3f47}.energy{display:grid;grid-template-columns:1fr 1fr;gap:12px;direction:ltr}.energy article{background:#1b2630;border:1px solid #394551;border-radius:16px;padding:15px;text-align:left}.amount{display:flex;align-items:center;gap:12px;direction:ltr;margin-top:8px}.amount img{height:35px;width:auto}.amount b{font:700 42px Numbers,VI}.range{font-size:20px;margin:4px 0 12px}.bar{height:10px;background:url(assets/clock-stack-track-dark.png) center/100% 100%;overflow:hidden;border-radius:5px}.bar>div{height:100%;background:url(assets/clock-stack-bar-blue-body.png) center/auto 100%;border-radius:5px}.temperatures{display:flex;justify-content:space-around;margin-top:12px;padding:15px;background:#1b2630;border-radius:14px}.stale{filter:grayscale(1);opacity:.58}#notice{text-align:center;color:#a9b6c8;font-size:12px}.overlay{position:absolute;pointer-events:none}#pairError{color:#ff8b8b}@media(max-width:370px){.car-scene{height:470px}.car{height:430px}.tire{font-size:17px;width:75px}.amount b{font-size:34px}}
+
+#lockIcon{vertical-align:middle;margin-right:7px}#beams{position:absolute;width:210px;height:85px;top:0;left:50%;transform:translateX(-50%)}#overlays{position:absolute;inset:0}.car-scene{height:565px}@media(max-width:370px){#overlays{transform:scale(.87);transform-origin:50% 0}.car-scene{height:505px}}
+
+.rl,.rr{bottom:145px}.temperatures b{display:inline-block;direction:ltr;unicode-bidi:isolate}.warning{max-width:80px}.energy article{min-width:0}
+
+/* Vehicle artwork remains four aligned PNG pieces, scaled uniformly to 70%. */
+.car-scene{height:420px}#overlays{transform:none}#beams{width:147px;height:60px;top:0}
+.tire{font-size:18px;width:75px}.fl,.fr{top:72px}.rl,.rr{bottom:112px}.fl,.rl{left:7%}.fr,.rr{right:7%}
+.tire:after,.warning:before{content:'';position:absolute;width:12px;height:12px;background:url(assets/marker-white.png) center/contain no-repeat;top:7px}
+.fl:after,.rl:after{right:-10px}.fr:after,.rr:after{left:-10px}
+.warning:before{background-image:url(assets/marker-orange.png);left:50%;top:-16px;transform:translateX(-50%)}.warning.danger:before{background-image:url(assets/marker-red.png)}
+.port-caption{position:absolute;top:364px;font-family:Numbers,VI,sans-serif;font-size:11px;font-weight:700;line-height:18px;max-width:110px;text-align:center;direction:rtl}.port-caption.charge{left:calc(50% - 148px)}.port-caption.fuel{right:calc(50% - 148px)}
+.red{color:#ff3f47}.yellow{color:#ffbf28}.green{color:#31d877}.charging{animation:charge-blink 1.4s ease-in-out infinite}@keyframes charge-blink{50%{opacity:.25}}
+.energy article{position:relative;padding:12px}.amount{gap:8px;margin-top:22px}.amount b{font-size:40px;line-height:1}.amount img{height:29px;width:auto;object-fit:contain}.charge-state{position:absolute;right:10px;top:10px;text-align:right;font-size:9px;max-width:105px}.charge-state small{display:block;color:#ffbf28;font-size:8px}.range{font-size:18px}
+.bottom-tabs{direction:rtl;display:flex;justify-content:space-around;border-top:1px solid #394551;margin-top:18px;padding:22px 0;color:#b5bec9;font-size:12px}.bottom-tabs .selected{color:#199aff;font-weight:700}.temperatures{font-size:13px;padding:12px}
+@media(max-width:370px){.car-scene{height:420px}#overlays{transform:none}.tire{font-size:16px;width:65px}.amount b{font-size:36px}.amount img{height:26px}}
+
+/* Anchors use the same centered coordinate system as the puzzle artwork. */
+#vehicle{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+.bottom-tabs{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:494px;height:calc(78px + env(safe-area-inset-bottom));padding:10px 8px calc(10px + env(safe-area-inset-bottom));margin:0;background:#101820;direction:ltr;align-items:center;font-size:11px}
+.bottom-tabs>span{display:flex;flex:1;min-width:0;align-items:center;justify-content:center;flex-direction:column;gap:5px;line-height:20px;white-space:nowrap}
+.bottom-tabs img{width:28px;height:28px;object-fit:contain}
+.tire{width:74px;font-size:17px;direction:ltr;text-align:center}
+.fl,.rl{left:calc(50% - 159px);right:auto}.fr,.rr{left:calc(50% + 85px);right:auto}
+.fl,.fr{top:82px;bottom:auto}.rl,.rr{top:287px;bottom:auto}
+.tire:after{top:8px}.fl:after,.rl:after{right:-8px}.fr:after,.rr:after{left:-8px}
+.warning{width:78px;max-width:78px;font-size:11px;line-height:18px}
+.window-FL,.window-RL{left:calc(50% - 156px);text-align:right}.window-FR,.window-RR{left:calc(50% + 78px);text-align:left}
+.window-FL,.window-FR{top:174px}.window-RL,.window-RR{top:247px}
+.warning:before{top:3px;transform:none}
+.window-FL:before,.window-RL:before{left:auto;right:-9px}.window-FR:before,.window-RR:before{left:-9px}
+.sunroof-label{left:calc(50% - 39px);top:231px}.sunroof-label:before{left:33px;top:-14px}
+.lights-label{left:calc(50% - 39px);top:0}.lights-label:before{display:none}
+.amount b{transform:translateY(10px)}.amount{margin-bottom:10px}
+@media(max-width:370px){.tire{width:66px;font-size:16px}.fl,.rl{left:calc(50% - 151px)}.warning,.port-caption{font-size:10px}.bottom-tabs{font-size:10px}}
+
+/* Keep the summary docked above navigation and move the shared artwork stage together. */
+#vehicle{display:flex;flex-direction:column;min-height:calc(100dvh - env(safe-area-inset-top));padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+#vehicle>header{flex-shrink:0}
+#telemetry{display:flex;flex-direction:column;flex:1}
+.car-scene{height:auto;min-height:450px;flex:1}
+.car-stage{position:absolute;bottom:0;left:0;right:0;height:420px}
+.energy,.temperatures{flex-shrink:0}
+#notice:empty{display:none}
+.tire small{font-size:11px;line-height:16px}
+.window-FL:before,.window-RL:before{right:-25px}
+.window-FR:before,.window-RR:before{left:-25px}
+.port-caption{top:378px}
+.port-caption.charge{left:calc(50% - 134px)}
+.port-caption.fuel{right:calc(50% - 134px)}
+#beams{width:300px;height:100px;top:-55px;pointer-events:none}
+.lights-label{top:-18px;z-index:2;white-space:nowrap;width:100px;max-width:100px;left:calc(50% - 50px)}
+.amount b{transform:translateY(5px)}
+
+/* Compact summary and headlight sources anchored to the front lamp corners. */
+.port-caption{top:368px}
+.energy article{padding:10px 12px}
+.amount{margin-top:10px;margin-bottom:4px}
+.range{margin:2px 0 8px}
+.temperatures>span{display:flex;align-items:center;gap:7px}
+.temperatures img{width:25px;height:25px;object-fit:contain}
+#beams{inset:0;width:auto;height:auto;transform:none;z-index:1}
+#beams img{position:absolute;width:110px;height:120px;top:-55px;object-fit:fill;pointer-events:none}
+#beams .beam-left{left:calc(50% - 114px)}
+#beams .beam-right{left:calc(50% + 4px);transform:scaleX(-1)}
+.lights-label{top:-22px}
+
+#beams img{opacity:.8}
+
+.window-FL,.window-FR{top:184px}
+.window-FL:before,.window-FR:before{top:3px}
+
+/* Rear tire and port spacing aligned with the approved overview. */
+.rl,.rr{top:297px}
+.port-caption{top:363px}
+.port-caption.charge{left:calc(50% - 129px)}
+.port-caption.fuel{right:calc(50% - 129px)}
+.temperatures{position:relative}
+.temperatures:after{content:'';position:absolute;left:50%;top:12px;bottom:12px;width:1px;background:#8799ad}
+
+/* Move artwork, lights and all vehicle annotations as a single group. */
+.car-stage{bottom:20px}
+
+/* Fade the light sprite into transparency before its upper canvas boundary. */
+#beams img{-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 30%,#000 85%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,#000 30%,#000 85%,transparent 100%)}
+
+/* Align the lock caption and enlarge beams around their lamp source. */
+#vehicleState{display:grid;grid-template-columns:24px auto;column-gap:3px;align-items:end}
+#lockIcon{display:block;margin:0;align-self:end}
+#lock{line-height:24px;transform:translateY(3px)}
+#power{grid-column:1 / -1;padding-top:5px}
+#beams img{transform-origin:50% 94%;transform:translateY(-10px) scale(1.8)}
+#beams .beam-right{transform:translateY(-10px) scale(-1.8,1.8)}
+.lights-label{top:14px}
+
+/* Light sits behind the vehicle; annotations remain above both layers. */
+.car-stage{isolation:isolate}
+#beams{z-index:0}
+#overlays{z-index:1}
+#labels{position:absolute;inset:0;z-index:2;pointer-events:none}
+.tire{z-index:2}
+
+.vehicle-ready .warning:not(.danger){color:#f3f6fa}
+.vehicle-ready .warning:not(.danger):before{background-image:url(assets/marker-white.png)}
+.tire-warning{color:#ffb900}.tire-critical{color:#ff3f47}
+.tire-warning:after{background-image:url(assets/marker-orange.png)}
+.tire-critical:after{background-image:url(assets/marker-red.png)}
+#lockIcon.locked-sleep{filter:brightness(0) saturate(100%) invert(68%) sepia(83%) saturate(1472%) hue-rotate(80deg) brightness(97%) contrast(91%)}
+
+/* Balanced temperature groups with compact icons and aligned number baselines. */
+.temperatures{display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:12px 8px}
+.temperatures>span{justify-content:center;gap:5px;line-height:24px;white-space:nowrap}
+.temperatures b{position:relative;top:2px}
+.temperatures img{width:22px;height:22px;flex-shrink:0}
+.temperatures img[src$="temperature.png"]{width:14px;height:20px;margin-left:-2px}
+
+/* Navigation tint follows the currently selected page. */
+.bottom-tabs [data-page="vehicle"]:not(.selected) img{filter:grayscale(1) brightness(2)}
+.bottom-tabs [data-page="battery"].selected img{filter:brightness(0) saturate(100%) invert(47%) sepia(97%) saturate(2037%) hue-rotate(181deg) brightness(104%) contrast(103%)}
+
+/* Shared right-aligned connection header, independent of active tab. */
+#vehicle>header{position:relative}
+#vehicle header .connection{position:absolute;top:20px;right:4px;width:160px;height:20px;margin:0;display:flex;flex-direction:row-reverse;align-items:center;justify-content:flex-start;gap:8px;direction:ltr}
+#vehicle header .connection small{display:flex;align-items:center;justify-content:flex-end;height:20px;margin:0;font:400 12px/20px Numbers,VI,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap;direction:rtl}
+#vehicle header .connection .dot{flex:0 0 9px;width:9px;height:9px;margin:0}
+#vehicle .stale{transition:filter .3s,opacity .3s}
+.bar>div{transition:width .3s ease}
+#lock,#power,.warning,.port-caption{transition:color .26s ease}
+.dot{transition:background-color .26s ease}
+
+#batteryChargeState,#batteryEta{transition:color .26s ease}
+
+.bottom-tabs [data-page="battery"]:not(.selected) img{filter:brightness(0) invert(1)}
+
+/* Optical alignment and matching home charging captions. */
+#vehicle header .connection .dot{transform:translateY(-1px)}
+.energy article>div:first-child{line-height:18px}
+.charge-state{top:10px;right:10px;max-width:125px;font:700 11px/18px Numbers,VI,sans-serif}
+.bottom-tabs [data-page="battery"] img{width:24px;height:24px;margin:2px}
+@media(max-width:370px){.charge-state{font-size:10px}}

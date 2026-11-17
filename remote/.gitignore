@@ -1,0 +1,10 @@
+**/pairing.local.json
+**/credentials.local.json
+.local/
+**/dist/
+**/__pycache__/
+**/*-key.local.pem
+TBox/TBox-remote/payload/tbox-remote
+
+**/*.o
+**/*.log
