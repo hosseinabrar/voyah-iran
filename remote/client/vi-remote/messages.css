@@ -1,0 +1,50 @@
+/* Geometry follows messages-simple-fa-v2; shared header/nav remain the same nodes. */
+#vehicle.messages-page>header{padding:48px 4px 0;min-height:109px}
+#messagesTitle{font-size:29px;line-height:44px;margin:0 0 16px;text-align:right;direction:rtl;width:100%;font-weight:700}
+#smsBlockedOpen{position:absolute;left:4px;top:55px;padding:4px;width:38px;height:38px;background:none}
+#smsBlockedOpen img{width:30px;height:30px;object-fit:contain}
+#messagesPanel{padding:0 3px 12px;direction:rtl}
+.sms-tabs{display:flex;direction:rtl;border:1px solid #394551;border-radius:12px;background:#252e38;overflow:hidden;margin:7px 0 22px}
+.sms-tabs button{width:50%;border-radius:11px;background:none;font-weight:700;font-size:18px;padding:12px 2px;line-height:24px;white-space:nowrap}
+.sms-tabs button.selected{background:#168ff2}
+.sms-row{width:100%;display:grid;grid-template-columns:26px minmax(0,1fr) 62px;grid-template-rows:auto auto;column-gap:10px;row-gap:3px;text-align:right;background:#202a34;padding:12px 13px;border-radius:12px;margin-bottom:8px;min-height:77px}
+.sms-row img{width:26px;height:26px;object-fit:contain;grid-column:1;grid-row:1/3;align-self:center}
+.sms-row b{font-size:18px;line-height:26px;grid-column:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+.sms-row time{grid-column:3;grid-row:1;font-size:14px;line-height:26px;text-align:left;white-space:nowrap}
+.sms-row>span{grid-column:2/4;grid-row:2;font-size:15px;line-height:23px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+.sms-retention{color:#b8c3d2;text-align:center;font-size:13px;margin:23px 0}
+.sms-empty{text-align:center;color:#b8c3d2;font-size:15px;margin:26px 0}
+#smsMore{display:block;margin:12px auto;background:none;color:#199aff;font-size:14px;padding:6px}
+#smsCompose label{display:block;font-size:18px;font-weight:700;margin-bottom:9px}
+#smsCompose input,#smsCompose textarea{display:block;width:100%;background:#222c36;border:1px solid #617184;border-radius:12px;color:#f3f6fa;font:16px Numbers,VI,sans-serif;padding:13px 14px;outline-offset:3px;resize:vertical;line-height:24px}
+#smsCompose input{height:50px;margin-bottom:20px;text-align:right}
+#smsCompose textarea{height:116px;min-height:116px;margin-bottom:26px;text-align:start}
+#smsCompose input::placeholder,#smsCompose textarea::placeholder{color:#b5c1d2;direction:rtl;text-align:right;opacity:1}
+#smsSend{width:100%;font-size:20px;font-weight:700;height:52px;padding:10px}
+#smsBack{display:flex;align-items:center;justify-content:flex-start;gap:10px;width:100%;max-width:100%;background:none;font:700 18px/28px VI,sans-serif;padding:5px 8px 12px;margin:0;text-align:right}
+#smsBack img{width:24px;height:24px;flex:0 0 24px;object-fit:contain}#smsBack span{min-width:0}
+#smsSender{font-size:23px;text-align:right;margin:9px 4px 26px;overflow-wrap:anywhere}
+.sms-full-message{border:1px solid #394551;border-radius:12px;background:#222c36;padding:14px 16px}
+#smsBody{font-size:19px;font-weight:700;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 20px;text-align:start;user-select:text}
+#smsDate{display:block;text-align:left;color:#c8d2df;font-size:14px}
+.sms-actions{display:flex;gap:10px;margin-top:30px}
+.sms-actions button{font:700 17px/26px VI,sans-serif;white-space:nowrap;padding:0 8px;height:54px;min-width:0;background:#26313c;flex:1.25}
+.sms-actions #smsDelete{background:#ac3339;flex:1;font-size:21px}
+#smsNotice{text-align:center;font-size:14px;line-height:1.8;color:#ff9c9c;margin:18px auto 0;max-width:95%}
+#smsSentIcon{width:26px;height:26px;flex:0 0 26px;object-fit:contain}
+#smsNotice.success{display:flex;align-items:center;justify-content:center;gap:10px;direction:rtl;background:#184c34;color:#f3f6fa;padding:8px 24px;border-radius:10px;width:max-content;font:700 19px/30px VI,sans-serif}
+#smsBlockedDialog{width:calc(100% - 42px);max-width:430px;border:1px solid #617184;border-radius:14px;background:#222c36;color:#f3f6fa;padding:0;direction:rtl;font-family:Numbers,VI,sans-serif}
+#smsBlockedDialog::backdrop{background:#10182088}
+.sms-modal-heading{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #394551}
+.sms-modal-heading h2{margin:0;font-size:21px;line-height:32px}
+#smsBlockedClose{background:none;padding:0 4px;font-size:29px;line-height:30px}
+#smsBlockedList{padding:0 18px;max-height:55vh;overflow:auto}
+.sms-block-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #394551}
+.sms-block-row:last-child{border:0}
+.sms-block-row b{font-size:19px;overflow-wrap:anywhere;min-width:0}
+.sms-block-row button{background:none;color:#199aff;font-size:16px;font-weight:700;padding:3px 0;white-space:nowrap}
+@media(max-width:360px){.sms-modal-heading h2{font-size:18px}.sms-actions button{font-size:14px}.sms-actions #smsDelete{font-size:18px}.sms-tabs button{font-size:16px}}
+
+
+.bottom-tabs [data-page="messages"].selected img{filter:brightness(0) saturate(100%) invert(47%) sepia(97%) saturate(2037%) hue-rotate(181deg) brightness(104%) contrast(103%)}
+.bottom-tabs [data-page="messages"]:not(.selected) img{filter:brightness(0) invert(1)}

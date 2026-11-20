@@ -51,3 +51,6 @@ Desktop.ini
 # Per-user encrypted build credentials and local publish settings
 /voyah-iran-installer/build/BuildSettings.local.json*
 /voyah-iran-installer/build/PayloadReuse.local.json
+
+# Offline design references live in parent work/remote-artwork-archive-20261120.
+/remote/client/vi-remote/artwork/

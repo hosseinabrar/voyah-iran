@@ -4,6 +4,8 @@ set -eu
 grep -Eq 'name="TBOX_Software_Version"[[:space:]]+value="2\.0\.7"' /mnt/hirain_app/etc/software_versions.xml || exit 1
 BASE=/usr/local/lib/TBox-antenna
 . "$BASE/common.sh"
+# VI Remote SMS lifecycle
+if [ -f /data/vi-remote/sms-runtime/mount.json ]; then /usr/bin/python /data/vi-remote/bin/sms-runtime.py --restore || exit 1; fi
 exec >>/tmp/voyah-tbox-kit.log 2>&1
 rm -f "$BASE/ready"
 [ "$(hash "$BASE/libvendor-ril-test.so")" = 1ec44b63fd7dd2a5d0cc88a06fe82c802f2ec415aff87861611b6ed95c6ef201 ] || fail 'Radio payload hash mismatch'
@@ -120,3 +122,5 @@ wait_at || fail 'Signal service did not recover'
 busctl --address=unix:path=/tmp/.hirain-dbus --timeout=8 introspect gdbus.hcommon.rild /gdbus/hcommon/rild gdbus.hcommon.rild.signal >/tmp/vi-kit-signal-check 2>&1 || fail 'Factory signal interface unavailable'
 echo 'DONE: Factory signal reporting service'
 printf '%s\n' "$uplink $cid $dns" > "$BASE/ready"
+
+if [ -f /data/vi-remote/sms-enabled ]; then /usr/bin/python /data/vi-remote/bin/sms-runtime.py || exit 1; fi

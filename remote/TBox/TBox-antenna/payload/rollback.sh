@@ -1,6 +1,8 @@
 #!/bin/sh
 BASE=/usr/local/lib/TBox-antenna
 . "$BASE/common.sh"
+# VI Remote SMS lifecycle
+if [ -f /data/vi-remote/sms-runtime/mount.json ]; then /usr/bin/python /data/vi-remote/bin/sms-runtime.py --restore || exit 1; fi
 rm -f "$BASE/enabled" "$BASE/ready"
 remove_network
 if [ -f "$BASE/owned-context" ]; then

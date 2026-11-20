@@ -1,0 +1,86 @@
+VI Remote SMS — 2026-11-18
+
+Phone: two tabs, Inbox and New message. Individual incoming messages, newest
+first; full text, delete, sender block/unblock. No conversations or sent folder.
+Blocked modal intentionally has no explanatory paragraph. Shared header and
+bottom navigation remain the exact existing DOM nodes. SMS polling uses the
+existing encrypted WebSocket at 5 seconds; no CAN wake request for this page.
+
+TBox: /data/vi-remote/messages.json (0600, parent 0700), atomic fsync+rename,
+separate from pairing state. Incoming signal subscription remains active without
+a connected phone. Blocked messages are discarded before persistence; blocking
+also removes existing messages from that sender. Delete tombstones deduplicate
+redeliveries. Retention 30 days, checked on every operation and once per minute.
+Up to 1000 incoming messages, 128 blocked senders and 4000 bounded dedup IDs.
+Inbox previews are paginated (20); full text is fetched separately. Outgoing
+body/recipient are not persisted by VI Remote. Existing OEM diagnostic logging
+is outside this store. Phone inbox is memory-only, not IndexedDB/service-worker
+cached. Send succeeds only after the OEM sendSms returns true; this is the OEM
+submission acknowledgement, not an end-recipient delivery receipt. No automatic
+retry after timeout (the modem may have accepted it). Paired device, entitlement,
+15s freshness and persistent replay checks apply to every SMS operation.
+
+OEM interface (verified in C, supplied MPU and live X):
+ unix:path=/tmp/.hirain-dbus
+ gdbus.hcommon.rild /gdbus/hcommon/rild gdbus.hcommon.rild.sms
+ sendSms(ssi)->b ; receiveSms(ssis)
+Runtime introspection must match before the adapter becomes ready. Incoming
+content is UTF-8 with byte length; OEM assembles multipart messages. The OEM API
+exposes events, not inbox/read/delete methods, so persistence and blocking belong
+to VI Remote. Outgoing wire encoding uses nibble+'0', NOT standard hex A-F.
+The native plugin converts UTF-8 to UCS-2BE when sendSmsFormat=2. Limit: 500 BMP
+characters and 1400 UTF-8 bytes; supplementary emoji cannot be represented by
+this OEM UCS-2 path and are rejected before submission.
+
+Preparation: sms-runtime.py supports exact SHA256 profiles only (stock C,
+VT/C 2.2.2vtr1.9, supplied MPU, live X 2.0.7, signal-patched X, SMS-patched X).
+C/MPU already initialize SmsService; X receives the previously audited wrapper
+that initializes Signal+SMS and retains the original Voice init call. A single
+instruction replaces the sendSmsFormat readInt call with mov w0,2, selecting the
+existing Unicode conversion independently of OEM config/cache defaults. Every
+input and resulting output hash is checked. No flash, modem/DSP/MCU replacement,
+carrier/APN edits, or cross-model library substitution. Exact profiles and byte
+offsets are in the helper; unknown firmware is rejected.
+
+Original live binary is backed up under /data/vi-remote/sms-runtime/before-HASH.
+Patched copy is bind-mounted; original OEM file stays unchanged underneath.
+Factory supervisor restarts only rild/hrild, not ql_rild. Startup verifies running
+/proc/PID/exe hash plus interface availability. Failure rolls back a new overlay.
+Systemd vi-remote-sms.service orders initialization before vi-remote-agent.
+Existing antenna scripts receive minimal restore/reapply hooks with backups
+*.before-vi-sms and updated checksums; owner APN/customizations are retained.
+New antenna packages contain the same hooks. Windows/macOS use the same payload
+and installer source. No OEM binaries were added to Git for this feature.
+
+Disable/uninstall remote:
+ sh /data/vi-remote/bin/uninstall.sh
+Stops services and restores the previous OEM overlay, retaining inbox, blocklist
+and pairing data. A normal reboot also clears runtime bind mounts; disable the
+services first to prevent reapplication. Lifecycle hooks are inert when disabled.
+
+Verification:
+ go test -race ./internal/... ./TBox/TBox-remote/telemetry-agent ./server
+ python3 TBox/TBox-remote/native/test_sms_runtime.py
+ NODE_PATH=<Playwright modules> node client/vi-remote/tests/messages-browser.cjs
+Native patch tests use the private firmware archive under the parent Voyah work
+folder when available. They verify all six input variants, output hashes, unchanged
+sizes, corruption rejection, idempotence and installed antenna backup/upgrade.
+Browser test mocks the encrypted vehicle endpoint; it does not send a real SMS.
+Actual browser screenshots: client/vi-remote/artwork/messages-concepts/implemented/.
+Real C and X modem send/receive, sleep/wake, antenna interaction and eCall
+regression still require vehicle testing; offline tests are not that evidence.
+
+PWA published to remote.voyah-iran.ir on 2026-11-18, file hashes checked via
+HTTPS. Backup: /root/vi-remote-sms-web-backup-20261118-123004. Gateway, server
+credentials, subscription and nginx configuration unchanged. TBox install is
+not performed by web publication; use the updated telemetry installer.
+
+2026-11-20 follow-up audit:
+- SMS initialization is now Wants+After, not Requires: SMS failure cannot stop
+  unrelated remote telemetry. Installer reports the SMS failure and starts agent.
+- Uninstall always attempts SMS overlay restore even if systemctl stop fails;
+  reports failure rather than claiming everything stopped. Failure-path test
+  mocks service failure and verifies restore, disabled marker and retained inbox.
+- Inbox detail responses are discarded if navigation changed meanwhile.
+- Rebuilt shared Linux payload and macOS/Windows installers; checksums verified.
+  This is build coverage, not a Windows runtime or C/X vehicle test.

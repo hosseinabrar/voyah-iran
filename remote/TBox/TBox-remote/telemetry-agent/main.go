@@ -13,14 +13,19 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"syscall"
 	"time"
+	"voyah/remote/internal/sms"
 	t "voyah/remote/internal/telemetry"
 )
 
 type service struct {
+	security                      securityService
+	messages                      *sms.Store
+	smsSend                       func(context.Context, string, string) error
 	ctx                           context.Context
 	wake                          func()
 	nativeRun                     func(context.Context, []byte) ([]byte, error)
@@ -112,6 +117,20 @@ func (s *service) handle(q t.Envelope) (t.Envelope, error) {
 			if reply.Snapshot == nil {
 				reply.Status = "data_unavailable"
 			}
+		} else if req.Kind == "security" {
+			if req.Action == "state" {
+				snap := s.snapshot()
+				if snap == nil || snap.CANMessages == 0 || time.Now().UnixMilli()-snap.LastCANAt >= 5000 {
+					if s.wake != nil {
+						s.wake()
+					} else {
+						requestWake()
+					}
+				}
+			}
+			reply.Status, reply.Security = s.security.execute(d.ID, req)
+		} else if req.Kind == "sms" {
+			reply.Status, reply.SMS = s.executeSMS(req)
 		} else if req.Kind == "battery-command" {
 			reply.Status = s.executeBattery(req)
 		} else if req.Kind != "ping" {
@@ -133,6 +152,11 @@ func (s *service) local(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Cache-Control", "no-store")
 	w.Header().Set("Content-Type", "application/json")
+	if r.URL.Query().Has("security") {
+		// A headunit must never supply vehicle position or complete a camera job.
+		http.Error(w, "unsupported", http.StatusNotFound)
+		return
+	}
 	var req struct {
 		Action, Name, ID string
 		RemoteAccess     bool
@@ -147,6 +171,9 @@ func (s *service) local(w http.ResponseWriter, r *http.Request) {
 	st := &s.store.State
 	if req.Action == "entitlement" {
 		st.RemoteAccess = req.RemoteAccess
+		if !req.RemoteAccess {
+			s.security.revoke("")
+		}
 		st.Expires = req.Expires
 		if e := s.store.Save(); e != nil {
 			http.Error(w, "save failed", 500)
@@ -184,6 +211,7 @@ func (s *service) local(w http.ResponseWriter, r *http.Request) {
 			if d.ID == req.ID {
 				found = true
 				if req.Action == "delete" {
+					s.security.revoke(req.ID)
 					st.Devices = append(st.Devices[:n], st.Devices[n+1:]...)
 				} else {
 					if len([]rune(req.Name)) < 1 || len([]rune(req.Name)) > 40 {
@@ -253,6 +281,17 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	s.ctx = ctx
+	go s.security.runLocation(ctx)
+	inbox, err := sms.Load(filepath.Join(filepath.Dir(*state), "messages.json"))
+	if err != nil {
+		// Preserve the damaged file and keep vehicle/battery telemetry available.
+		log.Print("SMS storage unavailable: ", err)
+	} else {
+		s.messages = inbox
+		smsBus := sms.NewBus(inbox)
+		s.smsSend = smsBus.Send
+		go smsBus.Run(ctx)
+	}
 	go s.runStreams(ctx)
 	mux := http.NewServeMux()
 	mux.HandleFunc("/local", s.local)

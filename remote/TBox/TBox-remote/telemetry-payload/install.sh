@@ -11,13 +11,13 @@ case "$schema_hash" in
   3a83470d0b2c2a43b3a4d64b3bf96c21b33e028bffcfc0fa76cf33a0d51d123e*|641700045deb8ed8fe1b6b1f006c2be93e650a77625f620616c628c47e19d668*|dd69b0cdbdc808756c805a5c6688bb6ec8cad0cf5f4f0334ebac1ab0ec9483b8*) ;;
   *) echo 'ERROR: Unverified CAN schema; install a matching telemetry profile first'; exit 1 ;;
 esac
-# No firmware, radio, MCU, OEM service, subscription or old remote files are modified.
+# SMS uses a verified reversible OEM process overlay; no modem/MCU flash or subscription changes.
 cd /tmp/vi-remote-install
 sha256sum -c SHA256SUMS >/dev/null
 BASE=/data/vi-remote
 mkdir -p "$BASE/bin"
 chmod 700 "$BASE"
-for f in vi-remote-agent vi-remote-collector vns-battery vns-battery.py native-check.sh; do
+for f in vi-remote-agent vi-remote-collector vns-battery vns-battery.py native-check.sh sms-runtime.py uninstall.sh; do
  cp "$f" "$BASE/bin/$f.new"
  chmod 755 "$BASE/bin/$f.new"
  mv "$BASE/bin/$f.new" "$BASE/bin/$f"
@@ -28,10 +28,29 @@ if [ ! -r /mnt/hirain_app/usr/lib/libvns.so ] || [ ! -r /mnt/hirain_app/usr/lib/
  tar -xzf native-libs.tar.gz -C "$BASE/native"
 fi
 /bin/sh "$BASE/bin/native-check.sh" || { echo 'ERROR: Native VNS session probe failed; see /data/vi-remote/native-probe.log'; exit 1; }
+# Shared by Windows/macOS installers. Integrate with an existing antenna helper
+# before installing the SMS overlay, preserving its original scripts for rollback.
+/usr/bin/python "$BASE/bin/sms-runtime.py" --antenna-hooks
+touch "$BASE/sms-enabled"
+cat > /etc/systemd/system/vi-remote-sms.service <<'UNIT'
+[Unit]
+Description=VI Remote OEM SMS initialization
+After=network.target hirain-boot.service TBox-antenna.service TBox-remote.service
+Before=vi-remote-agent.service
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python /data/vi-remote/bin/sms-runtime.py
+RemainAfterExit=yes
+TimeoutStartSec=60
+UMask=0077
+[Install]
+WantedBy=multi-user.target
+UNIT
 cat > /etc/systemd/system/vi-remote-agent.service <<'UNIT'
 [Unit]
 Description=VI Remote encrypted telemetry
-After=network.target
+After=network.target vi-remote-sms.service
+Wants=vi-remote-sms.service
 [Service]
 ExecStartPre=/bin/sh /data/vi-remote/bin/native-check.sh
 ExecStart=/data/vi-remote/bin/vi-remote-agent -listen 172.16.104.20:18782 -headunit 172.16.104.40
@@ -54,7 +73,10 @@ UMask=0077
 WantedBy=multi-user.target
 UNIT
 systemctl daemon-reload
-systemctl enable vi-remote-agent.service vi-remote-collector.service >/dev/null 2>&1
+systemctl enable vi-remote-sms.service vi-remote-agent.service vi-remote-collector.service >/dev/null 2>&1
+if ! systemctl restart vi-remote-sms.service; then
+ echo 'WARNING: SMS initialization failed; vehicle telemetry remains available'
+fi
 systemctl restart vi-remote-agent.service vi-remote-collector.service
 sleep 3
 systemctl is-active --quiet vi-remote-agent.service || { echo 'ERROR: Remote service did not start'; exit 1; }

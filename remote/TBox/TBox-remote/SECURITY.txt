@@ -1,0 +1,89 @@
+VI Remote / Security — corrected architecture, 2026-11-20
+STATUS: source correction and investigation; NOT complete camera delivery.
+Read remote/ARCHITECTURE.fa.txt first. Supersedes the former headunit-worker design.
+
+Runtime
+Phone PWA -> paired encrypted gateway -> TBox agent -> OEM TBox services.
+Voyah Iran headunit: entitlement + pairing only. No Android Camera intent,
+Camera APK allowlist, Android GPS, background-location permission, or headunit
+photo poll/result endpoint belongs in this remote feature.
+Removed RemoteSecurityWorker/RemoteCameraBridge and their added permissions,
+bridge policy and installer grants. Existing unrelated Raha camera behavior stays.
+/local?security is explicitly rejected even from the trusted headunit/loopback.
+Rejected implementation retained outside Git under the audit archive below.
+
+Location implemented in source
+telemetry-agent/security_location.go subscribes directly to the TBox bus
+unix:/tmp/.hirain-dbus, service/interface gdbus.hcommon.location,
+path /gdbus/hcommon/location, signal update_nmea_info signature (is).
+Source evidence: locationd + libhcommon.so emission and libhframework LocationProxy.
+Runtime introspection must match before accepting signals; no guessed ABI fallback.
+RMC checksum, active fix, coordinates, date/time and age are validated. UTC fix
+stamp is preserved; a new network reply never refreshes the coordinate's age.
+Invalid/estimated/simulated, future or over-24h fixes rejected. Accuracy unknown
+is omitted, not represented as a measured zero. Reconnect 3s, bounded dial/auth.
+No phone GPS or invented coordinates. Passive subscription doesn't power on a car.
+Neshan Web SDK key now belongs to PWA map-config.js, independent of headunit.
+Its origin restriction must permit the deployed remote domain.
+
+Factory camera evidence — not interchangeable with Android Camera APIs
+XML command IDs: 1:257 pic_dvr, 1:258 pic_roa, 1:260 pic_dms.
+Corresponding atom tbox_dvrTakePicCtrl values 1/2/3 on CAN 0xA8;
+channel 0, interval 2ms, count 3, pipes false, clear_count 0.
+These are different layers: command ID is NOT a CAN payload value.
+X names may carry _0xA8_1 / _0x105_1 suffixes. Match the actual profile.
+Atom waits up to 55000ms for ivi_tspUploadSts==2. Status 2 is factory upload
+success, NOT a JPEG. Do not complete our job or display an old file on this alone.
+Do not map DVR/ROA/DMS to CAR_FRONT/FRONT/BACK Android Camera enums.
+
+OEM sequencing observed in C debug binary (archive contains annotated addresses)
+proc_atoms_dcvp_send_command_request -> proc_atoms_dcvp_get_wake_lock ->
+queued split -> proc_atoms_split_request_handler -> proc_atoms_split_McuCheckCb.
+MCU ready requires vns_mcu_is_wakeup/getRunningStatus. Otherwise wake and retry,
+up to 15 checks at 2s. Preconditions/auth/command atoms follow. Register result
+callback before VehicleService remoteControl; release wake ownership afterwards.
+pic_* command XML has one atom, not a guessed extra ignition/power_on command.
+Power state preconditions must be checked against the C/X XML. BCM authentication
+failure does not establish failure of battery/HVAC/photo or all native methods.
+A direct vnsRemoteControl test is not proof that this whole sequence was replicated.
+
+Distinct media-request flow: atoms_dcvp_gdbus_cmd_media_upload_callback parses
+CameraRecordReq. GetConfigBits(8) reads DID 0xf010 through diagservice read_did;
+4 config bytes, little endian. This is a remote-photo feature bit, not by itself
+proof of a fitted DVR or availability of all three cameras. Photo result handler
+starts a separate 80s timer. Do not conflate this with the 55s atom timeout.
+read_did sync response found as (ub a(y)); runtime contract/result semantics still
+need verification before wiring capability. No capability invented from APK presence.
+
+Remaining blockers, explicit
+- No verified OEM JPEG return route to our TBox agent in supplied evidence yet.
+  Historical README already says photo download unimplemented. No local path,
+  cloud URL, D-Bus media method or socket protocol may be fabricated to fill this.
+- Native photo sequence and device capability not wired; production capture is
+  unavailable (unknown capability), not silently routed to headunit.
+- Existing job/chunk UI protocol is scaffolding only. Old 35/45s capture timers
+  must be aligned to the actual chosen OEM flow before enabling it.
+- C/X live location bus contract, GNSS wake/fix and media transfer require device
+  validation. This is not a completed production security backend.
+
+UI retained
+Approved map/icons/layout; navigation below-left; three camera actions only when
+capability confirmed; modal photo save/back; no gallery. Failure cross for 3s over
+70% black with approved Persian text. Encrypted owner-bound chunked transfer
+scaffolding preserved, but browser mocks are NOT physical capture evidence.
+
+Evidence roots relative to parent Voyah directory (outside Git)
+work/remote-security-tbox-audit-20261120/:
+ sequence.asm, native-sequence.asm, photo-annotated.asm, dcvp.asm, config.asm,
+ interfaces.asm, location-interface.asm, rejected-headunit-backend/.
+work/tbox-russian-x-c-auth-audit/{Original-X,C,Russian-X}/: XML / C debug binary.
+work/tbox-firmware-audit/extracted/appfwk.ubi/: owner MPU library/service evidence.
+firmware/SOURCE-CORRECTION.txt: provenance/ABI distinction, must not erase.
+
+Validation in this correction
+Go race tests agent + telemetry + SMS pass. Tests reject headunit GPS/capability
+injection, malformed/stale/future NMEA, unknown introspection contracts and
+invented camera availability, and preserve original fix age.
+Follow-up audit: rebuilt Linux ARM64 agent/collector, macOS ARM64/AMD64 and
+Windows AMD64 installers, gateway and PWA staging from corrected source.
+Both payload SHA256SUMS verified. No deployment/live car test/completion commit.

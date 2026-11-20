@@ -3,6 +3,7 @@
 package telemetry
 
 import (
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/ecdh"
@@ -11,6 +12,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"voyah/remote/internal/sms"
 )
 
 var Encoding = base64.RawURLEncoding
@@ -30,20 +32,29 @@ type Envelope struct {
 	Data    string `json:"data"`
 }
 type Request struct {
-	Page    string `json:"page,omitempty"`
-	Action  string `json:"action,omitempty"`
-	Percent *int   `json:"percent,omitempty"`
-	Enabled *bool  `json:"enabled,omitempty"`
-	Start   string `json:"start,omitempty"`
-	End     string `json:"end,omitempty"`
-	ID      string `json:"id"`
-	Kind    string `json:"kind"`
-	SentAt  int64  `json:"sentAt"`
+	Camera    int    `json:"camera,omitempty"`
+	Job       string `json:"job,omitempty"`
+	Offset    int    `json:"offset,omitempty"`
+	MessageID string `json:"messageId,omitempty"`
+	Recipient string `json:"recipient,omitempty"`
+	Body      string `json:"body,omitempty"`
+	Cursor    string `json:"cursor,omitempty"`
+	Page      string `json:"page,omitempty"`
+	Action    string `json:"action,omitempty"`
+	Percent   *int   `json:"percent,omitempty"`
+	Enabled   *bool  `json:"enabled,omitempty"`
+	Start     string `json:"start,omitempty"`
+	End       string `json:"end,omitempty"`
+	ID        string `json:"id"`
+	Kind      string `json:"kind"`
+	SentAt    int64  `json:"sentAt"`
 }
 type Reply struct {
-	ID       string    `json:"id"`
-	Status   string    `json:"status"`
-	Snapshot *Snapshot `json:"snapshot,omitempty"`
+	Security map[string]any `json:"security,omitempty"`
+	SMS      *sms.Result    `json:"sms,omitempty"`
+	ID       string         `json:"id"`
+	Status   string         `json:"status"`
+	Snapshot *Snapshot      `json:"snapshot,omitempty"`
 }
 type Snapshot struct {
 	LastCANAt   int64            `json:"lastCANAt,omitempty"`
@@ -89,11 +100,13 @@ func Seal(key []byte, q Envelope, direction string, value any) (Envelope, error)
 	if _, e = rand.Read(n); e != nil {
 		return q, e
 	}
-	b, e := json.Marshal(value)
-	if e != nil {
+	var payload bytes.Buffer
+	encoder := json.NewEncoder(&payload)
+	encoder.SetEscapeHTML(false) // Encrypted JSON is never embedded in HTML.
+	if e = encoder.Encode(value); e != nil {
 		return q, e
 	}
-	q.Data = Encoding.EncodeToString(a.Seal(n, n, b, aad(q, direction)))
+	q.Data = Encoding.EncodeToString(a.Seal(n, n, payload.Bytes(), aad(q, direction)))
 	return q, nil
 }
 func Open(key []byte, q Envelope, direction string, value any) error {

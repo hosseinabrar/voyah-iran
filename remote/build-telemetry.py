@@ -10,10 +10,11 @@ for system,arch in [('darwin','arm64'),('darwin','amd64'),('windows','amd64')]:
  name=f'telemetry-install-{system}-{arch}'+('.exe' if system=='windows' else '')
  subprocess.run(['go','build','-trimpath','-ldflags=-s -w','-o',str(box/'dist'/name),'./TBox/TBox-remote/telemetry-installer'],cwd=root,env={**os.environ,'CGO_ENABLED':'0','GOOS':system,'GOARCH':arch},check=True)
 payload=box/'telemetry-payload'
-(payload/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(payload.iterdir()) if p.name!='SHA256SUMS'))
+(payload/'SHA256SUMS').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(payload.iterdir()) if p.is_file() and p.name!='SHA256SUMS' and not p.name.startswith('.')))
 
 # Release PWA excludes full-resolution artwork sources and authoring tools.
 import shutil
+subprocess.run([sys.executable,str(root/'tools/prepare-web-cache.py')],check=True)
 web=root/'client/vi-remote'
 destination=root/'server/dist/vi-remote'
 if destination.exists(): shutil.rmtree(destination)

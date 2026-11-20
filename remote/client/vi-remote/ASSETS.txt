@@ -1,0 +1,25 @@
+Asset audit / offline caching — 2026-11-20
+17 unused legacy PNGs and obsolete car-layers.js removed from runtime sources.
+Design references, originals, backups and authoring outputs moved outside Git to
+parent-Voyah work/remote-artwork-archive-20261120/artwork; unused assets and
+pixel-equality/size audit are alongside it. Preserve this archive for future edits.
+Browser-test renders remain ignored under artwork/, never in release builds.
+
+Remaining PNG dimensions reviewed: puzzle slices ~2.85 device pixels per CSS
+pixel at current .7 scale; preserve for high-DPI phones and exact puzzle geometry.
+Other icons are small high-DPI assets; app install icon intentionally 512x512.
+Lossless PNG recompression: decoded RGBA bytes verified identical for every file.
+Used PNG bytes: 2,149,448 -> 2,123,455. No resampling or palette reduction.
+
+prepare-web-cache.py enumerates all shipped assets/fonts/scripts/styles and
+assigns content SHA256 revisions. Run by build-telemetry.py before web staging.
+Service worker precaches the complete inventory, serves it cache-first, reuses
+unchanged revisions across upgrades, removes only old vi-remote-* caches.
+No automatic skipWaiting: open tabs retain a consistent old app until closed.
+SW updateViaCache:none checks new releases without redownloading cached artwork.
+API responses/SMS/location/photos and third-party map tiles are not cached.
+Browser cache may be evicted by OS/user; next launch refills it in that case.
+
+Browser test: all assets fetched again after reload generated ZERO asset HTTP
+requests; offline app launch and puzzle load passed. This does not claim offline
+vehicle communication. Existing physical-camera delivery blocker still applies.

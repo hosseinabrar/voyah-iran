@@ -1,1 +1,0 @@
-Built-in image_gen. White hollow outline lightning bolt, uniform thin stroke, transparent background, no glow or shadow; mobile tab icon. Source resized to 72x72 PNG for 24 CSS pixels.

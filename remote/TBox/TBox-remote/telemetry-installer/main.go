@@ -56,7 +56,7 @@ func main() {
 		fail(e.Error())
 	}
 	for _, f := range files {
-		if !f.IsDir() {
+		if !f.IsDir() && !strings.HasPrefix(f.Name(), ".") {
 			if s, e := run("-s", serial, "push", filepath.Join(*root, "telemetry-payload", f.Name()), "/tmp/vi-remote-install/"+f.Name()); e != nil {
 				fail(s)
 			}

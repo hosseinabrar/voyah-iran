@@ -1,4 +1,37 @@
-const CACHE='vi-remote-v2-39-solid-tab-stroke';
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./','./index.html','./style.css','./app.js','./socket.js','./updated-time.js','./motion.js','./battery.js','./battery.css','./assets/battery-empty.png','./assets/battery-cell.png','./assets/calendar.png','./assets/heart.png','./assets/charge-bolt.png','./assets/tab-charge-outline.png','./assets/refresh.png','./assets/battery-hero.png','./port-badges.js','./car-puzzle.js','./manifest.webmanifest','./vendor/jsQR.js','./assets/unlock.png','./assets/headlight.png','./assets/temperature.png','./assets/outside.png','./assets/marker-white.png','./assets/marker-orange.png','./assets/marker-red.png','./assets/tab-vehicle.png','./assets/tab-battery.png','./assets/tab-diagnostics.png','./assets/tab-cameras.png','./assets/tab-messages.png']))));
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
-self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET'||u.origin!==self.location.origin||u.pathname.match(/^\/v[12]\//))return;e.respondWith(fetch(e.request).then(r=>{if(r.ok){const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy))}return r}).catch(()=>caches.match(e.request)))});
+importScripts('./precache.js');
+const root=new URL('./',self.location.href);
+const assets=new Map(Object.entries(self.VI_ASSETS).map(([path,revision])=>{
+ const url=new URL(path,root);const key=new URL(url);key.searchParams.set('__vi_revision',revision);return [url.pathname,key.href];
+}));
+self.addEventListener('install',event=>event.waitUntil((async()=>{
+ const cache=await caches.open(self.VI_CACHE);
+ // Content revisions reuse unchanged artwork across app updates as well as launches.
+ for(const [path,key] of assets){
+  const existing=await caches.match(key);
+  if(existing){await cache.put(key,existing);continue;}
+  const response=await fetch(new Request(new URL(path,root),{cache:'no-cache'}));
+  if(!response.ok)throw Error('App asset unavailable: '+path);
+  const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await response.clone().arrayBuffer())),b=>b.toString(16).padStart(2,'0')).join('');
+  if(digest!==new URL(key).searchParams.get('__vi_revision'))throw Error('App update incomplete: '+path);
+  await cache.put(key,response);
+ }
+})()));
+self.addEventListener('activate',event=>event.waitUntil((async()=>{
+ for(const key of await caches.keys())if(key.startsWith('vi-remote-')&&key!==self.VI_CACHE)await caches.delete(key);
+ await self.clients.claim();
+})()));
+self.addEventListener('fetch',event=>{
+ const url=new URL(event.request.url);
+ if(event.request.method!=='GET'||url.origin!==root.origin)return;
+ const path=url.pathname===root.pathname?new URL('index.html',root).pathname:url.pathname;
+ const key=assets.get(path);
+ // No telemetry, SMS, camera responses, map tiles or arbitrary URLs in this cache.
+ if(!key)return;
+ event.respondWith((async()=>{
+  const cache=await caches.open(self.VI_CACHE);const cached=await cache.match(key);
+  if(cached)return cached;
+  const response=await fetch(event.request);
+  if(response.ok)await cache.put(key,response.clone());
+  return response;
+ })());
+});
