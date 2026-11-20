@@ -1,0 +1,15 @@
+/* One viewport budget: safe areas and navigation are counted once. */
+body{padding-bottom:0}
+#vehicle{height:calc(var(--app-height,100dvh) - env(safe-area-inset-top));min-height:0;padding-bottom:calc(70px + env(safe-area-inset-bottom));position:relative}
+.bottom-tabs{height:calc(62px + env(safe-area-inset-bottom));padding:5px 8px calc(5px + env(safe-area-inset-bottom));gap:0}
+.page-frame{position:relative;flex:1;min-height:0}
+.page-frame>#telemetry{height:100%;min-height:0}
+.page-frame>#telemetry .car-scene{min-height:0;flex:1}
+.page-frame .car-stage{transform:scale(var(--stage-scale,1));transform-origin:center bottom;bottom:0}
+.page-frame>#batteryPanel,.page-frame>#securityPanel,.page-frame>#messagesPanel{transform:scale(var(--panel-scale,1));transform-origin:top center;width:100%}
+.sms-paging{display:flex;justify-content:space-between;gap:12px}.sms-paging button{font-size:14px;padding:8px 14px}
+#navigationDialog{box-sizing:border-box;width:calc(100% - 40px);max-width:360px;padding:20px;border:1px solid #708293;border-radius:18px;background:#1b2935;color:#f3f6fa}
+#navigationDialog::backdrop{background:rgba(0,0,0,.7)}
+#navigationDialog h2{font-size:20px;margin:0 0 18px}
+#navigationDialog a,#navigationDialog button{box-sizing:border-box;display:block;width:100%;padding:12px;margin-top:10px;text-align:center;border-radius:10px;color:#fff;text-decoration:none;background:#168ff2;font:inherit;font-weight:700}
+#navigationDialog button{background:#303e4c}

@@ -18,6 +18,8 @@ export function setupSecurity({send,onExpired,onReply}){
  $('securityFailure').addEventListener('cancel',e=>e.preventDefault());
  $('securitySave').onclick=async()=>{if(!file)return;try{if(navigator.canShare?.({files:[file]})){await navigator.share({files:[file]});return}const a=document.createElement('a');a.href=objectURL;a.download=file.name;document.body.append(a);a.click();a.remove()}catch(e){if(e.name!=='AbortError')fail()}};
  $('securityRecenter').onclick=()=>{if(map&&fix)map.setView([fix.latitude,fix.longitude],15)};
- $('securityNavigate').onclick=()=>{if(!fix)return;const p=`${fix.latitude},${fix.longitude}`;location.href=/Android/i.test(navigator.userAgent)?`geo:0,0?q=${encodeURIComponent(p+'(خودرو)')}`:`https://maps.apple.com/?daddr=${p}&dirflg=d`};
- return{refresh,enter(){active=true;map?.invalidateSize();refresh()},leave(){active=false;revision++;clearTimeout(errorTimer);if($('securityFailure').open)$('securityFailure').close();closePhoto();if(job)request({action:'release',job}).catch(()=>{})}};
+ $('securityNavigate').onclick=()=>{if(!fix)return;const {latitude:lat,longitude:lon}=fix,p=encodeURIComponent(`${lat},${lon}`);const links={google:`https://www.google.com/maps/dir/?api=1&destination=${p}&travelmode=driving`,waze:`https://waze.com/ul?ll=${p}&navigate=yes`,neshan:`https://neshan.org/maps/share/${lat},${lon}`,balad:`https://balad.ir/location?latitude=${lat}&longitude=${lon}&zoom=16`};for(const a of document.querySelectorAll('[data-navigate]'))a.href=links[a.dataset.navigate];$('navigationDialog').showModal()};
+ $('navigationCancel').onclick=()=>$('navigationDialog').close();
+ for(const a of document.querySelectorAll('[data-navigate]'))a.onclick=()=>$('navigationDialog').close();
+ return{refresh,enter(){active=true;map?.invalidateSize();refresh()},leave(){if($('navigationDialog').open)$('navigationDialog').close();active=false;revision++;clearTimeout(errorTimer);if($('securityFailure').open)$('securityFailure').close();closePhoto();if(job)request({action:'release',job}).catch(()=>{})}};
 }
