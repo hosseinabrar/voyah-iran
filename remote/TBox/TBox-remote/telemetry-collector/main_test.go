@@ -76,3 +76,24 @@ func TestScheduleSettingsFeedback(t *testing.T) {
 		t.Fatal(out.Values)
 	}
 }
+
+func TestLivePressureAndRangeContracts(t *testing.T) {
+	for _, name := range []string{"bcm_tyreLFPressure", "bcm_tyreRFPressure", "bcm_tyreLRPressure", "bcm_tyreRRPressure"} {
+		m := mappings[name]
+		v, ok := decode([]byte{0, 0, 27, 0, 0, 0, 0, 0}, signal{Start: 17, Bits: 8, Factor: .1})
+		if !ok || v*m.Scale < 39.15 || v*m.Scale > 39.17 {
+			t.Fatal(name, v, m)
+		}
+		invalid, _ := decode([]byte{0, 0, 255, 0, 0, 0, 0, 0}, signal{Start: 17, Bits: 8, Factor: .1})
+		if invalid <= m.Max {
+			t.Fatal("unavailable pressure accepted")
+		}
+	}
+	m := mappings["vcu_remainingMileage"]
+	if m.Key != "batteryRange" || 178 < m.Min || 178 > m.Max || 1023 <= m.Max {
+		t.Fatal(m)
+	}
+	if _, ok := mappings["ic_RemainingMileage"]; ok {
+		t.Fatal("ambiguous IC range must not overwrite EV range")
+	}
+}

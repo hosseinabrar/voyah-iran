@@ -53,6 +53,13 @@ type mapping struct {
 }
 
 var mappings = map[string]mapping{
+	// OEM 10-bit EV cruising range; 1023 denotes unavailable.
+	"vcu_remainingMileage": {"batteryRange", 0, 1022, 1, false},
+	// OEM TPMS physical values are bar; the remote client contract uses PSI.
+	"bcm_tyreLFPressure":            {"tireFLPsi", 0, 25.4, 14.5037738, false},
+	"bcm_tyreRFPressure":            {"tireFRPsi", 0, 25.4, 14.5037738, false},
+	"bcm_tyreLRPressure":            {"tireRLPsi", 0, 25.4, 14.5037738, false},
+	"bcm_tyreRRPressure":            {"tireRRPsi", 0, 25.4, 14.5037738, false},
 	"bms_maxACChargeAllowedCurrent": {"chargeCurrentLimit", 5, 68, 1, false},
 	"ivi_chargeFormSet":             {"chargeForm", 0, 3, 1, false},
 	"bms_vPackBms":                  {"batteryVoltage", 0, 800, 1, false},
@@ -127,7 +134,7 @@ func main() {
 		}
 		defer master.Close()
 		defer slave.Close()
-		cmd := exec.Command("/usr/bin/vnsMonitorCan", "-all")
+		cmd := exec.Command("vnsMonitorCan", "-all")
 		cmd.Stdout = slave
 		cmd.Stderr = slave
 		if e = cmd.Start(); e != nil {

@@ -72,3 +72,22 @@ func TestSecurityNoInventedCameraOrFix(tst *testing.T) {
 		tst.Fatal("lease retained")
 	}
 }
+
+func TestOEMLocationFreshness(t *testing.T) {
+	now := int64(1795188031000)
+	p := vehicleLocation{Latitude: 35, Longitude: 51, At: now - 1000}
+	if !validOEMLocation(p, now) {
+		t.Fatal("fresh fix rejected")
+	}
+	for _, stamp := range []int64{0, now - 86400001, now + 5001} {
+		p.At = stamp
+		if validOEMLocation(p, now) {
+			t.Fatal("invalid timestamp accepted", stamp)
+		}
+	}
+	p.At = now
+	p.Latitude = 91
+	if validOEMLocation(p, now) {
+		t.Fatal("invalid coordinates accepted")
+	}
+}

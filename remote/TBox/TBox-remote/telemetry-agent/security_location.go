@@ -4,15 +4,19 @@ package main
 // refresh a fix timestamp merely because the gateway delivered a response.
 import (
 	"context"
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
 	"github.com/godbus/dbus/v5"
+	"log"
 	"math"
 	"net"
+	"os/exec"
 	"strconv"
 	"strings"
 	"time"
+	"voyah/remote/internal/oem"
 )
 
 const locationBus = "gdbus.hcommon.location"
@@ -109,7 +113,7 @@ func locationContract(doc string) bool {
 	return false
 }
 func (s *securityService) locationSession(ctx context.Context) error {
-	raw, e := (&net.Dialer{Timeout: 4 * time.Second}).DialContext(ctx, "unix", "/tmp/.hirain-dbus")
+	raw, e := (&net.Dialer{Timeout: 4 * time.Second}).DialContext(ctx, "unix", oem.Socket())
 	if e != nil {
 		return e
 	}
@@ -175,6 +179,7 @@ func (s *securityService) locationSession(ctx context.Context) error {
 	}
 }
 func (s *securityService) runLocation(ctx context.Context) {
+	go s.pollLocation(ctx)
 	for {
 		_ = s.locationSession(ctx)
 		select {
@@ -183,4 +188,35 @@ func (s *securityService) runLocation(ctx context.Context) {
 		case <-time.After(3 * time.Second):
 		}
 	}
+}
+
+// Some OEM versions publish fixes in shared memory without NMEA bus signals.
+// The isolated helper uses the hash-verified OEM getter and its own mutex.
+func (s *securityService) pollLocation(ctx context.Context) {
+	for {
+		call, cancel := context.WithTimeout(ctx, 3*time.Second)
+		b, err := exec.CommandContext(call, "sh", "/data/vi-remote/bin/python-runtime", "/data/vi-remote/bin/location-read.py").Output()
+		cancel()
+		var p vehicleLocation
+		now := time.Now().UnixMilli()
+		if err == nil && len(b) < 4096 && json.Unmarshal(b, &p) == nil && validOEMLocation(p, now) {
+			s.mu.Lock()
+			if s.location == nil {
+				log.Print("OEM shared-memory location fix acquired")
+			}
+			if s.location == nil || p.At > s.location.At {
+				s.location = &p
+			}
+			s.mu.Unlock()
+		}
+		select {
+		case <-ctx.Done():
+			return
+		case <-time.After(5 * time.Second):
+		}
+	}
+}
+
+func validOEMLocation(p vehicleLocation, now int64) bool {
+	return !math.IsNaN(p.Latitude) && !math.IsNaN(p.Longitude) && math.Abs(p.Latitude) <= 90 && math.Abs(p.Longitude) <= 180 && p.At <= now+5000 && p.At >= now-86400000
 }
