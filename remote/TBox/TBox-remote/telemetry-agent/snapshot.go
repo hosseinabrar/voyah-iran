@@ -14,14 +14,10 @@ func init() {
 	}
 }
 func (s *service) pageSnapshot(page string) *t.Snapshot {
+	s.keepAwake()
 	snap := s.snapshot()
 	// A cumulative count alone cannot detect sleep: no recent CAN messages can.
 	if snap == nil || snap.CANMessages == 0 || time.Now().UnixMilli()-snap.LastCANAt >= 5000 {
-		if s.wake != nil {
-			s.wake()
-		} else {
-			requestWake()
-		}
 		deadline := time.Now().Add(1500 * time.Millisecond)
 		for time.Now().Before(deadline) {
 			snap = s.snapshot()

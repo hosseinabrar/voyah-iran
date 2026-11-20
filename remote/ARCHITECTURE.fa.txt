@@ -125,3 +125,14 @@ regression passed. This is emulation, not a physical iOS/WebKit test.
 Private renders/test/deployment record: parent work/remote-iphone-layout-20261120.
 Published web-only with hashes verified; backup /root/vi-remote-ui-20261120-165248.
 Gateway, subscriptions and TBox binaries untouched by this web deployment.
+
+2026-11-20: owner reports brief SMS wake after deep sleep. Offline VT audit found
+120s wake-source grace, versus stock C15s, and our missing CPU lock/active renewal.
+Not yet verified on sleeping hardware; no ADB connected. See SECURITY.txt sleep
+audit and parent work/remote-wake-audit-20261120. No wake behavior changed yet.
+
+2026-11-21: implemented bounded active CPU/MCU/vehicle wake leases (30s,
+renew at most every10s on entitled snapshot/security-state requests). Unique
+names avoid OEM duplicate-name no-op. Logs validate returned boolean. Agent
+race tests pass, ARM64 shared installer payload rebuilt; no device deployment
+or deep-sleep validation yet. Initial wake from unreachable sleep still separate.

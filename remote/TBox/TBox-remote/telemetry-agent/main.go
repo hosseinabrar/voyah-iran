@@ -11,14 +11,11 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"os/exec"
 	"os/signal"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"syscall"
 	"time"
-	"voyah/remote/internal/oem"
 	"voyah/remote/internal/sms"
 	t "voyah/remote/internal/telemetry"
 )
@@ -120,15 +117,9 @@ func (s *service) handle(q t.Envelope) (t.Envelope, error) {
 			}
 		} else if req.Kind == "security" {
 			if req.Action == "state" {
-				snap := s.snapshot()
-				if snap == nil || snap.CANMessages == 0 || time.Now().UnixMilli()-snap.LastCANAt >= 5000 {
-					if s.wake != nil {
-						s.wake()
-					} else {
-						requestWake()
-					}
-				}
+				s.keepAwake()
 			}
+
 			reply.Status, reply.Security = s.security.execute(d.ID, req)
 		} else if req.Kind == "sms" {
 			reply.Status, reply.SMS = s.executeSMS(req)
@@ -306,26 +297,5 @@ func main() {
 	}()
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal(err)
-	}
-}
-
-// OEM power-manager wake lease expires automatically; no ignition/actuation.
-// Called only after authenticated, entitled snapshot requests, not idle relay polls.
-var wakeGate = make(chan struct{}, 1)
-
-func requestWake() {
-	select {
-	case wakeGate <- struct{}{}:
-	default:
-		return
-	}
-	defer func() { <-wakeGate }()
-	for _, kind := range []string{"1", "2"} {
-		ctx, cancel := context.WithTimeout(context.Background(), 2500*time.Millisecond)
-		err := exec.CommandContext(ctx, "busctl", "--address="+oem.Address(), "--no-pager", "--timeout=2", "call", "gdbus.hcommon.powermanager", "/gdbus/hcommon/powermanager", "gdbus.hcommon.powermanager", "apply_wakelock", "iisi", kind, strconv.Itoa(os.Getpid()), "vi-remote-telemetry", "20").Run()
-		cancel()
-		if err != nil {
-			log.Print("Telemetry wake request unavailable")
-		}
 	}
 }

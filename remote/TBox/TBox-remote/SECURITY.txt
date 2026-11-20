@@ -118,3 +118,47 @@ developers.google.com/waze/deeplinks. Neshan /maps/share/lat,lon and Balad
 /location?latitude=lat&longitude=lon&zoom=16 are provider location pages.
 Chromium simulated iPhone: four links, coordinate ordering, cancel, and page
 viewport fit pass. Physical iOS app handoff remains to be tested by owner.
+
+2026-11-20 sleep / SMS wake audit (offline, no attached ADB device):
+Owner confirms SMS wakes remote briefly after hours asleep; VT UI remains live
+roughly 2-3 minutes. Do not mark deep-sleep operation validated by earlier awake tests.
+Source: parent work/tbox-firmware-audit/voyah-tweaks-2.2.2vtr1.9/extracted/.
+appfwk.ubi/etc/powermanager/pm_config.xml condition2 includes wake source message
+while vehicle sleep. Its active-state postponed clear of WakeupSource is120s;
+stock C2.2.1 comparison is15s. DeviceStatus keeps ARM/AP/modem/location on.
+This establishes a wake grace period, NOT ignition-on or proof of live CAN.
+DWARF in sms/powermgrd: OPENCPU=0, MCU=1, VEHICLE_ONCE=2, VEHICLE_PERIOD=3,
+RTC=4, AP=5. Our requestWake currently requests1 and2 with duration20, omits0;
+only stale/zero CAN triggers it, so fresh data does not renew any wake lease.
+busctl exit status is checked but returned boolean is not parsed: method rejection
+can be silent. These are concrete gaps, not a confirmed on-car root cause.
+SMS HPlatform::applyWakelock (0x17e7c) uses type0 and matching release exists;
+callsite0x178f4 is smsService message handler. Do not generalize that OEM service
+handler to every arbitrary incoming SMS without following its message dispatch.
+vehtap launch attaches to private OEM bus and documents gb_send_data/dcvp_send_data
+monitoring; string scan found no wake API. Absence of strings alone is not proof.
+VT server post-SMS commands unavailable; no claim of exact server-side sequence.
+Evidence/script: parent work/remote-wake-audit-20261120/.
+Next live validation: compare effective pm_config, OEM wake source/lock deadlines,
+CAN last activity, and SMS-to-suspend timeline; then implement bounded CPU+CAN
+lease renewal only for authenticated active clients, with expiry after disconnect.
+No firmware edits, deployment or SMS transmission performed in this audit.
+
+2026-11-21 bounded active wake implementation:
+Agent snapshot (vehicle/battery) and security/state now renew wake on every
+entitled/authenticated request, including fresh CAN. No idle relay, SMS-only,
+expired subscription or unauthenticated request renewal was added.
+wake.go rate-limits to one batch per10s, uses finite30s OEM leases for OPENCPU=0,
+MCU=1, VEHICLE_ONCE=2. No perpetual lock/timer or ignition/power-on command.
+VT powermgrd applyWakeLock disassembly0x750b4..0x75128 matches name/PID then
+returns success without deadline update. Distinct finite lease names are used
+so overlap preserves coverage; old entries expire via OEM timeout cleanup.
+No same-name renewal assumption. Exact expiry timing includes OEM cleanup tick.
+Each busctl is bounded2.5s and OEM reply must be b true; false/malformed replies
+and command failures logged by lock kind. Retries rate-limited even on failure.
+Go race tests pass for agent/SMS/OEM, with fresh-CAN renewal, finite lease args,
+distinct lease names, throttling and rejection visibility tests. ARM64 agent
+rebuilt and shared Windows/macOS payload SHA256SUMS updated. Installer code
+unchanged. No device connected: not installed or deep-sleep tested. This keeps
+an already reachable TBox awake; it cannot receive an IP command while deep
+sleep has disconnected networking. Initial SMS/network wake remains separate.

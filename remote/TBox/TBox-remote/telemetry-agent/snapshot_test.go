@@ -33,14 +33,14 @@ func TestWakeBeforePageSnapshot(test *testing.T) {
 		test.Fatal(calls, b)
 	}
 	v := s.pageSnapshot("vehicle")
-	if calls != 1 || v.Values["batteryVoltage"] != nil || v.Values["fuel"] == nil {
+	if calls != 2 || v.Values["batteryVoltage"] != nil || v.Values["fuel"] == nil {
 		test.Fatal(calls, v)
 	}
 	// A zero CAN count must wake even if the snapshot file was recently written.
 	snap.CANMessages = 0
 	save()
 	s.pageSnapshot("battery")
-	if calls != 2 {
+	if calls != 3 {
 		test.Fatal("zero count did not wake")
 	}
 }
