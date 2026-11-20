@@ -95,3 +95,33 @@ work/remote-security-tbox-audit-20261120/
 ASSETS.txt مسیر آرشیو و سیاست کش را ثبت می‌کند. 17 تصویر runtime بلااستفاده حذف شد.
 کش تمام فایل‌های ثابت با revision محتوایی، بدون کش اطلاعات خصوصی/پاسخ API است.
 این کامیت ثبت وضعیت اصلاح‌شده است؛ به معنی تکمیل مسیر تحویل JPEG یا تست خودرو نیست.
+
+نصب واقعی 2026-11-20 روی رام VT/C:
+فرض‌های اشتباهِ مسیر X، Python نصب‌شده، سوکت فایل‌سیستمی و فضای /data اصلاح شد.
+مرجع دقیق نصب در بخش Live VT/C installation سند SMS.txt است. سه سرویس فعال،
+مجوز true، یک گوشی جفت‌شده و درخواست احرازشدهٔ تازه تأیید شد. تست ارسال پیامک،
+اثر فرمان شارژ و ماندگاری پس از خاموش/روشن هنوز انجام نشده‌اند.
+
+2026-11-20 — تست زندهٔ ریموت روی VT/C:
+فشارهای bcm_tyre{LF,RF,LR,RR}Pressure در دادهٔ خام وجود داشتند ولی نگاشت
+به tire{FL,FR,RL,RR}Psi جا افتاده بود. واحد خام bar با ضریب14.5037738 به PSI
+تبدیل شد. vcu_remainingMileage به batteryRange نگاشت شد؛ مقدار1023 نامعتبر
+است. ic_RemainingMileage نامعتبر و برد دینامیک با برد استاندارد قاطی نشدند.
+پس از نصب collector هر چهار فشار و برد176km در snapshot واقعی تأیید شدند.
+GPS: نبودن پیام NMEA به معنای نبودن fix نیست؛ مسیر getter حافظهٔ مشترک
+سرویس کارخانه موقعیت تازه برگرداند. جزئیات ABI و محدودیت X در SECURITY.txt.
+
+2026-11-20 — iPhone layout/navigation:
+Viewport budget now counts safe areas/navigation once; bottom tab content62px
+plus bottom safe area. Shared page frame fits panels to available height;
+vehicle stage scales uniformly with all markers. Inbox uses four-row client
+pagination with previous/next rather than an ever-growing list. Navigation: owner approved explicit Google Maps, Waze, Neshan, Balad chooser
+following clarification of native iOS vs Telegram Open In. Replaces Web Share.
+HTTPS coordinate links are populated from the latest car fix on every opening.
+No installed-app detection claim; OS/provider controls app vs web handoff.
+Chromium393x852 with simulated iPhone59px/34px safe areas: all four page shells
+fit without document scrolling; temperature bottom748, nav top756. Browser SMS
+regression passed. This is emulation, not a physical iOS/WebKit test.
+Private renders/test/deployment record: parent work/remote-iphone-layout-20261120.
+Published web-only with hashes verified; backup /root/vi-remote-ui-20261120-165248.
+Gateway, subscriptions and TBox binaries untouched by this web deployment.

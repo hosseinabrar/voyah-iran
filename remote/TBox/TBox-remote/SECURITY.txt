@@ -87,3 +87,34 @@ invented camera availability, and preserve original fix age.
 Follow-up audit: rebuilt Linux ARM64 agent/collector, macOS ARM64/AMD64 and
 Windows AMD64 installers, gateway and PWA staging from corrected source.
 Both payload SHA256SUMS verified. No deployment/live car test/completion commit.
+
+Live VT/C location repair — 2026-11-20
+Device: physical H97X using H97C3630812BP / 2.2.2VTR1.9 software.
+The owner confirmed VoyahTweaks shows the vehicle position. Passive OEM D-Bus
+monitoring produced no NMEA/location signal during two captures (8s + 12s),
+although locationd was running. This was NOT evidence of a missing GPS fix.
+The factory LocationProxy::getLocInfo getter returned a current fix (<1 second
+old) from shared memory. Exact VT cloud-side consumption remains untraced;
+our fix uses the factory API, not a VoyahTweaks endpoint or headunit position.
+libhframework SHA256 9a876f8a7fd957b87575a2866ba76ee35aed90980a9cd4aba09584df533dde3b
+matches archived stock C and installed VT/C. DWARF + disassembly establish
+LocationInfos size2536, flags offset0, timestamp milliseconds offset8,
+latitude offset24, longitude offset40; validity bits1(time) and4(lat/lon).
+The getter locks the OEM shared-memory mutex and copies the struct. The helper
+only constructs LocationProxy and invokes its getter; no GNSS mode/frequency,
+vehicle wake or firmware setting is changed. Execution is isolated with a3s
+limit; polling5s; original fix timestamp is preserved. NMEA subscription stays.
+Unknown library hashes fail closed in the helper. X getLocInfo copies3312bytes,
+so its ABI MUST NOT be treated as C. X retains the existing NMEA path pending
+independent verification of its shared-memory layout. No X live-test claimed.
+Private evidence: parent work/remote-live-data-20261120/ (layouts, disassembly,
+read-only probe, previous agent/collector binaries). No coordinates in Git.
+
+2026-11-20 navigation chooser: owner requested Google Maps / Waze / Neshan /
+Balad. Web client opens their HTTPS location/directions links from the latest
+validated car fix. No automatic share sheet or installed-app detection.
+Google/Waze URL contracts: developers.google.com/maps/documentation/urls/get-started,
+developers.google.com/waze/deeplinks. Neshan /maps/share/lat,lon and Balad
+/location?latitude=lat&longitude=lon&zoom=16 are provider location pages.
+Chromium simulated iPhone: four links, coordinate ordering, cancel, and page
+viewport fit pass. Physical iOS app handoff remains to be tested by owner.
