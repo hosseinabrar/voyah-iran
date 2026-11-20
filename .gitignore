@@ -54,3 +54,5 @@ Desktop.ini
 
 # Offline design references live in parent work/remote-artwork-archive-20261120.
 /remote/client/vi-remote/artwork/
+/remote/TBox/TBox-remote/telemetry-payload/python-runtime.tar.gz
+remote/TBox/TBox-antenna.zip
