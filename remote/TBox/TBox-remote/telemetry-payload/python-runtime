@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+incoming_ld=${LD_LIBRARY_PATH:-}
+. /data/vi-remote/bin/oem-env.sh
+export LD_LIBRARY_PATH="$incoming_ld:$LD_LIBRARY_PATH"
+if [ -x /usr/bin/python ] && /usr/bin/python -c "import ctypes,json,hashlib,fcntl,subprocess,threading" >/dev/null 2>&1; then exec /usr/bin/python "$@"; fi
+export PYTHONHOME=/data/vi-remote/python/usr
+export LD_LIBRARY_PATH="$PYTHONHOME/lib64:$LD_LIBRARY_PATH"
+exec "$PYTHONHOME/bin/python2.7" "$@"

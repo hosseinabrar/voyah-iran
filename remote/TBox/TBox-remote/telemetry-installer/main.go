@@ -37,7 +37,7 @@ func main() {
 		if len(f) != 2 || f[1] != "device" {
 			continue
 		}
-		if s, e := run("-s", f[0], "shell", "test -f /mnt/hirain_app/etc/software_versions.xml && echo VI_TBOX"); e == nil && strings.Contains(s, "VI_TBOX") {
+		if s, e := run("-s", f[0], "shell", "{ test -f /mnt/hirain_app/etc/software_versions.xml || test -f /mnt/hirain_app/usr/etc/software_versions.xml; } && echo VI_TBOX"); e == nil && strings.Contains(s, "VI_TBOX") {
 			if serial != "" {
 				fail("Connect only one T-box")
 			}

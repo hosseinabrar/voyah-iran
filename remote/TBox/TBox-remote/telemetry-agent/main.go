@@ -18,6 +18,7 @@ import (
 	"strings"
 	"syscall"
 	"time"
+	"voyah/remote/internal/oem"
 	"voyah/remote/internal/sms"
 	t "voyah/remote/internal/telemetry"
 )
@@ -321,7 +322,7 @@ func requestWake() {
 	defer func() { <-wakeGate }()
 	for _, kind := range []string{"1", "2"} {
 		ctx, cancel := context.WithTimeout(context.Background(), 2500*time.Millisecond)
-		err := exec.CommandContext(ctx, "busctl", "--address=unix:path=/tmp/.hirain-dbus", "--no-pager", "--timeout=2", "call", "gdbus.hcommon.powermanager", "/gdbus/hcommon/powermanager", "gdbus.hcommon.powermanager", "apply_wakelock", "iisi", kind, strconv.Itoa(os.Getpid()), "vi-remote-telemetry", "20").Run()
+		err := exec.CommandContext(ctx, "busctl", "--address="+oem.Address(), "--no-pager", "--timeout=2", "call", "gdbus.hcommon.powermanager", "/gdbus/hcommon/powermanager", "gdbus.hcommon.powermanager", "apply_wakelock", "iisi", kind, strconv.Itoa(os.Getpid()), "vi-remote-telemetry", "20").Run()
 		cancel()
 		if err != nil {
 			log.Print("Telemetry wake request unavailable")

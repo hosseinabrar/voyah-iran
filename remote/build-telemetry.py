@@ -4,6 +4,7 @@ import hashlib,os,subprocess,sys
 root=Path(__file__).resolve().parent
 box=root/'TBox/TBox-remote'
 subprocess.run([sys.executable,str(box/'native/package-battery-runtime.py')],check=True)
+subprocess.run([sys.executable,str(box/'native/package-python-runtime.py')],check=True)
 for src,name in [('telemetry-agent','vi-remote-agent'),('telemetry-collector','vi-remote-collector')]:
  subprocess.run(['go','build','-trimpath','-ldflags=-s -w','-o',str(box/'telemetry-payload'/name),'./TBox/TBox-remote/'+src],cwd=root,env={**os.environ,'CGO_ENABLED':'0','GOOS':'linux','GOARCH':'arm64'},check=True)
 for system,arch in [('darwin','arm64'),('darwin','amd64'),('windows','amd64')]:

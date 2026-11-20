@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+. /data/vi-remote/bin/oem-env.sh
+case "$1" in
+ agent) exec /data/vi-remote/bin/vi-remote-agent -listen 172.16.104.20:18782 -headunit 172.16.104.40;;
+ collector) exec /data/vi-remote/bin/vi-remote-collector -xml /mnt/hirain_app/etc/vns/dbc/can-in.xml;;
+ sms) exec /data/vi-remote/bin/python-runtime /data/vi-remote/bin/sms-runtime.py;;
+ *) exit 2;;
+esac
