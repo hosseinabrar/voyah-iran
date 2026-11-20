@@ -15,7 +15,7 @@ class SMSRuntimeTests(unittest.TestCase):
     if not p.exists():self.skipTest('Private firmware audit archive unavailable')
     source=p.read_bytes();result=m.patch(source)
     self.assertEqual(len(source),len(result));self.assertIn(m.digest(result),m.FINAL);self.assertEqual(m.patch(result),result)
-    if p.name=='rild':self.assertLessEqual(sum(a!=b for a,b in zip(source,result)),4)
+    if p.name=='rild':self.assertLessEqual(sum(a!=b for a,b in zip(source,result)),8)
     corrupt=bytearray(source);corrupt[-1]^=1
     with self.assertRaises(ValueError):m.patch(bytes(corrupt))
  def test_installed_antenna_upgrade_preserves_customizations(self):

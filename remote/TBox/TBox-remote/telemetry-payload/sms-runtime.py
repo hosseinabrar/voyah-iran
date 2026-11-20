@@ -12,7 +12,9 @@ PROFILES={
  '545d9f54988ed1442c3e47ae7133efc7f240fe67a96f5d541353825b6dc8b8ef':(0x373fc,'c7d0ff97','c3dc06abaa8af8b97c574993dde078bc8684ed317d46c7e282516727acf3d285'),
  'd1c3ff7748e6dc0a4d2ee5486049f89d4d39be123ba44755124473085b436532':(0x35bbc,'03d2ff97','9f4d06f7ad6c4a73a4eade0b20123a70be4ac3f89ac0676581b679f3e3da1749'),
  X_SMS:(0x42b3c,'4a9eff97',X_FINAL)}
-FINAL=set(p[2] for p in PROFILES.values())
+VT_UNICODE='967f85be725c63b1983fb95e5c1c100a8a3d29925a94ef4211ac80478622c76e'
+VT_FINAL='4c76fddfdb29cf061653921bb4a0ccc985ee6a041164c159b23dc10f8a864fd6'
+FINAL=(set(p[2] for p in PROFILES.values())-{VT_UNICODE})|{VT_FINAL}
 def digest(b):return hashlib.sha256(b).hexdigest()
 def read(p):
  with open(p,'rb') as f:return f.read()
@@ -22,6 +24,16 @@ def write(p,b,mode=0o600):
 def patch(source):
  h=digest(source)
  if h in FINAL:return source
+ if h==VT_UNICODE:
+  # VT's cached network-type 0 rejects even registered CS+PS. For SMS only,
+  # use the OEM refresh-and-check PS registration getter (home or roaming).
+  # Modem send/ack remains authoritative; voice/eCall paths are unchanged.
+  b=bytearray(source)
+  if binascii.hexlify(b[0x379d4:0x379d8]).decode()!='58f8ff97':raise ValueError('SMS registration instruction mismatch')
+  b[0x379d4:0x379d8]=binascii.unhexlify('1ffbff97')
+  result=bytes(b) if sys.version_info[0]>=3 else str(b)
+  if digest(result)!=VT_FINAL:raise ValueError('SMS registration output mismatch')
+  return result
  b=bytearray(source)
  if h in (X_ORIGINAL,X_SIGNAL):
   # Exact wrapper from native/build-sms-patch.py; Signal+SMS+original Voice init.
@@ -39,7 +51,7 @@ def patch(source):
  b[offset:offset+4]=binascii.unhexlify('40008052')
  result=bytes(b) if sys.version_info[0]>=3 else str(b)
  if digest(result)!=out:raise ValueError('SMS output hash mismatch')
- return result
+ return patch(result) if out==VT_UNICODE else result
 
 def restart(name):
  # Factory process supervisor owns rild/hrild. Never terminate ql_rild/modem.
@@ -53,7 +65,7 @@ def running_expected(target,expected):
  except IOError:return False
 def compatible():
  try:
-  out=subprocess.check_output(['busctl','--address=unix:path=/tmp/.hirain-dbus','--no-pager','--timeout=2','introspect','gdbus.hcommon.rild','/gdbus/hcommon/rild','gdbus.hcommon.rild.sms']).decode()
+  out=subprocess.check_output(['busctl','--address='+os.environ.get('VI_OEM_BUS_ADDRESS','unix:path=/tmp/.hirain-dbus'),'--no-pager','--timeout=2','introspect','gdbus.hcommon.rild','/gdbus/hcommon/rild','gdbus.hcommon.rild.sms']).decode()
   return '.sendSms' in out and '.receiveSms' in out
  except (OSError,subprocess.CalledProcessError):return False
 
@@ -64,7 +76,7 @@ def restore():
  if current!=state['patched']:
   if current in PROFILES or current in (X_ORIGINAL,X_SIGNAL):os.remove(BASE+'/mount.json');return
   raise ValueError('SMS overlay changed; refusing to unmount another owner')
- subprocess.check_call(['umount',target]);os.remove(BASE+'/mount.json');restart(os.path.basename(target))
+ subprocess.check_call(['umount','-l',target]);os.remove(BASE+'/mount.json');restart(os.path.basename(target))
 
 def prepare():
  if not os.path.isdir(BASE):os.makedirs(BASE,0o700)
@@ -77,7 +89,7 @@ def prepare():
   write(BASE+'/rild-'+digest(result),result,0o700)
   subprocess.check_call(['mount','--bind',BASE+'/rild-'+digest(result),target])
   try:write(BASE+'/mount.json',json.dumps({'target':target,'patched':digest(result)}).encode())
-  except Exception:subprocess.call(['umount',target]);raise
+  except Exception:subprocess.call(['umount','-l',target]);raise
   restart(os.path.basename(target))
  for _ in range(20):
   if running_expected(target,digest(result)) and compatible():print('DONE: OEM SMS Unicode interface ready');return

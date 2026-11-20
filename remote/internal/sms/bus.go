@@ -11,6 +11,7 @@ import (
 	"sync"
 	"time"
 	"unicode/utf8"
+	"voyah/remote/internal/oem"
 )
 
 const destination = "gdbus.hcommon.rild"
@@ -24,6 +25,7 @@ var ErrRejected = errors.New("SMS rejected")
 type Bus struct {
 	mu       sync.Mutex
 	conn     *dbus.Conn
+	pduReady bool
 	sendGate chan struct{}
 	store    *Store
 }
@@ -150,7 +152,7 @@ func compatible(doc string) bool {
 }
 func (b *Bus) session(ctx context.Context) error {
 	dialer := net.Dialer{Timeout: 4 * time.Second}
-	raw, e := dialer.DialContext(ctx, "unix", "/tmp/.hirain-dbus")
+	raw, e := dialer.DialContext(ctx, "unix", oem.Socket())
 	if e != nil {
 		return e
 	}
@@ -200,6 +202,12 @@ func (b *Bus) session(ctx context.Context) error {
 			if sig == nil || sig.Name != iface+".receiveSms" || sig.Path != object || len(sig.Body) != 4 {
 				continue
 			}
+			b.mu.Lock()
+			usePDU := b.pduReady
+			b.mu.Unlock()
+			if usePDU {
+				continue
+			}
 			sender, a := sig.Body[0].(string)
 			body, z := sig.Body[1].(string)
 			length, k := sig.Body[2].(int32)
@@ -214,6 +222,7 @@ func (b *Bus) session(ctx context.Context) error {
 	}
 }
 func (b *Bus) Run(ctx context.Context) {
+	go b.runPDU(ctx)
 	ticker := time.NewTicker(time.Minute)
 	defer ticker.Stop()
 	go func() {

@@ -84,3 +84,65 @@ not performed by web publication; use the updated telemetry installer.
 - Inbox detail responses are discarded if navigation changed meanwhile.
 - Rebuilt shared Linux payload and macOS/Windows installers; checksums verified.
   This is build coverage, not a Windows runtime or C/X vehicle test.
+
+Live VT/C installation — 2026-11-20
+Connected firmware H97C3630812BP / 2.2.2VTR1.9; physical owner hardware has
+previously received the documented modem-only repair. Do not infer hardware C.
+Factory version XML is under /mnt/hirain_app/usr/etc; tools under its usr/bin.
+Bus is unix:abstract=/tmp/dbus-cwrMdqoyqU, discovered from OEM process environment.
+Discard the obsolete guid suffix: busctl with that inherited GUID returns Access
+Denied even though the same abstract endpoint without GUID works. Go bus adapter
+supports both this transport and X's filesystem socket. No hardcoded C bus name.
+
+No system Python and only 5MB free root userdata were present. Install now carries
+a private Python2.7.16 from the owner's pre-C backup with unmodified CPython2.7.16
+json module + license (source/hash pinned by native/package-python-runtime.py).
+No system libraries/interpreter replaced. Native libvns/libhcore were already
+present and matched the audited archive ABI; native read-only session probe passed.
+Installed rild original hash 5b0465... -> guarded Unicode patch 967f85... verified;
+original retained under sms-runtime/before-HASH; all three systemd units active.
+SMS interface initialization verified live; actual send/receive not tested here.
+
+App files stored in /mnt/hirain_data/vi-remote with a dedicated executable bind
+at /data/vi-remote; factory partition retains noexec elsewhere. Bootstrap and
+storage pointer in /usr/local/lib/vi-remote, units in app units/ copied to /run.
+Readonly root startup uses the existing factory serial-autologin .profile hook;
+original profile backed up both on device and parent work/remote-install-vtc-20261120.
+Bootstrap invocation tested; cold reboot persistence still awaits vehicle test.
+At final check: remote entitlement true, one paired phone, authenticated requests
+arriving, fresh CAN data with37 decoded fields. No vehicle actuation commands sent.
+Shared installer/host builds cover macOS ARM64/AMD64 and Windows AMD64; live install
+was macOS ARM64 only. Updated source not yet committed in this installation turn.
+
+Live send + Persian receive debugging — 2026-11-20
+- Owner confirmed incoming SMS and, after the following fix, outgoing delivery
+  to their phone. Real delivery was confirmed, not just the UI acknowledgement.
+- VT/C send returned false in ~4ms, before PhonePluginImpl::sendSMS. Read-only
+  inspection found SignalManage initialized=1, CS=1, PS=1, networkType=0.
+  getCsRegisterState rejects networkType0 despite registration. At the SMS-only
+  callsite0x379d4, BL getCsRegisterState becomes BL getPsRegisterState, which
+  refreshes OEM registration and requires home/roaming PS service. No forced
+  success, no edits to voice/eCall checks, no modem/radio/network-mode changes.
+  VT Unicode hash967f85... becomes4c76fddfdb29cf061653921bb4a0ccc985ee6a041164c159b23dc10f8a864fd6.
+  Original/current overlay backups retained. Existing exact profiles unchanged.
+  Lazy detach is required to unmount our verified executable bind while rild
+  holds its old executable; supervisor restart then loads the restored file.
+- Persian test arrived in OEM receive callback as UCS2 222a2233222a0020222822a9,
+  whereas the SDK raw PDU contained062a0633062a0020062806a9. OEM UTF conversion
+  separately tested correctly. Corruption is upstream in modem decoded-text,
+  not PWA font/storage; do not repair arbitrary mathematical symbols heuristically.
+- sms-pdu.py uses receive-only ql_ms_sms_init + ql_ms_sms_set_pdu_recv_cb(1,cb).
+  Exact libql_sdk hash5896d6f51b0f92246b36887313e5c955c76abf473525c193d3fdf132c40ef519
+  gates ABI: callback(int, struct{int,int length,byte[256]}*). No sending/deleting
+  or AT settings. Decode original SMS-DELIVER PDU, GSM7/default+extension and
+  UTF16BE; validate bounds, timestamps, DCS and UDH; bounded multipart assembly.
+  Agent stores only decoded incoming messages using existing retention/blocking;
+  it suppresses duplicate OEM decoded-text events once raw subscription is ready.
+  Unrecognized SDK retains prior OEM D-Bus path; do not claim other SDKs tested.
+- Private captures/backups/scripts: parent work/remote-sms-live-20261120.
+  No real sender/content/PDU stored in Git. GDB trace detached; no runtime
+  debugger/breakpoints left. Production decode tests use synthetic data.
+Final live result: owner sent a new Persian message after raw-PDU deployment and
+confirmed correct display in VI Remote. Earlier corrupted stored messages were
+not heuristically rewritten. Outgoing delivery and new Persian incoming display
+are both now owner-confirmed on this VT/C device. X live regression pending.
