@@ -26,7 +26,7 @@ android {
         minSdk = 28
         targetSdk = 32
         versionCode = 23
-        versionName = "3.0.2"
+        versionName = "remote"
         buildConfigField("String", "NESHAN_MAP_KEY", neshanKey("neshan.mapKey", "NESHAN_MAP_KEY"))
         buildConfigField("String", "NESHAN_SEARCH_KEY", neshanKey("neshan.searchKey", "NESHAN_SEARCH_KEY"))
         buildConfigField("String", "SUBSCRIPTION_URL", "\"http://voyah-iran.ir/registerOrRenewSubscription\"")
