@@ -9,8 +9,9 @@ TBox/TBox-remote/telemetry-installer: shared macOS/Windows installation core.
 
 Build from repository root: python3 remote/build-telemetry.py
 Tests: go -C remote test -race ./internal/telemetry ./server ./TBox/TBox-remote/telemetry-agent ./TBox/TBox-remote/telemetry-collector
-Install: TBox/TBox-remote/install_telemetry_mac.command or install_telemetry_win.cmd.
-Use this telemetry installer, not the older command-test installer.
+Install: TBox/TBox-remote/install_mac.command or install_win.cmd.
+These are the only supported installers. The obsolete command-test installer was removed.
+Uninstall: uninstall_mac.command or uninstall_win.cmd; pairing and messages are retained.
 The bundled ADB is reused from ../TBox-antenna/tools within remote/TBox.
 
 Deployment

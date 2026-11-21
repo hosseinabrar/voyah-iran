@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	uninstall := flag.Bool("uninstall", false, "disable remote and retain user data")
 	root := flag.String("root", ".", "package root")
 	flag.Parse()
 	platform, name := "macos", "adb"
@@ -48,6 +49,15 @@ func main() {
 		fail("No authorized T-box connected")
 	}
 	fmt.Println("DONE: T-box detected")
+	if *uninstall {
+		out, err := run("-s", serial, "shell", "test -f /data/vi-remote/bin/uninstall.sh && /bin/sh /data/vi-remote/bin/uninstall.sh")
+		fmt.Print(out)
+		if err != nil {
+			fail("Uninstall failed; inspect the error above")
+		}
+		return
+	}
+
 	if s, e := run("-s", serial, "shell", "mkdir -p /tmp/vi-remote-install"); e != nil {
 		fail(s)
 	}

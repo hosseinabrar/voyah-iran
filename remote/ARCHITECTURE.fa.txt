@@ -136,3 +136,15 @@ renew at most every10s on entitled snapshot/security-state requests). Unique
 names avoid OEM duplicate-name no-op. Logs validate returned boolean. Agent
 race tests pass, ARM64 shared installer payload rebuilt; no device deployment
 or deep-sleep validation yet. Initial wake from unreachable sleep still separate.
+
+2026-11-21 installation cleanup:
+Only install_mac.command / install_win.cmd are supported current entry points;
+install_telemetry aliases removed. Both call telemetry-installer, and matching
+uninstall launchers now call its -uninstall path for /data/vi-remote, retaining data.
+Legacy v1 installer source/package script and old install-* dist binaries removed;
+backup outside repo: parent work/remote-legacy-installer-20261121. remote/build.sh
+now dispatches current build-telemetry.py, so it cannot regenerate old installers.
+macOS ARM64/x64 and Windows x64 installer binaries rebuilt. Mac shell syntax and
+fake-ADB install/uninstall passed. Windows runtime not tested. README.txt is now
+the current installation guide; full historical README retained in backup.
+No live TBox installation/uninstallation performed during this cleanup.
